@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 0 — planning complete; implementation not started
-- Branch: `main`
-- Repository state after this planning update: working tree contains the uncommitted `docs/PROGRESS.md` change; documentation-only repository, tracking `origin/main`
-- Last verified commit: not recorded in the proposal; do not infer a commit from the current checkout
+- Phase: 0 — LF-0.1 complete; implementation not started
+- Branch: `feature/project-foundation`
+- Repository state: working tree contains the uncommitted LF-0.1 documentation changes; documentation-only repository, tracking `origin/main`
+- Last verified commit: `31a39cc docs: record Phase 0 analysis and issue plan`
 
 ## Proposal analysis (2026-09-04)
 
@@ -161,22 +161,39 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 |---|---|---|---|
 | 2026-09-04 | `rg --files -g 'README.md' -g 'AGENTS.md' -g 'docs/**' \| sort` | Pass | Confirmed the complete instructed document set. |
 | 2026-09-04 | Read `README.md`, `AGENTS.md`, and all `docs/*.md` | Pass | Reviewed 818 lines; no application code exists. |
-| 2026-09-04 | `git status --short --branch` and repository inspection | Pass | Clean `main` tracking `origin/main`; documentation-only repository. |
-| 2026-09-04 | Formatting/type/unit/integration/eval commands | Not run | Intentionally no application initialized and dependencies not installed. |
+| 2026-09-04 | `git status --short --branch` and repository inspection | Pass | On `feature/project-foundation`; documentation-only repository. |
+| 2026-09-04 | `test -f docs/adr/README.md && test -f docs/adr/0001-phase-0-boundaries.md && rg -n 'Phase 0 decision register\|LF-0\\.1\|Pending human approval\|Required owner/reviewer\|Next exact prompt' docs/09-decisions-and-open-questions.md docs/adr/0001-phase-0-boundaries.md docs/PROGRESS.md` | Pass | ADR convention, decision register, approval statuses, and handoff are present. |
+| 2026-09-04 | `git diff --check` | Pass | No whitespace errors in the LF-0.1 changes. |
+| 2026-09-04 | `git status --short --branch && git diff --stat && git ls-files --others --exclude-standard` | Pass | Only the intended LF-0.1 documentation files are modified or untracked. |
+| 2026-09-04 | ADR status/approval-record review | Pass | ADR status is exactly `Proposed`; owner roles and 2026-09-11 planning target dates are explicit; approvals remain pending. |
+| 2026-09-04 | `rg -n --fixed-strings -- "- Status: Proposed" docs/adr/0001-phase-0-boundaries.md` | Pass | ADR status conforms to the documented allowed values. |
+| 2026-09-04 | `rg -n "Target date\|2026-09-11\|Pending approval" docs/09-decisions-and-open-questions.md docs/adr/0001-phase-0-boundaries.md docs/PROGRESS.md` | Pass | Owner/reviewer roles, target dates, and pending approval states are explicit. |
+| 2026-09-04 | `git diff --name-only && git ls-files --others --exclude-standard` | Pass | Changes remain limited to LF-0.1 documentation and ADR files. |
+| 2026-09-04 | `test ! -e package.json` | Pass | Confirms no application toolchain exists; formatting/type/test/build checks remain not applicable. |
+| 2026-09-04 | `git pull --ff-only` on `main` | Pass | `main` was already up to date with `origin/main` before creating the feature branch. |
+| 2026-09-04 | `git switch -c feature/phase-0-decisions` and `git stash pop` | Pass | LF-0.1 work was restored on the appropriately named feature branch without loss. |
+| 2026-09-04 | Required-file, status, owner/date, and scope checks | Pass | ADR convention and boundary decision register satisfy LF-0.1 documentation criteria; all approvals remain explicitly pending. |
+| 2026-09-04 | Formatting, linting, type checking, unit/integration tests, build verification | Not applicable | This issue changes documentation only; no `package.json`, source, test runner, lint config, build config, or dependencies exist. |
+| 2026-09-04 | `set -eu; test -f docs/adr/README.md; test -f docs/adr/0001-phase-0-boundaries.md; rg -n --fixed-strings -- "- Status: Proposed" docs/adr/0001-phase-0-boundaries.md; rg -n "Phase 0 decision register|Decision owner: Product owner|Target date|Pending human approval|Next exact prompt" docs/09-decisions-and-open-questions.md docs/adr/0001-phase-0-boundaries.md docs/PROGRESS.md; git diff --check` | Pass | Final LF-0.1 document, ADR-format, decision-register, handoff, and whitespace checks passed. |
+| 2026-09-04 | `test ! -e package.json; rg -n --hidden -g '!.git/**' -g '!docs/**' -g '!AGENTS.md' -g '!README.md' 'OPENAI_API_KEY|AWS_SECRET_ACCESS_KEY|BEGIN (RSA|OPENSSH|EC|PGP) PRIVATE KEY' .` | Pass | No application toolchain or secret-like values found outside intentional documentation references. |
+| 2026-09-04 | `find . -path './.git' -prune -o -type d \( -name node_modules -o -name .next -o -name dist -o -name build -o -name coverage \) -print; find . -path './.git' -prune -o -type f \( -name '*.sqlite' -o -name '*.sqlite3' -o -name '*.db' \) -print` | Pass | No generated build output or local database files found. |
+| 2026-09-04 | Full LF-0.1 branch review against acceptance criteria | Pass | No critical, high, or valid medium findings remain; changes stay within LF-0.1. |
+| 2026-09-04 | Formatting, type checking, unit/integration tests, build verification | Not applicable | No `package.json`, application source, test runner, build configuration, or dependencies exist; LF-0.2 owns the scaffold and these commands. |
 
 ## Decisions/ADRs
 
-- No ADRs implemented yet. LF-0.1 should create the decision register/initial ADR.
-- Open decisions are classified above as blockers, Phase 1 prerequisites, experiments, or deferred scope.
+- LF-0.1: `docs/adr/README.md` establishes the ADR format and approval rule.
+- LF-0.1: `docs/adr/0001-phase-0-boundaries.md` records the Phase 0 working boundaries and pending human approvals.
+- `docs/09-decisions-and-open-questions.md` now contains the Phase 0 decision register and moves unresolved implementation choices into a dated/owned approval workflow.
 
 ## Risks/blockers
 
-- Human approvals in LF-0.1, LF-0.5, LF-0.7, and LF-0.8 are required before affected deliverables can be accepted.
+- Human approvals recorded as pending in ADR-0001 are still required before affected deliverables can be accepted; this issue does not claim those approvals.
 - Curriculum content must be original or appropriately licensed and independently reviewed.
 - No real learner data or provider credentials should enter the repository or eval fixtures.
 - Current checkout has no app scaffold, dependencies, CI, database, migrations, or tests; this is expected before LF-0.2.
 
 ## Session handoff
 
-- Uncommitted changes: this planning update to `docs/PROGRESS.md` only
-- Next exact prompt: `Implement LF-0.1 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, create the decision register/ADR, and do not initialize application behavior, install dependencies, commit, or push.`
+- Uncommitted changes: LF-0.1 updates to `docs/PROGRESS.md`, `docs/09-decisions-and-open-questions.md`, and new `docs/adr/` files
+- Next exact prompt: `Implement LF-0.2 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, create the minimal repository quality gates and contribution workflow, and do not implement product behavior, commit, or push.`
