@@ -1,8 +1,10 @@
 # Learning Forge
 
-**Product proposal and implementation blueprint**  
-*Adaptive, school-aligned learning with interactive AI tutoring*  
-*Initial MVP: Grade 6 Math*
+**Product proposal and implementation blueprint**
+
+_Adaptive, school-aligned learning with interactive AI tutoring_
+
+_Initial MVP: Grade 6 Math_
 
 This repository defines a school-aligned, adaptive learning platform that can eventually support multiple grades and subjects. The implementation begins with a Grade 6 learner in Irvine, California and combines curriculum alignment, diagnostic assessment, mastery tracking, daily plans, and interactive Socratic tutoring.
 
@@ -54,3 +56,13 @@ Do not begin with all subjects, voice, handwriting recognition, mobile apps, or 
 ## Build tracking
 
 Update `docs/PROGRESS.md` at every checkpoint. Record commands run, test results, architectural decisions, screenshots, remaining risks, and the exact next task.
+
+## Repository verification
+
+Prerequisite: Node.js 22 or newer. From a fresh clone, install the locked dependencies and run the complete repository verification suite:
+
+```bash
+npm ci && npm run verify
+```
+
+The suite checks formatting, linting, TypeScript, unit tests, and the production build. It does not require authentication, provider credentials, a database, or learner data.

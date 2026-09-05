@@ -1,0 +1,19 @@
+name: Feature request
+description: Propose a bounded, evidence-based improvement.
+title: 'feat: '
+labels: [enhancement]
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: State the learner, parent, or maintainer outcome.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and safety considerations
+      description: Describe evidence, accessibility, privacy, and child-safety implications.
+    validations:
+      required: true
