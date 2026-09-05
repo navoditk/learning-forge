@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 0 — LF-0.9 engineering handoff verified; human pilot approvals remain pending
-- Branch: `feature/phase-0-integration-handoff`
-- Repository state: working tree contains the uncommitted LF-0.9 handoff documentation update; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit: `3a0a0cf Merge pull request #8 from navoditk/feature/phase-0-eval-baseline`
+- Phase: 1 — synthetic ratios vertical slice complete; review and real identity/provider approvals remain pending
+- Branch: `feature/phase-1-ratios-synthetic-identity`
+- Repository state: working tree contains the uncommitted Phase 1 synthetic portal update; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit: `87b2634 Merge pull request #9 from navoditk/feature/phase-0-integration-handoff`
 
 ## Proposal analysis (2026-09-04)
 
@@ -230,6 +230,13 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | Phase 0 handoff completeness review | Pass with follow-up | README now documents repository-only and database-backed checks; CI, migrations/rollback, content, contracts, tutor, evals, privacy/threat controls, ADRs, risks, and the next exact prompt are linked or recorded. Human pilot approvals remain pending. |
 | 2026-09-05 | `git diff --check` and repository safety audit | Pass | No whitespace errors; no secrets, generated build output, local database files, or private learner data are present in the handoff update. |
 | 2026-09-05 | Final LF-0.9 verification after handoff fix: `npm run format:check && npm run verify && npm run content:validate && npm run eval:run && npm run db:validate && export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration && git diff --check` | Pass | Formatting, linting, type checking, 16 unit/content/eval tests, production build, content validation, deterministic eval baseline, Prisma validation, 2 persistence integration tests, and whitespace checks passed. |
+| 2026-09-05 | Phase 1 local synthetic identity decision | Approved | Human approved a local-only synthetic identity for the first vertical slice; no real authentication, guardian verification, consent capture, or learner data is enabled. ADR-0003 records the boundary. |
+| 2026-09-05 | `npm run format && npm run typecheck && npm run lint && export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration && npm run verify` | Pass | Phase 1 service, routes, pages, integration tests (4), database-free tests (16), linting, type checking, and production build passed after immutable-attempt and ownership fixes. |
+| 2026-09-05 | Local portal smoke test: `npm run dev`; `GET /`, `GET /parent`, `GET /api/phase1/session`, invalid `POST /api/phase1/attempt` | Pass | Learner and parent routes compiled; the seeded Bicycle Pace session returned; an arbitrary session ID returned 404 without creating data. |
+| 2026-09-05 | Phase 1 branch diff review | Pass with follow-up | Synthetic learner attempt, deterministic scoring, fake hint, redacted persisted trace, conservative mastery evidence, and parent evidence are implemented. Real authentication/provider integration, delayed checks, adaptive planning, and formal browser automation remain future work. |
+| 2026-09-05 | Final Phase 1 verification: `npm run format:check && npm run lint && npm run typecheck && npm test && npm run build`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration`; `git diff --check` | Pass | Formatting, linting, type checking, 16 database-free tests, production build, 4 persistence/vertical-slice integration tests, and whitespace checks passed after all review fixes. |
+| 2026-09-05 | Final Phase 1 safety/scope audit | Pass with follow-up | Staged scope is limited to the synthetic identity ADR, ratios session service/routes/pages, tests, package scripts, and progress evidence; no secrets, generated output, local database files, real learner data, or provider credentials are included. |
+| 2026-09-05 | Final post-review verification: `npm run format && npm run format:check && npm run lint && npm run typecheck && npm test && npm run build`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration`; `git diff --check` | Pass | Formatting, linting, type checking, 16 database-free tests, production build, 4 persistence/vertical-slice integration tests, and whitespace checks passed after ownership, immutable-attempt, and attempt-number fixes. |
 
 ## Decisions/ADRs
 
@@ -242,6 +249,7 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.7 records the required privacy, threat, incident, and pilot controls as documentation baselines; it makes no unapproved legal, provider, retention, or launch decisions.
 - LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
 - LF-0.9 treats `npm ci && npm run verify` as the repository-only fresh-clone check and keeps PostgreSQL integration verification as a separate synthetic-data workflow.
+- Phase 1 uses fixed server-owned synthetic IDs and validates household ownership on every session/attempt operation; this is not a production identity mechanism (ADR-0003).
 
 ## Risks/blockers
 
@@ -256,8 +264,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.6 does not call a real provider, persist tutor traces, calculate mastery, implement authentication, or deliver learner-facing UI; it provides the deterministic policy/fake-model seam for later vertical-slice work.
 - LF-0.7 does not implement security middleware, authentication, deletion jobs, provider controls, or incident automation; it identifies and assigns those controls for later implementation and human approval.
 - LF-0.9 does not declare the product pilot-ready: identity, consent, provider, child-safety, privacy, accessibility, content, and evaluation approvals remain governed by the pending checklist and ADR decisions.
+- Phase 1 does not implement real authentication, guardian verification, delayed mastery checks, adaptive planning, real model calls, or production deployment; it is a local synthetic demonstration only.
 
 ## Session handoff
 
-- Uncommitted changes: LF-0.9 README and progress handoff documentation.
-- Next exact prompt: `Implement Phase 1 from docs/PROGRESS.md only after the required human approvals. Read the applicable product, curriculum, architecture, tutor, data, safety/privacy, and decision documents; restate the approved scope and assumptions; build only the thin ratios vertical slice with fake tutor support first, and stop before real provider integration unless provider and data-processing approval is recorded.`
+- Uncommitted changes: Phase 1 synthetic identity ADR, Prisma-backed vertical-slice service/routes/pages, integration tests, package dev/integration scripts, and progress evidence.
+- Next exact prompt: `Review the Phase 1 synthetic ratios vertical slice against its acceptance criteria. Do not edit files. Check correctness, answer leakage, household isolation, immutable evidence, mastery claims, child safety, accessibility, and scope drift; report findings by severity.`

@@ -90,3 +90,16 @@ npm run test:integration
 
 The complete Phase 0 evidence, pending human approvals, known risks, and the
 next exact implementation prompt are maintained in `docs/PROGRESS.md`.
+
+## Run the local Phase 1 portal
+
+After the local database is running and migrated, start the synthetic portal:
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:3000/` for the learner session or
+`http://localhost:3000/parent` for parent evidence. This is a local synthetic
+identity only; it is not authentication and must not be used with real learner
+data.
