@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 0 — LF-0.7 privacy and pilot controls drafted; pending human sign-off
-- Branch: `feature/phase-0-privacy-controls`
-- Repository state: working tree contains the uncommitted LF-0.7 documentation update; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit: `8b712cd Merge pull request #4 from navoditk/feature/phase-0-persistence-contract`
+- Phase: 0 — LF-0.8 synthetic tutor evaluation baseline established; pending human evaluation approval
+- Branch: `feature/phase-0-eval-baseline`
+- Repository state: working tree contains the uncommitted LF-0.8 evaluation update; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit: `8809a67 Merge pull request #6 from navoditk/feature/phase-0-fake-tutor`
 
 ## Proposal analysis (2026-09-04)
 
@@ -217,6 +217,13 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | LF-0.7 documentation completeness check | Pass | Threats T1–T14, data-class inventory fields, incident roles/steps, pilot gates, owners, pending decisions, and no-real-data boundaries were confirmed with repository assertions. |
 | 2026-09-05 | Secret/private-data/generated-output audit | Pass | No secret-like values, real learner data, generated output, local database files, or provider credentials are present in the LF-0.7 documentation change. |
 | 2026-09-05 | Full LF-0.7 branch diff review | Pass with follow-up | Documentation covers privacy, child safety, security, accessibility, deletion/export, backups, provider review, incident handling, and pilot gates without implementing authentication, provider integration, or later issues. Human privacy/legal/security/product sign-off remains pending. |
+| 2026-09-05 | `npm run format && npm run eval:run` | Pass | Prettier completed; the synthetic LF-0.8 eval suite passed (3 tests). |
+| 2026-09-05 | `npm run verify` | Pass | Formatting, ESLint, TypeScript, unit/content/eval tests (16), and the Next production build passed. |
+| 2026-09-05 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration` | Pass | Persistence integration tests passed (2 tests) against the existing local PostgreSQL container. |
+| 2026-09-05 | LF-0.8 evaluation completeness check | Pass | Nine required dimensions, structured case fields, synthetic provenance, deterministic fake-adapter execution, trace redaction, and uncalibrated-threshold status are covered. |
+| 2026-09-05 | `git diff --check` | Pass | No whitespace errors in the LF-0.8 changes. |
+| 2026-09-05 | Secret/private-data/generated-output/local-database audit | Pass | No secrets, private learner data, provider credentials, generated output, or local database files are present in the LF-0.8 change. |
+| 2026-09-05 | Full LF-0.8 branch diff review | Pass with follow-up | The change is limited to synthetic eval schema/cases, fake-tutor runner/tests, report guidance, and test wiring. Human corpus/severity/gate approval and real-model quality remain pending. |
 
 ## Decisions/ADRs
 
