@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 1 — synthetic ratios vertical slice complete; review and real identity/provider approvals remain pending
-- Branch: `feature/phase-1-ratios-synthetic-identity`
-- Repository state: working tree contains the uncommitted Phase 1 synthetic portal update; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit: `87b2634 Merge pull request #9 from navoditk/feature/phase-0-integration-handoff`
+- Phase: 1 — synthetic ratios vertical slice merged; browser coverage and real identity/provider approvals remain pending
+- Branch: `chore/phase-1-review-handoff`
+- Repository state: working tree contains this uncommitted post-merge handoff update; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit: `b689ecc Merge pull request #10 from navoditk/feature/phase-1-ratios-synthetic-identity`
 
 ## Proposal analysis (2026-09-04)
 
@@ -237,6 +237,7 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | Final Phase 1 verification: `npm run format:check && npm run lint && npm run typecheck && npm test && npm run build`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration`; `git diff --check` | Pass | Formatting, linting, type checking, 16 database-free tests, production build, 4 persistence/vertical-slice integration tests, and whitespace checks passed after all review fixes. |
 | 2026-09-05 | Final Phase 1 safety/scope audit | Pass with follow-up | Staged scope is limited to the synthetic identity ADR, ratios session service/routes/pages, tests, package scripts, and progress evidence; no secrets, generated output, local database files, real learner data, or provider credentials are included. |
 | 2026-09-05 | Final post-review verification: `npm run format && npm run format:check && npm run lint && npm run typecheck && npm test && npm run build`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration`; `git diff --check` | Pass | Formatting, linting, type checking, 16 database-free tests, production build, 4 persistence/vertical-slice integration tests, and whitespace checks passed after ownership, immutable-attempt, and attempt-number fixes. |
+| 2026-09-05 | Post-merge Phase 1 review | Pass with medium follow-ups | No critical or high findings. The merged slice preserves deterministic scoring, answer protection, household isolation, immutable attempts, redacted traces, conservative mastery wording, and accessible labeled controls. Formal Playwright coverage remains the next bounded issue; the old progress branch/state was corrected in this handoff. |
 
 ## Decisions/ADRs
 
@@ -265,8 +266,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.7 does not implement security middleware, authentication, deletion jobs, provider controls, or incident automation; it identifies and assigns those controls for later implementation and human approval.
 - LF-0.9 does not declare the product pilot-ready: identity, consent, provider, child-safety, privacy, accessibility, content, and evaluation approvals remain governed by the pending checklist and ADR decisions.
 - Phase 1 does not implement real authentication, guardian verification, delayed mastery checks, adaptive planning, real model calls, or production deployment; it is a local synthetic demonstration only.
+- Phase 1 formal browser automation is not yet present; the current evidence is the live local smoke test plus service/persistence tests. Add Playwright coverage before treating the Phase 1 exit as complete.
 
 ## Session handoff
 
-- Uncommitted changes: Phase 1 synthetic identity ADR, Prisma-backed vertical-slice service/routes/pages, integration tests, package dev/integration scripts, and progress evidence.
-- Next exact prompt: `Review the Phase 1 synthetic ratios vertical slice against its acceptance criteria. Do not edit files. Check correctness, answer leakage, household isolation, immutable evidence, mastery claims, child safety, accessibility, and scope drift; report findings by severity.`
+- Uncommitted changes: post-merge Phase 1 handoff correction.
+- Next exact prompt: `Implement the next bounded Phase 1 issue: add formal Playwright coverage for the synthetic learner journey and parent evidence journey. Read applicable docs, keep the local synthetic identity boundary, do not add real authentication or provider integration, and update docs/PROGRESS.md with verification evidence.`
