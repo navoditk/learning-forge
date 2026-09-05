@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 0 — LF-0.2 complete; implementation foundation ready for review
-- Branch: `feature/phase-0-repository-quality-gates`
-- Repository state: working tree contains the uncommitted LF-0.2 scaffold changes; application foundation is present and no learner data is used
-- Last verified commit: `43e1e8e docs: define Phase 0 decision boundaries`
+- Phase: 0 — LF-0.3 complete; domain contracts ready for review
+- Branch: `feature/phase-0-domain-contracts`
+- Repository state: working tree contains the uncommitted LF-0.3 contract changes; no learner data or provider credentials are used
+- Last verified commit: `8e72c63 Merge pull request #2 from navoditk/feature/phase-0-repository-quality-gates`
 
 ## Proposal analysis (2026-09-04)
 
@@ -191,11 +191,18 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | Staged-file and generated-output audit | Pass | Only intended LF-0.2 files are in scope; generated output is ignored; no secrets or learner data present. |
 | 2026-09-05 | `npm ci && npm run verify` | Pass with risk noted | Fresh-lockfile install and the complete verification suite passed; npm reported 2 vulnerabilities (1 moderate, 1 high) and install-script approval warnings. |
 | 2026-09-05 | Full LF-0.2 branch diff review | Pass | No critical, high, or valid medium findings across correctness, pedagogy, privacy, safety, accessibility, or architecture; no future-issue work found. |
+| 2026-09-05 | `git pull --ff-only` on `main` | Pass | Main was synchronized after LF-0.2 merge before creating the LF-0.3 branch. |
+| 2026-09-05 | `npm install zod` | Pass with risk noted | Added the approved schema-validation dependency; npm again reported 2 vulnerabilities (1 moderate, 1 high). |
+| 2026-09-05 | `npm run format && npm run verify` | Pass | Prettier, ESLint with Next.js rules, TypeScript, Vitest (10 tests), and Next production build passed. |
+| 2026-09-05 | LF-0.3 contract and scope review | Pass | Contracts separate policy authorization from model phrasing, redact traces by default, constrain provider inputs, and contain no persistence/orchestration/provider implementation. |
+| 2026-09-05 | `git diff --check` | Pass | No whitespace errors in the LF-0.3 changes. |
+| 2026-09-05 | Secret/private-data/generated-output audit | Pass | No credentials, private learner data, local databases, or generated build artifacts are in the intended change set; ignored build-info remains untracked. |
 
 ## Decisions/ADRs
 
 - LF-0.1 ADR-0001 remains the applicable architecture decision.
-- LF-0.2 uses the approved TypeScript/Next.js modular-monolith stack and creates no new consequential architecture decision.
+- LF-0.2 uses the approved TypeScript/Next.js modular-monolith stack.
+- LF-0.3 adds no new consequential architecture decision; Zod is the approved validation convention from the blueprint.
 
 ## Risks/blockers
 
@@ -204,8 +211,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - Curriculum content must be original or appropriately licensed and independently reviewed.
 - No real learner data or provider credentials should enter the repository or eval fixtures.
 - LF-0.2 intentionally does not add authentication, a database, provider integration, domain schemas, or product features.
+- LF-0.3 intentionally does not add persistence, tutor orchestration/state transitions, content seed, model adapters, or authentication.
 
 ## Session handoff
 
-- Uncommitted changes: LF-0.2 scaffold, tooling, templates, README verification instructions, and this progress update
-- Next exact prompt: `Implement LF-0.3 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, define ratios-slice domain contracts and structured tutor schemas with tests, and do not implement persistence, tutor orchestration, content seed, provider integration, commit, or push.`
+- Uncommitted changes: LF-0.3 contracts, tests, dependency lockfile updates, and this progress update
+- Next exact prompt: `Implement LF-0.4 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, define the minimal reversible persistence/local PostgreSQL contract with tests, and do not implement content seed, tutor orchestration, provider integration, or later issues.`
