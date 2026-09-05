@@ -42,6 +42,15 @@ describe('content and evidence contracts', () => {
     ).toBe(true);
   });
 
+  it('tracks LLM-drafted content as distinct from original or licensed content', () => {
+    expect(
+      ContentProvenanceSchema.safeParse({ origin: 'llm_drafted', licenseStatus: 'owned' }).success,
+    ).toBe(true);
+    expect(
+      ContentProvenanceSchema.safeParse({ origin: 'generated', licenseStatus: 'owned' }).success,
+    ).toBe(false);
+  });
+
   it('rejects unknown fields and invalid mastery confidence claims', () => {
     expect(
       TutorMoveOutputSchema.safeParse({ ...validMove, authorization: { canRevealAnswer: true } })

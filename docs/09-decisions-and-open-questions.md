@@ -41,7 +41,7 @@ records are maintained in `docs/adr/0001-phase-0-boundaries.md`.
 ## Resolve during Phase 1 or before pilot
 
 1. Hosting and authentication provider after privacy/data-residency comparison.
-2. Initial model provider and child-data contractual settings.
+2. Initial model provider and child-data contractual settings. Evaluate incremental/streaming delivery of tutor moves together with this choice — the fake adapter responds instantly, but a real provider's latency makes synchronous request/response feel slow in a 20–30 minute session; streaming should be designed alongside provider selection, not retrofitted onto an already-shipped synchronous UI.
 3. Learner login, guardian verification, and pseudonymous identity mechanics.
 4. Parent consent, export, deletion, backup deletion, and retention requirements.
 5. Pilot-specific accessibility accommodations.

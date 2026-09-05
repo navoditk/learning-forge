@@ -287,6 +287,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
 - LF-0.9 treats `npm ci && npm run verify` as the repository-only fresh-clone check and keeps PostgreSQL integration verification as a separate synthetic-data workflow.
 - Phase 1 uses fixed server-owned synthetic IDs and validates household ownership on every session/attempt operation; this is not a production identity mechanism (ADR-0003).
+- ADR-0004 records the future math-notation/diagram approach (KaTeX plus reviewed inline SVG) without implementing it, since no current content requires it.
+- Content provenance now distinguishes `llm_drafted` from `original`/`licensed` (`docs/content-authoring-pipeline.md`); the same human review gate applies regardless of origin.
+- A `NotifierPort` mirrors the `TutorModel` port pattern for a future parent weekly digest; only a deterministic digest builder and a console/fake adapter exist, with no scheduler or real provider wired in yet.
 
 ## Risks/blockers
 
@@ -304,6 +307,10 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - Phase 1 does not implement real authentication, guardian verification, delayed mastery checks, adaptive planning, real model calls, or production deployment; it is a local synthetic demonstration only.
 - Phase 1 browser automation covers the synthetic learner and parent journeys, but real authentication/provider approval and a real-model adapter remain intentionally absent.
 - The synthetic independent check uses a separate `MASTERY_CHECK` context after tutoring; it is a workflow demonstration, not validated elapsed-time or long-term delayed-performance evidence. Real delayed-check scheduling and calibration remain future work.
+- `tests/tutor/tutor.test.ts` existed but was not included in `npm test`/`verify`/CI; it is now wired in. No behavior change was needed — the tests already passed once run.
+- The `NotifierPort`/`ConsoleNotifier`/`buildWeeklyDigest` seam has no caller yet (the database-backed job seam that would schedule it remains deferred) and no real email/push provider is selected; this is scaffolding only, not a working parent notification feature.
+- ADR-0004 fixes a rendering approach but selects no library version, accessibility test evidence, or diagram-authoring tooling; that follows when Geometry/Depth/Contest content is actually authored.
+- `llm_drafted` provenance is now representable in the content contract, but no content has been drafted or reviewed through this pipeline yet.
 
 ## Session handoff
 

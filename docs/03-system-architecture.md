@@ -35,6 +35,7 @@ and a straightforward path from local development to managed hosting.
 | **Playwright** | Browser journeys for learner submission, multi-step hints, independent check, and parent evidence | Verifies the primary user journeys through the actual Next.js surface, including accessible labels and server integration, rather than testing only implementation details | Implemented. The current journeys use synthetic identity and local PostgreSQL |
 | **Privacy-filtered trace records** | Tutor trace metadata, redacted excerpts, validation outcome, policy/prompt/model versions, and token/latency fields | Preserves enough evidence to audit tutor behavior while avoiding raw child text and secrets by default; this supports safety review and future model comparison | Partial implementation. Production observability sinks, access controls, retention, and incident operations remain pending |
 | **Database-backed job seam** | Reserved for future review scheduling, planner work, exports/deletions, and asynchronous evaluation | Keeps future asynchronous work possible without introducing a queue service before workload or reliability evidence requires one | Deferred. No queue infrastructure is part of the current MVP slice |
+| **Provider-neutral `NotifierPort`** | `buildWeeklyDigest`, `ConsoleNotifier`, future real email/push adapter | Mirrors the `TutorModel` port pattern so a parent-communication provider can be chosen later without coupling digest content to a specific vendor | Port, deterministic digest builder, and console/fake adapter implemented. No scheduler calls it yet — that is the database-backed job seam above — and no real provider, address, or delivery exists |
 | **Managed Node/PostgreSQL deployment** | Future web runtime and managed database for an invite-only pilot | Preserves the local architecture while delegating routine runtime/database operations to a managed platform; vendor choice should follow privacy, region, cost, backup, and operational review | Not selected. No deployment or production data path exists |
 
 ## Runtime architecture
@@ -132,7 +133,7 @@ Use schemas and provider adapters. Avoid provider-specific objects outside the a
 
 ## Content format
 
-Store authored seed content in version-controlled JSON/YAML validated at import. Production records include provenance, license status, reviewer, version, difficulty, skill mapping, solution method, common wrong answers, and approved hint ladder.
+Store authored seed content in version-controlled JSON/YAML validated at import. Production records include provenance, license status, reviewer, version, difficulty, skill mapping, solution method, common wrong answers, and approved hint ladder. Provenance tracks `original`, `licensed`, and `llm_drafted` content distinctly (`docs/content-authoring-pipeline.md`); every origin is subject to the same human review gate before acceptance. Math notation and diagrams, once a domain needs them, follow the KaTeX/reviewed-SVG approach recorded in `docs/adr/0004-math-and-diagram-rendering.md`.
 
 ## Deployment stages
 
