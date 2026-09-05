@@ -66,3 +66,27 @@ npm ci && npm run verify
 ```
 
 The suite checks formatting, linting, TypeScript, unit tests, and the production build. It does not require authentication, provider credentials, a database, or learner data. Run `npm run test:integration` separately after starting the local database to verify persistence.
+
+## Phase 0 verification and handoff
+
+From a fresh clone, the repository-only Phase 0 check is:
+
+```bash
+npm ci && npm run verify
+```
+
+This includes the contract, content, and synthetic tutor-evaluation tests. The
+database-backed check remains separate and uses only the synthetic local
+PostgreSQL workflow:
+
+```bash
+docker compose up -d db
+npm run db:validate
+npm run db:generate
+npm run db:deploy
+npm run db:seed
+npm run test:integration
+```
+
+The complete Phase 0 evidence, pending human approvals, known risks, and the
+next exact implementation prompt are maintained in `docs/PROGRESS.md`.

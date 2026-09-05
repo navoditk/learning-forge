@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 0 — LF-0.8 synthetic tutor evaluation baseline established; pending human evaluation approval
-- Branch: `feature/phase-0-eval-baseline`
-- Repository state: working tree contains the uncommitted LF-0.8 evaluation update; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit: `8809a67 Merge pull request #6 from navoditk/feature/phase-0-fake-tutor`
+- Phase: 0 — LF-0.9 engineering handoff verified; human pilot approvals remain pending
+- Branch: `feature/phase-0-integration-handoff`
+- Repository state: working tree contains the uncommitted LF-0.9 handoff documentation update; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit: `3a0a0cf Merge pull request #8 from navoditk/feature/phase-0-eval-baseline`
 
 ## Proposal analysis (2026-09-04)
 
@@ -224,6 +224,12 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | `git diff --check` | Pass | No whitespace errors in the LF-0.8 changes. |
 | 2026-09-05 | Secret/private-data/generated-output/local-database audit | Pass | No secrets, private learner data, provider credentials, generated output, or local database files are present in the LF-0.8 change. |
 | 2026-09-05 | Full LF-0.8 branch diff review | Pass with follow-up | The change is limited to synthetic eval schema/cases, fake-tutor runner/tests, report guidance, and test wiring. Human corpus/severity/gate approval and real-model quality remain pending. |
+| 2026-09-05 | `npm ci && npm run verify` | Pass | Fresh-lockfile repository verification passed: formatting, ESLint, TypeScript, 16 unit/content/eval tests, and the Next production build. npm reported the previously documented 2 vulnerabilities; no audit fix was applied. |
+| 2026-09-05 | `docker compose up -d db; npm run db:validate; npm run db:generate; npm run db:deploy; npm run db:seed; npm run test:integration` | Pass | Local PostgreSQL was healthy; Prisma validation/generation/migration, repeatable synthetic seed, and 2 persistence integration tests passed. |
+| 2026-09-05 | `npm run content:validate && npm run eval:run` | Pass | Ten content records validated; the 9-case synthetic tutor baseline passed with deterministic repeated execution. |
+| 2026-09-05 | Phase 0 handoff completeness review | Pass with follow-up | README now documents repository-only and database-backed checks; CI, migrations/rollback, content, contracts, tutor, evals, privacy/threat controls, ADRs, risks, and the next exact prompt are linked or recorded. Human pilot approvals remain pending. |
+| 2026-09-05 | `git diff --check` and repository safety audit | Pass | No whitespace errors; no secrets, generated build output, local database files, or private learner data are present in the handoff update. |
+| 2026-09-05 | Final LF-0.9 verification after handoff fix: `npm run format:check && npm run verify && npm run content:validate && npm run eval:run && npm run db:validate && export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration && git diff --check` | Pass | Formatting, linting, type checking, 16 unit/content/eval tests, production build, content validation, deterministic eval baseline, Prisma validation, 2 persistence integration tests, and whitespace checks passed. |
 
 ## Decisions/ADRs
 
@@ -235,6 +241,7 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
 - LF-0.7 records the required privacy, threat, incident, and pilot controls as documentation baselines; it makes no unapproved legal, provider, retention, or launch decisions.
 - LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
+- LF-0.9 treats `npm ci && npm run verify` as the repository-only fresh-clone check and keeps PostgreSQL integration verification as a separate synthetic-data workflow.
 
 ## Risks/blockers
 
@@ -248,8 +255,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.5 does not execute validators at runtime, import content into PostgreSQL, implement tutor hint behavior, or claim educator approval; those belong to later work or human review.
 - LF-0.6 does not call a real provider, persist tutor traces, calculate mastery, implement authentication, or deliver learner-facing UI; it provides the deterministic policy/fake-model seam for later vertical-slice work.
 - LF-0.7 does not implement security middleware, authentication, deletion jobs, provider controls, or incident automation; it identifies and assigns those controls for later implementation and human approval.
+- LF-0.9 does not declare the product pilot-ready: identity, consent, provider, child-safety, privacy, accessibility, content, and evaluation approvals remain governed by the pending checklist and ADR decisions.
 
 ## Session handoff
 
-- Uncommitted changes: merge-resolution update combining LF-0.6 tutor and LF-0.7 control evidence
-- Next exact prompt: `Implement LF-0.8 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, establish a small versioned synthetic tutor-evaluation corpus and reproducible fake-adapter report covering leakage, hint progression, correctness, tone, age appropriateness, accessibility, injection, confident-wrong, and frustrated learners; do not add real provider integration or claim calibrated release thresholds.`
+- Uncommitted changes: LF-0.9 README and progress handoff documentation.
+- Next exact prompt: `Implement Phase 1 from docs/PROGRESS.md only after the required human approvals. Read the applicable product, curriculum, architecture, tutor, data, safety/privacy, and decision documents; restate the approved scope and assumptions; build only the thin ratios vertical slice with fake tutor support first, and stop before real provider integration unless provider and data-processing approval is recorded.`
