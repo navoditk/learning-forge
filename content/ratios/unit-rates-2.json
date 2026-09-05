@@ -1,0 +1,49 @@
+{
+  "id": "unit-rates-2",
+  "version": "content-1",
+  "title": "Comparing snack prices",
+  "skillCode": "unit-rates",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.2", "6.RP.A.3"],
+  "prerequisiteSkillCodes": ["unit-rates"],
+  "observableEvidence": ["Computes and compares rates using a common unit."],
+  "prompt": "A 6-pack of juice costs $4.20. A 10-pack costs $6.50. Which pack has the lower cost per bottle, and by how much per bottle?",
+  "solutionRepresentation": "$4.20 ÷ 6 = $0.70; $6.50 ÷ 10 = $0.65; the 10-pack is lower by $0.05 per bottle.",
+  "solutionMethod": "Find each cost per bottle, compare the rates, and subtract the smaller rate from the larger one.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "10-pack, $0.05 per bottle",
+    "acceptedAnswers": ["10-pack, $0.05 per bottle", "10-pack by $0.05"],
+    "equivalenceNotes": "The response must identify the 10-pack and the per-bottle difference."
+  },
+  "misconceptionCodes": ["compares-total-cost", "subtracts-before-unit-rate"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Total price alone is not a fair comparison when pack sizes differ.",
+      "question": "What price would let you compare one bottle at a time?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make two expressions: 4.20 ÷ 6 and 6.50 ÷ 10.",
+      "question": "What do the two quotients represent?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Compare rates with the same unit, then find their difference.",
+      "question": "How will you verify both rates use dollars per one bottle?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["10-pack", "$0.05", "0.05", "$0.65"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Use text labels alongside currency symbols and ensure the comparison can be completed without color coding."
+}

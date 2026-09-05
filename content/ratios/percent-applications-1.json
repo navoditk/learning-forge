@@ -1,0 +1,51 @@
+{
+  "id": "percent-applications-1",
+  "version": "content-1",
+  "title": "Library attendance",
+  "skillCode": "percent-applications",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "prerequisiteSkillCodes": ["unit-rates"],
+  "observableEvidence": [
+    "Converts a percent to a decimal or fraction and applies it to a quantity."
+  ],
+  "prompt": "The library has 240 visitors this week. 35% attended a science program. How many visitors attended the science program?",
+  "solutionRepresentation": "35% of 240 = 0.35 × 240 = 84 visitors.",
+  "solutionMethod": "Convert the percent to a decimal, multiply by the whole, and label the result.",
+  "deterministicValidator": {
+    "type": "percent",
+    "canonicalAnswer": "84 visitors",
+    "acceptedAnswers": ["84", "84 visitors"],
+    "equivalenceNotes": "Accept equivalent percent representations that produce 84 visitors."
+  },
+  "misconceptionCodes": ["treats-percent-as-whole", "multiplies-by-35"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A percent is a portion of the whole, not a whole-number multiplier.",
+      "question": "What decimal represents 35 percent?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Set up 0.35 × 240 to represent the portion of visitors.",
+      "question": "Which number is the whole in this situation?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "After multiplying, check that a 35% portion is less than the full attendance.",
+      "question": "What estimate could help you decide whether the size of your result is reasonable?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["84 visitors", "84"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Use both percent and decimal notation in text and do not encode the portion with color or a chart alone."
+}

@@ -41,6 +41,33 @@ export const HintStepSchema = z
   })
   .strict();
 
+export const DeterministicValidatorSchema = z
+  .object({
+    type: z.enum(['numeric', 'ratio', 'percent', 'multiple_choice', 'composite']),
+    canonicalAnswer: z.string().trim().min(1).max(200),
+    acceptedAnswers: z.array(z.string().trim().min(1).max(200)).min(1).max(20),
+    equivalenceNotes: z.string().trim().min(1).max(500),
+  })
+  .strict();
+
+export const ContentReviewSchema = z
+  .object({
+    status: z.enum(['pending_review', 'reviewed']),
+    reviewer: z.string().trim().min(1).max(120),
+    reviewedAt: z.string().date().optional(),
+    originalityStatement: z.string().trim().min(1).max(500),
+  })
+  .strict()
+  .superRefine((review, context) => {
+    if (review.status === 'reviewed' && !review.reviewedAt) {
+      context.addIssue({
+        code: 'custom',
+        path: ['reviewedAt'],
+        message: 'Completed review requires a review date',
+      });
+    }
+  });
+
 export const RatioContentSchema = z
   .object({
     id: z.string().regex(/^[a-z0-9-]+$/),
@@ -55,11 +82,18 @@ export const RatioContentSchema = z
     ]),
     mode: ContentModeSchema,
     difficulty: z.enum(['foundational', 'developing', 'challenging']),
+    standards: z.array(z.string().trim().min(1).max(40)).min(1).max(10),
+    prerequisiteSkillCodes: z.array(z.string().regex(/^[a-z0-9-]+$/)).max(10),
+    observableEvidence: z.array(z.string().trim().min(1).max(300)).min(1).max(10),
     prompt: z.string().trim().min(1).max(2000),
     solutionRepresentation: z.string().trim().min(1).max(4000),
+    solutionMethod: z.string().trim().min(1).max(500),
+    deterministicValidator: DeterministicValidatorSchema,
     misconceptionCodes: z.array(z.string().regex(/^[a-z0-9-]+$/)).max(10),
     hintSteps: z.array(HintStepSchema).min(1).max(10),
+    forbiddenLeakagePatterns: z.array(z.string().trim().min(1).max(200)).max(20),
     provenance: ContentProvenanceSchema,
+    review: ContentReviewSchema,
     accessibilityNotes: z.string().trim().min(1).max(1000),
   })
   .strict()
@@ -70,6 +104,19 @@ export const RatioContentSchema = z
         code: 'custom',
         path: ['hintSteps'],
         message: 'Hint orders must be unique',
+      });
+    }
+    const expectedOrders = Array.from({ length: orders.length }, (_, index) => index + 1);
+    if (
+      orders
+        .slice()
+        .sort((a, b) => a - b)
+        .some((order, index) => order !== expectedOrders[index])
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['hintSteps'],
+        message: 'Hint orders must be contiguous starting at 1',
       });
     }
   });

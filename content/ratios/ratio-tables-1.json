@@ -1,0 +1,49 @@
+{
+  "id": "ratio-tables-1",
+  "version": "content-1",
+  "title": "Paint mixtures",
+  "skillCode": "ratio-tables",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.RP.A.3"],
+  "prerequisiteSkillCodes": ["ratio-language"],
+  "observableEvidence": ["Extends a ratio table with a consistent multiplicative relationship."],
+  "prompt": "A paint mixture uses 2 cups of blue paint for every 5 cups of white paint. Complete the table: blue cups 2, 4, 6; white cups 5, __, __.",
+  "solutionRepresentation": "Multiplying the blue amount by 2 and 3 multiplies the white amount by 2 and 3: 10 and 15.",
+  "solutionMethod": "Use the same scale factor in both rows of the ratio table.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "10 and 15",
+    "acceptedAnswers": ["10, 15", "10 and 15"],
+    "equivalenceNotes": "Accept the two missing white-paint values in left-to-right order."
+  },
+  "misconceptionCodes": ["adds-constant", "scales-one-row"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Each column should describe the same blue-to-white relationship.",
+      "question": "How does 4 compare with the first blue amount?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write 2:5 = 4:__ and 2:5 = 6:__.",
+      "question": "What scale factor changes the blue amount in each column?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Apply each blue-row scale factor to the matching white-row value.",
+      "question": "How can you check each completed column by simplifying it?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["10 and 15", "10, 15", "multiply by 2", "multiply by 3"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Render the table with explicit row and column headers and provide a linear text version for screen readers."
+}

@@ -1,0 +1,51 @@
+{
+  "id": "double-number-lines-1",
+  "version": "content-1",
+  "title": "Map scale",
+  "skillCode": "double-number-lines",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "prerequisiteSkillCodes": ["unit-rates"],
+  "observableEvidence": [
+    "Matches corresponding distances on two number lines using a constant scale."
+  ],
+  "prompt": "On a map, 1 centimeter represents 4 kilometers. A trail measures 7 centimeters on the map. How many kilometers is the real trail?",
+  "solutionRepresentation": "The scale factor is 4 kilometers for each centimeter; 7 × 4 = 28 kilometers.",
+  "solutionMethod": "Multiply the map distance by the kilometers represented by one centimeter.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "28 kilometers",
+    "acceptedAnswers": ["28", "28 kilometers", "28 km"],
+    "equivalenceNotes": "Accept equivalent kilometer units."
+  },
+  "misconceptionCodes": ["adds-scale", "reverses-scale"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The number lines pair centimeters with kilometers at matching positions.",
+      "question": "How many kilometers match one centimeter?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Think of seven jumps of the one-centimeter distance on the kilometer line.",
+      "question": "What multiplication represents seven equal scale jumps?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A double number line keeps the same multiplier at every matching point.",
+      "question": "How can you check that your result is larger than the map measurement for this scale?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["28 kilometers", "28 km", "28", "7 × 4"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Provide a text alternative to the double number line with labeled corresponding values."
+}
