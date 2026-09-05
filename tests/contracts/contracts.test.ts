@@ -153,7 +153,10 @@ describe('tutor move boundary validation', () => {
       reasons: ['invalid_schema'],
     });
     expect(validateTutorMove({ ...validMove, moveType: 'guided_solution' }, authorization)).toEqual(
-      { status: 'requires_fallback', reasons: ['move_not_authorized'] },
+      {
+        status: 'requires_fallback',
+        reasons: ['move_not_authorized', 'answer_reveal_not_authorized'],
+      },
     );
     expect(
       validateTutorMove({ ...validMove, safetyFlags: ['needs_human_review'] }, authorization),

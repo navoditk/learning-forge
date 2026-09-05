@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import type { TutorAuthorization, TutorMoveOutput } from './tutor';
+import type { TutorAuthorization } from './tutor';
 
 export interface TutorMoveInput {
   prompt: string;
@@ -26,6 +26,6 @@ export const ScoringOutputSchema = z
 export type ScoringOutput = z.infer<typeof ScoringOutputSchema>;
 
 export interface TutorModel {
-  generateMove(input: TutorMoveInput): Promise<TutorMoveOutput>;
-  scoreConstructedResponse(input: ScoringInput): Promise<ScoringOutput>;
+  generateMove(input: TutorMoveInput): Promise<unknown>;
+  scoreConstructedResponse(input: ScoringInput): Promise<unknown>;
 }

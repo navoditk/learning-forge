@@ -29,7 +29,7 @@ export const TutorAuthorizationSchema = z
     policyVersion: VersionSchema,
     allowedMoveTypes: z.array(TutorMoveTypeSchema).min(1),
     maximumAssistance: AssistanceLevelSchema,
-    canRevealAnswer: z.literal(false),
+    canRevealAnswer: z.boolean(),
     requiresGenuineAttempt: z.boolean(),
   })
   .strict();
@@ -87,6 +87,9 @@ export function validateTutorMove(
   const reasons: string[] = [];
   if (!authorization.allowedMoveTypes.includes(move.moveType)) {
     reasons.push('move_not_authorized');
+  }
+  if (move.moveType === 'guided_solution' && !authorization.canRevealAnswer) {
+    reasons.push('answer_reveal_not_authorized');
   }
   if (
     ASSISTANCE_ORDER.indexOf(move.assistanceLevel) >
