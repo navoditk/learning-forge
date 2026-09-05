@@ -1,0 +1,31 @@
+import { z } from 'zod';
+
+import type { TutorAuthorization, TutorMoveOutput } from './tutor';
+
+export interface TutorMoveInput {
+  prompt: string;
+  learnerMessage: string;
+  authorization: TutorAuthorization;
+  redactedSkillContext: string;
+}
+
+export interface ScoringInput {
+  prompt: string;
+  learnerResponse: string;
+  rubric: string;
+}
+
+export const ScoringOutputSchema = z
+  .object({
+    correctness: z.enum(['correct', 'incorrect', 'partial', 'unscored']),
+    rationale: z.string().trim().min(1).max(1000),
+    confidence: z.number().min(0).max(1),
+  })
+  .strict();
+
+export type ScoringOutput = z.infer<typeof ScoringOutputSchema>;
+
+export interface TutorModel {
+  generateMove(input: TutorMoveInput): Promise<TutorMoveOutput>;
+  scoreConstructedResponse(input: ScoringInput): Promise<ScoringOutput>;
+}
