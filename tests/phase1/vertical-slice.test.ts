@@ -5,11 +5,14 @@ import { prisma } from '../../src/server/prisma';
 import { ensureSyntheticIdentity, SYNTHETIC_IDS } from '../../src/identity/synthetic';
 import {
   getParentEvidence,
+  getTutorContext,
   getSyntheticSession,
+  recordIndependentCheck,
   recordAttempt,
   recordTutorResponse,
 } from '../../src/phase1/service';
 import { FakeTutorModel, TutorHarness } from '../../src/tutor';
+import { POST as postHint } from '../../src/app/api/phase1/hint/route';
 
 describe('Phase 1 synthetic ratios vertical slice', () => {
   beforeAll(async () => {
@@ -33,28 +36,67 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     await ensureSyntheticIdentity();
     const session = await getSyntheticSession();
     const attempt = await recordAttempt({ sessionId: session.sessionId, learnerResponse: '15' });
-    const response = await new TutorHarness(new FakeTutorModel()).respond({
+    const forgedRequest = new Request('http://localhost/api/phase1/hint', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        attemptId: attempt.attemptId,
+        learnerMessage: 'I divided 45 by 3.',
+        state: 'guided_solution',
+        priorHintCount: 0,
+        attemptNumber: 1,
+      }),
+    });
+    const forgedResponse = await postHint(forgedRequest);
+    const firstTutorResult = await forgedResponse.json();
+    expect(forgedResponse.status).toBe(200);
+    expect(firstTutorResult.response.move.moveType).toBe('probe_reasoning');
+    expect(await getTutorContext(attempt.attemptId)).toMatchObject({
+      state: 'probe_reasoning',
+      priorHintCount: 1,
+    });
+    const nextResponse = await new TutorHarness(new FakeTutorModel()).respond({
       prompt: session.content.prompt,
-      learnerMessage: 'I divided 45 by 3.',
+      learnerMessage: 'I am checking the relationship.',
       redactedSkillContext: `content:${session.content.id}`,
-      state: 'awaiting_attempt',
+      state: 'probe_reasoning',
       mode: 'math_tutor',
       genuineAttempt: true,
-      priorHintCount: 0,
+      priorHintCount: 1,
       attemptNumber: 1,
       protectedTokens: ['15', '15 miles per hour'],
     });
-    await recordTutorResponse({ attemptId: attempt.attemptId, response });
+    await recordTutorResponse({ attemptId: attempt.attemptId, response: nextResponse });
+    expect(await getTutorContext(attempt.attemptId)).toMatchObject({
+      state: 'hint_1_strategy',
+      priorHintCount: 2,
+    });
+    const check = await recordIndependentCheck({
+      sessionId: session.sessionId,
+      learnerResponse: '15',
+    });
     const evidence = await getParentEvidence();
 
     expect(attempt.correctness).toBe('CORRECT');
     expect(evidence.attempts.some((item) => item.id === attempt.attemptId)).toBe(true);
     expect(evidence.mastery).toMatchObject({
-      estimate: 0.9,
+      estimate: 1,
       confidenceBand: 'MEDIUM',
-      independentDelayedCheck: false,
+      independentDelayedCheck: true,
     });
-    expect(evidence.attempts[0]?.highestAssistance).toBe('CLARIFYING_QUESTION');
+    expect(check.correctness).toBe('CORRECT');
+    expect(
+      await prisma.attempt.findUnique({
+        where: { id: check.attemptId },
+        select: { context: true },
+      }),
+    ).toMatchObject({ context: 'MASTERY_CHECK' });
+    expect(evidence.attempts.find((item) => item.id === attempt.attemptId)?.highestAssistance).toBe(
+      'SMALL_STRATEGIC_HINT',
+    );
+    expect(evidence.attempts.find((item) => item.id === check.attemptId)?.highestAssistance).toBe(
+      'INDEPENDENT',
+    );
 
     const trace = await prisma.tutorTrace.findFirst({
       where: { learnerProfileId: SYNTHETIC_IDS.learnerProfile },
