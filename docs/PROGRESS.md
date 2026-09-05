@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 0 — LF-0.4 complete; persistence contract ready for review
-- Branch: `feature/phase-0-persistence-contract`
-- Repository state: working tree contains the uncommitted LF-0.4 persistence update; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit: `13092c4 Merge pull request #3 from navoditk/feature/phase-0-domain-contracts`
+- Phase: 0 — LF-0.5 content seed authored; pending human educator review
+- Branch: `feature/phase-0-content-seed`
+- Repository state: working tree contains the uncommitted LF-0.5 content update; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit: `8b712cd Merge pull request #4 from navoditk/feature/phase-0-persistence-contract`
 
 ## Proposal analysis (2026-09-04)
 
@@ -202,6 +202,12 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | `git diff --check` | Pass | No whitespace errors in the LF-0.4 changes. |
 | 2026-09-05 | Full LF-0.4 branch diff review | Pass | The change is limited to the minimal Prisma/PostgreSQL persistence contract, local workflow, CI integration, synthetic seed, and persistence tests; no critical, high, or valid medium findings remain within scope. |
 | 2026-09-05 | Staged-file, secret, private-data, generated-output, and local-database audit | Pass | Only the 14 intended LF-0.4 files are staged; no secrets, private learner data, generated output, or local database files are present. Local PostgreSQL remains external to the repository. |
+| 2026-09-05 | `npm run format` | Pass | Prettier formatted the ten JSON records, content contract, catalog validator, tests, and review documentation. |
+| 2026-09-05 | `npm run content:validate` | Pass | All ten ratio records parsed and passed catalog checks; 3 content tests passed. |
+| 2026-09-05 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run db:validate; npm run test:integration` | Pass | Prisma schema validation passed and persistence integration tests passed (2 tests); the local database was not modified by LF-0.5. |
+| 2026-09-05 | `npm run verify` | Pass | Formatting, linting, type checking, unit/content tests (13), and Next production build passed. |
+| 2026-09-05 | `git diff --check` | Pass | No whitespace errors in the LF-0.5 changes. |
+| 2026-09-05 | Full LF-0.5 branch diff review | Pass with follow-up | Ten original records, deterministic validator metadata, hint ladders, leakage constraints, provenance, accessibility notes, and automated validation are present. Human educator/content-owner review remains pending and is explicitly not claimed as complete. |
 
 ## Decisions/ADRs
 
@@ -209,6 +215,7 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.2 uses the approved TypeScript/Next.js modular-monolith stack.
 - LF-0.3 adds no new consequential architecture decision; Zod is the approved validation convention from the blueprint.
 - LF-0.4 uses Prisma/PostgreSQL for the minimal modular-monolith persistence boundary, with a reviewed local-only SQL rollback because Prisma has no first-class down migration.
+- LF-0.5 stores authored ratios content as version-controlled JSON and validates it through the existing Zod contract; human review status is distinct from automated validation.
 
 ## Risks/blockers
 
@@ -219,8 +226,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.2 intentionally does not add authentication, a database, provider integration, domain schemas, or product features.
 - LF-0.3 intentionally does not add persistence, tutor orchestration/state transitions, content seed, model adapters, or authentication.
 - LF-0.4 intentionally does not finalize identity, retention, export, deletion, authorization services, mastery calculations, content, tutor orchestration, provider integration, or authentication; those remain governed by pending decisions and later issues.
+- LF-0.5 does not execute validators at runtime, import content into PostgreSQL, implement tutor hint behavior, or claim educator approval; those belong to later work or human review.
 
 ## Session handoff
 
-- Uncommitted changes: LF-0.4 schema, migration/rollback, local database workflow, CI integration, synthetic seed, persistence tests, dependency lockfile updates, and this progress update
-- Next exact prompt: `Implement LF-0.5 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, author and validate the ten original versioned ratios problems with provenance, deterministic validators, hint ladders, leakage constraints, and accessibility notes; do not implement tutor orchestration, provider integration, or later issues.`
+- Uncommitted changes: LF-0.5 ratios JSON records, content contract/catalog validator, content tests, review checklist, and this progress update
+- Next exact prompt: `Implement LF-0.6 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, implement the deterministic fake tutor and policy harness using the approved contracts and ratios seed, add tutor/eval tests, and do not implement real provider integration, authentication, or later issues.`

@@ -1,0 +1,49 @@
+{
+  "id": "ratio-language-1",
+  "version": "content-1",
+  "title": "Garden rows",
+  "skillCode": "ratio-language",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.RP.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": ["States the ratio in the requested order."],
+  "prompt": "A community garden has 8 tomato plants and 12 pepper plants. What is the ratio of tomato plants to pepper plants? Write the ratio in simplest form.",
+  "solutionRepresentation": "8:12 simplifies by dividing both parts by 4, giving 2:3.",
+  "solutionMethod": "Identify the requested order, then divide both terms by their greatest common factor.",
+  "deterministicValidator": {
+    "type": "ratio",
+    "canonicalAnswer": "2:3",
+    "acceptedAnswers": ["2:3", "2 to 3", "2/3"],
+    "equivalenceNotes": "Accept colon, words, or fraction notation when the order is tomato to pepper."
+  },
+  "misconceptionCodes": ["reversed-ratio", "does-not-simplify"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Read the two quantities in the same order as the question.",
+      "question": "Which quantity belongs first in the ratio?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write the two counts with a colon, then look for a number that divides both counts.",
+      "question": "What common factor could make both parts smaller?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Try simplifying a ratio by dividing both parts by the same factor, as you would simplify a fraction.",
+      "question": "What happens when both parts are divided by their greatest common factor?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["2:3", "2 to 3", "2/3", "divide by 4"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the quantities in text and a labeled table; do not rely on color or spatial position alone."
+}

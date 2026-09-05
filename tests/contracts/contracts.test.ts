@@ -104,8 +104,18 @@ describe('content and evidence contracts', () => {
       skillCode: 'unit-rates',
       mode: 'core',
       difficulty: 'foundational',
+      standards: ['6.RP.A.1'],
+      prerequisiteSkillCodes: [],
+      observableEvidence: ['Names the two quantities and their order.'],
       prompt: 'A car travels 120 miles in 4 hours. What is the unit rate?',
       solutionRepresentation: '120 / 4 = 30 miles per hour',
+      solutionMethod: 'Divide the distance by the number of hours.',
+      deterministicValidator: {
+        type: 'numeric',
+        canonicalAnswer: '30 miles per hour',
+        acceptedAnswers: ['30', '30 miles per hour'],
+        equivalenceNotes: 'Accept 30 miles/hour and 30 mi/h.',
+      },
       misconceptionCodes: ['divide-by-total'],
       hintSteps: [
         {
@@ -115,7 +125,14 @@ describe('content and evidence contracts', () => {
           question: 'Which quantity should be one?',
         },
       ],
+      forbiddenLeakagePatterns: ['30 miles per hour', '30 miles/hour'],
       provenance: { origin: 'original', licenseStatus: 'owned' },
+      review: {
+        status: 'reviewed',
+        reviewer: 'Learning Forge content review',
+        reviewedAt: '2026-09-05',
+        originalityStatement: 'Written for this repository from first principles.',
+      },
       accessibilityNotes: 'Use plain text and do not rely on color alone.',
     });
     expect(result.success).toBe(true);

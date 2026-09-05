@@ -1,0 +1,55 @@
+{
+  "id": "ratio-tables-2",
+  "version": "content-1",
+  "title": "Walking distance",
+  "skillCode": "ratio-tables",
+  "mode": "depth",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.3"],
+  "prerequisiteSkillCodes": ["ratio-tables", "unit-rates"],
+  "observableEvidence": [
+    "Uses a ratio table to find an unfamiliar scale factor and explains the invariant rate."
+  ],
+  "prompt": "At a steady pace, Jordan walks 3 miles in 48 minutes. Complete the equivalent table for 5 miles: minutes __. Then describe the minutes-per-mile rate.",
+  "solutionRepresentation": "48 ÷ 3 = 16 minutes per mile, so 5 miles takes 80 minutes.",
+  "solutionMethod": "Find the unit rate first, then multiply it by the new distance.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "80 minutes and 16 minutes per mile",
+    "acceptedAnswers": [
+      "80 minutes and 16 minutes per mile",
+      "80 minutes; 16 minutes per mile",
+      "80, 16"
+    ],
+    "equivalenceNotes": "Accept both requested values with their meanings in the requested order."
+  },
+  "misconceptionCodes": ["uses-additive-change", "reverses-rate"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Look for a rate that works for one mile before scaling to five.",
+      "question": "What quantity could you find for one mile?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Use the table relationship 3 miles → 48 minutes and 1 mile → __ minutes.",
+      "question": "Which division finds the time for one mile?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Once you know the per-mile time, multiply by the target number of miles.",
+      "question": "What unit should your multiplication result have?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["80 minutes", "16 minutes per mile", "80", "16"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Offer the table as labeled text fields and do not require interpreting a visual slope or color."
+}

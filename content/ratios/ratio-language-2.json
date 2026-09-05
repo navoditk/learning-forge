@@ -1,0 +1,49 @@
+{
+  "id": "ratio-language-2",
+  "version": "content-1",
+  "title": "Trail mix comparison",
+  "skillCode": "ratio-language",
+  "mode": "depth",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.1"],
+  "prerequisiteSkillCodes": ["ratio-language"],
+  "observableEvidence": ["Explains that equivalent ratios describe the same relationship."],
+  "prompt": "A trail mix recipe uses 3 cups of cereal for every 2 cups of dried fruit. Maya uses 12 cups of cereal. How many cups of dried fruit keep the same relationship? Explain how you know.",
+  "solutionRepresentation": "3:2 becomes 12:8 after multiplying both parts by 4, so 8 cups of dried fruit are needed.",
+  "solutionMethod": "Find the scale factor from the first cereal amount and apply it to the fruit amount.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "8 cups",
+    "acceptedAnswers": ["8", "8 cups"],
+    "equivalenceNotes": "Accept a response identifying 8 cups of dried fruit."
+  },
+  "misconceptionCodes": ["additive-ratio-scaling", "scales-one-part"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Compare the original cereal amount with Maya's cereal amount.",
+      "question": "What multiplication factor changes 3 cups into 12 cups?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Show the equivalent ratio as 3:2 = 12:__.",
+      "question": "What must happen to the second part when the first part is multiplied by the same factor?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Equivalent ratios keep one scale factor for both quantities.",
+      "question": "How could you check your fruit amount by scaling it back to the original recipe?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["8 cups", "8", "multiply by 4"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Provide the ratio equation in text and allow an explanation by typing or selecting a scale-factor statement."
+}

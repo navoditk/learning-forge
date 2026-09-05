@@ -1,0 +1,51 @@
+{
+  "id": "double-number-lines-2",
+  "version": "content-1",
+  "title": "Watering schedule",
+  "skillCode": "double-number-lines",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.3"],
+  "prerequisiteSkillCodes": ["double-number-lines", "ratio-tables"],
+  "observableEvidence": [
+    "Uses a proportional relationship in reverse and justifies the direction of scaling."
+  ],
+  "prompt": "A greenhouse system uses 9 liters of water for 6 plant trays. At the same rate, how many trays can be watered with 30 liters?",
+  "solutionRepresentation": "The rate is 9 ÷ 6 = 1.5 liters per tray; 30 ÷ 1.5 = 20 trays.",
+  "solutionMethod": "Find the liters per tray, then use the available liters to determine the number of trays.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "20 trays",
+    "acceptedAnswers": ["20", "20 trays"],
+    "equivalenceNotes": "Accept a response identifying 20 trays."
+  },
+  "misconceptionCodes": ["multiplies-when-dividing", "confuses-input-output"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Decide which quantity you know per one tray before using the larger water amount.",
+      "question": "What does the first pair tell you about one tray?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Build a pair of rates: 9 liters for 6 trays and 30 liters for __ trays.",
+      "question": "Which unit rate makes the unknown number of trays easy to find?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Use the liters-per-tray rate as the step size on the second number line.",
+      "question": "What operation converts 30 liters into trays?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["20 trays", "20", "1.5 liters", "30 ÷ 1.5"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "State both number-line quantities and directions in text; permit a typed explanation instead of drag interaction."
+}

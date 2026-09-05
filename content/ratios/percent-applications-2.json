@@ -1,0 +1,49 @@
+{
+  "id": "percent-applications-2",
+  "version": "content-1",
+  "title": "Recycled materials",
+  "skillCode": "percent-applications",
+  "mode": "depth",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.3"],
+  "prerequisiteSkillCodes": ["percent-applications", "ratio-tables"],
+  "observableEvidence": ["Finds the whole from a known percent and part, then checks the result."],
+  "prompt": "A recycling club collected 18 kilograms of cans, which was 30% of all the material collected. What was the total mass of material?",
+  "solutionRepresentation": "18 is 30% of the total, so total = 18 ÷ 0.30 = 60 kilograms.",
+  "solutionMethod": "Represent the known part as a percent of the unknown whole, then divide by the decimal percent.",
+  "deterministicValidator": {
+    "type": "percent",
+    "canonicalAnswer": "60 kilograms",
+    "acceptedAnswers": ["60", "60 kilograms", "60 kg"],
+    "equivalenceNotes": "Accept equivalent kilogram units and a clear total-material interpretation."
+  },
+  "misconceptionCodes": ["multiplies-part-and-percent", "confuses-part-whole"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The 18 kilograms is the part, while the total is the whole.",
+      "question": "Which value is known, and which value must be found?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write 18 = 0.30 × total before solving for total.",
+      "question": "What inverse operation isolates the total?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Use the fact that the whole corresponds to 100% and the known part to 30%.",
+      "question": "How can you multiply your proposed total by 30% to check it?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["60 kilograms", "60 kg", "60", "18 ÷ 0.30"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Keep the part/whole labels adjacent to the equation and provide a text-only check path."
+}

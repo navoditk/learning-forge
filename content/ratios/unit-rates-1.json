@@ -1,0 +1,49 @@
+{
+  "id": "unit-rates-1",
+  "version": "content-1",
+  "title": "Bicycle pace",
+  "skillCode": "unit-rates",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.RP.A.2"],
+  "prerequisiteSkillCodes": ["ratio-language"],
+  "observableEvidence": ["Divides a quantity by the matching number of units."],
+  "prompt": "A cyclist travels 45 miles in 3 hours at a steady pace. What is the unit rate in miles per hour?",
+  "solutionRepresentation": "45 miles / 3 hours = 15 miles per hour.",
+  "solutionMethod": "Divide the total distance by the total number of hours to find miles for one hour.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "15 miles per hour",
+    "acceptedAnswers": ["15", "15 miles per hour", "15 mi/h"],
+    "equivalenceNotes": "Accept equivalent distance-per-hour units."
+  },
+  "misconceptionCodes": ["divides-by-distance", "omits-unit"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A unit rate tells how much happens for one unit of time.",
+      "question": "Which quantity should be reduced to one?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Set up distance divided by hours: 45 miles ÷ 3 hours.",
+      "question": "What operation compares the distance with each hour?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "After calculating, attach the unit that remains in the numerator.",
+      "question": "How can the unit help you check whether your answer describes miles for one hour?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["15 miles per hour", "15 mi/h", "15", "45 ÷ 3"],
+  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Read units aloud in the prompt and keep the division expression available as selectable text."
+}
