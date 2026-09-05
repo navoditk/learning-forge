@@ -12,6 +12,10 @@ test.describe('synthetic Phase 1 journeys', () => {
     await page.getByRole('button', { name: 'Ask for a small hint' }).click();
     await expect(page.getByRole('heading', { name: 'Tutor' })).toBeVisible();
     await expect(page.getByText('What do you already know?')).toBeVisible();
+    await page.getByRole('button', { name: 'Ask for the next hint' }).click();
+    await expect(page.getByText('What stays the same as both quantities change?')).toBeVisible();
+    await page.getByRole('button', { name: 'Start independent check' }).click();
+    await expect(page.getByText('Independent check: correct.')).toBeVisible();
   });
 
   test('parent can see evidence linked to the learner attempt', async ({ page }) => {

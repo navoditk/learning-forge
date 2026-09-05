@@ -3,9 +3,9 @@
 ## Current status
 
 - Phase: 1 — synthetic ratios journeys covered; real identity/provider approvals remain pending
-- Branch: `feature/phase-1-playwright-journeys`
-- Repository state: working tree contains the uncommitted Playwright coverage update; generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit: `7278650 Merge pull request #11 from navoditk/chore/phase-1-review-handoff`
+- Branch: `feature/phase-1-mastery-check`
+- Repository state: working tree contains the uncommitted synthetic hint-progression and independent-check update; generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit: `aa624fb Merge pull request #12 from navoditk/feature/phase-1-playwright-journeys`
 
 ## Proposal analysis (2026-09-04)
 
@@ -244,6 +244,11 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | `npm run format:check && npm run typecheck && npm run lint && npm test && npm run build` | Pass | Formatting, TypeScript, ESLint, 16 database-free tests, and the production build passed. |
 | 2026-09-05 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration && git diff --check` | Pass | Persistence and Phase 1 integration tests passed (4 tests); whitespace checks passed. |
 | 2026-09-05 | Playwright branch scope/safety audit | Pass with follow-up | Only Playwright config/tests, CI wiring, README/package/lock updates, ignore rules, and progress evidence changed. Browser results are ignored; no secrets, learner data, provider credentials, or generated binaries are tracked. |
+| 2026-09-05 | `npm run format && npm run format:check && npm run lint && npm run typecheck && npm test && npm run build` | Pass | Formatting, ESLint, TypeScript, 16 database-free tests, and the production build passed for synthetic hint progression and independent checks. |
+| 2026-09-05 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run db:validate && npm run test:integration` | Pass | Prisma validation and PostgreSQL persistence/vertical-slice integration tests passed (4 tests), including server-derived tutor state and `MASTERY_CHECK` evidence. |
+| 2026-09-05 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:e2e` | Pass | Playwright ran 2 synthetic browser journeys; the learner journey covered two hint steps and an independent check. The local server required permission to bind port 3000. |
+| 2026-09-05 | `git diff --check` and final scope/safety audit | Pass | Changes are limited to server-authoritative hint context, synthetic independent-check recording, learner journey UI, tests, and this progress evidence; no secrets, generated output, local database files, or private learner data are tracked. |
+| 2026-09-05 | Final post-review verification: `npm run format && npm run verify && npm run content:validate && npm run eval:run`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run db:validate && npm run test:integration`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:e2e`; `git diff --check` | Pass | Formatting, linting, type checking, 16 database-free tests, production build, content validation (3), evals (3), Prisma validation, integration tests (4), browser journeys (2), and whitespace checks passed after adding the forged-state route regression test. |
 
 ## Decisions/ADRs
 
@@ -273,8 +278,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.9 does not declare the product pilot-ready: identity, consent, provider, child-safety, privacy, accessibility, content, and evaluation approvals remain governed by the pending checklist and ADR decisions.
 - Phase 1 does not implement real authentication, guardian verification, delayed mastery checks, adaptive planning, real model calls, or production deployment; it is a local synthetic demonstration only.
 - Phase 1 browser automation covers the synthetic learner and parent journeys, but real authentication/provider approval and a real-model adapter remain intentionally absent.
+- The synthetic independent check uses a separate `MASTERY_CHECK` context after tutoring; it is a workflow demonstration, not validated elapsed-time or long-term delayed-performance evidence. Real delayed-check scheduling and calibration remain future work.
 
 ## Session handoff
 
-- Uncommitted changes: Playwright learner/parent journey coverage and CI wiring.
-- Next exact prompt: `Before implementing further Phase 1 behavior, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions. Do not add real authentication or provider integration until the required product, privacy, security, legal, and accessibility approvals are recorded.`
+- Uncommitted changes: synthetic multi-step hint progression, server-derived tutor context, independent mastery-check route/UI, tests, and this progress update.
+- Next exact prompt: `Before implementing further real-user or provider-backed behavior, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions. Do not add real authentication, real learner data, or provider integration until the required product, privacy, security, legal, and accessibility approvals are recorded.`

@@ -23,6 +23,8 @@ export default function Home() {
   const [response, setResponse] = useState('');
   const [attempt, setAttempt] = useState<AttemptResult>();
   const [tutor, setTutor] = useState<TutorResult>();
+  const [hintCount, setHintCount] = useState(0);
+  const [check, setCheck] = useState<AttemptResult>();
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -58,9 +60,6 @@ export default function Home() {
       body: JSON.stringify({
         attemptId: attempt.attemptId,
         learnerMessage: response,
-        state: 'awaiting_attempt',
-        priorHintCount: 0,
-        attemptNumber: 1,
       }),
     });
     if (!result.ok) {
@@ -68,6 +67,21 @@ export default function Home() {
       return;
     }
     setTutor(await result.json());
+    setHintCount((count) => count + 1);
+  }
+
+  async function submitIndependentCheck() {
+    if (!session) return;
+    const result = await fetch('/api/phase1/check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: session.sessionId, learnerResponse: response }),
+    });
+    if (!result.ok) {
+      setError('Complete a tutor step before starting an independent check.');
+      return;
+    }
+    setCheck(await result.json());
   }
 
   if (error && !session)
@@ -120,8 +134,16 @@ export default function Home() {
                 : 'Not yet. Your attempt is recorded.'}
             </p>
             <button type="button" onClick={requestHint}>
-              Ask for a small hint
+              {hintCount === 0 ? 'Ask for a small hint' : 'Ask for the next hint'}
             </button>
+            {tutor && (
+              <button type="button" onClick={submitIndependentCheck}>
+                Start independent check
+              </button>
+            )}
+            {check && (
+              <p>Independent check: {check.correctness === 'CORRECT' ? 'correct.' : 'not yet.'}</p>
+            )}
           </div>
         )}
         {tutor && (
