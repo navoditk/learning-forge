@@ -65,7 +65,7 @@ Prerequisite: Node.js 22 or newer. From a fresh clone, install the locked depend
 npm ci && npm run verify
 ```
 
-The suite checks formatting, linting, TypeScript, unit tests, and the production build. It does not require authentication, provider credentials, a database, or learner data. Run `npm run test:integration` separately after starting the local database to verify persistence.
+The suite checks formatting, linting, TypeScript, that every database migration ships a reviewed `down.sql`, unit tests, and the production build. It does not require authentication, provider credentials, a database, or learner data. Run `npm run test:integration` separately after starting the local database to verify persistence.
 
 ## Phase 0 verification and handoff
 

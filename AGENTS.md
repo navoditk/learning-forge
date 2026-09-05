@@ -34,7 +34,7 @@ Implement the repository incrementally from the approved documents in `docs/`. O
 - Use ports/interfaces for LLM, content, identity, and persistence dependencies.
 - Every AI call must produce a trace containing policy version, prompt/template version, model identifier, latency, token usage, validation result, and outcome—without sensitive free-form content by default.
 - Feature flags must guard experimental tutor behaviors.
-- Database migrations must be reversible and reviewed.
+- Database migrations must be reversible and reviewed: every `prisma/migrations/*/migration.sql` must ship a sibling, human-reviewed `down.sql`; `npm run db:check-down-migrations` enforces this in `verify`.
 - Accessibility target: WCAG 2.2 AA for learner and parent flows.
 
 ## Required tests

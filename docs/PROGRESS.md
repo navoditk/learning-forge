@@ -7,6 +7,29 @@
 - Repository state: clean feature branch; PR #13 was merged; local checkout remains on the feature branch until the next issue starts from synchronized `main`; generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
 - Last verified commit: `2ea25ba feat: add synthetic mastery checks`
 
+## Domain model coverage (2026-09-05)
+
+`docs/05-data-and-student-model.md` describes the target domain model. This
+table tracks which entities exist in `prisma/schema.prisma` today versus
+which remain design-only, so the design doc is not mistaken for current
+schema state.
+
+| Entity (from `05-data-and-student-model.md`) | Status | Notes |
+|---|---|---|
+| `Household`, `User`, `LearnerProfile` | Implemented | Synthetic identity only; no auth |
+| `ConsentRecord` | Implemented | Schema only; no consent-capture flow |
+| `Session` | Implemented | |
+| `Attempt`, `AssistanceEvent` | Implemented | Immutable-attempt trigger enforced in migration |
+| `TutorInteraction`, `TutorTrace` (as `ModelRun`) | Implemented | Redacted excerpt fields; no raw-text retention |
+| `MasteryEstimate`, `MasteryContribution` | Implemented | `skillCode` is a bare string, not a normalized `Skill` row |
+| `Curriculum`, `Standard`, `Skill`, `SkillPrerequisite` | Not implemented | No normalized skill graph yet; content catalog stores skill codes informally |
+| `ContentItem`, `Problem`, `HintStep`, `Rubric`, `ContentVersion` | Not implemented | Content lives as version-controlled JSON in `content/ratios`, validated by Zod, not a DB table |
+| `LearningPlan`, `PlanItem` | Not implemented | No planner exists yet |
+| `Assessment`, `AssessmentResult` | Not implemented | Diagnostic/assessment concept not built; only `Attempt` with `context: DIAGNOSTIC | PRACTICE | MASTERY_CHECK` |
+| `MisconceptionEvidence` | Not implemented | |
+| `ReviewSchedule` | Not implemented | No spaced-review scheduling yet |
+| `PolicyVersion`, `EvalRun` | Not implemented | Policy/prompt versions are recorded as strings on trace rows, not their own tables; eval runs are file-based (`evals/`, `reports/`), not persisted |
+
 ## Proposal analysis (2026-09-04)
 
 ### Contradictions and unclear requirements

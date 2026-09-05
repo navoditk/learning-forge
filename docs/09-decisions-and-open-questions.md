@@ -67,3 +67,4 @@ records are maintained in `docs/adr/0001-phase-0-boundaries.md`.
 - Vector database/RAG platform
 - Microservices and event streaming
 - Multi-agent tutor orchestration
+- Multi-child households (siblings sharing one parent account): the schema already supports it (`Household` has many `User`/`LearnerProfile` rows), so no migration is anticipated; a learner switcher and per-child session/consent UX remain deferred to Phase 3+ real identity work, not a Phase 1 data-model risk.
