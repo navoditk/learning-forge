@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 1 — synthetic ratios vertical slice merged; browser coverage and real identity/provider approvals remain pending
-- Branch: `chore/phase-1-review-handoff`
-- Repository state: working tree contains this uncommitted post-merge handoff update; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit: `b689ecc Merge pull request #10 from navoditk/feature/phase-1-ratios-synthetic-identity`
+- Phase: 1 — synthetic ratios journeys covered; real identity/provider approvals remain pending
+- Branch: `feature/phase-1-playwright-journeys`
+- Repository state: working tree contains the uncommitted Playwright coverage update; generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit: `7278650 Merge pull request #11 from navoditk/chore/phase-1-review-handoff`
 
 ## Proposal analysis (2026-09-04)
 
@@ -238,6 +238,12 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | Final Phase 1 safety/scope audit | Pass with follow-up | Staged scope is limited to the synthetic identity ADR, ratios session service/routes/pages, tests, package scripts, and progress evidence; no secrets, generated output, local database files, real learner data, or provider credentials are included. |
 | 2026-09-05 | Final post-review verification: `npm run format && npm run format:check && npm run lint && npm run typecheck && npm test && npm run build`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration`; `git diff --check` | Pass | Formatting, linting, type checking, 16 database-free tests, production build, 4 persistence/vertical-slice integration tests, and whitespace checks passed after ownership, immutable-attempt, and attempt-number fixes. |
 | 2026-09-05 | Post-merge Phase 1 review | Pass with medium follow-ups | No critical or high findings. The merged slice preserves deterministic scoring, answer protection, household isolation, immutable attempts, redacted traces, conservative mastery wording, and accessible labeled controls. Formal Playwright coverage remains the next bounded issue; the old progress branch/state was corrected in this handoff. |
+| 2026-09-05 | `npm install -D @playwright/test` | Pass with risk noted | Added the approved browser-test dependency; npm reported 6 vulnerabilities (1 moderate, 5 high) and install-script approval warnings. No automatic audit fix was run. |
+| 2026-09-05 | `npx playwright install chromium` | Pass | Installed the local Chromium test browser outside the repository; no browser binary is tracked. |
+| 2026-09-05 | `npm run format && npm run typecheck && npm run lint && export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:e2e` | Pass | Playwright ran 2 synthetic learner/parent journeys successfully; the server received the synthetic database URL through the test config. |
+| 2026-09-05 | `npm run format:check && npm run typecheck && npm run lint && npm test && npm run build` | Pass | Formatting, TypeScript, ESLint, 16 database-free tests, and the production build passed. |
+| 2026-09-05 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration && git diff --check` | Pass | Persistence and Phase 1 integration tests passed (4 tests); whitespace checks passed. |
+| 2026-09-05 | Playwright branch scope/safety audit | Pass with follow-up | Only Playwright config/tests, CI wiring, README/package/lock updates, ignore rules, and progress evidence changed. Browser results are ignored; no secrets, learner data, provider credentials, or generated binaries are tracked. |
 
 ## Decisions/ADRs
 
@@ -255,7 +261,7 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 ## Risks/blockers
 
 - Human approvals recorded as pending in ADR-0001 remain required before affected Phase 0 deliverables can be accepted.
-- npm reported 2 vulnerabilities during install; the audit endpoint was unreachable, so severity/source remediation is a follow-up before relying on the dependency set beyond local development.
+- npm reported 6 vulnerabilities after adding Playwright (1 moderate, 5 high); no automatic audit fix was run, and remediation remains a follow-up before relying on the dependency set beyond local development.
 - Curriculum content must be original or appropriately licensed and independently reviewed.
 - No real learner data or provider credentials should enter the repository or eval fixtures.
 - LF-0.2 intentionally does not add authentication, a database, provider integration, domain schemas, or product features.
@@ -266,9 +272,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.7 does not implement security middleware, authentication, deletion jobs, provider controls, or incident automation; it identifies and assigns those controls for later implementation and human approval.
 - LF-0.9 does not declare the product pilot-ready: identity, consent, provider, child-safety, privacy, accessibility, content, and evaluation approvals remain governed by the pending checklist and ADR decisions.
 - Phase 1 does not implement real authentication, guardian verification, delayed mastery checks, adaptive planning, real model calls, or production deployment; it is a local synthetic demonstration only.
-- Phase 1 formal browser automation is not yet present; the current evidence is the live local smoke test plus service/persistence tests. Add Playwright coverage before treating the Phase 1 exit as complete.
+- Phase 1 browser automation covers the synthetic learner and parent journeys, but real authentication/provider approval and a real-model adapter remain intentionally absent.
 
 ## Session handoff
 
-- Uncommitted changes: post-merge Phase 1 handoff correction.
-- Next exact prompt: `Implement the next bounded Phase 1 issue: add formal Playwright coverage for the synthetic learner journey and parent evidence journey. Read applicable docs, keep the local synthetic identity boundary, do not add real authentication or provider integration, and update docs/PROGRESS.md with verification evidence.`
+- Uncommitted changes: Playwright learner/parent journey coverage and CI wiring.
+- Next exact prompt: `Before implementing further Phase 1 behavior, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions. Do not add real authentication or provider integration until the required product, privacy, security, legal, and accessibility approvals are recorded.`
