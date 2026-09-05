@@ -1,0 +1,257 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PARENT
+  LEARNER
+}
+
+enum ConsentType {
+  DATA_PROCESSING
+  TUTORING
+}
+
+enum ConsentStatus {
+  PENDING
+  GRANTED
+  REVOKED
+}
+
+enum AttemptContext {
+  DIAGNOSTIC
+  PRACTICE
+  MASTERY_CHECK
+}
+
+enum Correctness {
+  CORRECT
+  INCORRECT
+  PARTIAL
+  UNSCORED
+}
+
+enum ScoringMethod {
+  DETERMINISTIC
+  RUBRIC
+  UNSCORED
+}
+
+enum AssistanceLevel {
+  INDEPENDENT
+  CLARIFYING_QUESTION
+  SMALL_STRATEGIC_HINT
+  MULTIPLE_HINTS_REPRESENTATION
+  ANALOGOUS_WORKED_EXAMPLE
+  GUIDED_FULL_SOLUTION
+}
+
+enum TutorInteractionType {
+  QUESTION
+  HINT
+  REPRESENTATION
+  EXAMPLE
+  SOLUTION
+}
+
+enum TraceValidationResult {
+  VALIDATED
+  REPAIRED
+  FALLBACK
+  REJECTED
+}
+
+enum TraceOutcome {
+  MOVE_RETURNED
+  FALLBACK_RETURNED
+  ERROR
+}
+
+enum ConfidenceBand {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model Household {
+  id                 String             @id @default(uuid())
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  users              User[]
+  learners           LearnerProfile[]
+  consentRecords     ConsentRecord[]
+  sessions           Session[]
+  attempts           Attempt[]
+  tutorInteractions  TutorInteraction[]
+  traces             TutorTrace[]
+  masteryEstimates   MasteryEstimate[]
+}
+
+model User {
+  id                 String          @id @default(uuid())
+  householdId        String
+  role               UserRole
+  createdAt          DateTime        @default(now())
+  household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile     LearnerProfile?
+
+  @@index([householdId, role])
+}
+
+model LearnerProfile {
+  id                 String             @id @default(uuid())
+  userId             String             @unique
+  householdId        String
+  gradeLevel         Int
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  household          Household          @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  consentRecords     ConsentRecord[]
+  sessions           Session[]
+  attempts           Attempt[]
+  tutorInteractions  TutorInteraction[]
+  traces             TutorTrace[]
+  masteryEstimates   MasteryEstimate[]
+}
+
+model ConsentRecord {
+  id                 String          @id @default(uuid())
+  householdId        String
+  learnerProfileId   String
+  type               ConsentType
+  status             ConsentStatus   @default(PENDING)
+  policyVersion      String
+  grantedAt          DateTime?
+  revokedAt          DateTime?
+  createdAt          DateTime        @default(now())
+  household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile     LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([householdId, learnerProfileId, type])
+}
+
+model Session {
+  id                 String          @id @default(uuid())
+  householdId        String
+  learnerProfileId   String
+  startedAt          DateTime        @default(now())
+  endedAt            DateTime?
+  household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile     LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  attempts           Attempt[]
+
+  @@index([learnerProfileId, startedAt])
+}
+
+model Attempt {
+  id                 String               @id @default(uuid())
+  householdId        String
+  learnerProfileId   String
+  sessionId          String?
+  contentKey         String
+  contentVersion     String
+  learnerResponse    String
+  normalizedResponse String?
+  correctness        Correctness
+  scoringMethod      ScoringMethod
+  attemptNumber      Int
+  elapsedSeconds     Float
+  highestAssistance  AssistanceLevel
+  context            AttemptContext
+  policyVersion      String
+  createdAt          DateTime             @default(now())
+  household          Household            @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile     LearnerProfile       @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  session            Session?             @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  assistanceEvents   AssistanceEvent[]
+  tutorInteractions  TutorInteraction[]
+  masteryContributions MasteryContribution[]
+
+  @@index([learnerProfileId, contentKey, createdAt])
+  @@index([householdId, createdAt])
+}
+
+model AssistanceEvent {
+  id                 String          @id @default(uuid())
+  attemptId          String
+  occurredAt         DateTime        @default(now())
+  level              AssistanceLevel
+  interactionType    TutorInteractionType
+  attempt            Attempt           @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+
+  @@index([attemptId, occurredAt])
+}
+
+model TutorInteraction {
+  id                 String          @id @default(uuid())
+  householdId        String
+  learnerProfileId   String
+  attemptId          String?
+  redactedExcerpt    String?
+  moveType           String
+  assistanceLevel    AssistanceLevel
+  policyVersion      String
+  createdAt          DateTime        @default(now())
+  household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile     LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  attempt            Attempt?         @relation(fields: [attemptId], references: [id], onDelete: SetNull)
+
+  @@index([learnerProfileId, createdAt])
+}
+
+model TutorTrace {
+  id                    String                @id @default(uuid())
+  householdId           String
+  learnerProfileId      String
+  policyVersion         String
+  promptTemplateVersion String
+  modelIdentifier       String
+  latencyMs             Float
+  inputTokens           Int
+  outputTokens          Int
+  totalTokens           Int
+  validationResult      TraceValidationResult
+  outcome               TraceOutcome
+  redactedExcerpt       String?
+  createdAt             DateTime              @default(now())
+  household             Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile        LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([learnerProfileId, createdAt])
+}
+
+model MasteryEstimate {
+  id                    String                @id @default(uuid())
+  householdId           String
+  learnerProfileId      String
+  skillCode             String
+  estimate              Float
+  confidenceBand        ConfidenceBand
+  algorithmVersion      String
+  independentDelayedCheck Boolean
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  household             Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile        LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  contributions          MasteryContribution[]
+
+  @@unique([learnerProfileId, skillCode, algorithmVersion])
+}
+
+model MasteryContribution {
+  id                 String          @id @default(uuid())
+  masteryEstimateId  String
+  attemptId          String
+  evidenceWeight     Float
+  createdAt          DateTime        @default(now())
+  masteryEstimate    MasteryEstimate @relation(fields: [masteryEstimateId], references: [id], onDelete: Cascade)
+  attempt            Attempt         @relation(fields: [attemptId], references: [id], onDelete: Restrict)
+
+  @@unique([masteryEstimateId, attemptId])
+}
