@@ -208,6 +208,11 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | `npm run verify` | Pass | Formatting, linting, type checking, unit/content tests (13), and Next production build passed. |
 | 2026-09-05 | `git diff --check` | Pass | No whitespace errors in the LF-0.5 changes. |
 | 2026-09-05 | Full LF-0.5 branch diff review | Pass with follow-up | Ten original records, deterministic validator metadata, hint ladders, leakage constraints, provenance, accessibility notes, and automated validation are present. Human educator/content-owner review remains pending and is explicitly not claimed as complete. |
+| 2026-09-05 | `npm run format && npm run verify` | Pass | Prettier, ESLint, TypeScript, 13 unit/content tests, and the Next production build passed before the final review fix. |
+| 2026-09-05 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration` | Pass | Persistence integration tests passed (2 tests). |
+| 2026-09-05 | LF-0.6 review fix | Pass | Removed protected answer tokens and unrelated session fields from the model request; added a regression assertion over the serialized model input. |
+| 2026-09-05 | `npm run format && npm run verify && export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration && git diff --check` | Pass | Formatting, linting, type checking, unit/content tests (13), production build, persistence integration tests (2), and whitespace checks passed after the review fix. |
+| 2026-09-05 | Full LF-0.6 branch diff review | Pass with follow-up | Policy authorization remains server-controlled, fake output is structured and validated, repair/fallback is bounded, traces redact learner text, and no provider/auth/persistence orchestration was added. Real-provider behavior and human policy approval remain future gates. |
 | 2026-09-05 | `npm run format && npm run verify && export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:integration && git diff --check` | Pass | Formatting, linting, type checking, 13 unit/content tests, production build, 2 persistence integration tests, and whitespace checks passed for LF-0.7. |
 | 2026-09-05 | LF-0.7 documentation completeness check | Pass | Threats T1–T14, data-class inventory fields, incident roles/steps, pilot gates, owners, pending decisions, and no-real-data boundaries were confirmed with repository assertions. |
 | 2026-09-05 | Secret/private-data/generated-output audit | Pass | No secret-like values, real learner data, generated output, local database files, or provider credentials are present in the LF-0.7 documentation change. |
@@ -220,7 +225,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.3 adds no new consequential architecture decision; Zod is the approved validation convention from the blueprint.
 - LF-0.4 uses Prisma/PostgreSQL for the minimal modular-monolith persistence boundary, with a reviewed local-only SQL rollback because Prisma has no first-class down migration.
 - LF-0.5 stores authored ratios content as version-controlled JSON and validates it through the existing Zod contract; human review status is distinct from automated validation.
+- LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
 - LF-0.7 records the required privacy, threat, incident, and pilot controls as documentation baselines; it makes no unapproved legal, provider, retention, or launch decisions.
+- LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
 
 ## Risks/blockers
 
@@ -232,9 +239,10 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.3 intentionally does not add persistence, tutor orchestration/state transitions, content seed, model adapters, or authentication.
 - LF-0.4 intentionally does not finalize identity, retention, export, deletion, authorization services, mastery calculations, content, tutor orchestration, provider integration, or authentication; those remain governed by pending decisions and later issues.
 - LF-0.5 does not execute validators at runtime, import content into PostgreSQL, implement tutor hint behavior, or claim educator approval; those belong to later work or human review.
+- LF-0.6 does not call a real provider, persist tutor traces, calculate mastery, implement authentication, or deliver learner-facing UI; it provides the deterministic policy/fake-model seam for later vertical-slice work.
 - LF-0.7 does not implement security middleware, authentication, deletion jobs, provider controls, or incident automation; it identifies and assigns those controls for later implementation and human approval.
 
 ## Session handoff
 
-- Uncommitted changes: LF-0.7 threat model, privacy inventory, incident response, pilot-readiness checklist, and this progress update
+- Uncommitted changes: merge-resolution update combining LF-0.6 tutor and LF-0.7 control evidence
 - Next exact prompt: `Implement LF-0.8 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, establish a small versioned synthetic tutor-evaluation corpus and reproducible fake-adapter report covering leakage, hint progression, correctness, tone, age appropriateness, accessibility, injection, confident-wrong, and frustrated learners; do not add real provider integration or claim calibrated release thresholds.`
