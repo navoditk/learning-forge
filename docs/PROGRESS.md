@@ -4,8 +4,8 @@
 
 - Phase: 1 — synthetic ratios journeys covered; real identity/provider approvals remain pending
 - Branch: `feature/phase-1-mastery-check`
-- Repository state: working tree contains the uncommitted synthetic hint-progression and independent-check update; generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit: `aa624fb Merge pull request #12 from navoditk/feature/phase-1-playwright-journeys`
+- Repository state: clean feature branch; PR #13 was merged; local checkout remains on the feature branch until the next issue starts from synchronized `main`; generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit: `2ea25ba feat: add synthetic mastery checks`
 
 ## Proposal analysis (2026-09-04)
 
@@ -249,6 +249,8 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:e2e` | Pass | Playwright ran 2 synthetic browser journeys; the learner journey covered two hint steps and an independent check. The local server required permission to bind port 3000. |
 | 2026-09-05 | `git diff --check` and final scope/safety audit | Pass | Changes are limited to server-authoritative hint context, synthetic independent-check recording, learner journey UI, tests, and this progress evidence; no secrets, generated output, local database files, or private learner data are tracked. |
 | 2026-09-05 | Final post-review verification: `npm run format && npm run verify && npm run content:validate && npm run eval:run`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run db:validate && npm run test:integration`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:e2e`; `git diff --check` | Pass | Formatting, linting, type checking, 16 database-free tests, production build, content validation (3), evals (3), Prisma validation, integration tests (4), browser journeys (2), and whitespace checks passed after adding the forged-state route regression test. |
+| 2026-09-05 | PR #13 merge and documentation audit | Pass with documentation updates | Synthetic mastery-check work was committed as `2ea25ba` and merged. Architecture documentation now includes the implemented stack, runtime diagram, evidence-flow diagram, and explicit synthetic-only boundaries. |
+| 2026-09-05 | Architecture stack rationale update | Pass | `docs/03-system-architecture.md` now maps each stack item and boundary to its application components, rationale, implementation status, and production limits. |
 
 ## Decisions/ADRs
 
@@ -282,5 +284,5 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 
 ## Session handoff
 
-- Uncommitted changes: synthetic multi-step hint progression, server-derived tutor context, independent mastery-check route/UI, tests, and this progress update.
-- Next exact prompt: `Before implementing further real-user or provider-backed behavior, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions. Do not add real authentication, real learner data, or provider integration until the required product, privacy, security, legal, and accessibility approvals are recorded.`
+- Uncommitted changes: none. PR #13 is merged; the local feature branch is clean.
+- Next exact prompt: `Start from synchronized main. Before implementing further real-user or provider-backed behavior, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions. Do not add real authentication, real learner data, or provider integration until the required product, privacy, security, legal, and accessibility approvals are recorded.`
