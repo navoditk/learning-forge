@@ -91,6 +91,13 @@ npm run test:integration
 The complete Phase 0 evidence, pending human approvals, known risks, and the
 next exact implementation prompt are maintained in `docs/PROGRESS.md`.
 
+Run the synthetic browser journeys after starting PostgreSQL and applying the
+local schema:
+
+```bash
+npm run test:e2e
+```
+
 ## Run the local Phase 1 portal
 
 After the local database is running and migrated, start the synthetic portal:

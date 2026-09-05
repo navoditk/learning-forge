@@ -44,3 +44,7 @@ jobs:
         run: npm run test:integration
       - name: Run verification suite
         run: npm run verify
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: Run browser journeys
+        run: npm run test:e2e

@@ -15,6 +15,7 @@
     "lint": "eslint .",
     "content:validate": "vitest run tests/content",
     "eval:run": "vitest run tests/evals",
+    "test:e2e": "playwright test",
     "test": "vitest run tests/foundation.test.ts tests/contracts tests/content tests/evals",
     "test:integration": "vitest run tests/persistence tests/phase1",
     "typecheck": "tsc --noEmit",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
