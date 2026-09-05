@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 0 — LF-0.1 complete; implementation not started
-- Branch: `feature/project-foundation`
-- Repository state: working tree contains the uncommitted LF-0.1 documentation changes; documentation-only repository, tracking `origin/main`
-- Last verified commit: `31a39cc docs: record Phase 0 analysis and issue plan`
+- Phase: 0 — LF-0.2 complete; implementation foundation ready for review
+- Branch: `feature/phase-0-repository-quality-gates`
+- Repository state: working tree contains the uncommitted LF-0.2 scaffold changes; application foundation is present and no learner data is used
+- Last verified commit: `43e1e8e docs: define Phase 0 decision boundaries`
 
 ## Proposal analysis (2026-09-04)
 
@@ -179,21 +179,33 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-04 | `find . -path './.git' -prune -o -type d \( -name node_modules -o -name .next -o -name dist -o -name build -o -name coverage \) -print; find . -path './.git' -prune -o -type f \( -name '*.sqlite' -o -name '*.sqlite3' -o -name '*.db' \) -print` | Pass | No generated build output or local database files found. |
 | 2026-09-04 | Full LF-0.1 branch review against acceptance criteria | Pass | No critical, high, or valid medium findings remain; changes stay within LF-0.1. |
 | 2026-09-04 | Formatting, type checking, unit/integration tests, build verification | Not applicable | No `package.json`, application source, test runner, build configuration, or dependencies exist; LF-0.2 owns the scaffold and these commands. |
+| 2026-09-05 | `npm run verify` | Pass | Final run: Prettier, ESLint with Next.js rules, TypeScript, Vitest (1 test), and Next production build all passed. |
+| 2026-09-05 | `git diff --check` | Pass | Final LF-0.2 diff has no whitespace errors. |
+| 2026-09-05 | `git status --short --branch && git diff --name-only && git ls-files --others --exclude-standard` | Pass | Only intended LF-0.2 files are modified or untracked; generated output remains ignored. |
+| 2026-09-05 | `git pull --ff-only` on `main` | Pass | Main was synchronized before creating the LF-0.2 branch. |
+| 2026-09-05 | `npm install` | Pass with risk noted | Generated `package-lock.json`; npm reported 2 vulnerabilities (1 moderate, 1 high) and install-script approval warnings. No forced audit fix was run. |
+| 2026-09-05 | `npm run format` | Pass | Formatted the LF-0.2 source, configuration, README, and issue-template files. |
+| 2026-09-05 | `npm run verify` | Pass | Prettier, ESLint with Next.js rules, TypeScript, Vitest (1 test), and Next production build all passed. |
+| 2026-09-05 | `npm audit --omit=dev` | Unable to complete | Registry DNS resolution failed in the environment; dependency audit status remains an unresolved follow-up risk. |
+| 2026-09-05 | `git diff --check` | Pass | No whitespace errors in the LF-0.2 changes. |
+| 2026-09-05 | Staged-file and generated-output audit | Pass | Only intended LF-0.2 files are in scope; generated output is ignored; no secrets or learner data present. |
+| 2026-09-05 | `npm ci && npm run verify` | Pass with risk noted | Fresh-lockfile install and the complete verification suite passed; npm reported 2 vulnerabilities (1 moderate, 1 high) and install-script approval warnings. |
+| 2026-09-05 | Full LF-0.2 branch diff review | Pass | No critical, high, or valid medium findings across correctness, pedagogy, privacy, safety, accessibility, or architecture; no future-issue work found. |
 
 ## Decisions/ADRs
 
-- LF-0.1: `docs/adr/README.md` establishes the ADR format and approval rule.
-- LF-0.1: `docs/adr/0001-phase-0-boundaries.md` records the Phase 0 working boundaries and pending human approvals.
-- `docs/09-decisions-and-open-questions.md` now contains the Phase 0 decision register and moves unresolved implementation choices into a dated/owned approval workflow.
+- LF-0.1 ADR-0001 remains the applicable architecture decision.
+- LF-0.2 uses the approved TypeScript/Next.js modular-monolith stack and creates no new consequential architecture decision.
 
 ## Risks/blockers
 
-- Human approvals recorded as pending in ADR-0001 are still required before affected deliverables can be accepted; this issue does not claim those approvals.
+- Human approvals recorded as pending in ADR-0001 remain required before affected Phase 0 deliverables can be accepted.
+- npm reported 2 vulnerabilities during install; the audit endpoint was unreachable, so severity/source remediation is a follow-up before relying on the dependency set beyond local development.
 - Curriculum content must be original or appropriately licensed and independently reviewed.
 - No real learner data or provider credentials should enter the repository or eval fixtures.
-- Current checkout has no app scaffold, dependencies, CI, database, migrations, or tests; this is expected before LF-0.2.
+- LF-0.2 intentionally does not add authentication, a database, provider integration, domain schemas, or product features.
 
 ## Session handoff
 
-- Uncommitted changes: LF-0.1 updates to `docs/PROGRESS.md`, `docs/09-decisions-and-open-questions.md`, and new `docs/adr/` files
-- Next exact prompt: `Implement LF-0.2 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, create the minimal repository quality gates and contribution workflow, and do not implement product behavior, commit, or push.`
+- Uncommitted changes: LF-0.2 scaffold, tooling, templates, README verification instructions, and this progress update
+- Next exact prompt: `Implement LF-0.3 from docs/PROGRESS.md only. Read applicable docs, restate scope and assumptions, define ratios-slice domain contracts and structured tutor schemas with tests, and do not implement persistence, tutor orchestration, content seed, provider integration, commit, or push.`
