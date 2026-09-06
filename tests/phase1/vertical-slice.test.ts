@@ -8,6 +8,7 @@ import {
   getPlan,
   getTutorContext,
   getSyntheticSession,
+  getWeeklyDigest,
   recordIndependentCheck,
   recordAttempt,
   recordTutorResponse,
@@ -15,6 +16,7 @@ import {
 import { FakeTutorModel, TutorHarness } from '../../src/tutor';
 import { POST as postHint } from '../../src/app/api/phase1/hint/route';
 import { GET as getPlanRoute } from '../../src/app/api/phase1/plan/route';
+import { GET as getDigestRoute } from '../../src/app/api/phase1/digest/route';
 
 describe('Phase 1 synthetic ratios vertical slice', () => {
   beforeAll(async () => {
@@ -129,6 +131,23 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     });
     expect(trace?.redactedExcerpt).toBe('[redacted learner text]');
     expect(trace?.modelIdentifier).toBe('fake-tutor');
+  });
+
+  it('summarizes recorded evidence into a weekly digest', async () => {
+    const { digest, notifierResult } = await getWeeklyDigest();
+    expect(notifierResult.status).toBe('logged');
+
+    const unitRatesDigest = digest.skills.find((skill) => skill.skillCode === 'unit-rates');
+    expect(unitRatesDigest).toBeDefined();
+    expect(unitRatesDigest?.attemptCount).toBeGreaterThan(0);
+    expect(unitRatesDigest?.correctCount).toBeGreaterThan(0);
+    expect(digest.totalAttempts).toBeGreaterThanOrEqual(unitRatesDigest?.attemptCount ?? 0);
+    expect(digest.headline.length).toBeGreaterThan(0);
+
+    const response = await getDigestRoute();
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(body.digest.totalAttempts).toBe(digest.totalAttempts);
   });
 
   it('rejects session and attempt identifiers outside the synthetic household', async () => {

@@ -9,22 +9,32 @@ export interface WeeklyDigestMasterySummary {
   independentDelayedCheck: boolean;
 }
 
-export interface WeeklyDigestInput {
-  learnerName: string;
-  skill: string;
+export interface WeeklyDigestSkillInput {
+  skillCode: string;
   attempts: WeeklyDigestAttemptSummary[];
   mastery?: WeeklyDigestMasterySummary;
 }
 
-export interface WeeklyDigestSummary {
-  learnerName: string;
-  skill: string;
+export interface WeeklyDigestSkillSummary {
+  skillCode: string;
   attemptCount: number;
   independentAttemptCount: number;
   correctCount: number;
   masteryEstimate: number;
   confidenceBand: string;
   independentDelayedCheckComplete: boolean;
+}
+
+export interface WeeklyDigestInput {
+  learnerName: string;
+  skills: WeeklyDigestSkillInput[];
+}
+
+export interface WeeklyDigestSummary {
+  learnerName: string;
+  skills: WeeklyDigestSkillSummary[];
+  totalAttempts: number;
+  totalCorrect: number;
   headline: string;
 }
 

@@ -21,9 +21,25 @@ type Evidence = {
   mastery: MasteryRow[];
 };
 
+type DigestSkillSummary = {
+  skillCode: string;
+  attemptCount: number;
+  correctCount: number;
+  independentAttemptCount: number;
+};
+
+type Digest = {
+  headline: string;
+  totalAttempts: number;
+  totalCorrect: number;
+  skills: DigestSkillSummary[];
+};
+
 export default function ParentPage() {
   const [evidence, setEvidence] = useState<Evidence>();
   const [error, setError] = useState('');
+  const [digest, setDigest] = useState<Digest>();
+  const [digestError, setDigestError] = useState('');
 
   useEffect(() => {
     fetch('/api/phase1/parent')
@@ -33,6 +49,17 @@ export default function ParentPage() {
       })
       .catch((reason: Error) => setError(reason.message));
   }, []);
+
+  async function loadDigest() {
+    setDigestError('');
+    const result = await fetch('/api/phase1/digest');
+    if (!result.ok) {
+      setDigestError('The weekly digest could not be loaded.');
+      return;
+    }
+    const body = await result.json();
+    setDigest(body.digest);
+  }
 
   return (
     <main>
@@ -76,6 +103,29 @@ export default function ParentPage() {
           )}
         </section>
       )}
+      <section aria-labelledby="digest-heading">
+        <h2 id="digest-heading">Weekly digest</h2>
+        <button type="button" onClick={loadDigest}>
+          Get weekly digest
+        </button>
+        {digestError && <p role="alert">{digestError}</p>}
+        {digest && (
+          <div role="status">
+            <p>{digest.headline}</p>
+            {digest.skills.length > 0 && (
+              <ul>
+                {digest.skills.map((skill) => (
+                  <li key={skill.skillCode}>
+                    {skill.skillCode}: {skill.attemptCount} attempt
+                    {skill.attemptCount === 1 ? '' : 's'}, {skill.correctCount} correct,{' '}
+                    {skill.independentAttemptCount} without tutor assistance
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </section>
     </main>
   );
 }
