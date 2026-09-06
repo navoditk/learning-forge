@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 1 — synthetic ratios journeys, skill graph, and planner scaffolding covered; real identity/provider approvals remain pending
-- Branch: `feature/curriculum-and-planner-scaffolding`
-- Repository state: PRs #13, #14, and #15 are merged to `main`; this branch adds the skill-graph/planner increment on top of synchronized `main`; generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit before this branch: `13a7a8d docs: record hosting-platform recommendation as ADR-0005 (#15)`
+- Phase: 1 — synthetic ratios journeys, skill graph, planner, and a read-only planner UI covered; real identity/provider approvals remain pending
+- Branch: `feature/planner-route-and-ui`
+- Repository state: PRs #13–#16 are merged to `main`; this branch wires the planner into a Phase 1 route and the learner page on top of synchronized `main` (`5c342a7`); generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit before this branch: `5c342a7 feat: add Grade 6 Math skill graph and a database-free activity planner (#16)`
 
 ## Domain model coverage (2026-09-05)
 
@@ -24,7 +24,7 @@ schema state.
 | `MasteryEstimate`, `MasteryContribution` | Implemented | `skillCode` is a bare string, not a normalized `Skill` row |
 | `Curriculum`, `Standard`, `Skill`, `SkillPrerequisite` | Implemented as versioned code, not a DB table | `content/skills/*.json` (19 skills, all 5 domains), validated by `SkillSchema`; prerequisite references and cycles are checked at load time (ADR-0006). `MasteryEstimate.skillCode` still has no foreign key to it |
 | `ContentItem`, `Problem`, `HintStep`, `Rubric`, `ContentVersion` | Not implemented | Content lives as version-controlled JSON in `content/ratios`, validated by Zod, not a DB table. Content `skillCode` values are now cross-checked against the skill catalog |
-| `LearningPlan`, `PlanItem` | Implemented as a pure function, not persisted | `planNextActivities` (`src/planner/plan-next-activities.ts`) produces an in-memory plan from mastery + skill + content inputs; no API route, UI, scheduler, or persisted `LearningPlan` row exists yet |
+| `LearningPlan`, `PlanItem` | Implemented as a pure function plus a route/UI, not persisted | `planNextActivities` produces an in-memory plan; `getPlan` (`src/phase1/service.ts`) wires it to real mastery/content data, exposed via `GET /api/phase1/plan` and a read-only "Recommended next activities" section on the learner page. No scheduler or persisted `LearningPlan` row exists, and selecting a planned item does not yet start a session for it |
 | `Assessment`, `AssessmentResult` | Not implemented | Diagnostic/assessment concept not built; only `Attempt` with `context: DIAGNOSTIC | PRACTICE | MASTERY_CHECK` |
 | `MisconceptionEvidence` | Not implemented | |
 | `ReviewSchedule` | Not implemented | No spaced-review scheduling yet; the planner deliberately does not fabricate a review-due date without one |
@@ -278,6 +278,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-06 | `npx vitest run tests/curriculum tests/planner tests/content` | Pass | 18 tests passed: skill-catalog integrity/cycle checks, planner prerequisite-gating/time-cap/challenge-item behavior (synthetic fixtures), and a planner run against the real skill/content catalogs. |
 | 2026-09-06 | `npm run verify` | Pass | Formatting, linting, type checking, the down-migration check, 41 unit/contract/content/eval/tutor/notification/curriculum/planner tests, and the production build passed. |
 | 2026-09-06 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run db:validate && npm run test:integration` | Pass | Prisma validation and persistence/vertical-slice integration tests passed (4 tests); unaffected by the skill-graph/planner addition. |
+| 2026-09-06 | PR #16 merge | Pass | Skill graph and database-free planner committed as `5c342a7` and merged. |
+| 2026-09-06 | Added `getPlan`, `GET /api/phase1/plan`, and a read-only "Recommended next activities" learner-page section; found and fixed a test-concurrency bug (two `tests/phase1/*.test.ts` files raced on the same synthetic household row) by folding the new integration assertions into the existing `vertical-slice.test.ts` file instead of a second file | Pass | `npm run verify` (41 tests), `export DATABASE_URL=...; npm run db:validate && npm run test:integration` (5 tests, including the new plan assertions), and manual `curl` smoke checks against `npm run dev` all passed. |
+| 2026-09-06 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:e2e` | Pass | Extended the existing Playwright learner journey to assert the "Recommended next activities" heading renders in a real browser; both synthetic journeys (2 tests) passed. |
 
 ## Decisions/ADRs
 
@@ -293,7 +296,8 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - ADR-0004 records the future math-notation/diagram approach (KaTeX plus reviewed inline SVG) without implementing it, since no current content requires it.
 - ADR-0005 records a non-binding hosting-platform recommendation (Render or Fly.io over serverless Vercel; Streamlit rejected as the wrong application category) as input to the still-pending hosting/authentication decision (register item 1); it selects no vendor, region, or spend.
 - ADR-0006 stores the Grade 6 Math skill graph (`content/skills/*.json`, 19 skills across all 5 domains) as versioned code validated by `SkillSchema`, consistent with the LF-0.5 content-as-JSON precedent, rather than adding new Postgres tables; content `skillCode` values are now cross-validated against the skill catalog.
-- `planNextActivities` (`src/planner/plan-next-activities.ts`) is a pure, database-free planner: it prioritizes unmet prerequisites via topological order, caps items per skill and total planned minutes, adds a challenge item once some mastery evidence exists, and gives an explicit reason for every planned item. It has no scheduler, API route, or UI caller yet, and deliberately does not fabricate spaced-review timing (`ReviewSchedule` remains unimplemented).
+- `planNextActivities` (`src/planner/plan-next-activities.ts`) is a pure, database-free planner: it prioritizes unmet prerequisites via topological order, caps items per skill and total planned minutes, adds a challenge item once some mastery evidence exists, and gives an explicit reason for every planned item. It deliberately does not fabricate spaced-review timing (`ReviewSchedule` remains unimplemented).
+- `getPlan` (`src/phase1/service.ts`) wires `planNextActivities` to real mastery/content/skill data behind the existing synthetic identity boundary, exposed via `GET /api/phase1/plan` and a read-only "Recommended next activities" section on the learner page (`src/app/page.tsx`). It has no scheduler and the plan is display-only: selecting a planned item does not start a session for it, since Phase 1 sessions remain hardcoded to one content item.
 - Content provenance now distinguishes `llm_drafted` from `original`/`licensed` (`docs/content-authoring-pipeline.md`); the same human review gate applies regardless of origin.
 - A `NotifierPort` mirrors the `TutorModel` port pattern for a future parent weekly digest; only a deterministic digest builder and a console/fake adapter exist, with no scheduler or real provider wired in yet.
 
@@ -319,10 +323,11 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - `llm_drafted` provenance is now representable in the content contract, but no content has been drafted or reviewed through this pipeline yet.
 - 14 of the 19 catalog skills have no authored content yet (only the 5 ratios skills do); `planNextActivities` reports these honestly as `unavailableSkills` rather than inventing placeholder content. This is expected and tracks the same content-authoring bottleneck as the LLM-drafting pipeline above.
 - The planner's `secureThreshold` (0.75), `estimatedMinutesPerItem` (8 minutes), and `maxItemsPerSkill` (2) defaults are configurable placeholders, not calibrated values — same status as the assistance-evidence weights in `docs/02-curriculum-and-pedagogy.md`.
-- The planner has no API route, learner/parent UI, or scheduler wired to it; it is a tested, database-free function only, consistent with how `TutorModel`/`NotifierPort` were built before their callers existed.
 - `MasteryEstimate.skillCode` (Postgres) still has no foreign-key constraint to the new skill catalog; only application-level cross-checks exist so far (ADR-0006).
+- The "Recommended next activities" plan is informational only: it is not clickable and does not start a session for a recommended skill other than the single fixed `unit-rates-1` item Phase 1 already supports. Making the plan actionable requires generalizing session/attempt creation beyond one hardcoded content item, which is out of scope for this increment.
+- Because each catalog skill lists its own prerequisites, a skill can show real mastery evidence yet still appear in `blockedSkills` if its listed prerequisite was never separately assessed (for example, attempting only `unit-rates-1` does not by itself unblock `unit-rates` in the plan, since its prerequisite `ratio-language` remains unassessed). This is intentional — evidence for a skill does not retroactively validate its prerequisite — but is worth knowing when reading a plan against Phase 1's single-item content.
 
 ## Session handoff
 
-- Uncommitted changes: skill catalog (`content/skills/*.json`), curriculum/planner contracts and modules, tests, ADR-0006, and this progress update, on `feature/curriculum-and-planner-scaffolding` off synchronized `main` (`13a7a8d`). `npm run verify` and `npm run test:integration` both pass.
-- Next exact prompt: `Start from synchronized main. Wire planNextActivities into a Phase 1 API route and a minimal learner-facing UI, using the existing synthetic identity boundary — still no real authentication, real learner data, or provider integration. Before implementing further real-user or provider-backed behavior, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions.`
+- Uncommitted changes: `getPlan`, `GET /api/phase1/plan`, the learner-page "Recommended next activities" section, updated tests, and this progress update, on `feature/planner-route-and-ui` off synchronized `main` (`5c342a7`). `npm run verify`, `npm run test:integration`, and `npm run test:e2e` all pass.
+- Next exact prompt: `Start from synchronized main. The planner is now wired into a route and a read-only learner-page section, but selecting a recommended activity does not start a session for it — Phase 1 sessions remain hardcoded to one content item. Before generalizing session/attempt creation to any recommended skill, or implementing further real-user or provider-backed behavior, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions.`

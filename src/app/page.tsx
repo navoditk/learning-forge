@@ -18,6 +18,21 @@ type TutorResult = {
   };
 };
 
+type PlanItem = {
+  contentId: string;
+  skillCode: string;
+  title: string;
+  skillTitle: string;
+  reason: string;
+  estimatedMinutes: number;
+};
+type Plan = {
+  items: PlanItem[];
+  totalMinutes: number;
+  blockedSkills: string[];
+  unavailableSkills: string[];
+};
+
 export default function Home() {
   const [session, setSession] = useState<Session>();
   const [response, setResponse] = useState('');
@@ -26,6 +41,7 @@ export default function Home() {
   const [hintCount, setHintCount] = useState(0);
   const [check, setCheck] = useState<AttemptResult>();
   const [error, setError] = useState('');
+  const [plan, setPlan] = useState<Plan>();
 
   useEffect(() => {
     fetch('/api/phase1/session')
@@ -34,6 +50,12 @@ export default function Home() {
         setSession(await result.json());
       })
       .catch((reason: Error) => setError(reason.message));
+    fetch('/api/phase1/plan')
+      .then(async (result) => {
+        if (!result.ok) return;
+        setPlan(await result.json());
+      })
+      .catch(() => undefined);
   }, []);
 
   async function submitAttempt(event: FormEvent<HTMLFormElement>) {
@@ -107,6 +129,25 @@ export default function Home() {
           <Link href="/parent">Parent evidence</Link>
         </nav>
       </header>
+      {plan && plan.items.length > 0 && (
+        <section aria-labelledby="plan-heading">
+          <h2 id="plan-heading">Recommended next activities</h2>
+          <p>
+            <small>
+              For information only right now — only the practice below is interactive. Planned for
+              about {plan.totalMinutes} minutes.
+            </small>
+          </p>
+          <ul>
+            {plan.items.map((item) => (
+              <li key={item.contentId}>
+                <strong>{item.title}</strong> ({item.skillTitle}, {item.estimatedMinutes} min) —{' '}
+                {item.reason}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <section aria-labelledby="session-heading">
         <h1 id="session-heading">{session.content.title}</h1>
         <p>Learner: {session.learner.displayName}</p>

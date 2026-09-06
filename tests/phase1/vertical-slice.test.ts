@@ -5,6 +5,7 @@ import { prisma } from '../../src/server/prisma';
 import { ensureSyntheticIdentity, SYNTHETIC_IDS } from '../../src/identity/synthetic';
 import {
   getParentEvidence,
+  getPlan,
   getTutorContext,
   getSyntheticSession,
   recordIndependentCheck,
@@ -13,6 +14,7 @@ import {
 } from '../../src/phase1/service';
 import { FakeTutorModel, TutorHarness } from '../../src/tutor';
 import { POST as postHint } from '../../src/app/api/phase1/hint/route';
+import { GET as getPlanRoute } from '../../src/app/api/phase1/plan/route';
 
 describe('Phase 1 synthetic ratios vertical slice', () => {
   beforeAll(async () => {
@@ -30,6 +32,27 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     await prisma.masteryEstimate.deleteMany({ where: { householdId: SYNTHETIC_IDS.household } });
     await prisma.household.deleteMany({ where: { id: SYNTHETIC_IDS.household } });
     await prisma.$disconnect();
+  });
+
+  it('recommends the unblocked ratios skill before any mastery evidence exists', async () => {
+    await ensureSyntheticIdentity();
+    const plan = await getPlan();
+
+    expect(plan.items.length).toBeGreaterThan(0);
+    expect(plan.items.every((item) => item.skillCode === 'ratio-language')).toBe(true);
+    for (const item of plan.items) {
+      expect(item.title.length).toBeGreaterThan(0);
+      expect(item.skillTitle.length).toBeGreaterThan(0);
+      expect(item.reason.length).toBeGreaterThan(0);
+    }
+    expect(plan.blockedSkills).toContain('unit-rates');
+    expect(plan.unavailableSkills).toContain('fraction-decimal-operations');
+
+    const response = await getPlanRoute();
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(Array.isArray(body.items)).toBe(true);
+    expect(body.totalMinutes).toBeLessThanOrEqual(30);
   });
 
   it('records an attempt, fake-tutor interaction, and parent evidence', async () => {
