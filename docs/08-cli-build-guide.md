@@ -1,5 +1,10 @@
 # CLI Build Guide
 
+This is a starting recommendation, not a fixed rule: the human running this
+repository has since built with Claude Code directly rather than following the
+primary/secondary split below. The workflow and checkpoint discipline in this
+guide still apply regardless of which agent is doing the work.
+
 ## Recommendation
 
 Use **Codex CLI as the primary builder** for this repository, with GitHub CLI for repository operations. It fits a plan-first, file-oriented workflow; supports repository instructions through `AGENTS.md`; can inspect/edit/run/review; and keeps the blueprint portable.

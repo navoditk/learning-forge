@@ -4,7 +4,7 @@ import { ContentModeSchema, VersionSchema } from './common';
 
 export const ContentProvenanceSchema = z
   .object({
-    origin: z.enum(['original', 'licensed']),
+    origin: z.enum(['original', 'licensed', 'llm_drafted']),
     sourceReference: z.string().trim().min(1).max(300).optional(),
     licenseStatus: z.enum(['owned', 'licensed', 'pending_review']),
     reviewer: z.string().trim().min(1).max(120).optional(),

@@ -41,7 +41,7 @@ records are maintained in `docs/adr/0001-phase-0-boundaries.md`.
 ## Resolve during Phase 1 or before pilot
 
 1. Hosting and authentication provider after privacy/data-residency comparison.
-2. Initial model provider and child-data contractual settings.
+2. Initial model provider and child-data contractual settings. Evaluate incremental/streaming delivery of tutor moves together with this choice — the fake adapter responds instantly, but a real provider's latency makes synchronous request/response feel slow in a 20–30 minute session; streaming should be designed alongside provider selection, not retrofitted onto an already-shipped synchronous UI.
 3. Learner login, guardian verification, and pseudonymous identity mechanics.
 4. Parent consent, export, deletion, backup deletion, and retention requirements.
 5. Pilot-specific accessibility accommodations.
@@ -67,3 +67,4 @@ records are maintained in `docs/adr/0001-phase-0-boundaries.md`.
 - Vector database/RAG platform
 - Microservices and event streaming
 - Multi-agent tutor orchestration
+- Multi-child households (siblings sharing one parent account): the schema already supports it (`Household` has many `User`/`LearnerProfile` rows), so no migration is anticipated; a learner switcher and per-child session/consent UX remain deferred to Phase 3+ real identity work, not a Phase 1 data-model risk.

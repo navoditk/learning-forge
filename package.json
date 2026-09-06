@@ -10,16 +10,17 @@
     "db:seed": "docker compose exec -T db psql -U learning_forge -d learning_forge -v ON_ERROR_STOP=1 -f - < prisma/seed.sql",
     "db:validate": "prisma validate",
     "db:rollback": "bash scripts/db-rollback.sh",
+    "db:check-down-migrations": "bash scripts/check-migration-down.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "content:validate": "vitest run tests/content",
     "eval:run": "vitest run tests/evals",
     "test:e2e": "playwright test",
-    "test": "vitest run tests/foundation.test.ts tests/contracts tests/content tests/evals",
+    "test": "vitest run tests/foundation.test.ts tests/contracts tests/content tests/evals tests/tutor tests/notification",
     "test:integration": "vitest run tests/persistence tests/phase1",
     "typecheck": "tsc --noEmit",
-    "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build"
+    "verify": "npm run format:check && npm run lint && npm run typecheck && npm run db:check-down-migrations && npm test && npm run build"
   },
   "dependencies": {
     "@prisma/client": "^6.15.0",

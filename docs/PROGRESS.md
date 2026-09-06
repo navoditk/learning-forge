@@ -4,8 +4,31 @@
 
 - Phase: 1 — synthetic ratios journeys covered; real identity/provider approvals remain pending
 - Branch: `feature/phase-1-mastery-check`
-- Repository state: working tree contains the uncommitted synthetic hint-progression and independent-check update; generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit: `aa624fb Merge pull request #12 from navoditk/feature/phase-1-playwright-journeys`
+- Repository state: clean feature branch; PR #13 was merged; local checkout remains on the feature branch until the next issue starts from synchronized `main`; generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit: `2ea25ba feat: add synthetic mastery checks`
+
+## Domain model coverage (2026-09-05)
+
+`docs/05-data-and-student-model.md` describes the target domain model. This
+table tracks which entities exist in `prisma/schema.prisma` today versus
+which remain design-only, so the design doc is not mistaken for current
+schema state.
+
+| Entity (from `05-data-and-student-model.md`) | Status | Notes |
+|---|---|---|
+| `Household`, `User`, `LearnerProfile` | Implemented | Synthetic identity only; no auth |
+| `ConsentRecord` | Implemented | Schema only; no consent-capture flow |
+| `Session` | Implemented | |
+| `Attempt`, `AssistanceEvent` | Implemented | Immutable-attempt trigger enforced in migration |
+| `TutorInteraction`, `TutorTrace` (as `ModelRun`) | Implemented | Redacted excerpt fields; no raw-text retention |
+| `MasteryEstimate`, `MasteryContribution` | Implemented | `skillCode` is a bare string, not a normalized `Skill` row |
+| `Curriculum`, `Standard`, `Skill`, `SkillPrerequisite` | Not implemented | No normalized skill graph yet; content catalog stores skill codes informally |
+| `ContentItem`, `Problem`, `HintStep`, `Rubric`, `ContentVersion` | Not implemented | Content lives as version-controlled JSON in `content/ratios`, validated by Zod, not a DB table |
+| `LearningPlan`, `PlanItem` | Not implemented | No planner exists yet |
+| `Assessment`, `AssessmentResult` | Not implemented | Diagnostic/assessment concept not built; only `Attempt` with `context: DIAGNOSTIC | PRACTICE | MASTERY_CHECK` |
+| `MisconceptionEvidence` | Not implemented | |
+| `ReviewSchedule` | Not implemented | No spaced-review scheduling yet |
+| `PolicyVersion`, `EvalRun` | Not implemented | Policy/prompt versions are recorded as strings on trace rows, not their own tables; eval runs are file-based (`evals/`, `reports/`), not persisted |
 
 ## Proposal analysis (2026-09-04)
 
@@ -249,6 +272,8 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-05 | `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:e2e` | Pass | Playwright ran 2 synthetic browser journeys; the learner journey covered two hint steps and an independent check. The local server required permission to bind port 3000. |
 | 2026-09-05 | `git diff --check` and final scope/safety audit | Pass | Changes are limited to server-authoritative hint context, synthetic independent-check recording, learner journey UI, tests, and this progress evidence; no secrets, generated output, local database files, or private learner data are tracked. |
 | 2026-09-05 | Final post-review verification: `npm run format && npm run verify && npm run content:validate && npm run eval:run`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run db:validate && npm run test:integration`; `export DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public; npm run test:e2e`; `git diff --check` | Pass | Formatting, linting, type checking, 16 database-free tests, production build, content validation (3), evals (3), Prisma validation, integration tests (4), browser journeys (2), and whitespace checks passed after adding the forged-state route regression test. |
+| 2026-09-05 | PR #13 merge and documentation audit | Pass with documentation updates | Synthetic mastery-check work was committed as `2ea25ba` and merged. Architecture documentation now includes the implemented stack, runtime diagram, evidence-flow diagram, and explicit synthetic-only boundaries. |
+| 2026-09-05 | Architecture stack rationale update | Pass | `docs/03-system-architecture.md` now maps each stack item and boundary to its application components, rationale, implementation status, and production limits. |
 
 ## Decisions/ADRs
 
@@ -259,9 +284,11 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.5 stores authored ratios content as version-controlled JSON and validates it through the existing Zod contract; human review status is distinct from automated validation.
 - LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
 - LF-0.7 records the required privacy, threat, incident, and pilot controls as documentation baselines; it makes no unapproved legal, provider, retention, or launch decisions.
-- LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
 - LF-0.9 treats `npm ci && npm run verify` as the repository-only fresh-clone check and keeps PostgreSQL integration verification as a separate synthetic-data workflow.
 - Phase 1 uses fixed server-owned synthetic IDs and validates household ownership on every session/attempt operation; this is not a production identity mechanism (ADR-0003).
+- ADR-0004 records the future math-notation/diagram approach (KaTeX plus reviewed inline SVG) without implementing it, since no current content requires it.
+- Content provenance now distinguishes `llm_drafted` from `original`/`licensed` (`docs/content-authoring-pipeline.md`); the same human review gate applies regardless of origin.
+- A `NotifierPort` mirrors the `TutorModel` port pattern for a future parent weekly digest; only a deterministic digest builder and a console/fake adapter exist, with no scheduler or real provider wired in yet.
 
 ## Risks/blockers
 
@@ -279,8 +306,12 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - Phase 1 does not implement real authentication, guardian verification, delayed mastery checks, adaptive planning, real model calls, or production deployment; it is a local synthetic demonstration only.
 - Phase 1 browser automation covers the synthetic learner and parent journeys, but real authentication/provider approval and a real-model adapter remain intentionally absent.
 - The synthetic independent check uses a separate `MASTERY_CHECK` context after tutoring; it is a workflow demonstration, not validated elapsed-time or long-term delayed-performance evidence. Real delayed-check scheduling and calibration remain future work.
+- `tests/tutor/tutor.test.ts` existed but was not included in `npm test`/`verify`/CI; it is now wired in. No behavior change was needed — the tests already passed once run.
+- The `NotifierPort`/`ConsoleNotifier`/`buildWeeklyDigest` seam has no caller yet (the database-backed job seam that would schedule it remains deferred) and no real email/push provider is selected; this is scaffolding only, not a working parent notification feature.
+- ADR-0004 fixes a rendering approach but selects no library version, accessibility test evidence, or diagram-authoring tooling; that follows when Geometry/Depth/Contest content is actually authored.
+- `llm_drafted` provenance is now representable in the content contract, but no content has been drafted or reviewed through this pipeline yet.
 
 ## Session handoff
 
-- Uncommitted changes: synthetic multi-step hint progression, server-derived tutor context, independent mastery-check route/UI, tests, and this progress update.
-- Next exact prompt: `Before implementing further real-user or provider-backed behavior, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions. Do not add real authentication, real learner data, or provider integration until the required product, privacy, security, legal, and accessibility approvals are recorded.`
+- Uncommitted changes: none. PR #13 is merged; the local feature branch is clean.
+- Next exact prompt: `Start from synchronized main. Before implementing further real-user or provider-backed behavior, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions. Do not add real authentication, real learner data, or provider integration until the required product, privacy, security, legal, and accessibility approvals are recorded.`
