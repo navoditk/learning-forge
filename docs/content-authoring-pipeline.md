@@ -22,7 +22,7 @@ catalog until a human approves it.
 1. A human names the target skill, standard, difficulty band, and mode
    (`core`, `depth`, or `contest`) from the skill graph.
 2. A model drafts a candidate JSON record shaped to the existing content
-   contract (for example `RatioContentSchema`): prompt, solution
+   contract (for example `ContentItemSchema`): prompt, solution
    representation/method, deterministic validator, misconception codes, hint
    ladder, and accessibility notes. No learner data is involved in drafting.
 3. The draft is saved with `provenance.origin: "llm_drafted"`,

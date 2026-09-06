@@ -1,29 +1,27 @@
 import { describe, expect, it } from 'vitest';
 
-import { RatioContentSchema } from '../../src/contracts/content';
-import { ratioContentCatalog, validateRatioCatalog } from '../../src/content/catalog';
+import { ContentItemSchema } from '../../src/contracts/content';
+import { contentCatalog, validateContentCatalog } from '../../src/content/catalog';
 import { skillCatalog } from '../../src/curriculum/catalog';
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(ratioContentCatalog).toHaveLength(38);
-    expect(new Set(ratioContentCatalog.map((item) => item.id)).size).toBe(38);
-    expect(new Set(ratioContentCatalog.map((item) => item.skillCode))).toEqual(
+    expect(contentCatalog).toHaveLength(38);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(38);
+    expect(new Set(contentCatalog.map((item) => item.skillCode))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
     expect(
-      ratioContentCatalog.every((item) =>
-        ['original', 'llm_drafted'].includes(item.provenance.origin),
-      ),
+      contentCatalog.every((item) => ['original', 'llm_drafted'].includes(item.provenance.origin)),
     ).toBe(true);
-    expect(ratioContentCatalog.some((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
-    expect(ratioContentCatalog.every((item) => item.review.status === 'reviewed')).toBe(true);
-    expect(ratioContentCatalog.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
-    expect(ratioContentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
+    expect(contentCatalog.some((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
+    expect(contentCatalog.every((item) => item.review.status === 'reviewed')).toBe(true);
+    expect(contentCatalog.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
+    expect(contentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
   });
 
   it('has deterministic validators and progressive, non-leaking hint ladders', () => {
-    for (const item of ratioContentCatalog) {
+    for (const item of contentCatalog) {
       expect(item.deterministicValidator.acceptedAnswers).toContain(
         item.deterministicValidator.canonicalAnswer,
       );
@@ -40,16 +38,16 @@ describe('ratios content seed', () => {
   });
 
   it('rejects gaps in hint ordering and content that is not marked owned', () => {
-    const item = ratioContentCatalog[0];
+    const item = contentCatalog[0];
     const withGap = {
       ...item,
       hintSteps: item.hintSteps.map((step, index) => ({ ...step, order: index + 2 })),
     };
-    expect(RatioContentSchema.safeParse(withGap).success).toBe(false);
+    expect(ContentItemSchema.safeParse(withGap).success).toBe(false);
 
     expect(() =>
-      validateRatioCatalog(
-        ratioContentCatalog.map((catalogItem) =>
+      validateContentCatalog(
+        contentCatalog.map((catalogItem) =>
           catalogItem.id === item.id
             ? {
                 ...catalogItem,
@@ -62,10 +60,10 @@ describe('ratios content seed', () => {
   });
 
   it('accepts a reviewed item once a reviewer and review date are recorded, and rejects one without a date', () => {
-    const item = ratioContentCatalog[0];
+    const item = contentCatalog[0];
     expect(() =>
-      validateRatioCatalog(
-        ratioContentCatalog.map((catalogItem) =>
+      validateContentCatalog(
+        contentCatalog.map((catalogItem) =>
           catalogItem.id === item.id
             ? {
                 ...catalogItem,
@@ -77,7 +75,7 @@ describe('ratios content seed', () => {
     ).not.toThrow();
 
     expect(
-      RatioContentSchema.safeParse({
+      ContentItemSchema.safeParse({
         ...item,
         review: { ...item.review, status: 'reviewed', reviewedAt: undefined },
       }).success,

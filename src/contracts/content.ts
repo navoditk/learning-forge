@@ -68,7 +68,7 @@ export const ContentReviewSchema = z
     }
   });
 
-export const RatioContentSchema = z
+export const ContentItemSchema = z
   .object({
     id: z.string().regex(/^[a-z0-9-]+$/),
     version: VersionSchema,
@@ -115,4 +115,4 @@ export const RatioContentSchema = z
     }
   });
 
-export type RatioContent = z.infer<typeof RatioContentSchema>;
+export type ContentItem = z.infer<typeof ContentItemSchema>;

@@ -36,10 +36,10 @@ import distributions1 from '../../content/statistics/distributions-1.json';
 import distributions2 from '../../content/statistics/distributions-2.json';
 import centerAndVariability1 from '../../content/statistics/center-and-variability-1.json';
 import centerAndVariability2 from '../../content/statistics/center-and-variability-2.json';
-import { RatioContent, RatioContentSchema } from '../contracts/content';
+import { ContentItem, ContentItemSchema } from '../contracts/content';
 import { skillsByCode } from '../curriculum/catalog';
 
-const rawRatioContent = [
+const rawContent = [
   ratioLanguage1,
   ratioLanguage2,
   unitRates1,
@@ -80,14 +80,14 @@ const rawRatioContent = [
   centerAndVariability2,
 ] as const;
 
-export function validateRatioCatalog(items: readonly unknown[] = rawRatioContent): RatioContent[] {
-  const parsed = items.map((item) => RatioContentSchema.parse(item));
+export function validateContentCatalog(items: readonly unknown[] = rawContent): ContentItem[] {
+  const parsed = items.map((item) => ContentItemSchema.parse(item));
   const ids = new Set(parsed.map((item) => item.id));
   if (ids.size !== parsed.length) {
-    throw new Error('Ratio content IDs must be unique');
+    throw new Error('Content IDs must be unique');
   }
 
-  const requiredSkills: Set<RatioContent['skillCode']> = new Set([
+  const requiredRatioSkills: Set<ContentItem['skillCode']> = new Set([
     'ratio-language',
     'unit-rates',
     'ratio-tables',
@@ -95,9 +95,9 @@ export function validateRatioCatalog(items: readonly unknown[] = rawRatioContent
     'percent-applications',
   ]);
   const actualSkills = new Set(parsed.map((item) => item.skillCode));
-  for (const skill of requiredSkills) {
+  for (const skill of requiredRatioSkills) {
     if (!actualSkills.has(skill)) {
-      throw new Error(`Ratio catalog is missing skill coverage for ${skill}`);
+      throw new Error(`Content catalog is missing skill coverage for ${skill}`);
     }
   }
 
@@ -129,4 +129,4 @@ export function validateRatioCatalog(items: readonly unknown[] = rawRatioContent
   return parsed;
 }
 
-export const ratioContentCatalog = validateRatioCatalog();
+export const contentCatalog = validateContentCatalog();

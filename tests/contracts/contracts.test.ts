@@ -4,7 +4,7 @@ import {
   AttemptEvidenceSchema,
   ContentProvenanceSchema,
   MasteryEvidenceSchema,
-  RatioContentSchema,
+  ContentItemSchema,
   ScoringOutputSchema,
   TutorAuthorizationSchema,
   TutorMoveOutputSchema,
@@ -106,7 +106,7 @@ describe('content and evidence contracts', () => {
   });
 
   it('validates a ratios content shape with an ordered hint ladder', () => {
-    const result = RatioContentSchema.safeParse({
+    const result = ContentItemSchema.safeParse({
       id: 'ratio-unit-rate-1',
       version: 'content-1',
       title: 'Unit rate',

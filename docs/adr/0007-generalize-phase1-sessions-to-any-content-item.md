@@ -30,7 +30,7 @@ Add `Session.contentKey` (migration `0002_add_session_content_key`, with a
 reviewed `down.sql`) so a session is durably tied to one content item chosen
 at creation time, mirroring how `Attempt.contentKey` already worked.
 `getSyntheticSession` accepts an optional `contentId`, resolves it against
-`ratioContentCatalog`, and rejects an unknown id (400) rather than silently
+`contentCatalog`, and rejects an unknown id (400) rather than silently
 falling back to a default. `createAttempt` and `getTutorContext` resolve the
 session's/attempt's own `contentKey` instead of referencing the fixed
 constant, and the hint route now builds its prompt and `protectedTokens` from
@@ -69,7 +69,7 @@ recommended item starts a real session for it via `contentId`.
 
 Any future content type beyond ratios (Geometry, Depth, Contest, ELA) can
 reuse this same `contentKey` mechanism without another migration, as long as
-it's addressable through `ratioContentCatalog` or a successor catalog with a
+it's addressable through `contentCatalog` or a successor catalog with a
 compatible `id` scheme. Revisit if content ever needs multiple simultaneous
 items per session (e.g., a multi-problem set) rather than one item per
 session.
