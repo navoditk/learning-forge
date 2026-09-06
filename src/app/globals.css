@@ -1,0 +1,206 @@
+:root {
+  --color-bg: #f7f7f5;
+  --color-surface: #ffffff;
+  --color-text: #1c1c1e;
+  --color-text-muted: #55555a;
+  --color-border: #d8d8d5;
+  --color-primary: #2f5d50;
+  --color-primary-hover: #24473d;
+  --color-focus: #1a6fbf;
+  --color-danger-bg: #fdecec;
+  --color-danger-text: #8a1f1f;
+  --color-danger-border: #e6b4b4;
+  --color-status-bg: #eef6f2;
+  --color-status-border: #bfe0cf;
+  --radius: 8px;
+  --spacing-1: 0.5rem;
+  --spacing-2: 1rem;
+  --spacing-3: 1.5rem;
+  --spacing-4: 2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #17181a;
+    --color-surface: #1f2123;
+    --color-text: #eceef0;
+    --color-text-muted: #a9adb2;
+    --color-border: #34373b;
+    --color-primary: #6fbf9e;
+    --color-primary-hover: #8fd3b6;
+    --color-focus: #7cb8f0;
+    --color-danger-bg: #3a1f1f;
+    --color-danger-text: #f4b6b6;
+    --color-danger-border: #6b2f2f;
+    --color-status-bg: #1b2a24;
+    --color-status-border: #2c4a3c;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--spacing-3) var(--spacing-2) var(--spacing-4);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-1);
+  padding-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin-top: var(--spacing-3);
+}
+
+h3 {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+section aside {
+  margin-top: var(--spacing-2);
+  padding-top: var(--spacing-2);
+  border-top: 1px solid var(--color-border);
+}
+
+p {
+  margin: 0 0 var(--spacing-2);
+}
+
+small {
+  color: var(--color-text-muted);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+ul {
+  padding-left: 1.25rem;
+  margin: 0 0 var(--spacing-2);
+}
+
+li {
+  margin-bottom: var(--spacing-1);
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--spacing-1);
+}
+
+input[type='text'],
+input:not([type]) {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-2);
+}
+
+button {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-primary);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  cursor: pointer;
+  margin: 0 var(--spacing-1) var(--spacing-1) 0;
+}
+
+button:hover {
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+form {
+  margin-bottom: var(--spacing-2);
+}
+
+[role='alert'] {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-2);
+}
+
+[role='status'] {
+  background: var(--color-status-bg);
+  border: 1px solid var(--color-status-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-2);
+}
+
+nav[aria-label='Primary navigation'] a {
+  font-weight: 600;
+}

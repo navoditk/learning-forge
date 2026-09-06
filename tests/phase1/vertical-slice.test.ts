@@ -36,6 +36,27 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     await prisma.$disconnect();
   });
 
+  it('ensureSyntheticIdentity is safe when called concurrently on a fresh database', async () => {
+    await prisma.household.deleteMany({ where: { id: SYNTHETIC_IDS.household } });
+
+    await expect(
+      Promise.all([
+        ensureSyntheticIdentity(),
+        ensureSyntheticIdentity(),
+        ensureSyntheticIdentity(),
+        ensureSyntheticIdentity(),
+        ensureSyntheticIdentity(),
+      ]),
+    ).resolves.toBeDefined();
+
+    const households = await prisma.household.findMany({ where: { id: SYNTHETIC_IDS.household } });
+    const learnerProfiles = await prisma.learnerProfile.findMany({
+      where: { id: SYNTHETIC_IDS.learnerProfile },
+    });
+    expect(households).toHaveLength(1);
+    expect(learnerProfiles).toHaveLength(1);
+  });
+
   it('recommends every unblocked skill with content before any mastery evidence exists', async () => {
     await ensureSyntheticIdentity();
     const plan = await getPlan();
