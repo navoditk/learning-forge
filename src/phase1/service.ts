@@ -1,4 +1,4 @@
-import { AssistanceLevel, Correctness } from '@prisma/client';
+import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
 import { ratioContentCatalog } from '../content/catalog';
 import {
@@ -13,6 +13,7 @@ import { ensureSyntheticIdentity, SYNTHETIC_IDS } from '../identity/synthetic';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
 import { prisma } from '../server/prisma';
+import { isUniqueConstraintViolation } from '../server/prisma-errors';
 import { TutorResponse } from '../tutor';
 import { assistanceIndex, TutorState } from '../tutor/policy';
 
@@ -53,6 +54,21 @@ function evidenceWeight(correctness: Correctness, assistance: AssistanceLevel): 
 
 function confidenceBand(weight: number): 'LOW' | 'MEDIUM' | 'HIGH' {
   return weight >= 0.9 ? 'MEDIUM' : 'LOW';
+}
+
+async function upsertMasteryEstimate(
+  where: Prisma.MasteryEstimateWhereUniqueInput,
+  update: Prisma.MasteryEstimateUpdateInput,
+  create: Prisma.MasteryEstimateUncheckedCreateInput,
+) {
+  try {
+    return await prisma.masteryEstimate.upsert({ where, update, create });
+  } catch (error) {
+    if (!isUniqueConstraintViolation(error)) throw error;
+    // A concurrent attempt on the same skill created this row first; apply
+    // this attempt's evidence as an update instead of losing it.
+    return await prisma.masteryEstimate.update({ where, data: update });
+  }
 }
 
 export async function getSyntheticSession(input: { contentId?: string } = {}) {
@@ -128,20 +144,20 @@ async function createAttempt(input: {
     },
     select: { independentDelayedCheck: true },
   });
-  const mastery = await prisma.masteryEstimate.upsert({
-    where: {
+  const mastery = await upsertMasteryEstimate(
+    {
       learnerProfileId_skillCode_algorithmVersion: {
         learnerProfileId: SYNTHETIC_IDS.learnerProfile,
         skillCode: content.skillCode,
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
     },
-    update: {
+    {
       estimate: weight,
       confidenceBand: confidenceBand(weight),
       independentDelayedCheck: existingMastery?.independentDelayedCheck || independentCheckPassed,
     },
-    create: {
+    {
       householdId: SYNTHETIC_IDS.household,
       learnerProfileId: SYNTHETIC_IDS.learnerProfile,
       skillCode: content.skillCode,
@@ -150,7 +166,7 @@ async function createAttempt(input: {
       algorithmVersion: PHASE_1_MASTERY_VERSION,
       independentDelayedCheck: independentCheckPassed,
     },
-  });
+  );
   await prisma.masteryContribution.upsert({
     where: {
       masteryEstimateId_attemptId: { masteryEstimateId: mastery.id, attemptId: attempt.id },

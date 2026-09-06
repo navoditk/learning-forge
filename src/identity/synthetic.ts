@@ -1,6 +1,5 @@
-import { Prisma } from '@prisma/client';
-
 import { prisma } from '../server/prisma';
+import { isUniqueConstraintViolation } from '../server/prisma-errors';
 
 export const SYNTHETIC_IDS = {
   household: '00000000-0000-4000-8000-000000000001',
@@ -8,10 +7,6 @@ export const SYNTHETIC_IDS = {
   learner: '00000000-0000-4000-8000-000000000003',
   learnerProfile: '00000000-0000-4000-8000-000000000004',
 } as const;
-
-function isUniqueConstraintViolation(error: unknown): boolean {
-  return error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002';
-}
 
 async function upsertIdempotently(operation: () => Promise<unknown>): Promise<void> {
   try {
