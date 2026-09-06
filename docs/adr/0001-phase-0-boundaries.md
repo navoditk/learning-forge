@@ -47,11 +47,12 @@ Phase 0 uses the following working boundaries:
    for privacy/legal, content, provider, accessibility, and evaluation-risk
    decisions. It does not imply production readiness or legal compliance.
 
-The following decisions are intentionally pending and are tracked in
-`docs/09-decisions-and-open-questions.md`: identity and consent mechanics;
-retention/export/deletion details; provider, region, training-use, and
-subprocessor terms; content review ownership; eval corpus/severity/gate
-ownership; pilot accommodations; and latency/budget targets.
+Identity/consent mechanics, provider selection, eval-gate approach, pilot
+accommodations, and budget/latency targets were resolved 2026-09-06 for the
+single-household pilot scope (ADR-0008, ADR-0009; see the approval record
+below). Provider region, training-use, and subprocessor contractual terms
+remain to be recorded during adapter implementation, tracked in
+`docs/09-decisions-and-open-questions.md` and `docs/privacy-inventory.md`.
 
 ## Alternatives considered
 
@@ -96,10 +97,10 @@ interaction model, or measured scale justifies splitting the monolith.
 
 | Decision area | Required reviewer | Status | Target date | Evidence/date |
 |---|---|---|---|---|
-| Product and pilot boundary | Product owner | Pending | 2026-09-11 | Pending approval |
-| Identity, consent, retention, export, deletion | Privacy/legal owner | Pending | 2026-09-11 | Pending approval |
-| Provider and data-processing terms | Security/privacy owner | Pending | 2026-09-11 | Pending approval |
+| Product and pilot boundary | Product owner | Approved (scope noted) | 2026-09-11 | 2026-09-06 — Product owner confirmed the pilot is scoped to their own household only (one parent account, one Grade 6 learner), not a multi-family or public pilot. See ADR-0008. |
+| Identity, consent, retention, export, deletion | Privacy/legal owner | Approved (scope noted) | 2026-09-11 | 2026-09-06 — Product owner decided, for the single-household pilot: simple email/password or magic-link identity for the parent account, no separate guardian-verification workflow, informal consent (the product owner is both operator and guardian), indefinite retention with manual deletion on request. Not yet implemented; not a template for a multi-family pilot. See ADR-0008. |
+| Provider and data-processing terms | Security/privacy owner | Approved (scope noted) | 2026-09-11 | 2026-09-06 — Product owner selected Anthropic Claude API as the first real provider, with a low-budget/latency-tolerant target and a lightweight human-reviewed eval pass (~20-30 cases) required before any real session uses it. Contractual data-processing terms (region, retention, training-use, subprocessors) with Anthropic remain to be recorded during adapter implementation. See ADR-0009. |
 | Originality, licensing, and content review | Educator/content owner | Approved (scope noted) | 2026-09-11 | 2026-09-06 — Product/content owner (Navodit Kaushik) accepted all 38 `llm_drafted`/`original` records across all 19 catalog skills as `reviewed`, after AI-assisted hand re-derivation of every canonical answer and the automated schema/leakage checks in `src/content/catalog.ts`. This was performed by the product owner acting as content owner, not a separate subject-matter-expert educator; a full independent pedagogical audit (standards-mapping depth, misconception-code accuracy, difficulty calibration) was not separately performed. See `docs/PROGRESS.md` for the verification trail. |
-| Accessibility accommodations | Accessibility/product owner | Pending | 2026-09-11 | Pending approval |
-| Eval corpus, severity, and release gates | Quality/evaluation owner | Pending | 2026-09-11 | Pending approval |
-| Budget and latency targets | Product/engineering owner | Pending | 2026-09-11 | Pending approval |
+| Accessibility accommodations | Accessibility/product owner | Approved (scope noted) | 2026-09-11 | 2026-09-06 — Product owner accepted the existing automated WCAG 2.2 AA coverage (axe-core structural checks plus keyboard-operability checks) as sufficient for the single-household pilot; no specific accommodation requirement exists today. See ADR-0008. |
+| Eval corpus, severity, and release gates | Quality/evaluation owner | Approved (scope noted) | 2026-09-11 | 2026-09-06 — Product owner approved a lightweight enablement gate (a personally-reviewed ~20-30 case sample covering leakage/tone/correctness/safety) rather than a larger adjudicated corpus, appropriate to single-household scale. The eval corpus itself is not yet built. See ADR-0009. |
+| Budget and latency targets | Product/engineering owner | Approved (scope noted) | 2026-09-11 | 2026-09-06 — Product owner set a low monthly budget target (well under $20/month) and a latency-tolerant target, defaulting to a smaller/cheaper Claude model. See ADR-0009. |
