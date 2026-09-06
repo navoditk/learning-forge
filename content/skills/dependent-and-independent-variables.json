@@ -1,0 +1,13 @@
+{
+  "code": "dependent-and-independent-variables",
+  "title": "Dependent and independent variables",
+  "domain": "expressions-and-equations",
+  "standards": ["6.EE.C.9"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Identifies the dependent and independent variable in a relationship and represents it with an equation, table, or graph."
+  ],
+  "misconceptionCodes": ["swaps-dependent-and-independent"],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Deterministic representation-match check, plus one independent delayed check."
+}

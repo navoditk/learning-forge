@@ -1,0 +1,11 @@
+{
+  "code": "variables-and-expressions",
+  "title": "Variables and expressions",
+  "domain": "expressions-and-equations",
+  "standards": ["6.EE.A.2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": ["Writes and evaluates an algebraic expression from a word description."],
+  "misconceptionCodes": ["reverses-subtraction-order"],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Deterministic numeric equivalence after substitution, plus one independent delayed check."
+}

@@ -1,0 +1,13 @@
+{
+  "code": "distributions",
+  "title": "Distributions",
+  "domain": "statistics",
+  "standards": ["6.SP.A.2", "6.SP.B.4"],
+  "prerequisiteSkillCodes": ["statistical-questions"],
+  "observableEvidence": [
+    "Describes the shape, center, and spread of a data distribution shown in a dot plot, histogram, or box plot."
+  ],
+  "misconceptionCodes": ["confuses-shape-with-center"],
+  "difficultyBands": ["developing"],
+  "masteryCheckRule": "Rubric-scored description checked against required distribution features, plus one independent delayed check."
+}

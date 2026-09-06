@@ -1,0 +1,13 @@
+{
+  "code": "fraction-decimal-operations",
+  "title": "Fraction and decimal operations",
+  "domain": "number-system",
+  "standards": ["6.NS.A.1", "6.NS.B.3"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Adds, subtracts, multiplies, or divides fractions and decimals with correct place value or common denominators."
+  ],
+  "misconceptionCodes": ["misaligns-decimal-place", "common-denominator-error"],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the computed value, plus one independent delayed check."
+}

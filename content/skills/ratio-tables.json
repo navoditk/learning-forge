@@ -1,0 +1,13 @@
+{
+  "code": "ratio-tables",
+  "title": "Ratio tables",
+  "domain": "ratios-and-proportional-reasoning",
+  "standards": ["6.RP.A.3"],
+  "prerequisiteSkillCodes": ["unit-rates"],
+  "observableEvidence": [
+    "Extends a ratio table using a consistent scale factor to find a missing quantity."
+  ],
+  "misconceptionCodes": ["adds-instead-of-scales"],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the missing table value, plus one independent delayed check."
+}

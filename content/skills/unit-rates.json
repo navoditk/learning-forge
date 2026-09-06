@@ -1,0 +1,13 @@
+{
+  "code": "unit-rates",
+  "title": "Unit rates",
+  "domain": "ratios-and-proportional-reasoning",
+  "standards": ["6.RP.A.2", "6.RP.A.3"],
+  "prerequisiteSkillCodes": ["ratio-language"],
+  "observableEvidence": [
+    "Computes a unit rate from a ratio and applies it to answer a related quantity question."
+  ],
+  "misconceptionCodes": ["divide-by-total", "reverses-rate"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the unit rate, plus one independent delayed check."
+}

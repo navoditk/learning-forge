@@ -1,0 +1,13 @@
+{
+  "code": "equivalent-expressions",
+  "title": "Equivalent expressions",
+  "domain": "expressions-and-equations",
+  "standards": ["6.EE.A.3", "6.EE.A.4"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Uses the distributive property or combines like terms to show two expressions are equivalent."
+  ],
+  "misconceptionCodes": ["distributes-incorrectly", "combines-unlike-terms"],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic equivalence check across sample values, plus one independent delayed check."
+}

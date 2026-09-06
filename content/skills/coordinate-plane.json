@@ -1,0 +1,13 @@
+{
+  "code": "coordinate-plane",
+  "title": "Coordinate plane",
+  "domain": "number-system",
+  "standards": ["6.NS.C.6"],
+  "prerequisiteSkillCodes": ["negative-numbers-and-absolute-value"],
+  "observableEvidence": [
+    "Plots and identifies coordinates in all four quadrants of the coordinate plane."
+  ],
+  "misconceptionCodes": ["swaps-x-and-y", "ignores-quadrant-sign"],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Deterministic coordinate-match check, plus one independent delayed check."
+}

@@ -1,0 +1,13 @@
+{
+  "code": "division-of-fractions",
+  "title": "Division of fractions",
+  "domain": "number-system",
+  "standards": ["6.NS.A.1"],
+  "prerequisiteSkillCodes": ["fraction-decimal-operations"],
+  "observableEvidence": [
+    "Divides a fraction by a fraction and interprets the quotient in context."
+  ],
+  "misconceptionCodes": ["multiplies-instead-of-dividing", "forgets-reciprocal"],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the quotient, plus one independent delayed check."
+}

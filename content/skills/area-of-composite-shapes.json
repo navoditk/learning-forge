@@ -1,0 +1,11 @@
+{
+  "code": "area-of-composite-shapes",
+  "title": "Area of composite shapes",
+  "domain": "geometry",
+  "standards": ["6.G.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": ["Decomposes a composite shape into known shapes and sums their areas."],
+  "misconceptionCodes": ["double-counts-overlap", "uses-wrong-formula"],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Deterministic numeric equivalence on total area, plus one independent delayed check."
+}
