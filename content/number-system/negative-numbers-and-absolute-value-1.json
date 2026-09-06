@@ -1,0 +1,51 @@
+{
+  "id": "negative-numbers-and-absolute-value-1",
+  "version": "content-1",
+  "title": "Submarine depth",
+  "skillCode": "negative-numbers-and-absolute-value",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.NS.C.7"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Evaluates the absolute value of a negative number and interprets it as a distance from zero."
+  ],
+  "prompt": "A submarine's elevation is -45 meters relative to sea level. What is the absolute value of the submarine's elevation?",
+  "solutionRepresentation": "Absolute value is distance from zero, so |-45| = 45 meters.",
+  "solutionMethod": "Drop the negative sign to find the distance from zero.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "45 meters",
+    "acceptedAnswers": ["45", "45 meters", "positive 45"],
+    "equivalenceNotes": "Accept 45 with or without the unit or the word positive."
+  },
+  "misconceptionCodes": ["confuses-absolute-value-with-negation"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Absolute value means distance from zero, and distance is never negative.",
+      "question": "If a number is negative, what happens to its sign when you find its absolute value?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Picture the submarine's depth on a vertical number line below sea level, which is zero.",
+      "question": "How far is the submarine from zero, regardless of direction?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, a diver at -12 meters has an absolute-value depth of 12 meters, because distance from zero drops the negative sign.",
+      "question": "Using that same idea, what do you get when you drop the negative sign from this submarine's elevation?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["45 meters", "positive 45"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the elevation as plain signed-number text; do not depend on a depth diagram or color."
+}

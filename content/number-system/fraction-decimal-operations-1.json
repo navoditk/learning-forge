@@ -1,0 +1,51 @@
+{
+  "id": "fraction-decimal-operations-1",
+  "version": "content-1",
+  "title": "Recipe amounts",
+  "skillCode": "fraction-decimal-operations",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.NS.A.1", "6.NS.B.3"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Adds decimals with correct place value, including amounts with a different number of decimal digits."
+  ],
+  "prompt": "A recipe calls for 2.25 cups of flour and 1.5 cups of sugar. How many cups of flour and sugar combined does the recipe need?",
+  "solutionRepresentation": "Rewrite 1.5 as 1.50, then add: 2.25 + 1.50 = 3.75 cups.",
+  "solutionMethod": "Add the two decimal amounts, lining up place value.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "3.75 cups",
+    "acceptedAnswers": ["3.75", "3.75 cups"],
+    "equivalenceNotes": "Accept 3.75 with or without the unit."
+  },
+  "misconceptionCodes": ["misaligns-decimal-place"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Line up the decimal points before adding these two amounts.",
+      "question": "What is 2.25 plus 1.5 when the decimal points are aligned?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Rewrite 1.5 as 1.50 so both numbers have two decimal places.",
+      "question": "What is 2.25 + 1.50?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, 1.25 liters plus 0.5 liters becomes 1.25 + 0.50 = 1.75 liters once both numbers show two decimal places.",
+      "question": "Using that same lining-up idea, what are the two aligned decimal numbers you need to add here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["3.75 cups", "3.75"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present amounts as plain decimal text; do not depend on a recipe image or color-coded measuring cups."
+}

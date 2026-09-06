@@ -143,6 +143,7 @@ describe('planNextActivities', () => {
       expect(item.reason.length).toBeGreaterThan(0);
     }
     expect(result.totalMinutes).toBeLessThanOrEqual(30);
-    expect(result.unavailableSkills).toContain('fraction-decimal-operations');
+    expect(result.unavailableSkills).toContain('statistical-questions');
+    expect(result.unavailableSkills).not.toContain('fraction-decimal-operations');
   });
 });

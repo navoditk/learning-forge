@@ -1,0 +1,51 @@
+{
+  "id": "fraction-decimal-operations-2",
+  "version": "content-1",
+  "title": "Trail mix cost",
+  "skillCode": "fraction-decimal-operations",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["6.NS.B.3"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Multiplies a decimal rate by a decimal quantity and interprets the product as a total cost."
+  ],
+  "prompt": "Trail mix costs $3.50 per pound. How much will 2.4 pounds of trail mix cost?",
+  "solutionRepresentation": "3.50 × 2.4 = 8.40, so the trail mix costs $8.40.",
+  "solutionMethod": "Multiply the price per pound by the number of pounds.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "$8.40",
+    "acceptedAnswers": ["8.40", "$8.40", "8.4", "$8.4"],
+    "equivalenceNotes": "Accept the amount with or without a dollar sign or trailing zero."
+  },
+  "misconceptionCodes": ["misaligns-decimal-place"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Decide which operation combines a price per pound with a number of pounds.",
+      "question": "What operation would you use to find a total cost from a rate and an amount?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "You can break 2.4 into 2 and 0.4 to multiply in two easier steps.",
+      "question": "What is 3.50 multiplied by 2 alone?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, trail mix at $2.00 per pound for 3.5 pounds costs $2.00 × 3.5 = $7.00, using the same multiply-the-rate-by-the-amount idea.",
+      "question": "Using that same idea, what two numbers would you multiply to find this trail mix's total cost?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["8.40", "$8.40", "8.4 dollars"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the rate and amount as plain decimal text; do not depend on a scale or bag image."
+}
