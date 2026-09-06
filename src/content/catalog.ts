@@ -12,6 +12,14 @@ import fractionDecimalOperations1 from '../../content/number-system/fraction-dec
 import fractionDecimalOperations2 from '../../content/number-system/fraction-decimal-operations-2.json';
 import negativeNumbersAndAbsoluteValue1 from '../../content/number-system/negative-numbers-and-absolute-value-1.json';
 import negativeNumbersAndAbsoluteValue2 from '../../content/number-system/negative-numbers-and-absolute-value-2.json';
+import divisionOfFractions1 from '../../content/number-system/division-of-fractions-1.json';
+import divisionOfFractions2 from '../../content/number-system/division-of-fractions-2.json';
+import coordinatePlane1 from '../../content/number-system/coordinate-plane-1.json';
+import coordinatePlane2 from '../../content/number-system/coordinate-plane-2.json';
+import variablesAndExpressions1 from '../../content/expressions-and-equations/variables-and-expressions-1.json';
+import variablesAndExpressions2 from '../../content/expressions-and-equations/variables-and-expressions-2.json';
+import equivalentExpressions1 from '../../content/expressions-and-equations/equivalent-expressions-1.json';
+import equivalentExpressions2 from '../../content/expressions-and-equations/equivalent-expressions-2.json';
 import { RatioContent, RatioContentSchema } from '../contracts/content';
 import { skillsByCode } from '../curriculum/catalog';
 
@@ -30,6 +38,14 @@ const rawRatioContent = [
   fractionDecimalOperations2,
   negativeNumbersAndAbsoluteValue1,
   negativeNumbersAndAbsoluteValue2,
+  divisionOfFractions1,
+  divisionOfFractions2,
+  coordinatePlane1,
+  coordinatePlane2,
+  variablesAndExpressions1,
+  variablesAndExpressions2,
+  equivalentExpressions1,
+  equivalentExpressions2,
 ] as const;
 
 export function validateRatioCatalog(items: readonly unknown[] = rawRatioContent): RatioContent[] {

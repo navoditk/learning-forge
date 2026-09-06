@@ -1,0 +1,51 @@
+{
+  "id": "variables-and-expressions-2",
+  "version": "content-1",
+  "title": "Evaluate with an exponent",
+  "skillCode": "variables-and-expressions",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.EE.A.2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Evaluates an algebraic expression containing an exponent by substituting a value and following order of operations."
+  ],
+  "prompt": "Evaluate the expression 2x² - 3 when x = 4.",
+  "solutionRepresentation": "Substitute x = 4: 2(4²) - 3 = 2(16) - 3 = 29.",
+  "solutionMethod": "Substitute x = 4, apply the exponent first, then multiply and subtract.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "29",
+    "acceptedAnswers": ["29"],
+    "equivalenceNotes": "Accept 29 only."
+  },
+  "misconceptionCodes": ["reverses-subtraction-order"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Follow order of operations: exponents before multiplication, multiplication before subtraction.",
+      "question": "What is 4 squared?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once you know 4 squared, multiply that result by 2.",
+      "question": "What is 2 times 4 squared?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, evaluating 3x² - 1 at x = 2 gives 3(4) - 1 = 11.",
+      "question": "Using that same order-of-operations idea, what do you get when you substitute x = 4 into 2x² - 3?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["29"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the expression as plain text with a caret or superscript-free exponent notation readable by a screen reader."
+}

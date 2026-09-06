@@ -1,0 +1,51 @@
+{
+  "id": "coordinate-plane-1",
+  "version": "content-1",
+  "title": "Which quadrant",
+  "skillCode": "coordinate-plane",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.NS.C.6"],
+  "prerequisiteSkillCodes": ["negative-numbers-and-absolute-value"],
+  "observableEvidence": [
+    "Determines the quadrant of a point from the signs of its x- and y-coordinates."
+  ],
+  "prompt": "Point A is located at (-4, 6) on the coordinate plane. In which quadrant does point A lie?",
+  "solutionRepresentation": "A negative x-coordinate and a positive y-coordinate place the point in Quadrant II.",
+  "solutionMethod": "Compare the signs of the x- and y-coordinates to the sign pattern of each quadrant.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "Quadrant II",
+    "acceptedAnswers": ["Quadrant II", "quadrant 2", "II"],
+    "equivalenceNotes": "Accept the quadrant name written as a word or a Roman numeral."
+  },
+  "misconceptionCodes": ["swaps-x-and-y", "ignores-quadrant-sign"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Check whether each coordinate is positive or negative.",
+      "question": "Is the x-coordinate of point A positive or negative?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "A quadrant with a negative x-coordinate and a positive y-coordinate is the one directly above the negative x-axis, to the upper left of the origin.",
+      "question": "Is the y-coordinate of point A positive or negative?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar example, the point (5, -3) has a positive x-coordinate and a negative y-coordinate, so it lies in Quadrant IV.",
+      "question": "Using that same sign-pattern idea, what do the signs of point A's coordinates tell you about which quadrant it is in?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["Quadrant II", "quadrant 2"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present coordinates as plain signed-number text; do not depend on a plotted graph image or color."
+}

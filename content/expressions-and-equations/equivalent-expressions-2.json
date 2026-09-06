@@ -1,0 +1,51 @@
+{
+  "id": "equivalent-expressions-2",
+  "version": "content-1",
+  "title": "Combine like terms and evaluate",
+  "skillCode": "equivalent-expressions",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["6.EE.A.3", "6.EE.A.4"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Combines like terms to simplify an expression, then evaluates the simplified form by substitution."
+  ],
+  "prompt": "The expressions 5x + 3x - 2 and 8x - 2 are equivalent. Evaluate either expression at x = 6.",
+  "solutionRepresentation": "5x + 3x = 8x, so 5x + 3x - 2 = 8x - 2. Substituting x = 6: 8(6) - 2 = 46.",
+  "solutionMethod": "Combine the like terms 5x and 3x, then substitute x = 6 and evaluate.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "46",
+    "acceptedAnswers": ["46"],
+    "equivalenceNotes": "Accept 46 only."
+  },
+  "misconceptionCodes": ["distributes-incorrectly", "combines-unlike-terms"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "5x and 3x are like terms because they have the same variable raised to the same power.",
+      "question": "What do you get when you combine 5x and 3x?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once combined, the expression becomes 8x - 2. Now substitute x = 6.",
+      "question": "What is 8 times 6?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, combining 4x + 2x gives 6x, and substituting x = 3 into 6x - 1 gives 6(3) - 1 = 17.",
+      "question": "Using that same combine-then-substitute idea, what do you get when you substitute x = 6 into 8x - 2?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["46"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present expressions as plain text; do not depend on color or a manipulative image."
+}
