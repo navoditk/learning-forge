@@ -39,11 +39,15 @@
     }
   ],
   "forbiddenLeakagePatterns": ["60 kilograms", "60 kg", "60", "18 ÷ 0.30"],
-  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "provenance": {
+    "origin": "original",
+    "licenseStatus": "owned"
+  },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Educator/content owner",
-    "originalityStatement": "Written for this repository from first principles."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-06"
   },
   "accessibilityNotes": "Keep the part/whole labels adjacent to the equation and provide a text-only check path."
 }

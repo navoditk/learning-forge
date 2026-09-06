@@ -41,11 +41,15 @@
     }
   ],
   "forbiddenLeakagePatterns": ["45 meters", "positive 45"],
-  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Educator/content owner",
-    "originalityStatement": "Written for this repository from first principles."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-06"
   },
   "accessibilityNotes": "Present the elevation as plain signed-number text; do not depend on a depth diagram or color."
 }

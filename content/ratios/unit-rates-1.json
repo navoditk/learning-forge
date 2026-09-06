@@ -39,11 +39,15 @@
     }
   ],
   "forbiddenLeakagePatterns": ["15 miles per hour", "15 mi/h", "15", "45 ÷ 3"],
-  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "provenance": {
+    "origin": "original",
+    "licenseStatus": "owned"
+  },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Educator/content owner",
-    "originalityStatement": "Written for this repository from first principles."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-06"
   },
   "accessibilityNotes": "Read units aloud in the prompt and keep the division expression available as selectable text."
 }

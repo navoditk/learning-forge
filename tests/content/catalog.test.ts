@@ -17,7 +17,9 @@ describe('ratios content seed', () => {
       ),
     ).toBe(true);
     expect(ratioContentCatalog.some((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
-    expect(ratioContentCatalog.every((item) => item.review.status === 'pending_review')).toBe(true);
+    expect(ratioContentCatalog.every((item) => item.review.status === 'reviewed')).toBe(true);
+    expect(ratioContentCatalog.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
+    expect(ratioContentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
   });
 
   it('has deterministic validators and progressive, non-leaking hint ladders', () => {
@@ -37,7 +39,7 @@ describe('ratios content seed', () => {
     }
   });
 
-  it('rejects gaps in hint ordering and an unapproved completed review', () => {
+  it('rejects gaps in hint ordering and content that is not marked owned', () => {
     const item = ratioContentCatalog[0];
     const withGap = {
       ...item,
@@ -51,11 +53,34 @@ describe('ratios content seed', () => {
           catalogItem.id === item.id
             ? {
                 ...catalogItem,
-                review: { ...catalogItem.review, status: 'reviewed', reviewedAt: '2026-09-05' },
+                provenance: { ...catalogItem.provenance, licenseStatus: 'pending_review' },
               }
             : catalogItem,
         ),
       ),
-    ).toThrow('must remain pending educator review');
+    ).toThrow('must be marked owned');
+  });
+
+  it('accepts a reviewed item once a reviewer and review date are recorded, and rejects one without a date', () => {
+    const item = ratioContentCatalog[0];
+    expect(() =>
+      validateRatioCatalog(
+        ratioContentCatalog.map((catalogItem) =>
+          catalogItem.id === item.id
+            ? {
+                ...catalogItem,
+                review: { ...catalogItem.review, status: 'reviewed', reviewedAt: '2026-09-06' },
+              }
+            : catalogItem,
+        ),
+      ),
+    ).not.toThrow();
+
+    expect(
+      RatioContentSchema.safeParse({
+        ...item,
+        review: { ...item.review, status: 'reviewed', reviewedAt: undefined },
+      }).success,
+    ).toBe(false);
   });
 });

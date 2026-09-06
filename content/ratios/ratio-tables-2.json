@@ -45,11 +45,15 @@
     }
   ],
   "forbiddenLeakagePatterns": ["80 minutes", "16 minutes per mile", "80", "16"],
-  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "provenance": {
+    "origin": "original",
+    "licenseStatus": "owned"
+  },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Educator/content owner",
-    "originalityStatement": "Written for this repository from first principles."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-06"
   },
   "accessibilityNotes": "Offer the table as labeled text fields and do not require interpreting a visual slope or color."
 }

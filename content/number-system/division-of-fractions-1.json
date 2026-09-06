@@ -41,11 +41,15 @@
     }
   ],
   "forbiddenLeakagePatterns": ["6 pieces"],
-  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Educator/content owner",
-    "originalityStatement": "Written for this repository from first principles."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-06"
   },
   "accessibilityNotes": "Present fractions as plain text (e.g. 3/4); do not depend on a ribbon image or color."
 }
