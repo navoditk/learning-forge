@@ -13,11 +13,14 @@ export const PHASE_1_CONTENT_ID = 'unit-rates-1';
 export const PHASE_1_POLICY_VERSION = 'math-tutor-policy-1';
 export const PHASE_1_MASTERY_VERSION = 'mastery-phase-1-1';
 
-export const phase1Content = (() => {
-  const item = ratioContentCatalog.find((candidate) => candidate.id === PHASE_1_CONTENT_ID);
-  if (!item) throw new Error(`Missing Phase 1 content: ${PHASE_1_CONTENT_ID}`);
+function resolveContent(contentId?: string) {
+  const id = contentId ?? PHASE_1_CONTENT_ID;
+  const item = ratioContentCatalog.find((candidate) => candidate.id === id);
+  if (!item) throw new Error(`Unknown content: ${id}`);
   return item;
-})();
+}
+
+export const phase1Content = resolveContent();
 
 const assistanceWeights = [1, 0.9, 0.75, 0.55, 0.35, 0.1];
 
@@ -25,8 +28,8 @@ function normalizeAnswer(answer: string): string {
   return answer.trim().toLocaleLowerCase().replace(/\s+/gu, ' ');
 }
 
-function scoreAnswer(answer: string): Correctness {
-  return phase1Content.deterministicValidator.acceptedAnswers.some(
+function scoreAnswer(content: typeof phase1Content, answer: string): Correctness {
+  return content.deterministicValidator.acceptedAnswers.some(
     (accepted) => normalizeAnswer(accepted) === normalizeAnswer(answer),
   )
     ? 'CORRECT'
@@ -45,21 +48,26 @@ function confidenceBand(weight: number): 'LOW' | 'MEDIUM' | 'HIGH' {
   return weight >= 0.9 ? 'MEDIUM' : 'LOW';
 }
 
-export async function getSyntheticSession() {
+export async function getSyntheticSession(input: { contentId?: string } = {}) {
+  const content = resolveContent(input.contentId);
   await ensureSyntheticIdentity();
   const session = await prisma.session.create({
-    data: { householdId: SYNTHETIC_IDS.household, learnerProfileId: SYNTHETIC_IDS.learnerProfile },
+    data: {
+      householdId: SYNTHETIC_IDS.household,
+      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      contentKey: content.id,
+    },
   });
   return {
     sessionId: session.id,
     learner: { id: SYNTHETIC_IDS.learnerProfile, displayName: 'Synthetic learner' },
     content: {
-      id: phase1Content.id,
-      version: phase1Content.version,
-      title: phase1Content.title,
-      skillCode: phase1Content.skillCode,
-      prompt: phase1Content.prompt,
-      accessibilityNotes: phase1Content.accessibilityNotes,
+      id: content.id,
+      version: content.version,
+      title: content.title,
+      skillCode: content.skillCode,
+      prompt: content.prompt,
+      accessibilityNotes: content.accessibilityNotes,
     },
   };
 }
@@ -79,16 +87,17 @@ async function createAttempt(input: {
     },
   });
   if (!session) throw new Error('Synthetic session not found');
+  const content = resolveContent(session.contentKey);
   const attemptNumber = (await prisma.attempt.count({ where: { sessionId: input.sessionId } })) + 1;
-  const correctness = scoreAnswer(input.learnerResponse);
+  const correctness = scoreAnswer(content, input.learnerResponse);
   const independentCheckPassed = input.independentDelayedCheck && correctness === 'CORRECT';
   const attempt = await prisma.attempt.create({
     data: {
       householdId: SYNTHETIC_IDS.household,
       learnerProfileId: SYNTHETIC_IDS.learnerProfile,
       sessionId: input.sessionId,
-      contentKey: phase1Content.id,
-      contentVersion: phase1Content.version,
+      contentKey: content.id,
+      contentVersion: content.version,
       learnerResponse: input.learnerResponse,
       normalizedResponse: normalizeAnswer(input.learnerResponse),
       correctness,
@@ -106,7 +115,7 @@ async function createAttempt(input: {
     where: {
       learnerProfileId_skillCode_algorithmVersion: {
         learnerProfileId: SYNTHETIC_IDS.learnerProfile,
-        skillCode: phase1Content.skillCode,
+        skillCode: content.skillCode,
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
     },
@@ -116,7 +125,7 @@ async function createAttempt(input: {
     where: {
       learnerProfileId_skillCode_algorithmVersion: {
         learnerProfileId: SYNTHETIC_IDS.learnerProfile,
-        skillCode: phase1Content.skillCode,
+        skillCode: content.skillCode,
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
     },
@@ -128,7 +137,7 @@ async function createAttempt(input: {
     create: {
       householdId: SYNTHETIC_IDS.household,
       learnerProfileId: SYNTHETIC_IDS.learnerProfile,
-      skillCode: phase1Content.skillCode,
+      skillCode: content.skillCode,
       estimate: weight,
       confidenceBand: confidenceBand(weight),
       algorithmVersion: PHASE_1_MASTERY_VERSION,
@@ -163,6 +172,7 @@ async function findSyntheticAttempt(attemptId: string) {
 
 export async function getTutorContext(attemptId: string) {
   const attempt = await findSyntheticAttempt(attemptId);
+  const content = resolveContent(attempt.contentKey);
   const interactions = await prisma.tutorInteraction.findMany({
     where: {
       attemptId: attempt.id,
@@ -189,6 +199,13 @@ export async function getTutorContext(attemptId: string) {
     state: states.includes(lastMove as TutorState) ? (lastMove as TutorState) : 'awaiting_attempt',
     priorHintCount: interactions.length,
     attemptNumber: attempt.attemptNumber,
+    content: {
+      id: content.id,
+      prompt: content.prompt,
+      skillCode: content.skillCode,
+      canonicalAnswer: content.deterministicValidator.canonicalAnswer,
+      forbiddenLeakagePatterns: content.forbiddenLeakagePatterns,
+    },
   };
 }
 
@@ -302,20 +319,22 @@ export async function getParentEvidence() {
         assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'desc' }, take: 1 },
       },
     }),
-    prisma.masteryEstimate.findUnique({
+    prisma.masteryEstimate.findMany({
       where: {
-        learnerProfileId_skillCode_algorithmVersion: {
-          learnerProfileId: SYNTHETIC_IDS.learnerProfile,
-          skillCode: phase1Content.skillCode,
-          algorithmVersion: PHASE_1_MASTERY_VERSION,
-        },
+        householdId: SYNTHETIC_IDS.household,
+        learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+        algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
-      select: { estimate: true, confidenceBand: true, independentDelayedCheck: true },
+      select: {
+        skillCode: true,
+        estimate: true,
+        confidenceBand: true,
+        independentDelayedCheck: true,
+      },
     }),
   ]);
   return {
     learnerName: 'Synthetic learner',
-    skill: phase1Content.skillCode,
     attempts: attempts.map(({ assistanceEvents, ...attempt }) => ({
       ...attempt,
       highestAssistance: assistanceEvents[0]?.level ?? 'INDEPENDENT',

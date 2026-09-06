@@ -18,19 +18,20 @@ npm run db:seed
 `DATABASE_URL` is read from the local environment. The compose service uses
 trust authentication and must not be exposed beyond a developer machine.
 
-## Roll back the initial migration
+## Roll back a migration
 
-The migration has a reviewed `down.sql` because Prisma does not provide a
-first-class down-migration command. Run the rollback only against this local
-synthetic database:
+Every migration has a reviewed `down.sql` because Prisma does not provide a
+first-class down-migration command (`npm run db:check-down-migrations`
+enforces this). Run the rollback only against this local synthetic database,
+naming the migration to roll back:
 
 ```bash
-npm run db:rollback
+npm run db:rollback -- 0002_add_session_content_key
 ```
 
-The rollback removes the LF-0.4 tables and migration record. It is not a
-production deletion workflow; retention, export, and account deletion remain
-pending the human decisions recorded in ADR-0001.
+Omitting the name rolls back whichever migration is most recent. This is not
+a production deletion workflow; retention, export, and account deletion
+remain pending the human decisions recorded in ADR-0001.
 
 ## Persistence checks
 

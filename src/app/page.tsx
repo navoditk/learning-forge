@@ -6,7 +6,7 @@ import Link from 'next/link';
 type Session = {
   sessionId: string;
   learner: { displayName: string };
-  content: { title: string; prompt: string; accessibilityNotes: string };
+  content: { id: string; title: string; prompt: string; accessibilityNotes: string };
 };
 
 type AttemptResult = { attemptId: string; correctness: string };
@@ -43,19 +43,34 @@ export default function Home() {
   const [error, setError] = useState('');
   const [plan, setPlan] = useState<Plan>();
 
-  useEffect(() => {
-    fetch('/api/phase1/session')
-      .then(async (result) => {
-        if (!result.ok) throw new Error('Session could not be loaded.');
-        setSession(await result.json());
-      })
-      .catch((reason: Error) => setError(reason.message));
+  function loadPlan() {
     fetch('/api/phase1/plan')
       .then(async (result) => {
         if (!result.ok) return;
         setPlan(await result.json());
       })
       .catch(() => undefined);
+  }
+
+  function startActivity(contentId?: string) {
+    setError('');
+    setAttempt(undefined);
+    setTutor(undefined);
+    setHintCount(0);
+    setCheck(undefined);
+    setResponse('');
+    const query = contentId ? `?contentId=${encodeURIComponent(contentId)}` : '';
+    fetch(`/api/phase1/session${query}`)
+      .then(async (result) => {
+        if (!result.ok) throw new Error('Session could not be loaded.');
+        setSession(await result.json());
+      })
+      .catch((reason: Error) => setError(reason.message));
+  }
+
+  useEffect(() => {
+    startActivity();
+    loadPlan();
   }, []);
 
   async function submitAttempt(event: FormEvent<HTMLFormElement>) {
@@ -104,6 +119,7 @@ export default function Home() {
       return;
     }
     setCheck(await result.json());
+    loadPlan();
   }
 
   if (error && !session)
@@ -133,16 +149,19 @@ export default function Home() {
         <section aria-labelledby="plan-heading">
           <h2 id="plan-heading">Recommended next activities</h2>
           <p>
-            <small>
-              For information only right now — only the practice below is interactive. Planned for
-              about {plan.totalMinutes} minutes.
-            </small>
+            <small>Planned for about {plan.totalMinutes} minutes.</small>
           </p>
           <ul>
             {plan.items.map((item) => (
               <li key={item.contentId}>
-                <strong>{item.title}</strong> ({item.skillTitle}, {item.estimatedMinutes} min) —{' '}
-                {item.reason}
+                <button
+                  type="button"
+                  onClick={() => startActivity(item.contentId)}
+                  disabled={session?.content.id === item.contentId}
+                >
+                  {item.title}
+                </button>{' '}
+                ({item.skillTitle}, {item.estimatedMinutes} min) — {item.reason}
               </li>
             ))}
           </ul>
