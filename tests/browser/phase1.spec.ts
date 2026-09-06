@@ -4,6 +4,7 @@ test.describe('synthetic Phase 1 journeys', () => {
   test('learner submits a ratios answer and requests a bounded hint', async ({ page }) => {
     await page.goto('/');
 
+    await expect(page.getByRole('heading', { name: 'Recommended next activities' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Bicycle pace' })).toBeVisible();
     await page.getByLabel('Your answer').fill('15');
     await page.getByRole('button', { name: 'Submit answer' }).click();

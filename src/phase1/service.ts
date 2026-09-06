@@ -1,7 +1,10 @@
 import { AssistanceLevel, Correctness } from '@prisma/client';
 
 import { ratioContentCatalog } from '../content/catalog';
+import { PlannerContentItem, PlannerMasteryRecord, PlannerSkill } from '../contracts';
+import { skillCatalog } from '../curriculum';
 import { ensureSyntheticIdentity, SYNTHETIC_IDS } from '../identity/synthetic';
+import { planNextActivities } from '../planner';
 import { prisma } from '../server/prisma';
 import { TutorResponse } from '../tutor';
 import { assistanceIndex, TutorState } from '../tutor/policy';
@@ -318,6 +321,63 @@ export async function getParentEvidence() {
       highestAssistance: assistanceEvents[0]?.level ?? 'INDEPENDENT',
     })),
     mastery,
+  };
+}
+
+const PHASE_1_DEFAULT_TIME_BUDGET_MINUTES = 30;
+
+export async function getPlan(input: { timeBudgetMinutes?: number } = {}) {
+  await ensureSyntheticIdentity();
+  const masteryRows = await prisma.masteryEstimate.findMany({
+    where: {
+      householdId: SYNTHETIC_IDS.household,
+      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      algorithmVersion: PHASE_1_MASTERY_VERSION,
+    },
+    select: {
+      skillCode: true,
+      estimate: true,
+      confidenceBand: true,
+      independentDelayedCheck: true,
+    },
+  });
+  const masteryBySkillCode: Record<string, PlannerMasteryRecord> = {};
+  for (const row of masteryRows) {
+    masteryBySkillCode[row.skillCode] = {
+      estimate: row.estimate,
+      confidenceBand: row.confidenceBand,
+      independentDelayedCheck: row.independentDelayedCheck,
+    };
+  }
+
+  const content: PlannerContentItem[] = ratioContentCatalog.map((item) => ({
+    id: item.id,
+    skillCode: item.skillCode,
+    mode: item.mode,
+    difficulty: item.difficulty,
+  }));
+  const skills: PlannerSkill[] = skillCatalog.map((skill) => ({
+    code: skill.code,
+    prerequisiteSkillCodes: skill.prerequisiteSkillCodes,
+  }));
+
+  const plan = planNextActivities({
+    skills,
+    content,
+    masteryBySkillCode,
+    timeBudgetMinutes: input.timeBudgetMinutes ?? PHASE_1_DEFAULT_TIME_BUDGET_MINUTES,
+  });
+
+  const contentById = new Map(ratioContentCatalog.map((item) => [item.id, item]));
+  const skillByCode = new Map(skillCatalog.map((skill) => [skill.code, skill]));
+
+  return {
+    ...plan,
+    items: plan.items.map((item) => ({
+      ...item,
+      title: contentById.get(item.contentId)?.title ?? item.contentId,
+      skillTitle: skillByCode.get(item.skillCode)?.title ?? item.skillCode,
+    })),
   };
 }
 
