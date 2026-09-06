@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "start": "next start",
     "db:deploy": "prisma migrate deploy",
     "db:generate": "prisma generate",
     "db:seed": "docker compose exec -T db psql -U learning_forge -d learning_forge -v ON_ERROR_STOP=1 -f - < prisma/seed.sql",

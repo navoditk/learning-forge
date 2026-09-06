@@ -19,7 +19,7 @@ real learner data or a real model provider is enabled.
 | Accessibility | WCAG 2.2 AA review, keyboard/text alternatives, accommodations, assistive-technology checks | Accessibility owner | Decided 2026-09-06 (ADR-0008): existing automated axe-core + keyboard-operability coverage accepted as sufficient baseline; no specific accommodation needed today. |
 | Persistence | Migration apply/rollback evidence, household scoping, immutable attempts, export/deletion drill | Data/engineering owner | Pending |
 | Observability | Metadata-only traces, redaction tests, access policy, incident audit trail, no raw child text by default | Engineering/privacy | Pending |
-| Operations | Rate/cost limits, latency target, monitoring, alerting, rollback, incident contacts | Engineering/operations | Budget/latency targets decided 2026-09-06 (ADR-0009): well under $20/month, latency not critical. Rate/cost-limit implementation, monitoring, alerting, and incident contacts still pending. |
+| Operations | Rate/cost limits, latency target, monitoring, alerting, rollback, incident contacts | Engineering/operations | Budget/latency targets decided 2026-09-06 (ADR-0009). A basic hourly rate limit (60 calls/hour, bug/loop backstop only) added 2026-09-06 (ADR-0012). **Still pending**: a real per-session/per-day cost cap, spend monitoring, billing alerts, and incident contacts. |
 | Parent reporting | Every claim links to attempts/assessments; uncertainty and assistance are understandable | Learning/product owner | Pending |
 | Launch decision | All blockers resolved, risks accepted, and human sign-offs recorded | Product owner and required reviewers | Pending |
 

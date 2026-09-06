@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 
 import { ScoringInput, TutorModel, TutorModelResult, TutorMoveInput } from '../contracts';
+import { checkRateLimit } from './rate-limit';
 
 export const ANTHROPIC_MODEL_ID = 'claude-haiku-4-5-20251001';
 const PROMPT_TEMPLATE_VERSION = 'anthropic-tutor-prompt-1';
@@ -77,6 +78,7 @@ export class AnthropicTutorModel implements TutorModel {
   }
 
   async generateMove(input: TutorMoveInput): Promise<TutorModelResult> {
+    checkRateLimit();
     const moveType = input.authorization.allowedMoveTypes[0];
     const assistanceLevel = input.authorization.maximumAssistance;
     const start = Date.now();
@@ -127,6 +129,7 @@ export class AnthropicTutorModel implements TutorModel {
   }
 
   async scoreConstructedResponse(input: ScoringInput): Promise<TutorModelResult> {
+    checkRateLimit();
     const start = Date.now();
     const response = await this.client.messages.create({
       model: ANTHROPIC_MODEL_ID,
