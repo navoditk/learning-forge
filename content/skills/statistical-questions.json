@@ -1,0 +1,13 @@
+{
+  "code": "statistical-questions",
+  "title": "Statistical questions",
+  "domain": "statistics",
+  "standards": ["6.SP.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Distinguishes a statistical question that anticipates variability from a question with a single answer."
+  ],
+  "misconceptionCodes": ["treats-non-statistical-question-as-statistical"],
+  "difficultyBands": ["foundational"],
+  "masteryCheckRule": "Deterministic classification check, plus one independent delayed check."
+}

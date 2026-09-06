@@ -15,9 +15,10 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "content:validate": "vitest run tests/content",
+    "curriculum:validate": "vitest run tests/curriculum",
     "eval:run": "vitest run tests/evals",
     "test:e2e": "playwright test",
-    "test": "vitest run tests/foundation.test.ts tests/contracts tests/content tests/evals tests/tutor tests/notification",
+    "test": "vitest run tests/foundation.test.ts tests/contracts tests/content tests/evals tests/tutor tests/notification tests/curriculum tests/planner",
     "test:integration": "vitest run tests/persistence tests/phase1",
     "typecheck": "tsc --noEmit",
     "verify": "npm run format:check && npm run lint && npm run typecheck && npm run db:check-down-migrations && npm test && npm run build"

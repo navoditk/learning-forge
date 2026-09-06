@@ -1,0 +1,13 @@
+{
+  "code": "double-number-lines",
+  "title": "Double number lines",
+  "domain": "ratios-and-proportional-reasoning",
+  "standards": ["6.RP.A.3"],
+  "prerequisiteSkillCodes": ["ratio-tables"],
+  "observableEvidence": [
+    "Matches corresponding values on two number lines using a constant scale factor."
+  ],
+  "misconceptionCodes": ["adds-scale", "reverses-scale"],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the matched value, plus one independent delayed check."
+}

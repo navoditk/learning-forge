@@ -1,0 +1,13 @@
+{
+  "code": "one-variable-equations-and-inequalities",
+  "title": "One-variable equations and inequalities",
+  "domain": "expressions-and-equations",
+  "standards": ["6.EE.B.5", "6.EE.B.7", "6.EE.B.8"],
+  "prerequisiteSkillCodes": ["equivalent-expressions"],
+  "observableEvidence": [
+    "Solves a one-variable equation or inequality and justifies whether a given value is a solution."
+  ],
+  "misconceptionCodes": ["flips-inequality-incorrectly", "unbalanced-operation"],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic solution-set check, plus one independent delayed check."
+}

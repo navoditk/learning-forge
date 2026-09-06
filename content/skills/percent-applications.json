@@ -1,0 +1,13 @@
+{
+  "code": "percent-applications",
+  "title": "Percent applications",
+  "domain": "ratios-and-proportional-reasoning",
+  "standards": ["6.RP.A.3"],
+  "prerequisiteSkillCodes": ["unit-rates"],
+  "observableEvidence": [
+    "Converts between a percent, fraction, and decimal to solve a part-whole problem."
+  ],
+  "misconceptionCodes": ["confuses-percent-and-decimal-place"],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the percent or part-whole value, plus one independent delayed check."
+}

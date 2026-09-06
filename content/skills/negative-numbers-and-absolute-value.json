@@ -1,0 +1,13 @@
+{
+  "code": "negative-numbers-and-absolute-value",
+  "title": "Negative numbers and absolute value",
+  "domain": "number-system",
+  "standards": ["6.NS.C.5", "6.NS.C.7"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Orders signed numbers and evaluates the absolute value of a number in context."
+  ],
+  "misconceptionCodes": ["ignores-sign", "confuses-absolute-value-with-negation"],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Deterministic numeric/ordering equivalence, plus one independent delayed check."
+}

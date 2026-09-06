@@ -1,0 +1,13 @@
+{
+  "code": "surface-area-and-volume",
+  "title": "Surface area and volume",
+  "domain": "geometry",
+  "standards": ["6.G.A.2", "6.G.A.4"],
+  "prerequisiteSkillCodes": ["area-of-composite-shapes"],
+  "observableEvidence": [
+    "Uses a net or formula to compute the surface area or volume of a rectangular prism."
+  ],
+  "misconceptionCodes": ["confuses-surface-area-and-volume", "omits-a-face"],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on surface area or volume, plus one independent delayed check."
+}
