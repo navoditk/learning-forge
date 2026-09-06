@@ -39,11 +39,15 @@
     }
   ],
   "forbiddenLeakagePatterns": ["(3, 7)", "(3,7)"],
-  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Educator/content owner",
-    "originalityStatement": "Written for this repository from first principles."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-06"
   },
   "accessibilityNotes": "Present coordinates as plain signed-number text; do not depend on a plotted graph image or color."
 }

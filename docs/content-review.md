@@ -1,9 +1,20 @@
-# Ratios content review
+# Content review
 
-The Phase 0 ratios seed contains ten original, synthetic problem records. The
-records are versioned JSON and remain separate from generated content. Every
-record names its intended reviewer and remains `pending_review` until a human
-educator/content owner verifies it.
+The catalog contains 38 original/LLM-drafted, synthetic problem records
+across all 19 Grade 6 Math skills (Ratios, Number System, Expressions and
+Equations, Geometry, Statistics — `content/{ratios,number-system,
+expressions-and-equations,geometry,statistics}/`). The records are versioned
+JSON and remain separate from generated (live-tutor) content. Every record
+names its reviewer and remains `pending_review` until a human educator/content
+owner verifies it.
+
+**Status (2026-09-06):** all 38 records are marked `reviewed`, approved by the
+product/content owner (Navodit Kaushik) after AI-assisted hand re-derivation
+of every canonical answer and the automated checks below. This was not a
+separately engaged subject-matter-expert educator review — see ADR-0001's
+approval record for the exact scope. A deeper pedagogical audit (standards
+depth, misconception-code accuracy, difficulty calibration, accessibility)
+remains a candidate for follow-up before any real pilot use.
 
 ## Review checklist
 

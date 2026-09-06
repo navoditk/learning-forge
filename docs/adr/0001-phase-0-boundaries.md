@@ -99,7 +99,7 @@ interaction model, or measured scale justifies splitting the monolith.
 | Product and pilot boundary | Product owner | Pending | 2026-09-11 | Pending approval |
 | Identity, consent, retention, export, deletion | Privacy/legal owner | Pending | 2026-09-11 | Pending approval |
 | Provider and data-processing terms | Security/privacy owner | Pending | 2026-09-11 | Pending approval |
-| Originality, licensing, and content review | Educator/content owner | Pending | 2026-09-11 | Pending approval |
+| Originality, licensing, and content review | Educator/content owner | Approved (scope noted) | 2026-09-11 | 2026-09-06 — Product/content owner (Navodit Kaushik) accepted all 38 `llm_drafted`/`original` records across all 19 catalog skills as `reviewed`, after AI-assisted hand re-derivation of every canonical answer and the automated schema/leakage checks in `src/content/catalog.ts`. This was performed by the product owner acting as content owner, not a separate subject-matter-expert educator; a full independent pedagogical audit (standards-mapping depth, misconception-code accuracy, difficulty calibration) was not separately performed. See `docs/PROGRESS.md` for the verification trail. |
 | Accessibility accommodations | Accessibility/product owner | Pending | 2026-09-11 | Pending approval |
 | Eval corpus, severity, and release gates | Quality/evaluation owner | Pending | 2026-09-11 | Pending approval |
 | Budget and latency targets | Product/engineering owner | Pending | 2026-09-11 | Pending approval |

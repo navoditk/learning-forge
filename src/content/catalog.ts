@@ -111,9 +111,6 @@ export function validateRatioCatalog(items: readonly unknown[] = rawRatioContent
     if (item.provenance.licenseStatus !== 'owned') {
       throw new Error(`${item.id} must be marked owned for the Phase 0 seed`);
     }
-    if (item.review.status !== 'pending_review') {
-      throw new Error(`${item.id} must remain pending educator review`);
-    }
     if (
       !item.deterministicValidator.acceptedAnswers.includes(
         item.deterministicValidator.canonicalAnswer,

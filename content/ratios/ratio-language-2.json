@@ -39,11 +39,15 @@
     }
   ],
   "forbiddenLeakagePatterns": ["8 cups", "8", "multiply by 4"],
-  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "provenance": {
+    "origin": "original",
+    "licenseStatus": "owned"
+  },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Educator/content owner",
-    "originalityStatement": "Written for this repository from first principles."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-06"
   },
   "accessibilityNotes": "Provide the ratio equation in text and allow an explanation by typing or selecting a scale-factor statement."
 }

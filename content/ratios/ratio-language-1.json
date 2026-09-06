@@ -39,11 +39,15 @@
     }
   ],
   "forbiddenLeakagePatterns": ["2:3", "2 to 3", "2/3", "divide by 4"],
-  "provenance": { "origin": "original", "licenseStatus": "owned" },
+  "provenance": {
+    "origin": "original",
+    "licenseStatus": "owned"
+  },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Educator/content owner",
-    "originalityStatement": "Written for this repository from first principles."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-06"
   },
   "accessibilityNotes": "Present the quantities in text and a labeled table; do not rely on color or spatial position alone."
 }
