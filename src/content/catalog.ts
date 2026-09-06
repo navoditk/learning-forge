@@ -8,6 +8,10 @@ import ratioTables1 from '../../content/ratios/ratio-tables-1.json';
 import ratioTables2 from '../../content/ratios/ratio-tables-2.json';
 import unitRates1 from '../../content/ratios/unit-rates-1.json';
 import unitRates2 from '../../content/ratios/unit-rates-2.json';
+import fractionDecimalOperations1 from '../../content/number-system/fraction-decimal-operations-1.json';
+import fractionDecimalOperations2 from '../../content/number-system/fraction-decimal-operations-2.json';
+import negativeNumbersAndAbsoluteValue1 from '../../content/number-system/negative-numbers-and-absolute-value-1.json';
+import negativeNumbersAndAbsoluteValue2 from '../../content/number-system/negative-numbers-and-absolute-value-2.json';
 import { RatioContent, RatioContentSchema } from '../contracts/content';
 import { skillsByCode } from '../curriculum/catalog';
 
@@ -22,6 +26,10 @@ const rawRatioContent = [
   doubleNumberLines2,
   percentApplications1,
   percentApplications2,
+  fractionDecimalOperations1,
+  fractionDecimalOperations2,
+  negativeNumbersAndAbsoluteValue1,
+  negativeNumbersAndAbsoluteValue2,
 ] as const;
 
 export function validateRatioCatalog(items: readonly unknown[] = rawRatioContent): RatioContent[] {
@@ -49,8 +57,11 @@ export function validateRatioCatalog(items: readonly unknown[] = rawRatioContent
     if (!skillsByCode.has(item.skillCode)) {
       throw new Error(`${item.id} references unknown skill: ${item.skillCode}`);
     }
-    if (item.provenance.origin !== 'original' || item.provenance.licenseStatus !== 'owned') {
-      throw new Error(`${item.id} must be original and owned for the Phase 0 seed`);
+    if (item.provenance.origin === 'licensed') {
+      throw new Error(`${item.id}: licensed content is not yet supported by this catalog`);
+    }
+    if (item.provenance.licenseStatus !== 'owned') {
+      throw new Error(`${item.id} must be marked owned for the Phase 0 seed`);
     }
     if (item.review.status !== 'pending_review') {
       throw new Error(`${item.id} must remain pending educator review`);

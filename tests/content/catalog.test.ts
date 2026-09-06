@@ -4,9 +4,9 @@ import { RatioContentSchema } from '../../src/contracts/content';
 import { ratioContentCatalog, validateRatioCatalog } from '../../src/content/catalog';
 
 describe('ratios content seed', () => {
-  it('contains ten original problems awaiting educator review with complete skill coverage', () => {
-    expect(ratioContentCatalog).toHaveLength(10);
-    expect(new Set(ratioContentCatalog.map((item) => item.id)).size).toBe(10);
+  it('contains original and llm-drafted problems awaiting educator review with complete skill coverage', () => {
+    expect(ratioContentCatalog).toHaveLength(14);
+    expect(new Set(ratioContentCatalog.map((item) => item.id)).size).toBe(14);
     expect(new Set(ratioContentCatalog.map((item) => item.skillCode))).toEqual(
       new Set([
         'ratio-language',
@@ -14,9 +14,16 @@ describe('ratios content seed', () => {
         'ratio-tables',
         'double-number-lines',
         'percent-applications',
+        'fraction-decimal-operations',
+        'negative-numbers-and-absolute-value',
       ]),
     );
-    expect(ratioContentCatalog.every((item) => item.provenance.origin === 'original')).toBe(true);
+    expect(
+      ratioContentCatalog.every((item) =>
+        ['original', 'llm_drafted'].includes(item.provenance.origin),
+      ),
+    ).toBe(true);
+    expect(ratioContentCatalog.some((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
     expect(ratioContentCatalog.every((item) => item.review.status === 'pending_review')).toBe(true);
   });
 

@@ -34,19 +34,20 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     await prisma.$disconnect();
   });
 
-  it('recommends the unblocked ratios skill before any mastery evidence exists', async () => {
+  it('recommends every unblocked skill with content before any mastery evidence exists', async () => {
     await ensureSyntheticIdentity();
     const plan = await getPlan();
 
     expect(plan.items.length).toBeGreaterThan(0);
-    expect(plan.items.every((item) => item.skillCode === 'ratio-language')).toBe(true);
+    expect(plan.items.some((item) => item.skillCode === 'ratio-language')).toBe(true);
     for (const item of plan.items) {
       expect(item.title.length).toBeGreaterThan(0);
       expect(item.skillTitle.length).toBeGreaterThan(0);
       expect(item.reason.length).toBeGreaterThan(0);
     }
     expect(plan.blockedSkills).toContain('unit-rates');
-    expect(plan.unavailableSkills).toContain('fraction-decimal-operations');
+    expect(plan.unavailableSkills).toContain('statistical-questions');
+    expect(plan.unavailableSkills).not.toContain('fraction-decimal-operations');
 
     const response = await getPlanRoute();
     expect(response.status).toBe(200);

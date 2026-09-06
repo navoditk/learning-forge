@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Phase: 1 — synthetic ratios journeys, skill graph, planner, and an actionable planner UI covered; real identity/provider approvals remain pending
-- Branch: `feature/generalize-phase1-sessions`
-- Repository state: PRs #13–#17 are merged to `main`; this branch generalizes Phase 1 sessions to any content item on top of synchronized `main` (`e0d6674`); generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
-- Last verified commit before this branch: `e0d6674 feat: wire the planner into a Phase 1 route and a read-only learner UI (#17)`
+- Phase: 1 — synthetic ratios+number-system journeys, skill graph, planner, and an actionable planner UI covered; real identity/provider approvals remain pending
+- Branch: `feature/number-system-content-and-catalog-fix`
+- Repository state: PRs #13–#18 are merged to `main`; this branch authors the first Number System content and fixes a structural bug in the content catalog, on top of synchronized `main` (`e3d9c77`); generated browser results are ignored; no learner data, provider credentials, generated build output, or local database files are tracked
+- Last verified commit before this branch: `e3d9c77 feat: generalize Phase 1 sessions to any content item (#18)`
 
 ## Domain model coverage (2026-09-05)
 
@@ -23,7 +23,7 @@ schema state.
 | `TutorInteraction`, `TutorTrace` (as `ModelRun`) | Implemented | Redacted excerpt fields; no raw-text retention |
 | `MasteryEstimate`, `MasteryContribution` | Implemented | `skillCode` is a bare string, not a normalized `Skill` row |
 | `Curriculum`, `Standard`, `Skill`, `SkillPrerequisite` | Implemented as versioned code, not a DB table | `content/skills/*.json` (19 skills, all 5 domains), validated by `SkillSchema`; prerequisite references and cycles are checked at load time (ADR-0006). `MasteryEstimate.skillCode` still has no foreign key to it |
-| `ContentItem`, `Problem`, `HintStep`, `Rubric`, `ContentVersion` | Not implemented | Content lives as version-controlled JSON in `content/ratios`, validated by Zod, not a DB table. Content `skillCode` values are now cross-checked against the skill catalog |
+| `ContentItem`, `Problem`, `HintStep`, `Rubric`, `ContentVersion` | Not implemented | Content lives as version-controlled JSON in `content/ratios` and `content/number-system`, validated by Zod, not a DB table. Content `skillCode` values are cross-checked against the skill catalog |
 | `LearningPlan`, `PlanItem` | Implemented as a pure function plus an actionable route/UI, not persisted | `planNextActivities` produces an in-memory plan; `getPlan` wires it to real mastery/content data, exposed via `GET /api/phase1/plan`. Selecting a recommended item on the learner page now starts a real session for it (ADR-0007). No scheduler or persisted `LearningPlan` row exists |
 | `Assessment`, `AssessmentResult` | Not implemented | Diagnostic/assessment concept not built; only `Attempt` with `context: DIAGNOSTIC | PRACTICE | MASTERY_CHECK` |
 | `MisconceptionEvidence` | Not implemented | |
@@ -284,6 +284,8 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-06 | PR #17 merge | Pass | Planner route and read-only learner UI committed as `e0d6674` and merged. |
 | 2026-09-06 | `npx prisma migrate dev --name add_session_content_key --create-only` then hand-edited to `0002_add_session_content_key` with a `DEFAULT`-then-`DROP DEFAULT` backfill and a reviewed `down.sql` | Pass | `bash scripts/check-migration-down.sh`, `npm run db:validate`, `npm run db:deploy`, `npm run db:rollback -- 0002_add_session_content_key`, and a redeploy all passed against local PostgreSQL. |
 | 2026-09-06 | Generalized `getSyntheticSession`/`createAttempt`/`getTutorContext`/`getParentEvidence` to resolve content per session/attempt instead of a fixed constant; fixed the hint route to build its prompt/`protectedTokens` from the resolved content (ADR-0007); made the learner-page plan clickable; generalized the parent page to a multi-skill mastery list | Pass | `npm run verify` (41 tests), `export DATABASE_URL=...; npm run db:validate && npm run test:integration` (5 tests), and `export DATABASE_URL=...; npm run test:e2e` (3 tests, including a new test that clicks a recommended activity and confirms the session switches) all passed. One e2e run failed transiently from dev-server hot-reload warm-up immediately after a file edit; two immediate re-runs were stable. |
+| 2026-09-06 | PR #18 merge | Pass | Session generalization and hint-route answer-protection fix committed as `e3d9c77` and merged. |
+| 2026-09-06 | Relaxed `RatioContentSchema.skillCode`, fixed `validateRatioCatalog`'s `origin !== 'original'` gate to also accept `llm_drafted`, and authored 4 Number System content records through `docs/content-authoring-pipeline.md`; updated the 3 tests whose fixed counts/skill assumptions the new content changed | Pass | `npm run verify` (41 tests), `export DATABASE_URL=...; npm run db:validate && npm run test:integration` (5 tests), and `export DATABASE_URL=...; npm run test:e2e` (3 tests) all passed after fixing the stale assertions. |
 
 ## Decisions/ADRs
 
@@ -304,6 +306,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - ADR-0007 generalizes Phase 1 sessions to any content item via `Session.contentKey` (migration `0002_add_session_content_key`) so the plan is now actionable — selecting a recommended item starts a real session for it. Generalizing this surfaced and fixed a real answer-protection defect: the tutor hint route previously built its prompt and `protectedTokens` from a fixed content constant regardless of which content an attempt was actually for, which would have broken answer-leakage protection for any non-default session.
 - Content provenance now distinguishes `llm_drafted` from `original`/`licensed` (`docs/content-authoring-pipeline.md`); the same human review gate applies regardless of origin.
 - A `NotifierPort` mirrors the `TutorModel` port pattern for a future parent weekly digest; only a deterministic digest builder and a console/fake adapter exist, with no scheduler or real provider wired in yet.
+- Relaxed `RatioContentSchema.skillCode` from a hardcoded 5-value enum (the ratios skills only) to a validated string, cross-checked against `skillCatalog` at import time, so content for any catalog skill can be authored without a schema change per domain.
+- Fixed a structural bug found while authoring the first non-ratios content: `validateRatioCatalog` rejected any `provenance.origin` other than `original`, meaning `llm_drafted` content (added to the schema for `docs/content-authoring-pipeline.md`) was representable but never actually importable. It now accepts `original` and `llm_drafted` (still requiring `licenseStatus: "owned"`); `licensed` origin remains explicitly unsupported until that path is built.
+- Authored the first 4 Number System content records (`content/number-system/`) via the LLM-drafted pipeline — `fraction-decimal-operations` and `negative-numbers-and-absolute-value`, 2 items each — as `llm_drafted`/`pending_review`. This is the pipeline's first real use; no item is marked `reviewed`, and none should be until a human educator completes the checklist in `docs/content-review.md`.
 
 ## Risks/blockers
 
@@ -324,8 +329,9 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - `tests/tutor/tutor.test.ts` existed but was not included in `npm test`/`verify`/CI; it is now wired in. No behavior change was needed — the tests already passed once run.
 - The `NotifierPort`/`ConsoleNotifier`/`buildWeeklyDigest` seam has no caller yet (the database-backed job seam that would schedule it remains deferred) and no real email/push provider is selected; this is scaffolding only, not a working parent notification feature.
 - ADR-0004 fixes a rendering approach but selects no library version, accessibility test evidence, or diagram-authoring tooling; that follows when Geometry/Depth/Contest content is actually authored.
-- `llm_drafted` provenance is now representable in the content contract, but no content has been drafted or reviewed through this pipeline yet.
-- 14 of the 19 catalog skills have no authored content yet (only the 5 ratios skills do); `planNextActivities` reports these honestly as `unavailableSkills` rather than inventing placeholder content. This is expected and tracks the same content-authoring bottleneck as the LLM-drafting pipeline above.
+- 4 `llm_drafted` items now exist (`fraction-decimal-operations`, `negative-numbers-and-absolute-value`) but none are `reviewed`; no human educator has verified the arithmetic, standards mapping, or hint ladders yet, so this content must not be treated as approved.
+- 12 of the 19 catalog skills still have no authored content (Expressions and Equations, Geometry, and Statistics remain entirely uncovered); `planNextActivities` reports these honestly as `unavailableSkills` rather than inventing placeholder content.
+- `RatioContentSchema`/`ratioContentCatalog`/`validateRatioCatalog` are now misnomers — the catalog holds Number System content too. Left unrenamed deliberately to keep this increment's diff scoped to content and the one necessary schema/validator fix; a rename is a good candidate for a future doc-hygiene-style pass, not urgent since it's cosmetic.
 - The planner's `secureThreshold` (0.75), `estimatedMinutesPerItem` (8 minutes), and `maxItemsPerSkill` (2) defaults are configurable placeholders, not calibrated values — same status as the assistance-evidence weights in `docs/02-curriculum-and-pedagogy.md`.
 - `MasteryEstimate.skillCode` (Postgres) still has no foreign-key constraint to the new skill catalog; only application-level cross-checks exist so far (ADR-0006).
 - Because each catalog skill lists its own prerequisites, a skill can show real mastery evidence yet still appear in `blockedSkills` if its listed prerequisite was never separately assessed (for example, attempting only `unit-rates-1` does not by itself unblock `unit-rates` in the plan, since its prerequisite `ratio-language` remains unassessed). This is intentional — evidence for a skill does not retroactively validate its prerequisite — but is worth knowing when reading a plan against Phase 1's content.
@@ -335,5 +341,5 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 
 ## Session handoff
 
-- Uncommitted changes: `Session.contentKey` migration (`0002_add_session_content_key`), generalized `src/phase1/service.ts`, the hint-route answer-protection fix, the actionable learner-page plan, the multi-skill parent page, updated tests, ADR-0007, and this progress update, on `feature/generalize-phase1-sessions` off synchronized `main` (`e0d6674`). `npm run verify`, `npm run test:integration`, and `npm run test:e2e` all pass.
-- Next exact prompt: `Start from synchronized main. Phase 1 sessions can now target any ratios content item and the plan is actionable end to end. There is still no diagnostic/placement logic for which item a learner should start on, and no scheduler drives the plan or the NotifierPort weekly digest. Before adding real authentication, real learner data, or provider integration, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions.`
+- Uncommitted changes: 4 new Number System content records (`content/number-system/`), the `RatioContentSchema.skillCode`/`validateRatioCatalog` fixes, updated tests, and this progress update, on `feature/number-system-content-and-catalog-fix` off synchronized `main` (`e3d9c77`). `npm run verify`, `npm run test:integration`, and `npm run test:e2e` all pass.
+- Next exact prompt: `Start from synchronized main. Content now spans Ratios and Number System, but none of it is human-reviewed yet (all pending_review), Expressions/Geometry/Statistics still have zero content, and there is still no diagnostic/placement logic for which item a learner starts on or a scheduler driving the plan/NotifierPort digest. Before adding real authentication, real learner data, or provider integration, resolve and record the pending hosting/authentication, learner identity/guardian verification, consent/retention, and model-provider/data-processing decisions.`

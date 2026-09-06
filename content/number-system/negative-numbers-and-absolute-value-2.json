@@ -1,0 +1,51 @@
+{
+  "id": "negative-numbers-and-absolute-value-2",
+  "version": "content-1",
+  "title": "Golf scores",
+  "skillCode": "negative-numbers-and-absolute-value",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.NS.C.5"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Orders several signed numbers on a number line to identify the smallest value in context."
+  ],
+  "prompt": "Four contestants' scores relative to par are -3, 2, -7, and 0. In golf a lower score is better. Which score is the best result?",
+  "solutionRepresentation": "Ordering the four scores from least to greatest: -7, -3, 0, 2. The lowest score, -7, is the best result.",
+  "solutionMethod": "Order the signed numbers on a number line; the value farthest left is the smallest.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "-7",
+    "acceptedAnswers": ["-7", "negative 7"],
+    "equivalenceNotes": "Accept -7 written with a minus sign or the word negative."
+  },
+  "misconceptionCodes": ["ignores-sign"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "In golf, a lower score is better, and negative numbers are lower than zero or positive numbers.",
+      "question": "Which of the four scores is the smallest when compared on a number line?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Order all four scores from least to greatest, keeping negative numbers to the left on a number line.",
+      "question": "Which score sits farthest to the left after ordering all four?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar contest with scores -2, 4, -9, and 1, the best (lowest) score is the one farthest left on the number line, since -9 is less than -2.",
+      "question": "Using that same idea, which of this contest's four scores sits farthest left?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["-7", "negative 7"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present all four scores as plain signed-number text; do not depend on a scoreboard image or color."
+}
