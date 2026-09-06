@@ -38,6 +38,8 @@ jobs:
         run: npm ci
       - name: Configure local database
         run: echo "DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public" >> "$GITHUB_ENV"
+      - name: Configure auth secret
+        run: echo "AUTH_SECRET=$(openssl rand -base64 32)" >> "$GITHUB_ENV"
       - name: Validate and apply database schema
         run: npm run db:validate && npm run db:generate && npm run db:deploy
       - name: Run persistence integration tests
