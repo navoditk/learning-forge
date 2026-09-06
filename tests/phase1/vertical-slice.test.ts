@@ -9,6 +9,7 @@ import {
   getTutorContext,
   getSyntheticSession,
   getWeeklyDigest,
+  PHASE_1_MASTERY_VERSION,
   recordIndependentCheck,
   recordAttempt,
   recordTutorResponse,
@@ -169,6 +170,33 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     expect(response.status).toBe(200);
     const body = await response.json();
     expect(body.digest.totalAttempts).toBe(digest.totalAttempts);
+  });
+
+  it('does not lose an attempt or its mastery contribution under concurrent attempts on the same skill', async () => {
+    const session = await getSyntheticSession();
+
+    const results = await Promise.all(
+      Array.from({ length: 6 }, () =>
+        recordAttempt({ sessionId: session.sessionId, learnerResponse: '15' }),
+      ),
+    );
+
+    expect(results).toHaveLength(6);
+    expect(new Set(results.map((result) => result.attemptId)).size).toBe(6);
+
+    const contributions = await prisma.masteryContribution.findMany({
+      where: { attemptId: { in: results.map((result) => result.attemptId) } },
+    });
+    expect(contributions).toHaveLength(6);
+
+    const estimates = await prisma.masteryEstimate.findMany({
+      where: {
+        learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+        skillCode: 'unit-rates',
+        algorithmVersion: PHASE_1_MASTERY_VERSION,
+      },
+    });
+    expect(estimates).toHaveLength(1);
   });
 
   it('rejects session and attempt identifiers outside the synthetic household', async () => {
