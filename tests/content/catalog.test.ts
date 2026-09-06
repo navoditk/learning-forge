@@ -2,30 +2,14 @@ import { describe, expect, it } from 'vitest';
 
 import { RatioContentSchema } from '../../src/contracts/content';
 import { ratioContentCatalog, validateRatioCatalog } from '../../src/content/catalog';
+import { skillCatalog } from '../../src/curriculum/catalog';
 
 describe('ratios content seed', () => {
-  it('contains original and llm-drafted problems awaiting educator review with complete skill coverage', () => {
-    expect(ratioContentCatalog).toHaveLength(32);
-    expect(new Set(ratioContentCatalog.map((item) => item.id)).size).toBe(32);
+  it('contains original and llm-drafted problems covering every catalog skill', () => {
+    expect(ratioContentCatalog).toHaveLength(38);
+    expect(new Set(ratioContentCatalog.map((item) => item.id)).size).toBe(38);
     expect(new Set(ratioContentCatalog.map((item) => item.skillCode))).toEqual(
-      new Set([
-        'ratio-language',
-        'unit-rates',
-        'ratio-tables',
-        'double-number-lines',
-        'percent-applications',
-        'fraction-decimal-operations',
-        'negative-numbers-and-absolute-value',
-        'division-of-fractions',
-        'coordinate-plane',
-        'variables-and-expressions',
-        'equivalent-expressions',
-        'one-variable-equations-and-inequalities',
-        'dependent-and-independent-variables',
-        'area-of-composite-shapes',
-        'surface-area-and-volume',
-        'coordinate-geometry',
-      ]),
+      new Set(skillCatalog.map((skill) => skill.code)),
     );
     expect(
       ratioContentCatalog.every((item) =>

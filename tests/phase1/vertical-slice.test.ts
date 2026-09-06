@@ -46,8 +46,7 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       expect(item.reason.length).toBeGreaterThan(0);
     }
     expect(plan.blockedSkills).toContain('unit-rates');
-    expect(plan.unavailableSkills).toContain('statistical-questions');
-    expect(plan.unavailableSkills).not.toContain('fraction-decimal-operations');
+    expect(plan.unavailableSkills).toEqual([]);
 
     const response = await getPlanRoute();
     expect(response.status).toBe(200);

@@ -1,0 +1,51 @@
+{
+  "id": "statistical-questions-2",
+  "version": "content-1",
+  "title": "River lengths",
+  "skillCode": "statistical-questions",
+  "mode": "contest",
+  "difficulty": "foundational",
+  "standards": ["6.SP.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Distinguishes a question that anticipates variability across a group from a question with one fixed answer."
+  ],
+  "prompt": "Question A: 'What is the length of the longest river in the world?' Question B: 'What are the lengths of the rivers in our state?' Which question is a statistical question?",
+  "solutionRepresentation": "Question A has one fixed answer (the longest river's specific length). Question B expects a range of different lengths across the state's rivers, so it anticipates variability and is the statistical question.",
+  "solutionMethod": "Check whether the question expects one fixed answer or a range of varying answers across a group.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "Question B",
+    "acceptedAnswers": ["Question B", "B"],
+    "equivalenceNotes": "Accept the full label or just the letter B."
+  },
+  "misconceptionCodes": ["treats-non-statistical-question-as-statistical"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A statistical question expects the answers to vary when you ask about a group or collection.",
+      "question": "Does the first question have one single fixed answer, or could it vary?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Think about how many rivers are being asked about in each question.",
+      "question": "Does the second question ask about one single river or about many rivers?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar pair, 'What is the population of the largest city in the country?' has one fixed answer, while 'What are the populations of the cities in our county?' anticipates variability and is the statistical question.",
+      "question": "Using that same idea, which of the two questions here is the statistical question?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["Question B"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present both questions as plain text labeled A and B; do not depend on color to distinguish them."
+}

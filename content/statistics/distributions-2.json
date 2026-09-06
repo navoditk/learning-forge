@@ -1,0 +1,51 @@
+{
+  "id": "distributions-2",
+  "version": "content-1",
+  "title": "Shape of a quiz-score distribution",
+  "skillCode": "distributions",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.SP.A.2"],
+  "prerequisiteSkillCodes": ["statistical-questions"],
+  "observableEvidence": [
+    "Identifies whether a data distribution shown in a histogram is symmetric or skewed from its described shape."
+  ],
+  "prompt": "A histogram shows quiz scores for a class, with most students clustered between 70 and 85, and a few students scoring below 50. Is this distribution best described as symmetric or skewed?",
+  "solutionRepresentation": "Most of the data clusters together with a smaller tail extending toward lower values, so the distribution is skewed left, not symmetric.",
+  "solutionMethod": "Compare where most of the data clusters to where the smaller tail of values extends.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "skewed left",
+    "acceptedAnswers": ["skewed left", "left-skewed"],
+    "equivalenceNotes": "Accept skewed left written with or without a hyphen."
+  },
+  "misconceptionCodes": ["confuses-shape-with-center"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A symmetric distribution looks similar on both sides of its center; a skewed distribution has a long tail on one side.",
+      "question": "Are most of the scores clustered together, or spread evenly across the whole range?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "A few scores stretching away from the main cluster suggest a tail in that direction.",
+      "question": "Which direction do the few low-scoring students stretch, toward higher or lower scores?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar histogram, most house prices cluster near $200,000 with a few much higher outliers; that distribution is skewed right because the tail points toward higher values.",
+      "question": "Using that same tail-direction idea, which direction does this quiz-score distribution's tail point?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["skewed left", "left-skewed"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Describe the histogram's shape in plain text; do not depend on interpreting the chart image alone."
+}

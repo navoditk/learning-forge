@@ -1,0 +1,51 @@
+{
+  "id": "statistical-questions-1",
+  "version": "content-1",
+  "title": "Teacher ages",
+  "skillCode": "statistical-questions",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.SP.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Distinguishes a question that anticipates variability across a group from a question with one fixed answer."
+  ],
+  "prompt": "Question A: 'How old is the school principal?' Question B: 'What are the ages of all the teachers at the school?' Which question is a statistical question, one that anticipates variability in the responses?",
+  "solutionRepresentation": "Question A has one fixed answer (the principal's specific age). Question B expects a range of different ages across many teachers, so it anticipates variability and is the statistical question.",
+  "solutionMethod": "Check whether the question expects one fixed answer or a range of varying answers across a group.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "Question B",
+    "acceptedAnswers": ["Question B", "B"],
+    "equivalenceNotes": "Accept the full label or just the letter B."
+  },
+  "misconceptionCodes": ["treats-non-statistical-question-as-statistical"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A statistical question expects more than one possible answer when asked to a group.",
+      "question": "Does the first question have exactly one correct answer, or could the answer vary?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The school principal's age is a single fixed fact, not something that varies.",
+      "question": "Does the second question ask about one person or about many different teachers?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar pair, 'How tall is the tallest player on the team?' has one fixed answer, while 'What are the heights of all the players on the team?' anticipates variability and is the statistical question.",
+      "question": "Using that same anticipates-variability idea, which of the two questions here is the statistical question?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["Question B"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present both questions as plain text labeled A and B; do not depend on color to distinguish them."
+}

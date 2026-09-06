@@ -30,6 +30,12 @@ import surfaceAreaAndVolume1 from '../../content/geometry/surface-area-and-volum
 import surfaceAreaAndVolume2 from '../../content/geometry/surface-area-and-volume-2.json';
 import coordinateGeometry1 from '../../content/geometry/coordinate-geometry-1.json';
 import coordinateGeometry2 from '../../content/geometry/coordinate-geometry-2.json';
+import statisticalQuestions1 from '../../content/statistics/statistical-questions-1.json';
+import statisticalQuestions2 from '../../content/statistics/statistical-questions-2.json';
+import distributions1 from '../../content/statistics/distributions-1.json';
+import distributions2 from '../../content/statistics/distributions-2.json';
+import centerAndVariability1 from '../../content/statistics/center-and-variability-1.json';
+import centerAndVariability2 from '../../content/statistics/center-and-variability-2.json';
 import { RatioContent, RatioContentSchema } from '../contracts/content';
 import { skillsByCode } from '../curriculum/catalog';
 
@@ -66,6 +72,12 @@ const rawRatioContent = [
   surfaceAreaAndVolume2,
   coordinateGeometry1,
   coordinateGeometry2,
+  statisticalQuestions1,
+  statisticalQuestions2,
+  distributions1,
+  distributions2,
+  centerAndVariability1,
+  centerAndVariability2,
 ] as const;
 
 export function validateRatioCatalog(items: readonly unknown[] = rawRatioContent): RatioContent[] {

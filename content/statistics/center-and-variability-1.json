@@ -1,0 +1,49 @@
+{
+  "id": "center-and-variability-1",
+  "version": "content-1",
+  "title": "Mean team score",
+  "skillCode": "center-and-variability",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.SP.A.3"],
+  "prerequisiteSkillCodes": ["distributions"],
+  "observableEvidence": ["Computes the mean of a small data set."],
+  "prompt": "A team's players scored the following points in a game: 8, 12, 10, 14, 6. What is the mean number of points scored?",
+  "solutionRepresentation": "Add all the values and divide by how many there are: (8 + 12 + 10 + 14 + 6) / 5 = 50 / 5 = 10.",
+  "solutionMethod": "Sum the values, then divide by the number of values.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "10",
+    "acceptedAnswers": ["10", "10 points"],
+    "equivalenceNotes": "Accept 10 with or without the word points."
+  },
+  "misconceptionCodes": ["confuses-mean-and-median"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The mean is the sum of all values divided by how many values there are.",
+      "question": "What is the sum of 8, 12, 10, 14, and 6?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once you have the total, divide by the number of players.",
+      "question": "How many players' scores are being averaged?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar team of scores 5, 7, 9, 3, and 6, the mean is (5 + 7 + 9 + 3 + 6) / 5 = 30 / 5 = 6.",
+      "question": "Using that same add-then-divide idea, what is the mean of this team's scores?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["10 points"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the scores as a plain-text list of numbers; do not depend on color."
+}
