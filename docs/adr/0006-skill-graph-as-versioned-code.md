@@ -22,10 +22,10 @@ The skill graph (`docs/02-curriculum-and-pedagogy.md`'s 19 Grade 6 Math
 skills) is authored as versioned JSON under `content/skills/*.json`, validated
 by `SkillSchema` (`src/contracts/curriculum.ts`) and loaded through
 `skillCatalog` (`src/curriculum/catalog.ts`) — the same pattern as
-`ratioContentCatalog`. `validateSkillCatalog` additionally checks that every
+`contentCatalog`. `validateSkillCatalog` additionally checks that every
 prerequisite code refers to a real skill in the catalog and that the
 prerequisite graph has no cycles (`topologicalSkillOrder`). The content
-catalog's `validateRatioCatalog` now also checks that every content item's
+catalog's `validateContentCatalog` now also checks that every content item's
 `skillCode` exists in `skillCatalog`, which previously was not validated at
 all.
 

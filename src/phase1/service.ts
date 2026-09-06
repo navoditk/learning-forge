@@ -1,6 +1,6 @@
 import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
-import { ratioContentCatalog } from '../content/catalog';
+import { contentCatalog } from '../content/catalog';
 import {
   PlannerContentItem,
   PlannerMasteryRecord,
@@ -23,7 +23,7 @@ export const PHASE_1_MASTERY_VERSION = 'mastery-phase-1-1';
 
 function resolveContent(contentId?: string) {
   const id = contentId ?? PHASE_1_CONTENT_ID;
-  const item = ratioContentCatalog.find((candidate) => candidate.id === id);
+  const item = contentCatalog.find((candidate) => candidate.id === id);
   if (!item) throw new Error(`Unknown content: ${id}`);
   return item;
 }
@@ -416,7 +416,7 @@ export async function getPlan(input: { timeBudgetMinutes?: number } = {}) {
     };
   }
 
-  const content: PlannerContentItem[] = ratioContentCatalog.map((item) => ({
+  const content: PlannerContentItem[] = contentCatalog.map((item) => ({
     id: item.id,
     skillCode: item.skillCode,
     mode: item.mode,
@@ -434,7 +434,7 @@ export async function getPlan(input: { timeBudgetMinutes?: number } = {}) {
     timeBudgetMinutes: input.timeBudgetMinutes ?? PHASE_1_DEFAULT_TIME_BUDGET_MINUTES,
   });
 
-  const contentById = new Map(ratioContentCatalog.map((item) => [item.id, item]));
+  const contentById = new Map(contentCatalog.map((item) => [item.id, item]));
   const skillByCode = new Map(skillCatalog.map((skill) => [skill.code, skill]));
 
   return {

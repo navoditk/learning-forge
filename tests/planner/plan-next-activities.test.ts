@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { PlannerContentItem, PlannerInput, PlannerSkill } from '../../src/contracts';
-import { ratioContentCatalog } from '../../src/content/catalog';
+import { contentCatalog } from '../../src/content/catalog';
 import { skillCatalog } from '../../src/curriculum/catalog';
 import { planNextActivities } from '../../src/planner/plan-next-activities';
 
@@ -119,7 +119,7 @@ describe('planNextActivities', () => {
   });
 
   it('plans against the real skill and content catalogs without inventing content', () => {
-    const realContent: PlannerContentItem[] = ratioContentCatalog.map((item) => ({
+    const realContent: PlannerContentItem[] = contentCatalog.map((item) => ({
       id: item.id,
       skillCode: item.skillCode,
       mode: item.mode,

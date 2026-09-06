@@ -6,7 +6,7 @@
 
 ## Context
 
-The current content contract (`RatioContentSchema`) stores prompts and
+The current content contract (`ContentItemSchema`) stores prompts and
 solutions as plain prose strings, which is sufficient for the ten ratios
 records authored so far. The skill graph in
 `docs/02-curriculum-and-pedagogy.md` also includes Number System, Expressions
