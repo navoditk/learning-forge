@@ -1,0 +1,51 @@
+{
+  "id": "distributions-1",
+  "version": "content-1",
+  "title": "Range of pets owned",
+  "skillCode": "distributions",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.SP.B.4"],
+  "prerequisiteSkillCodes": ["statistical-questions"],
+  "observableEvidence": [
+    "Finds the range of a data distribution shown in a dot plot as a measure of spread."
+  ],
+  "prompt": "A dot plot shows the number of pets owned by each student in a class: 0, 1, 1, 2, 2, 2, 3, 5. What is the range of this data set?",
+  "solutionRepresentation": "The range is the greatest value minus the least value: 5 - 0 = 5.",
+  "solutionMethod": "Subtract the least value in the data set from the greatest value.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "5",
+    "acceptedAnswers": ["5", "5 pets"],
+    "equivalenceNotes": "Accept 5 with or without the word pets."
+  },
+  "misconceptionCodes": ["confuses-shape-with-center"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The range describes the spread of a data set.",
+      "question": "What is the greatest value in this data set?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Now identify the smallest value in the data set.",
+      "question": "What is the smallest value in this data set?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar data set of 2, 3, 3, 4, 9, the range is 9 - 2 = 7.",
+      "question": "Using that same greatest-minus-least idea, what is the range of this class's pet data?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["5 pets"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the data set as a plain-text list of numbers; do not depend on the dot-plot image alone."
+}
