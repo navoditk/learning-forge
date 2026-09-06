@@ -1,9 +1,16 @@
 import { AssistanceLevel, Correctness } from '@prisma/client';
 
 import { ratioContentCatalog } from '../content/catalog';
-import { PlannerContentItem, PlannerMasteryRecord, PlannerSkill } from '../contracts';
+import {
+  PlannerContentItem,
+  PlannerMasteryRecord,
+  PlannerSkill,
+  WeeklyDigestAttemptSummary,
+  WeeklyDigestSkillInput,
+} from '../contracts';
 import { skillCatalog } from '../curriculum';
 import { ensureSyntheticIdentity, SYNTHETIC_IDS } from '../identity/synthetic';
+import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
 import { prisma } from '../server/prisma';
 import { TutorResponse } from '../tutor';
@@ -341,6 +348,30 @@ export async function getParentEvidence() {
     })),
     mastery,
   };
+}
+
+export async function getWeeklyDigest() {
+  const evidence = await getParentEvidence();
+
+  const attemptsBySkill = new Map<string, WeeklyDigestAttemptSummary[]>();
+  for (const attempt of evidence.attempts) {
+    const skillCode = resolveContent(attempt.contentKey).skillCode;
+    const list = attemptsBySkill.get(skillCode) ?? [];
+    list.push({ correctness: attempt.correctness, highestAssistance: attempt.highestAssistance });
+    attemptsBySkill.set(skillCode, list);
+  }
+
+  const masteryBySkill = new Map(evidence.mastery.map((row) => [row.skillCode, row]));
+  const skillCodes = new Set([...attemptsBySkill.keys(), ...masteryBySkill.keys()]);
+  const skills: WeeklyDigestSkillInput[] = Array.from(skillCodes).map((skillCode) => ({
+    skillCode,
+    attempts: attemptsBySkill.get(skillCode) ?? [],
+    mastery: masteryBySkill.get(skillCode),
+  }));
+
+  const digest = buildWeeklyDigest({ learnerName: evidence.learnerName, skills });
+  const notifierResult = await new ConsoleNotifier().sendWeeklyDigest(digest);
+  return { digest, notifierResult };
 }
 
 const PHASE_1_DEFAULT_TIME_BUDGET_MINUTES = 30;

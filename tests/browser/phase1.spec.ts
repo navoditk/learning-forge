@@ -34,5 +34,8 @@ test.describe('synthetic Phase 1 journeys', () => {
     await expect(page.getByRole('heading', { name: 'Synthetic learner' })).toBeVisible();
     await expect(page.getByText('Skill: unit-rates')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Recent attempts' })).toBeVisible();
+
+    await page.getByRole('button', { name: 'Get weekly digest' }).click();
+    await expect(page.getByText(/completed \d+ attempts? across/)).toBeVisible();
   });
 });
