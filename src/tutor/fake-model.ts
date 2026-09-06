@@ -1,7 +1,14 @@
-import { TutorModel, TutorMoveInput } from '../contracts';
+import { TutorModel, TutorModelResult, TutorMoveInput } from '../contracts';
+
+const FAKE_MODEL_METADATA = {
+  modelIdentifier: 'fake-tutor',
+  promptTemplateVersion: 'fake-tutor-prompt-1',
+  latencyMs: 0,
+  tokenUsage: { input: 0, output: 0, total: 0 },
+};
 
 export class FakeTutorModel implements TutorModel {
-  async generateMove(input: TutorMoveInput): Promise<unknown> {
+  async generateMove(input: TutorMoveInput): Promise<TutorModelResult> {
     const moveType = input.authorization.allowedMoveTypes[0];
     const assistanceLevel = input.authorization.maximumAssistance;
     const messages: Record<string, [string, string]> = {
@@ -40,21 +47,27 @@ export class FakeTutorModel implements TutorModel {
     };
     const [learnerMessage, question] = messages[moveType] ?? messages.probe_reasoning;
     return {
-      moveType,
-      learnerMessage,
-      question,
-      assistanceLevel,
-      expectedResponseForm: 'explanation',
-      safetyFlags: ['none'],
-      confidence: 0.5,
+      candidate: {
+        moveType,
+        learnerMessage,
+        question,
+        assistanceLevel,
+        expectedResponseForm: 'explanation',
+        safetyFlags: ['none'],
+        confidence: 0.5,
+      },
+      metadata: FAKE_MODEL_METADATA,
     };
   }
 
-  async scoreConstructedResponse(): Promise<unknown> {
+  async scoreConstructedResponse(): Promise<TutorModelResult> {
     return {
-      correctness: 'unscored',
-      rationale: 'The fake model does not establish mastery evidence.',
-      confidence: 0,
+      candidate: {
+        correctness: 'unscored',
+        rationale: 'The fake model does not establish mastery evidence.',
+        confidence: 0,
+      },
+      metadata: FAKE_MODEL_METADATA,
     };
   }
 }
