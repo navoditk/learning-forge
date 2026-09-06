@@ -70,3 +70,13 @@ meet, revisit toward a direct-cloud deployment. If Vercel's serverless model
 is preferred for other reasons (e.g., team familiarity, edge/CDN needs), the
 modular-monolith architecture still works there — treat the pooled-connection
 requirement as a known added cost, not a blocker.
+
+**Update 2026-09-06**: ADR-0012 records the concrete deployment
+configuration — a free web service plus a *paid* `basic-256mb` database
+(Render's free Postgres auto-deletes after ~44 days, incompatible with
+this product's evidence model) — and the manual dashboard steps in
+`docs/render-deployment.md`. The repository is prepared for this
+deployment (`render.yaml`, migration-on-build, `AUTH_TRUST_HOST`); the
+product owner still needs to actually create the Blueprint and run the
+one-time account-provisioning step through Render's dashboard before
+track 3 is genuinely live.
