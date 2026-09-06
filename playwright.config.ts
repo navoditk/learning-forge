@@ -21,6 +21,10 @@ export default defineConfig({
       DATABASE_URL:
         process.env.DATABASE_URL ??
         'postgresql://learning_forge@localhost:5432/learning_forge?schema=public',
+      // Force the fake tutor adapter for e2e regardless of the developer's
+      // own .env (which may carry TUTOR_MODEL_PROVIDER=anthropic for real
+      // local use) - tests must never make real, billed API calls.
+      TUTOR_MODEL_PROVIDER: 'fake',
     },
     url: 'http://127.0.0.1:3000/',
     reuseExistingServer: !process.env.CI,

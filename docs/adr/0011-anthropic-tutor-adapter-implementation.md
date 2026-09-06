@@ -103,3 +103,29 @@ eval cases have been reviewed; a broader pass may surface issues these
 don't. Revisit model choice if `claude-haiku-4-5` proves inadequate on
 quality once the product owner reviews real output, or if cost/latency
 measured in real use don't meet ADR-0009's targets.
+
+**Update 2026-09-06**: the product owner reviewed the 9-case report (published
+as a browser-viewable artifact for readability) and approved enabling the
+real adapter ("looks good"). This satisfies ADR-0009's enablement gate for
+the initial 9-case scope. Enabled via `src/tutor/create-model.ts`
+(`createTutorModel()`), gated on `TUTOR_MODEL_PROVIDER=anthropic` — an
+explicit opt-in separate from `ANTHROPIC_API_KEY`'s mere presence, so a
+developer's key for `scripts/run-real-eval.ts` can't accidentally route real
+learner traffic. `playwright.config.ts` force-sets `TUTOR_MODEL_PROVIDER=fake`
+for the e2e webServer regardless of the ambient environment, so tests/CI can
+never make a real, billed call. `/api/phase1/hint`
+(`src/app/api/phase1/hint/route.ts`) now calls `createTutorModel()` instead
+of constructing `FakeTutorModel` directly.
+
+Verified live end-to-end through the real authenticated HTTP path (not just
+the adapter in isolation): a real request through `/api/phase1/session` →
+`/api/phase1/attempt` → `/api/phase1/hint` for a genuine provisioned
+household returned a real Claude response (`modelIdentifier:
+"claude-haiku-4-5-20251001"`, ~1.5s latency, real token counts in the trace).
+
+Found one more real bug while wiring this in: disabling the learner-page hint
+button during the request (added so a real ~1-2s latency doesn't look like a
+frozen, unresponsive page) caused the browser to blur it, silently dropping
+keyboard focus to the document body once the response arrived — exactly the
+property the keyboard-operability e2e suite (PR #29) was built to catch, and
+it did. Fixed by refocusing the button once the pending state clears.

@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 type Session = {
@@ -42,6 +42,16 @@ export default function Home() {
   const [check, setCheck] = useState<AttemptResult>();
   const [error, setError] = useState('');
   const [plan, setPlan] = useState<Plan>();
+  const [hintPending, setHintPending] = useState(false);
+  const hintButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    // Disabling the button while a hint request is in flight drops keyboard
+    // focus (browsers blur a disabled element). Restore it once the button
+    // is interactive again, so a keyboard user isn't silently dropped back
+    // to the document body.
+    if (!hintPending) hintButtonRef.current?.focus();
+  }, [hintPending]);
 
   function loadPlan() {
     fetch('/api/phase1/plan')
@@ -90,21 +100,26 @@ export default function Home() {
   }
 
   async function requestHint() {
-    if (!attempt) return;
-    const result = await fetch('/api/phase1/hint', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        attemptId: attempt.attemptId,
-        learnerMessage: response,
-      }),
-    });
-    if (!result.ok) {
-      setError('The tutor could not respond.');
-      return;
+    if (!attempt || hintPending) return;
+    setHintPending(true);
+    try {
+      const result = await fetch('/api/phase1/hint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          attemptId: attempt.attemptId,
+          learnerMessage: response,
+        }),
+      });
+      if (!result.ok) {
+        setError('The tutor could not respond.');
+        return;
+      }
+      setTutor(await result.json());
+      setHintCount((count) => count + 1);
+    } finally {
+      setHintPending(false);
     }
-    setTutor(await result.json());
-    setHintCount((count) => count + 1);
   }
 
   async function submitIndependentCheck() {
@@ -193,8 +208,12 @@ export default function Home() {
                 ? 'Correct — nice work.'
                 : 'Not yet. Your attempt is recorded.'}
             </p>
-            <button type="button" onClick={requestHint}>
-              {hintCount === 0 ? 'Ask for a small hint' : 'Ask for the next hint'}
+            <button ref={hintButtonRef} type="button" onClick={requestHint} disabled={hintPending}>
+              {hintPending
+                ? 'Thinking…'
+                : hintCount === 0
+                  ? 'Ask for a small hint'
+                  : 'Ask for the next hint'}
             </button>
             {tutor && (
               <button type="button" onClick={submitIndependentCheck}>

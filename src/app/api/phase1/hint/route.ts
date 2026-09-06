@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { getTutorContext, phase1Content, recordTutorResponse } from '../../../../phase1/service';
 import { requireHouseholdContext } from '../../../../server/household-context';
-import { FakeTutorModel, TutorHarness } from '../../../../tutor';
+import { createTutorModel, TutorHarness } from '../../../../tutor';
 import { TutorState } from '../../../../tutor/policy';
 
 const HintRequestSchema = z.object({
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
   }
 
-  const response = await new TutorHarness(new FakeTutorModel()).respond({
+  const response = await new TutorHarness(createTutorModel()).respond({
     prompt: context.content.prompt,
     learnerMessage: parsed.data.learnerMessage,
     redactedSkillContext: `content:${context.content.id}; skill:${context.content.skillCode}`,
