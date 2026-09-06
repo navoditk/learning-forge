@@ -1,6 +1,7 @@
 import { chromium, type FullConfig } from '@playwright/test';
 
 import { createParentAccount } from '../scripts/create-parent-account';
+import { deleteHouseholdEvidence } from '../src/server/delete-household-evidence';
 import { prisma } from '../src/server/prisma';
 import {
   AUTH_STORAGE_STATE_PATH,
@@ -11,8 +12,7 @@ import {
 async function removeStaleTestAccount() {
   const existing = await prisma.user.findUnique({ where: { email: E2E_TEST_PARENT_EMAIL } });
   if (existing) {
-    // Cascades to the User and LearnerProfile rows via the schema's onDelete: Cascade.
-    await prisma.household.delete({ where: { id: existing.householdId } });
+    await deleteHouseholdEvidence(prisma, existing.householdId);
   }
 }
 

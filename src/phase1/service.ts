@@ -9,7 +9,6 @@ import {
   WeeklyDigestSkillInput,
 } from '../contracts';
 import { skillCatalog } from '../curriculum';
-import { ensureSyntheticIdentity, SYNTHETIC_IDS } from '../identity/synthetic';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
 import { prisma } from '../server/prisma';
@@ -20,6 +19,14 @@ import { assistanceIndex, TutorState } from '../tutor/policy';
 export const PHASE_1_CONTENT_ID = 'unit-rates-1';
 export const PHASE_1_POLICY_VERSION = 'math-tutor-policy-1';
 export const PHASE_1_MASTERY_VERSION = 'mastery-phase-1-1';
+
+/**
+ * Every Phase 1 operation is scoped to one household/learner. Callers
+ * resolve this from the real authenticated session (`requireHouseholdContext`,
+ * ADR-0010) or, in tests, from the synthetic fixture (`SYNTHETIC_IDENTITY`,
+ * ADR-0003). This module has no knowledge of which one it's talking to.
+ */
+export type HouseholdIdentity = { householdId: string; learnerProfileId: string };
 
 function resolveContent(contentId?: string) {
   const id = contentId ?? PHASE_1_CONTENT_ID;
@@ -71,19 +78,21 @@ async function upsertMasteryEstimate(
   }
 }
 
-export async function getSyntheticSession(input: { contentId?: string } = {}) {
+export async function startSession(
+  identity: HouseholdIdentity,
+  input: { contentId?: string } = {},
+) {
   const content = resolveContent(input.contentId);
-  await ensureSyntheticIdentity();
   const session = await prisma.session.create({
     data: {
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
       contentKey: content.id,
     },
   });
   return {
     sessionId: session.id,
-    learner: { id: SYNTHETIC_IDS.learnerProfile, displayName: 'Synthetic learner' },
+    learner: { id: identity.learnerProfileId, displayName: 'Learner' },
     content: {
       id: content.id,
       version: content.version,
@@ -95,29 +104,31 @@ export async function getSyntheticSession(input: { contentId?: string } = {}) {
   };
 }
 
-async function createAttempt(input: {
-  sessionId: string;
-  learnerResponse: string;
-  context: 'PRACTICE' | 'MASTERY_CHECK';
-  independentDelayedCheck: boolean;
-}) {
-  await ensureSyntheticIdentity();
+async function createAttempt(
+  identity: HouseholdIdentity,
+  input: {
+    sessionId: string;
+    learnerResponse: string;
+    context: 'PRACTICE' | 'MASTERY_CHECK';
+    independentDelayedCheck: boolean;
+  },
+) {
   const session = await prisma.session.findFirst({
     where: {
       id: input.sessionId,
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
     },
   });
-  if (!session) throw new Error('Synthetic session not found');
+  if (!session) throw new Error('Session not found');
   const content = resolveContent(session.contentKey);
   const attemptNumber = (await prisma.attempt.count({ where: { sessionId: input.sessionId } })) + 1;
   const correctness = scoreAnswer(content, input.learnerResponse);
   const independentCheckPassed = input.independentDelayedCheck && correctness === 'CORRECT';
   const attempt = await prisma.attempt.create({
     data: {
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
       sessionId: input.sessionId,
       contentKey: content.id,
       contentVersion: content.version,
@@ -137,7 +148,7 @@ async function createAttempt(input: {
   const existingMastery = await prisma.masteryEstimate.findUnique({
     where: {
       learnerProfileId_skillCode_algorithmVersion: {
-        learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+        learnerProfileId: identity.learnerProfileId,
         skillCode: content.skillCode,
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
@@ -147,7 +158,7 @@ async function createAttempt(input: {
   const mastery = await upsertMasteryEstimate(
     {
       learnerProfileId_skillCode_algorithmVersion: {
-        learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+        learnerProfileId: identity.learnerProfileId,
         skillCode: content.skillCode,
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
@@ -158,8 +169,8 @@ async function createAttempt(input: {
       independentDelayedCheck: existingMastery?.independentDelayedCheck || independentCheckPassed,
     },
     {
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
       skillCode: content.skillCode,
       estimate: weight,
       confidenceBand: confidenceBand(weight),
@@ -177,30 +188,33 @@ async function createAttempt(input: {
   return { attemptId: attempt.id, correctness, evidenceWeight: weight };
 }
 
-export async function recordAttempt(input: { sessionId: string; learnerResponse: string }) {
-  return createAttempt({ ...input, context: 'PRACTICE', independentDelayedCheck: false });
+export async function recordAttempt(
+  identity: HouseholdIdentity,
+  input: { sessionId: string; learnerResponse: string },
+) {
+  return createAttempt(identity, { ...input, context: 'PRACTICE', independentDelayedCheck: false });
 }
 
-async function findSyntheticAttempt(attemptId: string) {
+async function findAttempt(identity: HouseholdIdentity, attemptId: string) {
   const attempt = await prisma.attempt.findFirst({
     where: {
       id: attemptId,
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
     },
   });
-  if (!attempt) throw new Error('Synthetic attempt not found');
+  if (!attempt) throw new Error('Attempt not found');
   return attempt;
 }
 
-export async function getTutorContext(attemptId: string) {
-  const attempt = await findSyntheticAttempt(attemptId);
+export async function getTutorContext(identity: HouseholdIdentity, attemptId: string) {
+  const attempt = await findAttempt(identity, attemptId);
   const content = resolveContent(attempt.contentKey);
   const interactions = await prisma.tutorInteraction.findMany({
     where: {
       attemptId: attempt.id,
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
     },
     orderBy: { createdAt: 'asc' },
     select: { moveType: true },
@@ -232,41 +246,46 @@ export async function getTutorContext(attemptId: string) {
   };
 }
 
-export async function recordIndependentCheck(input: {
-  sessionId: string;
-  learnerResponse: string;
-}) {
-  await ensureSyntheticIdentity();
+export async function recordIndependentCheck(
+  identity: HouseholdIdentity,
+  input: { sessionId: string; learnerResponse: string },
+) {
   const session = await prisma.session.findFirst({
     where: {
       id: input.sessionId,
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
     },
   });
-  if (!session) throw new Error('Synthetic session not found');
+  if (!session) throw new Error('Session not found');
   const hasTutorInteraction = await prisma.tutorInteraction.findFirst({
     where: {
       attempt: { sessionId: session.id },
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
     },
     select: { id: true },
   });
   if (!hasTutorInteraction) throw new Error('Independent check requires tutoring');
-  return createAttempt({ ...input, context: 'MASTERY_CHECK', independentDelayedCheck: true });
+  return createAttempt(identity, {
+    ...input,
+    context: 'MASTERY_CHECK',
+    independentDelayedCheck: true,
+  });
 }
 
-export async function recordTutorResponse(input: { attemptId?: string; response: TutorResponse }) {
-  await ensureSyntheticIdentity();
+export async function recordTutorResponse(
+  identity: HouseholdIdentity,
+  input: { attemptId?: string; response: TutorResponse },
+) {
   if (input.attemptId) {
-    await findSyntheticAttempt(input.attemptId);
+    await findAttempt(identity, input.attemptId);
   }
   const metadata = input.response.trace.metadata;
   const trace = await prisma.tutorTrace.create({
     data: {
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
       policyVersion: metadata.policyVersion,
       promptTemplateVersion: metadata.promptTemplateVersion,
       modelIdentifier: metadata.modelIdentifier,
@@ -284,8 +303,8 @@ export async function recordTutorResponse(input: { attemptId?: string; response:
     const move = input.response.move;
     await prisma.tutorInteraction.create({
       data: {
-        householdId: SYNTHETIC_IDS.household,
-        learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+        householdId: identity.householdId,
+        learnerProfileId: identity.learnerProfileId,
         attemptId: input.attemptId,
         redactedExcerpt: input.response.trace.redactedExcerpt,
         moveType: move.moveType,
@@ -324,13 +343,12 @@ export async function recordTutorResponse(input: { attemptId?: string; response:
   return { traceId: trace.id, nextState: input.response.nextState };
 }
 
-export async function getParentEvidence() {
-  await ensureSyntheticIdentity();
+export async function getParentEvidence(identity: HouseholdIdentity) {
   const [attempts, mastery] = await Promise.all([
     prisma.attempt.findMany({
       where: {
-        householdId: SYNTHETIC_IDS.household,
-        learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+        householdId: identity.householdId,
+        learnerProfileId: identity.learnerProfileId,
       },
       orderBy: { createdAt: 'desc' },
       take: 20,
@@ -344,8 +362,8 @@ export async function getParentEvidence() {
     }),
     prisma.masteryEstimate.findMany({
       where: {
-        householdId: SYNTHETIC_IDS.household,
-        learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+        householdId: identity.householdId,
+        learnerProfileId: identity.learnerProfileId,
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
       select: {
@@ -357,7 +375,7 @@ export async function getParentEvidence() {
     }),
   ]);
   return {
-    learnerName: 'Synthetic learner',
+    learnerName: 'Learner',
     attempts: attempts.map(({ assistanceEvents, ...attempt }) => ({
       ...attempt,
       highestAssistance: assistanceEvents[0]?.level ?? 'INDEPENDENT',
@@ -366,8 +384,8 @@ export async function getParentEvidence() {
   };
 }
 
-export async function getWeeklyDigest() {
-  const evidence = await getParentEvidence();
+export async function getWeeklyDigest(identity: HouseholdIdentity) {
+  const evidence = await getParentEvidence(identity);
 
   const attemptsBySkill = new Map<string, WeeklyDigestAttemptSummary[]>();
   for (const attempt of evidence.attempts) {
@@ -392,12 +410,14 @@ export async function getWeeklyDigest() {
 
 const PHASE_1_DEFAULT_TIME_BUDGET_MINUTES = 30;
 
-export async function getPlan(input: { timeBudgetMinutes?: number } = {}) {
-  await ensureSyntheticIdentity();
+export async function getPlan(
+  identity: HouseholdIdentity,
+  input: { timeBudgetMinutes?: number } = {},
+) {
   const masteryRows = await prisma.masteryEstimate.findMany({
     where: {
-      householdId: SYNTHETIC_IDS.household,
-      learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
       algorithmVersion: PHASE_1_MASTERY_VERSION,
     },
     select: {

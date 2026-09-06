@@ -97,3 +97,16 @@ product uses real identity end-to-end." Revisit the JWT-only/no-adapter
 choice if a second household is ever approved (ADR-0008's reversal signal),
 since NextAuth's database-session model or a different multi-tenant
 authorization design might be warranted at that point.
+
+**Update 2026-09-06**: the data-layer wiring flagged above as a non-decision
+is now done. `src/phase1/service.ts` and every `/api/phase1/*` route resolve
+`requireHouseholdContext()` (`src/server/household-context.ts`) from the real
+session instead of the synthetic fixture; the fixture (`SYNTHETIC_IDENTITY`,
+ADR-0003) is used only by tests now. Verified with two genuinely different
+provisioned households via raw HTTP (not just the Vitest cross-household
+test): each saw only its own session/attempt/parent-evidence data. Fixed one
+real bug found in the process: `MasteryContribution.attempt` uses
+`onDelete: Restrict` (evidence-integrity protection), so household cleanup in
+tests/Playwright must delete `MasteryContribution`/`MasteryEstimate` rows
+before the household — extracted into `src/server/delete-household-evidence.ts`
+after the Playwright e2e teardown hit exactly this foreign-key violation.

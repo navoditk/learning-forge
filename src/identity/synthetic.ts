@@ -16,6 +16,14 @@ async function upsertIdempotently(operation: () => Promise<unknown>): Promise<vo
   }
 }
 
+// The identity shape `phase1/service.ts` expects, for tests/CI only - real
+// requests resolve this from the authenticated session instead
+// (`requireHouseholdContext`, ADR-0010).
+export const SYNTHETIC_IDENTITY = {
+  householdId: SYNTHETIC_IDS.household,
+  learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+} as const;
+
 export async function ensureSyntheticIdentity() {
   await upsertIdempotently(() =>
     prisma.household.upsert({

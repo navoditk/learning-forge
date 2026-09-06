@@ -31,7 +31,7 @@ test.describe('synthetic Phase 1 journeys', () => {
     await page.goto('/parent');
 
     await expect(page.getByRole('heading', { name: 'Parent evidence' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Synthetic learner' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Learner' })).toBeVisible();
     await expect(page.getByText('Skill: unit-rates')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Recent attempts' })).toBeVisible();
 
