@@ -3,11 +3,22 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+type MasteryRow = {
+  skillCode: string;
+  estimate: number;
+  confidenceBand: string;
+  independentDelayedCheck: boolean;
+};
+
 type Evidence = {
   learnerName: string;
-  skill: string;
-  attempts: Array<{ id: string; correctness: string; highestAssistance: string }>;
-  mastery?: { estimate: number; confidenceBand: string; independentDelayedCheck: boolean };
+  attempts: Array<{
+    id: string;
+    contentKey: string;
+    correctness: string;
+    highestAssistance: string;
+  }>;
+  mastery: MasteryRow[];
 };
 
 export default function ParentPage() {
@@ -34,14 +45,22 @@ export default function ParentPage() {
       {evidence && (
         <section aria-labelledby="evidence-heading">
           <h2 id="evidence-heading">{evidence.learnerName}</h2>
-          <p>Skill: {evidence.skill}</p>
-          <p>
-            Evidence estimate: {evidence.mastery?.estimate ?? 0}. Confidence:{' '}
-            {evidence.mastery?.confidenceBand ?? 'LOW'}.
-            {evidence.mastery?.independentDelayedCheck
-              ? ' Delayed check complete.'
-              : ' Delayed check still needed.'}
-          </p>
+          <h3>Mastery by skill</h3>
+          {evidence.mastery.length === 0 ? (
+            <p>No mastery evidence yet.</p>
+          ) : (
+            <ul>
+              {evidence.mastery.map((row) => (
+                <li key={row.skillCode}>
+                  Skill: {row.skillCode} — estimate {row.estimate}, confidence{' '}
+                  {row.confidenceBand.toLocaleLowerCase()}.{' '}
+                  {row.independentDelayedCheck
+                    ? 'Delayed check complete.'
+                    : 'Delayed check still needed.'}
+                </li>
+              ))}
+            </ul>
+          )}
           <h3>Recent attempts</h3>
           {evidence.attempts.length === 0 ? (
             <p>No attempts yet.</p>
@@ -49,7 +68,7 @@ export default function ParentPage() {
             <ul>
               {evidence.attempts.map((attempt) => (
                 <li key={attempt.id}>
-                  Attempt {attempt.id}: {attempt.correctness.toLocaleLowerCase()} with{' '}
+                  {attempt.contentKey}: {attempt.correctness.toLocaleLowerCase()} with{' '}
                   {attempt.highestAssistance.toLocaleLowerCase().replaceAll('_', ' ')} assistance
                 </li>
               ))}

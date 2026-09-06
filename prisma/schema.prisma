@@ -140,6 +140,7 @@ model Session {
   id                 String          @id @default(uuid())
   householdId        String
   learnerProfileId   String
+  contentKey         String
   startedAt          DateTime        @default(now())
   endedAt            DateTime?
   household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)

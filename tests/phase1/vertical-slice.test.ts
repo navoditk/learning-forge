@@ -102,11 +102,14 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
 
     expect(attempt.correctness).toBe('CORRECT');
     expect(evidence.attempts.some((item) => item.id === attempt.attemptId)).toBe(true);
-    expect(evidence.mastery).toMatchObject({
-      estimate: 1,
-      confidenceBand: 'MEDIUM',
-      independentDelayedCheck: true,
-    });
+    expect(evidence.mastery).toContainEqual(
+      expect.objectContaining({
+        skillCode: 'unit-rates',
+        estimate: 1,
+        confidenceBand: 'MEDIUM',
+        independentDelayedCheck: true,
+      }),
+    );
     expect(check.correctness).toBe('CORRECT');
     expect(
       await prisma.attempt.findUnique({

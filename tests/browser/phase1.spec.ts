@@ -19,6 +19,14 @@ test.describe('synthetic Phase 1 journeys', () => {
     await expect(page.getByText('Independent check: correct.')).toBeVisible();
   });
 
+  test('learner can switch to a recommended activity from the plan', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(page.getByRole('heading', { name: 'Bicycle pace' })).toBeVisible();
+    await page.getByRole('button', { name: 'Garden rows' }).click();
+    await expect(page.getByRole('heading', { name: 'Garden rows' })).toBeVisible();
+  });
+
   test('parent can see evidence linked to the learner attempt', async ({ page }) => {
     await page.goto('/parent');
 
