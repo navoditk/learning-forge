@@ -24,7 +24,7 @@ release approval.
 
 | # | Decision | Working boundary for Phase 0 | Status | Required owner/reviewer | Target date |
 |---|---|---|---|---|---|
-| 1 | Hosting and authentication | Keep identity behind a port; use local/synthetic identity only | Deferred to Phase 1 provider comparison | Product/engineering owner; privacy review before pilot | 2026-09-11 |
+| 1 | Hosting and authentication | Keep identity behind a port; use local/synthetic identity only. ADR-0005 records a technical hosting-platform recommendation (Render or Fly.io over serverless Vercel; Streamlit rejected) as an input to this comparison, not an approval | Deferred to Phase 1 provider comparison | Product/engineering owner; privacy review before pilot | 2026-09-11 |
 | 2 | Model provider and child-data terms | Fake adapter only; synthetic learner data; no provider credentials | Pending human approval before real learner data or real adapter | Product, security/privacy, legal | 2026-09-11 |
 | 3 | Pilot learner identity | Support pseudonymous internal learner ID; do not decide learner login/guardian verification here | Pending human approval | Product and privacy/legal | 2026-09-11 |
 | 4 | Ratios provenance and review | Original or explicitly licensed content; provenance, version, reviewer, and originality record required | Pending human approval before content acceptance | Educator/content owner | 2026-09-11 |

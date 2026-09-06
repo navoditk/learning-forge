@@ -287,6 +287,7 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.9 treats `npm ci && npm run verify` as the repository-only fresh-clone check and keeps PostgreSQL integration verification as a separate synthetic-data workflow.
 - Phase 1 uses fixed server-owned synthetic IDs and validates household ownership on every session/attempt operation; this is not a production identity mechanism (ADR-0003).
 - ADR-0004 records the future math-notation/diagram approach (KaTeX plus reviewed inline SVG) without implementing it, since no current content requires it.
+- ADR-0005 records a non-binding hosting-platform recommendation (Render or Fly.io over serverless Vercel; Streamlit rejected as the wrong application category) as input to the still-pending hosting/authentication decision (register item 1); it selects no vendor, region, or spend.
 - Content provenance now distinguishes `llm_drafted` from `original`/`licensed` (`docs/content-authoring-pipeline.md`); the same human review gate applies regardless of origin.
 - A `NotifierPort` mirrors the `TutorModel` port pattern for a future parent weekly digest; only a deterministic digest builder and a console/fake adapter exist, with no scheduler or real provider wired in yet.
 
