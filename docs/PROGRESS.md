@@ -284,7 +284,6 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - LF-0.5 stores authored ratios content as version-controlled JSON and validates it through the existing Zod contract; human review status is distinct from automated validation.
 - LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
 - LF-0.7 records the required privacy, threat, incident, and pilot controls as documentation baselines; it makes no unapproved legal, provider, retention, or launch decisions.
-- LF-0.6 validates provider-boundary output as runtime data (`unknown`) at the tutor orchestration boundary, retries once, and falls back without advancing mastery; ADR-0002 records the decision.
 - LF-0.9 treats `npm ci && npm run verify` as the repository-only fresh-clone check and keeps PostgreSQL integration verification as a separate synthetic-data workflow.
 - Phase 1 uses fixed server-owned synthetic IDs and validates household ownership on every session/attempt operation; this is not a production identity mechanism (ADR-0003).
 - ADR-0004 records the future math-notation/diagram approach (KaTeX plus reviewed inline SVG) without implementing it, since no current content requires it.
