@@ -43,11 +43,15 @@ pilot is enabled. Reversal is required when a provider, consent model, and
 guardian-verification design are approved.
 
 **Update 2026-09-06**: ADR-0008 approved the identity/consent design, and
-ADR-0010 implements the "wrapped by approved authentication" half of this
-reversal signal — real login (NextAuth v5, email/password) now gates every
-page and API route. The other half is not yet done: `src/phase1/service.ts`
-still resolves all data against this synthetic fixture's `SYNTHETIC_IDS`
-rather than the authenticated household from ADR-0010's session, so this ADR's
-fixture remains the one actually driving application data until that
-follow-up rewiring lands. Do not read "real login exists" as "this ADR is
-fully superseded."
+ADR-0010 implements real authentication (NextAuth v5, email/password) that
+now gates every page and API route. `src/phase1/service.ts` and every
+`/api/phase1/*` route now resolve the real authenticated household
+(`requireHouseholdContext`, ADR-0010) instead of this fixture — the fixture
+is used only by tests now (`SYNTHETIC_IDENTITY`, exported alongside
+`SYNTHETIC_IDS`). This ADR's reversal signal ("must be replaced or wrapped by
+approved authentication before any real learner data or external pilot is
+enabled") is satisfied for the single-household pilot scope ADR-0008 defines.
+It is not superseded outright: the fixture itself still exists and still
+backs every test in this repository, and the identity model here (fixed
+IDs, no real multi-household authorization design) would need revisiting
+before a second household is ever approved.

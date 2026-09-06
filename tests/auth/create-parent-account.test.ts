@@ -3,6 +3,7 @@ import { afterAll, describe, expect, it } from 'vitest';
 
 import { createParentAccount } from '../../scripts/create-parent-account';
 import { verifyParentCredentials } from '../../src/auth/verify-credentials';
+import { deleteHouseholdEvidence } from '../../src/server/delete-household-evidence';
 
 const prisma = new PrismaClient();
 const testEmail = 'auth-test-parent@example.com';
@@ -11,7 +12,7 @@ let createdHouseholdId: string | undefined;
 describe('parent account provisioning and credential verification', () => {
   afterAll(async () => {
     if (createdHouseholdId) {
-      await prisma.household.deleteMany({ where: { id: createdHouseholdId } });
+      await deleteHouseholdEvidence(prisma, createdHouseholdId);
     }
     await prisma.$disconnect();
   });

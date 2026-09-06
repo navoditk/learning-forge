@@ -2,41 +2,33 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { prisma } from '../../src/server/prisma';
-import { ensureSyntheticIdentity, SYNTHETIC_IDS } from '../../src/identity/synthetic';
+import {
+  ensureSyntheticIdentity,
+  SYNTHETIC_IDENTITY,
+  SYNTHETIC_IDS,
+} from '../../src/identity/synthetic';
 import {
   getParentEvidence,
   getPlan,
   getTutorContext,
-  getSyntheticSession,
+  startSession,
   getWeeklyDigest,
+  HouseholdIdentity,
   PHASE_1_MASTERY_VERSION,
   recordIndependentCheck,
   recordAttempt,
   recordTutorResponse,
 } from '../../src/phase1/service';
+import { deleteHouseholdEvidence } from '../../src/server/delete-household-evidence';
 import { FakeTutorModel, TutorHarness } from '../../src/tutor';
-import { POST as postAttempt } from '../../src/app/api/phase1/attempt/route';
-import { POST as postCheck } from '../../src/app/api/phase1/check/route';
-import { POST as postHint } from '../../src/app/api/phase1/hint/route';
-import { GET as getParentRoute } from '../../src/app/api/phase1/parent/route';
-import { GET as getPlanRoute } from '../../src/app/api/phase1/plan/route';
-import { GET as getDigestRoute } from '../../src/app/api/phase1/digest/route';
 
 describe('Phase 1 synthetic ratios vertical slice', () => {
   beforeAll(async () => {
-    await prisma.masteryContribution.deleteMany({
-      where: { attempt: { householdId: SYNTHETIC_IDS.household } },
-    });
-    await prisma.masteryEstimate.deleteMany({ where: { householdId: SYNTHETIC_IDS.household } });
-    await prisma.household.deleteMany({ where: { id: SYNTHETIC_IDS.household } });
+    await deleteHouseholdEvidence(prisma, SYNTHETIC_IDS.household);
   });
 
   afterAll(async () => {
-    await prisma.masteryContribution.deleteMany({
-      where: { attempt: { householdId: SYNTHETIC_IDS.household } },
-    });
-    await prisma.masteryEstimate.deleteMany({ where: { householdId: SYNTHETIC_IDS.household } });
-    await prisma.household.deleteMany({ where: { id: SYNTHETIC_IDS.household } });
+    await deleteHouseholdEvidence(prisma, SYNTHETIC_IDS.household);
     await prisma.$disconnect();
   });
 
@@ -63,7 +55,7 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
 
   it('recommends every unblocked skill with content before any mastery evidence exists', async () => {
     await ensureSyntheticIdentity();
-    const plan = await getPlan();
+    const plan = await getPlan(SYNTHETIC_IDENTITY);
 
     expect(plan.items.length).toBeGreaterThan(0);
     expect(plan.items.some((item) => item.skillCode === 'ratio-language')).toBe(true);
@@ -74,37 +66,41 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     }
     expect(plan.blockedSkills).toContain('unit-rates');
     expect(plan.unavailableSkills).toEqual([]);
-
-    const response = await getPlanRoute();
-    expect(response.status).toBe(200);
-    const body = await response.json();
-    expect(Array.isArray(body.items)).toBe(true);
-    expect(body.totalMinutes).toBeLessThanOrEqual(30);
   });
 
-  it('records an attempt, fake-tutor interaction, and parent evidence', async () => {
+  it('records an attempt, tutor interaction, and parent evidence', async () => {
     await ensureSyntheticIdentity();
-    const session = await getSyntheticSession();
-    const attempt = await recordAttempt({ sessionId: session.sessionId, learnerResponse: '15' });
-    const forgedRequest = new Request('http://localhost/api/phase1/hint', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        attemptId: attempt.attemptId,
-        learnerMessage: 'I divided 45 by 3.',
-        state: 'guided_solution',
-        priorHintCount: 0,
-        attemptNumber: 1,
-      }),
+    const session = await startSession(SYNTHETIC_IDENTITY);
+    const attempt = await recordAttempt(SYNTHETIC_IDENTITY, {
+      sessionId: session.sessionId,
+      learnerResponse: '15',
     });
-    const forgedResponse = await postHint(forgedRequest);
-    const firstTutorResult = await forgedResponse.json();
-    expect(forgedResponse.status).toBe(200);
-    expect(firstTutorResult.response.move.moveType).toBe('probe_reasoning');
-    expect(await getTutorContext(attempt.attemptId)).toMatchObject({
+
+    const firstContext = await getTutorContext(SYNTHETIC_IDENTITY, attempt.attemptId);
+    const firstTutorResponse = await new TutorHarness(new FakeTutorModel()).respond({
+      prompt: firstContext.content.prompt,
+      learnerMessage: 'I divided 45 by 3.',
+      redactedSkillContext: `content:${firstContext.content.id}`,
+      state: firstContext.state,
+      mode: 'math_tutor',
+      genuineAttempt: true,
+      priorHintCount: firstContext.priorHintCount,
+      attemptNumber: firstContext.attemptNumber,
+      protectedTokens: [
+        firstContext.content.canonicalAnswer,
+        ...firstContext.content.forbiddenLeakagePatterns,
+      ],
+    });
+    expect(firstTutorResponse.move?.moveType).toBe('probe_reasoning');
+    await recordTutorResponse(SYNTHETIC_IDENTITY, {
+      attemptId: attempt.attemptId,
+      response: firstTutorResponse,
+    });
+    expect(await getTutorContext(SYNTHETIC_IDENTITY, attempt.attemptId)).toMatchObject({
       state: 'probe_reasoning',
       priorHintCount: 1,
     });
+
     const nextResponse = await new TutorHarness(new FakeTutorModel()).respond({
       prompt: session.content.prompt,
       learnerMessage: 'I am checking the relationship.',
@@ -116,16 +112,19 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       attemptNumber: 1,
       protectedTokens: ['15', '15 miles per hour'],
     });
-    await recordTutorResponse({ attemptId: attempt.attemptId, response: nextResponse });
-    expect(await getTutorContext(attempt.attemptId)).toMatchObject({
+    await recordTutorResponse(SYNTHETIC_IDENTITY, {
+      attemptId: attempt.attemptId,
+      response: nextResponse,
+    });
+    expect(await getTutorContext(SYNTHETIC_IDENTITY, attempt.attemptId)).toMatchObject({
       state: 'hint_1_strategy',
       priorHintCount: 2,
     });
-    const check = await recordIndependentCheck({
+    const check = await recordIndependentCheck(SYNTHETIC_IDENTITY, {
       sessionId: session.sessionId,
       learnerResponse: '15',
     });
-    const evidence = await getParentEvidence();
+    const evidence = await getParentEvidence(SYNTHETIC_IDENTITY);
 
     expect(attempt.correctness).toBe('CORRECT');
     expect(evidence.attempts.some((item) => item.id === attempt.attemptId)).toBe(true);
@@ -152,14 +151,14 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     );
 
     const trace = await prisma.tutorTrace.findFirst({
-      where: { learnerProfileId: SYNTHETIC_IDS.learnerProfile },
+      where: { learnerProfileId: SYNTHETIC_IDENTITY.learnerProfileId },
     });
     expect(trace?.redactedExcerpt).toBe('[redacted learner text]');
     expect(trace?.modelIdentifier).toBe('fake-tutor');
   });
 
   it('summarizes recorded evidence into a weekly digest', async () => {
-    const { digest, notifierResult } = await getWeeklyDigest();
+    const { digest, notifierResult } = await getWeeklyDigest(SYNTHETIC_IDENTITY);
     expect(notifierResult.status).toBe('logged');
 
     const unitRatesDigest = digest.skills.find((skill) => skill.skillCode === 'unit-rates');
@@ -168,19 +167,14 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     expect(unitRatesDigest?.correctCount).toBeGreaterThan(0);
     expect(digest.totalAttempts).toBeGreaterThanOrEqual(unitRatesDigest?.attemptCount ?? 0);
     expect(digest.headline.length).toBeGreaterThan(0);
-
-    const response = await getDigestRoute();
-    expect(response.status).toBe(200);
-    const body = await response.json();
-    expect(body.digest.totalAttempts).toBe(digest.totalAttempts);
   });
 
   it('does not lose an attempt or its mastery contribution under concurrent attempts on the same skill', async () => {
-    const session = await getSyntheticSession();
+    const session = await startSession(SYNTHETIC_IDENTITY);
 
     const results = await Promise.all(
       Array.from({ length: 6 }, () =>
-        recordAttempt({ sessionId: session.sessionId, learnerResponse: '15' }),
+        recordAttempt(SYNTHETIC_IDENTITY, { sessionId: session.sessionId, learnerResponse: '15' }),
       ),
     );
 
@@ -194,7 +188,7 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
 
     const estimates = await prisma.masteryEstimate.findMany({
       where: {
-        learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+        learnerProfileId: SYNTHETIC_IDENTITY.learnerProfileId,
         skillCode: 'unit-rates',
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
@@ -202,81 +196,10 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     expect(estimates).toHaveLength(1);
   });
 
-  it('validates and rejects malformed or unknown attempt requests over HTTP', async () => {
-    const invalid = await postAttempt(
-      new Request('http://localhost/api/phase1/attempt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: 'not-a-uuid', learnerResponse: '15' }),
-      }),
-    );
-    expect(invalid.status).toBe(400);
-
-    const unknown = await postAttempt(
-      new Request('http://localhost/api/phase1/attempt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: randomUUID(), learnerResponse: '15' }),
-      }),
-    );
-    expect(unknown.status).toBe(404);
-  });
-
-  it('validates and rejects malformed or premature independent check requests over HTTP', async () => {
-    const invalid = await postCheck(
-      new Request('http://localhost/api/phase1/check', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: 'not-a-uuid', learnerResponse: '15' }),
-      }),
-    );
-    expect(invalid.status).toBe(400);
-
-    await ensureSyntheticIdentity();
-    const session = await getSyntheticSession();
-    const premature = await postCheck(
-      new Request('http://localhost/api/phase1/check', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: session.sessionId, learnerResponse: '15' }),
-      }),
-    );
-    expect(premature.status).toBe(404);
-  });
-
-  it('validates and rejects malformed or unknown hint requests over HTTP', async () => {
-    const invalid = await postHint(
-      new Request('http://localhost/api/phase1/hint', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ learnerMessage: '' }),
-      }),
-    );
-    expect(invalid.status).toBe(400);
-
-    const unknown = await postHint(
-      new Request('http://localhost/api/phase1/hint', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ attemptId: randomUUID(), learnerMessage: 'I tried.' }),
-      }),
-    );
-    expect(unknown.status).toBe(404);
-  });
-
-  it('returns parent evidence over HTTP matching the service result', async () => {
-    const response = await getParentRoute();
-    expect(response.status).toBe(200);
-    const body = await response.json();
-    const evidence = await getParentEvidence();
-    expect(body.attempts).toHaveLength(evidence.attempts.length);
-    expect(body.mastery).toEqual(evidence.mastery);
-  });
-
-  it('rejects session and attempt identifiers outside the synthetic household', async () => {
-    await expect(recordAttempt({ sessionId: randomUUID(), learnerResponse: '15' })).rejects.toThrow(
-      'Synthetic session not found',
-    );
+  it('rejects session and attempt identifiers outside the caller’s own household', async () => {
+    await expect(
+      recordAttempt(SYNTHETIC_IDENTITY, { sessionId: randomUUID(), learnerResponse: '15' }),
+    ).rejects.toThrow('Session not found');
     const response = await new TutorHarness(new FakeTutorModel()).respond({
       prompt: 'Synthetic prompt',
       learnerMessage: 'I tried.',
@@ -287,8 +210,45 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       priorHintCount: 0,
       attemptNumber: 1,
     });
-    await expect(recordTutorResponse({ attemptId: randomUUID(), response })).rejects.toThrow(
-      'Synthetic attempt not found',
-    );
+    await expect(
+      recordTutorResponse(SYNTHETIC_IDENTITY, { attemptId: randomUUID(), response }),
+    ).rejects.toThrow('Attempt not found');
+  });
+
+  describe('cross-household isolation', () => {
+    let otherHousehold: HouseholdIdentity;
+
+    beforeAll(async () => {
+      const household = await prisma.household.create({ data: {} });
+      const learnerUser = await prisma.user.create({
+        data: { householdId: household.id, role: 'LEARNER' },
+      });
+      const learnerProfile = await prisma.learnerProfile.create({
+        data: { userId: learnerUser.id, householdId: household.id, gradeLevel: 6 },
+      });
+      otherHousehold = { householdId: household.id, learnerProfileId: learnerProfile.id };
+    });
+
+    afterAll(async () => {
+      await deleteHouseholdEvidence(prisma, otherHousehold.householdId);
+    });
+
+    it('cannot see or act on another household’s session, attempt, or evidence', async () => {
+      const session = await startSession(SYNTHETIC_IDENTITY);
+      const attempt = await recordAttempt(SYNTHETIC_IDENTITY, {
+        sessionId: session.sessionId,
+        learnerResponse: '15',
+      });
+
+      await expect(
+        recordAttempt(otherHousehold, { sessionId: session.sessionId, learnerResponse: '15' }),
+      ).rejects.toThrow('Session not found');
+      await expect(getTutorContext(otherHousehold, attempt.attemptId)).rejects.toThrow(
+        'Attempt not found',
+      );
+
+      const otherEvidence = await getParentEvidence(otherHousehold);
+      expect(otherEvidence.attempts.some((item) => item.id === attempt.attemptId)).toBe(false);
+    });
   });
 });

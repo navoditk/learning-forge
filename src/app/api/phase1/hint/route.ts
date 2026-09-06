@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
 import { getTutorContext, phase1Content, recordTutorResponse } from '../../../../phase1/service';
+import { requireHouseholdContext } from '../../../../server/household-context';
 import { FakeTutorModel, TutorHarness } from '../../../../tutor';
 import { TutorState } from '../../../../tutor/policy';
 
@@ -39,11 +40,19 @@ const defaultContext: TutorContext = {
 export async function POST(request: Request) {
   const parsed = HintRequestSchema.safeParse(await request.json());
   if (!parsed.success) return NextResponse.json({ error: 'Invalid hint request' }, { status: 400 });
+
+  let identity;
+  try {
+    identity = await requireHouseholdContext();
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   let context: TutorContext = defaultContext;
   try {
-    if (parsed.data.attemptId) context = await getTutorContext(parsed.data.attemptId);
+    if (parsed.data.attemptId) context = await getTutorContext(identity, parsed.data.attemptId);
   } catch {
-    return NextResponse.json({ error: 'Synthetic attempt not found' }, { status: 404 });
+    return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
   }
 
   const response = await new TutorHarness(new FakeTutorModel()).respond({
@@ -58,12 +67,12 @@ export async function POST(request: Request) {
     protectedTokens: [context.content.canonicalAnswer, ...context.content.forbiddenLeakagePatterns],
   });
   try {
-    const stored = await recordTutorResponse({
+    const stored = await recordTutorResponse(identity, {
       attemptId: parsed.data.attemptId,
       response,
     });
     return NextResponse.json({ response, ...stored });
   } catch {
-    return NextResponse.json({ error: 'Synthetic attempt not found' }, { status: 404 });
+    return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
   }
 }

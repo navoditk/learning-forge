@@ -24,7 +24,7 @@ release approval.
 
 | # | Decision | Working boundary for Phase 0 | Status | Required owner/reviewer | Target date |
 |---|---|---|---|---|---|
-| 1 | Hosting and authentication | Keep identity behind a port; use local/synthetic identity only. ADR-0005 recommended, and the product owner accepted, Render as the hosting platform; ADR-0008 records the identity/auth mechanism | Approved 2026-09-06 (scope noted): Render for hosting (ADR-0005, accepted); email/password identity for the single-household pilot (ADR-0008), **implemented** 2026-09-06 (ADR-0010, NextAuth v5) and verified end-to-end. Still pending: Render account/region setup and the actual deploy; `AUTH_URL`/`AUTH_TRUST_HOST` config for the real domain; wiring `phase1/service.ts` to the authenticated household instead of the synthetic fixture. | Product/engineering owner; privacy review before pilot | 2026-09-11 |
+| 1 | Hosting and authentication | Keep identity behind a port; use local/synthetic identity only. ADR-0005 recommended, and the product owner accepted, Render as the hosting platform; ADR-0008 records the identity/auth mechanism | Approved 2026-09-06 (scope noted): Render for hosting (ADR-0005, accepted); email/password identity for the single-household pilot (ADR-0008), **implemented** 2026-09-06 (ADR-0010, NextAuth v5), including household-scoped data access wired through `phase1/service.ts` (no longer the synthetic fixture for real requests) — verified end-to-end with two distinct real households. Still pending: Render account/region setup and the actual deploy; `AUTH_URL`/`AUTH_TRUST_HOST` config for the real domain. | Product/engineering owner; privacy review before pilot | 2026-09-11 |
 | 2 | Model provider and child-data terms | Fake adapter only; synthetic learner data; no provider credentials | Approved 2026-09-06 (scope noted): Anthropic Claude API selected as the first real provider (ADR-0009). Contractual data-processing terms (region, retention, training-use, subprocessors) with Anthropic remain to be recorded in `docs/privacy-inventory.md` during adapter implementation; no real learner data may reach the provider before then. | Product, security/privacy, legal | 2026-09-11 |
 | 3 | Pilot learner identity | Support pseudonymous internal learner ID; do not decide learner login/guardian verification here | Approved 2026-09-06 (scope noted): single-household pilot; the parent account holder creates/manages the learner profile directly; no separate guardian-verification workflow, since the account holder is the guardian (ADR-0008). | Product and privacy/legal | 2026-09-11 |
 | 4 | Content provenance and review | Original or explicitly licensed content; provenance, version, reviewer, and originality record required | Approved 2026-09-06 for all 38 records across all 19 catalog skills (`original`/`llm_drafted`; no `licensed` content). See ADR-0001's approval record for scope notes — approved by the product/content owner, not a separately engaged subject-matter educator. | Educator/content owner | 2026-09-11 |
@@ -41,13 +41,15 @@ records are maintained in `docs/adr/0001-phase-0-boundaries.md`.
 ## Resolved 2026-09-06 for the single-household pilot (ADR-0008, ADR-0009)
 
 Items 1, 2 (provider only), 3, 5, 6, and 7 below were decided by the product
-owner on 2026-09-06, scoped explicitly to a single-household pilot. None of
-these decisions are implemented yet — they unblock the follow-up engineering
-work, tracked separately, not the work itself.
+owner on 2026-09-06, scoped explicitly to a single-household pilot. The
+authentication portion of item 1 is now also **implemented** (ADR-0010, same
+day); the rest unblock follow-up engineering work, tracked separately, not
+yet done.
 
-1. Hosting: Render (ADR-0005, accepted). Authentication: simple email/password
-   or magic-link for the parent account (ADR-0008). Region and vendor account
-   setup remain open.
+1. Hosting: Render (ADR-0005, accepted). Authentication: email/password for
+   the parent account, **implemented** 2026-09-06 (ADR-0010) including
+   household-scoped data access. Region and vendor account setup for the
+   actual Render deployment remain open.
 2. Model provider: Anthropic Claude API (ADR-0009). **Still open:** contractual
    data-processing terms with Anthropic (region, retention, training-use,
    subprocessors — to be recorded in `docs/privacy-inventory.md` during
