@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { TutorModel, TutorMoveInput } from '../../src/contracts';
+import { TutorModel, TutorModelResult, TutorMoveInput } from '../../src/contracts';
 import { FakeTutorModel, TutorHarness, authorizeTutorMove } from '../../src/tutor';
+
+const sequenceModelMetadata = {
+  modelIdentifier: 'sequence-test-model',
+  promptTemplateVersion: 'test-prompt-1',
+  latencyMs: 0,
+  tokenUsage: { input: 0, output: 0, total: 0 },
+};
 
 const baseInput = {
   prompt: 'A ratio problem asks for a unit rate.',
@@ -20,13 +27,16 @@ class SequenceModel implements TutorModel {
 
   constructor(private readonly outputs: unknown[]) {}
 
-  async generateMove(input: TutorMoveInput): Promise<unknown> {
+  async generateMove(input: TutorMoveInput): Promise<TutorModelResult> {
     this.inputs.push(input);
-    return this.outputs.shift();
+    return { candidate: this.outputs.shift(), metadata: sequenceModelMetadata };
   }
 
-  async scoreConstructedResponse(): Promise<unknown> {
-    return { correctness: 'unscored', rationale: 'fake', confidence: 0 };
+  async scoreConstructedResponse(): Promise<TutorModelResult> {
+    return {
+      candidate: { correctness: 'unscored', rationale: 'fake', confidence: 0 },
+      metadata: sequenceModelMetadata,
+    };
   }
 }
 
@@ -124,5 +134,48 @@ describe('fake tutor harness', () => {
     expect(response.status).toBe('validated');
     expect(response.move?.moveType).toBe('clarify_problem');
     expect(response.move?.learnerMessage).not.toContain('30 miles per hour');
+  });
+});
+
+class ThrowingModel implements TutorModel {
+  public callCount = 0;
+
+  constructor(private readonly failures: number) {}
+
+  async generateMove(): Promise<TutorModelResult> {
+    this.callCount += 1;
+    if (this.callCount <= this.failures) {
+      throw new Error('simulated provider failure (e.g. network error, rate limit, billing)');
+    }
+    return { candidate: validHint, metadata: sequenceModelMetadata };
+  }
+
+  async scoreConstructedResponse(): Promise<TutorModelResult> {
+    throw new Error('not used in these tests');
+  }
+}
+
+describe('provider failure handling', () => {
+  it('falls back safely, without crashing, when the model throws on both attempts', async () => {
+    const model = new ThrowingModel(2);
+    const response = await new TutorHarness(model).respond(baseInput);
+
+    expect(response.status).toBe('fallback');
+    expect(response.fallbackMessage).toContain('one small step');
+    expect(response.nextState).toBe('hint_1_strategy');
+    expect(response.masteryAdvanced).toBe(false);
+    expect(response.trace.metadata.outcome).toBe('error');
+    expect(response.trace.metadata.validationResult).toBe('fallback');
+    expect(model.callCount).toBe(2);
+  });
+
+  it('recovers via the retry when the first attempt throws but the second succeeds', async () => {
+    const model = new ThrowingModel(1);
+    const response = await new TutorHarness(model).respond(baseInput);
+
+    expect(response.status).toBe('repaired');
+    expect(response.move?.moveType).toBe('hint_2_representation');
+    expect(response.trace.metadata.outcome).toBe('move_returned');
+    expect(model.callCount).toBe(2);
   });
 });

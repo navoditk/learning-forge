@@ -11,12 +11,14 @@ export interface EvalCaseResult {
   observedState: string;
   policyVersion: string;
   modelIdentifier: string;
+  /** The actual generated text, for a human to read during eval review (ADR-0009). Absent on fallback. */
+  responseText?: { learnerMessage: string; question: string };
   failures: string[];
 }
 
 export interface EvalReport {
   suiteVersion: string;
-  adapter: 'fake-tutor';
+  adapter: string;
   calibratedThresholds: false;
   caseResults: EvalCaseResult[];
   summary: { total: number; passed: number; failed: number };
@@ -85,6 +87,9 @@ export async function runEvalCatalog(
       observedState: response.nextState,
       policyVersion: response.trace.metadata.policyVersion,
       modelIdentifier: response.trace.metadata.modelIdentifier,
+      responseText: response.move
+        ? { learnerMessage: response.move.learnerMessage, question: response.move.question }
+        : undefined,
       failures,
     });
   }
@@ -92,7 +97,7 @@ export async function runEvalCatalog(
   const passed = caseResults.filter((result) => result.passed).length;
   return {
     suiteVersion: 'baseline-1',
-    adapter: 'fake-tutor',
+    adapter: caseResults[0]?.modelIdentifier ?? 'unknown',
     calibratedThresholds: false,
     caseResults,
     summary: { total: caseResults.length, passed, failed: caseResults.length - passed },

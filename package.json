@@ -12,6 +12,7 @@
     "db:rollback": "bash scripts/db-rollback.sh",
     "db:check-down-migrations": "bash scripts/check-migration-down.sh",
     "create-parent-account": "tsx scripts/create-parent-account.ts",
+    "eval:run-real": "tsx scripts/run-real-eval.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
@@ -25,6 +26,7 @@
     "verify": "npm run format:check && npm run lint && npm run typecheck && npm run db:check-down-migrations && npm test && npm run build"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.124.0",
     "@prisma/client": "^6.15.0",
     "bcryptjs": "^3.0.3",
     "next": "^15.5.0",

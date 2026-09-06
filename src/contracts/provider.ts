@@ -25,7 +25,19 @@ export const ScoringOutputSchema = z
 
 export type ScoringOutput = z.infer<typeof ScoringOutputSchema>;
 
+export interface TutorModelMetadata {
+  modelIdentifier: string;
+  promptTemplateVersion: string;
+  latencyMs: number;
+  tokenUsage: { input: number; output: number; total: number };
+}
+
+export interface TutorModelResult {
+  candidate: unknown;
+  metadata: TutorModelMetadata;
+}
+
 export interface TutorModel {
-  generateMove(input: TutorMoveInput): Promise<unknown>;
-  scoreConstructedResponse(input: ScoringInput): Promise<unknown>;
+  generateMove(input: TutorMoveInput): Promise<TutorModelResult>;
+  scoreConstructedResponse(input: ScoringInput): Promise<TutorModelResult>;
 }
