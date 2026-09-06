@@ -1,0 +1,51 @@
+{
+  "id": "one-variable-equations-and-inequalities-2",
+  "version": "content-1",
+  "title": "Solve a one-step inequality",
+  "skillCode": "one-variable-equations-and-inequalities",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["6.EE.B.8"],
+  "prerequisiteSkillCodes": ["equivalent-expressions"],
+  "observableEvidence": [
+    "Solves a one-step multiplicative inequality and identifies the largest whole-number solution."
+  ],
+  "prompt": "Solve for x: 3x < 21. What is the largest whole number value of x that makes this inequality true?",
+  "solutionRepresentation": "Divide both sides by 3 to get x < 7. The largest whole number less than 7 is 6.",
+  "solutionMethod": "Divide both sides by 3, then find the largest whole number below the resulting bound.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "6",
+    "acceptedAnswers": ["6", "x = 6"],
+    "equivalenceNotes": "Accept 6 with or without the variable restated."
+  },
+  "misconceptionCodes": ["flips-inequality-incorrectly", "unbalanced-operation"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "To isolate x, undo the multiplication by dividing both sides by the same number.",
+      "question": "What number is x being multiplied by in this inequality?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Divide both sides by 3 to simplify the inequality.",
+      "question": "What is 21 divided by 3?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar inequality, 2x < 10 simplifies to x < 5, so the largest whole number solution is 4.",
+      "question": "Using that same divide-both-sides idea, what does 3x < 21 simplify to, and what is the largest whole number that satisfies it?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["x = 6"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the inequality as plain text; do not depend on a number-line image or color."
+}

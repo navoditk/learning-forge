@@ -1,0 +1,51 @@
+{
+  "id": "surface-area-and-volume-1",
+  "version": "content-1",
+  "title": "Box volume",
+  "skillCode": "surface-area-and-volume",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.G.A.2"],
+  "prerequisiteSkillCodes": ["area-of-composite-shapes"],
+  "observableEvidence": [
+    "Computes the volume of a rectangular prism by multiplying its three dimensions."
+  ],
+  "prompt": "A rectangular prism-shaped box is 5 cm long, 4 cm wide, and 3 cm tall. What is the volume of the box?",
+  "solutionRepresentation": "Multiply length × width × height: 5 × 4 × 3 = 60 cubic centimeters.",
+  "solutionMethod": "Multiply the length, width, and height together.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "60 cubic centimeters",
+    "acceptedAnswers": ["60", "60 cubic centimeters", "60 cm3"],
+    "equivalenceNotes": "Accept 60 with or without a unit phrasing."
+  },
+  "misconceptionCodes": ["confuses-surface-area-and-volume"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Volume of a rectangular prism is length times width times height.",
+      "question": "What is 5 times 4?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Now multiply that result by the height.",
+      "question": "What is 20 times 3?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar box measuring 2 cm by 3 cm by 4 cm, the volume is 2 × 3 × 4 = 24 cubic centimeters.",
+      "question": "Using that same multiply-all-three-dimensions idea, what do you get when you multiply this box's length, width, and height together?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["60 cubic centimeters", "60 cm3"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present dimensions as plain text; do not depend on a 3D box image or color."
+}

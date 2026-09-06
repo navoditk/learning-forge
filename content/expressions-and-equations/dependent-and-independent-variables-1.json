@@ -1,0 +1,51 @@
+{
+  "id": "dependent-and-independent-variables-1",
+  "version": "content-1",
+  "title": "Candle height after burning",
+  "skillCode": "dependent-and-independent-variables",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.EE.C.9"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Evaluates a dependent variable from an equation given a value of the independent variable."
+  ],
+  "prompt": "A candle burns at a constant rate. The height h (in cm) of the candle after burning for m minutes is given by h = 20 - 0.5m. What is the height of the candle after 10 minutes?",
+  "solutionRepresentation": "Substitute m = 10: h = 20 - 0.5(10) = 20 - 5 = 15.",
+  "solutionMethod": "Substitute m = 10 into the equation and evaluate.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "15 cm",
+    "acceptedAnswers": ["15", "15 cm"],
+    "equivalenceNotes": "Accept 15 with or without the unit."
+  },
+  "misconceptionCodes": ["swaps-dependent-and-independent"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The height h depends on how many minutes m have passed, so h is the dependent variable.",
+      "question": "What value should you substitute for m in the equation?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Substitute m = 10 into h = 20 - 0.5m.",
+      "question": "What is 0.5 times 10?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar relationship, h = 30 - 2m at m = 5 gives h = 30 - 10 = 20.",
+      "question": "Using that same substitute-and-simplify idea, what do you get when you substitute m = 10 into h = 20 - 0.5m?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["15 cm"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the equation and values as plain text; do not depend on a candle image or color."
+}

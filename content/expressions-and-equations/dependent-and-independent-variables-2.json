@@ -1,0 +1,51 @@
+{
+  "id": "dependent-and-independent-variables-2",
+  "version": "content-1",
+  "title": "When will the candle reach a height",
+  "skillCode": "dependent-and-independent-variables",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.EE.C.9"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Solves for the independent variable in a linear relationship given a target value of the dependent variable."
+  ],
+  "prompt": "Using the same candle relationship h = 20 - 0.5m, after how many minutes m will the candle's height h be 5 cm?",
+  "solutionRepresentation": "Set h = 5: 5 = 20 - 0.5m, so 0.5m = 15, and m = 30.",
+  "solutionMethod": "Substitute h = 5, rearrange to isolate the term with m, then solve for m.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "30 minutes",
+    "acceptedAnswers": ["30", "30 minutes"],
+    "equivalenceNotes": "Accept 30 with or without the unit."
+  },
+  "misconceptionCodes": ["swaps-dependent-and-independent"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Set the height equal to 5 and solve the resulting equation for m.",
+      "question": "What equation do you get when you substitute h = 5 into h = 20 - 0.5m?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Rearranging 5 = 20 - 0.5m gives 0.5m = 15.",
+      "question": "What is 15 divided by 0.5?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar relationship, using h = 30 - 2m, setting h = 10 gives 2m = 20, so m = 10.",
+      "question": "Using that same rearrange-and-solve idea, what equation do you get after rearranging 5 = 20 - 0.5m, and what is m?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["30 minutes"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the equation and values as plain text; do not depend on a candle image or color."
+}

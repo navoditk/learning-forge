@@ -5,8 +5,8 @@ import { ratioContentCatalog, validateRatioCatalog } from '../../src/content/cat
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems awaiting educator review with complete skill coverage', () => {
-    expect(ratioContentCatalog).toHaveLength(22);
-    expect(new Set(ratioContentCatalog.map((item) => item.id)).size).toBe(22);
+    expect(ratioContentCatalog).toHaveLength(32);
+    expect(new Set(ratioContentCatalog.map((item) => item.id)).size).toBe(32);
     expect(new Set(ratioContentCatalog.map((item) => item.skillCode))).toEqual(
       new Set([
         'ratio-language',
@@ -20,6 +20,11 @@ describe('ratios content seed', () => {
         'coordinate-plane',
         'variables-and-expressions',
         'equivalent-expressions',
+        'one-variable-equations-and-inequalities',
+        'dependent-and-independent-variables',
+        'area-of-composite-shapes',
+        'surface-area-and-volume',
+        'coordinate-geometry',
       ]),
     );
     expect(

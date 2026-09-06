@@ -1,0 +1,51 @@
+{
+  "id": "one-variable-equations-and-inequalities-1",
+  "version": "content-1",
+  "title": "Solve a one-step equation",
+  "skillCode": "one-variable-equations-and-inequalities",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.EE.B.5", "6.EE.B.7"],
+  "prerequisiteSkillCodes": ["equivalent-expressions"],
+  "observableEvidence": [
+    "Solves a one-step addition equation by applying the inverse operation to both sides."
+  ],
+  "prompt": "Solve for x: x + 9 = 23.",
+  "solutionRepresentation": "Subtract 9 from both sides: x = 23 - 9 = 14.",
+  "solutionMethod": "Subtract 9 from both sides to isolate x.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "14",
+    "acceptedAnswers": ["14", "x = 14"],
+    "equivalenceNotes": "Accept 14 with or without the variable restated."
+  },
+  "misconceptionCodes": ["unbalanced-operation"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "To isolate x, undo the operation that is being done to it.",
+      "question": "What operation is being applied to x in this equation?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Since 9 is added to x, subtract 9 from both sides to keep the equation balanced.",
+      "question": "What is 23 minus 9?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar equation, x + 4 = 15 is solved by subtracting 4 from both sides: x = 15 - 4 = 11.",
+      "question": "Using that same subtract-from-both-sides idea, what would you subtract from 23 to solve this equation?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["x = 14", "14"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the equation as plain text; do not depend on a balance-scale image or color."
+}

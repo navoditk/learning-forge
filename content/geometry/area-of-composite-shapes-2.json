@@ -1,0 +1,51 @@
+{
+  "id": "area-of-composite-shapes-2",
+  "version": "content-1",
+  "title": "Garden with a walkway removed",
+  "skillCode": "area-of-composite-shapes",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.G.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Finds the area of a composite shape by subtracting a removed section from a full rectangle."
+  ],
+  "prompt": "A rectangular garden measuring 10 meters by 8 meters has a rectangular 2 meter by 3 meter section removed for a walkway. What is the remaining area of the garden?",
+  "solutionRepresentation": "Find the full rectangle's area, then subtract the removed section: 10×8 - 2×3 = 80 - 6 = 74 square meters.",
+  "solutionMethod": "Find the area of the entire rectangle, then subtract the area of the removed section.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "74 square meters",
+    "acceptedAnswers": ["74", "74 square meters", "74 sq meters"],
+    "equivalenceNotes": "Accept 74 with or without a unit phrasing."
+  },
+  "misconceptionCodes": ["double-counts-overlap", "uses-wrong-formula"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "First find the area of the entire rectangle before anything is removed.",
+      "question": "What is 10 times 8?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Next find the area of the section that was removed.",
+      "question": "What is 2 times 3?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar garden, a 12-by-5 rectangle with a 3-by-2 section removed has a remaining area of 60 - 6 = 54 square meters.",
+      "question": "Using that same subtract-the-removed-section idea, what do you get when you subtract the walkway's area from the full garden's area?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["74 square meters", "74 sq meters"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the dimensions as plain text; do not depend on a garden-plan image or color."
+}
