@@ -1,6 +1,6 @@
 # ADR-0005: Hosting platform recommendation for the invite-only pilot
 
-- Status: Proposed
+- Status: Accepted (2026-09-06 by the product owner, Navodit Kaushik — Render selected; see ADR-0008 for the accompanying identity/consent decisions for the single-household pilot this hosting choice serves)
 - Date: 2026-09-06
 - Decision owner: Product/engineering owner; privacy review required before pilot (decision register item 1)
 
@@ -38,14 +38,15 @@ accessibility target.
 
 ## Explicit non-decisions
 
-- This does not select a final vendor, region, backup/retention configuration,
-  or spend. That remains gated on the privacy/data-residency comparison and
-  the budget/latency decision (decision register items 1 and 8).
-- This does not address authentication provider selection, which is a
-  separate, still-pending part of decision register item 1.
+- This selects Render as the platform (accepted 2026-09-06) but does not select
+  a region, backup/retention configuration, or spend. Those remain follow-up
+  engineering work, informed by the budget target in ADR-0009.
+- This does not itself implement the authentication mechanism, which ADR-0008
+  separately decided (simple email/password or magic-link).
 - This does not imply the application is ready to host real learner data;
-  identity, consent, and the pilot-readiness checklist remain pending
-  regardless of hosting choice.
+  the pilot-readiness checklist items not yet closed by ADR-0008/ADR-0009
+  (secrets management, operational rate/cost limits, monitoring, incident
+  contacts) remain pending regardless of hosting choice.
 
 ## Alternatives considered
 
