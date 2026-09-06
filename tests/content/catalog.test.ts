@@ -5,8 +5,8 @@ import { ratioContentCatalog, validateRatioCatalog } from '../../src/content/cat
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems awaiting educator review with complete skill coverage', () => {
-    expect(ratioContentCatalog).toHaveLength(14);
-    expect(new Set(ratioContentCatalog.map((item) => item.id)).size).toBe(14);
+    expect(ratioContentCatalog).toHaveLength(22);
+    expect(new Set(ratioContentCatalog.map((item) => item.id)).size).toBe(22);
     expect(new Set(ratioContentCatalog.map((item) => item.skillCode))).toEqual(
       new Set([
         'ratio-language',
@@ -16,6 +16,10 @@ describe('ratios content seed', () => {
         'percent-applications',
         'fraction-decimal-operations',
         'negative-numbers-and-absolute-value',
+        'division-of-fractions',
+        'coordinate-plane',
+        'variables-and-expressions',
+        'equivalent-expressions',
       ]),
     );
     expect(

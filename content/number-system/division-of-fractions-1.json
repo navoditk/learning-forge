@@ -1,0 +1,51 @@
+{
+  "id": "division-of-fractions-1",
+  "version": "content-1",
+  "title": "Ribbon pieces",
+  "skillCode": "division-of-fractions",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.NS.A.1"],
+  "prerequisiteSkillCodes": ["fraction-decimal-operations"],
+  "observableEvidence": [
+    "Divides a fraction by a fraction using the reciprocal and interprets the quotient as a count of equal-sized pieces."
+  ],
+  "prompt": "A ribbon that is 3/4 yard long is cut into pieces that are each 1/8 yard long. How many pieces can be cut?",
+  "solutionRepresentation": "3/4 ÷ 1/8 = 3/4 × 8/1 = 24/4 = 6 pieces.",
+  "solutionMethod": "Multiply by the reciprocal of the divisor.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "6",
+    "acceptedAnswers": ["6", "6 pieces"],
+    "equivalenceNotes": "Accept 6 with or without the word pieces."
+  },
+  "misconceptionCodes": ["multiplies-instead-of-dividing", "forgets-reciprocal"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Dividing by a fraction is the same as multiplying by its reciprocal.",
+      "question": "What is the reciprocal of 1/8?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Rewrite the division as a multiplication using that reciprocal.",
+      "question": "What multiplication problem is equivalent to 3/4 divided by 1/8?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, 1/2 yard divided into pieces that are 1/4 yard each gives 1/2 × 4/1 = 2 pieces.",
+      "question": "Using that same reciprocal idea, what multiplication would you set up for this ribbon problem?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["6 pieces"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present fractions as plain text (e.g. 3/4); do not depend on a ribbon image or color."
+}

@@ -1,0 +1,51 @@
+{
+  "id": "division-of-fractions-2",
+  "version": "content-1",
+  "title": "Oats batches",
+  "skillCode": "division-of-fractions",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["6.NS.A.1"],
+  "prerequisiteSkillCodes": ["fraction-decimal-operations"],
+  "observableEvidence": [
+    "Divides a fraction by a fraction to determine how many equal groups fit into a total amount."
+  ],
+  "prompt": "A recipe uses 2/3 cup of oats per batch. If you have 10/3 cups of oats, how many full batches can you make?",
+  "solutionRepresentation": "10/3 ÷ 2/3 = 10/3 × 3/2 = 30/6 = 5 batches.",
+  "solutionMethod": "Divide by multiplying by the reciprocal of the amount used per batch.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "5",
+    "acceptedAnswers": ["5", "5 batches"],
+    "equivalenceNotes": "Accept 5 with or without the word batches."
+  },
+  "misconceptionCodes": ["multiplies-instead-of-dividing", "forgets-reciprocal"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "You're dividing the total amount of oats by the amount used per batch.",
+      "question": "What operation finds how many equal-sized groups fit into a total?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Dividing by 2/3 is the same as multiplying by its reciprocal.",
+      "question": "What is the reciprocal of 2/3?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, 8/3 cups divided into batches of 1/3 cup each gives 8/3 × 3/1 = 8 batches.",
+      "question": "Using that same reciprocal idea, what multiplication would you set up to find the number of batches here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["5 batches"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present fractions as plain text (e.g. 2/3); do not depend on a measuring-cup image or color."
+}

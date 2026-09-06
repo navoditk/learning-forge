@@ -1,0 +1,51 @@
+{
+  "id": "variables-and-expressions-1",
+  "version": "content-1",
+  "title": "Stickers expression",
+  "skillCode": "variables-and-expressions",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.EE.A.2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Writes an algebraic expression from a word description and evaluates it by substitution."
+  ],
+  "prompt": "Maria has 5 more than 3 times the number of stickers Jake has. If Jake has 4 stickers, how many stickers does Maria have?",
+  "solutionRepresentation": "Let j be Jake's stickers. Maria has 3j + 5. Substituting j = 4: 3(4) + 5 = 17.",
+  "solutionMethod": "Write the expression 3j + 5, then substitute j = 4 and evaluate.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "17",
+    "acceptedAnswers": ["17", "17 stickers"],
+    "equivalenceNotes": "Accept 17 with or without the word stickers."
+  },
+  "misconceptionCodes": ["reverses-subtraction-order"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Translate '3 times the number of stickers Jake has' into an expression using a variable.",
+      "question": "If j stands for Jake's stickers, what expression represents 3 times that amount?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Maria's stickers are 5 more than that tripled amount, written as 3j + 5.",
+      "question": "What is 3 times 4?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, if someone has 3 more than 4 times a number that equals 2, the expression 4n + 3 gives 4(2) + 3 = 11.",
+      "question": "Using that same substitute-and-evaluate idea, what do you get when you substitute Jake's actual number of stickers into 3j + 5?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["17 stickers", "= 17"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the scenario as plain text; do not depend on a sticker image or color."
+}

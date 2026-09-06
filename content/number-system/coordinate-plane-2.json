@@ -1,0 +1,49 @@
+{
+  "id": "coordinate-plane-2",
+  "version": "content-1",
+  "title": "Reflect across the x-axis",
+  "skillCode": "coordinate-plane",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.NS.C.6"],
+  "prerequisiteSkillCodes": ["negative-numbers-and-absolute-value"],
+  "observableEvidence": ["Finds the coordinates of a point reflected across the x-axis."],
+  "prompt": "Point B is at (3, -7). If point B is reflected across the x-axis, what are the coordinates of the reflected point?",
+  "solutionRepresentation": "Reflecting across the x-axis keeps the x-coordinate the same and flips the sign of the y-coordinate: (3, 7).",
+  "solutionMethod": "Keep the x-coordinate the same and negate the y-coordinate.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "(3, 7)",
+    "acceptedAnswers": ["(3, 7)", "(3,7)", "3, 7"],
+    "equivalenceNotes": "Accept the coordinate pair with or without a space after the comma."
+  },
+  "misconceptionCodes": ["swaps-x-and-y", "ignores-quadrant-sign"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A reflection across the x-axis changes only one of the two coordinates.",
+      "question": "Which coordinate, x or y, changes when you reflect across the x-axis?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The x-coordinate stays the same in a reflection across the x-axis; only the sign of the y-coordinate flips.",
+      "question": "What happens to -7 when its sign flips?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, reflecting the point (2, -5) across the x-axis keeps the x-coordinate 2 and flips -5 to 5, giving (2, 5).",
+      "question": "Using that same reflection idea, what happens to point B's coordinates?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["(3, 7)", "(3,7)"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present coordinates as plain signed-number text; do not depend on a plotted graph image or color."
+}

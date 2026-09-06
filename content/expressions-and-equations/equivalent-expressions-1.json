@@ -1,0 +1,51 @@
+{
+  "id": "equivalent-expressions-1",
+  "version": "content-1",
+  "title": "Distribute and evaluate",
+  "skillCode": "equivalent-expressions",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.EE.A.3", "6.EE.A.4"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Uses the distributive property to rewrite an expression, then evaluates it by substitution."
+  ],
+  "prompt": "Use the distributive property to write an expression equivalent to 4(x + 3), then evaluate it when x = 5.",
+  "solutionRepresentation": "4(x + 3) = 4x + 12. Substituting x = 5: 4(5) + 12 = 32.",
+  "solutionMethod": "Distribute the 4 across both terms inside the parentheses, then substitute and evaluate.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "32",
+    "acceptedAnswers": ["32"],
+    "equivalenceNotes": "Accept 32 only."
+  },
+  "misconceptionCodes": ["distributes-incorrectly", "combines-unlike-terms"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The distributive property means multiplying the outside number by each term inside the parentheses.",
+      "question": "What do you get when you multiply 4 by x, and 4 by 3, separately?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "After distributing, you get 4x + 12. Now substitute x = 5 into that expression.",
+      "question": "What is 4 times 5?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, distributing 3(x + 2) gives 3x + 6, and substituting x = 4 gives 3(4) + 6 = 18.",
+      "question": "Using that same distribute-then-substitute idea, what do you get when you substitute x = 5 into 4x + 12?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["32"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present expressions as plain text; do not depend on color or a manipulative image."
+}
