@@ -15,7 +15,10 @@ import {
   recordTutorResponse,
 } from '../../src/phase1/service';
 import { FakeTutorModel, TutorHarness } from '../../src/tutor';
+import { POST as postAttempt } from '../../src/app/api/phase1/attempt/route';
+import { POST as postCheck } from '../../src/app/api/phase1/check/route';
 import { POST as postHint } from '../../src/app/api/phase1/hint/route';
+import { GET as getParentRoute } from '../../src/app/api/phase1/parent/route';
 import { GET as getPlanRoute } from '../../src/app/api/phase1/plan/route';
 import { GET as getDigestRoute } from '../../src/app/api/phase1/digest/route';
 
@@ -197,6 +200,77 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       },
     });
     expect(estimates).toHaveLength(1);
+  });
+
+  it('validates and rejects malformed or unknown attempt requests over HTTP', async () => {
+    const invalid = await postAttempt(
+      new Request('http://localhost/api/phase1/attempt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: 'not-a-uuid', learnerResponse: '15' }),
+      }),
+    );
+    expect(invalid.status).toBe(400);
+
+    const unknown = await postAttempt(
+      new Request('http://localhost/api/phase1/attempt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: randomUUID(), learnerResponse: '15' }),
+      }),
+    );
+    expect(unknown.status).toBe(404);
+  });
+
+  it('validates and rejects malformed or premature independent check requests over HTTP', async () => {
+    const invalid = await postCheck(
+      new Request('http://localhost/api/phase1/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: 'not-a-uuid', learnerResponse: '15' }),
+      }),
+    );
+    expect(invalid.status).toBe(400);
+
+    await ensureSyntheticIdentity();
+    const session = await getSyntheticSession();
+    const premature = await postCheck(
+      new Request('http://localhost/api/phase1/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: session.sessionId, learnerResponse: '15' }),
+      }),
+    );
+    expect(premature.status).toBe(404);
+  });
+
+  it('validates and rejects malformed or unknown hint requests over HTTP', async () => {
+    const invalid = await postHint(
+      new Request('http://localhost/api/phase1/hint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ learnerMessage: '' }),
+      }),
+    );
+    expect(invalid.status).toBe(400);
+
+    const unknown = await postHint(
+      new Request('http://localhost/api/phase1/hint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ attemptId: randomUUID(), learnerMessage: 'I tried.' }),
+      }),
+    );
+    expect(unknown.status).toBe(404);
+  });
+
+  it('returns parent evidence over HTTP matching the service result', async () => {
+    const response = await getParentRoute();
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    const evidence = await getParentEvidence();
+    expect(body.attempts).toHaveLength(evidence.attempts.length);
+    expect(body.mastery).toEqual(evidence.mastery);
   });
 
   it('rejects session and attempt identifiers outside the synthetic household', async () => {
