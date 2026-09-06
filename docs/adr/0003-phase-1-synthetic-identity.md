@@ -41,3 +41,13 @@ exercising the identity port’s household boundary. It must be replaced or
 wrapped by approved authentication before any real learner data or external
 pilot is enabled. Reversal is required when a provider, consent model, and
 guardian-verification design are approved.
+
+**Update 2026-09-06**: ADR-0008 approved the identity/consent design, and
+ADR-0010 implements the "wrapped by approved authentication" half of this
+reversal signal — real login (NextAuth v5, email/password) now gates every
+page and API route. The other half is not yet done: `src/phase1/service.ts`
+still resolves all data against this synthetic fixture's `SYNTHETIC_IDS`
+rather than the authenticated household from ADR-0010's session, so this ADR's
+fixture remains the one actually driving application data until that
+follow-up rewiring lands. Do not read "real login exists" as "this ADR is
+fully superseded."

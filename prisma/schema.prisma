@@ -96,6 +96,11 @@ model User {
   id                 String          @id @default(uuid())
   householdId        String
   role               UserRole
+  // Sign-in credentials. Only ever populated for PARENT-role users: ADR-0008
+  // decided there is no separate learner login, so LEARNER-role users keep
+  // these null.
+  email              String?         @unique
+  passwordHash       String?
   createdAt          DateTime        @default(now())
   household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
   learnerProfile     LearnerProfile?

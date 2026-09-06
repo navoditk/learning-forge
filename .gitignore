@@ -3,6 +3,7 @@ node_modules/
 coverage/
 playwright-report/
 test-results/
+playwright/.auth/
 dist/
 *.log
 *.tsbuildinfo
