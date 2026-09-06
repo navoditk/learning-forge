@@ -20,6 +20,16 @@ import variablesAndExpressions1 from '../../content/expressions-and-equations/va
 import variablesAndExpressions2 from '../../content/expressions-and-equations/variables-and-expressions-2.json';
 import equivalentExpressions1 from '../../content/expressions-and-equations/equivalent-expressions-1.json';
 import equivalentExpressions2 from '../../content/expressions-and-equations/equivalent-expressions-2.json';
+import oneVariableEquationsAndInequalities1 from '../../content/expressions-and-equations/one-variable-equations-and-inequalities-1.json';
+import oneVariableEquationsAndInequalities2 from '../../content/expressions-and-equations/one-variable-equations-and-inequalities-2.json';
+import dependentAndIndependentVariables1 from '../../content/expressions-and-equations/dependent-and-independent-variables-1.json';
+import dependentAndIndependentVariables2 from '../../content/expressions-and-equations/dependent-and-independent-variables-2.json';
+import areaOfCompositeShapes1 from '../../content/geometry/area-of-composite-shapes-1.json';
+import areaOfCompositeShapes2 from '../../content/geometry/area-of-composite-shapes-2.json';
+import surfaceAreaAndVolume1 from '../../content/geometry/surface-area-and-volume-1.json';
+import surfaceAreaAndVolume2 from '../../content/geometry/surface-area-and-volume-2.json';
+import coordinateGeometry1 from '../../content/geometry/coordinate-geometry-1.json';
+import coordinateGeometry2 from '../../content/geometry/coordinate-geometry-2.json';
 import { RatioContent, RatioContentSchema } from '../contracts/content';
 import { skillsByCode } from '../curriculum/catalog';
 
@@ -46,6 +56,16 @@ const rawRatioContent = [
   variablesAndExpressions2,
   equivalentExpressions1,
   equivalentExpressions2,
+  oneVariableEquationsAndInequalities1,
+  oneVariableEquationsAndInequalities2,
+  dependentAndIndependentVariables1,
+  dependentAndIndependentVariables2,
+  areaOfCompositeShapes1,
+  areaOfCompositeShapes2,
+  surfaceAreaAndVolume1,
+  surfaceAreaAndVolume2,
+  coordinateGeometry1,
+  coordinateGeometry2,
 ] as const;
 
 export function validateRatioCatalog(items: readonly unknown[] = rawRatioContent): RatioContent[] {

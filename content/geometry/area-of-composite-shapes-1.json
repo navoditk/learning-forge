@@ -1,0 +1,49 @@
+{
+  "id": "area-of-composite-shapes-1",
+  "version": "content-1",
+  "title": "L-shaped room",
+  "skillCode": "area-of-composite-shapes",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.G.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": ["Decomposes an L-shaped figure into two rectangles and adds their areas."],
+  "prompt": "A room shaped like an L is made of two rectangles: one that is 6 meters by 4 meters, and another that is 3 meters by 2 meters. What is the total area of the room?",
+  "solutionRepresentation": "Find each rectangle's area and add: 6×4 + 3×2 = 24 + 6 = 30 square meters.",
+  "solutionMethod": "Find the area of each rectangle separately, then add the two areas.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "30 square meters",
+    "acceptedAnswers": ["30", "30 square meters", "30 sq meters"],
+    "equivalenceNotes": "Accept 30 with or without a unit phrasing."
+  },
+  "misconceptionCodes": ["double-counts-overlap", "uses-wrong-formula"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Break the L-shape into two separate rectangles you already know how to find the area of.",
+      "question": "What is the area of the first rectangle, 6 meters by 4 meters?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Now find the area of the second rectangle, 3 meters by 2 meters.",
+      "question": "What is 3 times 2?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar L-shaped room made of a 5-by-3 rectangle and a 2-by-2 rectangle, the total area is 15 + 4 = 19 square meters.",
+      "question": "Using that same decompose-and-add idea, what do you get when you add the areas of this room's two rectangles?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["30 square meters", "30 sq meters"],
+  "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Educator/content owner",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the two rectangles' dimensions as plain text; do not depend on a floor-plan image or color."
+}
