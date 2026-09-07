@@ -75,6 +75,27 @@ machine against the production database instead:
    reaches the database fine afterward — it connects over Render's
    internal network, not the external URL.
 
+### If step 2 fails to connect at all
+
+If you see a Prisma error like `Server has closed the connection` (or,
+with `psql`, `SSL connection has been closed unexpectedly`), this is very
+likely your local network — not Render or this script — interfering with
+the TLS handshake on port 5432 (an unusual port for a home router/ISP/VPN
+to pass through cleanly). Confirmed during the actual first deployment
+attempt: neither adding `?sslmode=require` nor trying both
+`sslnegotiation=direct` and `sslnegotiation=postgres` fixed it. Two ways
+around it, without more network debugging:
+
+- **Temporarily upgrade the web service to Starter** (Render dashboard →
+  the `learning-forge` service → change plan), open its **Shell** tab, and
+  run the exact same `npm run create-parent-account -- ...` command there
+  — it already has a working *internal* `DATABASE_URL`, so the external
+  connectivity problem never comes up. Downgrade back to Free afterward.
+  No code change.
+- **Or**, if you'd rather not spend anything even temporarily, ask for a
+  temporary token-gated HTTP setup route to be added to the app instead,
+  used once, then removed.
+
 ## 4. Sign in
 
 Visit the deployed URL, sign in with the account just created. The real
