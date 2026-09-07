@@ -2,9 +2,12 @@ databases:
   - name: learning-forge-db
     plan: basic-256mb
     region: oregon
-    # No ipAllowList entry: the database stays unreachable from the public
-    # internet, reachable only by services in this same Render account/region
-    # (this web service). Deliberate default for a child's data.
+    # Render's own default, if this were omitted, is the OPPOSITE of what
+    # a child's data needs: any IP with valid credentials can connect
+    # (effectively 0.0.0.0/0). An explicit empty list blocks all external
+    # access; the web service below still reaches this database fine over
+    # Render's internal network, since it's in the same account/region.
+    ipAllowList: []
 
 services:
   - type: web

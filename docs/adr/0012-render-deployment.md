@@ -97,3 +97,16 @@ use, upgrading to the `starter` plan is a single-field change. Revisit the
 rate-limit threshold (60/hour) if normal single-household usage ever
 approaches it — that would mean the limit is wrong, not that the household
 is somehow abusing its own account.
+
+**Update 2026-09-06**: found and fixed a real mistake in the initial
+`render.yaml`, caught only because the product owner was mid-deployment and
+couldn't find the dashboard section the runbook described. The original
+`render.yaml` omitted `ipAllowList` on the database, believing that meant
+"no external access by default." Render's actual default is the opposite:
+omitting it allows any IP with valid credentials to connect
+(`0.0.0.0/0`-equivalent); an explicit `ipAllowList: []` is what blocks
+external access. Verified this against Render's current documentation
+before fixing, rather than guessing again. `render.yaml` now sets
+`ipAllowList: []` explicitly, and `docs/render-deployment.md` step 3 was
+corrected (the setting lives under the database's Info page's Networking
+section, not a separate "Access Control" tab, which also didn't exist).
