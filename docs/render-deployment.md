@@ -56,21 +56,24 @@ The free web service plan has no Shell access and can't run one-off jobs,
 so `scripts/create-parent-account.ts` needs to run from your local
 machine against the production database instead:
 
-1. In the Render dashboard, open the `learning-forge-db` database →
-   **Access Control**. Temporarily add your current machine's IP address
-   (or a short-lived `0.0.0.0/0` entry if your IP changes) to the allow
-   list. The database has no external access by default — this is a
-   deliberate step, not a missing default.
-2. Copy the database's **External Database URL** from the same page.
-3. Run, from this repository, using that external URL (not your local
+1. In the Render dashboard, open the `learning-forge-db` database → its
+   **Info** page. Find the **Connect** section and copy the **External
+   Database URL**. `render.yaml` sets `ipAllowList: []` (blocks all
+   external access) — if the database was created before that was added,
+   Render's own default is the *opposite*: any IP with valid credentials
+   can connect, so this step needs no unlocking first. Check the
+   **Networking** section on the same page if you're not sure which state
+   it's in.
+2. Run, from this repository, using that external URL (not your local
    `.env`'s `DATABASE_URL`, which points at your local Postgres):
    ```
    DATABASE_URL="<external-database-url>" npm run create-parent-account -- \
      --email=your-real-email@example.com --password=a-real-password
    ```
-4. **Remove the IP allow-list entry you added in step 1.** The database
-   should have no standing external access once this one-time step is
-   done.
+3. In the **Networking** section, set the IP allow list to empty (blocks
+   all external access) if it isn't already. The web service still
+   reaches the database fine afterward — it connects over Render's
+   internal network, not the external URL.
 
 ## 4. Sign in
 
