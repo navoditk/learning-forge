@@ -1,6 +1,7 @@
 {
   "code": "gcf-and-lcm",
   "title": "Greatest common factor and least common multiple",
+  "program": "grade-6-math",
   "domain": "number-system",
   "standards": ["6.NS.B.4"],
   "prerequisiteSkillCodes": [],

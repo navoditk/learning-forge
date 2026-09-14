@@ -13,6 +13,16 @@
 
 The local sequence is guidance, not an assumption about a specific classroom. Parent/learner input can adjust the current unit.
 
+## Browsing the curriculum
+
+The full skill graph and sample problems (answers/hints excluded) are published at
+[navoditk.github.io/learning-forge](https://navoditk.github.io/learning-forge/), generated
+directly from `skillCatalog`/`contentCatalog` by `scripts/generate-curriculum-site.ts`. It
+regenerates automatically on every push to `main` (`.github/workflows/curriculum-site.yml`), so
+it can never drift from what's actually shipped. Each `Skill` carries a `program` field
+(currently only `grade-6-math`) so future programs - Math Kangaroo, AMC 8, MATHCOUNTS, MOEMS,
+Grade 6 ELA - can be added as new top-level sections without restructuring existing content.
+
 ## Initial Math skill graph
 
 - Ratios and proportional reasoning

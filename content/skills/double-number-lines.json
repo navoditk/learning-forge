@@ -1,6 +1,7 @@
 {
   "code": "double-number-lines",
   "title": "Double number lines",
+  "program": "grade-6-math",
   "domain": "ratios-and-proportional-reasoning",
   "standards": ["6.RP.A.3"],
   "prerequisiteSkillCodes": ["ratio-tables"],

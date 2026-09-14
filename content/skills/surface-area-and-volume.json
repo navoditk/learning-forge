@@ -1,6 +1,7 @@
 {
   "code": "surface-area-and-volume",
   "title": "Surface area and volume",
+  "program": "grade-6-math",
   "domain": "geometry",
   "standards": ["6.G.A.2", "6.G.A.4"],
   "prerequisiteSkillCodes": ["area-of-composite-shapes"],

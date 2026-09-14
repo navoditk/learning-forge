@@ -1,6 +1,7 @@
 {
   "code": "statistical-questions",
   "title": "Statistical questions",
+  "program": "grade-6-math",
   "domain": "statistics",
   "standards": ["6.SP.A.1"],
   "prerequisiteSkillCodes": [],

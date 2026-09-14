@@ -1,6 +1,7 @@
 {
   "code": "coordinate-geometry",
   "title": "Coordinate geometry",
+  "program": "grade-6-math",
   "domain": "geometry",
   "standards": ["6.G.A.3"],
   "prerequisiteSkillCodes": ["coordinate-plane"],

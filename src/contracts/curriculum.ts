@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+export const CurriculumProgramSchema = z.enum(['grade-6-math']);
+
+export type CurriculumProgram = z.infer<typeof CurriculumProgramSchema>;
+
 export const CurriculumDomainSchema = z.enum([
   'ratios-and-proportional-reasoning',
   'number-system',
@@ -20,6 +24,7 @@ export const SkillSchema = z
   .object({
     code: SkillCodeSchema,
     title: z.string().trim().min(1).max(160),
+    program: CurriculumProgramSchema,
     domain: CurriculumDomainSchema,
     standards: z.array(z.string().trim().min(1).max(40)).min(1).max(10),
     prerequisiteSkillCodes: z.array(SkillCodeSchema).max(10),

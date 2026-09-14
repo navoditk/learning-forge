@@ -1,6 +1,7 @@
 {
   "code": "whole-number-exponents",
   "title": "Whole-number exponents",
+  "program": "grade-6-math",
   "domain": "expressions-and-equations",
   "standards": ["6.EE.A.1"],
   "prerequisiteSkillCodes": [],

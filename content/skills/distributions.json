@@ -1,6 +1,7 @@
 {
   "code": "distributions",
   "title": "Distributions",
+  "program": "grade-6-math",
   "domain": "statistics",
   "standards": ["6.SP.A.2", "6.SP.B.4"],
   "prerequisiteSkillCodes": ["statistical-questions"],

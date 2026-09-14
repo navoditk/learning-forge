@@ -1,6 +1,7 @@
 {
   "code": "percent-applications",
   "title": "Percent applications",
+  "program": "grade-6-math",
   "domain": "ratios-and-proportional-reasoning",
   "standards": ["6.RP.A.3"],
   "prerequisiteSkillCodes": ["unit-rates"],

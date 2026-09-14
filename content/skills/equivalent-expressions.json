@@ -1,6 +1,7 @@
 {
   "code": "equivalent-expressions",
   "title": "Equivalent expressions",
+  "program": "grade-6-math",
   "domain": "expressions-and-equations",
   "standards": ["6.EE.A.3", "6.EE.A.4"],
   "prerequisiteSkillCodes": ["variables-and-expressions"],
