@@ -110,3 +110,23 @@ before fixing, rather than guessing again. `render.yaml` now sets
 `ipAllowList: []` explicitly, and `docs/render-deployment.md` step 3 was
 corrected (the setting lives under the database's Info page's Networking
 section, not a separate "Access Control" tab, which also didn't exist).
+
+**Update 2026-09-13**: deployment is genuinely live. The corrected
+`ipAllowList: []` from the previous update meant the documented "run the
+provisioning script from your own machine against the external database
+URL" path (step 3 of `docs/render-deployment.md`) failed outright —
+correctly blocked, exactly as configured, which surfaced as a confusing
+SSL handshake error rather than a clear "access denied" message. Rather
+than open the allow list temporarily, used the more reliable path already
+noted as an alternative in the runbook: temporarily changed the web
+service's Compute plan from `free` to Starter to get Shell access, and ran
+the provisioning script there against the service's own working *internal*
+`DATABASE_URL`. This succeeded immediately, with no IP allow-list change
+and no SSL configuration needed, and is now the recommended default for
+any future one-time production script — not just a fallback. Verified the
+full deployment past the database write: signed in at the live URL with
+the provisioned account and confirmed a real hint request shows the
+latency and non-templated text specific to the real Claude adapter. The
+web service was left on Starter after this; downgrading back to `free`
+(this ADR's actual decision) is a tracked loose end, not yet confirmed
+done.
