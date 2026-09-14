@@ -3,6 +3,8 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
+import { ProgramSwitcher } from './components/program-switcher';
+
 type Session = {
   sessionId: string;
   learner: { displayName: string };
@@ -153,9 +155,11 @@ export default function Home() {
   return (
     <main>
       <header>
-        <p>
-          <strong>Learning Forge</strong> · local synthetic session
-        </p>
+        <div className="brand">
+          Learning Forge
+          <small>Local synthetic session</small>
+        </div>
+        <ProgramSwitcher />
         <nav aria-label="Primary navigation">
           <Link href="/parent">Parent evidence</Link>
         </nav>

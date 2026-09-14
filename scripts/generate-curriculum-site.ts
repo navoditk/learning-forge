@@ -16,13 +16,10 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 
 import type { ContentItem } from '../src/contracts/content';
-import type { CurriculumDomain, CurriculumProgram, Skill } from '../src/contracts/curriculum';
+import type { CurriculumDomain, Skill } from '../src/contracts/curriculum';
 import { contentCatalog } from '../src/content/catalog';
 import { skillCatalog } from '../src/curriculum/catalog';
-
-const PROGRAM_LABELS: Record<CurriculumProgram, string> = {
-  'grade-6-math': 'Grade 6 Math',
-};
+import { PROGRAM_ROSTER } from '../src/curriculum/program-roster';
 
 const DOMAIN_LABELS: Record<CurriculumDomain, string> = {
   'ratios-and-proportional-reasoning': 'Ratios & Proportional Reasoning',
@@ -123,7 +120,7 @@ function renderSkill(skill: Skill, items: readonly ContentItem[]): string {
 }
 
 function buildBody(): { title: string; stats: string; body: string } {
-  const byProgram = new Map<CurriculumProgram, Skill[]>();
+  const byProgram = new Map<string, Skill[]>();
   for (const skill of skillCatalog) {
     const bucket = byProgram.get(skill.program) ?? [];
     bucket.push(skill);
@@ -149,7 +146,25 @@ function buildBody(): { title: string; stats: string; body: string } {
   const navSections: string[] = [];
   const programSections: string[] = [];
 
-  for (const [program, skills] of byProgram) {
+  for (const roster of PROGRAM_ROSTER) {
+    const programAnchor = slugify(roster.code);
+
+    if (!roster.available) {
+      navSections.push(`
+        <li class="nav-program nav-program-disabled">
+          <a href="#program-${programAnchor}">${escapeHtml(roster.label)}</a>
+          <span class="badge badge-pending">Coming soon</span>
+        </li>`);
+
+      programSections.push(`
+        <section class="program-section program-section-empty" id="program-${programAnchor}">
+          <h1>${escapeHtml(roster.label)} <span class="badge badge-pending">Coming soon</span></h1>
+          <p class="page-intro">This program isn't authored yet. It'll appear here with its own skill graph and sample problems once it is.</p>
+        </section>`);
+      continue;
+    }
+
+    const skills = byProgram.get(roster.code) ?? [];
     const byDomain = new Map<CurriculumDomain, Skill[]>();
     for (const skill of skills) {
       const bucket = byDomain.get(skill.domain) ?? [];
@@ -157,7 +172,6 @@ function buildBody(): { title: string; stats: string; body: string } {
       byDomain.set(skill.domain, bucket);
     }
 
-    const programAnchor = slugify(program);
     const domainNav: string[] = [];
     const domainSections: string[] = [];
 
@@ -185,13 +199,13 @@ function buildBody(): { title: string; stats: string; body: string } {
 
     navSections.push(`
       <li class="nav-program">
-        <a href="#program-${programAnchor}">${escapeHtml(PROGRAM_LABELS[program])}</a>
+        <a href="#program-${programAnchor}">${escapeHtml(roster.label)}</a>
         <ul>${domainNav.join('')}</ul>
       </li>`);
 
     programSections.push(`
       <section class="program-section" id="program-${programAnchor}">
-        <h1>${escapeHtml(PROGRAM_LABELS[program])}</h1>
+        <h1>${escapeHtml(roster.label)}</h1>
         ${domainSections.join('')}
       </section>`);
   }
@@ -201,7 +215,6 @@ function buildBody(): { title: string; stats: string; body: string } {
       <nav class="sidebar">
         <p class="sidebar-title">Programs</p>
         <ul>${navSections.join('')}</ul>
-        <p class="sidebar-note">More programs - Math Kangaroo, AMC&nbsp;8, MATHCOUNTS, MOEMS, Grade&nbsp;6 ELA - will appear here as they're added.</p>
       </nav>
       <main class="content">
         <header class="page-header">
@@ -328,6 +341,9 @@ const CSS = `
   .badge-pending { background: var(--pending-soft); color: var(--pending); }
   .content-item-title { font-weight: 600; margin: 0 0 0.2rem; }
   .content-item-prompt { margin: 0; color: var(--text-muted); }
+  .nav-program-disabled { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+  .nav-program-disabled a { color: var(--text-muted); font-weight: 400; }
+  .program-section-empty h1 { display: flex; align-items: center; gap: 0.75rem; font-size: 1.4rem; }
   @media (max-width: 860px) {
     .layout { flex-direction: column; }
     .sidebar { position: static; width: 100%; max-height: none; border-right: none; border-bottom: 1px solid var(--border); }

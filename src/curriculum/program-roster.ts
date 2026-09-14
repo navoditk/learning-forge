@@ -1,0 +1,21 @@
+/**
+ * The full subject roadmap shown in the program switcher, on both the portal
+ * and the public curriculum site. Distinct from `CurriculumProgramSchema`
+ * (contracts/curriculum.ts), which only lists programs that have validated
+ * content behind them today - this roster also lists ones that don't yet, so
+ * the switcher can show the roadmap honestly instead of hiding it.
+ */
+export type ProgramRosterEntry = {
+  code: string;
+  label: string;
+  available: boolean;
+};
+
+export const PROGRAM_ROSTER: readonly ProgramRosterEntry[] = [
+  { code: 'grade-6-math', label: 'Grade 6 Math', available: true },
+  { code: 'amc-8', label: 'AMC 8', available: false },
+  { code: 'math-kangaroo-6', label: 'Math Kangaroo (Grade 6)', available: false },
+  { code: 'grade-6-ela', label: 'Grade 6 ELA', available: false },
+  { code: 'grade-6-science', label: 'Grade 6 Science', available: false },
+  { code: 'grade-6-social-studies', label: 'Grade 6 Social Studies', available: false },
+];
