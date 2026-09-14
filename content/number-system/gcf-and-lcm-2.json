@@ -1,0 +1,54 @@
+{
+  "id": "gcf-and-lcm-2",
+  "version": "content-1",
+  "title": "Smallest shared multiple",
+  "skillCode": "gcf-and-lcm",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.NS.B.4"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Lists multiples of two whole numbers and identifies the smallest one they share."
+  ],
+  "prompt": "What is the least common multiple (LCM) of 8 and 12?",
+  "solutionRepresentation": "Multiples of 8: 8, 16, 24, 32. Multiples of 12: 12, 24, 36. The smallest shared multiple is 24.",
+  "solutionMethod": "List the multiples of each number and pick the smallest one that appears in both lists.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "24",
+    "acceptedAnswers": ["24"],
+    "equivalenceNotes": "Accept the numeral only."
+  },
+  "misconceptionCodes": ["confuses-gcf-and-lcm", "lists-shared-multiple-as-factor"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A common multiple is a number that both numbers divide into evenly — the opposite direction from a common factor.",
+      "question": "What are the first several multiples of 8?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "List multiples of both numbers, continuing each list until you spot a number that appears on both.",
+      "question": "As you extend the multiples of 12, which value also shows up in your list of multiples of 8?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, the LCM of 6 and 9 is found by listing 6, 12, 18 and 9, 18 — the smallest shared value is 18.",
+      "question": "Using that same idea, what is the smallest multiple shared by the lists for 8 and 12?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["24"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present multiple lists as plain selectable text, one number at a time, rather than as an image or table."
+}

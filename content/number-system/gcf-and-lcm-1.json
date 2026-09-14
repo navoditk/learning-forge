@@ -1,0 +1,54 @@
+{
+  "id": "gcf-and-lcm-1",
+  "version": "content-1",
+  "title": "Largest shared factor",
+  "skillCode": "gcf-and-lcm",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.NS.B.4"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Lists the factors of two whole numbers and identifies the greatest one they share."
+  ],
+  "prompt": "What is the greatest common factor (GCF) of 18 and 24?",
+  "solutionRepresentation": "Factors of 18: 1, 2, 3, 6, 9, 18. Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24. The greatest shared factor is 6.",
+  "solutionMethod": "List the factors of each number and pick the largest one that appears in both lists.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "6",
+    "acceptedAnswers": ["6"],
+    "equivalenceNotes": "Accept the numeral only."
+  },
+  "misconceptionCodes": ["confuses-gcf-and-lcm"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "List every factor of each number, then look for numbers that appear in both lists.",
+      "question": "What are some numbers that divide evenly into both 18 and 24?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write both factor lists in order from smallest to largest, then compare them side by side.",
+      "question": "Which factors show up in both lists?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, the GCF of 20 and 25 is found by comparing 1, 2, 4, 5, 10, 20 with 1, 5, 25 — the largest number in both lists is 5.",
+      "question": "Using that same comparison, what is the largest number that appears in both factor lists for 18 and 24?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["6"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present factor lists as plain selectable text, one number at a time, rather than as an image or table."
+}

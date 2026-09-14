@@ -1,0 +1,54 @@
+{
+  "id": "multi-digit-division-2",
+  "version": "content-1",
+  "title": "Division with a remainder",
+  "skillCode": "multi-digit-division",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.NS.B.2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses the standard algorithm to divide a four-digit number by a two-digit number, correctly reporting the remainder."
+  ],
+  "prompt": "Divide 5,287 by 15. What is the quotient and remainder?",
+  "solutionRepresentation": "15 x 352 = 5,280, and 5,287 minus 5,280 leaves 7. So the quotient is 352 with a remainder of 7.",
+  "solutionMethod": "Divide place value by place value from left to right, then subtract the final product from the original number to find what's left over.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "352 remainder 7",
+    "acceptedAnswers": ["352 remainder 7", "352 r 7", "352r7", "352, remainder 7"],
+    "equivalenceNotes": "Accept any common way of writing the quotient and remainder together, with or without punctuation or spacing around 'r'/'remainder'."
+  },
+  "misconceptionCodes": ["drops-remainder"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Start by figuring out how many times 15 fits into the leading digits of 5,287.",
+      "question": "How many times does 15 go into 52?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "After dividing into the leading digits, bring down the next digit and continue the same process.",
+      "question": "What number are you dividing 15 into next, after handling the thousands and hundreds together?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, 6,194 divided by 13 gives a quotient of 476 with something left over after the last step, found by working through each place value and keeping whatever amount doesn't divide evenly.",
+      "question": "Using that same idea, what should you do with whatever amount is left over after your last division step here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["352 remainder 7", "352 r 7", "352r7"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the division as plain selectable text (5,287 divided by 15) rather than a stacked long-division image."
+}

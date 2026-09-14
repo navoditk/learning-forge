@@ -1,0 +1,54 @@
+{
+  "id": "whole-number-exponents-2",
+  "version": "content-1",
+  "title": "Order of operations with a power",
+  "skillCode": "whole-number-exponents",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.EE.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Evaluates a multi-step expression, applying the exponent before multiplication and addition."
+  ],
+  "prompt": "Evaluate the expression: 2 + 3^2 x 4.",
+  "solutionRepresentation": "3^2 = 9 first, then 9 x 4 = 36, then 2 + 36 = 38.",
+  "solutionMethod": "Follow the order of operations: evaluate the exponent, then multiply, then add.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "38",
+    "acceptedAnswers": ["38"],
+    "equivalenceNotes": "Accept the numeral only."
+  },
+  "misconceptionCodes": ["ignores-order-of-operations"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The order of operations says to evaluate exponents before multiplying or adding.",
+      "question": "Which part of the expression should you evaluate first?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Rewrite the expression, replacing 3^2 with its value, before doing anything else.",
+      "question": "Once you've evaluated the exponent, what expression are you left with?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, 1 + 2^3 x 5 is evaluated by first finding 2^3 = 8, then 8 x 5 = 40, then 1 + 40 = 41.",
+      "question": "Using that same order — exponent, then multiplication, then addition — what do you get for this expression?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["38"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the expression as plain selectable text with the caret (^) read aloud as 'to the power of'."
+}

@@ -10,8 +10,8 @@ import {
 
 describe('skill catalog', () => {
   it('covers all five Grade 6 Math domains with unique codes', () => {
-    expect(skillCatalog.length).toBe(19);
-    expect(new Set(skillCatalog.map((skill) => skill.code)).size).toBe(19);
+    expect(skillCatalog.length).toBe(22);
+    expect(new Set(skillCatalog.map((skill) => skill.code)).size).toBe(22);
     expect(new Set(skillCatalog.map((skill) => skill.domain))).toEqual(
       new Set([
         'ratios-and-proportional-reasoning',

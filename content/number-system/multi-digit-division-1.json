@@ -1,0 +1,54 @@
+{
+  "id": "multi-digit-division-1",
+  "version": "content-1",
+  "title": "Even division",
+  "skillCode": "multi-digit-division",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.NS.B.2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses the standard algorithm to divide a four-digit number by a two-digit number with no remainder."
+  ],
+  "prompt": "Divide 4,536 by 12 using the standard algorithm. What is the quotient?",
+  "solutionRepresentation": "4,536 divided by 12 is 378, since 12 x 378 = 4,536.",
+  "solutionMethod": "Divide place value by place value from left to right, bringing down the next digit after each step, until every digit has been used.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "378",
+    "acceptedAnswers": ["378"],
+    "equivalenceNotes": "Accept the numeral only."
+  },
+  "misconceptionCodes": ["misaligns-place-value"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Start with the leftmost digits of 4,536 and see how many times 12 fits into them.",
+      "question": "How many times does 12 go into 45?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "After each division step, bring down the next digit of 4,536 and repeat the process.",
+      "question": "Once you've divided into 45 and brought down the next digit, what number are you dividing 12 into next?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, 3,648 divided by 12 is found step by step through each place value, giving 304.",
+      "question": "Using that same step-by-step process, what is the next digit of the quotient after you handle the hundreds place here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["378"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Present the division as plain selectable text (4,536 divided by 12) rather than a stacked long-division image."
+}

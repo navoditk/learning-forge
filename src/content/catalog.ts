@@ -36,6 +36,12 @@ import distributions1 from '../../content/statistics/distributions-1.json';
 import distributions2 from '../../content/statistics/distributions-2.json';
 import centerAndVariability1 from '../../content/statistics/center-and-variability-1.json';
 import centerAndVariability2 from '../../content/statistics/center-and-variability-2.json';
+import wholeNumberExponents1 from '../../content/expressions-and-equations/whole-number-exponents-1.json';
+import wholeNumberExponents2 from '../../content/expressions-and-equations/whole-number-exponents-2.json';
+import gcfAndLcm1 from '../../content/number-system/gcf-and-lcm-1.json';
+import gcfAndLcm2 from '../../content/number-system/gcf-and-lcm-2.json';
+import multiDigitDivision1 from '../../content/number-system/multi-digit-division-1.json';
+import multiDigitDivision2 from '../../content/number-system/multi-digit-division-2.json';
 import { ContentItem, ContentItemSchema } from '../contracts/content';
 import { skillsByCode } from '../curriculum/catalog';
 
@@ -78,6 +84,12 @@ const rawContent = [
   distributions2,
   centerAndVariability1,
   centerAndVariability2,
+  wholeNumberExponents1,
+  wholeNumberExponents2,
+  gcfAndLcm1,
+  gcfAndLcm2,
+  multiDigitDivision1,
+  multiDigitDivision2,
 ] as const;
 
 export function validateContentCatalog(items: readonly unknown[] = rawContent): ContentItem[] {
