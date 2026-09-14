@@ -1,6 +1,7 @@
 {
   "code": "coordinate-plane",
   "title": "Coordinate plane",
+  "program": "grade-6-math",
   "domain": "number-system",
   "standards": ["6.NS.C.6"],
   "prerequisiteSkillCodes": ["negative-numbers-and-absolute-value"],

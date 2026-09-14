@@ -1,6 +1,7 @@
 {
   "code": "ratio-language",
   "title": "Ratio language",
+  "program": "grade-6-math",
   "domain": "ratios-and-proportional-reasoning",
   "standards": ["6.RP.A.1"],
   "prerequisiteSkillCodes": [],

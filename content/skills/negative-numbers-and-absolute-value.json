@@ -1,6 +1,7 @@
 {
   "code": "negative-numbers-and-absolute-value",
   "title": "Negative numbers and absolute value",
+  "program": "grade-6-math",
   "domain": "number-system",
   "standards": ["6.NS.C.5", "6.NS.C.7"],
   "prerequisiteSkillCodes": [],

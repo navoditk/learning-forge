@@ -1,6 +1,7 @@
 {
   "code": "unit-rates",
   "title": "Unit rates",
+  "program": "grade-6-math",
   "domain": "ratios-and-proportional-reasoning",
   "standards": ["6.RP.A.2", "6.RP.A.3"],
   "prerequisiteSkillCodes": ["ratio-language"],

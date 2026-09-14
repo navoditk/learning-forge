@@ -1,6 +1,7 @@
 {
   "code": "dependent-and-independent-variables",
   "title": "Dependent and independent variables",
+  "program": "grade-6-math",
   "domain": "expressions-and-equations",
   "standards": ["6.EE.C.9"],
   "prerequisiteSkillCodes": ["variables-and-expressions"],
