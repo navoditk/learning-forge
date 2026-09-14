@@ -1,38 +1,45 @@
 :root {
-  --color-bg: #f7f7f5;
+  --color-bg: #faf9f6;
   --color-surface: #ffffff;
-  --color-text: #1c1c1e;
-  --color-text-muted: #55555a;
-  --color-border: #d8d8d5;
-  --color-primary: #2f5d50;
-  --color-primary-hover: #24473d;
+  --color-text: #22221f;
+  --color-text-muted: #63615a;
+  --color-border: #e4e0d6;
+  --color-primary: #3b6e68;
+  --color-primary-hover: #2c534f;
+  --color-accent-soft: #e4efed;
   --color-focus: #1a6fbf;
   --color-danger-bg: #fdecec;
   --color-danger-text: #8a1f1f;
   --color-danger-border: #e6b4b4;
-  --color-status-bg: #eef6f2;
-  --color-status-border: #bfe0cf;
-  --radius: 8px;
+  --color-status-bg: #e5f3ea;
+  --color-status-border: #bcdfc8;
+  --radius: 10px;
   --spacing-1: 0.5rem;
   --spacing-2: 1rem;
   --spacing-3: 1.5rem;
   --spacing-4: 2rem;
+  --font-display-stack: var(--font-display), Georgia, serif;
+  --font-body-stack:
+    var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  --font-mono-stack: var(--font-mono), ui-monospace, 'SFMono-Regular', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #17181a;
-    --color-surface: #1f2123;
-    --color-text: #eceef0;
-    --color-text-muted: #a9adb2;
-    --color-border: #34373b;
-    --color-primary: #6fbf9e;
-    --color-primary-hover: #8fd3b6;
+    --color-bg: #16181a;
+    --color-surface: #1f2225;
+    --color-text: #ecebe6;
+    --color-text-muted: #a7a59d;
+    --color-border: #33373b;
+    --color-primary: #7fc2b8;
+    --color-primary-hover: #9ad4cb;
+    --color-accent-soft: #223532;
     --color-focus: #7cb8f0;
     --color-danger-bg: #3a1f1f;
     --color-danger-text: #f4b6b6;
     --color-danger-border: #6b2f2f;
-    --color-status-bg: #1b2a24;
+    --color-status-bg: #1e3327;
     --color-status-border: #2c4a3c;
   }
 }
@@ -50,8 +57,8 @@ body {
 body {
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: var(--font-body-stack);
+  line-height: 1.55;
   font-size: 16px;
 }
 
@@ -66,33 +73,76 @@ header {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: var(--spacing-1);
+  gap: var(--spacing-2);
   padding-bottom: var(--spacing-2);
   margin-bottom: var(--spacing-3);
   border-bottom: 1px solid var(--color-border);
 }
 
+header .brand {
+  font-family: var(--font-display-stack);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+header .brand small {
+  display: block;
+  font-family: var(--font-body-stack);
+  font-weight: 400;
+  font-size: 0.8rem;
+  margin-top: 0.15rem;
+}
+
+.program-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.program-switcher label {
+  margin: 0;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.program-switcher select {
+  font-family: var(--font-body-stack);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
 h1,
 h2,
 h3 {
+  font-family: var(--font-display-stack);
   line-height: 1.25;
   margin-top: 0;
+  text-wrap: balance;
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 
 h2 {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   margin-top: var(--spacing-3);
 }
 
 h3 {
-  font-size: 1rem;
+  font-family: var(--font-mono-stack);
+  font-size: 0.85rem;
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 section {
@@ -106,7 +156,7 @@ section {
 section aside {
   margin-top: var(--spacing-2);
   padding-top: var(--spacing-2);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px dashed var(--color-border);
 }
 
 p {
@@ -137,11 +187,14 @@ label {
 }
 
 input[type='text'],
+input[type='email'],
+input[type='password'],
 input:not([type]) {
   display: block;
   width: 100%;
   max-width: 320px;
-  padding: 0.5rem 0.75rem;
+  padding: 0.6rem 0.75rem;
+  font-family: var(--font-body-stack);
   font-size: 1rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -151,6 +204,7 @@ input:not([type]) {
 }
 
 button {
+  font-family: var(--font-body-stack);
   font-size: 1rem;
   font-weight: 600;
   padding: 0.6rem 1.1rem;
@@ -160,6 +214,9 @@ button {
   color: var(--color-primary);
   cursor: pointer;
   margin: 0 var(--spacing-1) var(--spacing-1) 0;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
 }
 
 button:hover {
@@ -177,7 +234,8 @@ button:disabled {
 
 button:focus-visible,
 a:focus-visible,
-input:focus-visible {
+input:focus-visible,
+select:focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 2px;
 }
@@ -203,4 +261,25 @@ form {
 
 nav[aria-label='Primary navigation'] a {
   font-weight: 600;
+}
+
+.auth-shell {
+  max-width: 380px;
+  padding-top: min(15vh, 6rem);
+}
+
+.auth-shell .eyebrow {
+  font-family: var(--font-mono-stack);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: var(--color-primary);
+  margin: 0 0 0.4rem;
+}
+
+.auth-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-3);
 }

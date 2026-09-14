@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+import { ProgramSwitcher } from '../components/program-switcher';
+
 type MasteryRow = {
   skillCode: string;
   estimate: number;
@@ -63,9 +65,16 @@ export default function ParentPage() {
 
   return (
     <main>
-      <p>
-        <Link href="/">Back to learner session</Link>
-      </p>
+      <header>
+        <div className="brand">
+          Learning Forge
+          <small>Parent view</small>
+        </div>
+        <ProgramSwitcher />
+        <nav aria-label="Primary navigation">
+          <Link href="/">Back to learner session</Link>
+        </nav>
+      </header>
       <h1>Parent evidence</h1>
       {error && <p role="alert">{error}</p>}
       {!evidence && !error && <p>Loading evidence…</p>}
