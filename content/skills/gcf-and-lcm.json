@@ -1,0 +1,13 @@
+{
+  "code": "gcf-and-lcm",
+  "title": "Greatest common factor and least common multiple",
+  "domain": "number-system",
+  "standards": ["6.NS.B.4"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Finds the greatest common factor or least common multiple of two whole numbers up to 100."
+  ],
+  "misconceptionCodes": ["confuses-gcf-and-lcm", "lists-shared-multiple-as-factor"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the GCF or LCM value, plus one independent delayed check."
+}

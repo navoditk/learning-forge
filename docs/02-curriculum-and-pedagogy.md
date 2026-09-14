@@ -25,11 +25,14 @@ The local sequence is guidance, not an assumption about a specific classroom. Pa
   - division of fractions
   - negative numbers and absolute value
   - coordinate plane
+  - greatest common factor and least common multiple
+  - multi-digit division
 - Expressions and equations
   - variables and expressions
   - equivalent expressions
   - one-variable equations and inequalities
   - dependent/independent variables
+  - whole-number exponents
 - Geometry
   - area of composite shapes
   - surface area and volume

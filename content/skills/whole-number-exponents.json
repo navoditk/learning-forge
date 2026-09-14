@@ -1,0 +1,13 @@
+{
+  "code": "whole-number-exponents",
+  "title": "Whole-number exponents",
+  "domain": "expressions-and-equations",
+  "standards": ["6.EE.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Writes a repeated multiplication as an exponent and evaluates numerical expressions containing whole-number exponents, including within order of operations."
+  ],
+  "misconceptionCodes": ["multiplies-base-by-exponent", "ignores-order-of-operations"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the evaluated expression, plus one independent delayed check."
+}

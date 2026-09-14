@@ -6,8 +6,8 @@ import { skillCatalog } from '../../src/curriculum/catalog';
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(contentCatalog).toHaveLength(38);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(38);
+    expect(contentCatalog).toHaveLength(44);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(44);
     expect(new Set(contentCatalog.map((item) => item.skillCode))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -15,8 +15,12 @@ describe('ratios content seed', () => {
       contentCatalog.every((item) => ['original', 'llm_drafted'].includes(item.provenance.origin)),
     ).toBe(true);
     expect(contentCatalog.some((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
-    expect(contentCatalog.every((item) => item.review.status === 'reviewed')).toBe(true);
-    expect(contentCatalog.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
+
+    const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
+    const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
+    expect(reviewedItems.length).toBe(38);
+    expect(pendingItems.length).toBe(6);
+    expect(reviewedItems.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
     expect(contentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
   });
 

@@ -8,6 +8,8 @@ import divisionOfFractions from '../../content/skills/division-of-fractions.json
 import doubleNumberLines from '../../content/skills/double-number-lines.json';
 import equivalentExpressions from '../../content/skills/equivalent-expressions.json';
 import fractionDecimalOperations from '../../content/skills/fraction-decimal-operations.json';
+import gcfAndLcm from '../../content/skills/gcf-and-lcm.json';
+import multiDigitDivision from '../../content/skills/multi-digit-division.json';
 import negativeNumbersAndAbsoluteValue from '../../content/skills/negative-numbers-and-absolute-value.json';
 import oneVariableEquationsAndInequalities from '../../content/skills/one-variable-equations-and-inequalities.json';
 import percentApplications from '../../content/skills/percent-applications.json';
@@ -17,6 +19,7 @@ import statisticalQuestions from '../../content/skills/statistical-questions.jso
 import surfaceAreaAndVolume from '../../content/skills/surface-area-and-volume.json';
 import unitRates from '../../content/skills/unit-rates.json';
 import variablesAndExpressions from '../../content/skills/variables-and-expressions.json';
+import wholeNumberExponents from '../../content/skills/whole-number-exponents.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { topologicalOrder } from './topological-sort';
 
@@ -40,6 +43,9 @@ const rawSkills = [
   statisticalQuestions,
   distributions,
   centerAndVariability,
+  wholeNumberExponents,
+  gcfAndLcm,
+  multiDigitDivision,
 ] as const;
 
 export function topologicalSkillOrder(skills: readonly Skill[]): string[] {

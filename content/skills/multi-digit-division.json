@@ -1,0 +1,13 @@
+{
+  "code": "multi-digit-division",
+  "title": "Multi-digit division",
+  "domain": "number-system",
+  "standards": ["6.NS.B.2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Divides multi-digit whole numbers fluently using the standard algorithm, including cases with a remainder."
+  ],
+  "misconceptionCodes": ["misaligns-place-value", "drops-remainder"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the quotient (and remainder where relevant), plus one independent delayed check."
+}

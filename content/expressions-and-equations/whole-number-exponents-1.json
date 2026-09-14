@@ -1,0 +1,54 @@
+{
+  "id": "whole-number-exponents-1",
+  "version": "content-1",
+  "title": "Cube of five",
+  "skillCode": "whole-number-exponents",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.EE.A.1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Expands an exponent as repeated multiplication and evaluates the result."
+  ],
+  "prompt": "What is the value of 5^3 (5 to the third power)?",
+  "solutionRepresentation": "5^3 = 5 x 5 x 5 = 125.",
+  "solutionMethod": "Multiply the base by itself as many times as the exponent indicates, then find the product.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "125",
+    "acceptedAnswers": ["125"],
+    "equivalenceNotes": "Accept the numeral only."
+  },
+  "misconceptionCodes": ["multiplies-base-by-exponent"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "An exponent tells you how many times to multiply the base by itself, not to multiply the base by the exponent.",
+      "question": "How many times should 5 be multiplied by itself here?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write the expression out as repeated multiplication before finding the product.",
+      "question": "What does 5 x 5 x 5 look like written one multiplication at a time?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar problem, 2^4 means 2 x 2 x 2 x 2, which equals 16.",
+      "question": "Using that same idea, what repeated multiplication does 5^3 represent, and what does it multiply to?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["125"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "Written for this repository from first principles."
+  },
+  "accessibilityNotes": "Read the exponent aloud as 'to the third power' and keep the expanded multiplication form available as selectable text."
+}
