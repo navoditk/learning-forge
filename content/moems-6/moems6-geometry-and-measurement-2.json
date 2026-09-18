@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Learning Forge content review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original area-decomposition problem written from first principles; no contest diagram or wording is reproduced."
   },
   "accessibilityNotes": "Give the dimensions in text and do not require estimating a drawing; a learner may sketch the square and corner if helpful.",

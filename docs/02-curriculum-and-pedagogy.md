@@ -111,8 +111,9 @@ Each skill has exactly two structurally distinct records: one `core` prep
 record and one `contest` free-response record. MOEMS contest records use
 numeric/text validators and intentionally do not carry Math Kangaroo's
 multiple-choice `contestFormat` metadata. All ten records are
-`llm_drafted` and `pending_review`; the program remains unavailable until
-independent human review and approval.
+`llm_drafted`, completed independent review, and were approved by the
+product/content owner on 2026-09-18. The Division E program is available as
+an isolated learner journey.
 
 ## Learning loop
 

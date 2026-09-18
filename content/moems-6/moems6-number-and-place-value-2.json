@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Learning Forge content review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original three-digit constraint problem written from first principles, inspired only by the approved MOEMS Division E arithmetic skill family."
   },
   "accessibilityNotes": "Use plain text equations and read each place-value condition aloud; no diagram is required.",

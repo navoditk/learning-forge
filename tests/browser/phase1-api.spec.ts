@@ -79,7 +79,7 @@ test.describe('Phase 1 API route validation and error paths', () => {
   });
 
   test('program-scoped routes reject unavailable and mismatched curricula', async ({ request }) => {
-    const unavailable = await request.get('/api/phase1/plan?program=moems-6');
+    const unavailable = await request.get('/api/phase1/plan?program=amc-8');
     expect(unavailable.status()).toBe(400);
 
     const mismatched = await request.get(
@@ -91,6 +91,12 @@ test.describe('Phase 1 API route validation and error paths', () => {
     expect(plan.items.length).toBeGreaterThan(0);
     expect(
       plan.items.every((item: { skillCode: string }) => item.skillCode.startsWith('mk6-')),
+    ).toBe(true);
+
+    const moemsPlan = await (await request.get('/api/phase1/plan?program=moems-6')).json();
+    expect(moemsPlan.items.length).toBeGreaterThan(0);
+    expect(
+      moemsPlan.items.every((item: { skillCode: string }) => item.skillCode.startsWith('moems6-')),
     ).toBe(true);
   });
 });

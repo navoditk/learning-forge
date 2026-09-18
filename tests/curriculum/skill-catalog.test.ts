@@ -82,13 +82,13 @@ describe('skill catalog', () => {
     expect(mathKangarooSection?.[1]).not.toContain('Draft — pending human approval');
   });
 
-  it('keeps pending MOEMS content out of the available curriculum section', () => {
+  it('renders approved MOEMS content as available', () => {
     execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
     const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
     const moemsSection = generatedSite.match(
       /<section class="program-section" id="program-moems-6">([\s\S]*?)<section class="program-section program-section-empty" id="program-amc-8">/,
     );
-    expect(moemsSection?.[1]).toContain('Draft — pending human approval');
+    expect(moemsSection?.[1]).not.toContain('Draft — pending human approval');
     expect(moemsSection?.[1]).toContain('Two-digit lock code');
   });
 

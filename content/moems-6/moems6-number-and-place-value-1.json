@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Learning Forge content review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original lock-code problem written from first principles, using only the approved MOEMS Division E skill type of place-value constraint reasoning."
   },
   "accessibilityNotes": "Present the two digit conditions as text and allow the learner to write a simple equation; no visual layout is required.",

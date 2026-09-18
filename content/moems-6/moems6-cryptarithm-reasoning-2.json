@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Learning Forge content review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original carry-based digit equation written from first principles; no MOEMS cryptarithm wording or solution is reproduced."
   },
   "accessibilityNotes": "Present the addition in a plain-text column layout or read each place aloud; do not require a visual worksheet.",

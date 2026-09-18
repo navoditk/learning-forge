@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Learning Forge content review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original constrained-counting problem written from first principles and not based on a reproduced contest item."
   },
   "accessibilityNotes": "State the digit set and divisibility rule in text; a learner may use a written case table.",

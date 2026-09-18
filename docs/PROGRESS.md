@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-09-18 — MOEMS Division E content approved for serving
+
+- The product/content owner approved all ten independently reviewed MOEMS
+  Division E records after the prerequisite remediation passed focused
+  re-review.
+- Changed all ten records to `review.status: "reviewed"` with reviewer
+  `Navodit Kaushik` and review date `2026-09-18`; enabled `moems-6` in the
+  shared program roster.
+- Preserved the approved boundary: Division E only, as a bounded initial
+  preparation curriculum rather than Division M, dual placement, or a full
+  seasonal contest bundle.
+- Evidence: generated curriculum site contains 40 skills and 80 problems;
+  `npm run verify` passed 76 unit/contract/catalog/eval tests and the
+  production build; the full integration suite passed 31/31 and the full
+  serial Playwright suite passed 21/21.
+- Next: full shipping validation, then AMC 8 authoring.
+
 ## 2026-09-18 — MOEMS prerequisite review remediation
 
 - Removed the two unjustified graph edges from number/place-value to

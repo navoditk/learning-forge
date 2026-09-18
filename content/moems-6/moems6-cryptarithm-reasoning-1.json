@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Learning Forge content review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original digit-equation problem written from first principles and not copied from a cryptarithm collection."
   },
   "accessibilityNotes": "State the place-value expansions in plain text and allow symbolic or verbal reasoning.",

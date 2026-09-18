@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Learning Forge content review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original card-arrangement problem written from first principles; no archive wording or arrangement is reproduced."
   },
   "accessibilityNotes": "Use a text list or tactile cards for the five labels; do not depend on position in a displayed graphic.",

@@ -105,6 +105,10 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
         contentId: 'ratio-language-1',
       }),
     ).rejects.toThrow('Unknown content for program');
+
+    const moemsPlan = await getPlan(SYNTHETIC_IDENTITY, { program: 'moems-6' });
+    expect(moemsPlan.items.length).toBeGreaterThan(0);
+    expect(moemsPlan.items.every((item) => item.skillCode.startsWith('moems6-'))).toBe(true);
   });
 
   it('records an attempt, tutor interaction, and parent evidence', async () => {

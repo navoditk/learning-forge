@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Learning Forge content review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original rectangle measurement problem written from first principles without a copied diagram or wording."
   },
   "accessibilityNotes": "Use explicit side names and units in text; no visual figure is necessary.",

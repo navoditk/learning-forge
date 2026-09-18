@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Learning Forge content review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original book-arrangement problem written from first principles using a general constrained-ordering skill type."
   },
   "accessibilityNotes": "Represent each book by its letter and allow the learner to list arrangements in text; no diagram is required.",

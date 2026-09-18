@@ -41,6 +41,15 @@ test.describe('synthetic Phase 1 journeys', () => {
         .getByText('Multi-step arithmetic reasoning'),
     ).toBeVisible();
     await expect(page.getByRole('button', { name: 'Garden rows' })).toHaveCount(0);
+
+    await page.getByLabel('Subject').selectOption('moems-6');
+    await expect(page.getByRole('heading', { name: 'Two-digit lock code' })).toBeVisible();
+    await expect(
+      page
+        .getByRole('region', { name: 'Recommended next activities' })
+        .getByText('Number and place-value reasoning'),
+    ).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Bake sale change' })).toHaveCount(0);
   });
 
   test('parent can see evidence linked to the learner attempt', async ({ page }) => {
