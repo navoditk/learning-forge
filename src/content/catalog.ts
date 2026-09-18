@@ -78,6 +78,22 @@ import moems6LogicAndArrangements1 from '../../content/moems-6/moems6-logic-and-
 import moems6LogicAndArrangements2 from '../../content/moems-6/moems6-logic-and-arrangements-2.json';
 import moems6CryptarithmReasoning1 from '../../content/moems-6/moems6-cryptarithm-reasoning-1.json';
 import moems6CryptarithmReasoning2 from '../../content/moems-6/moems6-cryptarithm-reasoning-2.json';
+import amc8CountingProbability1 from '../../content/amc-8/amc8-counting-probability-1.json';
+import amc8CountingProbability2 from '../../content/amc-8/amc8-counting-probability-2.json';
+import amc8EstimationNumberSense1 from '../../content/amc-8/amc8-estimation-number-sense-1.json';
+import amc8EstimationNumberSense2 from '../../content/amc-8/amc8-estimation-number-sense-2.json';
+import amc8ProportionalReasoning1 from '../../content/amc-8/amc8-proportional-reasoning-1.json';
+import amc8ProportionalReasoning2 from '../../content/amc-8/amc8-proportional-reasoning-2.json';
+import amc8ElementaryGeometry1 from '../../content/amc-8/amc8-elementary-geometry-1.json';
+import amc8ElementaryGeometry2 from '../../content/amc-8/amc8-elementary-geometry-2.json';
+import amc8SpatialVisualization1 from '../../content/amc-8/amc8-spatial-visualization-1.json';
+import amc8SpatialVisualization2 from '../../content/amc-8/amc8-spatial-visualization-2.json';
+import amc8GraphsAndTables1 from '../../content/amc-8/amc8-graphs-and-tables-1.json';
+import amc8GraphsAndTables2 from '../../content/amc-8/amc8-graphs-and-tables-2.json';
+import amc8IntroductoryAlgebra1 from '../../content/amc-8/amc8-introductory-algebra-1.json';
+import amc8IntroductoryAlgebra2 from '../../content/amc-8/amc8-introductory-algebra-2.json';
+import amc8CoordinateGeometry1 from '../../content/amc-8/amc8-coordinate-geometry-1.json';
+import amc8CoordinateGeometry2 from '../../content/amc-8/amc8-coordinate-geometry-2.json';
 import { ContentItem, ContentItemSchema } from '../contracts/content';
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
 
@@ -162,6 +178,22 @@ const rawContent = [
   moems6LogicAndArrangements2,
   moems6CryptarithmReasoning1,
   moems6CryptarithmReasoning2,
+  amc8CountingProbability1,
+  amc8CountingProbability2,
+  amc8EstimationNumberSense1,
+  amc8EstimationNumberSense2,
+  amc8ProportionalReasoning1,
+  amc8ProportionalReasoning2,
+  amc8ElementaryGeometry1,
+  amc8ElementaryGeometry2,
+  amc8SpatialVisualization1,
+  amc8SpatialVisualization2,
+  amc8GraphsAndTables1,
+  amc8GraphsAndTables2,
+  amc8IntroductoryAlgebra1,
+  amc8IntroductoryAlgebra2,
+  amc8CoordinateGeometry1,
+  amc8CoordinateGeometry2,
 ] as const;
 
 export function validateContentCatalog(items: readonly unknown[] = rawContent): ContentItem[] {
@@ -180,6 +212,9 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
       if (!item.contestFormat) {
         throw new Error(`${item.id} requires Math Kangaroo contest-format metadata`);
       }
+      if (![3, 4, 5].includes(item.contestFormat.pointValue)) {
+        throw new Error(`${item.id} must use Math Kangaroo 3/4/5 point tiers`);
+      }
       if (item.deterministicValidator.type !== 'multiple_choice') {
         throw new Error(`${item.id} must use a multiple-choice validator in contest mode`);
       }
@@ -189,6 +224,46 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
         )
       ) {
         throw new Error(`${item.id} must include its canonical answer among its contest choices`);
+      }
+    }
+    if (skill.program === 'amc-8' && item.mode === 'contest') {
+      if (!item.contestFormat) {
+        throw new Error(`${item.id} requires AMC 8 contest-format metadata`);
+      }
+      if (item.contestFormat.format !== 'amc-8') {
+        throw new Error(`${item.id} must identify its contest format as AMC 8`);
+      }
+      if (item.contestFormat.pointValue !== 1) {
+        throw new Error(`${item.id} must use AMC 8 +1 scoring for correct answers`);
+      }
+      if (
+        item.contestFormat.questionCount !== 25 ||
+        item.contestFormat.timeLimitMinutes !== 40 ||
+        item.contestFormat.calculatorPolicy !== 'no_calculators' ||
+        item.contestFormat.scoring?.correctPoints !== 1 ||
+        item.contestFormat.scoring?.incorrectPoints !== 0 ||
+        item.contestFormat.scoring?.blankPoints !== 0
+      ) {
+        throw new Error(`${item.id} must encode the official AMC 8 format`);
+      }
+      if (item.deterministicValidator.type !== 'multiple_choice') {
+        throw new Error(`${item.id} must use a multiple-choice validator in contest mode`);
+      }
+      if (
+        !item.contestFormat.answerChoices.some(
+          (choice) => choice.text === item.deterministicValidator.canonicalAnswer,
+        )
+      ) {
+        throw new Error(`${item.id} must include its canonical answer among its contest choices`);
+      }
+      if (
+        item.contestFormat.answerChoices.some(
+          (choice) =>
+            choice.text !== item.deterministicValidator.canonicalAnswer &&
+            (!choice.rationale || !choice.misconceptionCode),
+        )
+      ) {
+        throw new Error(`${item.id} must include AMC 8 distractor rationales`);
       }
     }
     if (item.provenance.origin === 'licensed') {
@@ -220,6 +295,19 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
       if (!declaredMisconceptions.has(code)) {
         throw new Error(
           `${item.id} uses misconception code "${code}" not declared by skill ${item.skillCode}`,
+        );
+      }
+    }
+    for (const choice of item.contestFormat?.answerChoices ?? []) {
+      if (!choice.misconceptionCode) continue;
+      if (!declaredMisconceptions.has(choice.misconceptionCode)) {
+        throw new Error(
+          `${item.id} choice ${choice.label} uses misconception code "${choice.misconceptionCode}" not declared by skill ${item.skillCode}`,
+        );
+      }
+      if (!item.misconceptionCodes.includes(choice.misconceptionCode)) {
+        throw new Error(
+          `${item.id} choice ${choice.label} uses misconception code "${choice.misconceptionCode}" not listed on the item`,
         );
       }
     }

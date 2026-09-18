@@ -27,10 +27,11 @@ The full skill graph and sample problems (answers/hints excluded) are published 
 directly from `skillCatalog`/`contentCatalog` by `scripts/generate-curriculum-site.ts`. It
 regenerates automatically on every push to `main` (`.github/workflows/curriculum-site.yml`), so
 it can never drift from what's actually shipped. Each `Skill` carries a `program` field.
-Grade 6 Math and Math Kangaroo are currently available as isolated learner journeys. MOEMS
-Division E has an authored, pending-review section that remains unavailable to learners until
-human content-owner approval. Future programs such as AMC 8, MATHCOUNTS, and Grade 6 ELA can
-be added as new top-level sections without restructuring existing content.
+Grade 6 Math, Math Kangaroo, and MOEMS Division E are currently available as isolated learner
+journeys. AMC 8 now has an authored, pending-review Grade 6 prep section that remains unavailable
+to learners until independent review and human content-owner approval. Future programs such as
+MATHCOUNTS and Grade 6 ELA can be added as new top-level sections without restructuring existing
+content.
 
 ## Initial Math skill graph
 
@@ -114,6 +115,42 @@ multiple-choice `contestFormat` metadata. All ten records are
 `llm_drafted`, completed independent review, and were approved by the
 product/content owner on 2026-09-18. The Division E program is available as
 an isolated learner journey.
+
+## AMC 8 Grade 6 prep skill graph
+
+Additive contest-preparation program for the same Grade 6 learner
+(`program: "amc-8"`); the approved source dossier is in
+`docs/curriculum-sources.md` and was approved by the product/content owner on
+2026-09-17. The graph is a Learning Forge synthesis of the official AMC 8
+topic families, not an official MAA syllabus. It preserves the researched
+format: 25 multiple-choice questions, 40 minutes, choices A-E, no calculators,
+eligibility for grade 8 and below / age 15.5 or younger, and scoring of +1
+correct / 0 wrong / 0 blank.
+
+- Counting and probability
+  - counting and probability
+- Number and ratio reasoning
+  - estimation and number sense
+  - proportional reasoning
+- Geometry and visualization
+  - elementary geometry
+  - spatial visualization
+- Data and algebra
+  - graphs and tables
+  - introductory algebra
+  - coordinate geometry
+
+Each skill has exactly two structurally distinct records: one `core` prep
+record and one `contest` AMC 8-style multiple-choice record. Contest records
+carry program-specific `contestFormat` metadata with five A-E choices and +1/0
+scoring, distinct from Math Kangaroo's 3/4/5 point tiers and MOEMS
+free-response semantics. All 16 records are `llm_drafted` and remain
+`review.status: "pending_review"`; `amc-8` is not learner-available. The
+initial graph has no prerequisite edges after self-audit because no proposed
+edge was a genuine conceptual dependency rather than a teaching-order
+preference. Core-first contest access is enforced by the existing planner:
+when a skill has both core and contest records, contest records are not planned
+until structured mastery evidence exists for that skill.
 
 ## Learning loop
 

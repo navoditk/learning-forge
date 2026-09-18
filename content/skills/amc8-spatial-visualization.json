@@ -1,0 +1,20 @@
+{
+  "code": "amc8-spatial-visualization",
+  "title": "Spatial visualization",
+  "program": "amc-8",
+  "domain": "amc8-geometry-and-visualization",
+  "standards": ["AMC8-SPATIAL-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Mentally folds, rotates, or decomposes simple three-dimensional objects while tracking faces, edges, or positions.",
+    "Uses a text alternative, sketch, or case table to justify a spatial conclusion."
+  ],
+  "misconceptionCodes": [
+    "counts-hidden-faces",
+    "confuses-adjacent-and-opposite-faces",
+    "assumes-symmetry-not-stated",
+    "loses-orientation-when-folding"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require a correct spatial relationship or count with an orientation/folding explanation and one delayed independent spatial-transfer check."
+}

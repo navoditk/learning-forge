@@ -1,0 +1,106 @@
+{
+  "id": "amc8-spatial-visualization-2",
+  "version": "content-1",
+  "title": "Cube net opposite face",
+  "skillCode": "amc8-spatial-visualization",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["AMC8-SPATIAL-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Folds a cube net mentally and identifies the face opposite the center square."
+  ],
+  "prompt": "A cube net has square P in the center, Q directly above P, R directly below P, S directly left of P, T directly right of P, and U attached directly above Q. When the net is folded into a cube, which face is opposite P?",
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 420 360\" role=\"img\"><rect width=\"420\" height=\"360\" fill=\"#ffffff\"/><g stroke=\"#2c534f\" stroke-width=\"4\" fill=\"#eaf4f2\"><rect x=\"170\" y=\"150\" width=\"70\" height=\"70\"/><rect x=\"170\" y=\"80\" width=\"70\" height=\"70\"/><rect x=\"170\" y=\"220\" width=\"70\" height=\"70\"/><rect x=\"100\" y=\"150\" width=\"70\" height=\"70\"/><rect x=\"240\" y=\"150\" width=\"70\" height=\"70\"/><rect x=\"170\" y=\"10\" width=\"70\" height=\"70\"/></g><g font-family=\"Arial, sans-serif\" font-size=\"28\" fill=\"#22221f\" text-anchor=\"middle\" dominant-baseline=\"middle\"><text x=\"205\" y=\"185\">P</text><text x=\"205\" y=\"115\">Q</text><text x=\"205\" y=\"255\">R</text><text x=\"135\" y=\"185\">S</text><text x=\"275\" y=\"185\">T</text><text x=\"205\" y=\"45\">U</text></g></svg>",
+    "altText": "A cube net made of six equal squares: P is in the center; Q is above P; R is below P; S is left of P; T is right of P; U is above Q.",
+    "caption": "A labeled cube net.",
+    "width": 420,
+    "height": 360
+  },
+  "contestFormat": {
+    "format": "amc-8",
+    "pointValue": 1,
+    "questionCount": 25,
+    "timeLimitMinutes": 40,
+    "calculatorPolicy": "no_calculators",
+    "scoring": {
+      "correctPoints": 1,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "answerChoices": [
+      {
+        "label": "A",
+        "text": "Face Q",
+        "rationale": "Q shares an edge with P in the net, so it folds adjacent to P rather than opposite it.",
+        "misconceptionCode": "confuses-adjacent-and-opposite-faces"
+      },
+      {
+        "label": "B",
+        "text": "Face R",
+        "rationale": "R shares an edge with P and folds adjacent to P, even though it is opposite Q.",
+        "misconceptionCode": "confuses-adjacent-and-opposite-faces"
+      },
+      {
+        "label": "C",
+        "text": "Face S",
+        "rationale": "S shares an edge with P and becomes a side face adjacent to P.",
+        "misconceptionCode": "confuses-adjacent-and-opposite-faces"
+      },
+      {
+        "label": "D",
+        "text": "Face T",
+        "rationale": "T shares an edge with P and becomes a side face adjacent to P.",
+        "misconceptionCode": "confuses-adjacent-and-opposite-faces"
+      },
+      {
+        "label": "E",
+        "text": "Face U",
+        "rationale": "Correct: Q folds up beside P, and the square beyond Q folds over to the face opposite P."
+      }
+    ]
+  },
+  "solutionRepresentation": "The four squares Q, R, S, and T are attached directly to P, so they fold to faces adjacent to P. The square U is attached beyond Q, so after Q folds up, U folds over to the face opposite P.",
+  "solutionMethod": "Track which net squares share an edge with the center and then fold the square attached beyond an adjacent face across from the center.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "Face U",
+    "acceptedAnswers": ["Face U", "U", "E"],
+    "equivalenceNotes": "Accept the face name U, the phrase Face U, or choice E."
+  },
+  "misconceptionCodes": ["confuses-adjacent-and-opposite-faces", "loses-orientation-when-folding"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Start by identifying the faces that share an edge with the center square in the net.",
+      "question": "Which faces must become adjacent to the center face?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The face attached beyond an adjacent face folds after that adjacent face moves upward.",
+      "question": "Where does the square beyond the top neighbor land relative to the center?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a strip of three squares A-B-C, if B is attached to the center face A, then C can fold across from A.",
+      "question": "Which answer choice plays that beyond-the-neighbor role here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["face u", "choice e", "opposite p is u"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Provide both the net diagram and the positional text; labels must be readable and not color-dependent.",
+  "accessibleAlternative": "Read aloud or display: The cube net has P in the center; Q above P; R below P; S left of P; T right of P; and U above Q. Find which face is opposite P when folded."
+}

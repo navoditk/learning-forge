@@ -68,6 +68,21 @@ describe('skill catalog', () => {
     ).toEqual(['moems6-number-and-place-value']);
   });
 
+  it('covers the initial AMC 8 Grade 6 prep graph with namespaced codes', () => {
+    const amc8Skills = skillCatalog.filter((skill) => skill.program === 'amc-8');
+    expect(amc8Skills).toHaveLength(8);
+    expect(amc8Skills.every((skill) => skill.code.startsWith('amc8-'))).toBe(true);
+    expect(new Set(amc8Skills.map((skill) => skill.domain))).toEqual(
+      new Set([
+        'amc8-counting-and-probability',
+        'amc8-number-and-ratio-reasoning',
+        'amc8-geometry-and-visualization',
+        'amc8-data-and-algebra',
+      ]),
+    );
+    expect(amc8Skills.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);
+  });
+
   it('renders available authored programs in the curriculum site', () => {
     execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
     const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
@@ -86,10 +101,23 @@ describe('skill catalog', () => {
     execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
     const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
     const moemsSection = generatedSite.match(
-      /<section class="program-section" id="program-moems-6">([\s\S]*?)<section class="program-section program-section-empty" id="program-amc-8">/,
+      /<section class="program-section" id="program-moems-6">([\s\S]*?)<section class="program-section" id="program-amc-8">/,
     );
     expect(moemsSection?.[1]).not.toContain('Draft — pending human approval');
     expect(moemsSection?.[1]).toContain('Two-digit lock code');
+  });
+
+  it('renders authored AMC 8 content as pending and unavailable', () => {
+    execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
+    const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
+    const amcSection = generatedSite.match(
+      /<section class="program-section" id="program-amc-8">([\s\S]*?)<section class="program-section program-section-empty" id="program-mathcounts-6">/,
+    );
+
+    expect(amcSection?.[1]).toContain('Draft — pending human approval');
+    expect(amcSection?.[1]).toContain('AMC 8 (Grade 6 prep)');
+    expect(amcSection?.[1]).toContain('Counting and probability');
+    expect(amcSection?.[1]).toContain('Pending review');
   });
 
   it('renders accessible collapsible domains and skills', () => {

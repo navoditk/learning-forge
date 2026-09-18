@@ -162,13 +162,18 @@ describe('content and evidence contracts', () => {
     );
     expect(
       ContentItemSchema.shape.contestFormat.safeParse({
-        pointValue: 4,
+        format: 'amc-8',
+        pointValue: 1,
+        questionCount: 25,
+        timeLimitMinutes: 40,
+        calculatorPolicy: 'no_calculators',
+        scoring: { correctPoints: 1, incorrectPoints: 0, blankPoints: 0 },
         answerChoices: [
-          { label: 'A', text: 'Monday' },
-          { label: 'B', text: 'Tuesday' },
-          { label: 'C', text: 'Wednesday' },
-          { label: 'D', text: 'Thursday' },
-          { label: 'E', text: 'Friday' },
+          { label: 'A', text: 'Monday', rationale: 'Distractor rationale.' },
+          { label: 'B', text: 'Tuesday', rationale: 'Distractor rationale.' },
+          { label: 'C', text: 'Wednesday', rationale: 'Distractor rationale.' },
+          { label: 'D', text: 'Thursday', rationale: 'Distractor rationale.' },
+          { label: 'E', text: 'Friday', rationale: 'Correct choice.' },
         ],
       }).success,
     ).toBe(true);

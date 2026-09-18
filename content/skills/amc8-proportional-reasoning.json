@@ -1,0 +1,20 @@
+{
+  "code": "amc8-proportional-reasoning",
+  "title": "Proportional reasoning",
+  "program": "amc-8",
+  "domain": "amc8-number-and-ratio-reasoning",
+  "standards": ["AMC8-RATIO-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Scales ratios, rates, or percentages multiplicatively to solve a missing-value problem.",
+    "Distinguishes part-to-part, part-to-whole, and unit-rate interpretations in contest-style wording."
+  ],
+  "misconceptionCodes": [
+    "additive-scaling",
+    "inverts-ratio",
+    "treats-part-as-total",
+    "uses-wrong-unit-rate"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require an exact proportional result and a representation of the multiplicative relationship, followed by one delayed independent transfer item."
+}

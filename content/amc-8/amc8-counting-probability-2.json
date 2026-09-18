@@ -1,0 +1,104 @@
+{
+  "id": "amc8-counting-probability-2",
+  "version": "content-1",
+  "title": "Lucky two-digit codes",
+  "skillCode": "amc8-counting-probability",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["AMC8-COUNT-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Counts ordered two-digit codes by parity cases while enforcing the no-repeated-digit condition."
+  ],
+  "prompt": "A two-digit code uses two different digits chosen from 1, 2, 3, and 4. A code is called lucky if the sum of its digits is even. How many lucky codes are possible?",
+  "contestFormat": {
+    "format": "amc-8",
+    "pointValue": 1,
+    "questionCount": 25,
+    "timeLimitMinutes": 40,
+    "calculatorPolicy": "no_calculators",
+    "scoring": {
+      "correctPoints": 1,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "answerChoices": [
+      {
+        "label": "A",
+        "text": "2",
+        "rationale": "Counts only the unordered same-parity pairs {1,3} and {2,4}, not the two possible orders for each pair.",
+        "misconceptionCode": "treats-unordered-as-ordered"
+      },
+      {
+        "label": "B",
+        "text": "4",
+        "rationale": "Correct: the ordered lucky codes are 13, 31, 24, and 42."
+      },
+      {
+        "label": "C",
+        "text": "6",
+        "rationale": "Chooses any 2 of the 4 digits, which counts unordered pairs and ignores the even-sum condition.",
+        "misconceptionCode": "ignores-even-sum-condition"
+      },
+      {
+        "label": "D",
+        "text": "8",
+        "rationale": "Allows repeated same-parity codes as well as different-digit codes: 2×2 odd choices plus 2×2 even choices.",
+        "misconceptionCode": "allows-repetition-when-disallowed"
+      },
+      {
+        "label": "E",
+        "text": "12",
+        "rationale": "Counts all different-digit two-digit codes, 4 choices for the tens digit and 3 for the ones digit, without applying the even-sum condition.",
+        "misconceptionCode": "ignores-even-sum-condition"
+      }
+    ]
+  },
+  "solutionRepresentation": "An even digit sum happens when both digits have the same parity. The odd digits 1 and 3 make 13 and 31. The even digits 2 and 4 make 24 and 42. That gives 4 lucky codes.",
+  "solutionMethod": "Split into odd-odd and even-even cases, then count ordered codes with no repeated digits.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "4",
+    "acceptedAnswers": ["4", "4 codes", "B"],
+    "equivalenceNotes": "Accept the count with or without units or as choice B."
+  },
+  "misconceptionCodes": [
+    "treats-unordered-as-ordered",
+    "allows-repetition-when-disallowed",
+    "uses-favorable-as-probability",
+    "ignores-even-sum-condition"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Focus on the parity of the two digits rather than listing every code immediately.",
+      "question": "When is the sum of two digits even?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make one case for two odd digits and another case for two even digits, remembering that the order of a two-digit code matters.",
+      "question": "How can you list each case without repeating a digit?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For a code using A and B, AB and BA are different because the tens and ones places are different.",
+      "question": "Which answer choice matches your ordered same-parity list?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["4 lucky", "choice b", "13, 31, 24, and 42"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "The digit set and code rule are fully textual; a learner can use a two-column parity list instead of a diagram.",
+  "accessibleAlternative": "Read aloud or display: Choose two different digits from 1, 2, 3, and 4 to make an ordered two-digit code. Count the codes whose digit sum is even."
+}

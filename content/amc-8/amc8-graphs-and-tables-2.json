@@ -1,0 +1,103 @@
+{
+  "id": "amc8-graphs-and-tables-2",
+  "version": "content-1",
+  "title": "Extending a table pattern",
+  "skillCode": "amc8-graphs-and-tables",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["AMC8-DATA-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Identifies a constant change in a table and extends the relationship to a larger target value."
+  ],
+  "prompt": "A table has pairs (x, y): (1, 5), (2, 8), (3, 11), and (4, 14). The same pattern continues. For which value of x is y = 35?",
+  "contestFormat": {
+    "format": "amc-8",
+    "pointValue": 1,
+    "questionCount": 25,
+    "timeLimitMinutes": 40,
+    "calculatorPolicy": "no_calculators",
+    "scoring": {
+      "correctPoints": 1,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "answerChoices": [
+      {
+        "label": "A",
+        "text": "9",
+        "rationale": "Extends by adding 3 until y is near 29 but stops two steps before reaching 35.",
+        "misconceptionCode": "extends-by-wrong-interval"
+      },
+      {
+        "label": "B",
+        "text": "10",
+        "rationale": "Solves 3x + 5 = 35, using the first y-value as the intercept instead of checking the table relationship.",
+        "misconceptionCode": "assumes-linear-pattern-without-checking"
+      },
+      {
+        "label": "C",
+        "text": "11",
+        "rationale": "Correct: the table follows y = 3x + 2, so 3x + 2 = 35 gives x = 11."
+      },
+      {
+        "label": "D",
+        "text": "12",
+        "rationale": "Solves 3x − 1 = 35, shifting the relationship by one because the row labels start at 1.",
+        "misconceptionCode": "reads-wrong-row-or-column"
+      },
+      {
+        "label": "E",
+        "text": "13",
+        "rationale": "Counts seven more y-steps from 14 but adds them to the current x-value incorrectly.",
+        "misconceptionCode": "extends-by-wrong-interval"
+      }
+    ]
+  },
+  "solutionRepresentation": "The y-values increase by 3 whenever x increases by 1. Since y = 5 when x = 1, the rule is y = 3x + 2. Set 3x + 2 = 35, so 3x = 33 and x = 11.",
+  "solutionMethod": "Find the constant change, write or reason from the linear rule, and solve for the target y-value.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "11",
+    "acceptedAnswers": ["11", "x = 11", "C"],
+    "equivalenceNotes": "Accept the x-value alone, as an equation, or as choice C."
+  },
+  "misconceptionCodes": [
+    "extends-by-wrong-interval",
+    "assumes-linear-pattern-without-checking",
+    "reads-wrong-row-or-column"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Look at how y changes when x increases by one.",
+      "question": "What constant change appears in the y-values?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "After finding the constant change, compare the rule with the first row instead of guessing the starting value.",
+      "question": "What must be added to the multiple of x to match the row where x is 1?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For pairs (1, 4), (2, 7), the rule is not just 3x; it needs an added amount to match the table.",
+      "question": "Which answer choice satisfies the table's rule for the target y-value?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["x = 11", "choice c", "3x + 2 = 35"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Represent the table as ordered coordinate pairs or a semantic table; no image is required.",
+  "accessibleAlternative": "Read aloud or display: The ordered pairs are (1,5), (2,8), (3,11), and (4,14). The pattern continues. Find x when y is 35."
+}

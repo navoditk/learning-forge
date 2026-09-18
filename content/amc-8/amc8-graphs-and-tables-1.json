@@ -1,0 +1,55 @@
+{
+  "id": "amc8-graphs-and-tables-1",
+  "version": "content-1",
+  "title": "First day reaching a reading goal",
+  "skillCode": "amc8-graphs-and-tables",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["AMC8-DATA-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Reads a table in order and identifies the first entry meeting an at-least condition."
+  ],
+  "prompt": "The table shows the number of pages Mina read each day: Monday 18, Tuesday 27, Wednesday 27, Thursday 39. On which day did Mina first read at least 30 pages?",
+  "solutionRepresentation": "Monday, Tuesday, and Wednesday are below 30 pages. Thursday is 39 pages, which is the first day that is at least 30 pages.",
+  "solutionMethod": "Scan the table in chronological order and compare each value with the threshold.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "Thursday",
+    "acceptedAnswers": ["Thursday", "Thu", "Thursday 39"],
+    "equivalenceNotes": "Accept Thursday with common abbreviation or with the matching page count."
+  },
+  "misconceptionCodes": ["reads-wrong-row-or-column", "uses-total-instead-of-change"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The word first means order matters, so scan the days from earliest to latest.",
+      "question": "Which days are below the page target?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "At least means the value may be equal to the target or greater than it.",
+      "question": "What is the first table entry that meets or exceeds the target?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If the values were 12, 18, 25, and the target were 20, the first meeting day would be the one with 25.",
+      "question": "How does that comparison work in Mina's table?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["Thursday is", "Thu", "first day that is at least"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Present the table as ordered text or a semantic table; do not require interpreting a graphic.",
+  "accessibleAlternative": "Read aloud or display: Monday 18 pages, Tuesday 27 pages, Wednesday 27 pages, Thursday 39 pages. Find the first day with at least 30 pages."
+}

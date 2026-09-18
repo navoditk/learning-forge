@@ -1,0 +1,21 @@
+{
+  "code": "amc8-estimation-number-sense",
+  "title": "Estimation and number sense",
+  "program": "amc-8",
+  "domain": "amc8-number-and-ratio-reasoning",
+  "standards": ["AMC8-EST-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Chooses compatible numbers or benchmarks to estimate products, quotients, and percentages without a calculator.",
+    "Checks that a selected answer has a reasonable magnitude before accepting it."
+  ],
+  "misconceptionCodes": [
+    "rounds-too-early-in-wrong-direction",
+    "ignores-place-value",
+    "treats-percent-as-whole-number",
+    "overtrusts-last-digit",
+    "chooses-unreasonable-magnitude"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require a correct benchmark estimate with a written magnitude check and one independent no-calculator delayed estimate."
+}

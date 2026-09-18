@@ -1,0 +1,21 @@
+{
+  "code": "amc8-elementary-geometry",
+  "title": "Elementary geometry",
+  "program": "amc-8",
+  "domain": "amc8-geometry-and-visualization",
+  "standards": ["AMC8-GEOM-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Combines elementary area, perimeter, angle, or right-triangle relationships to find a missing measure.",
+    "Uses a diagram or precise text description without relying on scale or visual guessing."
+  ],
+  "misconceptionCodes": [
+    "confuses-perimeter-and-area",
+    "adds-instead-of-subtracts-area",
+    "squares-sides-incorrectly",
+    "assumes-diagram-to-scale",
+    "drops-units"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require a correct measure with the relevant geometric relationship named, plus one delayed item using a different representation."
+}

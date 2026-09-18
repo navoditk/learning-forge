@@ -1,5 +1,45 @@
 # Progress
 
+## 2026-09-18 — AMC 8 Grade 6 prep authoring increment handed off
+
+- Verified the approved AMC 8 source section in `docs/curriculum-sources.md`:
+  product/content-owner approval is recorded on 2026-09-17, the official
+  format is 25 multiple-choice questions in 40 minutes with choices A-E, no
+  calculators, grade 8 and below / age 15.5 eligibility, and +1 correct / 0
+  wrong / 0 blank scoring. The dossier remains explicit that this is a
+  Learning Forge synthesis rather than an official MAA syllabus.
+- Added eight namespaced `amc8-` skills and 16 original records under
+  `content/amc-8/` covering counting/probability, estimation, proportional
+  reasoning, elementary geometry, spatial visualization, graphs/tables,
+  introductory algebra, and coordinate geometry. Each skill has exactly one
+  `core` prep record and one `contest` record; all 16 use
+  `provenance.origin: "llm_drafted"`, `licenseStatus: "owned"`, and
+  `review.status: "pending_review"`.
+- Generalized contest-format metadata so AMC 8 records encode +1/0 scoring,
+  timing, no-calculator policy, eligibility, and five A-E choices without
+  weakening Math Kangaroo's 3/4/5-point checks or MOEMS free-response
+  semantics. `amc-8` remains `available: false`, so no AMC draft can enter a
+  learner journey.
+- Self-audit notes: no prerequisite edges were kept because none were
+  conceptually necessary rather than teaching-order preferences; existing
+  planner behavior keeps contest records behind structured mastery evidence
+  for the same skill. Six accessible SVG figures were added only for genuinely
+  visual geometry, spatial, and coordinate items; nonvisual records remain
+  text/table based.
+- Evidence: `npm run content:validate` passed 16 tests; `npm run
+  curriculum:validate` passed 17 tests; focused planner/full unit command
+  passed 81 unit/contract/catalog/eval/planner tests; full `npm run verify`
+  passed formatting, lint, type checks, migration rollback checks, 81
+  unit/contract/catalog/eval/planner tests, and the production build.
+- Review handoff: independently audit all 16 records for mathematical
+  accuracy, originality against AMC 8/AJHSME archives, official format
+  fidelity, prerequisite self-audit, structural distinction/observable
+  evidence coverage, deterministic distractor rationales, hint non-leakage,
+  and SVG accessibility before changing review status or enabling `amc-8`.
+- Next: run the independent `curriculum-review` pass for this AMC 8 draft
+  increment, remediate any findings, then seek human product/content-owner
+  approval before serving.
+
 ## 2026-09-18 — MOEMS Division E content approved for serving
 
 - The product/content owner approved all ten independently reviewed MOEMS

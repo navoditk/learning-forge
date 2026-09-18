@@ -1,0 +1,104 @@
+{
+  "id": "amc8-estimation-number-sense-2",
+  "version": "content-1",
+  "title": "Puzzle booth estimate",
+  "skillCode": "amc8-estimation-number-sense",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["AMC8-EST-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses a percent benchmark and rounded total to choose a reasonable no-calculator estimate."
+  ],
+  "prompt": "At a school fair, about 48% of 199 students tried the puzzle booth. Which number is closest to the number of students who tried it?",
+  "contestFormat": {
+    "format": "amc-8",
+    "pointValue": 1,
+    "questionCount": 25,
+    "timeLimitMinutes": 40,
+    "calculatorPolicy": "no_calculators",
+    "scoring": {
+      "correctPoints": 1,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "answerChoices": [
+      {
+        "label": "A",
+        "text": "50",
+        "rationale": "Rounds the student count to 100 and then takes about half, so the base quantity is too small.",
+        "misconceptionCode": "ignores-place-value"
+      },
+      {
+        "label": "B",
+        "text": "75",
+        "rationale": "Treats 48% as about 3/8 instead of about 1/2, giving 3/8 of 200 = 75.",
+        "misconceptionCode": "treats-percent-as-whole-number"
+      },
+      {
+        "label": "C",
+        "text": "100",
+        "rationale": "Correct: 48% is near 50%, and 50% of about 200 is 100."
+      },
+      {
+        "label": "D",
+        "text": "125",
+        "rationale": "Treats 48% as about 5/8 of 200, which overestimates the percent benchmark.",
+        "misconceptionCode": "rounds-too-early-in-wrong-direction"
+      },
+      {
+        "label": "E",
+        "text": "150",
+        "rationale": "Treats 48% as about 3/4 of 200, an unreasonable magnitude for a percent just under one-half.",
+        "misconceptionCode": "chooses-unreasonable-magnitude"
+      }
+    ]
+  },
+  "solutionRepresentation": "48% is close to 50%, and 199 is close to 200. Half of 200 is 100, so the closest choice is 100.",
+  "solutionMethod": "Use 50% as a benchmark for 48% and 200 as a compatible total, then choose the closest option.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "100",
+    "acceptedAnswers": ["100", "100 students", "C"],
+    "equivalenceNotes": "Accept the estimate with or without units or as choice C."
+  },
+  "misconceptionCodes": [
+    "ignores-place-value",
+    "treats-percent-as-whole-number",
+    "chooses-unreasonable-magnitude",
+    "rounds-too-early-in-wrong-direction"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Use a friendly percent benchmark instead of exact multiplication.",
+      "question": "What familiar percent is 48% close to?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Round the total number of students to a nearby hundred before applying the benchmark percent.",
+      "question": "What is the approximate size of one half of the rounded total?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If 51% of 398 people did something, about half of 400 would guide the estimate.",
+      "question": "Which answer choice has that same reasonable magnitude here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["100 students", "choice c", "half of 200 is 100"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "State the percent and total in text; avoid relying on a chart or calculator.",
+  "accessibleAlternative": "Read aloud or display: About 48 percent of 199 students tried a booth. Choose the closest count from the five choices."
+}

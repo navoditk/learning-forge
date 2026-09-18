@@ -38,6 +38,14 @@ import moems6PatternsAndCounting from '../../content/skills/moems6-patterns-and-
 import moems6GeometryAndMeasurement from '../../content/skills/moems6-geometry-and-measurement.json';
 import moems6LogicAndArrangements from '../../content/skills/moems6-logic-and-arrangements.json';
 import moems6CryptarithmReasoning from '../../content/skills/moems6-cryptarithm-reasoning.json';
+import amc8CountingProbability from '../../content/skills/amc8-counting-probability.json';
+import amc8EstimationNumberSense from '../../content/skills/amc8-estimation-number-sense.json';
+import amc8ProportionalReasoning from '../../content/skills/amc8-proportional-reasoning.json';
+import amc8ElementaryGeometry from '../../content/skills/amc8-elementary-geometry.json';
+import amc8SpatialVisualization from '../../content/skills/amc8-spatial-visualization.json';
+import amc8GraphsAndTables from '../../content/skills/amc8-graphs-and-tables.json';
+import amc8IntroductoryAlgebra from '../../content/skills/amc8-introductory-algebra.json';
+import amc8CoordinateGeometry from '../../content/skills/amc8-coordinate-geometry.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { topologicalOrder } from './topological-sort';
 
@@ -82,6 +90,14 @@ const rawSkills = [
   moems6GeometryAndMeasurement,
   moems6LogicAndArrangements,
   moems6CryptarithmReasoning,
+  amc8CountingProbability,
+  amc8EstimationNumberSense,
+  amc8ProportionalReasoning,
+  amc8ElementaryGeometry,
+  amc8SpatialVisualization,
+  amc8GraphsAndTables,
+  amc8IntroductoryAlgebra,
+  amc8CoordinateGeometry,
 ] as const;
 
 export function topologicalSkillOrder(skills: readonly Skill[]): string[] {

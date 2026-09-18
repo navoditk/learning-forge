@@ -1,0 +1,66 @@
+{
+  "id": "amc8-elementary-geometry-1",
+  "version": "content-1",
+  "title": "Rectangle with a corner removed",
+  "skillCode": "amc8-elementary-geometry",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["AMC8-GEOM-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Subtracts the area of a right triangular cut-out from the area of a rectangle and reports square units."
+  ],
+  "prompt": "A 10 cm by 6 cm rectangle has a right triangular corner removed. The triangle's legs along the rectangle's edges are 4 cm and 3 cm. What area remains?",
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 520 300\" role=\"img\"><rect width=\"520\" height=\"300\" fill=\"#ffffff\"/><path d=\"M80 60 H420 V240 H80 Z\" fill=\"#eaf4f2\" stroke=\"#2c534f\" stroke-width=\"4\"/><polygon points=\"420,60 420,150 300,60\" fill=\"#ffffff\" stroke=\"#c16b36\" stroke-width=\"4\" stroke-dasharray=\"8 5\"/><line x1=\"80\" y1=\"252\" x2=\"420\" y2=\"252\" stroke=\"#22221f\" stroke-width=\"3\"/><line x1=\"68\" y1=\"60\" x2=\"68\" y2=\"240\" stroke=\"#22221f\" stroke-width=\"3\"/><text x=\"235\" y=\"280\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#22221f\">10 cm</text><text x=\"18\" y=\"155\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#22221f\">6 cm</text><text x=\"352\" y=\"48\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#8a3f25\">4 cm</text><text x=\"431\" y=\"112\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#8a3f25\">3 cm</text></svg>",
+    "altText": "A rectangle is labeled 10 centimeters long and 6 centimeters tall. The upper-right corner is cut off by a right triangle whose horizontal leg is 4 centimeters and vertical leg is 3 centimeters.",
+    "caption": "A rectangular region with a right triangular corner removed.",
+    "width": 520,
+    "height": 300
+  },
+  "solutionRepresentation": "The rectangle area is 10 × 6 = 60 square centimeters. The removed triangle area is (4 × 3) ÷ 2 = 6 square centimeters. The remaining area is 60 − 6 = 54 square centimeters.",
+  "solutionMethod": "Find the rectangle area, subtract the right-triangle area, and keep square-centimeter units.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "54 square centimeters",
+    "acceptedAnswers": ["54 square centimeters", "54", "54 cm^2", "54 cm²", "54 sq cm"],
+    "equivalenceNotes": "Accept 54 with any clear square-centimeter unit or no unit in numeric entry."
+  },
+  "misconceptionCodes": [
+    "adds-instead-of-subtracts-area",
+    "confuses-perimeter-and-area",
+    "drops-units"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Think of the shape as a full rectangle with one piece removed.",
+      "question": "What area would the full rectangle have before the corner is removed?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The removed piece is a right triangle, so its area is half of the product of its perpendicular legs.",
+      "question": "How do you find the area of that triangular piece?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If a 20-square-unit rectangle loses a 3-square-unit corner, the remaining area comes from subtracting the lost piece.",
+      "question": "What subtraction represents the remaining area in this problem?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["54 square", "54 cm", "60 − 6"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Show the diagram with labels and provide the full text alternative; the cut-out dimensions must not rely on color alone.",
+  "accessibleAlternative": "Read aloud or display: Start with a rectangle 10 centimeters by 6 centimeters. Remove a right triangular corner with legs 4 centimeters and 3 centimeters along the rectangle edges. Find the remaining area."
+}

@@ -24,6 +24,10 @@ export const CurriculumDomainSchema = z.enum([
   'moems6-patterns-and-counting',
   'moems6-geometry-and-measurement',
   'moems6-logic-and-arrangements',
+  'amc8-counting-and-probability',
+  'amc8-number-and-ratio-reasoning',
+  'amc8-geometry-and-visualization',
+  'amc8-data-and-algebra',
 ]);
 
 export type CurriculumDomain = z.infer<typeof CurriculumDomainSchema>;

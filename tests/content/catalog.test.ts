@@ -10,8 +10,8 @@ import { skillCatalog } from '../../src/curriculum/catalog';
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(contentCatalog).toHaveLength(80);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(80);
+    expect(contentCatalog).toHaveLength(96);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(96);
     expect(new Set(contentCatalog.map((item) => item.skillCode))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -23,7 +23,7 @@ describe('ratios content seed', () => {
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
     expect(reviewedItems.length).toBe(80);
-    expect(pendingItems.length).toBe(0);
+    expect(pendingItems.length).toBe(16);
     expect(pendingItems.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
     expect(pendingItems.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
     expect(pendingItems.every((item) => !item.review.reviewedAt)).toBe(true);
@@ -89,6 +89,62 @@ describe('ratios content seed', () => {
     ).toThrow('requires Math Kangaroo contest-format metadata');
   });
 
+  it('models every AMC 8 contest item as five-choice +1/0 no-calculator format', () => {
+    const amc8SkillCodes = new Set(
+      skillCatalog.filter((skill) => skill.program === 'amc-8').map((skill) => skill.code),
+    );
+    const contestItems = contentCatalog.filter(
+      (item) => amc8SkillCodes.has(item.skillCode) && item.mode === 'contest',
+    );
+
+    expect(contestItems).toHaveLength(8);
+    for (const item of contestItems) {
+      expect(item.deterministicValidator.type).toBe('multiple_choice');
+      expect(item.contestFormat?.format).toBe('amc-8');
+      expect(item.contestFormat?.pointValue).toBe(1);
+      expect(item.contestFormat?.questionCount).toBe(25);
+      expect(item.contestFormat?.timeLimitMinutes).toBe(40);
+      expect(item.contestFormat?.calculatorPolicy).toBe('no_calculators');
+      expect(item.contestFormat?.scoring).toEqual({
+        correctPoints: 1,
+        incorrectPoints: 0,
+        blankPoints: 0,
+      });
+      expect(item.contestFormat?.answerChoices).toHaveLength(5);
+      expect(item.contestFormat?.answerChoices.map((choice) => choice.label)).toEqual([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+      ]);
+      expect(
+        item.contestFormat?.answerChoices.some(
+          (choice) => choice.text === item.deterministicValidator.canonicalAnswer,
+        ),
+      ).toBe(true);
+      expect(
+        item.contestFormat?.answerChoices
+          .filter((choice) => choice.text !== item.deterministicValidator.canonicalAnswer)
+          .every((choice) => choice.rationale && choice.misconceptionCode),
+      ).toBe(true);
+    }
+
+    const withMathKangarooTier = contestItems[0];
+    expect(() =>
+      validateContentCatalog(
+        contentCatalog.map((item) =>
+          item.id === withMathKangarooTier.id
+            ? {
+                ...item,
+                contestFormat: { ...item.contestFormat, pointValue: 3 },
+              }
+            : item,
+        ),
+      ),
+    ).toThrow('must use AMC 8 +1 scoring');
+  });
+
   it('keeps MOEMS contest items as numeric or text free-response without Math Kangaroo metadata', () => {
     const moemsSkillCodes = new Set(
       skillCatalog.filter((skill) => skill.program === 'moems-6').map((skill) => skill.code),
@@ -129,6 +185,51 @@ describe('ratios content seed', () => {
             item.prerequisiteSkillCodes.join('|') === skill.prerequisiteSkillCodes.join('|'),
         ),
       ).toBe(true);
+    }
+
+    for (const [id, answer] of expectedAnswers) {
+      const item = contentCatalog.find((candidate) => candidate.id === id);
+      expect(item?.deterministicValidator.canonicalAnswer).toBe(answer);
+      expect(item?.deterministicValidator.acceptedAnswers).toContain(answer);
+    }
+  });
+
+  it('self-audits AMC 8 coverage, prerequisites, review state, and canonical answers', () => {
+    const amc8Skills = skillCatalog.filter((skill) => skill.program === 'amc-8');
+    const expectedAnswers = new Map([
+      ['amc8-counting-probability-1', '5/8'],
+      ['amc8-counting-probability-2', '4'],
+      ['amc8-estimation-number-sense-1', '6000'],
+      ['amc8-estimation-number-sense-2', '100'],
+      ['amc8-proportional-reasoning-1', '18 dollars'],
+      ['amc8-proportional-reasoning-2', '9'],
+      ['amc8-elementary-geometry-1', '54 square centimeters'],
+      ['amc8-elementary-geometry-2', '13'],
+      ['amc8-spatial-visualization-1', '8'],
+      ['amc8-spatial-visualization-2', 'Face U'],
+      ['amc8-graphs-and-tables-1', 'Thursday'],
+      ['amc8-graphs-and-tables-2', '11'],
+      ['amc8-introductory-algebra-1', '7'],
+      ['amc8-introductory-algebra-2', '6'],
+      ['amc8-coordinate-geometry-1', '6'],
+      ['amc8-coordinate-geometry-2', '24'],
+    ]);
+
+    expect(amc8Skills).toHaveLength(8);
+    for (const skill of amc8Skills) {
+      const records = contentCatalog.filter((item) => item.skillCode === skill.code);
+      expect(records).toHaveLength(2);
+      expect(new Set(records.map((item) => item.mode))).toEqual(new Set(['core', 'contest']));
+      expect(new Set(records.map((item) => item.prompt)).size).toBe(2);
+      expect(
+        records.every(
+          (item) =>
+            item.prerequisiteSkillCodes.join('|') === skill.prerequisiteSkillCodes.join('|'),
+        ),
+      ).toBe(true);
+      expect(records.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
+      expect(records.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
+      expect(records.every((item) => item.review.status === 'pending_review')).toBe(true);
     }
 
     for (const [id, answer] of expectedAnswers) {
@@ -291,6 +392,7 @@ describe('ratios content seed', () => {
     expect(servableContentCatalog.length).toBeGreaterThan(0);
     expect(servableContentCatalog.length).toBeLessThanOrEqual(contentCatalog.length);
     expect(servableContentCatalog.every((item) => item.review.status === 'reviewed')).toBe(true);
+    expect(servableContentCatalog.every((item) => !item.skillCode.startsWith('amc8-'))).toBe(true);
 
     // Exercise the gate's actual filtering behavior against a synthetic mix
     // of reviewed and pending_review items, independent of whatever the

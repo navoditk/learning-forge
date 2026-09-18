@@ -1,29 +1,37 @@
 # Content review
 
-The catalog contains 38 original/LLM-drafted, synthetic problem records
-across all 19 Grade 6 Math skills (Ratios, Number System, Expressions and
-Equations, Geometry, Statistics — `content/{ratios,number-system,
-expressions-and-equations,geometry,statistics}/`). The records are versioned
-JSON and remain separate from generated (live-tutor) content. Every record
-names its reviewer and remains `pending_review` until a human educator/content
-owner verifies it.
+The catalog contains 96 original/LLM-drafted, synthetic problem records across
+Grade 6 Math, Math Kangaroo Grade 6, MOEMS Division E, and the AMC 8 Grade 6
+prep draft. The records are versioned JSON and remain separate from generated
+(live-tutor) content. Every record names its review state; only
+`review.status: "reviewed"` records enter the servable catalog.
 
-**Status (2026-09-06):** all 38 records are marked `reviewed`, approved by the
-product/content owner (Navodit Kaushik) after AI-assisted hand re-derivation
-of every canonical answer and the automated checks below. This was not a
-separately engaged subject-matter-expert educator review — see ADR-0001's
-approval record for the exact scope. A deeper pedagogical audit (standards
-depth, misconception-code accuracy, difficulty calibration, accessibility)
-remains a candidate for follow-up before any real pilot use.
+**Current status (2026-09-18):** 80 records are marked `reviewed` and
+learner-servable through their available programs (Grade 6 Math, Math Kangaroo
+Grade 6, and MOEMS Division E). The 16 AMC 8 records remain
+`pending_review`, and `amc-8` remains unavailable. Earlier Grade 6 Math
+approval was product/content-owner approval by Navodit Kaushik, not a
+separately engaged subject-matter-expert educator review; a deeper pedagogical
+audit remains a candidate follow-up before broader pilot use.
 
-**MOEMS Division E draft handoff (2026-09-18):** The catalog now also contains
-10 original `llm_drafted` MOEMS Division E records across five `moems6-`
-skills. Each skill has one core-prep and one contest free-response record;
-all ten remain `review.status: "pending_review"` and are excluded from the
-servable catalog. The independent reviewer must re-derive every answer,
-check prerequisite necessity and two-record observable-evidence coverage,
-confirm the records are not close paraphrases of MOEMS or APSMO material, and
-review Division E format fidelity and accessibility before human approval.
+**MOEMS Division E status (2026-09-18):** The ten original `llm_drafted` MOEMS
+Division E records across five `moems6-` skills completed independent review,
+were approved by the product/content owner on 2026-09-18, and are now
+learner-servable through the isolated `moems-6` program.
+
+**AMC 8 draft handoff (2026-09-18):** The catalog now also contains 16
+original `llm_drafted` AMC 8 Grade 6 prep records across eight `amc8-` skills.
+Each skill has one core-prep record and one contest multiple-choice record.
+Contest records encode the official 25-question, 40-minute, no-calculator,
+five-choice A-E, +1 correct / 0 wrong / 0 blank AMC 8 format and are distinct
+from Math Kangaroo's 3/4/5-point tiers and MOEMS free-response records. All 16
+remain `review.status: "pending_review"` and are excluded from the servable
+catalog because `amc-8` is unavailable. The independent reviewer must
+re-derive every answer, check the zero-edge prerequisite self-audit, confirm
+the two records per skill are structurally distinct and jointly cover
+observable evidence, trace every distractor rationale to its answer choice,
+inspect accessible SVG figures, and verify originality against AMC 8/AJHSME
+archives before any approval.
 
 ## Review checklist
 

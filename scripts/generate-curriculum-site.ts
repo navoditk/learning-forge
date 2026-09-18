@@ -36,6 +36,10 @@ const DOMAIN_LABELS: Record<CurriculumDomain, string> = {
   'moems6-patterns-and-counting': 'Patterns & Counting',
   'moems6-geometry-and-measurement': 'Geometry & Measurement',
   'moems6-logic-and-arrangements': 'Logic & Arrangements',
+  'amc8-counting-and-probability': 'Counting & Probability',
+  'amc8-number-and-ratio-reasoning': 'Number & Ratio Reasoning',
+  'amc8-geometry-and-visualization': 'Geometry & Visualization',
+  'amc8-data-and-algebra': 'Data & Algebra',
 };
 
 const MODE_LABELS: Record<ContentItem['mode'], string> = {

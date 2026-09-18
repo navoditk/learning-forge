@@ -52,13 +52,31 @@ export const DeterministicValidatorSchema = z
 
 export const ContestFormatSchema = z
   .object({
-    pointValue: z.union([z.literal(3), z.literal(4), z.literal(5)]),
+    format: z.enum(['math-kangaroo', 'amc-8']).optional(),
+    pointValue: z.union([z.literal(1), z.literal(3), z.literal(4), z.literal(5)]),
+    questionCount: z.number().int().min(1).max(40).optional(),
+    timeLimitMinutes: z.number().int().min(1).max(180).optional(),
+    calculatorPolicy: z.enum(['no_calculators', 'not_specified']).optional(),
+    scoring: z
+      .object({
+        correctPoints: z.number(),
+        incorrectPoints: z.number(),
+        blankPoints: z.number(),
+      })
+      .strict()
+      .optional(),
+    eligibility: z.string().trim().min(1).max(300).optional(),
     answerChoices: z
       .array(
         z
           .object({
             label: z.enum(['A', 'B', 'C', 'D', 'E']),
             text: z.string().trim().min(1).max(200),
+            rationale: z.string().trim().min(1).max(500).optional(),
+            misconceptionCode: z
+              .string()
+              .regex(/^[a-z0-9-]+$/)
+              .optional(),
           })
           .strict(),
       )

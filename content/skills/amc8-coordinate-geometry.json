@@ -1,0 +1,21 @@
+{
+  "code": "amc8-coordinate-geometry",
+  "title": "Coordinate geometry",
+  "program": "amc-8",
+  "domain": "amc8-data-and-algebra",
+  "standards": ["AMC8-COORD-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses coordinates to determine horizontal or vertical distances, side lengths, or areas on a coordinate grid.",
+    "Keeps signs and absolute distances distinct when comparing positions across quadrants."
+  ],
+  "misconceptionCodes": [
+    "subtracts-coordinates-in-wrong-order",
+    "ignores-negative-coordinates",
+    "uses-diagonal-distance-for-axis-aligned-segment",
+    "confuses-perimeter-and-area",
+    "reads-axis-labels-backward"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require a correct coordinate-derived measure with evidence of axis direction and distance reasoning, plus one delayed coordinate-transfer item."
+}

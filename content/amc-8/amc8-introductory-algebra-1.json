@@ -1,0 +1,55 @@
+{
+  "id": "amc8-introductory-algebra-1",
+  "version": "content-1",
+  "title": "Solving a one-step expression equation",
+  "skillCode": "amc8-introductory-algebra",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["AMC8-ALG-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses inverse operations to solve a linear equation and can check the result by substitution."
+  ],
+  "prompt": "Solve for x: 3x + 5 = 26.",
+  "solutionRepresentation": "Subtract 5 from both sides to get 3x = 21. Divide by 3 to get x = 7. Check: 3 × 7 + 5 = 26.",
+  "solutionMethod": "Undo addition, undo multiplication, then substitute the result back into the original equation.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "7",
+    "acceptedAnswers": ["7", "x = 7", "seven"],
+    "equivalenceNotes": "Accept 7 alone, as x = 7, or in word form."
+  },
+  "misconceptionCodes": ["reverses-inverse-operations", "forgets-to-check-solution"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Undo the operations in reverse order from how the expression is built.",
+      "question": "What should you undo first: the multiplication by 3 or the addition of 5?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Keep the equation balanced by doing the same operation to both sides.",
+      "question": "After removing the added amount, what operation isolates x?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For 2n + 4 = 18, subtract first and then divide by the coefficient.",
+      "question": "How can you use that same inverse-operation order here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["x = 7", "seven", "3 × 7"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Write the equation plainly and read it aloud as needed; no special notation beyond multiplication is required.",
+  "accessibleAlternative": "Read aloud or display: Solve the equation three times x plus five equals twenty-six."
+}

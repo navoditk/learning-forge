@@ -1,0 +1,55 @@
+{
+  "id": "amc8-estimation-number-sense-1",
+  "version": "content-1",
+  "title": "Compatible product estimate",
+  "skillCode": "amc8-estimation-number-sense",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["AMC8-EST-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Rounds a near-200 by near-30 product to compatible factors and states a reasonable magnitude."
+  ],
+  "prompt": "Without multiplying exactly, estimate 198 × 31 to the nearest thousand using compatible numbers. What estimate should you use?",
+  "solutionRepresentation": "198 is close to 200, and 31 is close to 30. The compatible product is 200 × 30 = 6000, which is 6 thousand.",
+  "solutionMethod": "Round each factor to a nearby compatible number, multiply mentally, and express the result to the requested place value.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "6000",
+    "acceptedAnswers": ["6000", "6,000", "six thousand", "about 6000", "about 6,000"],
+    "equivalenceNotes": "Accept the nearest-thousand estimate with or without comma or the word about."
+  },
+  "misconceptionCodes": ["ignores-place-value", "overtrusts-last-digit"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Choose nearby numbers that are easier to multiply mentally.",
+      "question": "What round number is 198 close to, and what round number is 31 close to?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Use hundreds for the first factor and tens for the second factor so the place value stays visible.",
+      "question": "What mental product do those compatible factors create?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For 203 × 29, a good estimate would use 200 × 30 before stating the magnitude.",
+      "question": "How does that example guide this product?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["6000", "six thousand", "6,000"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Present the expression in text; no calculator or visual model is needed.",
+  "accessibleAlternative": "Read aloud or display: Estimate 198 times 31 to the nearest thousand using compatible numbers."
+}

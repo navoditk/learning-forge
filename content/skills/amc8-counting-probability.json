@@ -1,0 +1,22 @@
+{
+  "code": "amc8-counting-probability",
+  "title": "Counting and probability",
+  "program": "amc-8",
+  "domain": "amc8-counting-and-probability",
+  "standards": ["AMC8-COUNT-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Organizes small outcome spaces with lists, tables, complements, or cases so every outcome is counted once.",
+    "Computes simple probabilities as favorable outcomes divided by total equally likely outcomes."
+  ],
+  "misconceptionCodes": [
+    "double-counts-cases",
+    "treats-unordered-as-ordered",
+    "ignores-complement",
+    "uses-favorable-as-probability",
+    "allows-repetition-when-disallowed",
+    "ignores-even-sum-condition"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent count or probability with an organized outcome method and one delayed check that explains why no outcome was missed or repeated."
+}

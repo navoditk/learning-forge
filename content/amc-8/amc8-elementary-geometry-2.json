@@ -1,0 +1,106 @@
+{
+  "id": "amc8-elementary-geometry-2",
+  "version": "content-1",
+  "title": "Right-triangle hypotenuse",
+  "skillCode": "amc8-elementary-geometry",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["AMC8-GEOM-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses the Pythagorean relationship on a right triangle with integer legs to identify the hypotenuse."
+  ],
+  "prompt": "A right triangle has legs of length 5 and 12. What is the length of its hypotenuse?",
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 420 260\" role=\"img\"><rect width=\"420\" height=\"260\" fill=\"#ffffff\"/><polygon points=\"80,200 320,200 80,80\" fill=\"#eaf4f2\" stroke=\"#2c534f\" stroke-width=\"4\"/><path d=\"M80 178 H102 V200\" fill=\"none\" stroke=\"#22221f\" stroke-width=\"3\"/><text x=\"190\" y=\"230\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#22221f\">12</text><text x=\"44\" y=\"144\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#22221f\">5</text><text x=\"208\" y=\"128\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#22221f\">?</text></svg>",
+    "altText": "A right triangle has a horizontal leg labeled 12, a vertical leg labeled 5, a right-angle marker between them, and the slanted hypotenuse marked with a question mark.",
+    "caption": "A right triangle with legs 5 and 12.",
+    "width": 420,
+    "height": 260
+  },
+  "contestFormat": {
+    "format": "amc-8",
+    "pointValue": 1,
+    "questionCount": 25,
+    "timeLimitMinutes": 40,
+    "calculatorPolicy": "no_calculators",
+    "scoring": {
+      "correctPoints": 1,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "answerChoices": [
+      {
+        "label": "A",
+        "text": "7",
+        "rationale": "Subtracts the shorter leg from the longer leg, 12 − 5, instead of using squared side lengths.",
+        "misconceptionCode": "squares-sides-incorrectly"
+      },
+      {
+        "label": "B",
+        "text": "11",
+        "rationale": "Combines the squares incorrectly as 144 − 25 = 119 and then estimates the square root downward.",
+        "misconceptionCode": "squares-sides-incorrectly"
+      },
+      {
+        "label": "C",
+        "text": "13",
+        "rationale": "Correct: 5² + 12² = 25 + 144 = 169, and the square root of 169 is 13."
+      },
+      {
+        "label": "D",
+        "text": "17",
+        "rationale": "Adds the two legs, 5 + 12, which gives a perimeter part rather than the hypotenuse.",
+        "misconceptionCode": "confuses-perimeter-and-area"
+      },
+      {
+        "label": "E",
+        "text": "60",
+        "rationale": "Multiplies the legs, 5 × 12, treating area-like multiplication as a side length.",
+        "misconceptionCode": "confuses-perimeter-and-area"
+      }
+    ]
+  },
+  "solutionRepresentation": "For a right triangle, the hypotenuse c satisfies c² = 5² + 12² = 25 + 144 = 169. Therefore c = 13.",
+  "solutionMethod": "Apply the Pythagorean relationship to the two legs and take the positive square root.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "13",
+    "acceptedAnswers": ["13", "13 units", "C"],
+    "equivalenceNotes": "Accept the length with or without units or as choice C."
+  },
+  "misconceptionCodes": ["squares-sides-incorrectly", "confuses-perimeter-and-area"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "For a right triangle, the slanted side is related to the squares of the legs.",
+      "question": "What relationship connects the two legs and the hypotenuse?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Square each leg before combining them; do not add the leg lengths directly.",
+      "question": "What sum of squares should equal the hypotenuse squared?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A 3-4 right triangle has hypotenuse 5 because 3 squared plus 4 squared gives 5 squared.",
+      "question": "Which answer choice fits the same relationship here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["13 units", "choice c", "c = 13"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Provide the labeled right-triangle diagram and a text alternative; the right angle marker must not be the only source of information.",
+  "accessibleAlternative": "Read aloud or display: A right triangle has perpendicular legs of lengths 5 and 12. Find the length of the hypotenuse from the five choices."
+}

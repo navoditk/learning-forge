@@ -1,0 +1,20 @@
+{
+  "code": "amc8-graphs-and-tables",
+  "title": "Graphs and tables",
+  "program": "amc-8",
+  "domain": "amc8-data-and-algebra",
+  "standards": ["AMC8-DATA-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Reads exact values, comparisons, and changes from tables or simple graphs.",
+    "Extends a table pattern only after identifying the relationship between rows or columns."
+  ],
+  "misconceptionCodes": [
+    "reads-wrong-row-or-column",
+    "uses-total-instead-of-change",
+    "assumes-linear-pattern-without-checking",
+    "extends-by-wrong-interval"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require an exact table/graph inference with cited rows or columns, plus a delayed item that asks for a comparison or extrapolation."
+}

@@ -145,4 +145,44 @@ describe('planNextActivities', () => {
     expect(result.totalMinutes).toBeLessThanOrEqual(30);
     expect(result.unavailableSkills).toEqual([]);
   });
+
+  it('keeps AMC 8 contest-tier records behind structured prerequisite evidence', () => {
+    const amc8Skills: PlannerSkill[] = skillCatalog
+      .filter((skill) => skill.program === 'amc-8')
+      .map((skill) => ({
+        code: skill.code,
+        prerequisiteSkillCodes: skill.prerequisiteSkillCodes,
+      }));
+    const amc8Content: PlannerContentItem[] = contentCatalog
+      .filter((item) => item.skillCode.startsWith('amc8-'))
+      .map((item) => ({
+        id: item.id,
+        skillCode: item.skillCode,
+        mode: item.mode,
+        difficulty: item.difficulty,
+      }));
+
+    const initialPlan = planNextActivities({
+      skills: amc8Skills,
+      content: amc8Content,
+      masteryBySkillCode: {},
+      timeBudgetMinutes: 200,
+    });
+    expect(initialPlan.items).toHaveLength(8);
+    expect(initialPlan.items.every((item) => item.mode === 'core')).toBe(true);
+
+    const masteryBySkillCode = Object.fromEntries(
+      amc8Skills.map((skill) => [
+        skill.code,
+        { estimate: 0.5, confidenceBand: 'LOW' as const, independentDelayedCheck: false },
+      ]),
+    );
+    const afterEvidencePlan = planNextActivities({
+      skills: amc8Skills,
+      content: amc8Content,
+      masteryBySkillCode,
+      timeBudgetMinutes: 200,
+    });
+    expect(afterEvidencePlan.items.filter((item) => item.mode === 'contest')).toHaveLength(8);
+  });
 });

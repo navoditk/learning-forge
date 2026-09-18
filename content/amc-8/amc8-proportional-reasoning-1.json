@@ -1,0 +1,55 @@
+{
+  "id": "amc8-proportional-reasoning-1",
+  "version": "content-1",
+  "title": "Notebook unit price",
+  "skillCode": "amc8-proportional-reasoning",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["AMC8-RATIO-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Finds a unit rate from a total cost and scales it multiplicatively to a new quantity."
+  ],
+  "prompt": "Four identical notebooks cost $7.20. At the same price per notebook, how much do 10 notebooks cost?",
+  "solutionRepresentation": "$7.20 ÷ 4 = $1.80 per notebook. Then 10 × $1.80 = $18.00.",
+  "solutionMethod": "Find the unit price, then multiply by the new number of notebooks.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "18 dollars",
+    "acceptedAnswers": ["18 dollars", "$18", "$18.00", "18", "18.00"],
+    "equivalenceNotes": "Accept 18 dollars with or without a dollar sign or trailing cents."
+  },
+  "misconceptionCodes": ["additive-scaling", "uses-wrong-unit-rate"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The price changes multiplicatively with the number of identical notebooks.",
+      "question": "How can you find the cost of one notebook first?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once you know one notebook's price, use the target number of notebooks as the scale factor.",
+      "question": "What multiplication gives the total cost for the target quantity?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If 5 pens cost $6, you could divide by 5 to find one pen, then multiply by the number you need.",
+      "question": "How does that unit-rate method apply to the notebooks?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["18 dollars", "$18", "18.00"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Present all prices and quantities in text; no table is required.",
+  "accessibleAlternative": "Read aloud or display: Four notebooks cost seven dollars and twenty cents. Find the cost of ten notebooks at the same unit price."
+}

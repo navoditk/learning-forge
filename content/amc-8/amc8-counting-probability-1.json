@@ -1,0 +1,55 @@
+{
+  "id": "amc8-counting-probability-1",
+  "version": "content-1",
+  "title": "Spinner complement probability",
+  "skillCode": "amc8-counting-probability",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["AMC8-COUNT-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Counts favorable spinner sectors by using the complement of the named category and writes the probability as favorable outcomes over total outcomes."
+  ],
+  "prompt": "A spinner has 8 equal sectors: 3 star sectors, 2 moon sectors, and 3 triangle sectors. If the spinner is spun once, what is the probability that it lands on a sector that is not a triangle?",
+  "solutionRepresentation": "There are 8 equally likely sectors. The sectors that are not triangles are the 3 star sectors and 2 moon sectors, for 5 favorable sectors. The probability is 5/8.",
+  "solutionMethod": "Use the complement of triangle sectors, then write favorable outcomes over total equally likely outcomes.",
+  "deterministicValidator": {
+    "type": "ratio",
+    "canonicalAnswer": "5/8",
+    "acceptedAnswers": ["5/8", "5 out of 8", "five eighths", "0.625"],
+    "equivalenceNotes": "Accept an exact fraction, phrase, or terminating decimal equivalent."
+  },
+  "misconceptionCodes": ["ignores-complement", "uses-favorable-as-probability"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Separate the sectors into the named category and everything else.",
+      "question": "Which two sector types count as not being triangles?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "For equally sized sectors, probability compares favorable sectors with all sectors.",
+      "question": "What should be in the numerator and what should be in the denominator?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If a bag has red, blue, and green tiles, then the chance of not green comes from adding the red and blue tiles before comparing with the total.",
+      "question": "How can you apply that same complement idea here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["5/8", "five eighths", "0.625"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Represent the spinner categories and counts in text; no visual spinner is required because sector labels and totals are sufficient.",
+  "accessibleAlternative": "Read aloud or display: There are 8 equal sectors: 3 stars, 2 moons, and 3 triangles. Find the probability of landing on a sector that is not a triangle."
+}

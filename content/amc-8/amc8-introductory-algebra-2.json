@@ -1,0 +1,104 @@
+{
+  "id": "amc8-introductory-algebra-2",
+  "version": "content-1",
+  "title": "Positive number square relation",
+  "skillCode": "amc8-introductory-algebra",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["AMC8-ALG-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Solves a simple quadratic relationship with a positive-number condition and checks the value in the original equation."
+  ],
+  "prompt": "A positive number n satisfies n² + 4 = 40. What is n?",
+  "contestFormat": {
+    "format": "amc-8",
+    "pointValue": 1,
+    "questionCount": 25,
+    "timeLimitMinutes": 40,
+    "calculatorPolicy": "no_calculators",
+    "scoring": {
+      "correctPoints": 1,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "answerChoices": [
+      {
+        "label": "A",
+        "text": "-6",
+        "rationale": "After isolating n² = 36, chooses the negative square root even though the prompt says n is positive.",
+        "misconceptionCode": "ignores-positive-condition"
+      },
+      {
+        "label": "B",
+        "text": "6",
+        "rationale": "Correct: n² = 36, and the positive square root is 6."
+      },
+      {
+        "label": "C",
+        "text": "18",
+        "rationale": "Treats n² as 2n, so 2n + 4 = 40 gives 2n = 36 and n = 18.",
+        "misconceptionCode": "treats-square-as-double"
+      },
+      {
+        "label": "D",
+        "text": "36",
+        "rationale": "Subtracts 4 from 40 to get n² = 36, then reports 36 without taking a square root.",
+        "misconceptionCode": "takes-square-root-too-early"
+      },
+      {
+        "label": "E",
+        "text": "44",
+        "rationale": "Adds 4 to 40 instead of subtracting it, producing 44 before the square is isolated.",
+        "misconceptionCode": "reverses-inverse-operations"
+      }
+    ]
+  },
+  "solutionRepresentation": "Subtract 4 from both sides: n² = 36. Since n is positive, n = 6. Check: 6² + 4 = 36 + 4 = 40.",
+  "solutionMethod": "Isolate the square term, take the positive square root, and check in the original equation.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "6",
+    "acceptedAnswers": ["6", "n = 6", "B"],
+    "equivalenceNotes": "Accept 6 alone, as n = 6, or as choice B."
+  },
+  "misconceptionCodes": [
+    "ignores-positive-condition",
+    "treats-square-as-double",
+    "takes-square-root-too-early",
+    "reverses-inverse-operations"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Isolate the squared term before thinking about square roots.",
+      "question": "What operation removes the added amount from the left side?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "After the squared term is alone, use the positive-number condition to choose the positive root.",
+      "question": "Which answer choice squares to the isolated value?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For m squared plus 1 equals 10, first get m squared alone, then choose the positive square root if m is positive.",
+      "question": "Which answer choice follows that same order and respects the positive-number condition?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["n = 6", "choice b", "positive square root is 6"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Independent reviewer pending",
+    "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
+  },
+  "accessibilityNotes": "Render n squared in accessible text as n² or 'n squared'; no diagram is needed.",
+  "accessibleAlternative": "Read aloud or display: A positive number n satisfies n squared plus four equals forty. Find n."
+}

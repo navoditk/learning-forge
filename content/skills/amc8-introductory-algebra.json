@@ -1,0 +1,22 @@
+{
+  "code": "amc8-introductory-algebra",
+  "title": "Introductory algebra",
+  "program": "amc-8",
+  "domain": "amc8-data-and-algebra",
+  "standards": ["AMC8-ALG-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Represents a relationship with an equation or expression and solves for an unknown using inverse operations or substitution.",
+    "Checks the proposed value in the original relationship rather than only in a simplified expression."
+  ],
+  "misconceptionCodes": [
+    "reverses-inverse-operations",
+    "combines-unlike-terms",
+    "forgets-to-check-solution",
+    "takes-square-root-too-early",
+    "ignores-positive-condition",
+    "treats-square-as-double"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require a correct unknown value and a substitution check, followed by one delayed independent algebra-transfer item."
+}
