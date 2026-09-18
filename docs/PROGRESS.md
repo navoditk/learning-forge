@@ -1,5 +1,34 @@
 # Progress
 
+## 2026-09-19 (cont.) — Math Kangaroo independent-review remediation
+
+- Resolved all 2 major and 3 minor findings from the first independent review
+  without changing any content record from `pending_review`.
+- Added optional structured `contestFormat` metadata (exactly five labeled
+  choices plus a 3/4/5-point value), scoped catalog enforcement to Math
+  Kangaroo contest records, and added the `text` deterministic-validator type.
+  All 8 Math Kangaroo contest records now use five-choice
+  `multiple_choice` validators and collectively cover all three point tiers.
+- Replaced three routine contest prompts with non-routine variants: an
+  ordinal repeating-meeting calendar problem, an invariant perimeter after a
+  corner cut, and exposed cube faces after removing a corner cube. Strengthened
+  the grid-path item by adding a blocked-center exclusion.
+- Removed false prerequisite gates from angle reasoning and 3D visualization;
+  combinatorial counting now depends only on multi-step arithmetic. Mirrored
+  content prerequisites match the revised skill graph.
+- Repaired the calendar hint that disclosed its key remainder, changed four
+  text/time validators away from the misleading `numeric` label, and removed
+  the unqualified secondary-sourced "Benjamin" label from
+  `docs/02-curriculum-and-pedagogy.md`.
+- Added contract/catalog tests for exact-text validation, contest metadata,
+  five-choice labels, canonical-answer presence, point-tier coverage, and
+  rejection of missing Math Kangaroo contest metadata.
+- Evidence: `npx tsc --noEmit`, `npm run lint`, `npm run content:validate`,
+  `npm run curriculum:validate`, `npm test` (65/65), `npm run build`, and
+  `git diff --check` all pass.
+- Next: repeat the independent curriculum review. Human content-owner approval
+  remains blocked until that review passes.
+
 ## 2026-09-19 (cont.) — Math Kangaroo independent review logged
 
 - **Scope:** Completed the independent `curriculum-review` pass for commit

@@ -1,46 +1,56 @@
 {
   "id": "mk6-clock-and-calendar-reasoning-2",
   "version": "content-1",
-  "title": "The 100th day from today",
+  "title": "The 100th club meeting",
   "skillCode": "mk6-clock-and-calendar-reasoning",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-ARITH-3"],
   "prerequisiteSkillCodes": ["mk6-clock-and-calendar-reasoning"],
   "observableEvidence": [
-    "Determines the day of the week a fixed number of days after a given day, using the remainder from dividing by 7."
+    "Combines an event interval with an ordinal position, then uses a remainder modulo 7 to determine the weekday."
   ],
-  "prompt": "Today is a Wednesday. What day of the week will it be 100 days from today?",
-  "solutionRepresentation": "100 divided by 7 leaves a remainder of 2 (since 7 × 14 = 98). Counting 2 days forward from Wednesday gives Friday.",
-  "solutionMethod": "Divide the number of days by 7 to find the remainder, then count that many days of the week forward from the starting day.",
+  "prompt": "A puzzle club holds a meeting every 9 days. Its 1st meeting is on a Wednesday. On which day of the week will its 100th meeting be?",
+  "contestFormat": {
+    "pointValue": 5,
+    "answerChoices": [
+      { "label": "A", "text": "Monday" },
+      { "label": "B", "text": "Tuesday" },
+      { "label": "C", "text": "Wednesday" },
+      { "label": "D", "text": "Thursday" },
+      { "label": "E", "text": "Friday" }
+    ]
+  },
+  "solutionRepresentation": "From the 1st meeting to the 100th there are 99 intervals. The elapsed time is 99 × 9 = 891 days. Dividing 891 by 7 leaves a remainder of 2, so the weekday advances two days from Wednesday to Friday.",
+  "solutionMethod": "Convert the ordinal meeting number to the number of elapsed intervals, multiply by the 9-day interval, then reduce the elapsed days modulo 7.",
   "deterministicValidator": {
-    "type": "numeric",
+    "type": "multiple_choice",
     "canonicalAnswer": "Friday",
-    "acceptedAnswers": ["Friday", "friday"],
-    "equivalenceNotes": "Accept any capitalization of the day name."
+    "acceptedAnswers": ["Friday", "friday", "E"],
+    "equivalenceNotes": "Accept any capitalization of the day name or choice E."
   },
   "misconceptionCodes": ["off-by-one-in-day-count", "ignores-am-pm-or-day-wraparound"],
   "hintSteps": [
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "The days of the week repeat every 7 days, so only the remainder after dividing by 7 matters.",
-      "question": "What is 100 divided by 7, and what is the remainder?"
+      "prompt": "The 1st meeting is already on Wednesday, so reaching the 100th meeting takes one fewer than 100 intervals.",
+      "question": "How many 9-day intervals occur from the 1st through the 100th meeting?"
     },
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "That remainder tells you how many days of the week forward to count from Wednesday.",
-      "question": "If the remainder is 2, what two days come right after Wednesday?"
+      "prompt": "Multiply the number of intervals by 9, then divide that elapsed-day total by 7.",
+      "question": "What remainder do you get after removing complete weeks?"
     },
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "This works the same way a clock's hour hand repeats every 12 hours — only the leftover amount after full cycles changes the final position.",
-      "question": "What day do you land on after counting the remainder forward from Wednesday?"
+      "prompt": "Only the leftover days after complete weeks move the weekday forward.",
+      "question": "Starting on Wednesday, which answer choice is reached after counting forward by your remainder?"
     }
   ],
-  "forbiddenLeakagePatterns": ["Friday", "remainder of 2"],
+  "forbiddenLeakagePatterns": ["Friday", "remainder of 2", "remainder is 2", "remainder equals 2"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
@@ -51,5 +61,5 @@
     "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of calendar/modular-arithmetic word problems at contest difficulty; no problem reproduced from any contest archive."
   },
   "accessibilityNotes": "Present the problem entirely in plain text; no calendar diagram is required for this item.",
-  "accessibleAlternative": "Read aloud or display: Today is a Wednesday. Find the day of the week it will be 100 days from today."
+  "accessibleAlternative": "Read aloud or display: A puzzle club meets every 9 days. Its first meeting is on Wednesday. Determine the weekday of its 100th meeting from the five listed choices."
 }

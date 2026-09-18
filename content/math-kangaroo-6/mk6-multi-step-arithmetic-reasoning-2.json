@@ -11,12 +11,22 @@
     "Combines fraction operations across three steps, tracking a changing whole at each step, to reach a single final answer."
   ],
   "prompt": "A stadium has 4800 seats. Three-quarters of the seats are filled at the start of a game. During the third inning, one-third of the people in the filled seats leave for concessions and do not return. How many people remain in the stadium?",
+  "contestFormat": {
+    "pointValue": 3,
+    "answerChoices": [
+      { "label": "A", "text": "1200" },
+      { "label": "B", "text": "1600" },
+      { "label": "C", "text": "2400" },
+      { "label": "D", "text": "3200" },
+      { "label": "E", "text": "3600" }
+    ]
+  },
   "solutionRepresentation": "3/4 × 4800 = 3600 filled seats; 1/3 of 3600 = 1200 leave; 3600 − 1200 = 2400 remain.",
   "solutionMethod": "Find the number of filled seats first, then find how many of those people leave, then subtract.",
   "deterministicValidator": {
-    "type": "numeric",
+    "type": "multiple_choice",
     "canonicalAnswer": "2400",
-    "acceptedAnswers": ["2400", "2,400", "2400 people"],
+    "acceptedAnswers": ["2400", "2,400", "2400 people", "C"],
     "equivalenceNotes": "Accept with or without a comma or the word 'people'."
   },
   "misconceptionCodes": ["stops-after-one-step", "mixes-unit-scales"],

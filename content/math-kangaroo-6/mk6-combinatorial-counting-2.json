@@ -1,23 +1,33 @@
 {
   "id": "mk6-combinatorial-counting-2",
   "version": "content-1",
-  "title": "Routes on a grid without repeats",
+  "title": "Shortest routes avoiding the center",
   "skillCode": "mk6-combinatorial-counting",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-COMB-1"],
-  "prerequisiteSkillCodes": ["mk6-combinatorial-counting"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
   "observableEvidence": [
-    "Systematically counts the number of shortest grid paths between two points, avoiding both double-counting and missed cases, without a formula being given."
+    "Systematically counts shortest grid paths while excluding every route through a blocked intersection."
   ],
-  "prompt": "On a grid, a path from point A to point B must move only right or up, one block at a time, and must cover exactly 2 blocks right and 2 blocks up (4 blocks total). How many different shortest paths are there from A to B?",
-  "solutionRepresentation": "Each path is an arrangement of the letters R, R, U, U in some order (4 letters total, with 2 identical Rs and 2 identical Us). The number of distinct arrangements is 4!/(2!·2!) = 24/4 = 6.",
-  "solutionMethod": "Represent each path as a sequence of 2 R moves and 2 U moves, then count the distinct orderings of that sequence, dividing out the repeated moves.",
+  "prompt": "On a grid, a shortest path from A to B uses exactly 2 moves right and 2 moves up. The central intersection reached after exactly 1 move right and 1 move up is blocked. How many shortest paths from A to B avoid that intersection?",
+  "contestFormat": {
+    "pointValue": 5,
+    "answerChoices": [
+      { "label": "A", "text": "1" },
+      { "label": "B", "text": "2" },
+      { "label": "C", "text": "3" },
+      { "label": "D", "text": "4" },
+      { "label": "E", "text": "6" }
+    ]
+  },
+  "solutionRepresentation": "There are 6 shortest paths, corresponding to arrangements of R,R,U,U. Four pass through the center: 2 ways to reach it (RU or UR) times 2 ways to leave it (RU or UR). Therefore 6 − 4 = 2 paths avoid it.",
+  "solutionMethod": "Count all shortest paths, count paths through the blocked center by multiplying ways into and out of it, then subtract.",
   "deterministicValidator": {
-    "type": "numeric",
-    "canonicalAnswer": "6",
-    "acceptedAnswers": ["6", "6 paths"],
-    "equivalenceNotes": "Accept with or without the word 'paths'."
+    "type": "multiple_choice",
+    "canonicalAnswer": "2",
+    "acceptedAnswers": ["2", "2 paths", "B"],
+    "equivalenceNotes": "Accept with or without the word 'paths' or as choice B."
   },
   "misconceptionCodes": [
     "double-counts-equivalent-arrangements",
@@ -27,23 +37,23 @@
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "Every path can be written as a sequence of moves, like RRUU or RURU, using only R for right and U for up.",
+      "prompt": "First ignore the blocked center. Every shortest path is an arrangement of two R moves and two U moves.",
       "question": "How many total move-letters are in each path, and how many of each letter?"
     },
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "Try systematically listing every distinct order of 2 Rs and 2 Us without repeating or skipping any arrangement.",
-      "question": "Can you list all the distinct 4-letter sequences using exactly 2 Rs and 2 Us?"
+      "prompt": "A route through the center has two possible orders for its first R and U, and two possible orders for its final R and U.",
+      "question": "How many routes pass through the blocked center?"
     },
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "This is the same counting idea as arranging the letters in a word with repeated letters, like counting arrangements of the word 'ABAB'.",
-      "question": "How many distinct arrangements does your systematic list give you in total?"
+      "prompt": "Remove every route through the center from the complete list of shortest routes.",
+      "question": "Which answer choice is the number of routes left?"
     }
   ],
-  "forbiddenLeakagePatterns": ["6 paths", "4!/(2!·2!)", "24/4"],
+  "forbiddenLeakagePatterns": ["2 paths", "6 − 4", "four pass through"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
@@ -54,5 +64,5 @@
     "originalityStatement": "Original grid-path scenario written for this repository, inspired only by the general Math Kangaroo skill type of systematic counting at contest difficulty; no problem or diagram reproduced from any contest archive."
   },
   "accessibilityNotes": "Describe the grid path constraint in plain text (right/up moves, exact counts) as an alternative to any grid diagram.",
-  "accessibleAlternative": "Read aloud or display: A path from point A to point B moves only right or up, one block at a time, covering exactly 2 blocks right and 2 blocks up. Find the number of different shortest paths from A to B."
+  "accessibleAlternative": "Read aloud or display: A shortest route uses two moves right and two moves up. The intersection reached after one right and one up is blocked. Find from the five choices how many shortest routes avoid it."
 }

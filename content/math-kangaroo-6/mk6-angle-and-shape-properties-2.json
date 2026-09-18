@@ -6,17 +6,27 @@
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-GEOM-2"],
-  "prerequisiteSkillCodes": ["mk6-angle-and-shape-properties"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Uses the triangle angle sum together with a supplementary-angle relationship across two connected shapes to find an unknown angle."
   ],
   "prompt": "In a triangle, one angle measures 50 degrees and a second angle measures 70 degrees. The third angle of this triangle is supplementary to (forms a straight line with) an angle labeled x in an adjacent figure. What is the measure of angle x?",
+  "contestFormat": {
+    "pointValue": 4,
+    "answerChoices": [
+      { "label": "A", "text": "50 degrees" },
+      { "label": "B", "text": "60 degrees" },
+      { "label": "C", "text": "70 degrees" },
+      { "label": "D", "text": "110 degrees" },
+      { "label": "E", "text": "120 degrees" }
+    ]
+  },
   "solutionRepresentation": "Third triangle angle = 180 − 50 − 70 = 60 degrees. Since x is supplementary to 60 degrees, x = 180 − 60 = 120 degrees.",
   "solutionMethod": "Find the triangle's third angle using the triangle angle sum, then use the supplementary relationship to find x.",
   "deterministicValidator": {
-    "type": "numeric",
+    "type": "multiple_choice",
     "canonicalAnswer": "120 degrees",
-    "acceptedAnswers": ["120", "120 degrees", "120°"],
+    "acceptedAnswers": ["120", "120 degrees", "120°", "E"],
     "equivalenceNotes": "Accept with or without the degree symbol or word."
   },
   "misconceptionCodes": ["ignores-straight-line-angle-sum", "assumes-angles-sum-to-90"],

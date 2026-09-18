@@ -4,7 +4,7 @@
   "program": "math-kangaroo-6",
   "domain": "mk6-combinatorics",
   "standards": ["MK6-COMB-1"],
-  "prerequisiteSkillCodes": ["mk6-logical-deduction-puzzles"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
   "observableEvidence": [
     "Counts the number of ways to arrange, choose, or route a small set of objects by systematic listing or the multiplication counting principle, and justifies that no case was missed or double-counted."
   ],

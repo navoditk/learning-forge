@@ -156,6 +156,21 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
     if (!skill) {
       throw new Error(`${item.id} references unknown skill: ${item.skillCode}`);
     }
+    if (skill.program === 'math-kangaroo-6' && item.mode === 'contest') {
+      if (!item.contestFormat) {
+        throw new Error(`${item.id} requires Math Kangaroo contest-format metadata`);
+      }
+      if (item.deterministicValidator.type !== 'multiple_choice') {
+        throw new Error(`${item.id} must use a multiple-choice validator in contest mode`);
+      }
+      if (
+        !item.contestFormat.answerChoices.some(
+          (choice) => choice.text === item.deterministicValidator.canonicalAnswer,
+        )
+      ) {
+        throw new Error(`${item.id} must include its canonical answer among its contest choices`);
+      }
+    }
     if (item.provenance.origin === 'licensed') {
       throw new Error(`${item.id}: licensed content is not yet supported by this catalog`);
     }

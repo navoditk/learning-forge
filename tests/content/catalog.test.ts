@@ -48,6 +48,47 @@ describe('ratios content seed', () => {
     }
   });
 
+  it('models every Math Kangaroo contest item as a five-choice 3/4/5-point problem', () => {
+    const mathKangarooSkillCodes = new Set(
+      skillCatalog
+        .filter((skill) => skill.program === 'math-kangaroo-6')
+        .map((skill) => skill.code),
+    );
+    const contestItems = contentCatalog.filter(
+      (item) => mathKangarooSkillCodes.has(item.skillCode) && item.mode === 'contest',
+    );
+
+    expect(contestItems).toHaveLength(8);
+    expect(new Set(contestItems.map((item) => item.contestFormat?.pointValue))).toEqual(
+      new Set([3, 4, 5]),
+    );
+    for (const item of contestItems) {
+      expect(item.deterministicValidator.type).toBe('multiple_choice');
+      expect(item.contestFormat?.answerChoices).toHaveLength(5);
+      expect(item.contestFormat?.answerChoices.map((choice) => choice.label)).toEqual([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+      ]);
+      expect(
+        item.contestFormat?.answerChoices.some(
+          (choice) => choice.text === item.deterministicValidator.canonicalAnswer,
+        ),
+      ).toBe(true);
+    }
+
+    const withoutFormat = contestItems[0];
+    expect(() =>
+      validateContentCatalog(
+        contentCatalog.map((item) =>
+          item.id === withoutFormat.id ? { ...item, contestFormat: undefined } : item,
+        ),
+      ),
+    ).toThrow('requires Math Kangaroo contest-format metadata');
+  });
+
   it('rejects gaps in hint ordering and content that is not marked owned', () => {
     const item = contentCatalog[0];
     const withGap = {

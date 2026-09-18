@@ -14,7 +14,7 @@
   "solutionRepresentation": "Ben's two exclusions (not cat, not dog) leave only the fish, so Ben owns the fish. That leaves the cat and dog for Ana and Cara. Cara does not own the cat, so Cara owns the dog, which leaves the cat for Ana.",
   "solutionMethod": "Start with the person who has the most exclusions (Ben) to fix their pet, then use each remaining exclusion in turn to place the last two pets.",
   "deterministicValidator": {
-    "type": "numeric",
+    "type": "text",
     "canonicalAnswer": "Ana",
     "acceptedAnswers": ["Ana", "ana"],
     "equivalenceNotes": "Accept any capitalization of the name."

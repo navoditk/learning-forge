@@ -6,7 +6,7 @@
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MK6-GEOM-3"],
-  "prerequisiteSkillCodes": ["mk6-angle-and-shape-properties"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Counts the number of faces, edges, or vertices of a rectangular solid without a picture, reasoning from its structure."
   ],

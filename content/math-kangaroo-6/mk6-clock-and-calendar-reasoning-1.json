@@ -14,7 +14,7 @@
   "solutionRepresentation": "11:40 AM + 2:35 = 14:15 in 24-hour terms, which is 2:15 PM.",
   "solutionMethod": "Add the hours and minutes separately, then adjust for the minute overflow and the AM/PM change past noon.",
   "deterministicValidator": {
-    "type": "numeric",
+    "type": "text",
     "canonicalAnswer": "2:15 PM",
     "acceptedAnswers": ["2:15 PM", "2:15pm", "14:15"],
     "equivalenceNotes": "Accept 12-hour with AM/PM or 24-hour notation."

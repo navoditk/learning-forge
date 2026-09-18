@@ -11,12 +11,27 @@
     "Uses four interacting clues about relative order to determine a unique finishing order among four competitors, checking every clue against the final arrangement."
   ],
   "prompt": "Four runners — Dee, Eli, Fay, and Gus — finished a race in some order with no ties. Eli finished immediately before Fay. Dee finished before Eli, but not first. Gus did not finish last. What was the finishing order, from 1st to 4th?",
+  "contestFormat": {
+    "pointValue": 5,
+    "answerChoices": [
+      { "label": "A", "text": "Dee, Gus, Eli, Fay" },
+      { "label": "B", "text": "Gus, Dee, Eli, Fay" },
+      { "label": "C", "text": "Gus, Eli, Fay, Dee" },
+      { "label": "D", "text": "Eli, Fay, Dee, Gus" },
+      { "label": "E", "text": "Fay, Gus, Dee, Eli" }
+    ]
+  },
   "solutionRepresentation": "Eli-immediately-before-Fay means they are adjacent as (Eli, Fay) in that order. Dee is before Eli but not first, so someone is before Dee; that must be Gus (the only remaining runner), giving Gus, Dee, Eli, Fay. Gus is not last, which is satisfied (Gus is 1st).",
   "solutionMethod": "First place the fixed adjacent pair (Eli immediately before Fay), then use 'Dee before Eli but not first' to require exactly one runner before Dee, and confirm Gus filling that slot satisfies the 'not last' clue.",
   "deterministicValidator": {
-    "type": "numeric",
+    "type": "multiple_choice",
     "canonicalAnswer": "Gus, Dee, Eli, Fay",
-    "acceptedAnswers": ["Gus, Dee, Eli, Fay", "Gus Dee Eli Fay", "1. Gus 2. Dee 3. Eli 4. Fay"],
+    "acceptedAnswers": [
+      "Gus, Dee, Eli, Fay",
+      "Gus Dee Eli Fay",
+      "1. Gus 2. Dee 3. Eli 4. Fay",
+      "B"
+    ],
     "equivalenceNotes": "Accept the four names in finishing order, separated by commas, spaces, or numbered."
   },
   "misconceptionCodes": [

@@ -11,12 +11,22 @@
     "Determines the rule governing a non-linear numeric sequence from several given terms and uses it to find a term several positions ahead."
   ],
   "prompt": "A sequence begins 2, 6, 12, 20, 30, ... Each term is formed by adding a growing even number to the previous term. What is the 8th term of the sequence?",
+  "contestFormat": {
+    "pointValue": 4,
+    "answerChoices": [
+      { "label": "A", "text": "54" },
+      { "label": "B", "text": "56" },
+      { "label": "C", "text": "62" },
+      { "label": "D", "text": "64" },
+      { "label": "E", "text": "72" }
+    ]
+  },
   "solutionRepresentation": "The differences are 4, 6, 8, 10, ... (each 2 more than the last); the terms are n(n+1): 1·2=2, 2·3=6, 3·4=12, 4·5=20, 5·6=30, 6·7=42, 7·8=56, 8·9=72.",
   "solutionMethod": "Notice the difference between consecutive terms grows by 2 each time, extend that difference pattern to the 8th term, or recognize the terms follow n(n+1).",
   "deterministicValidator": {
-    "type": "numeric",
+    "type": "multiple_choice",
     "canonicalAnswer": "72",
-    "acceptedAnswers": ["72"],
+    "acceptedAnswers": ["72", "E"],
     "equivalenceNotes": "Only the exact 8th-term value is accepted."
   },
   "misconceptionCodes": ["extends-pattern-by-guessing"],

@@ -1,46 +1,56 @@
 {
   "id": "mk6-spatial-visualization-3d-2",
   "version": "content-1",
-  "title": "Hidden unit cubes in a stack",
+  "title": "Exposed faces after removing a corner cube",
   "skillCode": "mk6-spatial-visualization-3d",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-GEOM-3"],
-  "prerequisiteSkillCodes": ["mk6-spatial-visualization-3d"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
-    "Counts the number of unit cubes in a 3D stack (including cubes not directly visible) given its outer dimensions and any missing cubes."
+    "Compares removed and newly exposed unit-square faces when a corner cube is removed from a rectangular prism."
   ],
-  "prompt": "A solid rectangular block is built from unit cubes and measures 4 cubes long, 3 cubes wide, and 2 cubes tall, with no gaps. A single unit cube is then removed from one corner of the block. How many unit cubes remain in the block?",
-  "solutionRepresentation": "Total cubes before removal = 4 × 3 × 2 = 24. After removing one cube, 24 − 1 = 23 remain.",
-  "solutionMethod": "Find the total number of unit cubes in the full block by multiplying its three dimensions, then subtract the one removed cube.",
+  "prompt": "A solid 4-by-3-by-2 rectangular block is built from unit cubes. One corner unit cube is removed. How many unit-square faces are exposed on the outside of the remaining block?",
+  "contestFormat": {
+    "pointValue": 5,
+    "answerChoices": [
+      { "label": "A", "text": "46" },
+      { "label": "B", "text": "49" },
+      { "label": "C", "text": "50" },
+      { "label": "D", "text": "52" },
+      { "label": "E", "text": "55" }
+    ]
+  },
+  "solutionRepresentation": "The full block has surface area 2(4×3 + 4×2 + 3×2) = 52 unit-square faces. Removing a corner cube removes its 3 exterior faces but exposes the 3 faces of neighboring cubes that touched it, so the total remains 52.",
+  "solutionMethod": "Find the original surface area, then compare the three outer faces lost with the three formerly hidden neighboring faces newly exposed.",
   "deterministicValidator": {
-    "type": "numeric",
-    "canonicalAnswer": "23",
-    "acceptedAnswers": ["23", "23 cubes"],
-    "equivalenceNotes": "Accept with or without the word 'cubes'."
+    "type": "multiple_choice",
+    "canonicalAnswer": "52",
+    "acceptedAnswers": ["52", "52 faces", "D"],
+    "equivalenceNotes": "Accept with or without the word 'faces' or as choice D."
   },
   "misconceptionCodes": ["miscounts-hidden-faces-or-cubes", "assumes-symmetry-that-is-not-stated"],
   "hintSteps": [
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "Before worrying about the missing cube, find the total number of cubes in the complete block.",
-      "question": "How many unit cubes fill the complete 4-by-3-by-2 block?"
+      "prompt": "First count the exposed unit-square faces on the complete rectangular block using its three pairs of opposite faces.",
+      "question": "What is 2 times the sum of 4×3, 4×2, and 3×2?"
     },
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "Multiplying the three dimensions counts every cube, including the ones hidden inside the stack.",
-      "question": "What is 4 times 3 times 2?"
+      "prompt": "A corner cube has three faces on the outside and three faces touching neighboring cubes.",
+      "question": "When that cube is removed, how many exposed faces disappear and how many hidden faces become exposed?"
     },
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "This is like counting all the boxes in a fully stacked shelf, then removing one box that was taken out.",
-      "question": "What is the total minus the one removed cube?"
+      "prompt": "Compare the number of faces lost with the number gained before changing the original surface count.",
+      "question": "Which answer choice gives the new total of exposed unit-square faces?"
     }
   ],
-  "forbiddenLeakagePatterns": ["23", "24 − 1"],
+  "forbiddenLeakagePatterns": ["52 faces", "total remains 52", "three faces lost and three gained"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
@@ -51,5 +61,5 @@
     "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of unit-cube counting reasoning at contest difficulty; no problem or diagram reproduced from any contest archive."
   },
   "accessibilityNotes": "Describe the cube stack's dimensions and the removed corner cube in plain text as an alternative to any 3D diagram.",
-  "accessibleAlternative": "Read aloud or display: A solid rectangular block built from unit cubes measures 4 by 3 by 2 cubes with no gaps. One unit cube is removed from a corner. Find how many unit cubes remain."
+  "accessibleAlternative": "Read aloud or display: A solid block measures 4 unit cubes by 3 unit cubes by 2 unit cubes. One corner cube is removed. Find the number of unit-square faces exposed on the outside from the five listed choices."
 }

@@ -43,12 +43,37 @@ export const HintStepSchema = z
 
 export const DeterministicValidatorSchema = z
   .object({
-    type: z.enum(['numeric', 'ratio', 'percent', 'multiple_choice', 'composite']),
+    type: z.enum(['numeric', 'text', 'ratio', 'percent', 'multiple_choice', 'composite']),
     canonicalAnswer: z.string().trim().min(1).max(200),
     acceptedAnswers: z.array(z.string().trim().min(1).max(200)).min(1).max(20),
     equivalenceNotes: z.string().trim().min(1).max(500),
   })
   .strict();
+
+export const ContestFormatSchema = z
+  .object({
+    pointValue: z.union([z.literal(3), z.literal(4), z.literal(5)]),
+    answerChoices: z
+      .array(
+        z
+          .object({
+            label: z.enum(['A', 'B', 'C', 'D', 'E']),
+            text: z.string().trim().min(1).max(200),
+          })
+          .strict(),
+      )
+      .length(5),
+  })
+  .strict()
+  .superRefine((format, context) => {
+    if (new Set(format.answerChoices.map((choice) => choice.label)).size !== 5) {
+      context.addIssue({
+        code: 'custom',
+        path: ['answerChoices'],
+        message: 'Contest answer-choice labels must be unique',
+      });
+    }
+  });
 
 export const ContentReviewSchema = z
   .object({
@@ -80,6 +105,7 @@ export const ContentItemSchema = z
     prerequisiteSkillCodes: z.array(z.string().regex(/^[a-z0-9-]+$/)).max(10),
     observableEvidence: z.array(z.string().trim().min(1).max(300)).min(1).max(10),
     prompt: z.string().trim().min(1).max(2000),
+    contestFormat: ContestFormatSchema.optional(),
     solutionRepresentation: z.string().trim().min(1).max(4000),
     solutionMethod: z.string().trim().min(1).max(500),
     deterministicValidator: DeterministicValidatorSchema,

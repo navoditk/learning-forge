@@ -148,6 +148,30 @@ describe('content and evidence contracts', () => {
     });
     expect(result.success).toBe(true);
   });
+
+  it('supports exact-text answers and structured five-choice contest metadata', () => {
+    const textValidator = {
+      type: 'text',
+      canonicalAnswer: 'Friday',
+      acceptedAnswers: ['Friday', 'friday'],
+      equivalenceNotes: 'Accept any capitalization.',
+    };
+    expect(ContentItemSchema.shape.deterministicValidator.safeParse(textValidator).success).toBe(
+      true,
+    );
+    expect(
+      ContentItemSchema.shape.contestFormat.safeParse({
+        pointValue: 4,
+        answerChoices: [
+          { label: 'A', text: 'Monday' },
+          { label: 'B', text: 'Tuesday' },
+          { label: 'C', text: 'Wednesday' },
+          { label: 'D', text: 'Thursday' },
+          { label: 'E', text: 'Friday' },
+        ],
+      }).success,
+    ).toBe(true);
+  });
 });
 
 describe('tutor move boundary validation', () => {

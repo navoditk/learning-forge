@@ -6,7 +6,7 @@
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["MK6-GEOM-2"],
-  "prerequisiteSkillCodes": ["mk6-perimeter-and-area-reasoning"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Uses the fact that angles on a straight line sum to 180 degrees to find an unknown angle."
   ],

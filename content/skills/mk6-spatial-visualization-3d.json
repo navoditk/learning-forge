@@ -4,7 +4,7 @@
   "program": "math-kangaroo-6",
   "domain": "mk6-geometry-and-spatial-reasoning",
   "standards": ["MK6-GEOM-3"],
-  "prerequisiteSkillCodes": ["mk6-angle-and-shape-properties"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Reasons about cubes and rectangular solids (e.g., counting faces/edges/vertices, visualizing a cut, fold, or rotation, or counting unit cubes in a stack) and explains the spatial reasoning used."
   ],

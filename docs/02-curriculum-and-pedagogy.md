@@ -61,7 +61,7 @@ Grade 6 ELA - can be added as new top-level sections without restructuring exist
 
 Each skill must define prerequisites, standards, observable evidence, common misconceptions, difficulty bands, and mastery-check rules.
 
-## Math Kangaroo Grade 6 (Benjamin level) skill graph
+## Math Kangaroo Grade 6 skill graph
 
 Additive contest-preparation program for the same Grade 6 learner
 (`program: "math-kangaroo-6"`); see `docs/curriculum-sources.md`'s Math

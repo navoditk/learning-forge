@@ -6,7 +6,7 @@
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MK6-COMB-1"],
-  "prerequisiteSkillCodes": ["mk6-logical-deduction-puzzles"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
   "observableEvidence": [
     "Uses the multiplication counting principle to count the number of ways to combine one item from each of several independent groups."
   ],
