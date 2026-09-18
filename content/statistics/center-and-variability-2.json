@@ -51,5 +51,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present the salaries as a plain-text list of numbers; do not depend on color."
+  "accessibilityNotes": "Present the salaries as a plain-text list of numbers; do not depend on color.",
+  "accessibleAlternative": "Read aloud or display: Employee salaries, in thousands of dollars, are 45, 48, 50, 52, and 200. Find the median salary by locating the middle value in order."
 }

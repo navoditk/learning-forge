@@ -1,0 +1,44 @@
+{
+  "id": "coordinate-distance-2",
+  "version": "content-1",
+  "title": "Vertical distance through the origin",
+  "skillCode": "coordinate-distance",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["6.NS.C.8"],
+  "prerequisiteSkillCodes": ["coordinate-plane"],
+  "observableEvidence": [
+    "Finds the vertical distance between points in different quadrants that share an x-coordinate."
+  ],
+  "prompt": "Points C(2, -5) and D(2, 7) are on a coordinate plane. What is the distance from C to D?",
+  "solutionRepresentation": "The points share x-coordinate 2, so the vertical distance is |7 - (-5)| = 12 units.",
+  "solutionMethod": "Subtract the y-coordinates and use absolute value for distance.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "12 units",
+    "acceptedAnswers": ["12", "12 units"],
+    "equivalenceNotes": "Accept 12 with or without the unit."
+  },
+  "misconceptionCodes": ["swaps-x-and-y-coordinate-roles"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A vertical segment has matching x-coordinates.",
+      "question": "Which coordinates change as you move from C to D?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["12 units"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-09-17"
+  },
+  "accessibilityNotes": "Give both ordered pairs in text and describe the shared x-coordinate; a visual grid is optional.",
+  "accessibleAlternative": "Read aloud or display: Both points have x-coordinate 2. Compare y negative 5 with y 7, then give the positive vertical distance in units."
+}

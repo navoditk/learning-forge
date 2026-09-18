@@ -8,7 +8,13 @@
   "observableEvidence": [
     "States a ratio relationship using 'for every' or 'to' language and identifies the two quantities being compared."
   ],
-  "misconceptionCodes": ["confuses-part-to-part-and-part-to-whole"],
+  "misconceptionCodes": [
+    "confuses-part-to-part-and-part-to-whole",
+    "reversed-ratio",
+    "does-not-simplify",
+    "additive-ratio-scaling",
+    "scales-one-part"
+  ],
   "difficultyBands": ["foundational", "developing"],
   "masteryCheckRule": "Deterministic check that the learner states the ratio in the requested order, plus one independent delayed check."
 }

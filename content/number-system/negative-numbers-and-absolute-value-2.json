@@ -51,5 +51,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present all four scores as plain signed-number text; do not depend on a scoreboard image or color."
+  "accessibilityNotes": "Present all four scores as plain signed-number text; do not depend on a scoreboard image or color.",
+  "accessibleAlternative": "Read aloud or display: The golf scores relative to par are -3, 2, -7, and 0, and the lower score is better. Choose which of these four scores is the best result."
 }

@@ -8,7 +8,13 @@
   "observableEvidence": [
     "Converts between a percent, fraction, and decimal to solve a part-whole problem."
   ],
-  "misconceptionCodes": ["confuses-percent-and-decimal-place"],
+  "misconceptionCodes": [
+    "confuses-percent-and-decimal-place",
+    "treats-percent-as-whole",
+    "multiplies-by-35",
+    "multiplies-part-and-percent",
+    "confuses-part-whole"
+  ],
   "difficultyBands": ["developing", "challenging"],
   "masteryCheckRule": "Deterministic numeric equivalence on the percent or part-whole value, plus one independent delayed check."
 }

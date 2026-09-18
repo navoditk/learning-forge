@@ -143,6 +143,8 @@ describe('content and evidence contracts', () => {
         originalityStatement: 'Written for this repository from first principles.',
       },
       accessibilityNotes: 'Use plain text and do not rely on color alone.',
+      accessibleAlternative:
+        'Read aloud or display: A ratio of 3 to 4 compares two quantities. State the equivalent unit rate.',
     });
     expect(result.success).toBe(true);
   });

@@ -51,5 +51,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present the rate and amount as plain decimal text; do not depend on a scale or bag image."
+  "accessibilityNotes": "Present the rate and amount as plain decimal text; do not depend on a scale or bag image.",
+  "accessibleAlternative": "Read aloud or display: Trail mix costs $3.50 for each pound, and 2.4 pounds are purchased. Multiply the price per pound by the number of pounds to find the total cost."
 }

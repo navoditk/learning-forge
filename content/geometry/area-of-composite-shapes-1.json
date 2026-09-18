@@ -49,5 +49,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present the two rectangles' dimensions as plain text; do not depend on a floor-plan image or color."
+  "accessibilityNotes": "Present the two rectangles' dimensions as plain text; do not depend on a floor-plan image or color.",
+  "accessibleAlternative": "Read aloud or display: An L-shaped room is made from a 6 meter by 4 meter rectangle and a 3 meter by 2 meter rectangle. Find the total area of both parts together."
 }

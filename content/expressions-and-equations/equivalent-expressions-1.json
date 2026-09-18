@@ -51,5 +51,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present expressions as plain text; do not depend on color or a manipulative image."
+  "accessibilityNotes": "Present expressions as plain text; do not depend on color or a manipulative image.",
+  "accessibleAlternative": "Read aloud or display: Start with 4 times the quantity x plus 3. Rewrite it using the distributive property, then use x = 5 to find the value."
 }

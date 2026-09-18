@@ -1,12 +1,15 @@
 {
-  "id": "one-variable-equations-and-inequalities-1",
+  "id": "one-variable-equations-1",
   "version": "content-1",
   "title": "Solve a one-step equation",
-  "skillCode": "one-variable-equations-and-inequalities",
+  "skillCode": "one-variable-equations",
   "mode": "core",
   "difficulty": "developing",
-  "standards": ["6.EE.B.5", "6.EE.B.7"],
-  "prerequisiteSkillCodes": ["equivalent-expressions"],
+  "standards": ["6.EE.B.7"],
+  "prerequisiteSkillCodes": [
+    "equation-and-inequality-meaning",
+    "negative-numbers-and-absolute-value"
+  ],
   "observableEvidence": [
     "Solves a one-step addition equation by applying the inverse operation to both sides."
   ],
@@ -51,5 +54,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present the equation as plain text; do not depend on a balance-scale image or color."
+  "accessibilityNotes": "Present the equation as plain text; do not depend on a balance-scale image or color.",
+  "accessibleAlternative": "Read aloud or display: Solve the equation x + 9 = 23. Find the number that makes both sides equal."
 }

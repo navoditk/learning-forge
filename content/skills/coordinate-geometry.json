@@ -4,7 +4,7 @@
   "program": "grade-6-math",
   "domain": "geometry",
   "standards": ["6.G.A.3"],
-  "prerequisiteSkillCodes": ["coordinate-plane"],
+  "prerequisiteSkillCodes": ["coordinate-distance"],
   "observableEvidence": [
     "Finds the distance between two points that share an x- or y-coordinate, or computes the area or perimeter of a polygon plotted on the coordinate plane."
   ],

@@ -1,0 +1,44 @@
+{
+  "id": "prism-volume-1",
+  "version": "content-1",
+  "title": "Fractional-edge prism volume",
+  "skillCode": "prism-volume",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.G.A.2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Calculates the volume of a rectangular prism with fractional edge lengths and labels the result with cubic units."
+  ],
+  "prompt": "A rectangular prism has length 2 1/2 feet, width 1 1/2 feet, and height 4 feet. What is its volume?",
+  "solutionRepresentation": "Volume is (5/2)(3/2)(4) = 15 cubic feet.",
+  "solutionMethod": "Convert mixed numbers to fractions, multiply the three edge lengths, and label the result in cubic units.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "15 cubic feet",
+    "acceptedAnswers": ["15 cubic feet", "15 ft^3", "15 cubic ft"],
+    "equivalenceNotes": "Accept equivalent cubic-foot notation."
+  },
+  "misconceptionCodes": ["adds-edge-lengths-instead-of-multiplying"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Volume counts layers of unit cubes, so combine all three edge lengths by multiplication.",
+      "question": "What operation connects length, width, and height for a rectangular prism?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["15 cubic feet", "15 ft^3", "15 cubic ft"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-09-17"
+  },
+  "accessibilityNotes": "State the three fractional edge lengths and multiplication in text; no 3-D rendering is required.",
+  "accessibleAlternative": "Read aloud or display: Multiply two and one-half feet, one and one-half feet, and four feet to find the prism's volume in cubic feet."
+}

@@ -1,0 +1,47 @@
+{
+  "id": "variables-in-context-1",
+  "version": "content-1",
+  "title": "Workshop cost variable",
+  "skillCode": "variables-in-context",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.EE.B.6"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Uses a variable for a changing count and writes an expression for a fee plus repeated cost."
+  ],
+  "prompt": "A makerspace charges a $12 membership fee plus $4 for each workshop. Write an expression for the total cost if w is the number of workshops. Then state what w represents.",
+  "solutionRepresentation": "The total cost is 12 + 4w dollars, where w is the number of workshops and can be a nonnegative whole number.",
+  "solutionMethod": "Represent the fixed fee and add four dollars for each workshop.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "12 + 4w; w is the number of workshops",
+    "acceptedAnswers": [
+      "12 + 4w; w is the number of workshops",
+      "4w + 12; w is the number of workshops"
+    ],
+    "equivalenceNotes": "Accept either addend order when the response identifies w as the workshop count."
+  },
+  "misconceptionCodes": ["fails-to-name-the-quantity-represented-by-the-variable"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Separate the one-time fee from the amount that repeats for every workshop.",
+      "question": "Which part changes when one more workshop is added?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["12 + 4w", "4w + 12"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-09-17"
+  },
+  "accessibilityNotes": "Present fees, variable, and task in plain text without relying on a price chart.",
+  "accessibleAlternative": "Read aloud or display: There is one fixed twelve-dollar fee and four dollars for every workshop. Use w for the changing number of workshops, then say in words what w counts."
+}

@@ -1,0 +1,412 @@
+[
+  {
+    "code": "ratio-language-and-meaning",
+    "title": "Ratio language and meaning",
+    "program": "grade-6-math",
+    "domain": "ratios-and-proportional-reasoning",
+    "standards": ["6.RP.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Describes a ratio between two quantities in the requested order and explains what each quantity represents in context."
+    ],
+    "misconceptionCodes": ["reverses-ratio-order", "confuses-part-to-part-with-part-to-whole"],
+    "difficultyBands": ["foundational", "developing"],
+    "masteryCheckRule": "Require two context-varied ratio descriptions with correct order and interpretation. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "rate-and-proportional-reasoning",
+    "title": "Rates and proportional reasoning",
+    "program": "grade-6-math",
+    "domain": "ratios-and-proportional-reasoning",
+    "standards": ["6.RP.A.2", "6.RP.A.3"],
+    "prerequisiteSkillCodes": ["ratio-language-and-meaning"],
+    "observableEvidence": [
+      "Computes and interprets a unit rate, then uses equivalent ratios, tables, or equations to solve a proportional situation including percent or conversion contexts."
+    ],
+    "misconceptionCodes": [
+      "divides-quantities-in-reversed-order-for-unit-rate",
+      "uses-addition-instead-of-multiplication-for-scaling",
+      "treats-percent-value-as-whole-number-without-dividing-by-100"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require one unit-rate item and one novel proportional application with a stated unit or context interpretation. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "fraction-division",
+    "title": "Division of fractions",
+    "program": "grade-6-math",
+    "domain": "number-system",
+    "standards": ["6.NS.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Models and computes division of fractions and explains the quotient in a measurement or sharing situation."
+    ],
+    "misconceptionCodes": ["inverts-wrong-factor", "drops-units-from-quotient-answer"],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require a symbolic computation and a context problem, each with a checked quotient interpretation. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "multi-digit-number-operations",
+    "title": "Multi-digit whole-number and decimal operations",
+    "program": "grade-6-math",
+    "domain": "number-system",
+    "standards": ["6.NS.B.2", "6.NS.B.3"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Accurately applies standard algorithms to multi-digit whole-number division and the four operations with multi-digit decimals, estimating to check reasonableness."
+    ],
+    "misconceptionCodes": [
+      "misaligns-decimal-point-when-adding-or-subtracting",
+      "drops-remainder-when-context-requires-it"
+    ],
+    "difficultyBands": ["foundational", "developing"],
+    "masteryCheckRule": "Require one whole-number division and one decimal-operation item plus an estimate comparison. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "factors-multiples-and-distributive-structure",
+    "title": "Factors, multiples, and distributive structure",
+    "program": "grade-6-math",
+    "domain": "number-system",
+    "standards": ["6.NS.B.4"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Finds GCF and LCM of whole numbers up to 100, and uses the distributive property to express a sum of two whole numbers with a common factor as a multiple of a sum of two numbers with no common factor."
+    ],
+    "misconceptionCodes": [
+      "selects-lcm-value-when-asked-for-gcf",
+      "lists-a-multiple-as-a-factor",
+      "factors-out-a-common-factor-that-is-not-the-greatest"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require independent GCF/LCM selection and a factored-sum explanation in a new pair of numbers. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "rational-number-meaning",
+    "title": "Meaning of positive and negative rational numbers",
+    "program": "grade-6-math",
+    "domain": "number-system",
+    "standards": ["6.NS.C.5"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Interprets the sign and magnitude of a rational number in mathematical and real-world contexts and identifies its opposite."
+    ],
+    "misconceptionCodes": [
+      "assumes-negative-number-always-has-smaller-magnitude",
+      "ignores-real-world-sign-meaning"
+    ],
+    "difficultyBands": ["foundational", "developing"],
+    "masteryCheckRule": "Require two signed-context interpretations and an opposite-number explanation. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "rational-number-representation",
+    "title": "Rational numbers on lines and planes",
+    "program": "grade-6-math",
+    "domain": "number-system",
+    "standards": ["6.NS.C.6"],
+    "prerequisiteSkillCodes": ["rational-number-meaning"],
+    "observableEvidence": [
+      "Locates, orders, and compares rational numbers on a number line and identifies rational coordinates in a coordinate plane."
+    ],
+    "misconceptionCodes": [
+      "plots-x-and-y-coordinates-in-reversed-order",
+      "compares-by-denominator-size-alone-ignoring-numerators-and-equivalence"
+    ],
+    "difficultyBands": ["foundational", "developing"],
+    "masteryCheckRule": "Require a number-line ordering and a coordinate-plane placement with written comparison reasoning. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "rational-number-operations",
+    "title": "Operations with rational numbers",
+    "program": "grade-6-math",
+    "domain": "number-system",
+    "standards": ["6.NS.C.7"],
+    "prerequisiteSkillCodes": ["rational-number-representation"],
+    "observableEvidence": [
+      "Orders rational numbers, interprets absolute value as a number's distance from zero, and performs the four operations with rational numbers, explaining sign and magnitude using a model or property."
+    ],
+    "misconceptionCodes": [
+      "applies-sign-rule-from-one-operation-to-a-different-operation",
+      "adds-magnitudes-instead-of-finding-signed-difference",
+      "orders-numbers-by-sign-alone-ignoring-magnitude",
+      "treats-absolute-value-as-always-negating-the-number"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require one ordering task, one absolute-value-as-distance task, and two operation tasks with different signs, each with a reasonableness check. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "coordinate-distance",
+    "title": "Coordinate graphs and axis-parallel distance",
+    "program": "grade-6-math",
+    "domain": "number-system",
+    "standards": ["6.NS.C.8"],
+    "prerequisiteSkillCodes": ["rational-number-representation"],
+    "observableEvidence": [
+      "Graphs points in all four quadrants and finds horizontal or vertical distance from coordinate differences and absolute value."
+    ],
+    "misconceptionCodes": [
+      "uses-diagonal-distance-for-an-axis-parallel-segment",
+      "subtracts-coordinates-without-taking-absolute-value",
+      "swaps-x-and-y-coordinate-roles"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require two axis-parallel distance problems in different quadrants and a coordinate-difference explanation. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "powers-and-whole-number-exponents",
+    "title": "Powers and whole-number exponents",
+    "program": "grade-6-math",
+    "domain": "expressions-and-equations",
+    "standards": ["6.EE.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Writes and evaluates numerical expressions involving whole-number exponents, explaining the base, exponent, and repeated multiplication."
+    ],
+    "misconceptionCodes": [
+      "multiplies-base-by-exponent-instead-of-repeated-multiplication",
+      "writes-exponent-as-the-base"
+    ],
+    "difficultyBands": ["foundational", "developing"],
+    "masteryCheckRule": "Require writing a numerical expression with a whole-number exponent from a repeated-multiplication description and evaluating a given exponent expression, each explained. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "variables-and-expressions",
+    "title": "Variables and expression evaluation",
+    "program": "grade-6-math",
+    "domain": "expressions-and-equations",
+    "standards": ["6.EE.A.2"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Names parts of an expression, writes an expression from a context, and evaluates it for given variable values."
+    ],
+    "misconceptionCodes": [
+      "treats-variable-as-word-label-not-quantity",
+      "substitutes-value-into-wrong-variable-position"
+    ],
+    "difficultyBands": ["foundational", "developing"],
+    "masteryCheckRule": "Require context-to-expression and substitution tasks with distinct variable values. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "variables-in-context",
+    "title": "Variables as quantities in context",
+    "program": "grade-6-math",
+    "domain": "expressions-and-equations",
+    "standards": ["6.EE.B.6"],
+    "prerequisiteSkillCodes": ["variables-and-expressions"],
+    "observableEvidence": [
+      "Uses a variable for an unknown or changing quantity, writes an expression for a real-world relationship, and explains the variable's possible values and meaning."
+    ],
+    "misconceptionCodes": [
+      "assumes-a-variable-can-only-mean-one-fixed-quantity",
+      "fails-to-name-the-quantity-represented-by-the-variable"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require two context models and a sentence identifying the variable and an appropriate value restriction. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "equivalent-expressions",
+    "title": "Equivalent expressions and properties",
+    "program": "grade-6-math",
+    "domain": "expressions-and-equations",
+    "standards": ["6.EE.A.3", "6.EE.A.4"],
+    "prerequisiteSkillCodes": [
+      "variables-and-expressions",
+      "factors-multiples-and-distributive-structure"
+    ],
+    "observableEvidence": [
+      "Uses properties to generate an equivalent expression and verifies equivalence by substitution or structural reasoning."
+    ],
+    "misconceptionCodes": [
+      "distributes-factor-to-only-the-first-term",
+      "changes-operation-without-justification"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require a transformation and a verification of equivalence for an expression not seen in instruction. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "equation-and-inequality-meaning",
+    "title": "Meaning of equations and inequalities",
+    "program": "grade-6-math",
+    "domain": "expressions-and-equations",
+    "standards": ["6.EE.B.5"],
+    "prerequisiteSkillCodes": ["variables-and-expressions"],
+    "observableEvidence": [
+      "Determines whether a value makes an equation or inequality true and explains solution as a value that satisfies the statement."
+    ],
+    "misconceptionCodes": [
+      "assumes-every-equation-requires-performing-an-operation",
+      "treats-inequality-solution-as-a-single-value"
+    ],
+    "difficultyBands": ["foundational", "developing"],
+    "masteryCheckRule": "Require truth-testing for one equation and one inequality plus a written meaning of solution. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "one-variable-equations",
+    "title": "One-variable equations",
+    "program": "grade-6-math",
+    "domain": "expressions-and-equations",
+    "standards": ["6.EE.B.7"],
+    "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "rational-number-operations"],
+    "observableEvidence": [
+      "Solves one-variable equations with nonnegative rational coefficients and checks the solution in the original equation."
+    ],
+    "misconceptionCodes": [
+      "performs-an-operation-on-only-one-side-of-the-equation",
+      "skips-substitution-check-of-solution"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require two equation structures and substitution checks, including a rational coefficient case. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "real-world-inequalities",
+    "title": "Real-world inequalities",
+    "program": "grade-6-math",
+    "domain": "expressions-and-equations",
+    "standards": ["6.EE.B.8"],
+    "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "rational-number-representation"],
+    "observableEvidence": [
+      "Writes an inequality for a real-world constraint, tests candidate values, and graphs the solution set on a number line."
+    ],
+    "misconceptionCodes": [
+      "flips-inequality-direction-without-justification",
+      "graphs-endpoint-only-instead-of-solution-ray"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require a context-to-inequality model, a tested solution set, and a correctly labeled graph. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "two-variable-relationships",
+    "title": "Two-variable relationships",
+    "program": "grade-6-math",
+    "domain": "expressions-and-equations",
+    "standards": ["6.EE.C.9"],
+    "prerequisiteSkillCodes": ["variables-in-context"],
+    "observableEvidence": [
+      "Identifies dependent and independent variables and represents a relationship with a table, graph, and equation."
+    ],
+    "misconceptionCodes": [
+      "swaps-dependent-and-independent-variable-roles",
+      "treats-table-rows-as-unrelated-number-pairs"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require one context represented in all three forms and an explanation of variable roles. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "polygon-area",
+    "title": "Area by composing and decomposing polygons",
+    "program": "grade-6-math",
+    "domain": "geometry",
+    "standards": ["6.G.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Finds the area of right triangles, other triangles, special quadrilaterals, and polygons by composing into rectangles or decomposing into triangles and other shapes in mathematical and real-world contexts."
+    ],
+    "misconceptionCodes": [
+      "reports-perimeter-value-as-the-area",
+      "counts-an-overlapping-region-twice-when-decomposing"
+    ],
+    "difficultyBands": ["foundational", "developing"],
+    "masteryCheckRule": "Require two decompositions of different polygons and units in the final area. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "fractional-prism-volume",
+    "title": "Volume of rectangular prisms with fractional edges",
+    "program": "grade-6-math",
+    "domain": "geometry",
+    "standards": ["6.G.A.2"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Calculates the volume of a right rectangular prism with fractional edge lengths by packing it with unit cubes of appropriate unit fraction edge lengths and multiplying fractional dimensions."
+    ],
+    "misconceptionCodes": [
+      "labels-volume-answer-with-square-units",
+      "adds-edge-lengths-instead-of-multiplying"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require a fractional-edge computation and a context interpretation with cubic units. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "coordinate-polygons",
+    "title": "Polygons and side lengths in the coordinate plane",
+    "program": "grade-6-math",
+    "domain": "geometry",
+    "standards": ["6.G.A.3"],
+    "prerequisiteSkillCodes": ["coordinate-distance"],
+    "observableEvidence": [
+      "Draws a polygon from coordinates and determines horizontal or vertical side lengths using coordinate differences."
+    ],
+    "misconceptionCodes": [
+      "uses-diagonal-point-distance-for-an-axis-parallel-side",
+      "swaps-horizontal-and-vertical-side-length"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require a coordinate polygon with at least two axis-parallel sides and labeled lengths. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "nets-and-surface-area",
+    "title": "Nets and surface area",
+    "program": "grade-6-math",
+    "domain": "geometry",
+    "standards": ["6.G.A.4"],
+    "prerequisiteSkillCodes": ["polygon-area"],
+    "observableEvidence": [
+      "Uses a net to identify all faces of a three-dimensional figure and finds total surface area in square units."
+    ],
+    "misconceptionCodes": [
+      "omits-a-congruent-face-pair-from-the-net",
+      "labels-surface-area-answer-with-cubic-units"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require a text-described or drawn net, a complete face inventory, and a square-unit total. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "statistical-questions",
+    "title": "Statistical questions and variability",
+    "program": "grade-6-math",
+    "domain": "statistics",
+    "standards": ["6.SP.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Classifies questions by whether they anticipate variability and identifies the population or measurement context."
+    ],
+    "misconceptionCodes": [
+      "expects-a-statistical-question-to-have-one-fixed-answer",
+      "treats-a-data-value-as-the-statistical-question"
+    ],
+    "difficultyBands": ["foundational", "developing"],
+    "masteryCheckRule": "Require classification of varied questions and revision of one non-statistical question. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "distribution-description",
+    "title": "Describing numerical distributions",
+    "program": "grade-6-math",
+    "domain": "statistics",
+    "standards": ["6.SP.A.2", "6.SP.B.4"],
+    "prerequisiteSkillCodes": ["statistical-questions"],
+    "observableEvidence": [
+      "Displays numerical data in plots on a number line, including dot plots, histograms, and box plots, and describes the distribution's center, spread, overall shape, and real-world context."
+    ],
+    "misconceptionCodes": [
+      "reports-only-the-maximum-value-as-the-distribution-summary",
+      "omits-real-world-context-in-distribution-summary"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require demonstrated use across all three representations (dot plot, histogram, and box plot) and a complete context sentence addressing center, spread, and shape. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  },
+  {
+    "code": "center-and-variability",
+    "title": "Center and variability as summaries",
+    "program": "grade-6-math",
+    "domain": "statistics",
+    "standards": ["6.SP.A.3", "6.SP.B.5"],
+    "prerequisiteSkillCodes": ["distribution-description"],
+    "observableEvidence": [
+      "Chooses and computes measures of center and variability and uses them, with the number of observations and context, to summarize a numerical distribution."
+    ],
+    "misconceptionCodes": [
+      "reports-median-value-when-asked-for-the-mean",
+      "reports-a-center-or-spread-value-without-context-or-number-of-observations"
+    ],
+    "difficultyBands": ["developing", "challenging"],
+    "masteryCheckRule": "Require a full data summary naming context, number of observations, center, variability, and notable shape or outlier feature. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+  }
+]

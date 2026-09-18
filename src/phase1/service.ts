@@ -1,6 +1,6 @@
 import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
-import { contentCatalog } from '../content/catalog';
+import { servableContentCatalog } from '../content/catalog';
 import {
   PlannerContentItem,
   PlannerMasteryRecord,
@@ -8,7 +8,7 @@ import {
   WeeklyDigestAttemptSummary,
   WeeklyDigestSkillInput,
 } from '../contracts';
-import { skillCatalog } from '../curriculum';
+import { skillCatalog, skillsByCode, topologicalSkillOrder } from '../curriculum';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
 import { prisma } from '../server/prisma';
@@ -30,7 +30,7 @@ export type HouseholdIdentity = { householdId: string; learnerProfileId: string 
 
 function resolveContent(contentId?: string) {
   const id = contentId ?? PHASE_1_CONTENT_ID;
-  const item = contentCatalog.find((candidate) => candidate.id === id);
+  const item = servableContentCatalog.find((candidate) => candidate.id === id);
   if (!item) throw new Error(`Unknown content: ${id}`);
   return item;
 }
@@ -78,20 +78,71 @@ async function upsertMasteryEstimate(
   }
 }
 
+/**
+ * Attempts recorded for a session, oldest first, used to describe a
+ * resumed session's progress to the caller.
+ */
+async function getSessionState(identity: HouseholdIdentity, sessionId: string) {
+  const attempts = await prisma.attempt.findMany({
+    where: {
+      sessionId,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
+    },
+    orderBy: { attemptNumber: 'asc' },
+    select: { id: true, correctness: true, context: true },
+  });
+  const latestAttempt = [...attempts]
+    .reverse()
+    .find((candidate) => candidate.context === 'PRACTICE');
+  const latestCheck = [...attempts]
+    .reverse()
+    .find((candidate) => candidate.context === 'MASTERY_CHECK');
+  const hintCount = latestAttempt
+    ? await prisma.tutorInteraction.count({ where: { attemptId: latestAttempt.id } })
+    : 0;
+  return {
+    completed: Boolean(latestCheck && latestCheck.correctness === 'CORRECT'),
+    latestAttempt: latestAttempt
+      ? { attemptId: latestAttempt.id, correctness: latestAttempt.correctness }
+      : undefined,
+    hintCount,
+    latestCheck: latestCheck
+      ? { attemptId: latestCheck.id, correctness: latestCheck.correctness }
+      : undefined,
+  };
+}
+
 export async function startSession(
   identity: HouseholdIdentity,
   input: { contentId?: string } = {},
 ) {
   const content = resolveContent(input.contentId);
-  const session = await prisma.session.create({
-    data: {
+  // Resume an in-progress session for this content instead of creating a
+  // duplicate one on every page load/refresh - a session only ends once its
+  // independent check passes (see recordIndependentCheck).
+  const existing = await prisma.session.findFirst({
+    where: {
       householdId: identity.householdId,
       learnerProfileId: identity.learnerProfileId,
       contentKey: content.id,
+      endedAt: null,
     },
+    orderBy: { startedAt: 'desc' },
   });
+  const session =
+    existing ??
+    (await prisma.session.create({
+      data: {
+        householdId: identity.householdId,
+        learnerProfileId: identity.learnerProfileId,
+        contentKey: content.id,
+      },
+    }));
+  const state = await getSessionState(identity, session.id);
   return {
     sessionId: session.id,
+    resumed: Boolean(existing),
     learner: { id: identity.learnerProfileId, displayName: 'Learner' },
     content: {
       id: content.id,
@@ -101,16 +152,26 @@ export async function startSession(
       prompt: content.prompt,
       accessibilityNotes: content.accessibilityNotes,
     },
+    ...state,
   };
 }
+
+const MAX_ATTEMPT_NUMBER_RETRIES = 10;
 
 async function createAttempt(
   identity: HouseholdIdentity,
   input: {
     sessionId: string;
     learnerResponse: string;
-    context: 'PRACTICE' | 'MASTERY_CHECK';
+    context: 'PRACTICE' | 'MASTERY_CHECK' | 'DIAGNOSTIC';
     independentDelayedCheck: boolean;
+    // A spaced review of already-confirmed mastery: unlike an initial
+    // independent check (which only ever adds confirmation), a failed
+    // review can revoke a previously confirmed independentDelayedCheck,
+    // sending the skill back into ordinary practice. Ordinary attempts
+    // must never regress a confirmed skill just because of one lower-
+    // assistance slip, so this defaults to false everywhere else.
+    reviewDecay?: boolean;
   },
 ) {
   const session = await prisma.session.findFirst({
@@ -122,28 +183,45 @@ async function createAttempt(
   });
   if (!session) throw new Error('Session not found');
   const content = resolveContent(session.contentKey);
-  const attemptNumber = (await prisma.attempt.count({ where: { sessionId: input.sessionId } })) + 1;
   const correctness = scoreAnswer(content, input.learnerResponse);
   const independentCheckPassed = input.independentDelayedCheck && correctness === 'CORRECT';
-  const attempt = await prisma.attempt.create({
-    data: {
-      householdId: identity.householdId,
-      learnerProfileId: identity.learnerProfileId,
-      sessionId: input.sessionId,
-      contentKey: content.id,
-      contentVersion: content.version,
-      learnerResponse: input.learnerResponse,
-      normalizedResponse: normalizeAnswer(input.learnerResponse),
-      correctness,
-      scoringMethod: 'DETERMINISTIC',
-      attemptNumber,
-      elapsedSeconds: 0,
-      highestAssistance: 'INDEPENDENT',
-      context: input.context,
-      policyVersion: PHASE_1_POLICY_VERSION,
-      assistanceEvents: { create: { level: 'INDEPENDENT', interactionType: 'QUESTION' } },
-    },
-  });
+  // attemptNumber is derived from a count-then-create, which races under
+  // concurrent/duplicate submissions (e.g. a double-clicked submit button).
+  // The unique (sessionId, attemptNumber) constraint rejects the collision
+  // instead of silently creating two "attempt 1" rows; retry with a fresh
+  // count rather than surfacing the race to the learner.
+  let attempt;
+  for (let remainingRetries = MAX_ATTEMPT_NUMBER_RETRIES; ; remainingRetries -= 1) {
+    const attemptNumber =
+      (await prisma.attempt.count({ where: { sessionId: input.sessionId } })) + 1;
+    try {
+      attempt = await prisma.attempt.create({
+        data: {
+          householdId: identity.householdId,
+          learnerProfileId: identity.learnerProfileId,
+          sessionId: input.sessionId,
+          contentKey: content.id,
+          contentVersion: content.version,
+          learnerResponse: input.learnerResponse,
+          normalizedResponse: normalizeAnswer(input.learnerResponse),
+          correctness,
+          scoringMethod: 'DETERMINISTIC',
+          attemptNumber,
+          elapsedSeconds: 0,
+          highestAssistance: 'INDEPENDENT',
+          context: input.context,
+          policyVersion: PHASE_1_POLICY_VERSION,
+          assistanceEvents: { create: { level: 'INDEPENDENT', interactionType: 'QUESTION' } },
+        },
+      });
+      break;
+    } catch (error) {
+      if (!isUniqueConstraintViolation(error) || remainingRetries <= 0) throw error;
+    }
+  }
+  if (independentCheckPassed) {
+    await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
+  }
   const weight = evidenceWeight(correctness, 'INDEPENDENT');
   const existingMastery = await prisma.masteryEstimate.findUnique({
     where: {
@@ -166,7 +244,9 @@ async function createAttempt(
     {
       estimate: weight,
       confidenceBand: confidenceBand(weight),
-      independentDelayedCheck: existingMastery?.independentDelayedCheck || independentCheckPassed,
+      independentDelayedCheck: input.reviewDecay
+        ? independentCheckPassed
+        : existingMastery?.independentDelayedCheck || independentCheckPassed,
     },
     {
       householdId: identity.householdId,
@@ -193,6 +273,106 @@ export async function recordAttempt(
   input: { sessionId: string; learnerResponse: string },
 ) {
   return createAttempt(identity, { ...input, context: 'PRACTICE', independentDelayedCheck: false });
+}
+
+const DEFAULT_DIAGNOSTIC_MAX_ITEMS = 5;
+
+/**
+ * A short, deterministic placement pass: one independent item per root
+ * skill (no prerequisites) that this learner has no mastery evidence for
+ * yet. Purely derived from current skill/content catalogs and the
+ * learner's existing MasteryEstimate rows, so it is safe to call
+ * repeatedly (e.g. after a diagnostic attempt) - it never persists a
+ * "diagnostic plan" of its own and never alters historical evidence.
+ */
+export async function getDiagnosticPlan(
+  identity: HouseholdIdentity,
+  input: { maxItems?: number } = {},
+) {
+  const maxItems = input.maxItems ?? DEFAULT_DIAGNOSTIC_MAX_ITEMS;
+  const masteryRows = await prisma.masteryEstimate.findMany({
+    where: {
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
+      algorithmVersion: PHASE_1_MASTERY_VERSION,
+    },
+    select: { skillCode: true },
+  });
+  const assessedSkillCodes = new Set(masteryRows.map((row) => row.skillCode));
+
+  const contentBySkill = new Map<string, (typeof servableContentCatalog)[number][]>();
+  for (const item of servableContentCatalog) {
+    const items = contentBySkill.get(item.skillCode) ?? [];
+    items.push(item);
+    contentBySkill.set(item.skillCode, items);
+  }
+
+  const items: {
+    contentId: string;
+    skillCode: string;
+    title: string;
+    skillTitle: string;
+    prompt: string;
+  }[] = [];
+  for (const skillCode of topologicalSkillOrder(skillCatalog)) {
+    if (items.length >= maxItems) break;
+    const skill = skillsByCode.get(skillCode);
+    // Only root skills (no prerequisites) are diagnosed directly - a
+    // learner's grasp of a dependent skill is assessed through ordinary
+    // practice and independent checks once its prerequisites are placed.
+    if (!skill || skill.prerequisiteSkillCodes.length > 0) continue;
+    if (assessedSkillCodes.has(skillCode)) continue;
+    const available = contentBySkill.get(skillCode) ?? [];
+    const pick = available.find((item) => item.mode === 'core') ?? available[0];
+    if (!pick) continue;
+    items.push({
+      contentId: pick.id,
+      skillCode,
+      title: pick.title,
+      skillTitle: skill.title,
+      prompt: pick.prompt,
+    });
+  }
+  return { items };
+}
+
+export async function recordDiagnosticAttempt(
+  identity: HouseholdIdentity,
+  input: { sessionId: string; learnerResponse: string },
+) {
+  const session = await prisma.session.findFirst({
+    where: {
+      id: input.sessionId,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
+    },
+  });
+  if (!session) throw new Error('Session not found');
+  const content = resolveContent(session.contentKey);
+  const existingMastery = await prisma.masteryEstimate.findUnique({
+    where: {
+      learnerProfileId_skillCode_algorithmVersion: {
+        learnerProfileId: identity.learnerProfileId,
+        skillCode: content.skillCode,
+        algorithmVersion: PHASE_1_MASTERY_VERSION,
+      },
+    },
+    select: { id: true },
+  });
+  // A diagnostic item is a one-shot placement probe: once this skill has
+  // any mastery evidence (from a prior diagnostic or from practice), it is
+  // no longer "unassessed" and must go through ordinary practice/independent
+  // checks rather than being re-probed.
+  if (existingMastery) throw new Error('Diagnostic already completed for this skill');
+  const result = await createAttempt(identity, {
+    ...input,
+    context: 'DIAGNOSTIC',
+    independentDelayedCheck: false,
+  });
+  // A diagnostic session is a single independent attempt with no tutoring
+  // loop, so it ends as soon as it is answered.
+  await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
+  return result;
 }
 
 async function findAttempt(identity: HouseholdIdentity, attemptId: string) {
@@ -233,6 +413,7 @@ export async function getTutorContext(identity: HouseholdIdentity, attemptId: st
   const lastMove = interactions.at(-1)?.moveType;
   return {
     attemptId: attempt.id,
+    sessionId: attempt.sessionId ?? undefined,
     state: states.includes(lastMove as TutorState) ? (lastMove as TutorState) : 'awaiting_attempt',
     priorHintCount: interactions.length,
     attemptNumber: attempt.attemptNumber,
@@ -274,18 +455,121 @@ export async function recordIndependentCheck(
   });
 }
 
+export const MASTERY_REVIEW_INTERVAL_DAYS = 14;
+const DEFAULT_REVIEW_MAX_ITEMS = 5;
+
+/**
+ * Skills whose mastery was independently confirmed a while ago and are due
+ * for a spaced retrieval check. Purely derived from existing MasteryEstimate
+ * rows and the content catalog, so - like the diagnostic plan - it is safe
+ * to recompute on every load rather than persisting its own schedule.
+ */
+export async function getReviewQueue(
+  identity: HouseholdIdentity,
+  input: { maxItems?: number } = {},
+) {
+  const maxItems = input.maxItems ?? DEFAULT_REVIEW_MAX_ITEMS;
+  const dueBefore = new Date(Date.now() - MASTERY_REVIEW_INTERVAL_DAYS * 24 * 60 * 60 * 1000);
+  const dueMastery = await prisma.masteryEstimate.findMany({
+    where: {
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
+      algorithmVersion: PHASE_1_MASTERY_VERSION,
+      independentDelayedCheck: true,
+      updatedAt: { lte: dueBefore },
+    },
+    orderBy: { updatedAt: 'asc' },
+    take: maxItems,
+    select: { skillCode: true, updatedAt: true },
+  });
+
+  const contentBySkill = new Map<string, (typeof servableContentCatalog)[number][]>();
+  for (const item of servableContentCatalog) {
+    const items = contentBySkill.get(item.skillCode) ?? [];
+    items.push(item);
+    contentBySkill.set(item.skillCode, items);
+  }
+
+  const items: {
+    contentId: string;
+    skillCode: string;
+    title: string;
+    skillTitle: string;
+    prompt: string;
+    dueSince: Date;
+  }[] = [];
+  for (const row of dueMastery) {
+    const skill = skillsByCode.get(row.skillCode);
+    const available = contentBySkill.get(row.skillCode) ?? [];
+    const pick = available.find((item) => item.mode === 'core') ?? available[0];
+    if (!skill || !pick) continue;
+    items.push({
+      contentId: pick.id,
+      skillCode: row.skillCode,
+      title: pick.title,
+      skillTitle: skill.title,
+      prompt: pick.prompt,
+      dueSince: row.updatedAt,
+    });
+  }
+  return { items };
+}
+
+export async function recordReviewAttempt(
+  identity: HouseholdIdentity,
+  input: { sessionId: string; learnerResponse: string },
+) {
+  const session = await prisma.session.findFirst({
+    where: {
+      id: input.sessionId,
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
+    },
+  });
+  if (!session) throw new Error('Session not found');
+  const content = resolveContent(session.contentKey);
+  const mastery = await prisma.masteryEstimate.findUnique({
+    where: {
+      learnerProfileId_skillCode_algorithmVersion: {
+        learnerProfileId: identity.learnerProfileId,
+        skillCode: content.skillCode,
+        algorithmVersion: PHASE_1_MASTERY_VERSION,
+      },
+    },
+    select: { independentDelayedCheck: true },
+  });
+  // Review only applies to a skill whose mastery was already independently
+  // confirmed - anything else belongs to ordinary practice or the initial
+  // independent check, not a review.
+  if (!mastery?.independentDelayedCheck) throw new Error('Review is not available for this skill');
+  const result = await createAttempt(identity, {
+    ...input,
+    context: 'MASTERY_CHECK',
+    independentDelayedCheck: true,
+    reviewDecay: true,
+  });
+  // A review is a single one-shot probe with no tutoring loop, so it ends
+  // the session whether or not the learner still remembers the skill -
+  // unlike recordIndependentCheck's session, which only ends on success.
+  await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
+  return result;
+}
+
 export async function recordTutorResponse(
   identity: HouseholdIdentity,
-  input: { attemptId?: string; response: TutorResponse },
+  input: { attemptId?: string; sessionId?: string; response: TutorResponse },
 ) {
+  let sessionId = input.sessionId;
   if (input.attemptId) {
-    await findAttempt(identity, input.attemptId);
+    const attempt = await findAttempt(identity, input.attemptId);
+    sessionId ??= attempt.sessionId ?? undefined;
   }
   const metadata = input.response.trace.metadata;
   const trace = await prisma.tutorTrace.create({
     data: {
       householdId: identity.householdId,
       learnerProfileId: identity.learnerProfileId,
+      sessionId,
       policyVersion: metadata.policyVersion,
       promptTemplateVersion: metadata.promptTemplateVersion,
       modelIdentifier: metadata.modelIdentifier,
@@ -436,7 +720,7 @@ export async function getPlan(
     };
   }
 
-  const content: PlannerContentItem[] = contentCatalog.map((item) => ({
+  const content: PlannerContentItem[] = servableContentCatalog.map((item) => ({
     id: item.id,
     skillCode: item.skillCode,
     mode: item.mode,
@@ -454,7 +738,7 @@ export async function getPlan(
     timeBudgetMinutes: input.timeBudgetMinutes ?? PHASE_1_DEFAULT_TIME_BUDGET_MINUTES,
   });
 
-  const contentById = new Map(contentCatalog.map((item) => [item.id, item]));
+  const contentById = new Map(servableContentCatalog.map((item) => [item.id, item]));
   const skillByCode = new Map(skillCatalog.map((skill) => [skill.code, skill]));
 
   return {
@@ -465,6 +749,93 @@ export async function getPlan(
       skillTitle: skillByCode.get(item.skillCode)?.title ?? item.skillCode,
     })),
   };
+}
+
+export type SkillProgressStatus = 'NOT_STARTED' | 'PRACTICING' | 'INDEPENDENTLY_CONFIRMED';
+
+const SKILL_PROGRESS_SUMMARY: Record<SkillProgressStatus, string> = {
+  NOT_STARTED: 'Not started yet.',
+  PRACTICING: 'Practicing — some evidence recorded, not yet independently confirmed.',
+  INDEPENDENTLY_CONFIRMED: 'Independently confirmed on an unassisted check.',
+};
+
+const RECENT_STRENGTHS_MAX_ITEMS = 5;
+
+// Learner-facing progress view. Every claim here must be directly traceable
+// to a persisted MasteryEstimate or Attempt row - no derived scores, grades,
+// or rankings are shown, only qualitative status backed by real evidence.
+export async function getLearnerProgress(identity: HouseholdIdentity) {
+  const masteryRows = await prisma.masteryEstimate.findMany({
+    where: {
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
+      algorithmVersion: PHASE_1_MASTERY_VERSION,
+    },
+    select: { skillCode: true, independentDelayedCheck: true },
+  });
+  const masteryBySkillCode = new Map(masteryRows.map((row) => [row.skillCode, row]));
+
+  const skills = skillCatalog.map((skill) => {
+    const mastery = masteryBySkillCode.get(skill.code);
+    const status: SkillProgressStatus = !mastery
+      ? 'NOT_STARTED'
+      : mastery.independentDelayedCheck
+        ? 'INDEPENDENTLY_CONFIRMED'
+        : 'PRACTICING';
+    return {
+      skillCode: skill.code,
+      title: skill.title,
+      domain: skill.domain,
+      status,
+      summary: SKILL_PROGRESS_SUMMARY[status],
+    };
+  });
+
+  // A "recent strength" is a confirmed independent-check pass - the only
+  // event type that is allowed to move a skill's status to confirmed - so
+  // every strength shown is traceable to the exact attempt that earned it.
+  const confirmingAttempts = await prisma.attempt.findMany({
+    where: {
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
+      context: { in: ['MASTERY_CHECK'] },
+      correctness: 'CORRECT',
+    },
+    orderBy: { createdAt: 'desc' },
+    take: 20,
+    select: { id: true, contentKey: true, createdAt: true },
+  });
+  const seenSkills = new Set<string>();
+  const recentStrengths: {
+    attemptId: string;
+    skillCode: string;
+    skillTitle: string;
+    achievedAt: Date;
+  }[] = [];
+  for (const attempt of confirmingAttempts) {
+    const skillCode = resolveContent(attempt.contentKey).skillCode;
+    if (seenSkills.has(skillCode)) continue;
+    seenSkills.add(skillCode);
+    recentStrengths.push({
+      attemptId: attempt.id,
+      skillCode,
+      skillTitle: skillsByCode.get(skillCode)?.title ?? skillCode,
+      achievedAt: attempt.createdAt,
+    });
+    if (recentStrengths.length >= RECENT_STRENGTHS_MAX_ITEMS) break;
+  }
+
+  const plan = await getPlan(identity);
+  const nextActivity = plan.items[0]
+    ? {
+        contentId: plan.items[0].contentId,
+        title: plan.items[0].title,
+        skillTitle: plan.items[0].skillTitle,
+        reason: plan.items[0].reason,
+      }
+    : null;
+
+  return { skills, recentStrengths, nextActivity };
 }
 
 export type Phase1TutorState = TutorState;

@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 
 import { ScoringInput, TutorModel, TutorModelResult, TutorMoveInput } from '../contracts';
 import { checkRateLimit } from './rate-limit';
+import { buildProviderInput, buildProviderScoringInput } from './provider-input';
 
 export const ANTHROPIC_MODEL_ID = 'claude-haiku-4-5-20251001';
 const PROMPT_TEMPLATE_VERSION = 'anthropic-tutor-prompt-1';
@@ -42,11 +43,12 @@ function buildSystemPrompt(): string {
 }
 
 function buildUserPrompt(input: TutorMoveInput, moveType: string): string {
+  const providerInput = buildProviderInput(input, moveType);
   const guidance = MOVE_TYPE_GUIDANCE[moveType] ?? MOVE_TYPE_GUIDANCE.probe_reasoning;
   return [
-    `Problem: ${input.prompt}`,
-    `Skill context: ${input.redactedSkillContext}`,
-    `The learner just said: "${input.learnerMessage}"`,
+    `Problem: ${providerInput.prompt}`,
+    `Skill context: ${providerInput.redactedSkillContext}`,
+    `The learner just said: "${providerInput.learnerMessage}"`,
     '',
     `Required move type: ${moveType}. ${guidance}`,
   ].join('\n');
@@ -130,6 +132,7 @@ export class AnthropicTutorModel implements TutorModel {
 
   async scoreConstructedResponse(input: ScoringInput): Promise<TutorModelResult> {
     checkRateLimit();
+    const providerInput = buildProviderScoringInput(input);
     const start = Date.now();
     const response = await this.client.messages.create({
       model: ANTHROPIC_MODEL_ID,
@@ -139,7 +142,7 @@ export class AnthropicTutorModel implements TutorModel {
       messages: [
         {
           role: 'user',
-          content: `Problem: ${input.prompt}\nRubric: ${input.rubric}\nLearner response: "${input.learnerResponse}"`,
+          content: `Problem: ${providerInput.prompt}\nRubric: ${providerInput.rubric}\nLearner response: "${providerInput.learnerResponse}"`,
         },
       ],
       tools: [

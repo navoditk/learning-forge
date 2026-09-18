@@ -8,7 +8,14 @@
   "observableEvidence": [
     "Computes a unit rate from a ratio and applies it to answer a related quantity question."
   ],
-  "misconceptionCodes": ["divide-by-total", "reverses-rate"],
+  "misconceptionCodes": [
+    "divide-by-total",
+    "reverses-rate",
+    "divides-by-distance",
+    "omits-unit",
+    "compares-total-cost",
+    "subtracts-before-unit-rate"
+  ],
   "difficultyBands": ["foundational", "developing", "challenging"],
   "masteryCheckRule": "Deterministic numeric equivalence on the unit rate, plus one independent delayed check."
 }

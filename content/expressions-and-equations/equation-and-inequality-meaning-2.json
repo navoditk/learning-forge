@@ -1,0 +1,48 @@
+{
+  "id": "equation-and-inequality-meaning-2",
+  "version": "content-1",
+  "title": "Describing an inequality solution",
+  "skillCode": "equation-and-inequality-meaning",
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.EE.B.5"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Determines which values make an inequality true and explains that the solution is a set of values satisfying the statement."
+  ],
+  "prompt": "For the inequality n + 2 < 7, decide whether n = 3 and n = 6 are solutions. Then describe the full solution set in words.",
+  "solutionRepresentation": "n = 3 is a solution because 3 + 2 < 7. n = 6 is not because 6 + 2 is not less than 7. The solution set is all numbers less than 5.",
+  "solutionMethod": "Test each candidate by substitution, then identify the boundary and describe every value that makes the inequality true.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "3 is a solution; 6 is not; all numbers less than 5",
+    "acceptedAnswers": [
+      "3 is a solution; 6 is not; all numbers less than 5",
+      "n = 3 true, n = 6 false; n < 5",
+      "3 yes, 6 no; values below 5"
+    ],
+    "equivalenceNotes": "Accept inequality notation or equivalent words describing the complete set below 5."
+  },
+  "misconceptionCodes": ["treats-inequality-solution-as-a-single-value"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Test each proposed value, then ask what values are on the same satisfying side of the boundary.",
+      "question": "What value makes n + 2 equal 7, and which side of it makes the expression smaller?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["3 is a solution", "6 is not", "less than 5", "n < 5"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-09-17"
+  },
+  "accessibilityNotes": "State the inequality and candidate values in text; the solution set can be described verbally without a number-line graphic.",
+  "accessibleAlternative": "Read aloud or display: For n plus two less than seven, test three and six, then say all numbers that make the statement true."
+}

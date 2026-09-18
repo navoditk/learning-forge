@@ -49,5 +49,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Keep the part/whole labels adjacent to the equation and provide a text-only check path."
+  "accessibilityNotes": "Keep the part/whole labels adjacent to the equation and provide a text-only check path.",
+  "accessibleAlternative": "Read aloud or display: The recycling club collected 18 kilograms of cans, and that amount is 30% of the total material collected. Find the whole amount of material."
 }

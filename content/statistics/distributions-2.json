@@ -51,5 +51,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Describe the histogram's shape in plain text; do not depend on interpreting the chart image alone."
+  "accessibilityNotes": "Describe the histogram's shape in plain text; do not depend on interpreting the chart image alone.",
+  "accessibleAlternative": "Read aloud or display: Most quiz scores are between 70 and 85, with only a few scores below 50. Decide whether that distribution is symmetric or skewed based on the tail toward the lower scores."
 }

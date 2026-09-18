@@ -1,13 +1,519 @@
 # Progress
 
+## 2026-09-16 — Grade 6 Math v2 complete-candidate cleanup and comparison handoff
+
+- **Scope:** Completed the final holistic cleanup under
+  `experiments/grade-6-math-v2/`; no production files were touched.
+- **Fixes:** Changed `v2-polygon-area-garden` to exercise
+  `counts-an-overlapping-region-twice-when-decomposing`, with a correct
+  `96 square meters` wrong-answer path that double-counts the triangle inside
+  its 6-by-4 bounding rectangle. Updated the experiment README to reflect all
+  24 skills and 48 content records across the pilot and Increment 3 batches A,
+  B, C, and D. Reordered `review-handoff.md` revisions numerically for audit
+  readability.
+- **Evidence:** The isolated validator passed with 48 records and 53
+  glossary-synchronized misconception codes. `npm run format:check`,
+  `npm run lint`, `npm run typecheck`, `npm run content:validate` (4 tests),
+  and `git diff --check` also passed.
+- **Review status and risk:** The full candidate graph and content are
+  complete and awaiting the human v1-vs-v2 comparison decision. All 48
+  records remain `pending_review`; no self-approval, human approval, or
+  production eligibility is claimed.
+
+## 2026-09-16 — Grade 6 Math v2 final center-and-variability remediation (revision 14)
+
+- **Scope:** Updated `v2-center-mean-range` in
+  `experiments/grade-6-math-v2/content-records-v2.json` to satisfy the
+  `center-and-variability` mastery requirement for naming a notable shape or
+  outlier feature.
+- **Fix:** The solution representation, canonical/accepted answer forms,
+  equivalence notes, and accessible alternative now identify the 11-minute
+  reading as notably high relative to the other values and explain that it
+  pulls the mean upward. No other content fields, misconception codes, hints,
+  or review states changed.
+- **Evidence:** The isolated validator passed with 48 records and 53
+  glossary-synchronized misconception codes. `npm run format:check`,
+  `npm run lint`, `npm run typecheck`, `npm run content:validate` (4 tests),
+  and `git diff --check` also passed.
+- **Review status and risk:** All 24 skills now have reviewed-and-remediated
+  candidate content pending final independent re-check. All 48 records remain
+  `pending_review`; no human approval, self-approval, or production
+  eligibility is claimed.
+
+## 2026-09-16 — Grade 6 Math v2 candidate content, increment 3 batch D (final batch)
+
+- **Scope:** Added eight isolated `llm_drafted` candidate records under
+  `experiments/grade-6-math-v2/content-records-v2.json`: exactly two each for
+  `coordinate-polygons`, `nets-and-surface-area`,
+  `statistical-questions`, and `center-and-variability`. The existing 40
+  records were retained, no production files were touched, and no record was
+  approved.
+- **Coverage:** Items are structurally distinct within each skill and together
+  cover coordinate rectangles/L-shaped polygons; rectangular-prism and
+  triangular-prism nets; statistical-question classification and revision;
+  and center/variability summaries using mean/range and median/IQR. Every
+  record includes equivalent accepted answers, answer-format information,
+  genuine text-equivalent accessibility, valid per-skill difficulty,
+  glossary-backed misconception distractors whose arithmetic or logic path
+  exactly produces the stated wrong answer, non-leaking hints, and
+  `review.status: "pending_review"`.
+- **Controls:** `validate.ts` now derives the required content set from all 24
+  Skill records and enforces exactly two records for every skill. Content
+  authoring for all 24 candidate skills is now complete pending final
+  independent review and human content-owner approval.
+- **Evidence:** The isolated validator passed with 48 records and 53
+  glossary-synchronized misconception codes. `npm run format:check`,
+  `npm run lint`, `npm run typecheck`, `npm run content:validate` (4 tests),
+  and `git diff --check` also passed.
+- **Review status and risk:** All 48 candidate records remain
+  `pending_review`; no self-approval, human approval, or production
+  eligibility is claimed.
+
+## 2026-09-16 — Grade 6 Math v2 polygon-area distractor wording remediation (revision 12)
+
+- **Scope:** Updated only the `v2-polygon-area-roof` distractor rationale in
+  `experiments/grade-6-math-v2/content-records-v2.json`; no production files
+  were touched.
+- **Fix:** Replaced the unsupported “slanted side” wording with an accurate
+  description that the learner treats the given perpendicular height as a side
+  length when forming the perimeter-like distractor. No other record fields
+  needed changes.
+- **Evidence:** The isolated validator passed with 40 records and 53
+  glossary-synchronized misconception codes.
+- **Review status and risk:** All candidate records remain
+  `pending_review`; this does not constitute human review, self-approval, or
+  production eligibility.
+
+## 2026-09-16 — Grade 6 Math v2 Batch C independent-review remediation (revision 11)
+
+- **Scope:** Applied two narrow independent-review fixes to
+  `experiments/grade-6-math-v2/content-records-v2.json`; no production files
+  were touched.
+- **Fixes:** Replaced the duplicate rectangle-plus-right-triangle
+  `v2-polygon-area-roof` item with a structurally distinct parallelogram
+  base-times-perpendicular-height item, preserving square-unit and
+  misconception coverage. Changed the `v2-equations-integer-coefficient`
+  distractor from `x = 10` to `x = 20/3`, the value reached by subtracting 5
+  from only the left side and then dividing by 3; the rationale now matches
+  that exact error path.
+- **Evidence:** The isolated validator passed with 40 records and 53
+  glossary-synchronized misconception codes. `npm run format:check`,
+  `npm run lint`, `npm run typecheck`, `npm run content:validate` (4 tests),
+  and `git diff --check` also passed.
+- **Review status and risk:** All candidate records remain
+  `pending_review`; this remediation does not constitute human review,
+  self-approval, or production eligibility.
+
+## 2026-09-16 — Grade 6 Math v2 candidate content, increment 3 batch C
+
+- **Scope:** Added ten isolated `llm_drafted` candidate records under
+  `experiments/grade-6-math-v2/content-records-v2.json`: exactly two each for
+  `one-variable-equations`, `real-world-inequalities`,
+  `two-variable-relationships`, `polygon-area`, and
+  `fractional-prism-volume`. The existing 30 records were retained, no
+  production files were touched, and no record was approved.
+- **Coverage:** Items span each skill's full observable evidence and
+  mastery-check scope: equations with integer and rational coefficients plus
+  substitution checks; real-world inequality modeling, candidate testing, and
+  complete graph/solution-set descriptions; table, graph, equation, and
+  dependent/independent variable roles; polygon decomposition with square
+  units; and fractional-edge prism computation with cubic-unit context
+  interpretation. Each record includes equivalent accepted answers,
+  answer-format information, a genuine accessible text alternative,
+  glossary-backed misconception distractors with skill-specific rationales,
+  non-leaking hints, a valid per-skill difficulty band, and
+  `review.status: "pending_review"`.
+- **Controls:** `validate.ts` now enforces exactly two records for all twenty
+  authored pilot skills and continues checking each content difficulty against
+  its owning skill's declared `difficultyBands`.
+- **Evidence:** The isolated validator passed with 40 records and 53
+  glossary-synchronized misconception codes. `npm run format:check`,
+  `npm run lint`, `npm run typecheck`, `npm run content:validate` (4 tests),
+  and `git diff --check` also passed.
+- **Review status and risk:** Batch C remains pending independent review and
+  human content-owner review. No self-approval, human approval, or production
+  eligibility is claimed.
+
+## 2026-09-16 — Grade 6 Math v2 Batch B distractor remediation (revision 9)
+
+- **Scope:** Applied two narrow independent-review fixes to
+  `experiments/grade-6-math-v2/content-records-v2.json`; no production files
+  were touched.
+- **Fixes:** Reworded the rational-number ordering distractor rationale to
+  explicitly describe assuming a larger denominator makes a fraction larger
+  without checking actual values. Replaced the ticket-cost distractor with
+  `4 + 3 tours dollars`, directly showing the misconception of treating the
+  variable as a word label rather than a numeric quantity that should receive
+  the value 5.
+- **Evidence:** The isolated validator passed with 30 records and 53
+  glossary-synchronized misconception codes. `npm run format:check`,
+  `npm run lint`, `npm run typecheck`, `npm run content:validate` (4 tests),
+  and `git diff --check` also passed.
+- **Review status and risk:** All candidate records remain
+  `pending_review`; this remediation does not constitute human review,
+  self-approval, or production eligibility.
+
+## 2026-09-16 — Grade 6 Math v2 candidate content, increment 3 batch B
+
+- **Scope:** Added twelve isolated `llm_drafted` candidate records under
+  `experiments/grade-6-math-v2/content-records-v2.json`: exactly two each for
+  `rational-number-meaning`, `rational-number-representation`,
+  `powers-and-whole-number-exponents`, `variables-and-expressions`,
+  `equivalent-expressions`, and `equation-and-inequality-meaning`. The
+  existing 18 records were retained, no production files were touched, and
+  no record was approved.
+- **Coverage:** Items span each skill's stated observable evidence and
+  mastery-check scope rather than only an easiest sub-case: signed contexts
+  and opposites; number-line ordering and coordinate placement; exponent
+  construction and evaluation; context-to-expression modeling and
+  substitution; property-based transformation and equivalence verification;
+  and equation/inequality truth testing with full solution-set meaning.
+  Every record includes canonical/equivalent accepted answers, an answer
+  format, a genuine text-equivalent accessible alternative,
+  glossary-backed misconception distractors, non-leaking hints, a valid
+  per-skill difficulty band, `llm_drafted` provenance, and
+  `review.status: "pending_review"`.
+- **Controls:** `validate.ts` now enforces exactly two records for all
+  fifteen authored pilot skills and checks each content difficulty against its
+  owning skill's declared `difficultyBands`.
+- **Evidence:** The isolated validator passed with 30 records and 53
+  glossary-synchronized misconception codes. `npm run format:check`,
+  `npm run lint`, `npm run typecheck`, `npm run content:validate` (4 tests),
+  and `git diff --check` also passed.
+- **Review status and risk:** Batch B remains pending independent review and
+  human content-owner review. No self-approval, human approval, or production
+  eligibility is claimed.
+
+## 2026-09-16 — Grade 6 Math v2 batch A independent-review remediation (revision 7)
+
+- **Scope:** Fixed four independent-review findings on Batch A records in
+  `experiments/grade-6-math-v2/content-records-v2.json`; only experiment
+  files and this checkpoint were touched, no production files.
+- **Fixes:** (1) MAJOR — replaced `v2-factors-factor-list` (GCF/factor-listing
+  duplication) with `v2-factors-distributive-factoring`, a genuine
+  `6.NS.B.4` distributive-factoring item (36 + 24 = 12 × (3 + 2)) with a new,
+  properly synced misconception code
+  `factors-out-a-common-factor-that-is-not-the-greatest` added to the skill's
+  `misconceptionCodes` and `misconception-glossary.md`. (2) MINOR — the
+  difficulty-band mismatch is resolved by the replacement record using the
+  valid `challenging` band. (3) MINOR — `v2-rate-smoothie-scaling`'s
+  distractor rationale now matches the arithmetic producing "6 cups" (3
+  extra pitchers added to the original 3 cups instead of multiplying by the
+  scale factor). (4) MINOR — `v2-factors-gcf` no longer lists the confusing
+  `"12 factors"` accepted-answer variant.
+- **Evidence:** The isolated validator passed with 18 records and 53
+  glossary-synchronized misconception codes. `npm run format:check`, `npm run
+  lint`, `npm run typecheck`, `npm run content:validate` (4 tests), and
+  `git diff --check` also passed.
+- **Review status and risk:** All 18 candidate records remain
+  `pending_review`; this remediation does not constitute human review,
+  self-approval, or production eligibility.
+
+## 2026-09-16 — Grade 6 Math v2 candidate content, increment 3 batch A
+
+- **Scope:** Added eight isolated `llm_drafted` candidate records under
+  `experiments/grade-6-math-v2/content-records-v2.json`: exactly two each for
+  `ratio-language-and-meaning`, `rate-and-proportional-reasoning`,
+  `multi-digit-number-operations`, and
+  `factors-multiples-and-distributive-structure`. The ten earlier pilot
+  records were retained; no production files were touched.
+- **Controls:** Records include canonical and equivalent accepted answers,
+  answer-format fields, text-equivalent accessibility alternatives,
+  misconception-tied distractors using existing glossary/skill codes,
+  non-leaking hint ladders, and `review.status: "pending_review"`.
+  `validate.ts` now enforces exactly two records for all nine authored pilot
+  skills.
+- **Evidence:** The isolated validator passed with 18 records and 52
+  glossary-synchronized misconception codes. `npm run format:check`, `npm run
+  lint`, `npm run typecheck`, `npm run content:validate` (4 tests), and
+  `git diff --check` also passed.
+- **Review status and risk:** Batch A is pending independent review and human
+  content-owner review. No approval or production eligibility is claimed.
+
+## 2026-09-16 — Grade 6 Math v2 content-pilot review remediation (revision 5)
+
+- **Scope:** Revised only isolated candidate artifacts under
+  `experiments/grade-6-math-v2/`; production catalogs and runtime files remain
+  untouched.
+- **Fixes:** The isolated validator now enforces canonical-answer inclusion,
+  forbidden-pattern hint-leakage prevention, skill-and-glossary resolution for
+  every content misconception/distractor code, and a matching distractor for
+  every content misconception. The temperature distractor uses the new,
+  specific `adds-magnitudes-instead-of-finding-signed-difference` code, which
+  is declared by `rational-number-operations` and documented in the glossary.
+  The ordering item now accepts equivalent decimal and fraction forms.
+- **Evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts`, `npm run
+  format:check`, `npm run lint`, `npm run typecheck`, `npm run
+  content:validate` (4 tests), and `git diff --check` passed.
+- **Review status and risk:** All candidate records remain
+  `pending_review`; this revision does not self-approve content or make it
+  eligible for production use. Independent review and human content-owner
+  review remain required before scaling.
+
+## 2026-09-15 — Grade 6 Math v2 candidate content pilot (increment 2)
+
+- **Scope:** Added ten isolated `llm_drafted` candidate content records under
+  `experiments/grade-6-math-v2/` only: exactly two records for
+  `coordinate-distance` (`6.NS.C.8`), `variables-in-context` (`6.EE.B.6`),
+  `fraction-division`, `rational-number-operations`, and
+  `distribution-description`. The last skill spans dot plot, histogram, and
+  box plot. No production catalog, runtime, baseline, or source dossier was
+  modified.
+- **Controls:** Every record includes canonical/accepted answers, unit or
+  format notes, a text-equivalent accessible alternative, a documented
+  misconception-tied distractor, owned `llm_drafted` provenance, and
+  `review.status: "pending_review"`. `validate.ts` now checks content shape,
+  unique IDs, isolated scope, exact two-record count per required skill,
+  glossary-resolving distractor codes, representation coverage, and rejects
+  any reviewed/approved record.
+- **Evidence:** `npm run format:check`, `npm run lint`, `npm run typecheck`,
+  `npm run content:validate` (4 tests), `npx tsx
+  experiments/grade-6-math-v2/validate.ts`, and `git diff --check` passed.
+- **Review status and risk:** The source is the product/content-owner-approved
+  `Candidate Grade 6 Math v2 research — 2026-09-15` section in
+  `docs/curriculum-sources.md`. These records are not self-approved and are
+  not eligible for production use. Automated validation cannot establish
+  mathematical accuracy, pedagogical quality, accessibility adequacy, or
+  originality; independent review followed by human content-owner review is
+  required before any candidate comparison or promotion.
+
+## 2026-09-15 — Grade 6 Math v2 candidate authoring checkpoint (revision 4)
+
+- **Scope:** Applied only mechanical/documentation-level fixes under
+  `experiments/grade-6-math-v2/`; no prerequisite or standards mappings,
+  production catalogs, content, runtime code, baseline, rubric, source
+  dossier, or production tests changed.
+- **Fixes applied:** `validate.ts` now requires dot plot, histogram, and box
+  plot separately in both `observableEvidence` and `masteryCheckRule` for
+  `distribution-description`; rejects duplicate misconception codes within a
+  skill, duplicate glossary rows, and empty/placeholder glossary
+  descriptions; and retains strict 1:1 glossary completeness validation.
+  The matrix now states all three `6.SP.B.4` representations are required
+  across the mastery sequence, and the glossary note reflects actual
+  validator behavior and its remaining semantic limitation.
+- **Evidence:** Isolated validator, targeted Prettier, and `git diff --check`
+  passed. The candidate remains pending independent review and human approval;
+  this agent did not self-approve it.
+
+## 2026-09-15 — Grade 6 Math v2 candidate authoring checkpoint (revision 3)
+
+- **Scope:** Applied a narrow revision under `experiments/grade-6-math-v2/`
+  to resolve all findings from the second independent review; no production
+  catalogs, content, runtime code, baseline, rubric, source dossier, or
+  production tests changed, and no learning content/problem records were
+  authored.
+- **Fixes applied:** (1) removed or narrowed five remaining broad
+  procedural/barrier edges (`factors-multiples-and-distributive-structure`,
+  `rational-number-operations`, `polygon-area`, `fractional-prism-volume`,
+  and `two-variable-relationships`) so each is a genuine conceptual
+  dependency, expanding the root set to 10 independent entry points;
+  (2) strengthened `6.SP.B.4` evidence and mastery rules to require
+  demonstrated creation/interpretation across dot plots, histograms, and box
+  plots, with `validate.ts` enforcing all three keywords; (3) reworded the
+  fraction denominator comparison misconception to
+  `compares-by-denominator-size-alone-ignoring-numerators-and-equivalence`
+  describing comparison by denominator size alone while ignoring numerators
+  and equivalent values; (4) added automated 1:1 sync validation between
+  `skill-records-v2.json` misconception codes and `misconception-glossary.md`.
+- **Evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts` passed: 24
+  records, 29 exact standards each mapped to exactly one skill, 24 acyclic
+  nodes, mastery-check text invariant present on every record, 6.SP.B.4
+  covers all three representations, 51 misconception codes in 1:1 glossary
+  sync, and matrix matches JSON. Targeted Prettier check and `git diff --check`
+  passed.
+- **Review status and risk:** Candidate remains pending independent review
+  and human approval; this agent did not self-approve it. Next review step is
+  the handoff in `experiments/grade-6-math-v2/review-handoff.md`.
+
+## 2026-09-15 — Grade 6 Math v2 candidate authoring checkpoint (revision 2)
+
+- **Scope:** Revised only the isolated candidate-authoring increment under
+  `experiments/grade-6-math-v2/` to resolve every independent reviewer
+  finding from the first pass; no production catalogs, content, runtime
+  code, baseline, rubric, source dossier, or production tests changed, and
+  no learning content/problem records were authored.
+- **Fixes applied:** (1) removed/redesigned six unjustified prerequisite
+  edges (`fraction-division <- rate-and-proportional-reasoning`,
+  `variables-and-expressions <- powers-and-whole-number-exponents`,
+  `equation-and-inequality-meaning <- variables-in-context`,
+  `real-world-inequalities <- one-variable-equations`,
+  `fractional-prism-volume <- fraction-division`,
+  `distribution-description <- multi-digit-number-operations`), and
+  re-auditing every remaining edge surfaced and removed a seventh
+  (`powers-and-whole-number-exponents <- multi-digit-number-operations`);
+  (2) every `masteryCheckRule` now explicitly requires an independent,
+  unassisted delayed check and states assisted attempts alone cannot
+  establish secure mastery, enforced by a new isolated `validate.ts` text
+  assertion that does not touch the production `SkillSchema`;
+  (3) strengthened `6.EE.A.1` to require writing and evaluating numerical
+  expressions with whole-number exponents; (4) strengthened `6.NS.C.7` to
+  explicitly cover ordering, absolute value, and rational-number operations;
+  (5) strengthened `6.SP.B.4` to require a dot plot, histogram, or box plot,
+  and `6.SP.B.5` to report the number of observations; (6) `validate.ts` now
+  enforces exactly one candidate skill per approved standard and parses
+  `standards-to-skill-matrix.md` against `skill-records-v2.json` so the two
+  cannot drift; (7) tightened all 51 misconception codes into specific,
+  observable learner errors and added `misconception-glossary.md` documenting
+  each one.
+- **Evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts` passed: 24
+  records, 29 exact standards each mapped to exactly one skill, 24 acyclic
+  nodes, the mastery-check text invariant present on every record, and the
+  matrix matches the JSON. Targeted Prettier check and `git diff --check`
+  passed.
+- **Review status and risk:** Candidate remains pending independent review
+  and human approval; this agent did not self-approve it. Automated checks
+  establish structure and text-invariant presence only; they do not approve
+  standards interpretation, mathematics, pedagogy, accessibility, or
+  originality. `misconception-glossary.md` notes its own completeness is not
+  yet automatically enforced. Next review step is the handoff in
+  `experiments/grade-6-math-v2/review-handoff.md`.
+
+## 2026-09-15 — Grade 6 Math v2 candidate authoring checkpoint
+
+- **Scope:** Completed only the first isolated candidate-authoring increment
+  under `experiments/grade-6-math-v2/`; no production catalogs, content,
+  runtime code, baseline, rubric, source dossier, or production tests changed.
+- **Source and decisions:** Used the approved `Candidate Grade 6 Math v2
+  research — 2026-09-15` section in `docs/curriculum-sources.md`. The
+  candidate covers all 29 approved Grade 6 codes, explicitly including
+  `6.NS.C.8` and `6.EE.B.6`, makes no IUSD pacing claim, and does not create
+  dedicated competition curricula.
+- **Artifacts:** Added a 29-row standards-to-skill matrix, 24 schema-shaped
+  versioned Skill records, conceptual prerequisite justifications, an
+  isolated validator, and a pending independent-review handoff. No learning
+  content/problem records were authored.
+- **Evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts` passed:
+  24 records, 29 exact standards, unique codes, resolvable prerequisites, and
+  24 acyclic nodes. Targeted Prettier check and `git diff --check` passed.
+- **Review status and risk:** Candidate remains pending independent review and
+  human approval. Automated checks establish structure only; they do not
+  approve standards interpretation, mathematics, pedagogy, accessibility, or
+  originality. Next review step is the handoff in
+  `experiments/grade-6-math-v2/review-handoff.md`.
+
 ## Current status
 
-- Phase: 1 — synthetic journeys across all 5 Grade 6 Math domains, skill graph, planner, an actionable planner UI, an on-demand parent weekly digest, and a basic accessible visual design (now automated-WCAG-AA-checked) covered; content is reviewed and approved (scope noted below); the pilot-readiness decisions (audience, identity/auth, hosting, consent/retention, provider, budget/latency, eval gate) are made for a single-household pilot (ADR-0008, ADR-0009, ADR-0005). **All three approved implementation tracks are now live**: Track 1, real authentication (ADR-0010). Track 2, real Claude adapter (ADR-0011), reviewed, approved, and enabled. Track 3, Render deployment (ADR-0012) — **confirmed genuinely live 2026-09-13**: a real account was provisioned, sign-in works at `https://learning-forge.onrender.com`, and a real hint request was confirmed hitting the real Anthropic API (visible ~1-2s latency, non-templated text), not the fake adapter. This is a real, live, single-household pilot now, not just a local demonstration
+- Phase: 1 — synthetic journeys across all 5 Grade 6 Math domains, skill graph, planner, an actionable planner UI, an on-demand parent weekly digest, and a basic accessible visual design (now automated-WCAG-AA-checked) covered; **Grade 6 Math curriculum v3 shipped 2026-09-18**: 27 skills, 54/54 content records fully human-reviewed (0 pending), merged from the v1 baseline plus the independently-researched/reviewed v2 candidate graph (see the 2026-09-16 through 2026-09-18 entries below for the full merge, safety-gate, and content-review trail); the pilot-readiness decisions (audience, identity/auth, hosting, consent/retention, provider, budget/latency, eval gate) are made for a single-household pilot (ADR-0008, ADR-0009, ADR-0005). **All three approved implementation tracks are now live**: Track 1, real authentication (ADR-0010). Track 2, real Claude adapter (ADR-0011), reviewed, approved, and enabled. Track 3, Render deployment (ADR-0012) — **confirmed genuinely live 2026-09-13**: a real account was provisioned, sign-in works at `https://learning-forge.onrender.com`, and a real hint request was confirmed hitting the real Anthropic API (visible ~1-2s latency, non-templated text), not the fake adapter. This is a real, live, single-household pilot now, not just a local demonstration
 - Branch: `main`
-- Repository state: PRs #13–#38 are merged to `main` at `6a0fde0`. The deployed app is live and working. The web service is temporarily on the **Starter** plan (used for Shell access to run the one-time provisioning step — see below); downgrading back to **Free** per ADR-0012 is a loose end still open, not yet confirmed done
-- Last verified commit: `6a0fde0 docs: record where the Render deployment attempt stands (#38)`
+- Repository state: PRs #13–#42 are merged to `main`; the deployed app is live and working. The web service is currently on the **Starter** plan by deliberate choice for this pilot. The original Free-plan decision is deferred for a later cost review, not an operational blocker.
+- Last verified commit: `162b8ac feat: refresh portal visual design and add a subject switcher (#42)`
+- Operational cleanup in progress: tutor traces now retain an optional session
+  reference, and the live hint route enforces configurable household-daily and
+  session hint limits before calling the model. The current defaults are 100
+  hints per household per rolling day and 8 hints per session; environment
+  variables can lower or raise them for the pilot.
+- Added an aggregate-only usage report: run `npm run report:tutor-usage --
+  --days 7`. It reports request/token totals, average and p95 latency,
+  fallback/error counts, model breakdowns, and opaque household/session limit
+  utilization without selecting learner text or trace excerpts.
+- Corrected `render.yaml` to declare the accepted Starter web-service plan
+  and added `docs/backup-recovery.md` with pilot RPO/RTO targets, dashboard
+  verification steps, a synthetic restore drill, and incident procedure.
+  Render backup frequency, retention, and restore behavior remain explicitly
+  unverified until checked in the provider dashboard.
+- Formalized the provider boundary with an explicit `TutorProvider` contract
+  and fail-closed configuration. The current supported adapters are `fake` and
+  `anthropic`; adding another provider requires a new adapter implementing the
+  shared `TutorModel` interface rather than changing tutor policy or routes.
+- Added provider-input filtering and regression tests for secret/profile-field
+  leakage, plus `exportHouseholdData`/`deleteHouseholdData` services and an
+  integration drill covering password-hash exclusion, raw attempt export,
+  trace export, household-scoped deletion, and idempotent cleanup.
+- Added `docs/learner-feature-expansion.md`, prioritizing session progression,
+  diagnostic placement, independent mastery checks, learner-visible progress,
+  and accessibility before higher-risk feature areas.
+- Implemented the first learner-feature increment: session progression.
+  `startSession` now resumes an in-progress session (same content, not yet
+  ended) instead of creating a duplicate on every page load, and returns the
+  latest practice attempt, hint count, and independent-check result so the
+  UI can rehydrate state after a refresh. A session's `endedAt` is now set
+  when its independent check passes. Added a unique `(sessionId,
+  attemptNumber)` constraint (migration `0005_add_attempt_session_unique`)
+  with retry-on-conflict in `createAttempt`, guarding against duplicate
+  attempt numbers from a double-submitted answer.
+- Implemented the second learner-feature increment: diagnostic/placement.
+  `getDiagnosticPlan` offers one independent, one-shot item per root skill
+  (no prerequisites) that this learner has no `MasteryEstimate` for yet,
+  capped at 5 items, derived purely from the current skill/content catalogs
+  and mastery rows so it is safe to recompute repeatedly. `recordDiagnosticAttempt`
+  records the attempt under the existing `AttemptContext.DIAGNOSTIC` value,
+  rejects a second diagnostic attempt for an already-assessed skill, and
+  never sets `independentDelayedCheck` - a diagnostic guess seeds a
+  placement estimate but is deliberately never treated as confirmed,
+  independently-checked mastery. Added `GET /api/phase1/diagnostic` and
+  `POST /api/phase1/diagnostic-attempt`, and a "Quick placement check"
+  section on the learner homepage that runs diagnostic items with no
+  tutoring/hint controls.
+- Implemented the third learner-feature increment: independent mastery
+  checks with spaced review. A skill's confirmed mastery
+  (`MasteryEstimate.independentDelayedCheck: true`) is now revisited rather
+  than treated as permanent: `getReviewQueue` finds confirmed skills whose
+  `updatedAt` is older than `MASTERY_REVIEW_INTERVAL_DAYS` (14, a pedagogy
+  constant, not an env-configurable operational guardrail), oldest first,
+  capped at 5. `recordReviewAttempt` rejects any skill without confirmed
+  mastery (`'Review is not available for this skill'`), otherwise runs a
+  single independent, one-shot probe (no hints) via `createAttempt` with a
+  new `reviewDecay: true` flag: unlike every other call site, a review's
+  outcome sets `independentDelayedCheck` directly to the attempt's result
+  (not the previous sticky "once true, always true" OR-logic), so a failed
+  review can genuinely revoke prior confirmation and send the skill back to
+  regular practice. The review session always ends after one attempt,
+  win or lose. Added `GET /api/phase1/review` and `POST
+  /api/phase1/review-attempt`, and a "Review due" section on the learner
+  homepage (mirroring the diagnostic section, same no-hint/no-tutor
+  constraints). Verified with 3 new integration tests that manipulate
+  `MasteryEstimate.updatedAt` directly to simulate the interval (due vs.
+  not-yet-due filtering, confirm-on-pass, decay-and-requeue-to-practice on
+  fail, and rejection for unconfirmed skills) — no waiting on real time.
+- Implemented the fourth learner-feature increment: learner-visible
+  progress. `getLearnerProgress` returns three things, each traceable to
+  persisted evidence and deliberately free of scores, grades, or rankings:
+  a per-skill status (`NOT_STARTED` / `PRACTICING` / `INDEPENDENTLY_CONFIRMED`,
+  derived only from whether a `MasteryEstimate` row exists and whether its
+  `independentDelayedCheck` is true), up to 5 "recent strengths" (the most
+  recent independent-check-passing `Attempt` per skill, deduplicated, each
+  citing the exact attempt id and date that earned it), and one recommended
+  next activity reusing the same `getPlan`/planner reasoning already shown
+  in "Recommended next activities" (so the two never disagree). Added `GET
+  /api/phase1/progress` and a "Your progress" section on the learner
+  homepage, refreshed after diagnostic attempts, review attempts, and
+  independent-check passes (the only events that can move a skill's status).
+  Verified with 3 new integration tests seeding mastery/attempt rows
+  directly to cover all three status labels, strength traceability, and
+  next-activity parity with the plan.
+- Added a `/help` page (linked from both the learner homepage and the
+  parent evidence page) walking learners and parents through every current
+  feature in plain language: the recommended-activities/session/hint/
+  independent-check loop, the quick placement check, spaced review, the new
+  progress view, the parent evidence page and on-demand weekly digest,
+  the privacy/data-export/deletion process (currently support-mediated, not
+  a self-service button), and an explicit list of what this pilot does not
+  do yet. No new service logic; content only.
+- Implemented the fifth and final learner-feature increment: accessibility
+  and feedback refinement. Fixed a real heading-hierarchy bug on the learner
+  homepage (the "Your progress"/"Quick placement check"/"Review due"/
+  "Recommended next activities" sections rendered as `h2` ahead of the
+  session content title, which was itself an `h1` — a screen-reader user
+  navigating by headings would hit the page's only `h1` last, after four
+  `h2`s). Added a visually-hidden page-level `h1`, demoted the session
+  content title to `h2` and the "Tutor" aside to `h3` so the whole page now
+  has one consistent, non-skipping outline. Added a
+  `prefers-reduced-motion: reduce` media query that collapses the existing
+  button hover transition (and any future transitions/animations) to
+  effectively instant. Improved error recovery on the answer form: an empty
+  submission is now caught client-side (no network round-trip), the error
+  is tied to the input via `aria-invalid`/`aria-describedby`, and focus
+  returns to the input instead of being silently dropped; a genuine
+  submission failure now says so explicitly instead of reusing the
+  empty-answer message. Added a `/help` axe scan and a keyboard-operability
+  test for the new blank-answer error-recovery flow; fixed a real test bug
+  the new "Your progress" section exposed (multiple same-named "Garden
+  rows" buttons across sections made two existing tests ambiguous - both
+  now scope to their specific `region`). Full Playwright suite (17 tests,
+  +2 new) and axe WCAG AA scans across `/`, `/parent`, and `/help` all pass
+  with zero violations.
 
-## Domain model coverage (2026-09-05)
+
 
 `docs/05-data-and-student-model.md` describes the target domain model. This
 table tracks which entities exist in `prisma/schema.prisma` today versus
@@ -16,7 +522,7 @@ schema state.
 
 | Entity (from `05-data-and-student-model.md`) | Status | Notes |
 |---|---|---|
-| `Household`, `User`, `LearnerProfile` | Implemented | Synthetic identity only; no auth |
+| `Household`, `User`, `LearnerProfile` | Implemented | Parent authentication is live; learner access is parent-mediated and household-scoped |
 | `ConsentRecord` | Implemented | Schema only; no consent-capture flow |
 | `Session` | Implemented | Now carries `contentKey` (migration `0002_add_session_content_key`), so a session is tied to any catalog item, not just `unit-rates-1` (ADR-0007) |
 | `Attempt`, `AssistanceEvent` | Implemented | Immutable-attempt trigger enforced in migration |
@@ -325,7 +831,15 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 | 2026-09-06 | Prepared the repository for Render deployment (ADR-0012), following the user's decisions: paid `basic-256mb` Postgres (Render's free Postgres auto-deletes after ~44 days — checked current Render docs via web search rather than assuming, since this directly risks a child's learning history), free web service (accepted the 15-minute-sleep/30-60s-wake tradeoff), no Render API key used anywhere — the product owner creates the Blueprint through Render's own dashboard. Added `render.yaml` (database + web service, migration folded into `buildCommand` since `preDeployCommand` requires a paid web service plan, `AUTH_TRUST_HOST=true` instead of a hardcoded `AUTH_URL` since the exact `*.onrender.com` subdomain isn't known ahead of time), `docs/render-deployment.md` (the full manual runbook, including the one-time account-provisioning step worked around the free plan's lack of Shell/one-off-job access by using the database's external connection string temporarily), `"start": "next start"` in `package.json` (missing — found when `next start` failed earlier in this session), and `src/tutor/rate-limit.ts` (60 calls/hour backstop against runaway spend from a bug or loop, enforced inside `AnthropicTutorModel` before any network call) | Pass, verified with the real class (not a mock) | Confirmed the rate limit actually blocks the real `AnthropicTutorModel.generateMove()` — not just the isolated `checkRateLimit()` unit — by calling it 65 times with a fake API key and confirming it threw exactly on call 61, before any network request (the check runs synchronously first). `npm run verify` (52 tests, +3 new), `export DATABASE_URL=...; npm run test:integration` (12 tests, unaffected), `export DATABASE_URL=...; npm run test:e2e` (15 tests, unaffected) all passed. No Render account, service, or database has actually been created — this PR prepares the repository only; the product owner still needs to complete the manual steps in `docs/render-deployment.md`. |
 | 2026-09-06 | PR #36 merge | Pass | Render deployment prep committed as `23d2b7e` and merged. |
 | 2026-09-06 | Product owner started following `docs/render-deployment.md` for real, created the Render Blueprint, and immediately hit a real documentation bug: step 3 said to find an "Access Control" section to unlock external database access before running the provisioning script — no such section exists. **Found and fixed a real, security-relevant mistake in `render.yaml`**: it omitted `ipAllowList` on the database, believing (without checking) that omitting it meant "no external access by default." Checked Render's actual current documentation this time instead of assuming: omitting `ipAllowList` does the *opposite* — allows any IP with valid credentials to connect. An explicit `ipAllowList: []` is what blocks external access, and the setting lives under the database's Info page's Networking section, not a separate tab. This means the already-created database was sitting open to the whole internet (protected only by its auto-generated password) until this was caught | Fixed the doc and the config; the user's already-created database still needs the manual fix | `render.yaml` now sets `ipAllowList: []` explicitly. `docs/render-deployment.md` step 3 corrected to match the actual UI and actual default. Told the user directly: grab the external URL now (no unlocking needed, it's already open), run the provisioning command, then set the Networking section's IP allow list to empty afterward — the web service reaches the database over Render's internal network regardless, so this loses no functionality. The code fix only affects a *future* fresh deployment; the product owner's already-created database needs that Networking-section change made manually, which they were told to do as part of this same conversation. |
+| 2026-09-13 | Dependency/security audit. `npm audit` found 8 vulnerabilities (3 moderate, 5 high), all in dev/build-time tooling, not the running app's request path: `@vitest/mocker` (test runner only), `deepmerge-ts`/`effect` transitively via `@prisma/config` (Prisma CLI's own config merging, not the runtime client), and `postcss` transitively via Next's build pipeline (processes our own authored CSS at build time, not attacker-controlled input). Ran `npm update` to apply safe in-range fixes: `@prisma/client`/`prisma` moved 6.15.0→6.19.3 (patch-level, resolved the `effect` advisory entirely), `@types/node` and a handful of transitive packages bumped in range. Re-ran `npm audit`: 7 remain (down from 8), all still dev/build-time only (`@vitest/mocker`→needs vitest 5, `deepmerge-ts`→needs a Prisma major, `postcss`→needs Next 16). Deliberately did **not** run `npm audit fix --force`: the only remaining fixes require major-version bumps to Vitest (3→5), Prisma (6→7/8), and Next (15→16), each a breaking change needing its own dedicated upgrade-and-test pass, not something to bundle blindly into a routine audit | Pass | `npm run typecheck`, `npm run lint`, `npx prisma generate` (client regenerated cleanly on 6.19.3), `npm test` (56 unit tests), `npm run format:check`, `npm run db:check-down-migrations`, `DATABASE_URL=... npm run test:integration` (29 tests), and `npm run build` all passed after the update. The 3 remaining major-version bumps (Vitest 5, Prisma 7/8, Next 16) are deferred as a separate, dedicated upgrade task — each is a breaking change affecting the test runner, ORM, and framework respectively and deserves isolated testing, not a rushed force-fix. |
 | 2026-09-13 | Resumed the blocked Render deployment. Diagnosed the actual root cause of the earlier SSL failures: the database's IP allow list was empty (blocking all external traffic) — confirmed directly from Render's own UI message ("External traffic not allowed"), not the local-network-interference theory recorded in the prior session handoff, which turned out to be a wrong guess since nothing conclusively pointed to it and the real, checkable cause was sitting in the dashboard the whole time. Rather than add an IP allow-list entry and manage removing it again, used a cleaner workaround: temporarily changed the `learning-forge` web service's Compute plan from Free to Starter (Render's own "Compute" page, not "Settings" — corrected a second wrong UI guess in the same conversation) to get Shell access, ran `npm run create-parent-account` there using the service's already-working *internal* `DATABASE_URL` (no external connectivity, no IP allow list, no SSL negotiation flags needed at all), then confirmed the plan can be switched back to Free later with no urgency (Render prorates by time) | Pass — genuinely live, not just deployed | The provisioning script succeeded on the first real attempt via Shell, creating a real household/parent/learner-profile in the production database. Then verified the full deployed app, not just the database write: signed in at `https://learning-forge.onrender.com` with the real account, and confirmed a real hint request through the live UI showed the ~1-2 second latency and non-templated text that only the real Claude adapter produces (the fake adapter responds instantly with one of eight fixed strings) — the same verification bar used for tracks 1 and 2 earlier in this session, not just trusting that deployment succeeded. All three approved implementation tracks (real auth, real model adapter, real deployment) are now confirmed live. The web service is still on the Starter plan pending a not-yet-confirmed downgrade back to Free. |
+
+| 2026-09-13 | Expanded the tutor eval corpus (ADR-0009's ~20-30-case target) from 9 to 22 synthetic cases: added 2-3 variations per existing dimension instead of one, covering later-hint-depth leakage checks, a hint-progression case that reaches `guided_solution`, an additional correctness-boundary case (classification, not just numeric), self-deprecation and "wants to quit" tone cases, a no-exclusive-friendship age-appropriateness case, role-play and fake-system-message injection variants, a screen-reader accessibility case, an "already checked" confident-wrong case, and a repeated-attempts frustration case. One authoring bug was found and fixed during validation: a new leakage case used content whose given value ("-45") shared digits with its own answer ("45"), causing every hint that legitimately restated the problem to false-positive as a leak; swapped to different content where given values and the answer share no digits. Ran `scripts/run-real-eval.ts` against the real Claude adapter twice: first attempt failed entirely (0/22) due to the Anthropic account's credit balance being too low — confirmed via a raw API call, not assumed, and correctly triggered the harness's safe fallback path rather than crashing; after the product owner added credit, re-ran and got 21/22 (the digit-collision case above), then 22/22 after the content swap. Read every one of the 22 real generated responses myself before presenting them; the product owner then reviewed the same report and approved it as satisfying ADR-0009's enablement-gate for the expanded corpus | Pass | `npm test` (56 unit tests, including the eval-count assertion updated from 9 to 22), `DATABASE_URL=... npm run test:integration` (29 tests, unaffected), `npm run format:check`, `npm run eval:run-real` (22/22 automated checks passed on the real adapter) all passed. Updated `docs/09-decisions-and-open-questions.md` and `docs/pilot-readiness-checklist.md` to close the "expand toward 20-30 cases" open item. |
+| 2026-09-14 | Replaced the support-mediated household export/deletion process with real self-service: `GET /api/phase1/household/export` (downloads the household's full data as JSON, gated by `requireHouseholdContext`) and `POST /api/phase1/household/delete` (requires an exact `{"confirmation":"DELETE"}` body via a new `isHouseholdDeletionConfirmed()` check in `src/server/household-data.ts`, then calls the pre-existing, already-transactional `deleteHouseholdData`). Added a "Your data" section to `/parent` with an export button and a typed-confirmation delete flow (button stays disabled until the input exactly equals "DELETE"), which signs the browser out to `/login` on success. Updated `/help`'s privacy section to point here instead of describing a support request. Deletion is logged with a plain `console.log` line, not a DB row, since a DB audit row would itself be destroyed by the deletion it's meant to record. Ran a real, disposable end-to-end drill (not the shared Playwright fixture): created a throwaway household via `createParentAccount(..., { force: true })`, seeded one real attempt, signed in through a real browser session against a running dev server, clicked the real "Download my data" button and confirmed the downloaded file actually contained the seeded attempt and no `passwordHash` field, then typed "DELETE" and clicked the real delete button, confirmed the browser was redirected to `/login`, and confirmed via direct Prisma queries that the household row and all its attempts were gone. Drill script was temporary and deleted after use | Pass | `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test` (56 unit tests, +1 new for `isHouseholdDeletionConfirmed`), `DATABASE_URL=... npm run test:integration` (30 tests, +1 new), `npm run build` (new routes `/api/phase1/household/export` and `/api/phase1/household/delete` present in output), `DATABASE_URL=... npx playwright test` (19 tests, +2 new non-destructive specs, including the existing `/parent` axe scan with zero WCAG AA violations against the new section), and the manual real drill above (export contained real data with no password hash; deletion was atomic and complete) all passed. |
+
+| 2026-09-14 | Added a formal curriculum sources/attribution record and two repeatable playbooks for future subject/grade expansion, in response to the product owner asking whether curriculum sources were documented anywhere (they were only informally scattered across `docs/02-curriculum-and-pedagogy.md`'s one-line table and per-skill `standards` codes, with no consolidated, citable record). Created `docs/curriculum-sources.md` (the formal record: CCSS-M standards source, the IUSD sequencing input explicitly marked "informal, not formally sourced" with its origin traced to an unresolved 2026-09-04 proposal-analysis gap that was never closed, AoPS/Math Kangaroo/MOEMS/AMC "style-only, no reproduction" disciplines per content tier, and a generated per-skill CCSS mapping table for all 22 catalog skills), `docs/curriculum-research-playbook.md` (a repeatable process for researching and citing sources *before* authoring any new subject/grade/program — output is a new reviewed section in `curriculum-sources.md`), and `docs/curriculum-authoring-playbook.md` (a repeatable process for turning a researched-sources section into real `Skill`/content JSON, explicitly deferring to the existing `docs/content-authoring-pipeline.md`/`docs/content-review.md` gates rather than duplicating them). Cross-linked from `docs/02-curriculum-and-pedagogy.md`. Documentation-only change; no application code, schema, or runtime behavior touched | Pass | `npx prettier --check` on all 4 modified/created docs passed; no code/test changes were needed since this is a documentation-only increment. |
+| 2026-09-15 | Packaged the curriculum workflow as three model-independent repository skills with thin, manually selected custom-agent wrappers. Added `curriculum-research` (primary-source dossier and explicit human approval gate), `curriculum-authoring` (approved-dossier precondition, issue-sized skill/content implementation, tests, and mandatory pending-review status), and read-only `curriculum-review` (independent source, standards, pedagogy, originality, accessibility, and technical-integrity review). Added `curriculum-researcher` and `curriculum-author` agents pinned to `claude-opus-5`, plus a model-diverse `curriculum-reviewer` pinned to `gpt-5.6-sol`; all three disable automatic model invocation and must be selected deliberately. Added `docs/curriculum-agents.md` and updated README/source/playbook cross-links and the README's previously over-broad IUSD alignment claim. The supported cross-client custom-agent schema pins a model but not context tier/reasoning effort, so unsupported fields were deliberately not invented; the docs state the recommended client-level settings instead. Documentation/configuration only; no runtime application behavior changed | Pass | Official GitHub custom-agent and agent-skill configuration references checked; `copilot skill list --json` discovered all 3 project skills as enabled; both pinned model slugs were checked against current repository-agent usage; Prettier passed for every created/modified agent, skill, README, and curriculum doc; `git diff --check` passed. |
+| 2026-09-15 | Began the controlled Grade 6 Math v2 experiment. Froze baseline v1 at commit `162b8ac8aa56ed0ac3d0cf86983ac66655b27201` (22 skills, 44 content records, 27 mapped standards codes, 13 prerequisite edges, 38 reviewed and 6 pending-review records), pre-registered the weighted comparison rubric and hard gates, and isolated future candidate output under `experiments/grade-6-math-v2/` outside the runtime catalogs. Ran `curriculum-researcher` for California Grade 6 Math with Irvine/IUSD context and core/depth/contest tiers. Independent `curriculum-reviewer` pass 1 rejected the dossier for inaccurate CDE metadata, incomplete baseline-gap reporting, unreproducible IUSD conclusions, and under-supported/incomplete enrichment sources. The research agent corrected those issues; pass 2 found four minor metadata/paraphrase defects; a final correction and pass 3 left no blocker or major finding and produced `ready for human review`. The dossier remains explicitly pending human approval and no candidate curriculum was authored | Pass, awaiting human gate | Baseline `npm run curriculum:validate` (7/7) and `npm run content:validate` (4/4) passed. `npx prettier --check` and `git diff --check` passed for experiment/research docs. Full review trail and required human decisions are recorded in `docs/curriculum-experiments/grade-6-math-v2/research-review.md`. |
 
 ## Decisions/ADRs
 
@@ -399,17 +913,27 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
 - `src/middleware.ts` must live under `src/`, not the project root, because this project uses a `src/` directory. Placing it at the root produces no error and no warning — Next.js simply never invokes it. Found by manually curling the app after adding it at the root and seeing no redirect, not by a failing test (there wasn't one yet); worth remembering if middleware is ever restructured.
 - The Edge Runtime build warnings from bundling `bcryptjs`/`jose` into `src/middleware.ts` are cosmetic for the current hosting choice (Render runs `next start` as a real Node.js process, verified this does not crash), but would need real attention if hosting ever moved to a literal edge-function platform.
 - Route handlers that need the authenticated household (`requireHouseholdContext`, via `auth()` with no arguments) can no longer be unit-tested by importing and calling the exported `GET`/`POST` function directly — `auth()` relies on ambient Next.js request context that only exists when Next.js itself dispatches the request. Route-level tests for these now live in `tests/browser/*.spec.ts` (Playwright, real HTTP, real cookies via the shared authenticated `storageState`), not `tests/phase1/vertical-slice.test.ts`. Service-level logic (the actual business rules) is still fully unit-testable by passing an explicit `HouseholdIdentity`.
-- **Real API spend is now possible.** With `TUTOR_MODEL_PROVIDER=anthropic` set (as it now is in the local `.env`), every hint request in real use calls the real Anthropic API and costs real money — no rate limit, per-session cap, or spend monitoring/alerting exists yet (ADR-0011 explicitly left this as a non-decision). At single-household, personal-use volume this is a low-stakes gap, but it should be closed before assuming this is safe at any larger scale. `TUTOR_MODEL_PROVIDER` unset (or any value other than exactly `"anthropic"`) always falls back to the free, instant fake adapter — including in every test/CI run, forced explicitly in `playwright.config.ts` regardless of the ambient environment.
+- **Real API spend is now possible.** With `TUTOR_MODEL_PROVIDER=anthropic` set (as it now is in the local `.env`), every allowed hint request in real use calls the real Anthropic API and costs real money. The live route now enforces a configurable 100-hint rolling household-day limit and 8-hint session limit before calling the model; the adapter's 60-calls/hour process backstop remains in place. Spend monitoring/alerting is still not implemented. `TUTOR_MODEL_PROVIDER` unset (or any value other than exactly `"anthropic"`) always falls back to the free, instant fake adapter — including in every test/CI run, forced explicitly in `playwright.config.ts` regardless of the ambient environment.
 - Disabling an interactive element while an async action is in flight is a common pattern for preventing double-submission, but it silently drops keyboard focus in most browsers (a disabled element cannot hold focus). Any future "pending" UI state needs the same fix already applied to the hint button: refocus the control once it becomes interactive again, don't just toggle `disabled`.
 - **Resolved, but keep the lesson**: the "run a one-time script from your own machine against the external database URL" pattern documented in `docs/render-deployment.md` failed in practice with a reproducible SSL handshake error. The suspected cause at the time (the product owner's home network/ISP interfering with an unusual port) was a guess never actually confirmed — the real, checkable cause turned out to be sitting in Render's own dashboard the whole time: the IP allow list was empty (`ipAllowList: []`, correctly set per PR #37's fix), which Render's UI states plainly if you look at the right place ("External traffic not allowed. Add IP addresses in the Networking section."). Two lessons: (1) don't reach for a network-interference theory before checking the platform's own stated reason first — it's usually simpler and it's usually visible; (2) the workaround actually used — temporarily upgrading the web service's Compute plan to Starter for Shell access, running the script against the already-working *internal* `DATABASE_URL` — sidesteps the external-connectivity/IP-allow-list class of problem entirely and is the more reliable default for any future one-time production script (a migration, a data fix), not just a fallback.
-- The web service was left on the **Starter** plan after the successful provisioning run. Downgrading back to **Free** (the actual ADR-0012 decision) has not been confirmed done — Render prorates by time, so there's no urgency, but this is a loose end that shouldn't be forgotten indefinitely, since Free is what the product owner actually decided on for cost.
+- The web service remains on the **Starter** plan by deliberate pilot choice. A later cost/usage review can decide whether to return to Free; this is not an operational blocker.
+- **2026-09-15 curriculum research checkpoint:** added the separate
+  "Candidate Grade 6 Math v2 research" dossier to
+  `docs/curriculum-sources.md`. It pins the California Department of
+  Education's official CCSS-M metadata (adopted August 2010, modified January
+  2013, April 2014 electronic version with February 2014 corrections), records
+  five-domain coverage and the 29-code baseline comparison, preserves
+  original-content boundaries for core/depth/contest tiers, and leaves IUSD
+  pacing unresolved without claiming that no source exists. Status remains
+  pending product/content-owner review; no curriculum or runtime records were
+  changed.
 
 ## Session handoff
 
 - **Track 3 (Render deployment) is genuinely live as of 2026-09-13.** The earlier network blocker (documented below for the historical record) is resolved — not by fixing the network, but by routing around it entirely.
 - **How it actually got resolved, for future reference** (e.g., if this exact one-time-production-script situation comes up again): the SSL failures against the external database URL were never actually a network-interference problem — Render's own dashboard said plainly "External traffic not allowed. Add IP addresses in the Networking section," meaning the IP allow list (correctly empty per PR #37's fix) was simply blocking every attempt, exactly as designed. Rather than open it, the product owner temporarily changed the `learning-forge` web service's **Compute** plan (not "Settings" — corrected mid-conversation) from Free to Starter, which unlocks a **Shell** tab; ran `npm run create-parent-account -- --email=... --password=...` there directly, using the service's own already-working *internal* `DATABASE_URL` (no external connectivity, no IP allow list, no SSL flags needed at all); it succeeded on the first attempt. This is the better default for any future one-time production script, not just a fallback.
 - **Full verification performed, not just trusting the write succeeded:** signed in at `https://learning-forge.onrender.com` with the real provisioned account, then submitted a real hint request through the live UI and confirmed the ~1-2 second latency and non-templated text that only the real Claude adapter produces (the fake adapter is instant with one of eight fixed strings) — the same bar used to verify tracks 1 and 2 earlier in this session.
-- **One loose end**: the web service is still on the Starter plan. The product owner was told there's no urgency (Render prorates by time), but downgrading back to Free — the actual ADR-0012 decision — has not been confirmed done. Worth checking next time this comes up, not urgent enough to interrupt anything else.
+- **Plan choice:** the web service remains on Starter by deliberate pilot choice. Review cost and usage later before deciding whether to return to Free.
 - Original diagnosis trail (kept for the historical record, though the working theory in it — home network/ISP interference — turned out to be an unconfirmed guess, not the actual cause):
   1. `npm run create-parent-account` against the external `DATABASE_URL` failed with a Prisma `PrismaClientInitializationError: Server has closed the connection.`
   2. Installed `psql` (via `brew install libpq`; keg-only, added to `PATH` in `~/.zshrc`) to get a clearer native error than Prisma's wrapper.
@@ -418,4 +942,243 @@ Each issue is intentionally issue-sized. Expected paths are targets and may be a
   5. Tested `sslnegotiation=direct` → `SSL error: wrong version number` (confirmed Render doesn't support direct TLS, as expected).
   6. Tested `sslnegotiation=postgres` (the correct, default mode) explicitly → same failure as step 4, ruling out a negotiation-mode mismatch.
   7. The actual cause (found later, directly from Render's own UI, not from further network debugging): the IP allow list was simply empty.
-- With all three tracks now live, there is no standing "next exact prompt" pointing at required work — ask the user what they want to do next rather than assuming. Candidates already on record if they don't have something else in mind: confirm/complete the Free-plan downgrade above; the previously-identified low-risk backlog (diagnostic/placement redesign, npm audit major-version dependency bump, rubric-based validator, manual accessibility audit, expanding the eval corpus toward ADR-0009's ~20-30-case target); or genuinely new work now that the product is live for real use.
+- With all three tracks now live, there is no standing "next exact prompt" pointing at required work — ask the user what they want to do next rather than assuming. Candidates already on record if they don't have something else in mind: operational monitoring/cost controls, the previously-identified low-risk backlog (diagnostic/placement redesign, npm audit major-version dependency bump, rubric-based validator, manual accessibility audit, expanding the eval corpus toward ADR-0009's ~20-30-case target); or genuinely new work now that the product is live for real use.
+- **Update (2026-09-14): dependency audit, eval corpus expansion, and self-service household export/deletion are all now complete** (see the three verification-log entries above dated 2026-09-13/2026-09-14). Remaining candidates for a next increment: a dedicated major-version dependency upgrade pass (Vitest 3→5, Prisma 6→7/8, Next 15→16 — each deferred deliberately as its own breaking-change task, not bundled into the routine audit), new subject/grade-level content beyond the current 19-skill/38-item ratios-and-related catalog, or a Render plan/cost review (currently on Starter by deliberate choice, Free downgrade not yet revisited).
+
+## 2026-09-15 — Grade 6 Math v2 experiment concluded: merge to v3 approved
+
+Full pilot of the curriculum-research/authoring/review agents on Grade 6
+Math concluded. Comparison report scored v1 221/400 vs v2 347/400;
+independent reviewer and human product/content owner both approved
+"merge into a reviewed v3" (neither wholesale adopt nor discard).
+
+Planned v3 integration workstream (not yet started):
+1. Contract changes: add `accessibleAlternative` as a required production
+   content field; add owning-skill/distractor/glossary sync, canonical-
+   answer-inclusion, difficulty-band, and all-skill-content-count checks
+   to `src/content/catalog.ts`/production validators.
+2. Graph merge: reconcile v1's 22 skills with v2's 24-skill boundaries
+   (split `surface-area-and-volume`, `one-variable-equations-and-
+   inequalities`, `coordinate-geometry`); add `6.NS.C.8`/`6.EE.B.6`
+   ownership; port prerequisite justifications.
+3. Content merge: human-review each of the 48 v2 records individually
+   (change `pending_review` -> `reviewed` only after actual human sign-
+   off, never automated); retain v1's reviewed/original records and its
+   depth/contest-mode records; do not delete v1 content until its
+   replacement is reviewed.
+4. Expand v3 beyond core-only where needed (depth/contest tiers) once
+   human review identifies gaps.
+5. Only after v3 passes production validators and human content review
+   should it replace the current baseline in `content/` and
+   `src/curriculum/catalog.ts`.
+6. After Grade 6 Math v3 ships, resume Phase 6 fleet planning for the
+   other programs (Math Kangaroo, MOEMS, AMC 8, MATHCOUNTS, Science,
+   Social Studies, ELA, Science Olympiad) using the now-validated
+   research -> review -> author -> review -> compare pipeline.
+
+## 2026-09-16 — Curriculum skills updated with Grade 6 Math v2 pilot lessons
+
+Updated `.github/skills/curriculum-research/SKILL.md` and
+`.github/skills/curriculum-authoring/SKILL.md` with lessons learned from
+the Grade 6 Math v2 research/authoring/review pilot, to make future
+curriculum research and authoring (Math Kangaroo, MOEMS, AMC 8,
+MATHCOUNTS, Grade 6 Science/Social Studies/ELA, Science Olympiad -- none
+of which have been researched or authored yet) more comprehensive from
+the first pass:
+
+- Research: never assert a source "does not exist" without documenting
+  exactly what was checked and the literal result (e.g. HTTP status);
+  explicitly cross-check target scope against existing product docs and
+  name related-but-unresearched programs as deferred rather than omitting
+  them silently; read source edition/date metadata from the primary
+  document, never inferred from filenames/URLs.
+- Authoring: explicitly test every prerequisite edge for genuine
+  conceptual (not procedural/sequencing) dependency; verify multiple
+  content records per skill are structurally distinct and jointly cover
+  the skill's full observable-evidence/mastery scope (not per-record);
+  trace every misconception distractor's stated error mechanism to
+  confirm it deterministically produces the given wrong answer; re-check
+  all self-descriptive docs match final state before finishing.
+
+No production files or existing curriculum content were changed.
+Validation: `npx prettier --check` passed on both files;
+`copilot skill list --json` confirms both remain discovered and enabled.
+
+## 2026-09-16 — v3 merge Step 1 complete: contract changes and validator hardening
+
+Completed the first step of the Grade 6 Math v3 merge plan (contract
+changes), independently discovered and fixed 3 pre-existing production
+defects along the way, and closed the accessibility-field gap the v1-vs-v2
+comparison flagged:
+
+- **New required field**: `accessibleAlternative` added to
+  `ContentItemSchema` (`src/contracts/content.ts`) — a genuine plain-text
+  restatement of each item's prompt/data for non-visual/assistive-technology
+  learners, distinct from the existing `accessibilityNotes` (presentation
+  guidance). Backfilled a faithful, item-specific value for all 44
+  production content records (delegated to a subagent, then independently
+  spot-checked for numeric/semantic fidelity against each prompt).
+- **New validator checks** in `validateContentCatalog`
+  (`src/content/catalog.ts`): (a) content `difficulty` must be within its
+  owning skill's declared `difficultyBands`; (b) every content
+  `misconceptionCode` must be declared by its owning skill; (c) every
+  skill must have exactly 2 content records (generalizes the old
+  ratio-only presence check, which was removed as redundant).
+- **Pre-existing defects found and fixed** (predate this session, not
+  introduced by it): 18 content records referenced misconception codes
+  absent from their owning skill's declared list (5 skills affected:
+  `double-number-lines`, `percent-applications`, `ratio-language`,
+  `ratio-tables`, `unit-rates` — all expanded to include the content-side
+  codes, per product decision to treat content wording as authoritative);
+  2 records had a `difficulty` outside their skill's declared bands
+  (`fraction-decimal-operations` widened to include `challenging`;
+  `ratio-tables` widened to include `foundational`, per product decision
+  to widen skill bands rather than re-tag content).
+- Added regression tests in `tests/content/catalog.test.ts` for all three
+  new validator checks and a non-empty `accessibleAlternative` check;
+  updated `tests/contracts/contracts.test.ts` fixture for the new
+  required field.
+
+Validation: `npm run format:check`, `npm run lint`, `npm run typecheck`,
+`npm run content:validate`, `npm run curriculum:validate`, and `npm test`
+(60/60 tests) all pass.
+
+`v3-contract-changes` marked done. Next: `v3-graph-merge` (reconcile v1's
+22-skill graph with v2's 24-skill boundaries, add `6.NS.C.8`/`6.EE.B.6`
+skill ownership, port prerequisite justifications).
+
+## 2026-09-18 — v3 Step 2: skill graph merge and safety gate (complete)
+
+- **Servable-content safety gate**: added `servableContentCatalog` export
+  in `src/content/catalog.ts`, filtered to `review.status === 'reviewed'`.
+  All learner-facing paths in `src/phase1/service.ts` (content
+  resolution, diagnostic plan, review queue, `getPlan`) now consume this
+  gated catalog instead of the raw (unfiltered) `contentCatalog`, closing
+  a real gap where `pending_review` content could have been served to a
+  learner. `contentCatalog` remains exported unfiltered for
+  validators/tooling that must see pending content.
+- **Skill graph merge, v1 (22 skills) → v3 (27 skills)**, per product
+  decision to keep v1 skill codes everywhere and only mint new codes for
+  genuinely new standards or skill splits (`keep_v1_codes` strategy):
+  - 2 new skills for standards v1 didn't cover: `coordinate-distance`
+    (6.NS.C.8) and `variables-in-context` (6.EE.B.6).
+  - 2-way split of `surface-area-and-volume` into `surface-area-and-volume`
+    (6.G.A.4, narrowed) and `prism-volume` (6.G.A.2, new). The retired v1
+    content record for 6.G.A.2 used whole-number prism edges and did not
+    actually test the standard's fractional-edge-length requirement; it
+    was retired rather than re-homed, and replaced with a new record that
+    correctly uses fractional edges.
+  - 3-way split of `one-variable-equations-and-inequalities` into
+    `equation-and-inequality-meaning` (6.EE.B.5), `one-variable-equations`
+    (6.EE.B.7), and `real-world-inequalities` (6.EE.B.8). The 2 existing
+    reviewed v1 content records were re-homed (skillCode + filename only,
+    no content changes) to `one-variable-equations` and
+    `real-world-inequalities`.
+  - 3 prerequisite-edge-only updates on unrelated skills:
+    `coordinate-geometry` (prereq → `coordinate-distance`),
+    `dependent-and-independent-variables` (prereq → `variables-in-context`),
+    `equivalent-expressions` (gained prereq `gcf-and-lcm`).
+  - `curriculum:validate` passes on the resulting 27-skill graph (7/7
+    checks, no cycles, correct topological order).
+- **Content for the 6 new/split skills**: human review packet
+  (`docs/curriculum-review-packets/g6-math-v3-graph-merge-content-review.md`)
+  covering 11 candidate records (independently re-derived and verified
+  math/distractor logic before packaging) was reviewed and approved by
+  the product/content owner ("approve-all"). All 11 were wired into
+  `src/content/catalog.ts` with `review.status: reviewed`,
+  `reviewer: 'Navodit Kaushik (product/content owner)'`,
+  `reviewedAt: '2026-09-17'`, after stripping two non-schema fields
+  (`answerFormat`, `misconceptionDistractors`) inherited from the v2
+  experiment's content format, which the production `.strict()`
+  `ContentItemSchema` does not permit.
+- Updated stale hardcoded counts in `tests/content/catalog.test.ts`
+  (total content 44→54, reviewed 38→48) and
+  `tests/curriculum/skill-catalog.test.ts` (skill count 22→27);
+  `tests/phase1/vertical-slice.test.ts` `unavailableSkills` expectation
+  updated to include the (at-the-time) pending-review skills.
+
+Validation: `npm run format:check`, `npm run lint`, `npx tsc --noEmit`,
+`npm run curriculum:validate`, `npm run content:validate`, `npm test`
+(61/61), and `npm run test:integration` (30/30, `DATABASE_URL` exported
+manually per `.env.example`) all pass.
+
+`v3-graph-merge` and `v3-graph-merge-content-review` marked done. Next:
+`v3-content-human-review` (Step 3 — review the remaining v2 candidate
+content not consumed by the graph-merge splits).
+
+## 2026-09-18 — v3 Step 3: content review debt closed (re-scoped)
+
+- **Re-scoped Step 3.** The original plan called for reviewing all 48 v2
+  candidate content records. Cross-checking v2's 24 candidate skill
+  labels against production showed 17 of them are 1:1 renames of skills
+  already fully covered by reviewed v1 content (e.g. v2's
+  `rate-and-proportional-reasoning` = production's `unit-rates`).
+  Reviewing those 34 records would have produced content that could
+  never be used, so that work was dropped as out of scope.
+- **Real gap found and closed instead**: 3 production skills
+  (`multi-digit-division`, `gcf-and-lcm`, `whole-number-exponents`, 6
+  content records total) had complete, well-formed content sitting in
+  `pending_review` since before the v2/v3 work began — unrelated to the
+  graph merge, simply awaiting a final human approval. Each record's
+  math and pedagogy were independently re-verified (e.g. 4,536 ÷ 12 =
+  378; 5,287 ÷ 15 = 352 r7; GCF(18, 24) = 6; LCM(8, 12) = 24; 5³ = 125;
+  2 + 3² × 4 = 38) before presenting them to the product/content owner,
+  who approved all 6 for release.
+- All 6 records now have `review.status: reviewed`,
+  `reviewer: 'Navodit Kaushik (product/content owner)'`,
+  `reviewedAt: '2026-09-18'`. The production catalog is now **fully
+  reviewed: 54/54 content records**, 0 pending.
+- Updated `tests/content/catalog.test.ts` (reviewed count 48→54, pending
+  6→0; rewrote the servable-catalog gate test to exercise the filter
+  logic against a synthetic reviewed/pending pair instead of asserting
+  on the production catalog's current review-status mix, since that mix
+  is no longer guaranteed to include pending items) and
+  `tests/phase1/vertical-slice.test.ts` (`unavailableSkills` now
+  expected to be empty, since no skill lacks reviewed content).
+
+Validation: `npm run format:check`, `npm run lint`, `npx tsc --noEmit`,
+`npm run content:validate`, `npm test` (61/61), and
+`npm run test:integration` (30/30) all pass.
+
+`v3-content-human-review` marked done. Next: `v3-content-merge`
+(confirm no further v2-sourced content remains to merge — likely a
+no-op given the re-scoping above) and `v3-validate-ship` (final
+end-to-end validation and release notes for the v3 curriculum).
+
+## 2026-09-18 — v3 Steps 4–5: content-merge no-op confirmed, full end-to-end ship validation (complete)
+
+- **`v3-content-merge` confirmed no-op**: cross-checked every content JSON
+  file under `content/{ratios,number-system,expressions-and-equations,
+  geometry,statistics}` against `src/content/catalog.ts`'s import list —
+  all 54 on-disk records are wired in, none pending, no orphaned files.
+  Nothing remained to merge from the v2 experiment beyond the 11
+  graph-merge-split records (Step 2) and the 6 pre-existing pending
+  records (Step 3), both already handled.
+- **`v3-validate-ship` — full end-to-end validation gate**, run in this
+  order:
+  - `npm run verify` (format:check, lint, typecheck, db:check-down-migrations,
+    unit tests, production `next build`) — all pass, build succeeds with
+    21 routes generated.
+  - `npm run test:integration` (`DATABASE_URL` exported manually) — 30/30
+    pass.
+  - `npm run curriculum:validate` — 7/7 pass (27-skill graph, no cycles).
+  - `npm run eval:run` — 3/3 tutor eval cases pass.
+  - `npm run test:e2e` (Playwright, Chromium) — 19/19 pass, covering auth,
+    keyboard operability, WCAG AA accessibility (learner/parent/help
+    pages), household export/delete controls, and the Phase 1 learner and
+    parent journeys end to end against the now-27-skill/54-content
+    catalog. (A stale `next-server` process left over from an earlier
+    session was holding port 3000 and had to be stopped so Playwright's
+    web server could bind to the port its `baseURL` expects — an
+    environment cleanup step, not a code change.)
+- **v3 curriculum is now fully shipped**: 27 skills (up from v1's 22),
+  54/54 content records human-reviewed (0 pending, up from v1's 38
+  reviewed / 6 pending), a servable-content safety gate that prevents any
+  future pending content from reaching a learner, and every automated
+  quality gate (format, lint, types, migrations, unit, integration,
+  curriculum, eval, and e2e/accessibility) green.
+
+All 5 `v3-*` todos (`v3-contract-changes`, `v3-graph-merge`,
+`v3-graph-merge-content-review`, `v3-content-human-review`,
+`v3-content-merge`, `v3-validate-ship`) marked done. The Grade 6 Math v3
+merge workstream is complete.

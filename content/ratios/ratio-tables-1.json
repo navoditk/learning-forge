@@ -49,5 +49,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Render the table with explicit row and column headers and provide a linear text version for screen readers."
+  "accessibilityNotes": "Render the table with explicit row and column headers and provide a linear text version for screen readers.",
+  "accessibleAlternative": "Read aloud or display: A paint mixture has a ratio of 2 cups of blue paint to 5 cups of white paint. Complete the white-paint entries that match blue amounts of 4 cups and 6 cups."
 }

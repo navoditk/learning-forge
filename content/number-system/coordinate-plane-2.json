@@ -49,5 +49,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present coordinates as plain signed-number text; do not depend on a plotted graph image or color."
+  "accessibilityNotes": "Present coordinates as plain signed-number text; do not depend on a plotted graph image or color.",
+  "accessibleAlternative": "Read aloud or display: Point B is at (3, -7). Reflect it across the x-axis by keeping the x-coordinate the same and changing the sign of the y-coordinate."
 }

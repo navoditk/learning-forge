@@ -23,7 +23,10 @@ test.describe('synthetic Phase 1 journeys', () => {
     await page.goto('/');
 
     await expect(page.getByRole('heading', { name: 'Bicycle pace' })).toBeVisible();
-    await page.getByRole('button', { name: 'Garden rows' }).click();
+    await page
+      .getByRole('region', { name: 'Recommended next activities' })
+      .getByRole('button', { name: 'Garden rows' })
+      .click();
     await expect(page.getByRole('heading', { name: 'Garden rows' })).toBeVisible();
   });
 

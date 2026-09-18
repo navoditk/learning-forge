@@ -79,134 +79,135 @@ enum ConfidenceBand {
 }
 
 model Household {
-  id                 String             @id @default(uuid())
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
-  users              User[]
-  learners           LearnerProfile[]
-  consentRecords     ConsentRecord[]
-  sessions           Session[]
-  attempts           Attempt[]
-  tutorInteractions  TutorInteraction[]
-  traces             TutorTrace[]
-  masteryEstimates   MasteryEstimate[]
+  id                String             @id @default(uuid())
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  users             User[]
+  learners          LearnerProfile[]
+  consentRecords    ConsentRecord[]
+  sessions          Session[]
+  attempts          Attempt[]
+  tutorInteractions TutorInteraction[]
+  traces            TutorTrace[]
+  masteryEstimates  MasteryEstimate[]
 }
 
 model User {
-  id                 String          @id @default(uuid())
-  householdId        String
-  role               UserRole
+  id             String          @id @default(uuid())
+  householdId    String
+  role           UserRole
   // Sign-in credentials. Only ever populated for PARENT-role users: ADR-0008
   // decided there is no separate learner login, so LEARNER-role users keep
   // these null.
-  email              String?         @unique
-  passwordHash       String?
-  createdAt          DateTime        @default(now())
-  household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile     LearnerProfile?
+  email          String?         @unique
+  passwordHash   String?
+  createdAt      DateTime        @default(now())
+  household      Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile LearnerProfile?
 
   @@index([householdId, role])
 }
 
 model LearnerProfile {
-  id                 String             @id @default(uuid())
-  userId             String             @unique
-  householdId        String
-  gradeLevel         Int
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
-  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  household          Household          @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  consentRecords     ConsentRecord[]
-  sessions           Session[]
-  attempts           Attempt[]
-  tutorInteractions  TutorInteraction[]
-  traces             TutorTrace[]
-  masteryEstimates   MasteryEstimate[]
+  id                String             @id @default(uuid())
+  userId            String             @unique
+  householdId       String
+  gradeLevel        Int
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  household         Household          @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  consentRecords    ConsentRecord[]
+  sessions          Session[]
+  attempts          Attempt[]
+  tutorInteractions TutorInteraction[]
+  traces            TutorTrace[]
+  masteryEstimates  MasteryEstimate[]
 }
 
 model ConsentRecord {
-  id                 String          @id @default(uuid())
-  householdId        String
-  learnerProfileId   String
-  type               ConsentType
-  status             ConsentStatus   @default(PENDING)
-  policyVersion      String
-  grantedAt          DateTime?
-  revokedAt          DateTime?
-  createdAt          DateTime        @default(now())
-  household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile     LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  id               String         @id @default(uuid())
+  householdId      String
+  learnerProfileId String
+  type             ConsentType
+  status           ConsentStatus  @default(PENDING)
+  policyVersion    String
+  grantedAt        DateTime?
+  revokedAt        DateTime?
+  createdAt        DateTime       @default(now())
+  household        Household      @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile   LearnerProfile @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
 
   @@index([householdId, learnerProfileId, type])
 }
 
 model Session {
-  id                 String          @id @default(uuid())
-  householdId        String
-  learnerProfileId   String
-  contentKey         String
-  startedAt          DateTime        @default(now())
-  endedAt            DateTime?
-  household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile     LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
-  attempts           Attempt[]
+  id               String         @id @default(uuid())
+  householdId      String
+  learnerProfileId String
+  contentKey       String
+  startedAt        DateTime       @default(now())
+  endedAt          DateTime?
+  household        Household      @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile   LearnerProfile @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  attempts         Attempt[]
 
   @@index([learnerProfileId, startedAt])
 }
 
 model Attempt {
-  id                 String               @id @default(uuid())
-  householdId        String
-  learnerProfileId   String
-  sessionId          String?
-  contentKey         String
-  contentVersion     String
-  learnerResponse    String
-  normalizedResponse String?
-  correctness        Correctness
-  scoringMethod      ScoringMethod
-  attemptNumber      Int
-  elapsedSeconds     Float
-  highestAssistance  AssistanceLevel
-  context            AttemptContext
-  policyVersion      String
-  createdAt          DateTime             @default(now())
-  household          Household            @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile     LearnerProfile       @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
-  session            Session?             @relation(fields: [sessionId], references: [id], onDelete: SetNull)
-  assistanceEvents   AssistanceEvent[]
-  tutorInteractions  TutorInteraction[]
+  id                   String                @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  sessionId            String?
+  contentKey           String
+  contentVersion       String
+  learnerResponse      String
+  normalizedResponse   String?
+  correctness          Correctness
+  scoringMethod        ScoringMethod
+  attemptNumber        Int
+  elapsedSeconds       Float
+  highestAssistance    AssistanceLevel
+  context              AttemptContext
+  policyVersion        String
+  createdAt            DateTime              @default(now())
+  household            Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  session              Session?              @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  assistanceEvents     AssistanceEvent[]
+  tutorInteractions    TutorInteraction[]
   masteryContributions MasteryContribution[]
 
+  @@unique([sessionId, attemptNumber])
   @@index([learnerProfileId, contentKey, createdAt])
   @@index([householdId, createdAt])
 }
 
 model AssistanceEvent {
-  id                 String          @id @default(uuid())
-  attemptId          String
-  occurredAt         DateTime        @default(now())
-  level              AssistanceLevel
-  interactionType    TutorInteractionType
-  attempt            Attempt           @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  id              String               @id @default(uuid())
+  attemptId       String
+  occurredAt      DateTime             @default(now())
+  level           AssistanceLevel
+  interactionType TutorInteractionType
+  attempt         Attempt              @relation(fields: [attemptId], references: [id], onDelete: Cascade)
 
   @@index([attemptId, occurredAt])
 }
 
 model TutorInteraction {
-  id                 String          @id @default(uuid())
-  householdId        String
-  learnerProfileId   String
-  attemptId          String?
-  redactedExcerpt    String?
-  moveType           String
-  assistanceLevel    AssistanceLevel
-  policyVersion      String
-  createdAt          DateTime        @default(now())
-  household          Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile     LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
-  attempt            Attempt?         @relation(fields: [attemptId], references: [id], onDelete: SetNull)
+  id               String          @id @default(uuid())
+  householdId      String
+  learnerProfileId String
+  attemptId        String?
+  redactedExcerpt  String?
+  moveType         String
+  assistanceLevel  AssistanceLevel
+  policyVersion    String
+  createdAt        DateTime        @default(now())
+  household        Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile   LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  attempt          Attempt?        @relation(fields: [attemptId], references: [id], onDelete: SetNull)
 
   @@index([learnerProfileId, createdAt])
 }
@@ -215,6 +216,7 @@ model TutorTrace {
   id                    String                @id @default(uuid())
   householdId           String
   learnerProfileId      String
+  sessionId             String?
   policyVersion         String
   promptTemplateVersion String
   modelIdentifier       String
@@ -230,34 +232,35 @@ model TutorTrace {
   learnerProfile        LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
 
   @@index([learnerProfileId, createdAt])
+  @@index([sessionId, createdAt])
 }
 
 model MasteryEstimate {
-  id                    String                @id @default(uuid())
-  householdId           String
-  learnerProfileId      String
-  skillCode             String
-  estimate              Float
-  confidenceBand        ConfidenceBand
-  algorithmVersion      String
+  id                      String                @id @default(uuid())
+  householdId             String
+  learnerProfileId        String
+  skillCode               String
+  estimate                Float
+  confidenceBand          ConfidenceBand
+  algorithmVersion        String
   independentDelayedCheck Boolean
-  createdAt             DateTime              @default(now())
-  updatedAt             DateTime              @updatedAt
-  household             Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile        LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
-  contributions          MasteryContribution[]
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+  household               Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile          LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  contributions           MasteryContribution[]
 
   @@unique([learnerProfileId, skillCode, algorithmVersion])
 }
 
 model MasteryContribution {
-  id                 String          @id @default(uuid())
-  masteryEstimateId  String
-  attemptId          String
-  evidenceWeight     Float
-  createdAt          DateTime        @default(now())
-  masteryEstimate    MasteryEstimate @relation(fields: [masteryEstimateId], references: [id], onDelete: Cascade)
-  attempt            Attempt         @relation(fields: [attemptId], references: [id], onDelete: Restrict)
+  id                String          @id @default(uuid())
+  masteryEstimateId String
+  attemptId         String
+  evidenceWeight    Float
+  createdAt         DateTime        @default(now())
+  masteryEstimate   MasteryEstimate @relation(fields: [masteryEstimateId], references: [id], onDelete: Cascade)
+  attempt           Attempt         @relation(fields: [attemptId], references: [id], onDelete: Restrict)
 
   @@unique([masteryEstimateId, attemptId])
 }

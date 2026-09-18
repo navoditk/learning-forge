@@ -18,11 +18,11 @@ parent can sign into."
 
 ## Decision
 
-1. **Web service: free plan ($0/mo).** Accepted the tradeoff explicitly:
-   the service sleeps after 15 minutes of inactivity and takes 30–60
-   seconds to wake on the next request. Reasonable for occasional
-   single-family use; revisit (paid `starter`, $7/mo, no sleep) if the
-   wake delay proves annoying in practice.
+1. **Web service: Starter plan for the current pilot.** The service was
+   temporarily upgraded to Starter to provide Shell access for one-time
+   account provisioning and is intentionally staying there for now. This
+   avoids cold-start delays during the initial pilot. Review cost and usage
+   later before deciding whether to return to Free; no migration is required.
 2. **Database: paid `basic-256mb` plan (~$6/mo), not free.** Render's free
    Postgres auto-deletes the database and all data 30 days after creation
    plus a 14-day grace period, with no backups at any point. This
@@ -33,10 +33,10 @@ parent can sign into."
    durability rather than accept that risk or take on recurring manual
    export/reimport work.
 3. **Migrations run in `buildCommand`, not `preDeployCommand`.**
-   `preDeployCommand` requires a paid web service plan; this deployment
-   uses the free one (decision 1). `prisma migrate deploy` is idempotent
-   (only applies migrations not yet applied), so running it on every
-   build is safe.
+   `prisma migrate deploy` is idempotent (only applies migrations not yet
+   applied), so running it on every build is safe. Keeping this in the
+   build command also preserves compatibility if the service later returns
+   to the Free plan.
 4. **`AUTH_TRUST_HOST=true` instead of a hardcoded `AUTH_URL`.** Render
    assigns a `*.onrender.com` subdomain that isn't known with certainty
    before the service is created (name collisions get a suffix). Trusting
@@ -74,10 +74,10 @@ parent can sign into."
 
 - Free Postgres: rejected — see decision 2's reasoning; the ~44-day
   auto-deletion is fundamentally incompatible with this product's purpose.
-- Paid web service (no sleep): rejected for now — the product owner judged
-  the wake-up delay an acceptable tradeoff for $0/mo at this usage volume;
-  easy to revisit later since it's a single plan-field change with no
-  data-migration implications, unlike the database choice.
+- Free web service (sleeping): deferred for now — the product owner chose
+  Starter for the current pilot and will review cost and usage later.
+  Returning to Free remains a single plan-field change with no
+  data-migration implications.
 - Using `preDeployCommand` for migrations: rejected because it requires
   upgrading the web service off the free plan, which decision 1 already
   ruled out.
@@ -87,13 +87,11 @@ parent can sign into."
 Positive: the repository is fully prepared for a durable deployment —
 `render.yaml`, automatic migrations on every build, and a real backstop
 against runaway model spend — with the product owner completing the
-remaining manual steps (creating the Blueprint, filling in secrets,
+remaining manual steps (creating the Blueprint, filling in secrets, and
 one-time account provisioning) through Render's own dashboard, per
-`docs/render-deployment.md`. This ADR does not itself claim the app is
-live; it records what the deployment *will* look like once those steps are
-done. Risk: the free web service's sleep behavior means the very first
-request after any 15-minute gap is slow; if that proves disruptive in real
-use, upgrading to the `starter` plan is a single-field change. Revisit the
+`docs/render-deployment.md`. The deployment is now live; the current
+Starter plan avoids the Free plan's sleep behavior during the initial
+pilot. Revisit the plan after observing actual usage and cost. Revisit the
 rate-limit threshold (60/hour) if normal single-household usage ever
 approaches it — that would mean the limit is wrong, not that the household
 is somehow abusing its own account.
@@ -127,6 +125,6 @@ any future one-time production script — not just a fallback. Verified the
 full deployment past the database write: signed in at the live URL with
 the provisioned account and confirmed a real hint request shows the
 latency and non-templated text specific to the real Claude adapter. The
-web service was left on Starter after this; downgrading back to `free`
-(this ADR's actual decision) is a tracked loose end, not yet confirmed
-done.
+web service remains on Starter by deliberate pilot choice; returning to Free
+is deferred for a later cost review rather than treated as an operational
+blocker.

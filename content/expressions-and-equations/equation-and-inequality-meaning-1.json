@@ -1,0 +1,48 @@
+{
+  "id": "equation-and-inequality-meaning-1",
+  "version": "content-1",
+  "title": "Testing a statement",
+  "skillCode": "equation-and-inequality-meaning",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.EE.B.5"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Determines whether a value makes an equation true by substituting and evaluating the statement."
+  ],
+  "prompt": "Does x = 6 make the equation 2x + 1 = 13 true? Explain by substitution.",
+  "solutionRepresentation": "Yes. Substitution gives 2(6) + 1 = 12 + 1 = 13, so the equation is true.",
+  "solutionMethod": "Replace the variable with the proposed value and compare the resulting two sides.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "Yes; 2(6) + 1 = 13",
+    "acceptedAnswers": [
+      "Yes; 2(6) + 1 = 13",
+      "Yes, because 12 + 1 = 13",
+      "True; substituting 6 gives 13"
+    ],
+    "equivalenceNotes": "Accept any clear substitution showing that both sides have the same value."
+  },
+  "misconceptionCodes": ["assumes-every-equation-requires-performing-an-operation"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "To test a proposed value, replace the variable with that value and evaluate both sides.",
+      "question": "What expression results when x is replaced by the proposed number?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["Yes", "2(6) + 1 = 13", "13"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-09-17"
+  },
+  "accessibilityNotes": "Present the equation and proposed value in linear text; no balance-scale graphic is required.",
+  "accessibleAlternative": "Read aloud or display: Test whether six makes two times x plus one equal thirteen by replacing x with six and comparing the result."
+}

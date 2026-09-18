@@ -1,0 +1,47 @@
+{
+  "id": "variables-in-context-2",
+  "version": "content-1",
+  "title": "Changing number of seedling pots",
+  "skillCode": "variables-in-context",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["6.EE.B.6"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Explains a variable's possible values in a whole-number context and writes a matching expression."
+  ],
+  "prompt": "A garden club has 3 extra seedlings. It puts 6 seedlings in each of n pots. Write an expression for the total number of seedlings. What values can n have?",
+  "solutionRepresentation": "The total is 6n + 3 seedlings. Since n counts pots, n can be any nonnegative whole number.",
+  "solutionMethod": "Multiply the changing pot count by six and add the three extras.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "6n + 3; n is a nonnegative whole number",
+    "acceptedAnswers": [
+      "6n + 3; n is a nonnegative whole number",
+      "3 + 6n; n is a nonnegative whole number"
+    ],
+    "equivalenceNotes": "Accept either addend order when n is restricted to nonnegative whole numbers."
+  },
+  "misconceptionCodes": ["assumes-a-variable-can-only-mean-one-fixed-quantity"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "n counts pots, so changing n changes how many groups of six there are.",
+      "question": "What does six times n represent in this situation?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["6n + 3", "3 + 6n"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-09-17"
+  },
+  "accessibilityNotes": "Use a text description of groups of seedlings; no pot or garden image is required.",
+  "accessibleAlternative": "Read aloud or display: n is the number of pots. Each pot has six seedlings, and three seedlings are extra. Give an expression and describe the kinds of numbers n can be."
+}

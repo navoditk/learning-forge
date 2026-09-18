@@ -37,7 +37,7 @@
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
       "prompt": "In a similar problem, 1 + 2^3 x 5 is evaluated by first finding 2^3 = 8, then 8 x 5 = 40, then 1 + 40 = 41.",
-      "question": "Using that same order — exponent, then multiplication, then addition — what do you get for this expression?"
+      "question": "Using that same order \u2014 exponent, then multiplication, then addition \u2014 what do you get for this expression?"
     }
   ],
   "forbiddenLeakagePatterns": ["38"],
@@ -46,9 +46,11 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
+    "status": "reviewed",
     "reviewer": "Navodit Kaushik (product/content owner)",
-    "originalityStatement": "Written for this repository from first principles."
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-18"
   },
-  "accessibilityNotes": "Present the expression as plain selectable text with the caret (^) read aloud as 'to the power of'."
+  "accessibilityNotes": "Present the expression as plain selectable text with the caret (^) read aloud as 'to the power of'.",
+  "accessibleAlternative": "Read aloud or display: Evaluate 2 + 3 squared times 4. Use the exponent first, then multiplication, then addition."
 }

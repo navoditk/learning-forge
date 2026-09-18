@@ -12,7 +12,7 @@ describe('synthetic tutor evaluation baseline', () => {
 
     expect(report.adapter).toBe('fake-tutor');
     expect(report.calibratedThresholds).toBe(false);
-    expect(report.summary).toEqual({ total: 9, passed: 9, failed: 0 });
+    expect(report.summary).toEqual({ total: 22, passed: 22, failed: 0 });
     expect(dimensions).toEqual(
       new Set([
         'answer_leakage',

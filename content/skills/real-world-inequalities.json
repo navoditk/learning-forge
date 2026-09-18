@@ -1,0 +1,18 @@
+{
+  "code": "real-world-inequalities",
+  "title": "Real-world inequalities",
+  "program": "grade-6-math",
+  "domain": "expressions-and-equations",
+  "standards": ["6.EE.B.8"],
+  "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "coordinate-plane"],
+  "observableEvidence": [
+    "Writes an inequality for a real-world constraint, tests candidate values, and describes the solution set on a number line."
+  ],
+  "misconceptionCodes": [
+    "flips-inequality-incorrectly",
+    "unbalanced-operation",
+    "graphs-endpoint-only-instead-of-solution-ray"
+  ],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic check of the inequality, tested values, and solution-set description, plus one independent delayed check."
+}

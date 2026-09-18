@@ -5,6 +5,7 @@ import { getTutorContext, phase1Content, recordTutorResponse } from '../../../..
 import { requireHouseholdContext } from '../../../../server/household-context';
 import { createTutorModel, TutorHarness } from '../../../../tutor';
 import { TutorState } from '../../../../tutor/policy';
+import { enforceTutorUsageLimits, TutorUsageLimitError } from '../../../../phase1/tutor-usage';
 
 const HintRequestSchema = z.object({
   attemptId: z.string().uuid().optional(),
@@ -13,6 +14,7 @@ const HintRequestSchema = z.object({
 
 type TutorContext = {
   state: TutorState;
+  sessionId?: string;
   priorHintCount: number;
   attemptNumber: number;
   content: {
@@ -55,20 +57,36 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
   }
 
-  const response = await new TutorHarness(createTutorModel()).respond({
-    prompt: context.content.prompt,
-    learnerMessage: parsed.data.learnerMessage,
-    redactedSkillContext: `content:${context.content.id}; skill:${context.content.skillCode}`,
-    state: context.state,
-    mode: 'math_tutor',
-    genuineAttempt: true,
-    priorHintCount: context.priorHintCount,
-    attemptNumber: context.attemptNumber,
-    protectedTokens: [context.content.canonicalAnswer, ...context.content.forbiddenLeakagePatterns],
-  });
   try {
+    await enforceTutorUsageLimits({
+      householdId: identity.householdId,
+      sessionId: context.sessionId,
+    });
+  } catch (error) {
+    if (error instanceof TutorUsageLimitError) {
+      return NextResponse.json({ error: error.message }, { status: 429 });
+    }
+    return NextResponse.json({ error: 'Tutor usage could not be checked' }, { status: 503 });
+  }
+
+  try {
+    const response = await new TutorHarness(createTutorModel()).respond({
+      prompt: context.content.prompt,
+      learnerMessage: parsed.data.learnerMessage,
+      redactedSkillContext: `content:${context.content.id}; skill:${context.content.skillCode}`,
+      state: context.state,
+      mode: 'math_tutor',
+      genuineAttempt: true,
+      priorHintCount: context.priorHintCount,
+      attemptNumber: context.attemptNumber,
+      protectedTokens: [
+        context.content.canonicalAnswer,
+        ...context.content.forbiddenLeakagePatterns,
+      ],
+    });
     const stored = await recordTutorResponse(identity, {
       attemptId: parsed.data.attemptId,
+      sessionId: context.sessionId,
       response,
     });
     return NextResponse.json({ response, ...stored });

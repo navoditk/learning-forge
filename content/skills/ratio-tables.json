@@ -8,7 +8,13 @@
   "observableEvidence": [
     "Extends a ratio table using a consistent scale factor to find a missing quantity."
   ],
-  "misconceptionCodes": ["adds-instead-of-scales"],
-  "difficultyBands": ["developing", "challenging"],
+  "misconceptionCodes": [
+    "adds-instead-of-scales",
+    "adds-constant",
+    "scales-one-row",
+    "uses-additive-change",
+    "reverses-rate"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
   "masteryCheckRule": "Deterministic numeric equivalence on the missing table value, plus one independent delayed check."
 }

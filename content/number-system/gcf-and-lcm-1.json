@@ -36,7 +36,7 @@
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "In a similar problem, the GCF of 20 and 25 is found by comparing 1, 2, 4, 5, 10, 20 with 1, 5, 25 — the largest number in both lists is 5.",
+      "prompt": "In a similar problem, the GCF of 20 and 25 is found by comparing 1, 2, 4, 5, 10, 20 with 1, 5, 25 \u2014 the largest number in both lists is 5.",
       "question": "Using that same comparison, what is the largest number that appears in both factor lists for 18 and 24?"
     }
   ],
@@ -46,9 +46,11 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
+    "status": "reviewed",
     "reviewer": "Navodit Kaushik (product/content owner)",
-    "originalityStatement": "Written for this repository from first principles."
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-18"
   },
-  "accessibilityNotes": "Present factor lists as plain selectable text, one number at a time, rather than as an image or table."
+  "accessibilityNotes": "Present factor lists as plain selectable text, one number at a time, rather than as an image or table.",
+  "accessibleAlternative": "Read aloud or display: Find the greatest common factor of 18 and 24. Name the largest whole number that divides both numbers evenly."
 }

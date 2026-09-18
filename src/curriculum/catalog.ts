@@ -1,24 +1,29 @@
 import areaOfCompositeShapes from '../../content/skills/area-of-composite-shapes.json';
 import centerAndVariability from '../../content/skills/center-and-variability.json';
+import coordinateDistance from '../../content/skills/coordinate-distance.json';
 import coordinateGeometry from '../../content/skills/coordinate-geometry.json';
 import coordinatePlane from '../../content/skills/coordinate-plane.json';
 import dependentAndIndependentVariables from '../../content/skills/dependent-and-independent-variables.json';
 import distributions from '../../content/skills/distributions.json';
 import divisionOfFractions from '../../content/skills/division-of-fractions.json';
 import doubleNumberLines from '../../content/skills/double-number-lines.json';
+import equationAndInequalityMeaning from '../../content/skills/equation-and-inequality-meaning.json';
 import equivalentExpressions from '../../content/skills/equivalent-expressions.json';
 import fractionDecimalOperations from '../../content/skills/fraction-decimal-operations.json';
 import gcfAndLcm from '../../content/skills/gcf-and-lcm.json';
 import multiDigitDivision from '../../content/skills/multi-digit-division.json';
 import negativeNumbersAndAbsoluteValue from '../../content/skills/negative-numbers-and-absolute-value.json';
-import oneVariableEquationsAndInequalities from '../../content/skills/one-variable-equations-and-inequalities.json';
+import oneVariableEquations from '../../content/skills/one-variable-equations.json';
 import percentApplications from '../../content/skills/percent-applications.json';
+import prismVolume from '../../content/skills/prism-volume.json';
 import ratioLanguage from '../../content/skills/ratio-language.json';
 import ratioTables from '../../content/skills/ratio-tables.json';
+import realWorldInequalities from '../../content/skills/real-world-inequalities.json';
 import statisticalQuestions from '../../content/skills/statistical-questions.json';
 import surfaceAreaAndVolume from '../../content/skills/surface-area-and-volume.json';
 import unitRates from '../../content/skills/unit-rates.json';
 import variablesAndExpressions from '../../content/skills/variables-and-expressions.json';
+import variablesInContext from '../../content/skills/variables-in-context.json';
 import wholeNumberExponents from '../../content/skills/whole-number-exponents.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { topologicalOrder } from './topological-sort';
@@ -33,11 +38,16 @@ const rawSkills = [
   divisionOfFractions,
   negativeNumbersAndAbsoluteValue,
   coordinatePlane,
+  coordinateDistance,
   variablesAndExpressions,
+  variablesInContext,
   equivalentExpressions,
-  oneVariableEquationsAndInequalities,
+  equationAndInequalityMeaning,
+  oneVariableEquations,
+  realWorldInequalities,
   dependentAndIndependentVariables,
   areaOfCompositeShapes,
+  prismVolume,
   surfaceAreaAndVolume,
   coordinateGeometry,
   statisticalQuestions,

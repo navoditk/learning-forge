@@ -1,0 +1,44 @@
+{
+  "id": "coordinate-distance-1",
+  "version": "content-1",
+  "title": "Horizontal distance across quadrants",
+  "skillCode": "coordinate-distance",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.NS.C.8"],
+  "prerequisiteSkillCodes": ["coordinate-plane"],
+  "observableEvidence": [
+    "Finds the horizontal distance between points that share a y-coordinate using the absolute value of their x-coordinate difference."
+  ],
+  "prompt": "Points A(-6, 4) and B(3, 4) are on a coordinate plane. How far apart are they?",
+  "solutionRepresentation": "The points share y-coordinate 4, so the horizontal distance is |3 - (-6)| = 9 units.",
+  "solutionMethod": "Subtract the x-coordinates and use absolute value for distance.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "9 units",
+    "acceptedAnswers": ["9", "9 units"],
+    "equivalenceNotes": "Accept 9 with or without the unit."
+  },
+  "misconceptionCodes": ["subtracts-coordinates-without-taking-absolute-value"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The matching y-coordinates mean the segment is horizontal.",
+      "question": "Which coordinates should be compared for a horizontal distance?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["9 units"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-09-17"
+  },
+  "accessibilityNotes": "Present the ordered pairs and question as plain text; no coordinate-plane image is required.",
+  "accessibleAlternative": "Read aloud or display: Point A has x negative 6 and y 4. Point B has x 3 and y 4. They are on the same horizontal line. State the distance in units."
+}

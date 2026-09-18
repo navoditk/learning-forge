@@ -122,7 +122,7 @@ The model may phrase a pedagogical move; it does not decide authorization, maste
 
 ## Provider interface
 
-The application should own a narrow interface such as:
+The application owns a narrow, provider-neutral `TutorModel` interface:
 
 ```ts
 interface TutorModel {
@@ -132,6 +132,12 @@ interface TutorModel {
 ```
 
 Use schemas and provider adapters. Avoid provider-specific objects outside the adapter.
+Provider selection is explicit through `TUTOR_MODEL_PROVIDER`; credentials do not
+select a provider. Unsupported values fail closed to the deterministic fake
+adapter. Each adapter must implement both tutor operations, return the shared
+`TutorModelResult` metadata shape, and leave authorization, validation, fallback,
+mastery, and persistence to application code. Anthropic is the current live
+adapter, not a required long-term dependency.
 
 ## Content format
 

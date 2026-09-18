@@ -1,0 +1,18 @@
+{
+  "code": "coordinate-distance",
+  "title": "Coordinate distance",
+  "program": "grade-6-math",
+  "domain": "number-system",
+  "standards": ["6.NS.C.8"],
+  "prerequisiteSkillCodes": ["coordinate-plane"],
+  "observableEvidence": [
+    "Finds the distance between two points that share an x- or y-coordinate using the absolute value of the coordinate difference."
+  ],
+  "misconceptionCodes": [
+    "uses-diagonal-distance-for-an-axis-parallel-segment",
+    "subtracts-coordinates-without-taking-absolute-value",
+    "swaps-x-and-y-coordinate-roles"
+  ],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the distance value, plus one independent delayed check."
+}

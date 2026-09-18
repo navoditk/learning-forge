@@ -1,14 +1,19 @@
 {
   "code": "surface-area-and-volume",
-  "title": "Surface area and volume",
+  "title": "Prism surface area",
   "program": "grade-6-math",
   "domain": "geometry",
-  "standards": ["6.G.A.2", "6.G.A.4"],
+  "standards": ["6.G.A.4"],
   "prerequisiteSkillCodes": ["area-of-composite-shapes"],
   "observableEvidence": [
-    "Uses a net or formula to compute the surface area or volume of a rectangular prism."
+    "Uses a net or formula to compute the total surface area of a rectangular or triangular prism."
   ],
-  "misconceptionCodes": ["confuses-surface-area-and-volume", "omits-a-face"],
+  "misconceptionCodes": [
+    "confuses-surface-area-and-volume",
+    "omits-a-face",
+    "omits-a-congruent-face-pair-from-the-net",
+    "labels-surface-area-answer-with-cubic-units"
+  ],
   "difficultyBands": ["developing", "challenging"],
-  "masteryCheckRule": "Deterministic numeric equivalence on surface area or volume, plus one independent delayed check."
+  "masteryCheckRule": "Deterministic numeric equivalence on the computed surface area, plus one independent delayed check."
 }

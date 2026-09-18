@@ -8,7 +8,12 @@
   "observableEvidence": [
     "Matches corresponding values on two number lines using a constant scale factor."
   ],
-  "misconceptionCodes": ["adds-scale", "reverses-scale"],
+  "misconceptionCodes": [
+    "adds-scale",
+    "reverses-scale",
+    "multiplies-when-dividing",
+    "confuses-input-output"
+  ],
   "difficultyBands": ["developing", "challenging"],
   "masteryCheckRule": "Deterministic numeric equivalence on the matched value, plus one independent delayed check."
 }

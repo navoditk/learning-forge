@@ -19,7 +19,8 @@ Render API key or CLI is used from this repository or any automation.
 2. Select this repository. Render detects `render.yaml` at the repo root
    and shows two resources to create: the `learning-forge-db` database
    (plan `basic-256mb`, ~$6/mo) and the `learning-forge` web service (plan
-   `free`, $0/mo).
+   `starter`). Starter is the deliberate current pilot choice; review cost
+   and usage before changing it.
 3. Render will prompt for the environment variables marked `sync: false`
    in `render.yaml` before the first deploy:
    - `AUTH_SECRET` — generate with `openssl rand -base64 32`. This must be
@@ -31,9 +32,8 @@ Render API key or CLI is used from this repository or any automation.
 
 The build command (`npm ci && npm run db:generate && npm run db:deploy && npm run build`)
 runs the Prisma migration (`db:deploy` = `prisma migrate deploy`) as part
-of the build, not as a `preDeployCommand` — that feature requires a paid
-web service plan, and this deployment deliberately uses the free one
-(ADR-0012). This means every deploy re-runs migrations, which is safe
+of the build, not as a `preDeployCommand`. This means every deploy re-runs
+migrations, which is safe
 since `prisma migrate deploy` only applies migrations not yet applied.
 
 `AUTH_TRUST_HOST=true` is set so NextAuth trusts Render's own
@@ -46,15 +46,13 @@ track 1 (ADR-0010).
 
 Once the deploy finishes, visit the assigned `https://<name>.onrender.com`
 URL. You should land on `/login` (no account exists yet, so this is
-correct) with no server error. The free web service sleeps after 15
-minutes of inactivity — the *first* request after a break takes 30–60
-seconds to wake it back up; this is expected, not a bug.
+correct) with no server error. The current Starter plan avoids the Free
+plan's idle-sleep behavior during the pilot.
 
 ## 3. Provision the one real parent account
 
-The free web service plan has no Shell access and can't run one-off jobs,
-so `scripts/create-parent-account.ts` needs to run from your local
-machine against the production database instead:
+The provisioning script can run from a Render Shell on the current Starter
+plan, using the service's internal `DATABASE_URL`:
 
 1. In the Render dashboard, open the `learning-forge-db` database → its
    **Info** page. Find the **Connect** section and copy the **External
@@ -111,9 +109,10 @@ not normal usage volume).
 - No per-session or per-day cost cap, and no billing alert, beyond the
   hourly worst-case rate limit above (ADR-0011's explicit non-decision).
 - No custom domain; the assigned `*.onrender.com` URL is what gets used.
-- No backup schedule verified beyond whatever Render's `basic-256mb` plan
-  includes by default — confirm this separately before treating the
-  deployed database as the durable copy of this data.
+- Backup schedule, retention, restore guarantees, and recovery region have
+  not been verified in the Render dashboard. Follow
+  `docs/backup-recovery.md` before treating the deployed database as the
+  sole durable copy of learner evidence.
 - Provider contractual terms (region, retention, training-use,
   subprocessors) with Anthropic remain unrecorded in
   `docs/privacy-inventory.md`, per the existing decision register.

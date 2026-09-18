@@ -1,12 +1,12 @@
 {
-  "id": "one-variable-equations-and-inequalities-2",
+  "id": "real-world-inequalities-1",
   "version": "content-1",
   "title": "Solve a one-step inequality",
-  "skillCode": "one-variable-equations-and-inequalities",
+  "skillCode": "real-world-inequalities",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.EE.B.8"],
-  "prerequisiteSkillCodes": ["equivalent-expressions"],
+  "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "coordinate-plane"],
   "observableEvidence": [
     "Solves a one-step multiplicative inequality and identifies the largest whole-number solution."
   ],
@@ -51,5 +51,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present the inequality as plain text; do not depend on a number-line image or color."
+  "accessibilityNotes": "Present the inequality as plain text; do not depend on a number-line image or color.",
+  "accessibleAlternative": "Read aloud or display: Solve 3x < 21 by finding which whole numbers make the inequality true. Then name the largest whole-number value of x that still works."
 }

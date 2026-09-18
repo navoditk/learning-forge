@@ -6,7 +6,7 @@ _Adaptive, school-aligned learning with interactive AI tutoring_
 
 _Initial MVP: Grade 6 Math_
 
-> **Current status:** Phase 1 synthetic prototype. There is no real authentication, real learner data, or real AI model call anywhere in this repository — only a fixed local identity, a deterministic fake tutor, and a local PostgreSQL database. See `docs/PROGRESS.md` for exact status and pending approvals.
+> **Current status:** Live single-household pilot. The app has parent email/password authentication, household-scoped PostgreSQL data, a real Anthropic tutor adapter, and a Render deployment at `https://learning-forge.onrender.com`. Tests and CI use synthetic data and the deterministic fake tutor; do not use the deployment with additional households until the pilot controls and privacy follow-ups in `docs/PROGRESS.md` are addressed.
 
 This repository defines a school-aligned, adaptive learning platform that can eventually support multiple grades and subjects. The implementation begins with a Grade 6 learner in Irvine, California and combines curriculum alignment, diagnostic assessment, mastery tracking, daily plans, and interactive Socratic tutoring.
 
@@ -18,7 +18,8 @@ The product name is intentionally grade-neutral. Learning Forge describes a plac
 
 Initial scope:
 
-- Grade 6 Math aligned to California Common Core and IUSD sequencing
+- Grade 6 Math aligned to California Common Core, with informal IUSD
+  sequencing guidance documented in `docs/curriculum-sources.md`
 - Enrichment through AoPS-style depth and contest-style problem solving
 - Interactive Math Tutor and Contest Coach
 - Diagnostics, mastery evidence, spaced review, and parent progress reporting
@@ -38,10 +39,27 @@ Initial scope:
 
 The CLI agent must also read `AGENTS.md` before changing code.
 
+## Curriculum agents
+
+Three repository-scoped custom agents support controlled curriculum
+expansion:
+
+- `curriculum-researcher` researches authoritative sources and prepares a
+  dossier for human approval.
+- `curriculum-author` implements one approved, issue-sized curriculum
+  increment and leaves its content pending review.
+- `curriculum-reviewer` independently reviews the result without editing or
+  approving it.
+
+Select them with `/agent`; see `docs/curriculum-agents.md` for models, skills,
+workflow, and approval boundaries.
+
 Supporting reference docs, consulted as needed rather than read end to end:
 
 - `docs/threat-model.md`, `docs/privacy-inventory.md`, `docs/incident-response.md`, `docs/pilot-readiness-checklist.md` — the safety/privacy/legal control baseline.
 - `docs/content-review.md`, `docs/content-authoring-pipeline.md` — how problems are authored and approved.
+- `docs/curriculum-sources.md`, `docs/curriculum-agents.md` — curriculum
+  attribution and the research → author → independent-review agent workflow.
 - `docs/local-development.md` — local PostgreSQL setup and migration rollback.
 - `docs/adr/` — architecture decision records for consequential choices.
 - `docs/PROGRESS.md` — the append-only build log: current branch, verification history, decisions, risks, and the exact next task. Not a summary — check the `Current status` and `Domain model coverage` sections at the top rather than reading the full history.

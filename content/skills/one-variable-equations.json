@@ -1,0 +1,17 @@
+{
+  "code": "one-variable-equations",
+  "title": "One-variable equations",
+  "program": "grade-6-math",
+  "domain": "expressions-and-equations",
+  "standards": ["6.EE.B.7"],
+  "prerequisiteSkillCodes": [
+    "equation-and-inequality-meaning",
+    "negative-numbers-and-absolute-value"
+  ],
+  "observableEvidence": [
+    "Solves a one-variable equation with a rational coefficient and verifies the solution by substitution."
+  ],
+  "misconceptionCodes": ["unbalanced-operation", "skips-substitution-check-of-solution"],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic numeric equivalence on the solved value, plus one independent delayed check."
+}

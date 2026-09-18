@@ -4,3 +4,5 @@ export * from './fake-model';
 export * from './harness';
 export * from './policy';
 export * from './rate-limit';
+export * from './provider-config';
+export * from './provider-input';

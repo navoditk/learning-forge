@@ -1,6 +1,7 @@
 import { TutorModel } from '../contracts';
 import { AnthropicTutorModel } from './anthropic-model';
 import { FakeTutorModel } from './fake-model';
+import { getTutorProviderConfig } from './provider-config';
 
 /**
  * Explicit opt-in, not "key present" detection: a developer's .env commonly
@@ -10,8 +11,9 @@ import { FakeTutorModel } from './fake-model';
  * isn't explicitly set to 'anthropic', including tests/CI.
  */
 export function createTutorModel(): TutorModel {
-  if (process.env.TUTOR_MODEL_PROVIDER === 'anthropic') {
-    return new AnthropicTutorModel();
+  const config = getTutorProviderConfig();
+  if (config.provider === 'anthropic') {
+    return new AnthropicTutorModel(config.apiKey);
   }
   return new FakeTutorModel();
 }

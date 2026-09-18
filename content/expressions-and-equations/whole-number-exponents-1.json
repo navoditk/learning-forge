@@ -46,9 +46,11 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
+    "status": "reviewed",
     "reviewer": "Navodit Kaushik (product/content owner)",
-    "originalityStatement": "Written for this repository from first principles."
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-18"
   },
-  "accessibilityNotes": "Read the exponent aloud as 'to the third power' and keep the expanded multiplication form available as selectable text."
+  "accessibilityNotes": "Read the exponent aloud as 'to the third power' and keep the expanded multiplication form available as selectable text.",
+  "accessibleAlternative": "Read aloud or display: Find the value of 5 to the third power. This means multiply three factors of 5."
 }

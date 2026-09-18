@@ -49,5 +49,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Use text labels alongside currency symbols and ensure the comparison can be completed without color coding."
+  "accessibilityNotes": "Use text labels alongside currency symbols and ensure the comparison can be completed without color coding.",
+  "accessibleAlternative": "Read aloud or display: A 6-pack of juice costs $4.20 and a 10-pack costs $6.50. Compare the cost per bottle for each pack and state which is cheaper and by how much per bottle."
 }

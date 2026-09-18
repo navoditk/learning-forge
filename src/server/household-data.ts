@@ -1,0 +1,149 @@
+import { Prisma, PrismaClient } from '@prisma/client';
+
+type DatabaseClient = PrismaClient | Prisma.TransactionClient;
+
+/**
+ * A self-service deletion is permanent and removes every learner's evidence
+ * in the household, so it requires the caller to type this exact phrase
+ * rather than a single click - the same bar as the manual, support-mediated
+ * process it replaces.
+ */
+export const HOUSEHOLD_DELETION_CONFIRMATION_PHRASE = 'DELETE';
+
+export function isHouseholdDeletionConfirmed(confirmation: unknown): boolean {
+  return confirmation === HOUSEHOLD_DELETION_CONFIRMATION_PHRASE;
+}
+
+export async function exportHouseholdData(prisma: DatabaseClient, householdId: string) {
+  const household = await prisma.household.findUnique({
+    where: { id: householdId },
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      users: { select: { id: true, role: true, email: true, createdAt: true } },
+      learners: {
+        select: {
+          id: true,
+          userId: true,
+          gradeLevel: true,
+          createdAt: true,
+          updatedAt: true,
+          consentRecords: {
+            select: {
+              id: true,
+              type: true,
+              status: true,
+              policyVersion: true,
+              grantedAt: true,
+              revokedAt: true,
+              createdAt: true,
+            },
+          },
+        },
+      },
+      sessions: {
+        select: {
+          id: true,
+          learnerProfileId: true,
+          contentKey: true,
+          startedAt: true,
+          endedAt: true,
+        },
+      },
+      attempts: {
+        select: {
+          id: true,
+          learnerProfileId: true,
+          sessionId: true,
+          contentKey: true,
+          contentVersion: true,
+          learnerResponse: true,
+          normalizedResponse: true,
+          correctness: true,
+          scoringMethod: true,
+          attemptNumber: true,
+          elapsedSeconds: true,
+          highestAssistance: true,
+          context: true,
+          policyVersion: true,
+          createdAt: true,
+          assistanceEvents: {
+            select: { id: true, occurredAt: true, level: true, interactionType: true },
+          },
+        },
+      },
+      tutorInteractions: {
+        select: {
+          id: true,
+          learnerProfileId: true,
+          attemptId: true,
+          redactedExcerpt: true,
+          moveType: true,
+          assistanceLevel: true,
+          policyVersion: true,
+          createdAt: true,
+        },
+      },
+      traces: {
+        select: {
+          id: true,
+          learnerProfileId: true,
+          sessionId: true,
+          policyVersion: true,
+          promptTemplateVersion: true,
+          modelIdentifier: true,
+          latencyMs: true,
+          inputTokens: true,
+          outputTokens: true,
+          totalTokens: true,
+          validationResult: true,
+          outcome: true,
+          redactedExcerpt: true,
+          createdAt: true,
+        },
+      },
+      masteryEstimates: {
+        select: {
+          id: true,
+          learnerProfileId: true,
+          skillCode: true,
+          estimate: true,
+          confidenceBand: true,
+          algorithmVersion: true,
+          independentDelayedCheck: true,
+          createdAt: true,
+          updatedAt: true,
+          contributions: {
+            select: { id: true, attemptId: true, evidenceWeight: true, createdAt: true },
+          },
+        },
+      },
+    },
+  });
+  if (!household) throw new Error('Household not found');
+  return household;
+}
+
+export async function deleteHouseholdData(prisma: PrismaClient, householdId: string) {
+  return prisma.$transaction(async (transaction) => {
+    const existing = await transaction.household.findUnique({
+      where: { id: householdId },
+      select: { id: true },
+    });
+    if (!existing) return false;
+
+    await transaction.masteryContribution.deleteMany({ where: { attempt: { householdId } } });
+    await transaction.masteryEstimate.deleteMany({ where: { householdId } });
+    await transaction.assistanceEvent.deleteMany({ where: { attempt: { householdId } } });
+    await transaction.tutorInteraction.deleteMany({ where: { householdId } });
+    await transaction.attempt.deleteMany({ where: { householdId } });
+    await transaction.tutorTrace.deleteMany({ where: { householdId } });
+    await transaction.session.deleteMany({ where: { householdId } });
+    await transaction.consentRecord.deleteMany({ where: { householdId } });
+    await transaction.learnerProfile.deleteMany({ where: { householdId } });
+    await transaction.user.deleteMany({ where: { householdId } });
+    await transaction.household.delete({ where: { id: householdId } });
+    return true;
+  });
+}

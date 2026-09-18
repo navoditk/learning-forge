@@ -13,11 +13,10 @@ services:
   - type: web
     name: learning-forge
     runtime: node
-    plan: free
+    plan: starter
     region: oregon
-    # Runs the migration as part of build, not preDeployCommand, because
-    # preDeployCommand requires a paid web service plan and this uses the
-    # free tier (ADR-0012).
+    # Keep migrations in the build for compatibility with both Starter and
+    # Free plans; prisma migrate deploy is idempotent.
     buildCommand: npm ci && npm run db:generate && npm run db:deploy && npm run build
     startCommand: npm run start
     healthCheckPath: /login
@@ -34,3 +33,7 @@ services:
         sync: false
       - key: TUTOR_MODEL_PROVIDER
         value: anthropic
+      - key: TUTOR_DAILY_HINT_LIMIT
+        value: '100'
+      - key: TUTOR_SESSION_HINT_LIMIT
+        value: '8'

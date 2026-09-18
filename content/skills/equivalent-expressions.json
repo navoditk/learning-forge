@@ -4,7 +4,7 @@
   "program": "grade-6-math",
   "domain": "expressions-and-equations",
   "standards": ["6.EE.A.3", "6.EE.A.4"],
-  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "prerequisiteSkillCodes": ["variables-and-expressions", "gcf-and-lcm"],
   "observableEvidence": [
     "Uses the distributive property or combines like terms to show two expressions are equivalent."
   ],

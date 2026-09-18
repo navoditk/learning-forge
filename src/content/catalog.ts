@@ -16,16 +16,26 @@ import divisionOfFractions1 from '../../content/number-system/division-of-fracti
 import divisionOfFractions2 from '../../content/number-system/division-of-fractions-2.json';
 import coordinatePlane1 from '../../content/number-system/coordinate-plane-1.json';
 import coordinatePlane2 from '../../content/number-system/coordinate-plane-2.json';
+import coordinateDistance1 from '../../content/number-system/coordinate-distance-1.json';
+import coordinateDistance2 from '../../content/number-system/coordinate-distance-2.json';
 import variablesAndExpressions1 from '../../content/expressions-and-equations/variables-and-expressions-1.json';
 import variablesAndExpressions2 from '../../content/expressions-and-equations/variables-and-expressions-2.json';
+import variablesInContext1 from '../../content/expressions-and-equations/variables-in-context-1.json';
+import variablesInContext2 from '../../content/expressions-and-equations/variables-in-context-2.json';
 import equivalentExpressions1 from '../../content/expressions-and-equations/equivalent-expressions-1.json';
 import equivalentExpressions2 from '../../content/expressions-and-equations/equivalent-expressions-2.json';
-import oneVariableEquationsAndInequalities1 from '../../content/expressions-and-equations/one-variable-equations-and-inequalities-1.json';
-import oneVariableEquationsAndInequalities2 from '../../content/expressions-and-equations/one-variable-equations-and-inequalities-2.json';
+import equationAndInequalityMeaning1 from '../../content/expressions-and-equations/equation-and-inequality-meaning-1.json';
+import equationAndInequalityMeaning2 from '../../content/expressions-and-equations/equation-and-inequality-meaning-2.json';
+import oneVariableEquations1 from '../../content/expressions-and-equations/one-variable-equations-1.json';
+import oneVariableEquations2 from '../../content/expressions-and-equations/one-variable-equations-2.json';
+import realWorldInequalities1 from '../../content/expressions-and-equations/real-world-inequalities-1.json';
+import realWorldInequalities2 from '../../content/expressions-and-equations/real-world-inequalities-2.json';
 import dependentAndIndependentVariables1 from '../../content/expressions-and-equations/dependent-and-independent-variables-1.json';
 import dependentAndIndependentVariables2 from '../../content/expressions-and-equations/dependent-and-independent-variables-2.json';
 import areaOfCompositeShapes1 from '../../content/geometry/area-of-composite-shapes-1.json';
 import areaOfCompositeShapes2 from '../../content/geometry/area-of-composite-shapes-2.json';
+import prismVolume1 from '../../content/geometry/prism-volume-1.json';
+import prismVolume2 from '../../content/geometry/prism-volume-2.json';
 import surfaceAreaAndVolume1 from '../../content/geometry/surface-area-and-volume-1.json';
 import surfaceAreaAndVolume2 from '../../content/geometry/surface-area-and-volume-2.json';
 import coordinateGeometry1 from '../../content/geometry/coordinate-geometry-1.json';
@@ -43,7 +53,7 @@ import gcfAndLcm2 from '../../content/number-system/gcf-and-lcm-2.json';
 import multiDigitDivision1 from '../../content/number-system/multi-digit-division-1.json';
 import multiDigitDivision2 from '../../content/number-system/multi-digit-division-2.json';
 import { ContentItem, ContentItemSchema } from '../contracts/content';
-import { skillsByCode } from '../curriculum/catalog';
+import { skillCatalog, skillsByCode } from '../curriculum/catalog';
 
 const rawContent = [
   ratioLanguage1,
@@ -64,16 +74,26 @@ const rawContent = [
   divisionOfFractions2,
   coordinatePlane1,
   coordinatePlane2,
+  coordinateDistance1,
+  coordinateDistance2,
   variablesAndExpressions1,
   variablesAndExpressions2,
+  variablesInContext1,
+  variablesInContext2,
   equivalentExpressions1,
   equivalentExpressions2,
-  oneVariableEquationsAndInequalities1,
-  oneVariableEquationsAndInequalities2,
+  equationAndInequalityMeaning1,
+  equationAndInequalityMeaning2,
+  oneVariableEquations1,
+  oneVariableEquations2,
+  realWorldInequalities1,
+  realWorldInequalities2,
   dependentAndIndependentVariables1,
   dependentAndIndependentVariables2,
   areaOfCompositeShapes1,
   areaOfCompositeShapes2,
+  prismVolume1,
+  prismVolume2,
   surfaceAreaAndVolume1,
   surfaceAreaAndVolume2,
   coordinateGeometry1,
@@ -99,22 +119,9 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
     throw new Error('Content IDs must be unique');
   }
 
-  const requiredRatioSkills: Set<ContentItem['skillCode']> = new Set([
-    'ratio-language',
-    'unit-rates',
-    'ratio-tables',
-    'double-number-lines',
-    'percent-applications',
-  ]);
-  const actualSkills = new Set(parsed.map((item) => item.skillCode));
-  for (const skill of requiredRatioSkills) {
-    if (!actualSkills.has(skill)) {
-      throw new Error(`Content catalog is missing skill coverage for ${skill}`);
-    }
-  }
-
   for (const item of parsed) {
-    if (!skillsByCode.has(item.skillCode)) {
+    const skill = skillsByCode.get(item.skillCode);
+    if (!skill) {
       throw new Error(`${item.id} references unknown skill: ${item.skillCode}`);
     }
     if (item.provenance.origin === 'licensed') {
@@ -136,9 +143,46 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
         throw new Error(`${item.id} leaks forbidden answer content in its hint ladder`);
       }
     }
+    if (!skill.difficultyBands.includes(item.difficulty)) {
+      throw new Error(
+        `${item.id} has difficulty "${item.difficulty}" not declared in ${item.skillCode}'s difficultyBands`,
+      );
+    }
+    const declaredMisconceptions = new Set(skill.misconceptionCodes);
+    for (const code of item.misconceptionCodes) {
+      if (!declaredMisconceptions.has(code)) {
+        throw new Error(
+          `${item.id} uses misconception code "${code}" not declared by skill ${item.skillCode}`,
+        );
+      }
+    }
+  }
+
+  const countsBySkill = new Map<string, number>();
+  for (const item of parsed) {
+    countsBySkill.set(item.skillCode, (countsBySkill.get(item.skillCode) ?? 0) + 1);
+  }
+  const REQUIRED_RECORDS_PER_SKILL = 2;
+  for (const skill of skillCatalog) {
+    const count = countsBySkill.get(skill.code) ?? 0;
+    if (count !== REQUIRED_RECORDS_PER_SKILL) {
+      throw new Error(
+        `${skill.code} must have exactly ${REQUIRED_RECORDS_PER_SKILL} content records, found ${count}`,
+      );
+    }
   }
 
   return parsed;
 }
 
 export const contentCatalog = validateContentCatalog();
+
+/**
+ * Content that has completed human review and is safe to serve to learners.
+ * `pending_review` items exist in the catalog for authoring/merge workflows
+ * but must never reach a learner-facing surface (diagnostic, plan, tutor
+ * session, or review queue) until a human reviewer flips their status.
+ */
+export const servableContentCatalog = contentCatalog.filter(
+  (item) => item.review.status === 'reviewed',
+);

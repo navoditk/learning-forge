@@ -1,0 +1,17 @@
+{
+  "code": "variables-in-context",
+  "title": "Variables in context",
+  "program": "grade-6-math",
+  "domain": "expressions-and-equations",
+  "standards": ["6.EE.B.6"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Writes an expression for a real-world quantity using a variable and states what the variable represents."
+  ],
+  "misconceptionCodes": [
+    "assumes-a-variable-can-only-mean-one-fixed-quantity",
+    "fails-to-name-the-quantity-represented-by-the-variable"
+  ],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic check that the expression is algebraically equivalent to the canonical form and the variable's meaning is stated, plus one independent delayed check."
+}

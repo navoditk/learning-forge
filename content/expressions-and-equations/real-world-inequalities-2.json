@@ -1,0 +1,59 @@
+{
+  "id": "real-world-inequalities-2",
+  "version": "content-1",
+  "title": "Capacity inequality",
+  "skillCode": "real-world-inequalities",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.EE.B.8"],
+  "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "coordinate-plane"],
+  "observableEvidence": [
+    "Writes an inequality for a real-world constraint, tests candidate values, and describes the solution set on a number line."
+  ],
+  "prompt": "A youth center has room for at most 24 people. There are already 9 people inside. Write an inequality for the number p of additional people, test p = 14 and p = 16, and describe the number-line solution set.",
+  "solutionRepresentation": "The inequality is 9 + p <= 24, or p <= 15. The value 14 works and 16 does not. The graph has a closed endpoint at 15 and shading to the left.",
+  "solutionMethod": "Translate 'at most' into less than or equal to, test each candidate in the context, and describe all allowable values from zero through 15.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "9 + p <= 24; 14 works, 16 does not; p <= 15 with a closed 15 and shading left",
+    "acceptedAnswers": [
+      "9 + p <= 24; 14 works, 16 does not; p <= 15 with a closed 15 and shading left",
+      "p <= 15; 14 yes, 16 no; closed dot at 15 and ray left",
+      "9 + p is at most 24; p can be 0 through 15"
+    ],
+    "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the closed-left ray and context restriction."
+  },
+  "misconceptionCodes": ["graphs-endpoint-only-instead-of-solution-ray"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Translate the phrase 'at most' before choosing the inequality symbol.",
+      "question": "Can the total equal 24, or must it be less than 24?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "A solution set includes every value that keeps the total within capacity, not just the boundary.",
+      "question": "Which side of the boundary represents fewer additional people?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "9 + p <= 24",
+    "p <= 15",
+    "closed endpoint at 15",
+    "shading to the left"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-09-17"
+  },
+  "accessibilityNotes": "Describe the inequality, candidate substitutions, endpoint inclusion, and shading direction in text; no visual number line is required.",
+  "accessibleAlternative": "Read aloud or display: A room holds at most twenty-four people and nine are inside. Model additional people with p, test fourteen and sixteen, and describe all allowed p values."
+}

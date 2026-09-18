@@ -26,4 +26,12 @@ test.describe('accessibility', () => {
     const afterDigest = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
     expect(afterDigest.violations).toEqual([]);
   });
+
+  test('help page has no automatically detectable WCAG AA violations', async ({ page }) => {
+    await page.goto('/help');
+    await expect(page.getByRole('heading', { name: 'How Learning Forge works' })).toBeVisible();
+
+    const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
+    expect(results.violations).toEqual([]);
+  });
 });

@@ -1,0 +1,17 @@
+{
+  "code": "equation-and-inequality-meaning",
+  "title": "Equation and inequality meaning",
+  "program": "grade-6-math",
+  "domain": "expressions-and-equations",
+  "standards": ["6.EE.B.5"],
+  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "observableEvidence": [
+    "Determines whether a given value makes an equation or inequality true by substitution, and describes an inequality's full solution set."
+  ],
+  "misconceptionCodes": [
+    "assumes-every-equation-requires-performing-an-operation",
+    "treats-inequality-solution-as-a-single-value"
+  ],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Deterministic truth-value/solution-set check via substitution, plus one independent delayed check."
+}

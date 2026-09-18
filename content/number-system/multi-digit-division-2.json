@@ -46,9 +46,11 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
+    "status": "reviewed",
     "reviewer": "Navodit Kaushik (product/content owner)",
-    "originalityStatement": "Written for this repository from first principles."
+    "originalityStatement": "Written for this repository from first principles.",
+    "reviewedAt": "2026-09-18"
   },
-  "accessibilityNotes": "Present the division as plain selectable text (5,287 divided by 15) rather than a stacked long-division image."
+  "accessibilityNotes": "Present the division as plain selectable text (5,287 divided by 15) rather than a stacked long-division image.",
+  "accessibleAlternative": "Read aloud or display: Divide 5,287 by 15. State both the quotient and the remainder."
 }

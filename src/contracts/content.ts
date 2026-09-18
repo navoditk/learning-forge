@@ -86,9 +86,13 @@ export const ContentItemSchema = z
     misconceptionCodes: z.array(z.string().regex(/^[a-z0-9-]+$/)).max(10),
     hintSteps: z.array(HintStepSchema).min(1).max(10),
     forbiddenLeakagePatterns: z.array(z.string().trim().min(1).max(200)).max(20),
+    // accessibilityNotes: guidance on how to present the item (e.g. avoid color dependence).
+    // accessibleAlternative: an actual plain-text restatement of the prompt/data a
+    // non-visual/assistive-technology learner can use in place of any diagram or image.
     provenance: ContentProvenanceSchema,
     review: ContentReviewSchema,
     accessibilityNotes: z.string().trim().min(1).max(1000),
+    accessibleAlternative: z.string().trim().min(1).max(1000),
   })
   .strict()
   .superRefine((content, context) => {

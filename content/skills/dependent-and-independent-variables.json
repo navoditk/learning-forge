@@ -4,7 +4,7 @@
   "program": "grade-6-math",
   "domain": "expressions-and-equations",
   "standards": ["6.EE.C.9"],
-  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "prerequisiteSkillCodes": ["variables-in-context"],
   "observableEvidence": [
     "Identifies the dependent and independent variable in a relationship and represents it with an equation, table, or graph."
   ],

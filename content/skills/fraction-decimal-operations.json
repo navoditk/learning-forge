@@ -9,6 +9,6 @@
     "Adds, subtracts, multiplies, or divides fractions and decimals with correct place value or common denominators."
   ],
   "misconceptionCodes": ["misaligns-decimal-place", "common-denominator-error"],
-  "difficultyBands": ["foundational", "developing"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
   "masteryCheckRule": "Deterministic numeric equivalence on the computed value, plus one independent delayed check."
 }

@@ -51,5 +51,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present both questions as plain text labeled A and B; do not depend on color to distinguish them."
+  "accessibilityNotes": "Present both questions as plain text labeled A and B; do not depend on color to distinguish them.",
+  "accessibleAlternative": "Read aloud or display: Compare Question A, 'How old is the school principal?' with Question B, 'What are the ages of all the teachers at the school?' Choose the question that expects different answers and therefore is statistical."
 }

@@ -13,6 +13,13 @@
 
 The local sequence is guidance, not an assumption about a specific classroom. Parent/learner input can adjust the current unit.
 
+See `docs/curriculum-sources.md` for the formal, citable record of exactly
+which standards documents and sequencing/style sources back the current
+Grade 6 Math skill graph, and its known gaps. When adding a new subject,
+grade, or program, follow `docs/curriculum-research-playbook.md` to research
+and cite its sources first, then `docs/curriculum-authoring-playbook.md` to
+turn those sources into a real skill graph and content catalog.
+
 ## Browsing the curriculum
 
 The full skill graph and sample problems (answers/hints excluded) are published at

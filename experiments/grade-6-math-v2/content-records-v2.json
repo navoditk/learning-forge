@@ -1,0 +1,2558 @@
+[
+  {
+    "id": "v2-ratio-language-art-supplies",
+    "version": "candidate-content-1",
+    "title": "Art supply ratio",
+    "skillCode": "ratio-language-and-meaning",
+    "mode": "core",
+    "difficulty": "foundational",
+    "standards": ["6.RP.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "States a part-to-part ratio in the requested order and explains what each part represents."
+    ],
+    "prompt": "An art table has 4 blue markers and 6 green markers. What is the ratio of blue markers to green markers? Give the simplest form and explain what the two numbers compare.",
+    "solutionRepresentation": "Blue to green is 4:6, which simplifies by dividing both parts by 2 to 2:3. The 2 represents blue markers and the 3 represents green markers.",
+    "solutionMethod": "Put the quantities in the requested order, then divide both terms by their common factor.",
+    "deterministicValidator": {
+      "type": "ratio",
+      "canonicalAnswer": "2:3 blue markers to green markers",
+      "acceptedAnswers": [
+        "2:3 blue markers to green markers",
+        "2 to 3 blue markers to green markers",
+        "2:3 blue:green"
+      ],
+      "equivalenceNotes": "Accept colon or 'to' notation when the order is blue to green and the response identifies the compared quantities."
+    },
+    "answerFormat": "A simplified ratio in blue-to-green order with a brief interpretation.",
+    "misconceptionCodes": ["reverses-ratio-order"],
+    "misconceptionDistractors": [
+      {
+        "answer": "3:2 blue markers to green markers",
+        "misconceptionCode": "reverses-ratio-order",
+        "rationale": "Uses the green-to-blue order while labeling it as blue-to-green."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Keep the requested order before simplifying both parts by the same factor.",
+        "question": "Which color belongs in the first position of the ratio?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["2:3", "2 to 3"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Provide the two marker counts and requested order as plain text; no color-dependent image is required.",
+    "accessibleAlternative": "Read aloud or display: There are four blue markers and six green markers. State blue compared with green in simplest form and explain what each part counts."
+  },
+  {
+    "id": "v2-ratio-language-snack-mix",
+    "version": "candidate-content-1",
+    "title": "Snack mix parts",
+    "skillCode": "ratio-language-and-meaning",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.RP.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Distinguishes a part-to-whole ratio from a part-to-part ratio in a context."
+    ],
+    "prompt": "A snack mix contains 3 cups of raisins and 5 cups of cereal. What is the ratio of raisins to all of the snack mix, in simplest form?",
+    "solutionRepresentation": "There are 3 + 5 = 8 total cups, so raisins to all of the mix is 3:8.",
+    "solutionMethod": "Find the whole by adding the parts, then compare the requested part with the whole.",
+    "deterministicValidator": {
+      "type": "ratio",
+      "canonicalAnswer": "3:8 raisins to total mix",
+      "acceptedAnswers": [
+        "3:8 raisins to total mix",
+        "3 to 8 raisins to total mix",
+        "3/8 of the mix"
+      ],
+      "equivalenceNotes": "Accept ratio or fraction notation when it compares raisins with the total eight cups."
+    },
+    "answerFormat": "A simplest-form part-to-whole ratio or equivalent fraction, with context.",
+    "misconceptionCodes": ["confuses-part-to-part-with-part-to-whole"],
+    "misconceptionDistractors": [
+      {
+        "answer": "3:5 raisins to total mix",
+        "misconceptionCode": "confuses-part-to-part-with-part-to-whole",
+        "rationale": "Compares raisins with cereal, a part-to-part relationship, instead of with the total mix."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "The word 'all' asks for the whole mix, not just the other ingredient.",
+        "question": "What operation finds the total number of cups in the mix?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["3:8", "3 to 8", "3/8"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "State each ingredient amount and the meaning of 'all' in text; no bowl or ingredient image is required.",
+    "accessibleAlternative": "Read aloud or display: The mix has three cups of raisins and five cups of cereal. Compare raisins with the total amount, not with cereal alone."
+  },
+  {
+    "id": "v2-rate-bike-unit-rate",
+    "version": "candidate-content-1",
+    "title": "Bicycle unit rate",
+    "skillCode": "rate-and-proportional-reasoning",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.RP.A.2", "6.RP.A.3"],
+    "prerequisiteSkillCodes": ["ratio-language-and-meaning"],
+    "observableEvidence": [
+      "Computes a unit rate and interprets its units in a real-world context."
+    ],
+    "prompt": "A cyclist travels 18 miles in 2 hours at a steady rate. What is the cyclist's unit rate in miles per hour?",
+    "solutionRepresentation": "Divide miles by hours: 18 ÷ 2 = 9 miles per hour.",
+    "solutionMethod": "Divide the measured distance by the number of hours to find miles for one hour.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "9 miles per hour",
+      "acceptedAnswers": ["9", "9 miles per hour", "9 mi/h"],
+      "equivalenceNotes": "Accept 9 with a standard miles-per-hour abbreviation or without units."
+    },
+    "answerFormat": "A rate in miles per hour.",
+    "misconceptionCodes": ["divides-quantities-in-reversed-order-for-unit-rate"],
+    "misconceptionDistractors": [
+      {
+        "answer": "1/9 miles per hour",
+        "misconceptionCode": "divides-quantities-in-reversed-order-for-unit-rate",
+        "rationale": "Divides hours by miles, producing the reciprocal rate."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A miles-per-hour rate tells how many miles belong to one hour.",
+        "question": "Which quantity should be divided by the number of hours?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["9 miles per hour", "9 mi/h"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present the distance, time, and requested units as text; no route map is required.",
+    "accessibleAlternative": "Read aloud or display: A cyclist travels eighteen miles in two hours. Ask how many miles are traveled in one hour, and state the unit."
+  },
+  {
+    "id": "v2-rate-smoothie-scaling",
+    "version": "candidate-content-1",
+    "title": "Scaling a smoothie recipe",
+    "skillCode": "rate-and-proportional-reasoning",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.RP.A.2", "6.RP.A.3"],
+    "prerequisiteSkillCodes": ["ratio-language-and-meaning"],
+    "observableEvidence": ["Uses a unit rate to scale an equivalent ratio in a context."],
+    "prompt": "A smoothie recipe uses 3 cups of fruit for 2 pitchers. At the same rate, how many cups of fruit are needed for 5 pitchers?",
+    "solutionRepresentation": "The unit rate is 3 ÷ 2 = 1.5 cups per pitcher. For 5 pitchers, 1.5 × 5 = 7.5 cups.",
+    "solutionMethod": "Find cups per pitcher, then multiply by the new number of pitchers.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "7.5 cups",
+      "acceptedAnswers": ["7.5", "7.5 cups", "7 1/2 cups", "15/2 cups"],
+      "equivalenceNotes": "Accept decimal, mixed-number, or improper-fraction forms with or without the unit."
+    },
+    "answerFormat": "A fruit amount equivalent to 7.5 cups, preferably labeled cups.",
+    "misconceptionCodes": ["uses-addition-instead-of-multiplication-for-scaling"],
+    "misconceptionDistractors": [
+      {
+        "answer": "6 cups",
+        "misconceptionCode": "uses-addition-instead-of-multiplication-for-scaling",
+        "rationale": "Adds the extra number of pitchers (5 - 2 = 3) directly to the original 3 cups instead of multiplying by the correct scale factor, giving 3 + 3 = 6."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "First determine how many cups belong to one pitcher.",
+        "question": "What unit rate connects cups of fruit with pitchers?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["7.5 cups", "7 1/2 cups", "15/2 cups"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Give the recipe quantities and scaling request in linear text; no measuring-cup image is required.",
+    "accessibleAlternative": "Read aloud or display: Two pitchers use three cups of fruit. Ask for the equivalent fruit amount for five pitchers using the same rate."
+  },
+  {
+    "id": "v2-multi-digit-division-leftovers",
+    "version": "candidate-content-1",
+    "title": "Packing stickers",
+    "skillCode": "multi-digit-number-operations",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.NS.B.2"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Divides a multi-digit whole number and interprets a remainder in a packaging context."
+    ],
+    "prompt": "A club has 3,458 stickers and packs 8 stickers in each full envelope. How many full envelopes can it make, and how many stickers remain?",
+    "solutionRepresentation": "3,458 ÷ 8 = 432 remainder 2, so the club can make 432 full envelopes with 2 stickers remaining.",
+    "solutionMethod": "Use the standard division algorithm and interpret the quotient and remainder in context.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "432 full envelopes and 2 stickers remain",
+      "acceptedAnswers": ["432 full envelopes and 2 stickers remain", "432 R2", "432 remainder 2"],
+      "equivalenceNotes": "Accept quotient-remainder notation when it clearly identifies 432 as the quotient and 2 as the remainder."
+    },
+    "answerFormat": "A whole-number quotient and remainder, both labeled in context.",
+    "misconceptionCodes": ["drops-remainder-when-context-requires-it"],
+    "misconceptionDistractors": [
+      {
+        "answer": "432 envelopes",
+        "misconceptionCode": "drops-remainder-when-context-requires-it",
+        "rationale": "Reports the quotient but omits the two stickers left after making full envelopes."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "The quotient counts complete groups, while any amount left over is the remainder.",
+        "question": "After making complete groups of eight, could every sticker be used exactly?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["432 full envelopes", "432 R2", "remainder 2"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Provide the numbers and group meaning in text; no envelope illustration is required.",
+    "accessibleAlternative": "Read aloud or display: Divide 3,458 stickers into groups of eight. State the number of complete groups and the number left over."
+  },
+  {
+    "id": "v2-multi-digit-decimal-addition",
+    "version": "candidate-content-1",
+    "title": "Adding supply lengths",
+    "skillCode": "multi-digit-number-operations",
+    "mode": "core",
+    "difficulty": "foundational",
+    "standards": ["6.NS.B.3"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Adds multi-digit decimals by aligning decimal points and interprets the sum with units."
+    ],
+    "prompt": "A craft table has two rolls of cord measuring 14.08 meters and 3.7 meters. What is the total length of cord?",
+    "solutionRepresentation": "Write 3.7 as 3.70 and add aligned place values: 14.08 + 3.70 = 17.78 meters.",
+    "solutionMethod": "Align decimal points, add by place value, and attach the measurement unit.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "17.78 meters",
+      "acceptedAnswers": ["17.78", "17.78 meters", "17.780 meters"],
+      "equivalenceNotes": "Accept equivalent decimal forms with or without the unit."
+    },
+    "answerFormat": "A decimal length equivalent to 17.78 meters.",
+    "misconceptionCodes": ["misaligns-decimal-point-when-adding-or-subtracting"],
+    "misconceptionDistractors": [
+      {
+        "answer": "17.15 meters",
+        "misconceptionCode": "misaligns-decimal-point-when-adding-or-subtracting",
+        "rationale": "Adds digits without correctly aligning tenths and hundredths places."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Make the place values line up before adding.",
+        "question": "How many hundredths should be written in the number 3.7 when it is aligned with 14.08?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["17.78 meters", "17.780 meters"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present decimals in linear text and describe place-value alignment; no cord image is required.",
+    "accessibleAlternative": "Read aloud or display: Add fourteen point zero eight meters and three point seven meters. Ask for the total length in meters after aligning decimal places."
+  },
+  {
+    "id": "v2-factors-gcf",
+    "version": "candidate-content-1",
+    "title": "Greatest common factor",
+    "skillCode": "factors-multiples-and-distributive-structure",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.NS.B.4"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Finds the greatest common factor of two whole numbers and distinguishes it from a common multiple."
+    ],
+    "prompt": "What is the greatest common factor of 24 and 36?",
+    "solutionRepresentation": "The common factors include 1, 2, 3, 4, 6, and 12. The greatest is 12.",
+    "solutionMethod": "List or factor both numbers, then choose the largest factor they share.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "12",
+      "acceptedAnswers": ["12"],
+      "equivalenceNotes": "Accept the number 12; extra wording must not replace the requested GCF."
+    },
+    "answerFormat": "A whole-number GCF.",
+    "misconceptionCodes": ["selects-lcm-value-when-asked-for-gcf"],
+    "misconceptionDistractors": [
+      {
+        "answer": "72",
+        "misconceptionCode": "selects-lcm-value-when-asked-for-gcf",
+        "rationale": "Reports the least common multiple instead of the greatest common factor."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A factor divides a number evenly; the requested factor must belong to both numbers.",
+        "question": "Are you looking for a shared divisor or a shared multiple?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["12"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "List the two whole numbers in text; no factor-tree graphic is required.",
+    "accessibleAlternative": "Read aloud or display: Find the largest whole number that divides both twenty-four and thirty-six evenly."
+  },
+  {
+    "id": "v2-factors-distributive-factoring",
+    "version": "candidate-content-1",
+    "title": "Factoring a sum with the distributive property",
+    "skillCode": "factors-multiples-and-distributive-structure",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.NS.B.4"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Uses the distributive property to express a sum of two whole numbers with a common factor as a multiple of a sum of two numbers with no common factor."
+    ],
+    "prompt": "Express 36 + 24 as the product of their greatest common factor and a sum of two whole numbers with no common factor.",
+    "solutionRepresentation": "The greatest common factor of 36 and 24 is 12. Since 36 = 12 x 3 and 24 = 12 x 2, and 3 and 2 share no common factor, 36 + 24 = 12 x (3 + 2).",
+    "solutionMethod": "Find the GCF of both terms, divide each term by it, and write the sum as GCF times the sum of the resulting quotients.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "12 x (3 + 2)",
+      "acceptedAnswers": ["12 x (3 + 2)", "12 × (3 + 2)", "12(3 + 2)", "12(3+2)"],
+      "equivalenceNotes": "Accept any of these forms as long as the outer factor is 12 and the inner sum is 3 + 2, in either order."
+    },
+    "answerFormat": "A product of the greatest common factor and a sum of two numbers with no common factor.",
+    "misconceptionCodes": ["factors-out-a-common-factor-that-is-not-the-greatest"],
+    "misconceptionDistractors": [
+      {
+        "answer": "6 x (6 + 4)",
+        "misconceptionCode": "factors-out-a-common-factor-that-is-not-the-greatest",
+        "rationale": "Factors out 6, a common factor of 36 and 24, but 6 and 4 still share a common factor of 2, so the sum is not fully factored using the greatest common factor."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "The factor pulled out in front must be the greatest common factor of both terms, not just any shared factor.",
+        "question": "What is the greatest common factor of 36 and 24?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Divide each term by that greatest common factor to find the numbers that belong inside the parentheses.",
+        "question": "Do the two numbers left inside the parentheses share any common factor greater than 1?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["12 x (3 + 2)", "12 × (3 + 2)", "12(3 + 2)", "12(3+2)"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present the sum and the factoring request as plain text; no area-model diagram is required.",
+    "accessibleAlternative": "Read aloud or display: Rewrite thirty-six plus twenty-four as the greatest common factor times a sum of two numbers with no common factor between them."
+  },
+  {
+    "id": "v2-coordinate-distance-horizontal",
+    "version": "candidate-content-1",
+    "title": "Horizontal distance across quadrants",
+    "skillCode": "coordinate-distance",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.NS.C.8"],
+    "prerequisiteSkillCodes": ["rational-number-representation"],
+    "observableEvidence": [
+      "Finds the horizontal distance between points that share a y-coordinate using the absolute value of their x-coordinate difference."
+    ],
+    "prompt": "Points A(-6, 4) and B(3, 4) are on a coordinate plane. How far apart are they?",
+    "solutionRepresentation": "The points share y-coordinate 4, so the horizontal distance is |3 - (-6)| = 9 units.",
+    "solutionMethod": "Subtract the x-coordinates and use absolute value for distance.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "9 units",
+      "acceptedAnswers": ["9", "9 units"],
+      "equivalenceNotes": "Accept 9 with or without the unit."
+    },
+    "answerFormat": "A positive numeric distance in units.",
+    "misconceptionCodes": ["subtracts-coordinates-without-taking-absolute-value"],
+    "misconceptionDistractors": [
+      {
+        "answer": "-9 units",
+        "misconceptionCode": "subtracts-coordinates-without-taking-absolute-value",
+        "rationale": "Reports a signed coordinate difference as a distance."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "The matching y-coordinates mean the segment is horizontal.",
+        "question": "Which coordinates should be compared for a horizontal distance?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["9 units"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present the ordered pairs and question as plain text; no coordinate-plane image is required.",
+    "accessibleAlternative": "Read aloud or display: Point A has x negative 6 and y 4. Point B has x 3 and y 4. They are on the same horizontal line. State the distance in units."
+  },
+  {
+    "id": "v2-coordinate-distance-vertical",
+    "version": "candidate-content-1",
+    "title": "Vertical distance through the origin",
+    "skillCode": "coordinate-distance",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.NS.C.8"],
+    "prerequisiteSkillCodes": ["rational-number-representation"],
+    "observableEvidence": [
+      "Finds the vertical distance between points in different quadrants that share an x-coordinate."
+    ],
+    "prompt": "Points C(2, -5) and D(2, 7) are on a coordinate plane. What is the distance from C to D?",
+    "solutionRepresentation": "The points share x-coordinate 2, so the vertical distance is |7 - (-5)| = 12 units.",
+    "solutionMethod": "Subtract the y-coordinates and use absolute value for distance.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "12 units",
+      "acceptedAnswers": ["12", "12 units"],
+      "equivalenceNotes": "Accept 12 with or without the unit."
+    },
+    "answerFormat": "A positive numeric distance in units.",
+    "misconceptionCodes": ["swaps-x-and-y-coordinate-roles"],
+    "misconceptionDistractors": [
+      {
+        "answer": "0 units",
+        "misconceptionCode": "swaps-x-and-y-coordinate-roles",
+        "rationale": "Uses the equal x-coordinates instead of comparing y-coordinates."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A vertical segment has matching x-coordinates.",
+        "question": "Which coordinates change as you move from C to D?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["12 units"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Give both ordered pairs in text and describe the shared x-coordinate; a visual grid is optional.",
+    "accessibleAlternative": "Read aloud or display: Both points have x-coordinate 2. Compare y negative 5 with y 7, then give the positive vertical distance in units."
+  },
+  {
+    "id": "v2-variables-in-context-workshops",
+    "version": "candidate-content-1",
+    "title": "Workshop cost variable",
+    "skillCode": "variables-in-context",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.EE.B.6"],
+    "prerequisiteSkillCodes": ["variables-and-expressions"],
+    "observableEvidence": [
+      "Uses a variable for a changing count and writes an expression for a fee plus repeated cost."
+    ],
+    "prompt": "A makerspace charges a $12 membership fee plus $4 for each workshop. Write an expression for the total cost if w is the number of workshops. Then state what w represents.",
+    "solutionRepresentation": "The total cost is 12 + 4w dollars, where w is the number of workshops and can be a nonnegative whole number.",
+    "solutionMethod": "Represent the fixed fee and add four dollars for each workshop.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "12 + 4w; w is the number of workshops",
+      "acceptedAnswers": [
+        "12 + 4w; w is the number of workshops",
+        "4w + 12; w is the number of workshops"
+      ],
+      "equivalenceNotes": "Accept either addend order when the response identifies w as the workshop count."
+    },
+    "answerFormat": "An algebraic expression followed by a semicolon and a phrase defining w.",
+    "misconceptionCodes": ["fails-to-name-the-quantity-represented-by-the-variable"],
+    "misconceptionDistractors": [
+      {
+        "answer": "12 + 4w; w means workshops",
+        "misconceptionCode": "fails-to-name-the-quantity-represented-by-the-variable",
+        "rationale": "Names the activity rather than the changing number of workshops."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Separate the one-time fee from the amount that repeats for every workshop.",
+        "question": "Which part changes when one more workshop is added?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["12 + 4w", "4w + 12"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present fees, variable, and task in plain text without relying on a price chart.",
+    "accessibleAlternative": "Read aloud or display: There is one fixed twelve-dollar fee and four dollars for every workshop. Use w for the changing number of workshops, then say in words what w counts."
+  },
+  {
+    "id": "v2-variables-in-context-seedlings",
+    "version": "candidate-content-1",
+    "title": "Changing number of seedling pots",
+    "skillCode": "variables-in-context",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.EE.B.6"],
+    "prerequisiteSkillCodes": ["variables-and-expressions"],
+    "observableEvidence": [
+      "Explains a variable's possible values in a whole-number context and writes a matching expression."
+    ],
+    "prompt": "A garden club has 3 extra seedlings. It puts 6 seedlings in each of n pots. Write an expression for the total number of seedlings. What values can n have?",
+    "solutionRepresentation": "The total is 6n + 3 seedlings. Since n counts pots, n can be any nonnegative whole number.",
+    "solutionMethod": "Multiply the changing pot count by six and add the three extras.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "6n + 3; n is a nonnegative whole number",
+      "acceptedAnswers": [
+        "6n + 3; n is a nonnegative whole number",
+        "3 + 6n; n is a nonnegative whole number"
+      ],
+      "equivalenceNotes": "Accept either addend order when n is restricted to nonnegative whole numbers."
+    },
+    "answerFormat": "An algebraic expression followed by a semicolon and the allowed values for n.",
+    "misconceptionCodes": ["assumes-a-variable-can-only-mean-one-fixed-quantity"],
+    "misconceptionDistractors": [
+      {
+        "answer": "6n + 3; n = 1",
+        "misconceptionCode": "assumes-a-variable-can-only-mean-one-fixed-quantity",
+        "rationale": "Treats the changing pot count as one fixed value."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "n counts pots, so changing n changes how many groups of six there are.",
+        "question": "What does six times n represent in this situation?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["6n + 3", "3 + 6n"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Use a text description of groups of seedlings; no pot or garden image is required.",
+    "accessibleAlternative": "Read aloud or display: n is the number of pots. Each pot has six seedlings, and three seedlings are extra. Give an expression and describe the kinds of numbers n can be."
+  },
+  {
+    "id": "v2-fraction-division-cups",
+    "version": "candidate-content-1",
+    "title": "Cups per serving",
+    "skillCode": "fraction-division",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.NS.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Divides a fraction by a fraction and interprets a non-whole-number quotient in a measurement context."
+    ],
+    "prompt": "A pitcher holds 5/6 liter of juice. Each serving is 1/4 liter. How many servings of juice are in the pitcher?",
+    "solutionRepresentation": "5/6 divided by 1/4 equals 5/6 times 4/1, or 10/3. The pitcher contains 10/3 servings.",
+    "solutionMethod": "Multiply by the reciprocal of the divisor and retain the serving unit.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "10/3 servings",
+      "acceptedAnswers": ["10/3", "3 1/3", "10/3 servings", "3 1/3 servings"],
+      "equivalenceNotes": "Accept equivalent improper-fraction or mixed-number forms, with or without the unit."
+    },
+    "answerFormat": "An improper fraction or mixed number, labeled servings.",
+    "misconceptionCodes": ["inverts-wrong-factor"],
+    "misconceptionDistractors": [
+      {
+        "answer": "3/10 servings",
+        "misconceptionCode": "inverts-wrong-factor",
+        "rationale": "Takes the reciprocal of the dividend rather than the divisor."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "The number of servings asks how many one-fourth-liter groups fit in five-sixths liter.",
+        "question": "Which fraction is the divisor in this division expression?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["10/3 servings", "3 1/3 servings"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present all fractions as linear text and describe the serving size in words; no pitcher image is required.",
+    "accessibleAlternative": "Read aloud or display: There are five-sixths of a liter total, and each serving uses one-fourth of a liter. Ask how many equal serving-size groups fit, and include the word servings in the response."
+  },
+  {
+    "id": "v2-fraction-division-tiles",
+    "version": "candidate-content-1",
+    "title": "Tile strips",
+    "skillCode": "fraction-division",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.NS.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Computes a fraction-divided-by-fraction quotient and labels it as a count of equal strips."
+    ],
+    "prompt": "A strip is 7/8 meter long. It is cut into equal pieces that are each 7/16 meter long. How many pieces are made?",
+    "solutionRepresentation": "7/8 divided by 7/16 equals 7/8 times 16/7, which simplifies to 2. The result is 2 pieces.",
+    "solutionMethod": "Multiply by the reciprocal of the piece length and simplify.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "2 pieces",
+      "acceptedAnswers": ["2", "2 pieces"],
+      "equivalenceNotes": "Accept 2 with or without the unit word pieces."
+    },
+    "answerFormat": "A whole-number count, labeled pieces.",
+    "misconceptionCodes": ["drops-units-from-quotient-answer"],
+    "misconceptionDistractors": [
+      {
+        "answer": "2",
+        "misconceptionCode": "drops-units-from-quotient-answer",
+        "rationale": "Gives the numeric quotient without identifying the count of pieces."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Write the total strip length divided by one piece length before changing division to multiplication.",
+        "question": "Which fraction describes the size of one piece?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["2 pieces"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Describe the total length and piece length in plain text rather than requiring a strip diagram.",
+    "accessibleAlternative": "Read aloud or display: A total strip length is seven-eighths meter. One equal piece is seven-sixteenths meter. State how many pieces result, including the word pieces."
+  },
+  {
+    "id": "v2-rational-number-operations-temperature",
+    "version": "candidate-content-1",
+    "title": "Temperature change",
+    "skillCode": "rational-number-operations",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.NS.C.7"],
+    "prerequisiteSkillCodes": ["rational-number-representation"],
+    "observableEvidence": [
+      "Adds rational numbers with unlike signs and interprets the signed result in context."
+    ],
+    "prompt": "At dawn, the temperature is -3.5 degrees. By noon it changes by +1.25 degrees. What is the temperature at noon?",
+    "solutionRepresentation": "Adding 1.25 to -3.5 gives -2.25, so the temperature remains 2.25 degrees below zero.",
+    "solutionMethod": "Add signed decimals by comparing magnitudes and keeping the sign of the greater magnitude.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "-2.25 degrees",
+      "acceptedAnswers": ["-2.25", "-2.25 degrees"],
+      "equivalenceNotes": "Accept -2.25 with or without the word degrees."
+    },
+    "answerFormat": "A signed decimal temperature in degrees.",
+    "misconceptionCodes": ["adds-magnitudes-instead-of-finding-signed-difference"],
+    "misconceptionDistractors": [
+      {
+        "answer": "4.75 degrees",
+        "misconceptionCode": "adds-magnitudes-instead-of-finding-signed-difference",
+        "rationale": "Adds the magnitudes instead of finding the signed difference."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A positive change moves the value toward zero from a negative starting temperature.",
+        "question": "Which magnitude is larger: 3.5 or 1.25?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["-2.25 degrees"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "State signed temperatures in text and words; no thermometer graphic or color convention is required.",
+    "accessibleAlternative": "Read aloud or display: Start at negative three point five degrees, then add positive one point two five degrees. State the resulting signed temperature."
+  },
+  {
+    "id": "v2-rational-number-operations-ordering",
+    "version": "candidate-content-1",
+    "title": "Ordering rational numbers",
+    "skillCode": "rational-number-operations",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.NS.C.7"],
+    "prerequisiteSkillCodes": ["rational-number-representation"],
+    "observableEvidence": [
+      "Orders positive and negative rational numbers by value and compares magnitudes within the negative numbers."
+    ],
+    "prompt": "List -1/2, -3/4, and 0.2 from greatest to least.",
+    "solutionRepresentation": "0.2 is positive, so it is greatest. Among the negatives, -1/2 is greater than -3/4 because it is closer to zero. The order is 0.2, -1/2, -3/4.",
+    "solutionMethod": "Place positive and negative values relative to zero, then compare negative magnitudes.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "0.2, -1/2, -3/4",
+      "acceptedAnswers": [
+        "0.2, -1/2, -3/4",
+        "0.2 > -1/2 > -3/4",
+        "0.2, -0.5, -0.75",
+        "0.2 > -0.5 > -0.75",
+        "1/5, -1/2, -3/4",
+        "1/5 > -1/2 > -3/4",
+        "1/5, -0.5, -0.75",
+        "1/5 > -0.5 > -0.75"
+      ],
+      "equivalenceNotes": "Accept comma-separated order or greater-than notation in the requested order, including equivalent decimal and fraction forms."
+    },
+    "answerFormat": "The three values ordered greatest to least, comma-separated or with greater-than signs.",
+    "misconceptionCodes": ["orders-numbers-by-sign-alone-ignoring-magnitude"],
+    "misconceptionDistractors": [
+      {
+        "answer": "0.2, -3/4, -1/2",
+        "misconceptionCode": "orders-numbers-by-sign-alone-ignoring-magnitude",
+        "rationale": "Does not compare the magnitudes of the two negative values."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "First compare every value with zero, then compare the two negative values by which is closer to zero.",
+        "question": "Which listed value is positive?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["0.2, -1/2, -3/4"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Use linear fraction and decimal notation in text; a number line can be supplemental but is not required.",
+    "accessibleAlternative": "Read aloud or display the three signed values one at a time. Ask for greatest to least and invite the learner to describe which negative value is closer to zero."
+  },
+  {
+    "id": "v2-distribution-description-dot-histogram",
+    "version": "candidate-content-1",
+    "title": "Dot plot and histogram summary",
+    "skillCode": "distribution-description",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.SP.A.2", "6.SP.B.4"],
+    "prerequisiteSkillCodes": ["statistical-questions"],
+    "observableEvidence": [
+      "Uses text-equivalent dot-plot and histogram data to describe center, spread, shape, and the measured context."
+    ],
+    "prompt": "Eight students recorded the number of pages they read yesterday: 2, 3, 3, 4, 5, 5, 5, 6. A dot plot would have one dot at 2, two at 3, one at 4, three at 5, and one at 6. A histogram with intervals 2-3, 4-5, and 6-7 has bar heights 3, 4, and 1. Give one sentence describing the center, spread, and shape of this pages-read distribution.",
+    "solutionRepresentation": "A complete description identifies pages read, a center around 4 to 5 pages, a spread from 2 to 6 pages, and a cluster from 3 to 5 pages.",
+    "solutionMethod": "Use either representation to locate the typical values, endpoints, and concentration of observations.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "Pages read are centered around 4 to 5 pages, range from 2 to 6 pages, and are clustered from 3 to 5 pages.",
+      "acceptedAnswers": [
+        "Pages read are centered around 4 to 5 pages, range from 2 to 6 pages, and are clustered from 3 to 5 pages."
+      ],
+      "equivalenceNotes": "Manual review is needed for equivalent complete summaries; this candidate validator accepts the canonical sentence only."
+    },
+    "answerFormat": "One sentence naming pages read and describing center, spread, and shape.",
+    "misconceptionCodes": ["omits-real-world-context-in-distribution-summary"],
+    "misconceptionDistractors": [
+      {
+        "answer": "Centered around 4 to 5, with a spread from 2 to 6 and a cluster from 3 to 5.",
+        "misconceptionCode": "omits-real-world-context-in-distribution-summary",
+        "rationale": "Gives numerical features but does not say that the values are pages read."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Use either the dot counts or the histogram bars to notice where observations concentrate and where the endpoints are.",
+        "question": "What quantity did the students measure?"
+      }
+    ],
+    "forbiddenLeakagePatterns": [
+      "Pages read are centered around 4 to 5 pages, range from 2 to 6 pages, and are clustered from 3 to 5 pages."
+    ],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Both plot forms are fully described with data values and bar heights in the prompt; do not rely on visual dots or bars alone.",
+    "accessibleAlternative": "Read aloud or display the eight-value list, then the dot counts and histogram interval counts in text. Ask for a sentence that names pages read and includes a typical region, endpoints, and where values cluster.",
+    "representations": ["dot plot", "histogram"]
+  },
+  {
+    "id": "v2-distribution-description-box-plot",
+    "version": "candidate-content-1",
+    "title": "Box plot summary",
+    "skillCode": "distribution-description",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.SP.A.2", "6.SP.B.4"],
+    "prerequisiteSkillCodes": ["statistical-questions"],
+    "observableEvidence": [
+      "Uses a text-equivalent box plot to describe center, spread, shape, and the measured context."
+    ],
+    "prompt": "A box plot summarizes minutes spent reading by a group of students. Its five-number summary is minimum 1, lower quartile 3, median 5, upper quartile 7, and maximum 9. Give one sentence describing the center, spread, and shape of the reading-time distribution.",
+    "solutionRepresentation": "The median is 5 minutes, the values span 1 to 9 minutes, the middle half spans 3 to 7 minutes, and the equal quartile intervals suggest a roughly symmetric distribution.",
+    "solutionMethod": "Interpret the five-number summary for median, total range, middle-half spread, and balance around the median.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "Reading time has a median of 5 minutes, ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric.",
+      "acceptedAnswers": [
+        "Reading time has a median of 5 minutes, ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric."
+      ],
+      "equivalenceNotes": "Manual review is needed for equivalent complete summaries; this candidate validator accepts the canonical sentence only."
+    },
+    "answerFormat": "One sentence naming reading time and describing center, spread, and shape.",
+    "misconceptionCodes": ["reports-only-the-maximum-value-as-the-distribution-summary"],
+    "misconceptionDistractors": [
+      {
+        "answer": "The reading-time distribution is 9 minutes.",
+        "misconceptionCode": "reports-only-the-maximum-value-as-the-distribution-summary",
+        "rationale": "Reports only the maximum instead of center, spread, shape, and context."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A five-number summary gives endpoints, a middle value, and the middle half of the data.",
+        "question": "Which number is the median reading time?"
+      }
+    ],
+    "forbiddenLeakagePatterns": [
+      "Reading time has a median of 5 minutes, ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric."
+    ],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Supply the five-number summary in text and name each value; do not require reading a visual box plot.",
+    "accessibleAlternative": "Read aloud or display: minimum 1, lower quartile 3, median 5, upper quartile 7, maximum 9 minutes of reading. Ask for a sentence about the typical value, spread, shape, and reading-time context.",
+    "representations": ["box plot"]
+  },
+  {
+    "id": "v2-rational-meaning-elevation",
+    "version": "candidate-content-1",
+    "title": "Elevation and its opposite",
+    "skillCode": "rational-number-meaning",
+    "mode": "core",
+    "difficulty": "foundational",
+    "standards": ["6.NS.C.5"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Interprets the sign and magnitude of a rational number in an elevation context and identifies its opposite."
+    ],
+    "prompt": "A trail marker is at an elevation of -18 meters relative to sea level. What do the sign and the number 18 mean, and what is the opposite elevation?",
+    "solutionRepresentation": "The negative sign means the marker is below sea level, and 18 is the distance from sea level. The opposite elevation is +18 meters.",
+    "solutionMethod": "Use the sign to identify direction relative to the reference point, use the absolute value for distance, and change the sign to find the opposite.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "Below sea level by 18 meters; opposite +18 meters",
+      "acceptedAnswers": [
+        "Below sea level by 18 meters; opposite +18 meters",
+        "18 meters below sea level; opposite 18 meters above sea level",
+        "negative 18 means 18 below sea level; opposite is positive 18 meters"
+      ],
+      "equivalenceNotes": "Accept equivalent wording that identifies the direction, distance, and opposite elevation."
+    },
+    "answerFormat": "A signed-context explanation with a distance and an opposite value.",
+    "misconceptionCodes": ["ignores-real-world-sign-meaning"],
+    "misconceptionDistractors": [
+      {
+        "answer": "18 meters above sea level; opposite -18 meters",
+        "misconceptionCode": "ignores-real-world-sign-meaning",
+        "rationale": "Reverses the real-world meaning of the negative sign and therefore also gives the wrong opposite context."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Identify the reference point first, then interpret the direction indicated by the sign.",
+        "question": "Does the sign place the marker above or below sea level?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "The opposite is the same distance from zero on the other side of the reference point.",
+        "question": "What would the elevation be on the other side at the same distance?"
+      }
+    ],
+    "forbiddenLeakagePatterns": [
+      "Below sea level by 18 meters",
+      "opposite +18 meters",
+      "18 meters below sea level"
+    ],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present the elevation, reference point, and requested interpretation in linear text.",
+    "accessibleAlternative": "Read aloud or display: A trail marker is eighteen meters below sea level. Explain the negative sign and distance, then give the elevation the same distance above sea level."
+  },
+  {
+    "id": "v2-rational-meaning-temperature",
+    "version": "candidate-content-1",
+    "title": "Comparing signed temperatures",
+    "skillCode": "rational-number-meaning",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.NS.C.5"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Interprets the sign and magnitude of rational numbers in a temperature context and compares their magnitudes."
+    ],
+    "prompt": "At dawn, Town A is -7 degrees Celsius and Town B is +3 degrees Celsius. Which town is farther from 0 degrees, and how much farther is it?",
+    "solutionRepresentation": "Town A is 7 degrees from 0, while Town B is 3 degrees from 0. Town A is farther from 0 by 4 degrees.",
+    "solutionMethod": "Compare absolute values to compare distances from zero, then subtract the smaller distance from the larger distance.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "Town A, by 4 degrees",
+      "acceptedAnswers": [
+        "Town A, by 4 degrees",
+        "Town A is 4 degrees farther from 0",
+        "A; 4 degrees"
+      ],
+      "equivalenceNotes": "Accept equivalent answers that identify Town A and a four-degree difference in distance from zero."
+    },
+    "answerFormat": "The town farther from zero and the difference in degrees.",
+    "misconceptionCodes": ["assumes-negative-number-always-has-smaller-magnitude"],
+    "misconceptionDistractors": [
+      {
+        "answer": "Town B, by 4 degrees",
+        "misconceptionCode": "assumes-negative-number-always-has-smaller-magnitude",
+        "rationale": "Assumes the positive temperature must have greater magnitude because it is positive, ignoring that magnitude is distance from zero."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Magnitude tells how far a value is from zero, regardless of its sign.",
+        "question": "What are the two distances from zero?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["Town A", "4 degrees"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Use signed temperature text and explicitly define distance from zero; no thermometer graphic is required.",
+    "accessibleAlternative": "Read aloud or display: Compare negative seven degrees and positive three degrees by asking which is farther from zero and by how many degrees."
+  },
+  {
+    "id": "v2-rational-representation-order",
+    "version": "candidate-content-1",
+    "title": "Ordering rational numbers",
+    "skillCode": "rational-number-representation",
+    "mode": "core",
+    "difficulty": "foundational",
+    "standards": ["6.NS.C.6"],
+    "prerequisiteSkillCodes": ["rational-number-meaning"],
+    "observableEvidence": [
+      "Orders equivalent fraction, decimal, and integer rational numbers on a number line."
+    ],
+    "prompt": "Place -0.5, -3/4, 0, and 1/4 in order from least to greatest.",
+    "solutionRepresentation": "-3/4 = -0.75, so the order is -3/4, -0.5, 0, 1/4.",
+    "solutionMethod": "Rewrite equivalent forms as decimals or locate each value relative to zero, then list them from left to right.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "-3/4, -0.5, 0, 1/4",
+      "acceptedAnswers": ["-3/4, -0.5, 0, 1/4", "-0.75, -0.5, 0, 0.25", "-3/4 < -1/2 < 0 < 1/4"],
+      "equivalenceNotes": "Accept equivalent decimal, fraction, or inequality forms that preserve the same order."
+    },
+    "answerFormat": "An ordered list or chain of equivalent rational forms.",
+    "misconceptionCodes": [
+      "compares-by-denominator-size-alone-ignoring-numerators-and-equivalence"
+    ],
+    "misconceptionDistractors": [
+      {
+        "answer": "-0.5, -3/4, 0, 1/4",
+        "misconceptionCode": "compares-by-denominator-size-alone-ignoring-numerators-and-equivalence",
+        "rationale": "Assumes the fraction with the larger denominator is larger, placing -1/2 before -3/4 without checking their actual values or number-line positions."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A number farther left on a number line is less; convert only enough forms to compare their locations.",
+        "question": "What decimal is equivalent to three-fourths?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["-3/4, -0.5, 0, 1/4", "-0.75", "-1/2"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Give all values in text with a verbal number-line direction; no draggable number line is required.",
+    "accessibleAlternative": "Read aloud or display: Order negative three-fourths, negative zero point five, zero, and one-fourth from least to greatest."
+  },
+  {
+    "id": "v2-rational-representation-coordinate",
+    "version": "candidate-content-1",
+    "title": "Rational coordinate placement",
+    "skillCode": "rational-number-representation",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.NS.C.6"],
+    "prerequisiteSkillCodes": ["rational-number-meaning"],
+    "observableEvidence": [
+      "Identifies rational coordinates in a coordinate plane and compares their positions using horizontal and vertical location."
+    ],
+    "prompt": "Point P has coordinates (-2, 1/2), and point Q has coordinates (1/2, -2). State each point's ordered pair and which point is farther left.",
+    "solutionRepresentation": "P is (-2, 1/2) and Q is (1/2, -2). Point P is farther left because -2 is less than 1/2 on the x-axis.",
+    "solutionMethod": "Read each ordered pair as (x, y), then compare the x-coordinates to determine horizontal position.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "P (-2, 1/2); Q (1/2, -2); P is farther left",
+      "acceptedAnswers": [
+        "P (-2, 1/2); Q (1/2, -2); P is farther left",
+        "P = (-2, 0.5), Q = (0.5, -2), P is farther left",
+        "P; (-2, 1/2); Q; (1/2, -2); P"
+      ],
+      "equivalenceNotes": "Accept decimal equivalents for one-half and any clear format that preserves coordinate order and the horizontal comparison."
+    },
+    "answerFormat": "Two ordered pairs and the point with the smaller x-coordinate.",
+    "misconceptionCodes": ["plots-x-and-y-coordinates-in-reversed-order"],
+    "misconceptionDistractors": [
+      {
+        "answer": "P (1/2, -2); Q (-2, 1/2); Q is farther left",
+        "misconceptionCode": "plots-x-and-y-coordinates-in-reversed-order",
+        "rationale": "Swaps x and y in both ordered pairs, which also reverses the horizontal comparison."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "In an ordered pair, the first coordinate controls horizontal position and the second controls vertical position.",
+        "question": "Which coordinate should be compared to decide which point is farther left?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["P (-2, 1/2)", "Q (1/2, -2)"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Describe coordinate roles in text and do not require visual plotting to state the ordered pairs.",
+    "accessibleAlternative": "Read aloud or display: Point P is left two and up one-half. Point Q is right one-half and down two. State their ordered pairs and which is farther left."
+  },
+  {
+    "id": "v2-powers-repeated-product",
+    "version": "candidate-content-1",
+    "title": "Writing a power from repeated multiplication",
+    "skillCode": "powers-and-whole-number-exponents",
+    "mode": "core",
+    "difficulty": "foundational",
+    "standards": ["6.EE.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Writes a numerical expression with a whole-number exponent from a repeated-multiplication description and identifies its base and exponent."
+    ],
+    "prompt": "Write 5 x 5 x 5 x 5 as a power. Name the base and exponent.",
+    "solutionRepresentation": "The expression is 5^4. The base is 5 because it is the repeated factor, and the exponent is 4 because there are four factors.",
+    "solutionMethod": "Count the repeated factors for the exponent and use the repeated factor as the base.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "5^4; base 5; exponent 4",
+      "acceptedAnswers": [
+        "5^4; base 5; exponent 4",
+        "5 to the fourth power; base 5; exponent 4",
+        "5 x 5 x 5 x 5 = 5^4; base 5; exponent 4"
+      ],
+      "equivalenceNotes": "Accept caret, words, or an equivalent repeated-product explanation."
+    },
+    "answerFormat": "A power plus the base and exponent labels.",
+    "misconceptionCodes": ["writes-exponent-as-the-base"],
+    "misconceptionDistractors": [
+      {
+        "answer": "4^5; base 4; exponent 5",
+        "misconceptionCode": "writes-exponent-as-the-base",
+        "rationale": "Uses the number of factors as the base and the repeated factor as the exponent."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "The base is the factor that repeats, and the exponent counts repetitions.",
+        "question": "Which number is repeated, and how many times does it appear?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["5^4", "base 5", "exponent 4"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Read the repeated multiplication linearly and name the two roles; no superscript rendering is required.",
+    "accessibleAlternative": "Read aloud or display: Write four factors of five multiplied together as a power, then identify the repeated factor and the number of factors."
+  },
+  {
+    "id": "v2-powers-evaluate",
+    "version": "candidate-content-1",
+    "title": "Evaluating a whole-number power",
+    "skillCode": "powers-and-whole-number-exponents",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.EE.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Evaluates a numerical expression involving a whole-number exponent and explains it as repeated multiplication."
+    ],
+    "prompt": "Evaluate 3^4 and show the repeated multiplication that gives the value.",
+    "solutionRepresentation": "3^4 = 3 x 3 x 3 x 3 = 81.",
+    "solutionMethod": "Use the exponent as the count of factors, then multiply the repeated base.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "81",
+      "acceptedAnswers": ["81", "3 x 3 x 3 x 3 = 81", "81 (3 multiplied by itself 4 times)"],
+      "equivalenceNotes": "Accept the value alone or a correct repeated-multiplication explanation."
+    },
+    "answerFormat": "A whole-number value with optional repeated-product work.",
+    "misconceptionCodes": ["multiplies-base-by-exponent-instead-of-repeated-multiplication"],
+    "misconceptionDistractors": [
+      {
+        "answer": "12",
+        "misconceptionCode": "multiplies-base-by-exponent-instead-of-repeated-multiplication",
+        "rationale": "Multiplies 3 by 4 instead of multiplying four factors of 3."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "An exponent tells how many copies of the base are multiplied together.",
+        "question": "How many factors of 3 should appear in the repeated product?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["81", "3 x 3 x 3 x 3"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Use caret notation and spell out the repeated multiplication in text; no superscript is required.",
+    "accessibleAlternative": "Read aloud or display: Multiply four factors of three and give the value of three to the fourth power."
+  },
+  {
+    "id": "v2-variables-expression-tickets",
+    "version": "candidate-content-1",
+    "title": "Expression for ticket cost",
+    "skillCode": "variables-and-expressions",
+    "mode": "core",
+    "difficulty": "foundational",
+    "standards": ["6.EE.A.2"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Writes an expression from a context, names the variable and operation parts, and evaluates it for a given variable value."
+    ],
+    "prompt": "A museum charges a 4-dollar entry fee plus 3 dollars for each exhibit tour. Let t be the number of tours. Write an expression for the cost and find the cost for 5 tours.",
+    "solutionRepresentation": "The expression is 4 + 3t. For t = 5, 4 + 3(5) = 19 dollars.",
+    "solutionMethod": "Represent the fixed fee with a constant and the repeated tour charge with a coefficient times the variable, then substitute the given value.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "4 + 3t; 19 dollars when t = 5",
+      "acceptedAnswers": ["4 + 3t; 19 dollars when t = 5", "3t + 4; 19", "4 + 3(5) = 19 dollars"],
+      "equivalenceNotes": "Accept commutative order for the sum and a clearly evaluated cost for five tours."
+    },
+    "answerFormat": "An expression in t and its evaluated dollar cost.",
+    "misconceptionCodes": ["treats-variable-as-word-label-not-quantity"],
+    "misconceptionDistractors": [
+      {
+        "answer": "4 + 3 tours dollars",
+        "misconceptionCode": "treats-variable-as-word-label-not-quantity",
+        "rationale": "Leaves the variable as the word 'tours' instead of treating t as a numerical quantity and substituting 5 to find a dollar amount."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Separate the fixed amount from the amount that repeats for each tour.",
+        "question": "Which part of the cost changes when the number of tours changes?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Replace the variable with the given number only after writing the general expression.",
+        "question": "What operation combines the entry fee with the tour charge?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["4 + 3t", "19 dollars", "4 + 3(5)"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "State the fixed fee, per-tour fee, variable, and substitution value in text; no ticket graphic is required.",
+    "accessibleAlternative": "Read aloud or display: A museum charges four dollars plus three dollars per tour. Use t for tours, write the cost expression, and evaluate it for five tours."
+  },
+  {
+    "id": "v2-variables-expression-rectangle",
+    "version": "candidate-content-1",
+    "title": "Evaluating a two-variable expression",
+    "skillCode": "variables-and-expressions",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.EE.A.2"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Identifies variable quantities and evaluates an expression with distinct values substituted into the correct variable positions."
+    ],
+    "prompt": "The expression 2l + 2w gives the perimeter of a rectangle. Find the perimeter when l = 8 centimeters and w = 3 centimeters, and state what l and w represent.",
+    "solutionRepresentation": "l represents length and w represents width. Substitute in the matching positions: 2(8) + 2(3) = 22 centimeters.",
+    "solutionMethod": "Match each value to its named variable, substitute in the same position, and evaluate using multiplication before addition.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "22 centimeters; l is length and w is width",
+      "acceptedAnswers": [
+        "22 centimeters; l is length and w is width",
+        "22 cm; l = length, w = width",
+        "2(8) + 2(3) = 22 centimeters"
+      ],
+      "equivalenceNotes": "Accept centimeter abbreviations and equivalent wording for the two variable meanings."
+    },
+    "answerFormat": "A perimeter with units and the meanings of both variables.",
+    "misconceptionCodes": ["substitutes-value-into-wrong-variable-position"],
+    "misconceptionDistractors": [
+      {
+        "answer": "20 centimeters",
+        "misconceptionCode": "substitutes-value-into-wrong-variable-position",
+        "rationale": "Uses the width value in the length position and the length value in the width position, changing the expression's matching variable assignments."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Keep each measurement paired with the variable whose name describes it.",
+        "question": "Which given value belongs in the position marked l?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["22 centimeters", "l is length", "w is width"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Read the expression with variable names and units in linear text; no rectangle image is required.",
+    "accessibleAlternative": "Read aloud or display: The perimeter expression is two times length plus two times width. Length is eight centimeters and width is three centimeters. Find the perimeter and name both variables."
+  },
+  {
+    "id": "v2-equivalent-distribute-verify",
+    "version": "candidate-content-1",
+    "title": "Distribute and verify equivalence",
+    "skillCode": "equivalent-expressions",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.EE.A.3", "6.EE.A.4"],
+    "prerequisiteSkillCodes": [
+      "variables-and-expressions",
+      "factors-multiples-and-distributive-structure"
+    ],
+    "observableEvidence": [
+      "Uses the distributive property to generate an equivalent expression and verifies equivalence by substitution."
+    ],
+    "prompt": "Rewrite 4(x + 3) using the distributive property, then verify that both expressions have the same value when x = 2.",
+    "solutionRepresentation": "4(x + 3) = 4x + 12. At x = 2, both expressions equal 20.",
+    "solutionMethod": "Multiply the factor by each term inside the parentheses, then substitute the same value into both forms.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "4x + 12; both equal 20 when x = 2",
+      "acceptedAnswers": [
+        "4x + 12; both equal 20 when x = 2",
+        "12 + 4x; 20 for each expression at x = 2",
+        "4x + 12 and 20"
+      ],
+      "equivalenceNotes": "Accept commutative order in the expanded expression and any clear verification showing both values are 20."
+    },
+    "answerFormat": "An equivalent expression and a numerical verification.",
+    "misconceptionCodes": ["distributes-factor-to-only-the-first-term"],
+    "misconceptionDistractors": [
+      {
+        "answer": "4x + 3; 11 when x = 2",
+        "misconceptionCode": "distributes-factor-to-only-the-first-term",
+        "rationale": "Multiplies 4 by x but leaves the constant 3 outside the distribution, so the resulting expression is not equivalent."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "The outside factor must multiply every term inside the parentheses.",
+        "question": "What does 4 multiply besides x?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Use the same x-value in the original and rewritten forms to test equivalence.",
+        "question": "What value does each form produce after substitution?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["4x + 12", "both equal 20", "20 when x = 2"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present the expression and substitution value in linear text; no algebra tiles or diagram is required.",
+    "accessibleAlternative": "Read aloud or display: Rewrite four times the sum of x and three by multiplying four by each term. Then test both forms when x is two."
+  },
+  {
+    "id": "v2-equivalent-commute-verify",
+    "version": "candidate-content-1",
+    "title": "Reordering an equivalent sum",
+    "skillCode": "equivalent-expressions",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.EE.A.3", "6.EE.A.4"],
+    "prerequisiteSkillCodes": [
+      "variables-and-expressions",
+      "factors-multiples-and-distributive-structure"
+    ],
+    "observableEvidence": [
+      "Uses a property to generate an equivalent expression and verifies the equivalence with substitution and structural reasoning."
+    ],
+    "prompt": "Are 7 + 2n and 2n + 7 equivalent? Name the property that justifies your answer and verify it when n = 5.",
+    "solutionRepresentation": "Yes. The commutative property of addition allows the terms to switch order. At n = 5, both expressions equal 17.",
+    "solutionMethod": "Identify that only the order of addends changes, name commutativity, and substitute a value into both expressions.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "Yes; commutative property; both equal 17 when n = 5",
+      "acceptedAnswers": [
+        "Yes; commutative property; both equal 17 when n = 5",
+        "Yes, addition is commutative; 7 + 10 = 10 + 7 = 17",
+        "Equivalent; commutative property; 17"
+      ],
+      "equivalenceNotes": "Accept equivalent naming such as commutative property of addition and a correct substitution check."
+    },
+    "answerFormat": "A yes/no equivalence judgment, property name, and substitution check.",
+    "misconceptionCodes": ["changes-operation-without-justification"],
+    "misconceptionDistractors": [
+      {
+        "answer": "No; the plus sign must change to multiplication",
+        "misconceptionCode": "changes-operation-without-justification",
+        "rationale": "Changes the operation instead of recognizing that the same addition operation remains and only addend order changes."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Compare the operations and terms before deciding whether the expressions differ structurally.",
+        "question": "Did the operation change, or did only the order of the addends change?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["commutative property", "both equal 17", "Equivalent"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Read both expressions and the substitution value in linear text; no visual rearrangement is required.",
+    "accessibleAlternative": "Read aloud or display: Compare seven plus two n with two n plus seven. Decide whether they are equivalent, name the addition property, and test with n equal to five."
+  },
+  {
+    "id": "v2-equation-meaning-truth-test",
+    "version": "candidate-content-1",
+    "title": "Testing a statement",
+    "skillCode": "equation-and-inequality-meaning",
+    "mode": "core",
+    "difficulty": "foundational",
+    "standards": ["6.EE.B.5"],
+    "prerequisiteSkillCodes": ["variables-and-expressions"],
+    "observableEvidence": [
+      "Determines whether a value makes an equation true by substituting and evaluating the statement."
+    ],
+    "prompt": "Does x = 6 make the equation 2x + 1 = 13 true? Explain by substitution.",
+    "solutionRepresentation": "Yes. Substitution gives 2(6) + 1 = 12 + 1 = 13, so the equation is true.",
+    "solutionMethod": "Replace the variable with the proposed value and compare the resulting two sides.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "Yes; 2(6) + 1 = 13",
+      "acceptedAnswers": [
+        "Yes; 2(6) + 1 = 13",
+        "Yes, because 12 + 1 = 13",
+        "True; substituting 6 gives 13"
+      ],
+      "equivalenceNotes": "Accept any clear substitution showing that both sides have the same value."
+    },
+    "answerFormat": "A truth judgment with a substitution calculation.",
+    "misconceptionCodes": ["assumes-every-equation-requires-performing-an-operation"],
+    "misconceptionDistractors": [
+      {
+        "answer": "No; x must be isolated first",
+        "misconceptionCode": "assumes-every-equation-requires-performing-an-operation",
+        "rationale": "Treats a truth-test as requiring an algebraic solving procedure instead of checking the proposed value directly."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "To test a proposed value, replace the variable with that value and evaluate both sides.",
+        "question": "What expression results when x is replaced by the proposed number?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["Yes", "2(6) + 1 = 13", "13"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present the equation and proposed value in linear text; no balance-scale graphic is required.",
+    "accessibleAlternative": "Read aloud or display: Test whether six makes two times x plus one equal thirteen by replacing x with six and comparing the result."
+  },
+  {
+    "id": "v2-equation-meaning-inequality-set",
+    "version": "candidate-content-1",
+    "title": "Describing an inequality solution",
+    "skillCode": "equation-and-inequality-meaning",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.EE.B.5"],
+    "prerequisiteSkillCodes": ["variables-and-expressions"],
+    "observableEvidence": [
+      "Determines which values make an inequality true and explains that the solution is a set of values satisfying the statement."
+    ],
+    "prompt": "For the inequality n + 2 < 7, decide whether n = 3 and n = 6 are solutions. Then describe the full solution set in words.",
+    "solutionRepresentation": "n = 3 is a solution because 3 + 2 < 7. n = 6 is not because 6 + 2 is not less than 7. The solution set is all numbers less than 5.",
+    "solutionMethod": "Test each candidate by substitution, then identify the boundary and describe every value that makes the inequality true.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "3 is a solution; 6 is not; all numbers less than 5",
+      "acceptedAnswers": [
+        "3 is a solution; 6 is not; all numbers less than 5",
+        "n = 3 true, n = 6 false; n < 5",
+        "3 yes, 6 no; values below 5"
+      ],
+      "equivalenceNotes": "Accept inequality notation or equivalent words describing the complete set below 5."
+    },
+    "answerFormat": "Two truth judgments and a description of the full inequality solution set.",
+    "misconceptionCodes": ["treats-inequality-solution-as-a-single-value"],
+    "misconceptionDistractors": [
+      {
+        "answer": "n = 3 is the solution",
+        "misconceptionCode": "treats-inequality-solution-as-a-single-value",
+        "rationale": "Reports one tested value instead of describing all values that satisfy the inequality."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Test each proposed value, then ask what values are on the same satisfying side of the boundary.",
+        "question": "What value makes n + 2 equal 7, and which side of it makes the expression smaller?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["3 is a solution", "6 is not", "less than 5", "n < 5"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "State the inequality and candidate values in text; the solution set can be described verbally without a number-line graphic.",
+    "accessibleAlternative": "Read aloud or display: For n plus two less than seven, test three and six, then say all numbers that make the statement true."
+  },
+  {
+    "id": "v2-equations-integer-coefficient",
+    "version": "candidate-content-1",
+    "title": "Solving and checking an equation",
+    "skillCode": "one-variable-equations",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.EE.B.7"],
+    "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "rational-number-operations"],
+    "observableEvidence": [
+      "Solves a one-variable equation and checks the solution in the original equation."
+    ],
+    "prompt": "Solve 3x + 5 = 20. Then substitute your value for x back into the original equation to check it.",
+    "solutionRepresentation": "Subtract 5 from both sides: 3x = 15. Divide by 3: x = 5. Check: 3(5) + 5 = 20.",
+    "solutionMethod": "Undo addition first and multiplication second, applying each inverse operation to both sides, then substitute the result into the original equation.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "x = 5; check 3(5) + 5 = 20",
+      "acceptedAnswers": [
+        "x = 5; check 3(5) + 5 = 20",
+        "x = 5; 15 + 5 = 20",
+        "5, and 3(5) + 5 = 20"
+      ],
+      "equivalenceNotes": "Accept equivalent notation that gives x = 5 and demonstrates a true substitution check."
+    },
+    "answerFormat": "A solved value and a substitution check in the original equation.",
+    "misconceptionCodes": ["performs-an-operation-on-only-one-side-of-the-equation"],
+    "misconceptionDistractors": [
+      {
+        "answer": "x = 20/3",
+        "misconceptionCode": "performs-an-operation-on-only-one-side-of-the-equation",
+        "rationale": "Subtracts 5 from the left side only, producing 3x = 20, then divides by 3 to reach x = 20/3."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Keep the equation balanced by using the same inverse operation on both sides.",
+        "question": "What should be removed from both sides before undoing the multiplication?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A check uses the original equation, not a rearranged intermediate line.",
+        "question": "What happens when your value replaces x in the original statement?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["x = 5", "3(5) + 5 = 20", "15 + 5 = 20"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present the equation and inverse-operation sequence in linear text; no balance-scale graphic is required.",
+    "accessibleAlternative": "Read aloud or display: Solve three times x plus five equals twenty, then replace x with your result in the original equation to check."
+  },
+  {
+    "id": "v2-equations-rational-coefficient",
+    "version": "candidate-content-1",
+    "title": "Solving with a rational coefficient",
+    "skillCode": "one-variable-equations",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.EE.B.7"],
+    "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "rational-number-operations"],
+    "observableEvidence": [
+      "Solves a one-variable equation with a nonnegative rational coefficient and checks the solution in the original equation."
+    ],
+    "prompt": "Solve (1/2)x + 4 = 10. Check your answer in the original equation.",
+    "solutionRepresentation": "Subtract 4 from both sides to get (1/2)x = 6. Multiply both sides by 2, so x = 12. Check: (1/2)(12) + 4 = 10.",
+    "solutionMethod": "Undo the constant first, then multiply both sides by the reciprocal of the rational coefficient, and substitute to check.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "x = 12; check (1/2)(12) + 4 = 10",
+      "acceptedAnswers": [
+        "x = 12; check (1/2)(12) + 4 = 10",
+        "x = 12; 6 + 4 = 10",
+        "12, and one-half times 12 plus 4 equals 10"
+      ],
+      "equivalenceNotes": "Accept fraction, word, or decimal notation when the value and original-equation check are correct."
+    },
+    "answerFormat": "A solved value with a substitution check using the original equation.",
+    "misconceptionCodes": ["skips-substitution-check-of-solution"],
+    "misconceptionDistractors": [
+      {
+        "answer": "x = 12 with no check",
+        "misconceptionCode": "skips-substitution-check-of-solution",
+        "rationale": "Gives the correct-looking solution but omits substituting it into the original equation, so the required verification evidence is missing."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "First isolate the term containing x by undoing the constant.",
+        "question": "What remains after subtracting 4 from both sides?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "To undo multiplication by one-half, use the operation that restores a whole quantity.",
+        "question": "What operation should be applied to both sides to isolate x?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["x = 12", "(1/2)(12) + 4 = 10", "6 + 4 = 10"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Spell out the fraction coefficient and substitution check in text; no stacked fraction typesetting is required.",
+    "accessibleAlternative": "Read aloud or display: One-half times x plus four equals ten. Solve for x, then replace x in the original equation to verify."
+  },
+  {
+    "id": "v2-inequality-sports-capacity",
+    "version": "candidate-content-1",
+    "title": "Capacity inequality",
+    "skillCode": "real-world-inequalities",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.EE.B.8"],
+    "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "rational-number-representation"],
+    "observableEvidence": [
+      "Writes an inequality for a real-world constraint, tests candidate values, and describes the solution set on a number line."
+    ],
+    "prompt": "A youth center has room for at most 24 people. There are already 9 people inside. Write an inequality for the number p of additional people, test p = 14 and p = 16, and describe the number-line solution set.",
+    "solutionRepresentation": "The inequality is 9 + p <= 24, or p <= 15. The value 14 works and 16 does not. The graph has a closed endpoint at 15 and shading to the left.",
+    "solutionMethod": "Translate 'at most' into less than or equal to, test each candidate in the context, and describe all allowable values from zero through 15.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "9 + p <= 24; 14 works, 16 does not; p <= 15 with a closed 15 and shading left",
+      "acceptedAnswers": [
+        "9 + p <= 24; 14 works, 16 does not; p <= 15 with a closed 15 and shading left",
+        "p <= 15; 14 yes, 16 no; closed dot at 15 and ray left",
+        "9 + p is at most 24; p can be 0 through 15"
+      ],
+      "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the closed-left ray and context restriction."
+    },
+    "answerFormat": "A context inequality, two candidate checks, and a number-line solution description.",
+    "misconceptionCodes": ["graphs-endpoint-only-instead-of-solution-ray"],
+    "misconceptionDistractors": [
+      {
+        "answer": "p = 15 only, shown as one closed point",
+        "misconceptionCode": "graphs-endpoint-only-instead-of-solution-ray",
+        "rationale": "Marks only the boundary value and omits the full set of smaller nonnegative values that also satisfy the capacity constraint."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Translate the phrase 'at most' before choosing the inequality symbol.",
+        "question": "Can the total equal 24, or must it be less than 24?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A solution set includes every value that keeps the total within capacity, not just the boundary.",
+        "question": "Which side of the boundary represents fewer additional people?"
+      }
+    ],
+    "forbiddenLeakagePatterns": [
+      "9 + p <= 24",
+      "p <= 15",
+      "closed endpoint at 15",
+      "shading to the left"
+    ],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Describe the inequality, candidate substitutions, endpoint inclusion, and shading direction in text; no visual number line is required.",
+    "accessibleAlternative": "Read aloud or display: A room holds at most twenty-four people and nine are inside. Model additional people with p, test fourteen and sixteen, and describe all allowed p values."
+  },
+  {
+    "id": "v2-inequality-budget-graph",
+    "version": "candidate-content-1",
+    "title": "Budget constraint on supplies",
+    "skillCode": "real-world-inequalities",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.EE.B.8"],
+    "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "rational-number-representation"],
+    "observableEvidence": [
+      "Writes and graphs a real-world inequality, tests candidate values, and identifies the complete solution set."
+    ],
+    "prompt": "A class has $30 for notebooks costing $4 each. Let n be the number of notebooks. Write an inequality, test n = 7 and n = 8, and describe the graph for whole-number notebook counts.",
+    "solutionRepresentation": "The inequality is 4n <= 30, so n <= 7.5. For whole notebooks, n can be 0 through 7: 7 works and 8 does not. On a real-number line, the boundary is 7.5 with a closed point and shading left; the context restricts choices to whole numbers.",
+    "solutionMethod": "Represent total cost with a product, compare it with the budget, test the candidates, and apply the whole-number context restriction.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "4n <= 30; 7 works, 8 does not; whole-number n is 0 through 7",
+      "acceptedAnswers": [
+        "4n <= 30; 7 works, 8 does not; whole-number n is 0 through 7",
+        "n <= 7.5; n = 7 yes, n = 8 no; notebooks are 0, 1, 2, 3, 4, 5, 6, or 7",
+        "4 times n is at most 30; maximum 7 whole notebooks"
+      ],
+      "equivalenceNotes": "Accept the real-number boundary together with the correctly restricted whole-number context solution."
+    },
+    "answerFormat": "An inequality, candidate tests, and the graph/whole-number solution description.",
+    "misconceptionCodes": ["flips-inequality-direction-without-justification"],
+    "misconceptionDistractors": [
+      {
+        "answer": "4n >= 30, so n >= 7.5",
+        "misconceptionCode": "flips-inequality-direction-without-justification",
+        "rationale": "Reverses the budget comparison even though spending four dollars per notebook must stay below or equal to the available thirty dollars."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "The total spent cannot exceed the amount available.",
+        "question": "Should the cost be less than or greater than the budget?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "The graph describes real-number possibilities first; the notebook context then keeps only whole-number choices.",
+        "question": "Which candidate value crosses the budget?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["4n <= 30", "7 works", "n is 0 through 7", "n <= 7.5"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Provide the budget, price, candidate values, and graph description in text; no interactive graph is required.",
+    "accessibleAlternative": "Read aloud or display: A class has thirty dollars and notebooks cost four dollars each. Use n, test seven and eight notebooks, and state the complete whole-number solution."
+  },
+  {
+    "id": "v2-relationships-bike-rental",
+    "version": "candidate-content-1",
+    "title": "Bike rental relationship",
+    "skillCode": "two-variable-relationships",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.EE.C.9"],
+    "prerequisiteSkillCodes": ["variables-in-context"],
+    "observableEvidence": [
+      "Identifies dependent and independent variables and represents one relationship with a table, graph, and equation."
+    ],
+    "prompt": "A bike rental costs $6 per hour. For 0, 1, 2, and 3 hours, give a table of hours h and cost c, state which variable depends on the other, write an equation, and describe the graph.",
+    "solutionRepresentation": "Table pairs are (0,0), (1,6), (2,12), (3,18). Hours h is independent and cost c depends on h. The equation is c = 6h; the graph is points on a line through the origin rising 6 dollars per hour.",
+    "solutionMethod": "Choose time as the input, multiply by the hourly rate for each output, write cost as a function of hours, and describe the resulting line.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "h independent, c dependent; c = 6h; pairs (0,0),(1,6),(2,12),(3,18); rising line through origin",
+      "acceptedAnswers": [
+        "h independent, c dependent; c = 6h; pairs (0,0),(1,6),(2,12),(3,18); rising line through origin",
+        "cost depends on hours; c = 6h; (0,0), (1,6), (2,12), (3,18)",
+        "h is input and c is output; cost is six times hours; graph is a straight increasing line from zero"
+      ],
+      "equivalenceNotes": "Accept equivalent table formatting and a clear text description of the increasing line through the origin."
+    },
+    "answerFormat": "Variable roles, table pairs, equation, and text graph description.",
+    "misconceptionCodes": ["swaps-dependent-and-independent-variable-roles"],
+    "misconceptionDistractors": [
+      {
+        "answer": "h depends on c; h = 6c",
+        "misconceptionCode": "swaps-dependent-and-independent-variable-roles",
+        "rationale": "Makes hours depend on cost, reversing the context's input-output roles and the equation's variables."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Ask which quantity can be chosen before the other quantity is known.",
+        "question": "Does the rental cost determine the number of hours, or does time determine the cost?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Use the same rule for every row, then look for the shape formed by the ordered pairs.",
+        "question": "What operation turns each hour value into its cost?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["c = 6h", "cost depends on hours", "(0,0), (1,6), (2,12), (3,18)"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Give the table pairs and graph shape in linear text; no plotted image is required.",
+    "accessibleAlternative": "Read aloud or display: A bike costs six dollars per hour. For zero through three hours, list hours and costs, say which depends on which, write the rule, and describe the graph."
+  },
+  {
+    "id": "v2-relationships-water-tank",
+    "version": "candidate-content-1",
+    "title": "Water tank relationship",
+    "skillCode": "two-variable-relationships",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.EE.C.9"],
+    "prerequisiteSkillCodes": ["variables-in-context"],
+    "observableEvidence": [
+      "Represents a changing real-world relationship with a table, graph, and equation and explains the dependent and independent variables."
+    ],
+    "prompt": "A tank starts with 10 liters and gains 3 liters each minute. For 0, 1, 2, and 4 minutes, give the time-volume table, identify the independent and dependent variables, write an equation, and describe the graph.",
+    "solutionRepresentation": "Pairs are (0,10), (1,13), (2,16), (4,22). Time t is independent and volume v depends on t. The equation is v = 10 + 3t; the graph is an increasing line with vertical intercept 10.",
+    "solutionMethod": "Start with the initial volume, add three for each minute, use time as the input, and represent the same rule in all three forms.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "t independent, v dependent; v = 10 + 3t; pairs (0,10),(1,13),(2,16),(4,22); increasing line with intercept 10",
+      "acceptedAnswers": [
+        "t independent, v dependent; v = 10 + 3t; pairs (0,10),(1,13),(2,16),(4,22); increasing line with intercept 10",
+        "volume depends on time; v = 3t + 10; (0,10), (1,13), (2,16), (4,22)",
+        "t input, v output; start at 10 and add 3 per minute; increasing line starting at 10"
+      ],
+      "equivalenceNotes": "Accept commutative order in the expression and any clear table and graph description preserving the same relationship."
+    },
+    "answerFormat": "Variable roles, table values, equation, and a graph description.",
+    "misconceptionCodes": ["treats-table-rows-as-unrelated-number-pairs"],
+    "misconceptionDistractors": [
+      {
+        "answer": "The pairs are separate facts; no equation is needed",
+        "misconceptionCode": "treats-table-rows-as-unrelated-number-pairs",
+        "rationale": "Treats each row as unrelated instead of recognizing that all pairs follow the same rule v = 10 + 3t and therefore form one graph and equation."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Look for the fixed starting amount and the constant change from one minute to the next.",
+        "question": "What volume is present at time zero, and how much is added per minute?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "The table, equation, and graph must all describe the same repeated change.",
+        "question": "What should the graph's starting height and slope represent?"
+      }
+    ],
+    "forbiddenLeakagePatterns": [
+      "v = 10 + 3t",
+      "pairs are (0,10)",
+      "increasing line with vertical intercept 10"
+    ],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Describe the table, equation, intercept, and constant rate in text; no tank illustration or graphing interface is required.",
+    "accessibleAlternative": "Read aloud or display: A tank has ten liters at time zero and gains three liters each minute. Use t and v to make the table for zero, one, two, and four minutes, write the rule, and describe the graph."
+  },
+  {
+    "id": "v2-polygon-area-garden",
+    "version": "candidate-content-1",
+    "title": "Composite garden area",
+    "skillCode": "polygon-area",
+    "mode": "core",
+    "difficulty": "foundational",
+    "standards": ["6.G.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Finds the area of a polygon in context by decomposing it into a rectangle and a right triangle and labels the result with square units."
+    ],
+    "prompt": "A garden is shaped like a 10-meter by 6-meter rectangle with a right triangle attached along a 6-meter side. The triangle extends 4 meters outward. What is the garden's total area?",
+    "solutionRepresentation": "Rectangle area is 10 x 6 = 60 square meters. Triangle area is (1/2) x 6 x 4 = 12 square meters. Total area is 72 square meters.",
+    "solutionMethod": "Decompose the polygon into non-overlapping familiar shapes, find each area, and add them with square units.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "72 square meters",
+      "acceptedAnswers": ["72 square meters", "72 m^2", "72 square m"],
+      "equivalenceNotes": "Accept equivalent square-unit notation."
+    },
+    "answerFormat": "A total area labeled in square meters with a decomposition explanation.",
+    "misconceptionCodes": ["counts-an-overlapping-region-twice-when-decomposing"],
+    "misconceptionDistractors": [
+      {
+        "answer": "96 square meters",
+        "misconceptionCode": "counts-an-overlapping-region-twice-when-decomposing",
+        "rationale": "Adds the 60-square-meter rectangle, a 24-square-meter 6-by-4 bounding rectangle, and the 12-square-meter triangle, counting the triangle's area inside that bounding rectangle a second time: 60 + 24 + 12 = 96 square meters."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Separate the garden into the rectangle and the attached triangle before calculating.",
+        "question": "Which area formula belongs to each part?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Area measures covered space, so combine square-unit areas rather than boundary lengths.",
+        "question": "What unit should the final area use?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["72 square meters", "60 square meters", "12 square meters"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Give every dimension and decomposition in linear text; no garden diagram is required.",
+    "accessibleAlternative": "Read aloud or display: Find the area of a ten-by-six rectangle plus a right triangle with base six and height four. Add the two square-meter areas."
+  },
+  {
+    "id": "v2-polygon-area-roof",
+    "version": "candidate-content-1",
+    "title": "Area of a parallelogram sign",
+    "skillCode": "polygon-area",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.G.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Finds the area of a special quadrilateral in a real-world context using a base and perpendicular height and reports square units."
+    ],
+    "prompt": "A parallelogram-shaped sign has a base of 12 feet and a perpendicular height of 5 feet. Find the area of the sign.",
+    "solutionRepresentation": "The area of a parallelogram is base x perpendicular height, so 12 x 5 = 60 square feet.",
+    "solutionMethod": "Use the perpendicular height rather than a slanted side, then multiply base by height and label the result in square units.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "60 square feet",
+      "acceptedAnswers": ["60 square feet", "60 ft^2", "60 square ft"],
+      "equivalenceNotes": "Accept equivalent square-foot notation."
+    },
+    "answerFormat": "An area in square feet using the base and perpendicular height.",
+    "misconceptionCodes": ["reports-perimeter-value-as-the-area"],
+    "misconceptionDistractors": [
+      {
+        "answer": "34 feet",
+        "misconceptionCode": "reports-perimeter-value-as-the-area",
+        "rationale": "Treats the given perpendicular height as if it were a side length, then adds the base and height twice as a boundary length, 2(12 + 5) = 34 feet, instead of multiplying base by perpendicular height for area."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A parallelogram's area uses the base and the perpendicular height, not the slanted side.",
+        "question": "Which measurement is perpendicular to the base?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["60 square feet", "60 ft^2", "60 square ft"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Describe the parallelogram, base, and perpendicular height in text; no sign image is required.",
+    "accessibleAlternative": "Read aloud or display: A parallelogram-shaped sign has a base of twelve feet and a perpendicular height of five feet. Find its area in square feet."
+  },
+  {
+    "id": "v2-prism-volume-fractions",
+    "version": "candidate-content-1",
+    "title": "Fractional-edge prism volume",
+    "skillCode": "fractional-prism-volume",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.G.A.2"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Calculates the volume of a rectangular prism with fractional edge lengths and labels the result with cubic units."
+    ],
+    "prompt": "A rectangular prism has length 2 1/2 feet, width 1 1/2 feet, and height 4 feet. What is its volume?",
+    "solutionRepresentation": "Volume is (5/2)(3/2)(4) = 15 cubic feet.",
+    "solutionMethod": "Convert mixed numbers to fractions, multiply the three edge lengths, and label the result in cubic units.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "15 cubic feet",
+      "acceptedAnswers": ["15 cubic feet", "15 ft^3", "15 cubic ft"],
+      "equivalenceNotes": "Accept equivalent cubic-foot notation."
+    },
+    "answerFormat": "A volume labeled in cubic feet.",
+    "misconceptionCodes": ["adds-edge-lengths-instead-of-multiplying"],
+    "misconceptionDistractors": [
+      {
+        "answer": "8 cubic feet",
+        "misconceptionCode": "adds-edge-lengths-instead-of-multiplying",
+        "rationale": "Adds the three edge lengths, 2.5 + 1.5 + 4 = 8, instead of multiplying dimensions to measure the prism's volume."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Volume counts layers of unit cubes, so combine all three edge lengths by multiplication.",
+        "question": "What operation connects length, width, and height for a rectangular prism?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["15 cubic feet", "15 ft^3", "15 cubic ft"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "State the three fractional edge lengths and multiplication in text; no 3-D rendering is required.",
+    "accessibleAlternative": "Read aloud or display: Multiply two and one-half feet, one and one-half feet, and four feet to find the prism's volume in cubic feet."
+  },
+  {
+    "id": "v2-prism-volume-context",
+    "version": "candidate-content-1",
+    "title": "Packing a fractional-edge box",
+    "skillCode": "fractional-prism-volume",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.G.A.2"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Calculates a fractional-edge rectangular-prism volume and interprets the result in a context with cubic units."
+    ],
+    "prompt": "A storage box is 3/4 meter long, 2 meters wide, and 1 1/3 meters high. What is its volume, and what does that volume measure?",
+    "solutionRepresentation": "Volume is (3/4)(2)(4/3) = 2 cubic meters. It measures the space inside the box.",
+    "solutionMethod": "Multiply the fractional dimensions, simplify the product, and interpret cubic meters as the amount of three-dimensional space inside.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "2 cubic meters; the space inside the box",
+      "acceptedAnswers": [
+        "2 cubic meters; the space inside the box",
+        "2 m^3; interior space",
+        "The box holds 2 cubic meters"
+      ],
+      "equivalenceNotes": "Accept equivalent cubic-meter notation and wording that identifies interior volume."
+    },
+    "answerFormat": "A cubic-meter volume and a context interpretation.",
+    "misconceptionCodes": ["labels-volume-answer-with-square-units"],
+    "misconceptionDistractors": [
+      {
+        "answer": "2 square meters",
+        "misconceptionCode": "labels-volume-answer-with-square-units",
+        "rationale": "Uses square units for a three-dimensional product, confusing area with the volume of space inside the box."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Multiply all three dimensions and track the unit from each dimension.",
+        "question": "What kind of unit results when three length units are multiplied?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "The numerical result describes how much three-dimensional space the box contains.",
+        "question": "What part of the box does volume measure?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["2 cubic meters", "2 m^3", "space inside the box"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present all dimensions and the unit interpretation in linear text; no box diagram is required.",
+    "accessibleAlternative": "Read aloud or display: A box is three-fourths meter by two meters by one and one-third meters. Find the cubic-meter space inside and explain what volume measures."
+  },
+  {
+    "id": "v2-coordinate-polygons-rectangle",
+    "version": "candidate-content-1",
+    "title": "Coordinate rectangle side lengths",
+    "skillCode": "coordinate-polygons",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.G.A.3"],
+    "prerequisiteSkillCodes": ["coordinate-distance"],
+    "observableEvidence": [
+      "Draws a polygon from coordinates and determines horizontal or vertical side lengths using coordinate differences."
+    ],
+    "prompt": "A rectangle has vertices A(-3, 1), B(4, 1), C(4, 5), and D(-3, 5). State the horizontal side length AB and vertical side length BC.",
+    "solutionRepresentation": "AB is horizontal, so its length is 4 - (-3) = 7 units. BC is vertical, so its length is 5 - 1 = 4 units.",
+    "solutionMethod": "For a horizontal side, subtract x-coordinates; for a vertical side, subtract y-coordinates. Use absolute distance when needed.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "AB = 7 units; BC = 4 units",
+      "acceptedAnswers": [
+        "AB = 7 units; BC = 4 units",
+        "horizontal 7, vertical 4",
+        "AB 7 and BC 4"
+      ],
+      "equivalenceNotes": "Accept equivalent labels and ordering when the horizontal and vertical lengths are correctly identified."
+    },
+    "answerFormat": "Two labeled axis-parallel side lengths in units.",
+    "misconceptionCodes": ["uses-diagonal-point-distance-for-an-axis-parallel-side"],
+    "misconceptionDistractors": [
+      {
+        "answer": "AB = sqrt(65) units; BC = 4 units",
+        "misconceptionCode": "uses-diagonal-point-distance-for-an-axis-parallel-side",
+        "rationale": "Uses the diagonal distance from A(-3, 1) to C(4, 5), sqrt(7^2 + 4^2) = sqrt(65), for horizontal side AB instead of using the shared y-coordinate and x-coordinate difference."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Horizontal movement changes x; vertical movement changes y.",
+        "question": "Which coordinate changes along AB, and which changes along BC?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["AB = 7 units", "BC = 4 units", "horizontal 7", "vertical 4"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "List all coordinates and axis directions in text; no coordinate-grid image is required.",
+    "accessibleAlternative": "Read aloud or display: A rectangle has corners negative three comma one; four comma one; four comma five; and negative three comma five. Find the horizontal bottom length and vertical right-side length."
+  },
+  {
+    "id": "v2-coordinate-polygons-l-shape",
+    "version": "candidate-content-1",
+    "title": "Coordinate L-shaped polygon",
+    "skillCode": "coordinate-polygons",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.G.A.3"],
+    "prerequisiteSkillCodes": ["coordinate-distance"],
+    "observableEvidence": [
+      "Draws a polygon from coordinates and labels multiple horizontal and vertical side lengths using coordinate differences."
+    ],
+    "prompt": "An L-shaped polygon has vertices (1, 1), (7, 1), (7, 3), (4, 3), (4, 6), and (1, 6). List the lengths of its six sides in the order given.",
+    "solutionRepresentation": "The side lengths are 6, 2, 3, 3, 3, and 5 units: x changes 6, y changes 2, x changes 3, y changes 3, x changes 3, and y changes 5.",
+    "solutionMethod": "Compare the changing coordinate between each consecutive pair, keeping horizontal and vertical differences separate.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "6, 2, 3, 3, 3, 5 units",
+      "acceptedAnswers": [
+        "6, 2, 3, 3, 3, 5 units",
+        "6 units, 2 units, 3 units, 3 units, 3 units, 5 units",
+        "6; 2; 3; 3; 3; 5"
+      ],
+      "equivalenceNotes": "Accept comma, semicolon, or labeled list notation in the requested side order."
+    },
+    "answerFormat": "Six axis-parallel side lengths in the stated order.",
+    "misconceptionCodes": ["swaps-horizontal-and-vertical-side-length"],
+    "misconceptionDistractors": [
+      {
+        "answer": "2, 6, 3, 3, 5, 3",
+        "misconceptionCode": "swaps-horizontal-and-vertical-side-length",
+        "rationale": "Uses vertical differences where horizontal differences are needed and horizontal differences where vertical differences are needed, swapping the first two and last two side roles."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Consecutive vertices define one horizontal or vertical side at a time.",
+        "question": "Do the two coordinates share x or share y for each side?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "For an axis-parallel side, only one coordinate difference is needed.",
+        "question": "Which coordinate difference gives the length of a horizontal side?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["6, 2, 3, 3, 3, 5 units", "side of length 3"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Provide the ordered vertex list and requested side order as text; no polygon drawing is required.",
+    "accessibleAlternative": "Read aloud or display: Starting at one comma one, trace to seven comma one, seven comma three, four comma three, four comma six, and one comma six. Find each consecutive horizontal or vertical distance."
+  },
+  {
+    "id": "v2-surface-area-box-net",
+    "version": "candidate-content-1",
+    "title": "Rectangular-prism net inventory",
+    "skillCode": "nets-and-surface-area",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.G.A.4"],
+    "prerequisiteSkillCodes": ["polygon-area"],
+    "observableEvidence": [
+      "Uses a text-described net to identify all faces of a rectangular prism and finds total surface area in square units."
+    ],
+    "prompt": "A rectangular prism is 5 cm long, 3 cm wide, and 2 cm high. A net has two 5-by-3 rectangles, two 5-by-2 rectangles, and two 3-by-2 rectangles. Find the total surface area.",
+    "solutionRepresentation": "Surface area is 2(5 x 3) + 2(5 x 2) + 2(3 x 2) = 30 + 20 + 12 = 62 square centimeters.",
+    "solutionMethod": "Inventory each congruent face pair in the net, find each pair's area, and add all six face areas.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "62 square centimeters",
+      "acceptedAnswers": ["62 square centimeters", "62 cm^2", "62 square cm"],
+      "equivalenceNotes": "Accept equivalent square-centimeter notation."
+    },
+    "answerFormat": "A total surface area labeled in square centimeters.",
+    "misconceptionCodes": ["omits-a-congruent-face-pair-from-the-net"],
+    "misconceptionDistractors": [
+      {
+        "answer": "42 square centimeters",
+        "misconceptionCode": "omits-a-congruent-face-pair-from-the-net",
+        "rationale": "Omits the entire pair of 5-by-2 faces, leaving 2(5 x 3) + 2(3 x 2) = 30 + 12 = 42 square centimeters."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A closed rectangular prism has three pairs of congruent faces.",
+        "question": "How many faces belong to each listed rectangle size?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["62 square centimeters", "62 cm^2", "30 + 20 + 12"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Describe every net face in text and do not require visual net interpretation.",
+    "accessibleAlternative": "Read aloud or display: A box measures five by three by two centimeters. Its net has two faces of each rectangle size. Add the areas of all six faces."
+  },
+  {
+    "id": "v2-surface-area-triangular-prism",
+    "version": "candidate-content-1",
+    "title": "Triangular-prism surface area",
+    "skillCode": "nets-and-surface-area",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.G.A.4"],
+    "prerequisiteSkillCodes": ["polygon-area"],
+    "observableEvidence": [
+      "Uses a text-described net of a triangular prism to identify all faces and finds total surface area in square units."
+    ],
+    "prompt": "A triangular prism net has two congruent right-triangle faces with legs 3 cm and 4 cm, and three rectangular faces measuring 5 by 10 cm, 3 by 10 cm, and 4 by 10 cm. Find the total surface area.",
+    "solutionRepresentation": "The two triangles have total area 2(1/2 x 3 x 4) = 12 square centimeters. The rectangles total 5 x 10 + 3 x 10 + 4 x 10 = 120 square centimeters. Total surface area is 132 square centimeters.",
+    "solutionMethod": "Find both triangular-face areas and all three rectangular-face areas, then add the five net-face areas.",
+    "deterministicValidator": {
+      "type": "numeric",
+      "canonicalAnswer": "132 square centimeters",
+      "acceptedAnswers": ["132 square centimeters", "132 cm^2", "132 square cm"],
+      "equivalenceNotes": "Accept equivalent square-centimeter notation."
+    },
+    "answerFormat": "A total triangular-prism surface area labeled in square centimeters.",
+    "misconceptionCodes": ["labels-surface-area-answer-with-cubic-units"],
+    "misconceptionDistractors": [
+      {
+        "answer": "132 cubic centimeters",
+        "misconceptionCode": "labels-surface-area-answer-with-cubic-units",
+        "rationale": "Keeps the correct surface-area number but labels the sum of two-dimensional face areas with cubic units, which are reserved for volume."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A triangular-prism net contains two triangles and three rectangles.",
+        "question": "Which faces have area 1/2 times base times height, and which use length times width?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Surface area covers faces, so the final unit is a squared length unit.",
+        "question": "What kind of unit should describe a face-area total?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["132 square centimeters", "132 cm^2", "132 cubic centimeters"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "List the two triangular faces and three rectangular faces in text; no net drawing is required.",
+    "accessibleAlternative": "Read aloud or display: A triangular prism net has two right triangles with legs three and four, plus rectangles five by ten, three by ten, and four by ten centimeters. Find total square centimeters."
+  },
+  {
+    "id": "v2-statistical-questions-classify",
+    "version": "candidate-content-1",
+    "title": "Classifying statistical questions",
+    "skillCode": "statistical-questions",
+    "mode": "core",
+    "difficulty": "foundational",
+    "standards": ["6.SP.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Classifies questions by whether they anticipate variability and identifies the population or measurement context."
+    ],
+    "prompt": "Classify each question as statistical or not statistical, and name the population or measurement context: (a) How many minutes do Grade 6 students at our school spend reading each evening? (b) How many minutes did Maya read last night?",
+    "solutionRepresentation": "(a) Statistical: it asks about many Grade 6 students and their answers may vary. (b) Not statistical: it asks for one person's single recorded value.",
+    "solutionMethod": "Look for a group or repeated measurements with expected variability, then name who or what is being measured.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "(a) statistical, Grade 6 students' reading times; (b) not statistical, Maya's one reading time",
+      "acceptedAnswers": [
+        "(a) statistical, Grade 6 students' reading times; (b) not statistical, Maya's one reading time",
+        "a statistical for Grade 6 students, b not statistical for Maya",
+        "a yes variable group; b no single value"
+      ],
+      "equivalenceNotes": "Accept equivalent classifications with the relevant population or measurement context."
+    },
+    "answerFormat": "Two classifications with a population or measurement context for each.",
+    "misconceptionCodes": ["expects-a-statistical-question-to-have-one-fixed-answer"],
+    "misconceptionDistractors": [
+      {
+        "answer": "Both are not statistical because neither has one fixed answer",
+        "misconceptionCode": "expects-a-statistical-question-to-have-one-fixed-answer",
+        "rationale": "Rejects the group-reading question because responses vary, even though anticipating variability is what makes part (a) statistical."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A statistical question expects different answers from a group or repeated measurements.",
+        "question": "Which question asks about many people's measurements?"
+      }
+    ],
+    "forbiddenLeakagePatterns": ["Grade 6 students' reading times"],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Present both questions and response variability in text; no classroom image is required.",
+    "accessibleAlternative": "Read aloud or display: Decide whether asking about reading times for all Grade 6 students, or one named student's time, anticipates a range of answers. Name the group or measurement."
+  },
+  {
+    "id": "v2-statistical-questions-revise",
+    "version": "candidate-content-1",
+    "title": "Revising a non-statistical question",
+    "skillCode": "statistical-questions",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.SP.A.1"],
+    "prerequisiteSkillCodes": [],
+    "observableEvidence": [
+      "Distinguishes a fixed-value question from a variable group question and revises a non-statistical question to anticipate variability."
+    ],
+    "prompt": "Is 'How many pets does Jordan have?' a statistical question? Explain, then revise it into a statistical question about students in a class and name the population.",
+    "solutionRepresentation": "The original is not statistical because it asks about one person's fixed count. A revision is 'How many pets do students in Class 6A have?' The population is students in Class 6A, and answers may vary.",
+    "solutionMethod": "Identify the single fixed subject, replace it with a group, and keep the measurement so different responses are possible.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "Not statistical; ask how many pets students in Class 6A have; population is Class 6A students",
+      "acceptedAnswers": [
+        "Not statistical; ask how many pets students in Class 6A have; population is Class 6A students",
+        "No; How many pets do students in a class have? Population: students in the class",
+        "single person is not statistical; class pet counts are statistical"
+      ],
+      "equivalenceNotes": "Accept any valid group-based revision that identifies its student population and allows variable answers."
+    },
+    "answerFormat": "A classification, explanation, revised statistical question, and named population.",
+    "misconceptionCodes": ["treats-a-data-value-as-the-statistical-question"],
+    "misconceptionDistractors": [
+      {
+        "answer": "The statistical question is 'Jordan has 2 pets'",
+        "misconceptionCode": "treats-a-data-value-as-the-statistical-question",
+        "rationale": "States one person's data value as the question instead of writing a question about a population whose pet counts may vary."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "A question is not the same thing as one recorded answer.",
+        "question": "Who should be measured so different pet counts can be compared?"
+      }
+    ],
+    "forbiddenLeakagePatterns": [
+      "Not statistical",
+      "students in Class 6A",
+      "How many pets do students"
+    ],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "State the single-person question and revised class question in linear text; no survey interface is required.",
+    "accessibleAlternative": "Read aloud or display: Decide whether asking about Jordan's number of pets is statistical. Rewrite it to ask about pet counts for a class, and name that class as the population."
+  },
+  {
+    "id": "v2-center-mean-range",
+    "version": "candidate-content-1",
+    "title": "Mean and range in context",
+    "skillCode": "center-and-variability",
+    "mode": "core",
+    "difficulty": "developing",
+    "standards": ["6.SP.A.3", "6.SP.B.5"],
+    "prerequisiteSkillCodes": ["distribution-description"],
+    "observableEvidence": [
+      "Computes a measure of center and a measure of variability and uses the number of observations and context to summarize a distribution."
+    ],
+    "prompt": "Five students recorded 4, 6, 6, 8, and 11 minutes spent reading. Find the mean and range, state the number of observations, and summarize what the values mean in context.",
+    "solutionRepresentation": "There are 5 observations. Mean = (4 + 6 + 6 + 8 + 11) / 5 = 7 minutes. Range = 11 - 4 = 7 minutes. A typical reading time is 7 minutes, and the times span 7 minutes. The 11-minute value is notably higher than the other readings and pulls the mean upward.",
+    "solutionMethod": "Add all observations and divide by their count for the mean; subtract minimum from maximum for range; include context and observation count in the summary.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "5 observations; mean 7 minutes; range 7 minutes; typical reading time 7 and span 7; 11 is notably high and pulls the mean upward",
+      "acceptedAnswers": [
+        "5 observations; mean 7 minutes; range 7 minutes; typical reading time 7 and span 7; 11 is notably high and pulls the mean upward",
+        "n = 5, mean = 7 min, range = 7 min; 11 min is notably high and pulls the mean upward",
+        "The average is 7 minutes and the range is 7 minutes across five students; 11 minutes is notably high and pulls the average upward"
+      ],
+      "equivalenceNotes": "Accept equivalent context summaries that name five observations, the 7-minute mean, the 7-minute range, and identify the notably high 11-minute reading as pulling the mean upward."
+    },
+    "answerFormat": "Mean, range, number of observations, and a contextual summary.",
+    "misconceptionCodes": ["reports-median-value-when-asked-for-the-mean"],
+    "misconceptionDistractors": [
+      {
+        "answer": "Mean = 6 minutes; range = 7 minutes",
+        "misconceptionCode": "reports-median-value-when-asked-for-the-mean",
+        "rationale": "Reports the middle ordered value, 6, as the mean while correctly finding the range; it does not add all five values and divide by 5."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "The mean uses every observation, while range compares only the two endpoints.",
+        "question": "What operation combines all five reading times for the mean?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A complete summary says who or what was measured and how many observations were included.",
+        "question": "What does the seven-minute spread describe about these students' reading times?"
+      }
+    ],
+    "forbiddenLeakagePatterns": [
+      "mean 7 minutes",
+      "range 7 minutes",
+      "5 observations",
+      "typical reading time 7"
+    ],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "List the five data values and calculations in text; no chart is required.",
+    "accessibleAlternative": "Read aloud or display: Five reading times are four, six, six, eight, and eleven minutes. Find their average, largest-minus-smallest spread, count the observations, summarize, and note whether one reading stands out and affects the average."
+  },
+  {
+    "id": "v2-center-median-iqr",
+    "version": "candidate-content-1",
+    "title": "Median and interquartile range",
+    "skillCode": "center-and-variability",
+    "mode": "core",
+    "difficulty": "challenging",
+    "standards": ["6.SP.A.3", "6.SP.B.5"],
+    "prerequisiteSkillCodes": ["distribution-description"],
+    "observableEvidence": [
+      "Chooses and computes measures of center and variability and uses context and observation count to summarize a distribution."
+    ],
+    "prompt": "The ordered delivery times for 7 packages are 2, 3, 4, 5, 7, 8, and 12 hours. Find the median and interquartile range, state the number of observations, and summarize the typical time and middle-half spread.",
+    "solutionRepresentation": "There are 7 observations. Median = 5 hours. Lower half is 2, 3, 4, so Q1 = 3. Upper half is 7, 8, 12, so Q3 = 8. IQR = 8 - 3 = 5 hours. A typical delivery is 5 hours, and the middle half spans 5 hours.",
+    "solutionMethod": "Use the middle ordered value for median, find the medians of the lower and upper halves for quartiles, subtract Q1 from Q3, and name the delivery-time context.",
+    "deterministicValidator": {
+      "type": "composite",
+      "canonicalAnswer": "7 observations; median 5 hours; IQR 5 hours; middle half from 3 to 8",
+      "acceptedAnswers": [
+        "7 observations; median 5 hours; IQR 5 hours; middle half from 3 to 8",
+        "n = 7, median = 5, Q1 = 3, Q3 = 8, IQR = 5 hours",
+        "The typical time is 5 hours and the middle 50 percent spans 5 hours"
+      ],
+      "equivalenceNotes": "Accept equivalent five-number or middle-half wording that gives median 5, quartiles 3 and 8, and IQR 5 hours."
+    },
+    "answerFormat": "Median, quartiles/IQR, observation count, and contextual summary.",
+    "misconceptionCodes": [
+      "reports-a-center-or-spread-value-without-context-or-number-of-observations"
+    ],
+    "misconceptionDistractors": [
+      {
+        "answer": "Median = 5; IQR = 5",
+        "misconceptionCode": "reports-a-center-or-spread-value-without-context-or-number-of-observations",
+        "rationale": "Gives the numerical center and spread but omits that these summarize 7 package delivery times measured in hours, leaving the statistics without context or observation count."
+      }
+    ],
+    "hintSteps": [
+      {
+        "order": 1,
+        "assistanceLevel": "small_strategic_hint",
+        "prompt": "Keep the data ordered: the median is the middle value, and the IQR uses the middle half.",
+        "question": "Which value has three observations on each side?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A summary needs both numerical results and what was measured.",
+        "question": "What units and observation count belong with the median and IQR?"
+      }
+    ],
+    "forbiddenLeakagePatterns": [
+      "median 5 hours",
+      "IQR 5 hours",
+      "middle half from 3 to 8",
+      "7 observations"
+    ],
+    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "review": {
+      "status": "pending_review",
+      "reviewer": "Pending human educator/content-owner review",
+      "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
+    },
+    "accessibilityNotes": "Provide the ordered delivery times and quartile instructions in text; no box plot is required.",
+    "accessibleAlternative": "Read aloud or display: Seven delivery times in hours are two, three, four, five, seven, eight, and twelve. Find the middle value and the range of the middle half, then summarize with units and count."
+  }
+]

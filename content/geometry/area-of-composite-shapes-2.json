@@ -51,5 +51,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present the dimensions as plain text; do not depend on a garden-plan image or color."
+  "accessibilityNotes": "Present the dimensions as plain text; do not depend on a garden-plan image or color.",
+  "accessibleAlternative": "Read aloud or display: A 10 meter by 8 meter rectangular garden has a 2 meter by 3 meter rectangular section removed for a walkway. Find the area that remains after subtracting the removed part."
 }

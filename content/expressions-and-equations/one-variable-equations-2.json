@@ -1,0 +1,57 @@
+{
+  "id": "one-variable-equations-2",
+  "version": "content-1",
+  "title": "Solving with a rational coefficient",
+  "skillCode": "one-variable-equations",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["6.EE.B.7"],
+  "prerequisiteSkillCodes": [
+    "equation-and-inequality-meaning",
+    "negative-numbers-and-absolute-value"
+  ],
+  "observableEvidence": [
+    "Solves a one-variable equation with a nonnegative rational coefficient and checks the solution in the original equation."
+  ],
+  "prompt": "Solve (1/2)x + 4 = 10. Check your answer in the original equation.",
+  "solutionRepresentation": "Subtract 4 from both sides to get (1/2)x = 6. Multiply both sides by 2, so x = 12. Check: (1/2)(12) + 4 = 10.",
+  "solutionMethod": "Undo the constant first, then multiply both sides by the reciprocal of the rational coefficient, and substitute to check.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "x = 12; check (1/2)(12) + 4 = 10",
+    "acceptedAnswers": [
+      "x = 12; check (1/2)(12) + 4 = 10",
+      "x = 12; 6 + 4 = 10",
+      "12, and one-half times 12 plus 4 equals 10"
+    ],
+    "equivalenceNotes": "Accept fraction, word, or decimal notation when the value and original-equation check are correct."
+  },
+  "misconceptionCodes": ["skips-substitution-check-of-solution"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "First isolate the term containing x by undoing the constant.",
+      "question": "What remains after subtracting 4 from both sides?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "To undo multiplication by one-half, use the operation that restores a whole quantity.",
+      "question": "What operation should be applied to both sides to isolate x?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["x = 12", "(1/2)(12) + 4 = 10", "6 + 4 = 10"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik (product/content owner)",
+    "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-09-17"
+  },
+  "accessibilityNotes": "Spell out the fraction coefficient and substitution check in text; no stacked fraction typesetting is required.",
+  "accessibleAlternative": "Read aloud or display: One-half times x plus four equals ten. Solve for x, then replace x in the original equation to verify."
+}

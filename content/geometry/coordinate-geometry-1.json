@@ -51,5 +51,6 @@
     "originalityStatement": "Written for this repository from first principles.",
     "reviewedAt": "2026-09-06"
   },
-  "accessibilityNotes": "Present coordinates as plain signed-number text; do not depend on a plotted graph image or color."
+  "accessibilityNotes": "Present coordinates as plain signed-number text; do not depend on a plotted graph image or color.",
+  "accessibleAlternative": "Read aloud or display: Point C is at (2, 5) and point D is at (2, -3). Because the x-coordinates match, find the vertical distance between the two y-values."
 }
