@@ -1,5 +1,40 @@
 # Progress
 
+## 2026-09-19 (cont.) — Math Kangaroo second independent review logged
+
+- **Scope:** Completed a second independent `curriculum-review` pass against
+  remediation commit `11c11fd` for the Math Kangaroo Grade 6
+  (`math-kangaroo-6`) skill graph, content, validator changes, and related
+  tests/catalog enforcement. Review notes were appended to
+  `docs/content-review.md` only; no `content/` or `src/` files were changed.
+- **Re-check outcome:** Verified that all five first-pass findings were
+  addressed structurally: all 8 contest items now have valid five-choice
+  `contestFormat` metadata and `multiple_choice` validators; the three false
+  prerequisite gates were removed or corrected and mirrored into content; the
+  calendar hint leak was fixed; text/time validator semantics now use `text`;
+  and the unqualified "Benjamin" heading was removed from
+  `docs/02-curriculum-and-pedagogy.md`.
+- **Remaining issues:** Logged 1 new **major** and 1 **minor** issue. Major:
+  `mk6-perimeter-and-area-reasoning-2` and `mk6-spatial-visualization-3d-2`
+  still leak their final multiple-choice answers via the first hint because
+  that hint asks for an intermediate quantity numerically equal to the final
+  answer. Minor: four contest records accept choice labels but their
+  `equivalenceNotes` do not consistently document that accepted form.
+- **Evidence:** Independently re-derived the four materially revised contest
+  answers (`mk6-clock-and-calendar-reasoning-2`,
+  `mk6-perimeter-and-area-reasoning-2`,
+  `mk6-spatial-visualization-3d-2`,
+  `mk6-combinatorial-counting-2`) and confirmed all are correct. Ran
+  `npm run content:validate`, `npm run curriculum:validate`,
+  `npm run typecheck`, `npm test` (65/65), `npm run build`,
+  `npx prettier --check docs/content-review.md docs/PROGRESS.md`, and
+  `git diff --check`; all passed.
+- **Review status and risk:** Advisory verdict remains
+  `Do not approve` / `not ready for human review`. All 16 Math Kangaroo
+  records remain `pending_review`; human content-owner approval stays blocked
+  until the remaining hint-leakage and metadata-nit findings are remediated
+  and independently re-checked.
+
 ## 2026-09-19 (cont.) — Math Kangaroo independent-review remediation
 
 - Resolved all 2 major and 3 minor findings from the first independent review
