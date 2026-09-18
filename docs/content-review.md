@@ -346,3 +346,72 @@ npm run content:validate
 - The validation/test additions are coherent and passed cleanly, but the
   remaining hint-leakage defect shows that the current automated leakage checks
   are still narrower than human pedagogical review.
+
+## 2026-09-19 (final pass) — Math Kangaroo Grade 6 skill graph and content — focused independent review after final remediation
+
+- **Scope:** Final focused re-review of remediation commit `843a02a`,
+  limited to the second-pass findings plus regression checks: hint ladders in
+  `mk6-perimeter-and-area-reasoning-2` and `mk6-spatial-visualization-3d-2`,
+  `equivalenceNotes` alignment in the four previously flagged contest items,
+  answer stability, and confirmation that all 16 Math Kangaroo records remain
+  `pending_review`.
+- **Reviewer:** Independent `curriculum-review` pass (advisory only; this
+  review does **not** change any content `review.status` field).
+- **Overall verdict:** **Approve**.
+- **Recommendation:** **ready for human review**.
+
+### What was checked
+
+1. **Previous-pass context:** re-read the first and second independent review
+   findings in this file and treated this pass as a true regression check, not
+   a fresh authoring review.
+2. **Focused hint-leakage review:** inspected **all hint steps** in
+   `mk6-perimeter-and-area-reasoning-2` and
+   `mk6-spatial-visualization-3d-2` for direct answer text, indirect answer
+   choice cueing, critical-intermediate leakage, and forbidden-pattern
+   substring hits.
+3. **Validator-note consistency:** verified `acceptedAnswers` against
+   `equivalenceNotes` in the four previously flagged contest records:
+   `mk6-multi-step-arithmetic-reasoning-2`,
+   `mk6-number-patterns-and-magic-squares-2`,
+   `mk6-angle-and-shape-properties-2`, and
+   `mk6-logical-deduction-puzzles-2`.
+4. **Answer and status regression:** confirmed the corrected canonical answers
+   did not change and that all 16 `math-kangaroo-6` content records still have
+   `review.status: "pending_review"`.
+5. **Technical integrity:** re-ran the existing validation/build checks
+   relevant to the change.
+
+### Focused findings
+
+- **No remaining blocker, major, or minor findings.**
+
+### Evidence
+
+- `mk6-perimeter-and-area-reasoning-2`: the revised hints now teach the
+  removed-lengths-versus-added-lengths invariant without asking for the final
+  numeric perimeter or naming the correct choice. No direct, indirect, or
+  critical-intermediate leakage remained.
+- `mk6-spatial-visualization-3d-2`: the revised hints now focus first on the
+  removed corner cube's outside/contact-face comparison before asking the
+  learner to reason about lost versus gained faces; they no longer disclose
+  the final surface-count value or uniquely identify the correct answer choice.
+- All four previously flagged `equivalenceNotes` strings now match their
+  `acceptedAnswers`, explicitly documenting accepted choice-label forms where
+  present.
+- No answer regressions found: the previously re-derived corrected answers
+  remain valid, including `32 meters` for
+  `mk6-perimeter-and-area-reasoning-2` and `52` for
+  `mk6-spatial-visualization-3d-2`.
+- All 16 Math Kangaroo content records remain `pending_review`; this pass does
+  not alter that gate.
+
+### Questions
+
+- None.
+
+### Residual risks
+
+- I found no remaining defect in the reviewed remediation scope. Human
+  product/content-owner approval is still required before any `pending_review`
+  Math Kangaroo record becomes servable.

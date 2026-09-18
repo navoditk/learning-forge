@@ -1,5 +1,29 @@
 # Progress
 
+## 2026-09-19 (cont.) — Math Kangaroo final focused independent review logged
+
+- **Scope:** Completed the final focused `curriculum-review` pass against
+  remediation commit `843a02a`, limited to the second-pass findings plus
+  regression checks. Review notes were appended to `docs/content-review.md`
+  only; no `content/` or `src/` files were changed in this pass.
+- **Outcome:** Verified the remaining second-pass findings are resolved. The
+  perimeter-invariance and exposed-faces contest items no longer leak the
+  final answer or a critical intermediate through their hint ladders.
+  `equivalenceNotes` now align with `acceptedAnswers` in all four previously
+  flagged contest records, including accepted choice-label forms.
+- **Evidence:** Confirmed no answer regression in the reviewed items
+  (including `32 meters` for `mk6-perimeter-and-area-reasoning-2` and `52`
+  for `mk6-spatial-visualization-3d-2`) and confirmed all 16 Math Kangaroo
+  content records remain `pending_review`. Ran
+  `npm run content:validate`, `npm run curriculum:validate`,
+  `npm run typecheck`, `npm test` (65/65), `npm run build`,
+  `npx prettier --check docs/content-review.md docs/PROGRESS.md`, and
+  `git diff --check`; all passed.
+- **Review status and risk:** Advisory verdict is now `Approve` /
+  `ready for human review`. This does **not** change any content
+  `review.status`; human content-owner approval is still required before the
+  Math Kangaroo records can become servable.
+
 ## 2026-09-19 (cont.) — Math Kangaroo second-review remediation
 
 - Resolved the second independent review's remaining major hint-leakage issue
