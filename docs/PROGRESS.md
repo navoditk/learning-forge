@@ -1,5 +1,39 @@
 # Progress
 
+## 2026-09-17 — AMC 8 primary-source gate resolved and research approved
+
+- Product owner supplied the current official MAA PDF, *Official Rules and
+  Policies: AMC 8, AMC 10, and AMC 12, 2026-2027* (updated August 21, 2026).
+  It directly confirms AMC 8's 25 questions, 40 minutes, eligibility, and
+  no-calculator policy.
+- Located the current official MAA 2023 AMC 8 sample page and linked booklet.
+  Its instructions directly confirm multiple choice, five choices A-E, and
+  scoring of 1 point correct / 0 wrong / 0 blank.
+- The AMC 8 dossier is approved with the previously selected Grade 6
+  guardrail: core prep first; contest-tier access only after structured
+  prerequisite evidence. Actual MAA problem wording, choices, diagrams, and
+  solutions remain inspiration-only and may not be reproduced.
+
+## 2026-09-17 — Math Kangaroo original accessible figures implemented
+
+- Implemented ADR-0004's authored-diagram boundary with an optional structured
+  `figure` field containing versioned inline SVG, alt text, caption, and
+  intrinsic dimensions. Validation permits only a restricted static SVG subset
+  and rejects scripts, event handlers, external references, styles, and
+  unapproved elements.
+- Added five original repository-owned figures to the current Math Kangaroo
+  geometry/spatial records: labeled rectangle, adjacent straight-line angles,
+  triangle with exterior angle, rectangular prism, and unit-cube block with a
+  removed corner. Each changed record is versioned `content-2` and retains a
+  complete nonvisual `accessibleAlternative`.
+- Learner sessions and the answer-redacted curriculum site render figures via
+  encoded SVG image data rather than injecting SVG markup into the DOM.
+- Added contract, catalog, and generated-site tests covering SVG safety,
+  figure/alt coverage, content versioning, and answer redaction.
+- Evidence: typecheck, lint, 71/71 unit/contract/content/curriculum tests, and
+  production build pass. All Math Kangaroo records remain `pending_review`
+  until the figure increment passes independent review.
+
 ## 2026-09-17 — Collapsible curriculum sidebar
 
 - Made authored program and domain groups in the curriculum site's left

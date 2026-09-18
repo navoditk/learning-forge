@@ -80,6 +80,16 @@ describe('skill catalog', () => {
     );
   });
 
+  it('renders answer-redacted curriculum figures with text alternatives', () => {
+    execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
+    const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
+
+    expect(generatedSite).toContain('<figure class="content-figure">');
+    expect(generatedSite).toContain('A triangle rests on a horizontal line');
+    expect(generatedSite).toContain('data:image/svg+xml;charset=utf-8,');
+    expect(generatedSite).not.toContain('Third triangle angle =');
+  });
+
   it('has no duplicate skill codes across the whole multi-program catalog', () => {
     expect(new Set(skillCatalog.map((skill) => skill.code)).size).toBe(skillCatalog.length);
   });

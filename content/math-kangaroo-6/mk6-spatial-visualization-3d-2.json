@@ -1,6 +1,6 @@
 {
   "id": "mk6-spatial-visualization-3d-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Exposed faces after removing a corner cube",
   "skillCode": "mk6-spatial-visualization-3d",
   "mode": "contest",
@@ -11,6 +11,13 @@
     "Compares removed and newly exposed unit-square faces when a corner cube is removed from a rectangular prism."
   ],
   "prompt": "A solid 4-by-3-by-2 rectangular block is built from unit cubes. One corner unit cube is removed. How many unit-square faces are exposed on the outside of the remaining block?",
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 340\" role=\"img\"><rect width=\"560\" height=\"340\" fill=\"#ffffff\"/><polygon points=\"110,120 350,120 445,60 205,60\" fill=\"#d9ece8\" stroke=\"#2c534f\" stroke-width=\"4\"/><polygon points=\"350,120 445,60 445,220 350,280\" fill=\"#c5ddd8\" stroke=\"#2c534f\" stroke-width=\"4\"/><polygon points=\"110,120 350,120 350,280 110,280\" fill=\"#eaf4f2\" stroke=\"#2c534f\" stroke-width=\"4\"/><polygon points=\"350,120 390,95 390,150 350,175\" fill=\"#ffffff\" stroke=\"#c16b36\" stroke-width=\"4\" stroke-dasharray=\"7 5\"/><line x1=\"170\" y1=\"120\" x2=\"170\" y2=\"280\" stroke=\"#7a9d97\" stroke-width=\"2\"/><line x1=\"230\" y1=\"120\" x2=\"230\" y2=\"280\" stroke=\"#7a9d97\" stroke-width=\"2\"/><line x1=\"290\" y1=\"120\" x2=\"290\" y2=\"280\" stroke=\"#7a9d97\" stroke-width=\"2\"/><line x1=\"110\" y1=\"200\" x2=\"350\" y2=\"200\" stroke=\"#7a9d97\" stroke-width=\"2\"/><line x1=\"382\" y1=\"100\" x2=\"382\" y2=\"260\" stroke=\"#7a9d97\" stroke-width=\"2\"/><line x1=\"414\" y1=\"80\" x2=\"414\" y2=\"240\" stroke=\"#7a9d97\" stroke-width=\"2\"/><line x1=\"350\" y1=\"200\" x2=\"445\" y2=\"140\" stroke=\"#7a9d97\" stroke-width=\"2\"/><text x=\"225\" y=\"315\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#22221f\">4 cubes long</text><text x=\"452\" y=\"155\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#22221f\">2 cubes tall</text><text x=\"365\" y=\"42\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#22221f\">3 cubes deep</text><text x=\"398\" y=\"180\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#8a3f25\">corner removed</text></svg>",
+    "altText": "A perspective drawing of a block four cubes long, three cubes deep, and two cubes tall. Grid lines show the unit cubes. One cube at the upper-right-front corner is outlined as removed, exposing three inward-facing square surfaces.",
+    "caption": "A 4-by-3-by-2 unit-cube block with one corner cube removed.",
+    "width": 560,
+    "height": 340
+  },
   "contestFormat": {
     "pointValue": 5,
     "answerChoices": [
@@ -60,6 +67,6 @@
     "reviewer": "Pending human content review (drafted by curriculum-author agent)",
     "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of unit-cube counting reasoning at contest difficulty; no problem or diagram reproduced from any contest archive."
   },
-  "accessibilityNotes": "Describe the cube stack's dimensions and the removed corner cube in plain text as an alternative to any 3D diagram.",
+  "accessibilityNotes": "Show the cube-stack diagram together with its complete text alternative; describe the removed corner and newly exposed faces without relying on color or perspective alone.",
   "accessibleAlternative": "Read aloud or display: A solid block measures 4 unit cubes by 3 unit cubes by 2 unit cubes. One corner cube is removed. Find the number of unit-square faces exposed on the outside from the five listed choices."
 }

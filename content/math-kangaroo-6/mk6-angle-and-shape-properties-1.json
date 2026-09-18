@@ -1,6 +1,6 @@
 {
   "id": "mk6-angle-and-shape-properties-1",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Angle on a straight line",
   "skillCode": "mk6-angle-and-shape-properties",
   "mode": "core",
@@ -11,6 +11,13 @@
     "Uses the fact that angles on a straight line sum to 180 degrees to find an unknown angle."
   ],
   "prompt": "Two angles sit next to each other on a straight line. One angle measures 65 degrees. What is the measure of the other angle?",
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 480 240\" role=\"img\"><rect width=\"480\" height=\"240\" fill=\"#ffffff\"/><line x1=\"55\" y1=\"180\" x2=\"425\" y2=\"180\" stroke=\"#22221f\" stroke-width=\"5\" stroke-linecap=\"round\"/><line x1=\"240\" y1=\"180\" x2=\"330\" y2=\"55\" stroke=\"#2c534f\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M 300 180 A 60 60 0 0 0 275 131\" fill=\"none\" stroke=\"#c16b36\" stroke-width=\"3\"/><path d=\"M 190 180 A 50 50 0 0 1 211 139\" fill=\"none\" stroke=\"#4378a6\" stroke-width=\"3\"/><circle cx=\"240\" cy=\"180\" r=\"5\" fill=\"#22221f\"/><text x=\"305\" y=\"145\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#22221f\">65 degrees</text><text x=\"165\" y=\"145\" font-family=\"Arial, sans-serif\" font-size=\"24\" fill=\"#22221f\">x</text></svg>",
+    "altText": "A horizontal straight line passes through a vertex. A ray rises up and to the right from the vertex, forming two adjacent angles above the line. The right angle is labeled 65 degrees and the left angle is labeled x.",
+    "caption": "Two adjacent angles on a straight line.",
+    "width": 480,
+    "height": 240
+  },
   "solutionRepresentation": "180 − 65 = 115 degrees.",
   "solutionMethod": "Subtract the known angle from 180 degrees, since angles on a straight line sum to 180 degrees.",
   "deterministicValidator": {
@@ -50,6 +57,6 @@
     "reviewer": "Pending human content review (drafted by curriculum-author agent)",
     "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of angle reasoning; no problem or diagram reproduced from any contest archive."
   },
-  "accessibilityNotes": "Describe the angle relationship in plain text; a diagram is optional and not required to solve the problem.",
+  "accessibilityNotes": "Show the angle diagram together with its complete text alternative; labels must remain legible without color.",
   "accessibleAlternative": "Read aloud or display: Two angles sit next to each other on a straight line. One angle measures 65 degrees. Find the measure of the other angle."
 }

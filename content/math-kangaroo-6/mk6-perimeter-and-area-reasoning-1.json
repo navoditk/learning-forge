@@ -1,6 +1,6 @@
 {
   "id": "mk6-perimeter-and-area-reasoning-1",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Fence around a garden",
   "skillCode": "mk6-perimeter-and-area-reasoning",
   "mode": "core",
@@ -9,6 +9,13 @@
   "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
   "observableEvidence": ["Finds the perimeter of a rectangle from its labeled length and width."],
   "prompt": "A rectangular garden is 9 meters long and 5 meters wide. How many meters of fencing are needed to go around the entire garden?",
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 480 260\" role=\"img\"><rect width=\"480\" height=\"260\" fill=\"#ffffff\"/><rect x=\"90\" y=\"55\" width=\"300\" height=\"150\" rx=\"3\" fill=\"#e4efed\" stroke=\"#2c534f\" stroke-width=\"5\"/><line x1=\"90\" y1=\"225\" x2=\"390\" y2=\"225\" stroke=\"#5b5b55\" stroke-width=\"2\"/><line x1=\"90\" y1=\"216\" x2=\"90\" y2=\"234\" stroke=\"#5b5b55\" stroke-width=\"2\"/><line x1=\"390\" y1=\"216\" x2=\"390\" y2=\"234\" stroke=\"#5b5b55\" stroke-width=\"2\"/><text x=\"240\" y=\"250\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#22221f\">9 meters</text><line x1=\"55\" y1=\"55\" x2=\"55\" y2=\"205\" stroke=\"#5b5b55\" stroke-width=\"2\"/><line x1=\"46\" y1=\"55\" x2=\"64\" y2=\"55\" stroke=\"#5b5b55\" stroke-width=\"2\"/><line x1=\"46\" y1=\"205\" x2=\"64\" y2=\"205\" stroke=\"#5b5b55\" stroke-width=\"2\"/><text x=\"28\" y=\"136\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#22221f\" transform=\"rotate(-90 28 136)\">5 meters</text></svg>",
+    "altText": "A rectangle representing a garden. Its horizontal side is labeled 9 meters and its vertical side is labeled 5 meters.",
+    "caption": "Rectangular garden with its length and width labeled.",
+    "width": 480,
+    "height": 260
+  },
   "solutionRepresentation": "Perimeter = 2(9 + 5) = 2 × 14 = 28 meters.",
   "solutionMethod": "Add the length and width, then double the sum to get the total perimeter.",
   "deterministicValidator": {
@@ -48,6 +55,6 @@
     "reviewer": "Pending human content review (drafted by curriculum-author agent)",
     "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of perimeter reasoning; no problem reproduced from any contest archive."
   },
-  "accessibilityNotes": "Present the rectangle's dimensions in plain text; a diagram is optional and not required to solve the problem.",
+  "accessibilityNotes": "Show the labeled rectangle together with its complete text alternative; do not rely on visual position alone.",
   "accessibleAlternative": "Read aloud or display: A rectangular garden is 9 meters long and 5 meters wide. Find how many meters of fencing are needed to go around the entire garden."
 }

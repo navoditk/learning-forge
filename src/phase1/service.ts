@@ -151,6 +151,7 @@ export async function startSession(
       skillCode: content.skillCode,
       prompt: content.prompt,
       accessibilityNotes: content.accessibilityNotes,
+      figure: content.figure,
     },
     ...state,
   };

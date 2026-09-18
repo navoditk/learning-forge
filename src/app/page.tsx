@@ -1,8 +1,10 @@
 'use client';
 
 import { FormEvent, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
+import { svgDataUri, type ContentFigure } from '../content/figure';
 import { ProgramSwitcher } from './components/program-switcher';
 
 type Session = {
@@ -13,7 +15,13 @@ type Session = {
   latestAttempt?: { attemptId: string; correctness: string };
   latestCheck?: { attemptId: string; correctness: string };
   learner: { displayName: string };
-  content: { id: string; title: string; prompt: string; accessibilityNotes: string };
+  content: {
+    id: string;
+    title: string;
+    prompt: string;
+    accessibilityNotes: string;
+    figure?: ContentFigure;
+  };
 };
 
 type AttemptResult = { attemptId: string; correctness: string };
@@ -439,6 +447,18 @@ export default function Home() {
           <p role="status">Independent check passed — this activity is complete.</p>
         )}
         <p>{session.content.prompt}</p>
+        {session.content.figure && (
+          <figure className="content-figure">
+            <Image
+              src={svgDataUri(session.content.figure.svgMarkup)}
+              alt={session.content.figure.altText}
+              width={session.content.figure.width}
+              height={session.content.figure.height}
+              unoptimized
+            />
+            <figcaption>{session.content.figure.caption}</figcaption>
+          </figure>
+        )}
         <p>
           <small>{session.content.accessibilityNotes}</small>
         </p>

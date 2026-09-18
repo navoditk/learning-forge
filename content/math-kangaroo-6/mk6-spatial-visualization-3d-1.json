@@ -1,6 +1,6 @@
 {
   "id": "mk6-spatial-visualization-3d-1",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Faces of a rectangular box",
   "skillCode": "mk6-spatial-visualization-3d",
   "mode": "core",
@@ -11,6 +11,13 @@
     "Counts the number of faces, edges, or vertices of a rectangular solid without a picture, reasoning from its structure."
   ],
   "prompt": "A rectangular box (a rectangular prism) has a different length, width, and height. How many faces does the box have in total?",
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 500 300\" role=\"img\"><rect width=\"500\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"120,105 315,105 390,55 195,55\" fill=\"#d9ece8\" stroke=\"#2c534f\" stroke-width=\"4\" stroke-linejoin=\"round\"/><polygon points=\"315,105 390,55 390,190 315,240\" fill=\"#c5ddd8\" stroke=\"#2c534f\" stroke-width=\"4\" stroke-linejoin=\"round\"/><rect x=\"120\" y=\"105\" width=\"195\" height=\"135\" fill=\"#eaf4f2\" stroke=\"#2c534f\" stroke-width=\"4\"/><line x1=\"120\" y1=\"105\" x2=\"195\" y2=\"55\" stroke=\"#2c534f\" stroke-width=\"4\"/><line x1=\"120\" y1=\"240\" x2=\"195\" y2=\"190\" stroke=\"#77756e\" stroke-width=\"3\" stroke-dasharray=\"8 7\"/><line x1=\"195\" y1=\"55\" x2=\"195\" y2=\"190\" stroke=\"#77756e\" stroke-width=\"3\" stroke-dasharray=\"8 7\"/><line x1=\"195\" y1=\"190\" x2=\"390\" y2=\"190\" stroke=\"#77756e\" stroke-width=\"3\" stroke-dasharray=\"8 7\"/></svg>",
+    "altText": "A perspective drawing of a rectangular prism. The front, top, and right faces are visible. Dashed lines indicate the three hidden back edges.",
+    "caption": "Rectangular prism with visible and hidden edges.",
+    "width": 500,
+    "height": 300
+  },
   "solutionRepresentation": "A rectangular prism has 3 pairs of opposite, congruent faces: top/bottom, front/back, left/right, totaling 6 faces.",
   "solutionMethod": "Count the pairs of opposite faces on a rectangular prism: top-bottom, front-back, and left-right.",
   "deterministicValidator": {
@@ -50,6 +57,6 @@
     "reviewer": "Pending human content review (drafted by curriculum-author agent)",
     "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of 3D-solid reasoning; no problem or diagram reproduced from any contest archive."
   },
-  "accessibilityNotes": "Describe the rectangular box verbally (a shoebox-like shape) rather than relying solely on a 3D image.",
+  "accessibilityNotes": "Show the prism together with its complete text alternative; dashed hidden edges must not be the only way hidden structure is conveyed.",
   "accessibleAlternative": "Read aloud or display: A rectangular box has a different length, width, and height. Find the total number of flat faces the box has."
 }

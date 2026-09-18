@@ -18,6 +18,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import type { ContentItem } from '../src/contracts/content';
 import type { CurriculumDomain, Skill } from '../src/contracts/curriculum';
 import { contentCatalog } from '../src/content/catalog';
+import { svgDataUri } from '../src/content/figure';
 import { skillCatalog } from '../src/curriculum/catalog';
 import { PROGRAM_ROSTER } from '../src/curriculum/program-roster';
 
@@ -73,6 +74,14 @@ function renderContentItem(item: ContentItem): string {
       </div>
       <p class="content-item-title">${escapeHtml(item.title)}</p>
       <p class="content-item-prompt">${escapeHtml(item.prompt)}</p>
+      ${
+        item.figure
+          ? `<figure class="content-figure">
+              <img src="${svgDataUri(item.figure.svgMarkup)}" alt="${escapeHtml(item.figure.altText)}" width="${item.figure.width}" height="${item.figure.height}" />
+              <figcaption>${escapeHtml(item.figure.caption)}</figcaption>
+            </figure>`
+          : ''
+      }
     </li>`;
 }
 
@@ -373,6 +382,9 @@ const CSS = `
   .badge-pending { background: var(--pending-soft); color: var(--pending); }
   .content-item-title { font-weight: 600; margin: 0 0 0.2rem; }
   .content-item-prompt { margin: 0; color: var(--text-muted); }
+  .content-figure { margin: 0.75rem 0 0; }
+  .content-figure img { display: block; width: 100%; height: auto; max-height: 320px; object-fit: contain; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+  .content-figure figcaption { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.35rem; }
   .nav-program-disabled { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
   .nav-program-disabled a { color: var(--text-muted); font-weight: 400; }
   .program-section-empty h1 { display: flex; align-items: center; gap: 0.75rem; font-size: 1.4rem; }

@@ -75,6 +75,48 @@ export const ContestFormatSchema = z
     }
   });
 
+const ALLOWED_SVG_ELEMENTS = new Set([
+  'circle',
+  'ellipse',
+  'g',
+  'line',
+  'path',
+  'polygon',
+  'polyline',
+  'rect',
+  'svg',
+  'text',
+]);
+
+export const ContentFigureSchema = z
+  .object({
+    svgMarkup: z.string().trim().min(1).max(12_000),
+    altText: z.string().trim().min(1).max(1000),
+    caption: z.string().trim().min(1).max(300),
+    width: z.number().int().min(200).max(1200),
+    height: z.number().int().min(120).max(800),
+  })
+  .strict()
+  .superRefine((figure, context) => {
+    const svg = figure.svgMarkup;
+    const elementNames = [...svg.matchAll(/<\s*\/?\s*([a-zA-Z][\w-]*)/g)].map((match) =>
+      match[1].toLowerCase(),
+    );
+    if (
+      !svg.startsWith('<svg ') ||
+      !svg.endsWith('</svg>') ||
+      !svg.includes('viewBox=') ||
+      elementNames.some((element) => !ALLOWED_SVG_ELEMENTS.has(element)) ||
+      /(?:\bon[a-z]+\s*=|\bhref\s*=|\bxlink:|url\s*\(|<\s*style\b)/i.test(svg)
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['svgMarkup'],
+        message: 'Figure SVG must use only the approved static SVG subset',
+      });
+    }
+  });
+
 export const ContentReviewSchema = z
   .object({
     status: z.enum(['pending_review', 'reviewed']),
@@ -112,6 +154,7 @@ export const ContentItemSchema = z
     misconceptionCodes: z.array(z.string().regex(/^[a-z0-9-]+$/)).max(10),
     hintSteps: z.array(HintStepSchema).min(1).max(10),
     forbiddenLeakagePatterns: z.array(z.string().trim().min(1).max(200)).max(20),
+    figure: ContentFigureSchema.optional(),
     // accessibilityNotes: guidance on how to present the item (e.g. avoid color dependence).
     // accessibleAlternative: an actual plain-text restatement of the prompt/data a
     // non-visual/assistive-technology learner can use in place of any diagram or image.

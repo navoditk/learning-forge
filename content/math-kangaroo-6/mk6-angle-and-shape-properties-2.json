@@ -1,6 +1,6 @@
 {
   "id": "mk6-angle-and-shape-properties-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Triangle angle chain",
   "skillCode": "mk6-angle-and-shape-properties",
   "mode": "contest",
@@ -11,6 +11,13 @@
     "Uses the triangle angle sum together with a supplementary-angle relationship across two connected shapes to find an unknown angle."
   ],
   "prompt": "In a triangle, one angle measures 50 degrees and a second angle measures 70 degrees. The third angle of this triangle is supplementary to (forms a straight line with) an angle labeled x in an adjacent figure. What is the measure of angle x?",
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 520 300\" role=\"img\"><rect width=\"520\" height=\"300\" fill=\"#ffffff\"/><line x1=\"55\" y1=\"235\" x2=\"465\" y2=\"235\" stroke=\"#22221f\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"105,235 300,55 385,235\" fill=\"#e4efed\" stroke=\"#2c534f\" stroke-width=\"5\" stroke-linejoin=\"round\"/><path d=\"M 150 235 A 45 45 0 0 0 134 202\" fill=\"none\" stroke=\"#c16b36\" stroke-width=\"3\"/><path d=\"M 277 77 A 34 34 0 0 0 325 86\" fill=\"none\" stroke=\"#4378a6\" stroke-width=\"3\"/><path d=\"M 425 235 A 40 40 0 0 0 397 197\" fill=\"none\" stroke=\"#8a4f8d\" stroke-width=\"3\"/><text x=\"143\" y=\"205\" font-family=\"Arial, sans-serif\" font-size=\"19\" fill=\"#22221f\">50 degrees</text><text x=\"281\" y=\"108\" font-family=\"Arial, sans-serif\" font-size=\"19\" fill=\"#22221f\">70 degrees</text><text x=\"421\" y=\"205\" font-family=\"Arial, sans-serif\" font-size=\"25\" fill=\"#22221f\">x</text></svg>",
+    "altText": "A triangle rests on a horizontal line that extends to the right. The triangle's left interior angle is labeled 50 degrees and its top interior angle is labeled 70 degrees. At the right vertex, the exterior angle on the straight-line extension is labeled x.",
+    "caption": "Triangle with two interior angles and an adjacent exterior angle labeled.",
+    "width": 520,
+    "height": 300
+  },
   "contestFormat": {
     "pointValue": 4,
     "answerChoices": [
@@ -60,6 +67,6 @@
     "reviewer": "Pending human content review (drafted by curriculum-author agent)",
     "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of chained angle-relationship reasoning at contest difficulty; no problem or diagram reproduced from any contest archive."
   },
-  "accessibilityNotes": "Describe both angle relationships in plain text as an alternative to any diagram of the triangle and adjacent figure.",
+  "accessibilityNotes": "Show the triangle/exterior-angle diagram together with its complete text alternative; labels must remain legible without color.",
   "accessibleAlternative": "Read aloud or display: A triangle has one angle of 50 degrees and one angle of 70 degrees. The triangle's third angle is supplementary to an angle labeled x in an adjacent figure. Find the measure of angle x."
 }

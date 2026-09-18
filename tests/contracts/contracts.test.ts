@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   AttemptEvidenceSchema,
   ContentProvenanceSchema,
+  ContentFigureSchema,
   MasteryEvidenceSchema,
   ContentItemSchema,
   ScoringOutputSchema,
@@ -171,6 +172,32 @@ describe('content and evidence contracts', () => {
         ],
       }).success,
     ).toBe(true);
+  });
+
+  it('accepts static authored SVG figures and rejects executable or remote SVG content', () => {
+    const figure = {
+      svgMarkup:
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120"><rect x="10" y="10" width="180" height="100"/></svg>',
+      altText: 'A rectangle.',
+      caption: 'Rectangle diagram.',
+      width: 200,
+      height: 120,
+    };
+    expect(ContentFigureSchema.safeParse(figure).success).toBe(true);
+    expect(
+      ContentFigureSchema.safeParse({
+        ...figure,
+        svgMarkup:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120"><script>alert(1)</script></svg>',
+      }).success,
+    ).toBe(false);
+    expect(
+      ContentFigureSchema.safeParse({
+        ...figure,
+        svgMarkup:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120"><image href="https://example.com/figure.svg"/></svg>',
+      }).success,
+    ).toBe(false);
   });
 });
 

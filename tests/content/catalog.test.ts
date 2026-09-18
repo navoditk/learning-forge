@@ -89,6 +89,24 @@ describe('ratios content seed', () => {
     ).toThrow('requires Math Kangaroo contest-format metadata');
   });
 
+  it('includes original accessible figures for Math Kangaroo geometry and spatial reasoning', () => {
+    const visualSkillCodes = new Set([
+      'mk6-perimeter-and-area-reasoning',
+      'mk6-angle-and-shape-properties',
+      'mk6-spatial-visualization-3d',
+    ]);
+    const visualItems = contentCatalog.filter((item) => visualSkillCodes.has(item.skillCode));
+    const figuredItems = visualItems.filter((item) => item.figure);
+
+    expect(figuredItems).toHaveLength(5);
+    for (const item of figuredItems) {
+      expect(item.version).toBe('content-2');
+      expect(item.figure?.svgMarkup).toMatch(/^<svg /);
+      expect(item.figure?.altText.length).toBeGreaterThan(30);
+      expect(item.accessibleAlternative.length).toBeGreaterThan(30);
+    }
+  });
+
   it('rejects gaps in hint ordering and content that is not marked owned', () => {
     const item = contentCatalog[0];
     const withGap = {
