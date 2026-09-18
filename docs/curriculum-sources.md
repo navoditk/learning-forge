@@ -301,10 +301,12 @@ external school-pacing sequencing source exists for this program).
 
 ## MOEMS Division E (Grade 6) research — 2026-09-17
 
-**Status: Pending product/content-owner review.** This dossier is the
-dedicated MOEMS research the Grade 6 Math v2 dossier explicitly deferred. It
-cannot self-approve; curriculum authoring may begin only after a human marks
-this section approved.
+**Status: Approved by the product/content owner on 2026-09-17.** This dossier
+is the dedicated MOEMS research the Grade 6 Math v2 dossier explicitly
+deferred. Approval is bounded to a Division E-targeted first curriculum,
+accepts the official goals/format/sample/archive source posture despite there
+being no single official syllabus, and excludes APSMO and Division M material
+from authoring unless separately researched and approved later.
 
 ### Scope and learner context
 
@@ -406,19 +408,20 @@ wording may be reproduced or closely paraphrased.
 
 ### Conflicts and gaps requiring human review
 
-1. **Grade 6 is not exclusive to Division E in the extractable primary
+1. **Resolved product decision — target Division E only in the first
+   curriculum.** Grade 6 is not exclusive to Division E in the extractable primary
    sources.** The user requested a Division E dossier, and Grade 6 is indeed
    included in Division E. However, MOEMS' own *About the Program* and *PICO
    Corner* pages also place Grade 6 within Division M eligibility, with
    *PICO Corner* explicitly saying 6th graders may be placed on either
-   division and even on both if both divisions are available. Human review
-   should confirm that Learning Forge still wants a Division E-targeted
-   `moems6-` curriculum for this learner, rather than a future Division M or
-   dual-placement strategy.
-2. **No single official MOEMS syllabus or standards map was located.** The
+   division and even on both if both divisions are available. The product
+   owner chose a Division E-targeted `moems6-` first curriculum on 2026-09-17;
+   Division M or dual-placement remains a separate future decision.
+2. **Resolved product decision — accept the distributed official source
+   framework.** No single official MOEMS syllabus or standards map was located. The
    framework here is assembled from official format/goals/sample/archive
-   sources, not from a one-document topic specification. Human review should
-   accept or reject that source posture before authoring begins.
+   sources, not from a one-document topic specification. The product owner
+   accepted this source posture on 2026-09-17.
 3. **The official archive is distributed across several surfaces rather than a
    single public landing page.** Searches performed found the official
    *Resources* page, official sample Division E file, official contest-problem
@@ -429,10 +432,10 @@ wording may be reproduced or closely paraphrased.
    the official domain and machine-readable, but a human reviewer may wish to
    confirm the `E / 98-99` through `E / 23-24` season listing directly in a
    browser before authoring relies on it.
-5. **Volume 4 mixes MOEMS and APSMO material, and Volume 5 is APSMO-only in
+5. **Resolved boundary — APSMO remains excluded.** Volume 4 mixes MOEMS and APSMO material, and Volume 5 is APSMO-only in
    its visible description.** For a MOEMS Division E dossier, authoring
-   should treat APSMO items as related but not automatically interchangeable
-   with MOEMS monthly Olympiads unless a later human decision says otherwise.
+   must not use APSMO items as MOEMS inspiration unless a later, separately
+   researched human decision expands that boundary.
 
 ### Research handoff for authoring
 

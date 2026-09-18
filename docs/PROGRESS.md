@@ -1,5 +1,16 @@
 # Progress
 
+## 2026-09-17 — MOEMS Division E research approved
+
+- Product/content owner approved the MOEMS source dossier and selected
+  **Division E only** for the first Grade 6 curriculum.
+- Accepted the distributed official source framework (program goals, format,
+  sample contest, Contest Supplements, and official problem volumes) despite
+  MOEMS not publishing a single syllabus/standards map.
+- Division M, dual placement, and APSMO material remain out of scope unless
+  separately researched and approved. Authoring may now proceed with core-prep
+  and contest tiers using original problems only.
+
 ## 2026-09-17 — Math Kangaroo conditional acceptance and curriculum navigation
 
 - Product/content-owner review found the Math Kangaroo curriculum acceptable
