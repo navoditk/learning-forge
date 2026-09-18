@@ -87,39 +87,43 @@ function renderSkill(skill: Skill, items: readonly ContentItem[]): string {
 
   return `
     <article class="skill-card" id="skill-${anchor}">
-      <header class="skill-header">
-        <h3>${escapeHtml(skill.title)}</h3>
-        <code class="skill-code">${escapeHtml(skill.code)}</code>
-      </header>
-      ${pillList(skill.standards, 'standards')}
-      <dl class="skill-facts">
-        <div>
-          <dt>Prerequisites</dt>
-          <dd>${prerequisites}</dd>
+      <details class="skill-details">
+        <summary class="skill-header">
+          <span class="skill-title">${escapeHtml(skill.title)}</span>
+          <code class="skill-code">${escapeHtml(skill.code)}</code>
+        </summary>
+        <div class="skill-body">
+          ${pillList(skill.standards, 'standards')}
+          <dl class="skill-facts">
+            <div>
+              <dt>Prerequisites</dt>
+              <dd>${prerequisites}</dd>
+            </div>
+            <div>
+              <dt>Difficulty bands</dt>
+              <dd>${skill.difficultyBands.map(escapeHtml).join(', ')}</dd>
+            </div>
+            <div>
+              <dt>Mastery check</dt>
+              <dd>${escapeHtml(skill.masteryCheckRule)}</dd>
+            </div>
+          </dl>
+          <div class="skill-evidence">
+            <p class="skill-subheading">What mastery looks like</p>
+            <ul>
+              ${skill.observableEvidence.map((line) => `<li>${escapeHtml(line)}</li>`).join('')}
+            </ul>
+          </div>
+          ${
+            items.length > 0
+              ? `<div class="skill-content">
+                  <p class="skill-subheading">Sample problems (${items.length})</p>
+                  <ul class="content-item-list">${items.map(renderContentItem).join('')}</ul>
+                </div>`
+              : ''
+          }
         </div>
-        <div>
-          <dt>Difficulty bands</dt>
-          <dd>${skill.difficultyBands.map(escapeHtml).join(', ')}</dd>
-        </div>
-        <div>
-          <dt>Mastery check</dt>
-          <dd>${escapeHtml(skill.masteryCheckRule)}</dd>
-        </div>
-      </dl>
-      <div class="skill-evidence">
-        <p class="skill-subheading">What mastery looks like</p>
-        <ul>
-          ${skill.observableEvidence.map((line) => `<li>${escapeHtml(line)}</li>`).join('')}
-        </ul>
-      </div>
-      ${
-        items.length > 0
-          ? `<div class="skill-content">
-              <p class="skill-subheading">Sample problems (${items.length})</p>
-              <ul class="content-item-list">${items.map(renderContentItem).join('')}</ul>
-            </div>`
-          : ''
-      }
+      </details>
     </article>`;
 }
 
@@ -152,8 +156,9 @@ function buildBody(): { title: string; stats: string; body: string } {
 
   for (const roster of PROGRAM_ROSTER) {
     const programAnchor = slugify(roster.code);
+    const skills = byProgram.get(roster.code) ?? [];
 
-    if (!roster.available) {
+    if (!roster.available && skills.length === 0) {
       navSections.push(`
         <li class="nav-program nav-program-disabled">
           <a href="#program-${programAnchor}">${escapeHtml(roster.label)}</a>
@@ -168,7 +173,9 @@ function buildBody(): { title: string; stats: string; body: string } {
       continue;
     }
 
-    const skills = byProgram.get(roster.code) ?? [];
+    const pendingProgramBadge = roster.available
+      ? ''
+      : '<span class="badge badge-pending">Draft — pending human approval</span>';
     const byDomain = new Map<CurriculumDomain, Skill[]>();
     for (const skill of skills) {
       const bucket = byDomain.get(skill.domain) ?? [];
@@ -193,23 +200,30 @@ function buildBody(): { title: string; stats: string; body: string } {
         </li>`);
 
       domainSections.push(`
-        <section class="domain-section" id="domain-${domainAnchor}">
-          <h2>${escapeHtml(DOMAIN_LABELS[domain])}</h2>
-          ${domainSkills
-            .map((skill) => renderSkill(skill, contentBySkill.get(skill.code) ?? []))
-            .join('')}
-        </section>`);
+        <details class="domain-section" id="domain-${domainAnchor}" open>
+          <summary><span>${escapeHtml(DOMAIN_LABELS[domain])}</span></summary>
+          <div class="domain-body">
+            ${domainSkills
+              .map((skill) => renderSkill(skill, contentBySkill.get(skill.code) ?? []))
+              .join('')}
+          </div>
+        </details>`);
     }
 
     navSections.push(`
       <li class="nav-program">
-        <a href="#program-${programAnchor}">${escapeHtml(roster.label)}</a>
+        <a href="#program-${programAnchor}">${escapeHtml(roster.label)}</a>${pendingProgramBadge}
         <ul>${domainNav.join('')}</ul>
       </li>`);
 
     programSections.push(`
       <section class="program-section" id="program-${programAnchor}">
-        <h1>${escapeHtml(roster.label)}</h1>
+        <h1>${escapeHtml(roster.label)} ${pendingProgramBadge}</h1>
+        ${
+          roster.available
+            ? ''
+            : '<p class="page-intro">This authored draft has passed independent review but is not learner-servable until human content-owner approval.</p>'
+        }
         ${domainSections.join('')}
       </section>`);
   }
@@ -224,7 +238,7 @@ function buildBody(): { title: string; stats: string; body: string } {
         <header class="page-header">
           <p class="eyebrow">Learning Forge</p>
           <h1>Curriculum map</h1>
-          <p class="page-intro">Every skill and sample problem currently live in the tutor, generated straight from the same catalog the app runs on. Answers and hints are intentionally left out.</p>
+          <p class="page-intro">Every authored skill and sample problem in the validated catalog, generated straight from the same data the app uses. Draft programs are clearly labeled and remain unavailable to learners until human approval. Answers and hints are intentionally left out.</p>
           <div class="stats">${statsHtml}</div>
         </header>
         ${programSections.join('')}
@@ -316,17 +330,19 @@ const CSS = `
   .stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
   .program-section h1 { font-size: 1.6rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
   .domain-section { margin-top: 2.5rem; }
-  .domain-section h2 { font-size: 1.3rem; margin-bottom: 1.25rem; }
+  .domain-section > summary { cursor: pointer; font-family: 'Fraunces', Georgia, serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 1.25rem; padding: 0.4rem 0; }
+  .domain-section > summary:hover, .domain-section > summary:focus-visible, .skill-header:hover, .skill-header:focus-visible { color: var(--accent); }
+  .domain-body { padding-top: 0.25rem; }
   .skill-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 1.5rem;
     margin-bottom: 1.25rem;
     scroll-margin-top: 1rem;
   }
-  .skill-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-  .skill-header h3 { margin: 0; font-size: 1.15rem; }
+  .skill-header { cursor: pointer; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 1.25rem 1.5rem; }
+  .skill-title { font-family: 'Fraunces', Georgia, serif; font-size: 1.15rem; font-weight: 600; }
+  .skill-body { border-top: 1px solid var(--border); padding: 0.25rem 1.5rem 1.5rem; }
   .skill-code { font-size: 0.78rem; color: var(--text-muted); }
   .pills { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0.6rem 0 0; }
   .pills.standards li { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 0.15rem 0.65rem; font-size: 0.78rem; font-weight: 600; font-family: 'IBM Plex Mono', monospace; }
@@ -369,6 +385,21 @@ function buildFullDocument(): string {
 </head>
 <body>
 ${body}
+<script>
+  function expandHashTarget() {
+    const target = document.querySelector(location.hash);
+    if (!target) return;
+    if (target.matches('details')) target.open = true;
+    for (const details of target.querySelectorAll('details')) details.open = true;
+    let parent = target.parentElement;
+    while (parent) {
+      if (parent.matches('details')) parent.open = true;
+      parent = parent.parentElement;
+    }
+  }
+  addEventListener('hashchange', expandHashTarget);
+  expandHashTarget();
+</script>
 </body>
 </html>`;
 }

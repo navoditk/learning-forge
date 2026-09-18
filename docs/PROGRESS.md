@@ -1,5 +1,34 @@
 # Progress
 
+## 2026-09-17 — Math Kangaroo conditional acceptance and curriculum navigation
+
+- Product/content-owner review found the Math Kangaroo curriculum acceptable
+  as a draft, conditional on adding original accessible figures before final
+  learner-serving approval. Geometry and spatial-reasoning coverage must
+  include repository-owned figures for relevant angle, composite-shape,
+  cube-stack/net, rotation, and symmetry items, each paired with a complete
+  text alternative. The 16 records remain `pending_review` until that condition
+  is implemented and reviewed.
+- Made curriculum-site domain and skill subsections collapsible with native
+  keyboard- and screen-reader-accessible `<details>/<summary>` controls.
+  Domains start expanded, skill cards start collapsed, and sidebar/hash
+  navigation automatically expands the selected target and its ancestors.
+- MOEMS and AMC 8 research dossiers remain isolated and pending product/content
+  owner review while their scope decisions are evaluated.
+
+## 2026-09-17 — Curriculum site shows independently reviewed drafts
+
+- Corrected the curriculum-site generator's treatment of roster availability:
+  a program that is unavailable to learners but already has validated authored
+  records now renders its skill graph and answer-redacted sample prompts with a
+  `Draft — pending human approval` badge. Programs with no authored records
+  still render as `Coming soon`.
+- Math Kangaroo Grade 6 is now visible in the local curriculum site without
+  making its 16 `pending_review` records learner-servable.
+- Added a curriculum test covering the generated Math Kangaroo draft section.
+  `npm run curriculum:validate` passes (10/10), and the regenerated site was
+  verified over `http://localhost:4173/`.
+
 ## 2026-09-19 (cont.) — Math Kangaroo final focused independent review logged
 
 - **Scope:** Completed the final focused `curriculum-review` pass against

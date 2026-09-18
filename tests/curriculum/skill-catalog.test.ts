@@ -1,3 +1,6 @@
+import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+
 import { describe, expect, it } from 'vitest';
 
 import { SkillSchema } from '../../src/contracts/curriculum';
@@ -37,6 +40,31 @@ describe('skill catalog', () => {
         'mk6-combinatorics',
       ]),
     );
+  });
+
+  it('renders authored unavailable programs as pending drafts in the curriculum site', () => {
+    execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
+    const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
+
+    expect(generatedSite).toContain('Math Kangaroo (Grade 6)');
+    expect(generatedSite).toContain('Draft — pending human approval');
+    expect(generatedSite).toContain('Multi-step arithmetic reasoning');
+    const mathKangarooSection = generatedSite.match(
+      /<section class="program-section" id="program-math-kangaroo-6">([\s\S]*?)<section class="program-section program-section-empty" id="program-moems-6">/,
+    );
+    expect(mathKangarooSection?.[1]).not.toContain('Coming soon');
+  });
+
+  it('renders accessible collapsible domains and skills', () => {
+    execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
+    const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
+
+    expect(generatedSite).toContain(
+      '<details class="domain-section" id="domain-mk6-geometry-and-spatial-reasoning" open>',
+    );
+    expect(generatedSite).toContain('<details class="skill-details">');
+    expect(generatedSite).toContain('<summary class="skill-header">');
+    expect(generatedSite).toContain('function expandHashTarget()');
   });
 
   it('has no duplicate skill codes across the whole multi-program catalog', () => {
