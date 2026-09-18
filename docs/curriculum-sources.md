@@ -454,6 +454,152 @@ solution, follow-up, or diagram; and (g) keep this first MOEMS increment
 bounded to **Division E-targeted Grade 6 preparation** unless a later,
 separately approved dossier expands scope.
 
+## AMC 8 research — 2026-09-19
+
+**Status: Pending product/content-owner review.** This dossier researches AMC 8 as a dedicated enrichment/reach program for the same Grade 6 learner already served by the shipped Grade 6 Math curriculum. It does **not** replace the core CCSS-M pathway, and it does **not** approve authoring on its own.
+
+### Scope and learner context
+
+- **Learner**: the same Grade 6 learner already served by the shipped Grade 6 Math (CCSS-M) curriculum; AMC 8 content is *additive* enrichment/reach material, not a replacement core curriculum.
+- **Program**: **AMC 8** (American Mathematics Competitions), administered by the **Mathematical Association of America (MAA)** for students in grade 8 and below.
+- **School-alignment context**: the existing Grade 6 Math curriculum remains the school-aligned base layer; AMC 8 is a separate contest-preparation overlay above nominal grade level for this learner.
+- **Content tiers**: **core prep** (foundational skills building toward AMC-8-style readiness) and **contest** (full-difficulty AMC-8-style items). This mirrors the already-approved Math Kangaroo two-tier decision; this research pass found no source-based reason to use a different tier structure.
+- **Retrieval dates**: 2026-09-18 through 2026-09-19 (all sources and URL checks below).
+- **Product guardrail chosen 2026-09-17**: core-prep must come first; contest-tier access is gated on structured prerequisite evidence rather than made immediately available.
+
+### Source register
+
+| Authority and source role | Exact title, issuing body, edition/date, URL, and retrieval status | Supported claim and limitation |
+|---|---|---|
+| **Primary; official program overview** | *American Mathematics Competitions – Mathematical Association of America*, Mathematical Association of America; page date not stated; https://maa.org/student-programs/amc/ (retrieved 2026-09-18 via `web_fetch`; direct CLI `curl -I -L` check on 2026-09-18 returned **HTTP 403 Forbidden**) | Confirms the MAA's current AMC landing page and gives extractable primary text for the AMC 8 description: **25-question, 40-minute** competition for **students in grade 8 and below**, focused on middle-school mathematics including **counting and probability, estimation, proportional reasoning, elementary geometry (including the Pythagorean Theorem), spatial visualization, and interpreting graphs and tables**, with some later questions touching beginning algebra topics such as **linear or quadratic functions** and **coordinate geometry**. Direct CLI retrieval was blocked, so this dossier records both the accessible extraction result and the 403 status observed from the shell. |
+| **Primary; official policy page exists, but detailed AMC 8 clauses were not extractable in this pass** | *Competitions Policies – Mathematical Association of America*, Mathematical Association of America; page date not stated; https://maa.org/student-programs/amc/maa-american-mathematics-competitions-policies/ (retrieved 2026-09-18 via `web_fetch`, which exposed the title/opening sentence; direct CLI `curl -I -L` check on 2026-09-18 returned **HTTP 403 Forbidden**) | Confirms an official MAA policy page governs the AMC program, including AMC 8. Limitation: this session could not extract the AMC-8-specific rule text from the primary page itself, so detailed rules such as calculators, answer-choice count, and no-penalty scoring remain secondary-sourced/provisional below unless a human confirms them directly from the policy page or another MAA artifact. |
+| **Primary; official archive/sample URLs actively searched but not extractable in this pass** | URLs checked on 2026-09-18: `https://maa.org/math-competitions/amc-8` (**CLI `curl -I -L`: HTTP 403; `web_fetch`: HTTP 404**); `https://maa.org/math-competitions/past-amc-problems` (**CLI 403; `web_fetch` 404**); `https://maa.org/math-competitions/amc-8/sample-amc-8-problems` (**CLI 403**); `https://maa.org/math-competitions/amc-8/sample-questions` (**CLI 403; `web_fetch` 404**) | Satisfies the required active search for an MAA-owned AMC 8 past-problem/sample archive and records exact URLs/statuses checked. These results do **not** prove that no official archive exists; they establish only that these specific likely/legacy MAA paths were blocked or not found during the searches performed in this session. |
+| **Secondary; community-maintained year-by-year archive** | *AMC 8 Problems and Solutions - AoPS Wiki*, Art of Problem Solving; page date not stated; stable page revision exposed in footer as `oldid=276193`; https://artofproblemsolving.com/wiki/index.php?title=AMC_8_Problems_and_Solutions&oldid=276193 (retrieved 2026-09-18 via `web_fetch`; direct CLI `curl -I -L` check on the live wiki URL returned **HTTP 403 Forbidden**) | Provides a widely used community archive listing **2026 back through 1999 AMC 8** pages plus **1985–1998 AJHSME** predecessor years. This is useful for corroborating year coverage and topic/difficulty progression, but it is **not** an MAA-owned primary source and must be labeled secondary/community. |
+| **Secondary; community overview citing MAA policy text** | *AMC 8 - AoPS Wiki*, Art of Problem Solving; page date not stated; https://artofproblemsolving.com/wiki/index.php/AMC_8 (retrieved 2026-09-18 via `web_fetch`; direct CLI `curl -I -L` returned **HTTP 403 Forbidden**) | States the commonly cited format details: **25 problems, 40 minutes, multiple choice with 5 options, +1 for correct / 0 for wrong or blank, no penalty for guessing, no calculators**, and grade/age eligibility. The page explicitly cites the MAA policy URL above, but because this is still a community-maintained AoPS page rather than extractable primary policy text from MAA itself, these detailed rule claims are recorded here as **secondary/provisional pending human confirmation from MAA**. |
+| **Secondary, but officially authorized archive mirror; not the program owner** | *Past AMC 8, AMC 10, AMC 12 & AIME Problems and Solutions \| LIVE by Po-Shen Loh*, LIVE by Po-Shen Loh; page date not stated; https://live.poshenloh.com/past-contests (retrieved 2026-09-18, HTTP 200; raw page metadata states it is an archive of "real MAA AMC 8, AMC 10, AMC 12, and AIME problems" and that the problems are used "with official permission of the Mathematical Association of America (MAA)") | Provides an officially authorized, directly browsable archive/mirror of past AMC material with printable PDFs and a problem browser. Useful as a legal secondary fallback when MAA-owned archive pages are blocked from the CLI, but it is still **not** the MAA's own site and must not be described as the official program-owner archive. |
+
+### Standards framework and version
+
+AMC 8 has **no CCSS-style adopted standards document** analogous to the
+California Grade 6 Math framework. Its curriculum boundaries are defined
+instead by the MAA's official program description and rules, plus the topic
+and difficulty patterns visible across past contests. For this dossier, the
+closest equivalent to a standards framework is therefore an explicit
+**program/format profile**:
+
+- primary scope anchor: the MAA's own AMC overview page above;
+- primary rules anchor: the MAA policies page above, though its AMC-8-specific
+  clauses were not fully extractable in this session;
+- past-problem/topic-progression inspiration: prefer an **MAA-owned archive or
+  sample page if the human reviewer can access/confirm one**, with the
+  officially authorized LIVE archive and AoPS community archive used only as
+  fallback/corroboration sources.
+
+### Standards-domain coverage summary
+
+For a Grade 6 learner working toward AMC 8:
+
+- **Confirmed from primary MAA text**: AMC 8 targets **middle school
+  mathematics** and explicitly includes **counting and probability**,
+  **estimation**, **proportional reasoning**, **elementary geometry**
+  (including the **Pythagorean Theorem**), **spatial visualization**, and
+  **interpreting graphs and tables**; later questions may touch beginning
+  algebra topics such as **linear or quadratic functions** and **coordinate
+  geometry**.
+- **Corroborated from the AoPS archive/overview as secondary/community**:
+  year-by-year AMC 8/AJHSME archives show recurring contest skill families in
+  arithmetic/number sense, algebraic reasoning, geometry, counting and
+  probability, patterns/logic, and visual/spatial reasoning. This is useful
+  for authoring skill-type families, not as an official syllabus.
+- **Format basics confirmed from primary MAA text**: **25 questions**, **40
+  minutes**, **grade 8 and below**.
+- **Format basics still secondary/provisional**: **multiple-choice format**,
+  **5 answer choices**, **no penalty for guessing**, **+1 / 0 scoring**,
+  **no calculators**, and the commonly cited **under-15.5 age cap** were not
+  directly extractable from MAA primary text in this pass, but were stated on
+  the AoPS overview page that cites the MAA policies URL. They should therefore
+  be treated as **secondary-sourced/provisional pending human confirmation**
+  from the MAA policy page or another official MAA artifact before authoring
+  bakes them into learner-facing copy.
+
+### Local sequencing source
+
+**Not applicable as a district pacing source.** AMC 8 is a national contest,
+not a school-system curriculum, so no Irvine USD pacing guide was sought for
+this dossier. Sequencing for any future `amc8-` skill graph should instead:
+
+1. remain additive to the shipped Grade 6 Math curriculum rather than replacing
+   it;
+2. use **core prep** to bridge from Grade 6 prerequisite knowledge into Grade
+   7/8-level contest expectations; and
+3. use the repository's usual explicit prerequisite graph
+   (`prerequisiteSkillCodes`) rather than an external district calendar.
+
+### Content-tier inspiration and originality constraints
+
+This dossier recommends the same two-tier structure already approved for Math
+Kangaroo:
+
+- **core prep**: original foundational tasks that build the arithmetic,
+  proportional-reasoning, visual, algebra-readiness, and problem-solving habits
+  needed before full AMC 8 contest difficulty is appropriate for this Grade 6
+  learner;
+- **contest**: original AMC-8-style problems and timed-reasoning exercises that
+  reflect the *general* skill types, topic spread, difficulty ramp, and answer
+  format conventions of past AMC 8 contests.
+
+Authoring may draw inspiration from the MAA AMC overview, any human-confirmed
+MAA-owned past-problem/sample archive, the officially authorized LIVE archive,
+and the AoPS community archive **only for skill types, topic balance, and
+difficulty progression**. It must **never** reproduce or closely paraphrase an
+actual AMC 8/AJHSME problem, wording, diagram, answer-choice set, or solution.
+No license to reproduce contest content was located in this pass; "official
+permission" on LIVE covers LIVE's hosting, not this repository's right to copy
+problem statements into Learning Forge.
+
+### Conflicts and gaps requiring human review
+
+1. **Official MAA-owned past-problem/sample archive still needs human
+   confirmation.** This session actively checked the MAA URLs listed in the
+   source register and recorded their exact statuses, but did not reach a fully
+   extractable MAA-owned AMC 8 archive page from the CLI. A human reviewer
+   should browse the MAA site directly and, if available, confirm the canonical
+   archive/sample URL to cite before authoring begins.
+2. **Detailed format rules remain secondary-sourced/provisional.** The MAA
+   overview page confirms 25 questions and 40 minutes, but this session did not
+   extract the MAA policy clauses needed to promote "5 choices," "no
+   calculators," or "no penalty for guessing" from provisional to primary.
+3. **Age/grade-band gap needs an explicit product judgment.** AMC 8 is designed
+   for students in grade 8 and below, while this learner is currently in Grade
+   6. The human reviewer should explicitly confirm the desired ambition level,
+   frustration safeguards, and parent-facing framing so enrichment remains age-
+   appropriate and supportive rather than discouraging.
+4. **Program-boundary cross-check:** `docs/02-curriculum-and-pedagogy.md`
+   anticipates future top-level contest programs including **Math Kangaroo,
+   AMC 8, MATHCOUNTS, and MOEMS**. This dossier covers **AMC 8 only**. Math
+   Kangaroo already has its own approved dossier; **MOEMS** and
+   **MATHCOUNTS** remain separate future research efforts and are out of scope
+   here.
+5. **Authoring should avoid overclaiming official terminology.** This research
+   confirmed AMC 8's official grade band and topic sketch from MAA, but not a
+   single official extracted syllabus or official MAA-owned full archive page
+   title for year-by-year problems. Any future authoring should describe the
+   program conservatively until a human confirms the archive/rules pages.
+
+### Research handoff for authoring
+
+Authoring must **not** begin until a human changes this section's status from
+pending to approved. Once approved, `amc8-authoring` should: (a) keep AMC 8 as
+an additive program layered on top of the shipped Grade 6 Math curriculum;
+(b) build both **core prep** and **contest** tiers; (c) use the MAA overview as
+the primary anchor for scope and topic families; (d) prefer a human-confirmed
+MAA-owned archive/sample page for topic/difficulty inspiration, falling back to
+the officially authorized LIVE archive and AoPS community archive only as
+secondary corroboration; (e) avoid baking currently provisional rule details
+into learner-facing copy until they are confirmed from primary MAA text; and
+(f) never reproduce an actual archived AMC 8 or AJHSME problem, wording,
+diagram, answer-choice set, or solution.
+
 ## Standards source
 
 - **Framework**: Common Core State Standards for Mathematics, Grade 6, as

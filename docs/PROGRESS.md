@@ -598,6 +598,42 @@
   originality. Next review step is the handoff in
   `experiments/grade-6-math-v2/review-handoff.md`.
 
+## 2026-09-19 — AMC 8 research dossier (pending review)
+
+- **Completed `amc8-research`**: added a new "AMC 8 research — 2026-09-19"
+  section to `docs/curriculum-sources.md`, matching the Math Kangaroo
+  dossier structure (scope, source register, framework, domain coverage,
+  sequencing, originality discipline, conflicts/gaps, authoring handoff).
+- **Confirmed from primary MAA text**: AMC 8 is administered by the MAA as a
+  **25-question, 40-minute** competition for **students in grade 8 and
+  below**, focused on middle-school mathematics including counting and
+  probability, estimation, proportional reasoning, elementary geometry,
+  spatial visualization, graphs/tables, and some beginning algebra topics.
+- **Official archive search outcome**: actively checked the following MAA
+  URLs and recorded exact statuses in the dossier —
+  `maa.org/math-competitions/amc-8` (CLI `curl -I -L`: **403**; `web_fetch`:
+  **404**), `maa.org/math-competitions/past-amc-problems` (**403** / **404**),
+  `maa.org/math-competitions/amc-8/sample-amc-8-problems` (**403**), and
+  `maa.org/math-competitions/amc-8/sample-questions` (**403** / **404**).
+  These checks do **not** prove no official MAA-owned archive exists; they
+  document exactly what was searched and what happened.
+- **Secondary/provisional items**: multiple-choice/5-option format,
+  no-calculator rules, +1/0 scoring, and no-penalty-for-guessing claims were
+  corroborated from AoPS's community-maintained AMC 8 pages (which cite the
+  MAA policy URL) and should stay **provisional pending human confirmation**
+  from MAA. The dossier also records the officially authorized LIVE by
+  Po-Shen Loh past-contests archive as a legal secondary fallback, not an
+  MAA-owned primary source.
+- **Open human-review item surfaced**: because AMC 8 targets an older nominal
+  grade band than this learner's current Grade 6 placement, the human reviewer
+  should explicitly confirm the intended ambition level, frustration/parent-
+  messaging guardrails, and that the mirrored **core prep + contest** tier
+  structure is age-appropriate for this learner.
+- Section is marked **"Pending product/content-owner review"** — the research
+  agent cannot self-approve. Next: human review of this dossier
+  (`amc8-research-approval`) before any `amc8-authoring` work begins.
+
+
 ## Current status
 
 - Phase: 1 — synthetic journeys across all 5 Grade 6 Math domains, skill graph, planner, an actionable planner UI, an on-demand parent weekly digest, and a basic accessible visual design (now automated-WCAG-AA-checked) covered; **Grade 6 Math curriculum v3 shipped 2026-09-18**: 27 skills, 54/54 content records fully human-reviewed (0 pending), merged from the v1 baseline plus the independently-researched/reviewed v2 candidate graph (see the 2026-09-16 through 2026-09-18 entries below for the full merge, safety-gate, and content-review trail); the pilot-readiness decisions (audience, identity/auth, hosting, consent/retention, provider, budget/latency, eval gate) are made for a single-household pilot (ADR-0008, ADR-0009, ADR-0005). **All three approved implementation tracks are now live**: Track 1, real authentication (ADR-0010). Track 2, real Claude adapter (ADR-0011), reviewed, approved, and enabled. Track 3, Render deployment (ADR-0012) — **confirmed genuinely live 2026-09-13**: a real account was provisioned, sign-in works at `https://learning-forge.onrender.com`, and a real hint request was confirmed hitting the real Anthropic API (visible ~1-2s latency, non-templated text), not the fake adapter. This is a real, live, single-household pilot now, not just a local demonstration
