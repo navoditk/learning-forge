@@ -1,0 +1,55 @@
+{
+  "id": "mk6-clock-and-calendar-reasoning-1",
+  "version": "content-1",
+  "title": "Movie start time",
+  "skillCode": "mk6-clock-and-calendar-reasoning",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MK6-ARITH-3"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "observableEvidence": [
+    "Computes a resulting clock time after adding an elapsed duration that crosses the hour boundary, keeping AM/PM consistent."
+  ],
+  "prompt": "A movie starts at 11:40 AM and lasts 2 hours and 35 minutes. What time does the movie end?",
+  "solutionRepresentation": "11:40 AM + 2:35 = 14:15 in 24-hour terms, which is 2:15 PM.",
+  "solutionMethod": "Add the hours and minutes separately, then adjust for the minute overflow and the AM/PM change past noon.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "2:15 PM",
+    "acceptedAnswers": ["2:15 PM", "2:15pm", "14:15"],
+    "equivalenceNotes": "Accept 12-hour with AM/PM or 24-hour notation."
+  },
+  "misconceptionCodes": ["ignores-am-pm-or-day-wraparound", "confuses-12-and-24-hour-format"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Add the hours first, then the minutes, and watch for the minutes going past 60.",
+      "question": "What time is it 2 hours after 11:40 AM?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once you add the remaining 35 minutes, the minute total will pass 60, which rolls into the next hour.",
+      "question": "What happens to the hour when 40 + 35 minutes is added?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This crosses from AM into PM, similar to how 11:59 AM plus 2 minutes becomes 12:01 PM, not 12:01 AM.",
+      "question": "What is the final time, including AM or PM?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["2:15 PM", "14:15"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of clock/elapsed-time word problems; no problem reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Present all times in plain text; no clock-face diagram is required for this item.",
+  "accessibleAlternative": "Read aloud or display: A movie starts at 11:40 AM and lasts 2 hours and 35 minutes. Find the time the movie ends."
+}

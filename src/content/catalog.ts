@@ -52,6 +52,22 @@ import gcfAndLcm1 from '../../content/number-system/gcf-and-lcm-1.json';
 import gcfAndLcm2 from '../../content/number-system/gcf-and-lcm-2.json';
 import multiDigitDivision1 from '../../content/number-system/multi-digit-division-1.json';
 import multiDigitDivision2 from '../../content/number-system/multi-digit-division-2.json';
+import mk6MultiStepArithmeticReasoning1 from '../../content/math-kangaroo-6/mk6-multi-step-arithmetic-reasoning-1.json';
+import mk6MultiStepArithmeticReasoning2 from '../../content/math-kangaroo-6/mk6-multi-step-arithmetic-reasoning-2.json';
+import mk6NumberPatternsAndMagicSquares1 from '../../content/math-kangaroo-6/mk6-number-patterns-and-magic-squares-1.json';
+import mk6NumberPatternsAndMagicSquares2 from '../../content/math-kangaroo-6/mk6-number-patterns-and-magic-squares-2.json';
+import mk6ClockAndCalendarReasoning1 from '../../content/math-kangaroo-6/mk6-clock-and-calendar-reasoning-1.json';
+import mk6ClockAndCalendarReasoning2 from '../../content/math-kangaroo-6/mk6-clock-and-calendar-reasoning-2.json';
+import mk6PerimeterAndAreaReasoning1 from '../../content/math-kangaroo-6/mk6-perimeter-and-area-reasoning-1.json';
+import mk6PerimeterAndAreaReasoning2 from '../../content/math-kangaroo-6/mk6-perimeter-and-area-reasoning-2.json';
+import mk6AngleAndShapeProperties1 from '../../content/math-kangaroo-6/mk6-angle-and-shape-properties-1.json';
+import mk6AngleAndShapeProperties2 from '../../content/math-kangaroo-6/mk6-angle-and-shape-properties-2.json';
+import mk6SpatialVisualization3d1 from '../../content/math-kangaroo-6/mk6-spatial-visualization-3d-1.json';
+import mk6SpatialVisualization3d2 from '../../content/math-kangaroo-6/mk6-spatial-visualization-3d-2.json';
+import mk6LogicalDeductionPuzzles1 from '../../content/math-kangaroo-6/mk6-logical-deduction-puzzles-1.json';
+import mk6LogicalDeductionPuzzles2 from '../../content/math-kangaroo-6/mk6-logical-deduction-puzzles-2.json';
+import mk6CombinatorialCounting1 from '../../content/math-kangaroo-6/mk6-combinatorial-counting-1.json';
+import mk6CombinatorialCounting2 from '../../content/math-kangaroo-6/mk6-combinatorial-counting-2.json';
 import { ContentItem, ContentItemSchema } from '../contracts/content';
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
 
@@ -110,6 +126,22 @@ const rawContent = [
   gcfAndLcm2,
   multiDigitDivision1,
   multiDigitDivision2,
+  mk6MultiStepArithmeticReasoning1,
+  mk6MultiStepArithmeticReasoning2,
+  mk6NumberPatternsAndMagicSquares1,
+  mk6NumberPatternsAndMagicSquares2,
+  mk6ClockAndCalendarReasoning1,
+  mk6ClockAndCalendarReasoning2,
+  mk6PerimeterAndAreaReasoning1,
+  mk6PerimeterAndAreaReasoning2,
+  mk6AngleAndShapeProperties1,
+  mk6AngleAndShapeProperties2,
+  mk6SpatialVisualization3d1,
+  mk6SpatialVisualization3d2,
+  mk6LogicalDeductionPuzzles1,
+  mk6LogicalDeductionPuzzles2,
+  mk6CombinatorialCounting1,
+  mk6CombinatorialCounting2,
 ] as const;
 
 export function validateContentCatalog(items: readonly unknown[] = rawContent): ContentItem[] {

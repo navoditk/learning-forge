@@ -1,0 +1,18 @@
+{
+  "code": "mk6-logical-deduction-puzzles",
+  "title": "Logical deduction puzzles",
+  "program": "math-kangaroo-6",
+  "domain": "mk6-logical-reasoning",
+  "standards": ["MK6-LOGIC-1"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "observableEvidence": [
+    "Uses a small set of given constraints (e.g., statements about people, positions, or objects) to eliminate impossible options and deduce the one arrangement or value consistent with every constraint."
+  ],
+  "misconceptionCodes": [
+    "accepts-first-consistent-option-without-checking-all-constraints",
+    "misreads-a-negative-constraint",
+    "assumes-unstated-constraint"
+  ],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic check that the learner's final answer satisfies every stated constraint simultaneously, plus one independent delayed check with a different constraint set."
+}

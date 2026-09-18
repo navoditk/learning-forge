@@ -1,0 +1,18 @@
+{
+  "code": "mk6-combinatorial-counting",
+  "title": "Combinatorial counting",
+  "program": "math-kangaroo-6",
+  "domain": "mk6-combinatorics",
+  "standards": ["MK6-COMB-1"],
+  "prerequisiteSkillCodes": ["mk6-logical-deduction-puzzles"],
+  "observableEvidence": [
+    "Counts the number of ways to arrange, choose, or route a small set of objects by systematic listing or the multiplication counting principle, and justifies that no case was missed or double-counted."
+  ],
+  "misconceptionCodes": [
+    "double-counts-equivalent-arrangements",
+    "misses-a-case-in-systematic-listing",
+    "confuses-order-matters-and-does-not-matter"
+  ],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic check that the learner reaches the exact count and can describe the systematic method used to avoid missing or repeating a case, plus one independent delayed check."
+}

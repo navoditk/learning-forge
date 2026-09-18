@@ -1,0 +1,18 @@
+{
+  "code": "mk6-spatial-visualization-3d",
+  "title": "3D spatial visualization",
+  "program": "math-kangaroo-6",
+  "domain": "mk6-geometry-and-spatial-reasoning",
+  "standards": ["MK6-GEOM-3"],
+  "prerequisiteSkillCodes": ["mk6-angle-and-shape-properties"],
+  "observableEvidence": [
+    "Reasons about cubes and rectangular solids (e.g., counting faces/edges/vertices, visualizing a cut, fold, or rotation, or counting unit cubes in a stack) and explains the spatial reasoning used."
+  ],
+  "misconceptionCodes": [
+    "miscounts-hidden-faces-or-cubes",
+    "confuses-2d-net-with-3d-solid",
+    "assumes-symmetry-that-is-not-stated"
+  ],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic check that the learner reaches the exact count or measurement asked for and can describe the 3D structure in words, plus one independent delayed check."
+}

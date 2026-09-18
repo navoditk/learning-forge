@@ -27,6 +27,10 @@ const DOMAIN_LABELS: Record<CurriculumDomain, string> = {
   'expressions-and-equations': 'Expressions & Equations',
   geometry: 'Geometry',
   statistics: 'Statistics & Probability',
+  'mk6-arithmetic-and-patterns': 'Arithmetic & Number Patterns',
+  'mk6-geometry-and-spatial-reasoning': 'Geometry & Spatial Reasoning',
+  'mk6-logical-reasoning': 'Logical Reasoning',
+  'mk6-combinatorics': 'Combinatorics',
 };
 
 const MODE_LABELS: Record<ContentItem['mode'], string> = {

@@ -10,9 +10,10 @@ import {
 
 describe('skill catalog', () => {
   it('covers all five Grade 6 Math domains with unique codes', () => {
-    expect(skillCatalog.length).toBe(27);
-    expect(new Set(skillCatalog.map((skill) => skill.code)).size).toBe(27);
-    expect(new Set(skillCatalog.map((skill) => skill.domain))).toEqual(
+    const grade6MathSkills = skillCatalog.filter((skill) => skill.program === 'grade-6-math');
+    expect(grade6MathSkills.length).toBe(27);
+    expect(new Set(grade6MathSkills.map((skill) => skill.code)).size).toBe(27);
+    expect(new Set(grade6MathSkills.map((skill) => skill.domain))).toEqual(
       new Set([
         'ratios-and-proportional-reasoning',
         'number-system',
@@ -21,6 +22,25 @@ describe('skill catalog', () => {
         'statistics',
       ]),
     );
+  });
+
+  it('covers all four Math Kangaroo Grade 6 domains with unique, namespaced codes', () => {
+    const mathKangarooSkills = skillCatalog.filter((skill) => skill.program === 'math-kangaroo-6');
+    expect(mathKangarooSkills.length).toBe(8);
+    expect(mathKangarooSkills.every((skill) => skill.code.startsWith('mk6-'))).toBe(true);
+    expect(new Set(mathKangarooSkills.map((skill) => skill.code)).size).toBe(8);
+    expect(new Set(mathKangarooSkills.map((skill) => skill.domain))).toEqual(
+      new Set([
+        'mk6-arithmetic-and-patterns',
+        'mk6-geometry-and-spatial-reasoning',
+        'mk6-logical-reasoning',
+        'mk6-combinatorics',
+      ]),
+    );
+  });
+
+  it('has no duplicate skill codes across the whole multi-program catalog', () => {
+    expect(new Set(skillCatalog.map((skill) => skill.code)).size).toBe(skillCatalog.length);
   });
 
   it('references only prerequisite codes that exist in the catalog', () => {

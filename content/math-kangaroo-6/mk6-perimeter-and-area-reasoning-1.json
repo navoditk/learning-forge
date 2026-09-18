@@ -1,0 +1,53 @@
+{
+  "id": "mk6-perimeter-and-area-reasoning-1",
+  "version": "content-1",
+  "title": "Fence around a garden",
+  "skillCode": "mk6-perimeter-and-area-reasoning",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MK6-GEOM-1"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "observableEvidence": ["Finds the perimeter of a rectangle from its labeled length and width."],
+  "prompt": "A rectangular garden is 9 meters long and 5 meters wide. How many meters of fencing are needed to go around the entire garden?",
+  "solutionRepresentation": "Perimeter = 2(9 + 5) = 2 × 14 = 28 meters.",
+  "solutionMethod": "Add the length and width, then double the sum to get the total perimeter.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "28 meters",
+    "acceptedAnswers": ["28", "28 meters", "28 m"],
+    "equivalenceNotes": "Accept with or without the unit."
+  },
+  "misconceptionCodes": ["confuses-perimeter-and-area"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Fencing goes around the outside edge of the garden, which is its perimeter, not the area inside it.",
+      "question": "What is the sum of one length and one width?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "A rectangle has two lengths and two widths.",
+      "question": "How does doubling that sum give you the full distance around the rectangle?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This is the same idea as walking all four sides of a rectangular field and adding up the distance for each side.",
+      "question": "What is 2 times the sum of the length and width?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["28 meters", "28 m"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of perimeter reasoning; no problem reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Present the rectangle's dimensions in plain text; a diagram is optional and not required to solve the problem.",
+  "accessibleAlternative": "Read aloud or display: A rectangular garden is 9 meters long and 5 meters wide. Find how many meters of fencing are needed to go around the entire garden."
+}

@@ -1,0 +1,55 @@
+{
+  "id": "mk6-angle-and-shape-properties-1",
+  "version": "content-1",
+  "title": "Angle on a straight line",
+  "skillCode": "mk6-angle-and-shape-properties",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MK6-GEOM-2"],
+  "prerequisiteSkillCodes": ["mk6-perimeter-and-area-reasoning"],
+  "observableEvidence": [
+    "Uses the fact that angles on a straight line sum to 180 degrees to find an unknown angle."
+  ],
+  "prompt": "Two angles sit next to each other on a straight line. One angle measures 65 degrees. What is the measure of the other angle?",
+  "solutionRepresentation": "180 − 65 = 115 degrees.",
+  "solutionMethod": "Subtract the known angle from 180 degrees, since angles on a straight line sum to 180 degrees.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "115 degrees",
+    "acceptedAnswers": ["115", "115 degrees", "115°"],
+    "equivalenceNotes": "Accept with or without the degree symbol or word."
+  },
+  "misconceptionCodes": ["assumes-angles-sum-to-90", "ignores-straight-line-angle-sum"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Angles that sit next to each other on a straight line always add up to a specific total.",
+      "question": "What do two angles on a straight line always add up to?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "You already know one of the two angle measures.",
+      "question": "What equation represents the two angles adding to 180?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This is the same idea as solving 65 + x = 180 for x, just like any missing-addend equation.",
+      "question": "What value of x makes that equation true?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["115 degrees", "115°"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of angle reasoning; no problem or diagram reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Describe the angle relationship in plain text; a diagram is optional and not required to solve the problem.",
+  "accessibleAlternative": "Read aloud or display: Two angles sit next to each other on a straight line. One angle measures 65 degrees. Find the measure of the other angle."
+}

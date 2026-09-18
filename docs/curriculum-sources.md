@@ -264,6 +264,21 @@ this program with an added "core prep" tier.
    representative topics/years) rather than relying solely on this dossier's
    secondary summaries.
 
+### Standards/skill-code convention for authoring
+
+Because Math Kangaroo publishes no codified "standards" document (unlike
+CCSS-M), `mk6-authoring` uses an internal skill-domain code scheme in each
+skill/content record's `standards` field, in the form `MK6-<DOMAIN>-<n>`
+where `<DOMAIN>` is one of `ARITH` (arithmetic and number patterns), `GEOM`
+(geometry and spatial reasoning), `LOGIC` (logical reasoning), or `COMB`
+(combinatorics) — mirroring the four domain areas in the coverage summary
+above. These are this repository's own internal reference codes, not an
+external standards body's codes; they exist so every skill/content record
+still has a citable, stable code per `SkillSchema`/`ContentItemSchema`, and
+so the per-skill mapping convention already used for Grade 6 Math
+(`docs/curriculum-sources.md`'s "Per-skill standard mapping" table) can be
+mirrored for Math Kangaroo without falsely implying an external authority.
+
 ### Research handoff for authoring
 
 `mk6-authoring` may proceed. Authoring must: (a) use the `mk6-` skill-code

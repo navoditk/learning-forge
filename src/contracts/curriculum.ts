@@ -16,6 +16,10 @@ export const CurriculumDomainSchema = z.enum([
   'expressions-and-equations',
   'geometry',
   'statistics',
+  'mk6-arithmetic-and-patterns',
+  'mk6-geometry-and-spatial-reasoning',
+  'mk6-logical-reasoning',
+  'mk6-combinatorics',
 ]);
 
 export type CurriculumDomain = z.infer<typeof CurriculumDomainSchema>;

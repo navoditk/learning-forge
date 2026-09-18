@@ -1,0 +1,55 @@
+{
+  "id": "mk6-multi-step-arithmetic-reasoning-1",
+  "version": "content-1",
+  "title": "Bake sale change",
+  "skillCode": "mk6-multi-step-arithmetic-reasoning",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MK6-ARITH-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Combines whole-number and decimal operations across two steps to reach a single final answer."
+  ],
+  "prompt": "At a bake sale, Mia sells 3 trays of cookies at $4.50 each and 2 trays of brownies at $6.00 each. She started with $10 in her cash box. How much money is in the cash box after these sales?",
+  "solutionRepresentation": "3 × 4.50 = 13.50; 2 × 6.00 = 12.00; 13.50 + 12.00 + 10 = 35.50.",
+  "solutionMethod": "Find the total for each item separately, then add both totals and the starting cash.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "$35.50",
+    "acceptedAnswers": ["35.50", "$35.50", "35.5", "$35.5"],
+    "equivalenceNotes": "Accept with or without the dollar sign and trailing zero."
+  },
+  "misconceptionCodes": ["stops-after-one-step", "wrong-operation-order"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "There are two separate totals to find before combining anything.",
+      "question": "What is the total from the cookie trays alone?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once you have both item totals, remember the cash box did not start empty.",
+      "question": "What three amounts need to be added together at the end?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Think of it like adding up separate receipts and then adding your starting balance, one step at a time.",
+      "question": "What is the sum of the cookie total, the brownie total, and the starting $10?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["35.50", "$35.50", "13.50", "12.00"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of multi-step arithmetic word problems; no problem, wording, or diagram reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Present all numbers and quantities in plain text; no diagram is required for this item.",
+  "accessibleAlternative": "Read aloud or display: Mia sells 3 trays of cookies at $4.50 each and 2 trays of brownies at $6.00 each, starting with $10 in her cash box. Find the total amount of money in the cash box afterward."
+}

@@ -1,0 +1,18 @@
+{
+  "code": "mk6-number-patterns-and-magic-squares",
+  "title": "Number patterns and magic squares",
+  "program": "math-kangaroo-6",
+  "domain": "mk6-arithmetic-and-patterns",
+  "standards": ["MK6-ARITH-2"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "observableEvidence": [
+    "Identifies and extends a numeric pattern, or fills a partially completed magic square so every row, column, and diagonal shares the required sum."
+  ],
+  "misconceptionCodes": [
+    "extends-pattern-by-guessing",
+    "ignores-diagonal-constraint",
+    "recomputes-target-sum-incorrectly"
+  ],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Deterministic check that every completed row, column, and diagonal (for magic squares) or the next N terms (for a numeric pattern) match the required constraint, plus one independent delayed check."
+}

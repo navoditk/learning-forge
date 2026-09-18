@@ -1,0 +1,55 @@
+{
+  "id": "mk6-clock-and-calendar-reasoning-2",
+  "version": "content-1",
+  "title": "The 100th day from today",
+  "skillCode": "mk6-clock-and-calendar-reasoning",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MK6-ARITH-3"],
+  "prerequisiteSkillCodes": ["mk6-clock-and-calendar-reasoning"],
+  "observableEvidence": [
+    "Determines the day of the week a fixed number of days after a given day, using the remainder from dividing by 7."
+  ],
+  "prompt": "Today is a Wednesday. What day of the week will it be 100 days from today?",
+  "solutionRepresentation": "100 divided by 7 leaves a remainder of 2 (since 7 × 14 = 98). Counting 2 days forward from Wednesday gives Friday.",
+  "solutionMethod": "Divide the number of days by 7 to find the remainder, then count that many days of the week forward from the starting day.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "Friday",
+    "acceptedAnswers": ["Friday", "friday"],
+    "equivalenceNotes": "Accept any capitalization of the day name."
+  },
+  "misconceptionCodes": ["off-by-one-in-day-count", "ignores-am-pm-or-day-wraparound"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The days of the week repeat every 7 days, so only the remainder after dividing by 7 matters.",
+      "question": "What is 100 divided by 7, and what is the remainder?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "That remainder tells you how many days of the week forward to count from Wednesday.",
+      "question": "If the remainder is 2, what two days come right after Wednesday?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This works the same way a clock's hour hand repeats every 12 hours — only the leftover amount after full cycles changes the final position.",
+      "question": "What day do you land on after counting the remainder forward from Wednesday?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["Friday", "remainder of 2"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of calendar/modular-arithmetic word problems at contest difficulty; no problem reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Present the problem entirely in plain text; no calendar diagram is required for this item.",
+  "accessibleAlternative": "Read aloud or display: Today is a Wednesday. Find the day of the week it will be 100 days from today."
+}

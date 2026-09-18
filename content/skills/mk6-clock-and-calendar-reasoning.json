@@ -1,0 +1,18 @@
+{
+  "code": "mk6-clock-and-calendar-reasoning",
+  "title": "Clock and calendar reasoning",
+  "program": "math-kangaroo-6",
+  "domain": "mk6-arithmetic-and-patterns",
+  "standards": ["MK6-ARITH-3"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "observableEvidence": [
+    "Computes elapsed time across an hour or day boundary, or determines a day-of-week/date after a given number of elapsed days, showing the wraparound step explicitly."
+  ],
+  "misconceptionCodes": [
+    "ignores-am-pm-or-day-wraparound",
+    "off-by-one-in-day-count",
+    "confuses-12-and-24-hour-format"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Deterministic check that the learner reaches the exact resulting time or date, plus one independent delayed check with a different wraparound boundary."
+}

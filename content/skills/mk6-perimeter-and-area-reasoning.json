@@ -1,0 +1,18 @@
+{
+  "code": "mk6-perimeter-and-area-reasoning",
+  "title": "Perimeter and area reasoning",
+  "program": "math-kangaroo-6",
+  "domain": "mk6-geometry-and-spatial-reasoning",
+  "standards": ["MK6-GEOM-1"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "observableEvidence": [
+    "Finds the perimeter or area of a polygon (including a composite shape built from rectangles and triangles) given a diagram or a text description of its dimensions."
+  ],
+  "misconceptionCodes": [
+    "confuses-perimeter-and-area",
+    "double-counts-shared-edge",
+    "uses-wrong-triangle-height"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Deterministic check that the learner reaches the exact perimeter/area value and identifies which shared or hidden edge lengths they inferred, plus one independent delayed check."
+}

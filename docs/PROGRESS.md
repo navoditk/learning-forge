@@ -1284,3 +1284,50 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   further change needed there.
 - This update applies going forward to the MOEMS and AMC 8 research now
   starting in parallel worktrees (see below).
+
+## 2026-09-19 (cont.) — Math Kangaroo skill graph and draft content authored
+
+- Completed `mk6-authoring` (workflow step 1-3 of
+  `docs/curriculum-authoring-playbook.md`) using the approved Math Kangaroo
+  dossier in `docs/curriculum-sources.md`:
+  - Extended `CurriculumDomainSchema` with four new Math Kangaroo domains
+    (`mk6-arithmetic-and-patterns`, `mk6-geometry-and-spatial-reasoning`,
+    `mk6-logical-reasoning`, `mk6-combinatorics`) and their site labels in
+    `scripts/generate-curriculum-site.ts`.
+  - Authored 8 new `mk6-`-prefixed skills under `content/skills/`, wired
+    into `src/curriculum/catalog.ts`: multi-step arithmetic reasoning,
+    number patterns/magic squares, clock/calendar reasoning,
+    perimeter/area reasoning, angle/shape properties, 3D spatial
+    visualization, logical deduction puzzles, combinatorial counting.
+    Prerequisite edges are acyclic and program-scoped only to
+    `math-kangaroo-6`.
+  - Because Math Kangaroo has no external standards codes, each
+    skill/content record cites an internal `MK6-<DOMAIN>-<n>` reference
+    code, documented as such in the dossier's new "Standards/skill-code
+    convention" subsection (not an external standards body's code).
+  - Drafted 16 candidate content records (2 per skill: one `core` mode,
+    one `contest` mode) under `content/math-kangaroo-6/`, each tagged
+    `provenance.origin: "llm_drafted"`, `licenseStatus: "owned"`, and
+    `review.status: "pending_review"` per `docs/content-authoring-pipeline.md`
+    — none are visible to a learner yet (`servableContentCatalog` excludes
+    `pending_review` items, confirmed by an existing test).
+  - Content style discipline followed the dossier's handoff: general skill
+    types/format only, no problem/wording/diagram reproduced from any
+    contest archive (Math Kangaroo USA's official PDF archive, the India
+    syllabus page, or Think Academy's prep summaries).
+  - Updated `docs/02-curriculum-and-pedagogy.md` with the new Math Kangaroo
+    skill graph section.
+  - Updated `tests/curriculum/skill-catalog.test.ts` (split the single
+    Grade 6 Math assertion into a Grade 6 Math-specific check, a new Math
+    Kangaroo-specific check, and a whole-catalog no-duplicate-codes check)
+    and `tests/content/catalog.test.ts` (updated total/reviewed/pending
+    counts: 70 total, 54 reviewed, 16 pending).
+- Validation: `npx tsc --noEmit`, `npm run lint`, `npx prettier --check`
+  (all touched/new files), and `npm test` (63/63 passing) all pass.
+- **Not yet done**: independent review (`mk6-independent-review`) and human
+  content approval (`mk6-content-approval`) — the 16 drafted content
+  records must not be treated as validated mathematics/pedagogy until a
+  human (or the independent reviewer, advisory only) checks them; a human
+  educator/content owner must still set `review.status: "reviewed"` before
+  any record is servable.
+- Next: `mk6-independent-review` via the `curriculum-reviewer` agent/skill.

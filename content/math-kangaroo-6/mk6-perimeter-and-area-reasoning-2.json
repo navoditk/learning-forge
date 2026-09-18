@@ -1,0 +1,55 @@
+{
+  "id": "mk6-perimeter-and-area-reasoning-2",
+  "version": "content-1",
+  "title": "L-shaped room area",
+  "skillCode": "mk6-perimeter-and-area-reasoning",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MK6-GEOM-1"],
+  "prerequisiteSkillCodes": ["mk6-perimeter-and-area-reasoning"],
+  "observableEvidence": [
+    "Finds the area of an L-shaped composite figure by splitting it into two rectangles and inferring a hidden side length."
+  ],
+  "prompt": "An L-shaped room is formed by a 10-by-6-meter rectangle with a 4-by-3-meter rectangular corner removed from one corner. What is the area of the L-shaped room, in square meters?",
+  "solutionRepresentation": "Full rectangle area = 10 × 6 = 60. Removed corner area = 4 × 3 = 12. L-shaped area = 60 − 12 = 48 square meters.",
+  "solutionMethod": "Find the area of the full rectangle before the corner is removed, find the area of the removed corner rectangle, then subtract.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "48 square meters",
+    "acceptedAnswers": ["48", "48 square meters", "48 m^2", "48 sq m"],
+    "equivalenceNotes": "Accept with or without the unit."
+  },
+  "misconceptionCodes": ["double-counts-shared-edge", "confuses-perimeter-and-area"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Picture the L-shape as a full rectangle with a smaller rectangle cut out of one corner.",
+      "question": "What is the area of the full 10-by-6 rectangle before anything is removed?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The removed corner is its own rectangle with its own dimensions.",
+      "question": "What is the area of the 4-by-3 corner that was removed?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This is like cutting a bite-sized rectangle out of the corner of a rectangular sheet of paper and finding how much paper is left.",
+      "question": "What do you get when you subtract the removed corner's area from the full rectangle's area?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["48 square meters", "48 m^2", "60 − 12"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original composite-shape scenario written for this repository, inspired only by the general Math Kangaroo skill type of composite-area reasoning at contest difficulty; no problem or diagram reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Provide a plain-text description of the L-shape's dimensions as an alternative to any diagram, describing it as a rectangle with a smaller rectangular corner removed.",
+  "accessibleAlternative": "Read aloud or display: An L-shaped room is a 10-by-6-meter rectangle with a 4-by-3-meter rectangular corner removed. Find the area of the L-shaped room in square meters."
+}

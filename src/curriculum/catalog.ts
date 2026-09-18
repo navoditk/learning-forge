@@ -25,6 +25,14 @@ import unitRates from '../../content/skills/unit-rates.json';
 import variablesAndExpressions from '../../content/skills/variables-and-expressions.json';
 import variablesInContext from '../../content/skills/variables-in-context.json';
 import wholeNumberExponents from '../../content/skills/whole-number-exponents.json';
+import mk6MultiStepArithmeticReasoning from '../../content/skills/mk6-multi-step-arithmetic-reasoning.json';
+import mk6NumberPatternsAndMagicSquares from '../../content/skills/mk6-number-patterns-and-magic-squares.json';
+import mk6ClockAndCalendarReasoning from '../../content/skills/mk6-clock-and-calendar-reasoning.json';
+import mk6PerimeterAndAreaReasoning from '../../content/skills/mk6-perimeter-and-area-reasoning.json';
+import mk6AngleAndShapeProperties from '../../content/skills/mk6-angle-and-shape-properties.json';
+import mk6SpatialVisualization3d from '../../content/skills/mk6-spatial-visualization-3d.json';
+import mk6LogicalDeductionPuzzles from '../../content/skills/mk6-logical-deduction-puzzles.json';
+import mk6CombinatorialCounting from '../../content/skills/mk6-combinatorial-counting.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { topologicalOrder } from './topological-sort';
 
@@ -56,6 +64,14 @@ const rawSkills = [
   wholeNumberExponents,
   gcfAndLcm,
   multiDigitDivision,
+  mk6MultiStepArithmeticReasoning,
+  mk6NumberPatternsAndMagicSquares,
+  mk6ClockAndCalendarReasoning,
+  mk6PerimeterAndAreaReasoning,
+  mk6AngleAndShapeProperties,
+  mk6SpatialVisualization3d,
+  mk6LogicalDeductionPuzzles,
+  mk6CombinatorialCounting,
 ] as const;
 
 export function topologicalSkillOrder(skills: readonly Skill[]): string[] {

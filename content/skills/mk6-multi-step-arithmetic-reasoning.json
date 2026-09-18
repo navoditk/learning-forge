@@ -1,0 +1,14 @@
+{
+  "code": "mk6-multi-step-arithmetic-reasoning",
+  "title": "Multi-step arithmetic reasoning",
+  "program": "math-kangaroo-6",
+  "domain": "mk6-arithmetic-and-patterns",
+  "standards": ["MK6-ARITH-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Combines whole-number, fraction, and decimal operations across two or more steps to reach a single final answer, and explains the order of operations chosen."
+  ],
+  "misconceptionCodes": ["stops-after-one-step", "wrong-operation-order", "mixes-unit-scales"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Deterministic check that the learner reaches the exact final numeric answer and can name each computation step, plus one independent delayed check with different numbers."
+}

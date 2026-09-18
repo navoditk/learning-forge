@@ -1,0 +1,55 @@
+{
+  "id": "mk6-number-patterns-and-magic-squares-1",
+  "version": "content-1",
+  "title": "Fill the magic square",
+  "skillCode": "mk6-number-patterns-and-magic-squares",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MK6-ARITH-2"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "observableEvidence": [
+    "Fills a partially completed 3x3 magic square so every row, column, and diagonal sums to the required target."
+  ],
+  "prompt": "A 3-by-3 magic square uses the numbers 1 through 9 exactly once, and every row, column, and diagonal sums to 15. The middle row currently shows 3, blank, 7 (left to right). What number goes in the blank cell?",
+  "solutionRepresentation": "3 + x + 7 = 15, so x = 5.",
+  "solutionMethod": "Use the target sum for the middle row: subtract the two known numbers in that row from 15.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "5",
+    "acceptedAnswers": ["5"],
+    "equivalenceNotes": "Only the single digit 5 is accepted."
+  },
+  "misconceptionCodes": ["recomputes-target-sum-incorrectly", "extends-pattern-by-guessing"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Every row in the magic square must add up to the same target sum.",
+      "question": "What is the target sum stated in the problem?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "You already know two of the three numbers in the middle row.",
+      "question": "What equation represents the middle row's sum with the blank as x?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This is the same idea as solving 3 + x + 7 = 15 for x, just like any missing-addend equation.",
+      "question": "What value of x makes that equation true?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["x = 5", "the blank is 5"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original magic-square scenario written for this repository, inspired only by the general Math Kangaroo skill type of magic-square reasoning; no problem or diagram reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Present the magic square's known and blank cells as a plain-text description (row by row) rather than relying on a visual grid image alone.",
+  "accessibleAlternative": "Read aloud or display: In a 3-by-3 magic square using the numbers 1 through 9 once each, every row, column, and diagonal sums to 15. The middle row reads 3, blank, 7 from left to right. Find the missing number."
+}

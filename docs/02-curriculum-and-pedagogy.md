@@ -61,6 +61,32 @@ Grade 6 ELA - can be added as new top-level sections without restructuring exist
 
 Each skill must define prerequisites, standards, observable evidence, common misconceptions, difficulty bands, and mastery-check rules.
 
+## Math Kangaroo Grade 6 (Benjamin level) skill graph
+
+Additive contest-preparation program for the same Grade 6 learner
+(`program: "math-kangaroo-6"`); see `docs/curriculum-sources.md`'s Math
+Kangaroo dossier for the researched sources and format this graph is built
+from. Content is currently in `pending_review` status (drafted, not yet
+human-reviewed) — see `docs/PROGRESS.md` for status.
+
+- Arithmetic and number patterns
+  - multi-step arithmetic reasoning
+  - number patterns and magic squares
+  - clock and calendar reasoning
+- Geometry and spatial reasoning
+  - perimeter and area reasoning
+  - angle and shape properties
+  - 3D spatial visualization
+- Logical reasoning
+  - logical deduction puzzles
+- Combinatorics
+  - combinatorial counting
+
+Two content tiers: core prep (foundational) and contest (full contest
+difficulty), using the shared `mode` field's `core`/`contest` values. Skill
+codes are namespaced with an `mk6-` prefix per
+`docs/curriculum-authoring-playbook.md`.
+
 ## Learning loop
 
 `diagnose → mini-lesson → guided practice → independent practice → challenge → mastery check → spaced review`

@@ -10,8 +10,8 @@ import { skillCatalog } from '../../src/curriculum/catalog';
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(contentCatalog).toHaveLength(54);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(54);
+    expect(contentCatalog).toHaveLength(70);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(70);
     expect(new Set(contentCatalog.map((item) => item.skillCode))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -22,8 +22,11 @@ describe('ratios content seed', () => {
 
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
+    // The 16 Math Kangaroo Grade 6 draft items are pending human content-owner
+    // review (docs/curriculum-sources.md's Math Kangaroo dossier handoff);
+    // every previously shipped Grade 6 Math item remains fully reviewed.
     expect(reviewedItems.length).toBe(54);
-    expect(pendingItems.length).toBe(0);
+    expect(pendingItems.length).toBe(16);
     expect(reviewedItems.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
     expect(contentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
   });

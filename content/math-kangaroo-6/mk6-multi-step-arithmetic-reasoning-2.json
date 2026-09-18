@@ -1,0 +1,55 @@
+{
+  "id": "mk6-multi-step-arithmetic-reasoning-2",
+  "version": "content-1",
+  "title": "Fraction of a fraction of a crowd",
+  "skillCode": "mk6-multi-step-arithmetic-reasoning",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MK6-ARITH-1"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "observableEvidence": [
+    "Combines fraction operations across three steps, tracking a changing whole at each step, to reach a single final answer."
+  ],
+  "prompt": "A stadium has 4800 seats. Three-quarters of the seats are filled at the start of a game. During the third inning, one-third of the people in the filled seats leave for concessions and do not return. How many people remain in the stadium?",
+  "solutionRepresentation": "3/4 × 4800 = 3600 filled seats; 1/3 of 3600 = 1200 leave; 3600 − 1200 = 2400 remain.",
+  "solutionMethod": "Find the number of filled seats first, then find how many of those people leave, then subtract.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "2400",
+    "acceptedAnswers": ["2400", "2,400", "2400 people"],
+    "equivalenceNotes": "Accept with or without a comma or the word 'people'."
+  },
+  "misconceptionCodes": ["stops-after-one-step", "mixes-unit-scales"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The 'one-third' in the problem applies to the filled seats, not to all 4800 seats.",
+      "question": "How many seats are filled at the start?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once you know the filled-seat count, that number becomes the new whole for the next fraction.",
+      "question": "How many of the filled-seat people leave for concessions?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This is like finding a fraction of a fraction of a total, one step at a time, similar to finding a discount on an already-discounted price.",
+      "question": "What is left after subtracting the people who leave from the filled-seat count?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["2400", "2,400", "3600", "1200"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of multi-step fraction word problems at contest difficulty; no problem, wording, or diagram reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Present all numbers and quantities in plain text; no diagram is required for this item.",
+  "accessibleAlternative": "Read aloud or display: A stadium has 4800 seats, three-quarters of which are filled. During the third inning, one-third of the people in the filled seats leave. Find how many people remain in the stadium."
+}

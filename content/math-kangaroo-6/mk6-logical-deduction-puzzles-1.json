@@ -1,0 +1,58 @@
+{
+  "id": "mk6-logical-deduction-puzzles-1",
+  "version": "content-1",
+  "title": "Who owns which pet?",
+  "skillCode": "mk6-logical-deduction-puzzles",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MK6-LOGIC-1"],
+  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "observableEvidence": [
+    "Uses a small set of stated constraints to eliminate impossible pairings and deduce the one arrangement consistent with all of them."
+  ],
+  "prompt": "Ana, Ben, and Cara each own exactly one pet: a cat, a dog, or a fish. Ana does not own the fish. Ben does not own the cat or the dog. Cara does not own the cat. Who owns the cat?",
+  "solutionRepresentation": "Ben's two exclusions (not cat, not dog) leave only the fish, so Ben owns the fish. That leaves the cat and dog for Ana and Cara. Cara does not own the cat, so Cara owns the dog, which leaves the cat for Ana.",
+  "solutionMethod": "Start with the person who has the most exclusions (Ben) to fix their pet, then use each remaining exclusion in turn to place the last two pets.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "Ana",
+    "acceptedAnswers": ["Ana", "ana"],
+    "equivalenceNotes": "Accept any capitalization of the name."
+  },
+  "misconceptionCodes": [
+    "accepts-first-consistent-option-without-checking-all-constraints",
+    "misreads-a-negative-constraint"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Start with the person who has the most 'does not own' statements about them.",
+      "question": "Which single pet must Ben own, given his two exclusions?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once Ben's pet is fixed, only two pets and two people remain to be matched.",
+      "question": "Which pet does Cara's exclusion rule out for her?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This is like solving a small logic grid: fix the most-constrained person first, then use each remaining clue to place the rest.",
+      "question": "With Ben's pet fixed and Cara's cat ruled out, which pet is left for Ana?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["Ana owns the cat", "Cara owns the dog", "Ben owns the fish"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original logic-puzzle scenario written for this repository, inspired only by the general Math Kangaroo skill type of constraint-based deduction; no problem reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Present all constraints as a plain-text list rather than relying on a grid diagram alone.",
+  "accessibleAlternative": "Read aloud or display: Ana, Ben, and Cara each own exactly one pet: a cat, a dog, or a fish. Ana does not own the fish. Ben does not own the cat or the dog. Cara does not own the cat. Determine who owns the cat."
+}

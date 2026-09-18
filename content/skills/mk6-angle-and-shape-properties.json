@@ -1,0 +1,18 @@
+{
+  "code": "mk6-angle-and-shape-properties",
+  "title": "Angle and shape properties",
+  "program": "math-kangaroo-6",
+  "domain": "mk6-geometry-and-spatial-reasoning",
+  "standards": ["MK6-GEOM-2"],
+  "prerequisiteSkillCodes": ["mk6-perimeter-and-area-reasoning"],
+  "observableEvidence": [
+    "Classifies angles as acute, right, or obtuse and uses angle-sum or supplementary/complementary relationships to find an unknown angle in a diagram."
+  ],
+  "misconceptionCodes": [
+    "misclassifies-angle-by-appearance-only",
+    "assumes-angles-sum-to-90",
+    "ignores-straight-line-angle-sum"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Deterministic check that the learner reaches the exact unknown angle measure and names the angle relationship used, plus one independent delayed check."
+}

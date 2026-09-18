@@ -1,0 +1,55 @@
+{
+  "id": "mk6-spatial-visualization-3d-1",
+  "version": "content-1",
+  "title": "Faces of a rectangular box",
+  "skillCode": "mk6-spatial-visualization-3d",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MK6-GEOM-3"],
+  "prerequisiteSkillCodes": ["mk6-angle-and-shape-properties"],
+  "observableEvidence": [
+    "Counts the number of faces, edges, or vertices of a rectangular solid without a picture, reasoning from its structure."
+  ],
+  "prompt": "A rectangular box (a rectangular prism) has a different length, width, and height. How many faces does the box have in total?",
+  "solutionRepresentation": "A rectangular prism has 3 pairs of opposite, congruent faces: top/bottom, front/back, left/right, totaling 6 faces.",
+  "solutionMethod": "Count the pairs of opposite faces on a rectangular prism: top-bottom, front-back, and left-right.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "6",
+    "acceptedAnswers": ["6", "6 faces"],
+    "equivalenceNotes": "Accept with or without the word 'faces'."
+  },
+  "misconceptionCodes": ["miscounts-hidden-faces-or-cubes", "confuses-2d-net-with-3d-solid"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Picture a box like a shoebox and imagine touching each flat surface one at a time.",
+      "question": "How many flat surfaces (faces) does a shoebox have on top and bottom together?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "A box also has a front, a back, a left side, and a right side.",
+      "question": "How many pairs of opposite faces does a rectangular box have in total?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Since each of the 3 pairs contributes 2 faces, multiply the number of pairs by 2.",
+      "question": "What is 3 pairs times 2 faces per pair?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["6 faces", "the answer is 6"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of 3D-solid reasoning; no problem or diagram reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Describe the rectangular box verbally (a shoebox-like shape) rather than relying solely on a 3D image.",
+  "accessibleAlternative": "Read aloud or display: A rectangular box has a different length, width, and height. Find the total number of flat faces the box has."
+}

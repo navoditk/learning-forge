@@ -1,0 +1,55 @@
+{
+  "id": "mk6-angle-and-shape-properties-2",
+  "version": "content-1",
+  "title": "Triangle angle chain",
+  "skillCode": "mk6-angle-and-shape-properties",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MK6-GEOM-2"],
+  "prerequisiteSkillCodes": ["mk6-angle-and-shape-properties"],
+  "observableEvidence": [
+    "Uses the triangle angle sum together with a supplementary-angle relationship across two connected shapes to find an unknown angle."
+  ],
+  "prompt": "In a triangle, one angle measures 50 degrees and a second angle measures 70 degrees. The third angle of this triangle is supplementary to (forms a straight line with) an angle labeled x in an adjacent figure. What is the measure of angle x?",
+  "solutionRepresentation": "Third triangle angle = 180 − 50 − 70 = 60 degrees. Since x is supplementary to 60 degrees, x = 180 − 60 = 120 degrees.",
+  "solutionMethod": "Find the triangle's third angle using the triangle angle sum, then use the supplementary relationship to find x.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "120 degrees",
+    "acceptedAnswers": ["120", "120 degrees", "120°"],
+    "equivalenceNotes": "Accept with or without the degree symbol or word."
+  },
+  "misconceptionCodes": ["ignores-straight-line-angle-sum", "assumes-angles-sum-to-90"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Start with what you know about the sum of all three angles in any triangle.",
+      "question": "What is the measure of the triangle's third angle?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Supplementary angles are two angles that together form a straight line.",
+      "question": "What do supplementary angles always add up to?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This chains two relationships together: first the triangle angle sum, then the straight-line angle sum, one after the other.",
+      "question": "What is 180 minus the triangle's third angle?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["120 degrees", "120°", "third triangle angle = 60"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of chained angle-relationship reasoning at contest difficulty; no problem or diagram reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Describe both angle relationships in plain text as an alternative to any diagram of the triangle and adjacent figure.",
+  "accessibleAlternative": "Read aloud or display: A triangle has one angle of 50 degrees and one angle of 70 degrees. The triangle's third angle is supplementary to an angle labeled x in an adjacent figure. Find the measure of angle x."
+}

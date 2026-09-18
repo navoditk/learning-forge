@@ -1,0 +1,58 @@
+{
+  "id": "mk6-combinatorial-counting-2",
+  "version": "content-1",
+  "title": "Routes on a grid without repeats",
+  "skillCode": "mk6-combinatorial-counting",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MK6-COMB-1"],
+  "prerequisiteSkillCodes": ["mk6-combinatorial-counting"],
+  "observableEvidence": [
+    "Systematically counts the number of shortest grid paths between two points, avoiding both double-counting and missed cases, without a formula being given."
+  ],
+  "prompt": "On a grid, a path from point A to point B must move only right or up, one block at a time, and must cover exactly 2 blocks right and 2 blocks up (4 blocks total). How many different shortest paths are there from A to B?",
+  "solutionRepresentation": "Each path is an arrangement of the letters R, R, U, U in some order (4 letters total, with 2 identical Rs and 2 identical Us). The number of distinct arrangements is 4!/(2!·2!) = 24/4 = 6.",
+  "solutionMethod": "Represent each path as a sequence of 2 R moves and 2 U moves, then count the distinct orderings of that sequence, dividing out the repeated moves.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "6",
+    "acceptedAnswers": ["6", "6 paths"],
+    "equivalenceNotes": "Accept with or without the word 'paths'."
+  },
+  "misconceptionCodes": [
+    "double-counts-equivalent-arrangements",
+    "misses-a-case-in-systematic-listing"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Every path can be written as a sequence of moves, like RRUU or RURU, using only R for right and U for up.",
+      "question": "How many total move-letters are in each path, and how many of each letter?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Try systematically listing every distinct order of 2 Rs and 2 Us without repeating or skipping any arrangement.",
+      "question": "Can you list all the distinct 4-letter sequences using exactly 2 Rs and 2 Us?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "This is the same counting idea as arranging the letters in a word with repeated letters, like counting arrangements of the word 'ABAB'.",
+      "question": "How many distinct arrangements does your systematic list give you in total?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["6 paths", "4!/(2!·2!)", "24/4"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "originalityStatement": "Original grid-path scenario written for this repository, inspired only by the general Math Kangaroo skill type of systematic counting at contest difficulty; no problem or diagram reproduced from any contest archive."
+  },
+  "accessibilityNotes": "Describe the grid path constraint in plain text (right/up moves, exact counts) as an alternative to any grid diagram.",
+  "accessibleAlternative": "Read aloud or display: A path from point A to point B moves only right or up, one block at a time, covering exactly 2 blocks right and 2 blocks up. Find the number of different shortest paths from A to B."
+}
