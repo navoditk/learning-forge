@@ -1,5 +1,33 @@
 # Progress
 
+## 2026-09-18 — MOEMS Division E Grade 6 authoring increment handed off
+
+- Verified the approved MOEMS Division E source section in
+  `docs/curriculum-sources.md`: product/content-owner approval is recorded on
+  2026-09-17, the scope is Division E only for `moems-6`, the official format
+  is five monthly contests of five questions in 30 minutes with individual
+  work, one point per correct answer, and no calculators/rulers/graph paper,
+  and the distributed-source/no-single-syllabus gap remains explicit.
+- Added five namespaced `moems6-` skills and ten original records under
+  `content/moems-6/` (one core-prep and one contest free-response record per
+  skill). All ten records use `provenance.origin: "llm_drafted"` and
+  `review.status: "pending_review"`; no figures were added because these
+  initial items are fully representable in accessible text without visual
+  reasoning.
+- Wired the skill/content catalogs, MOEMS domain labels, and contract tests.
+  The roster remains `available: false`, so pending content cannot enter a
+  learner journey; Math Kangaroo format checks remain isolated to its own
+  program.
+- Evidence: `npm run content:validate` passed (14 tests); focused
+  `npm run curriculum:validate` passed after catalog/site updates (15 tests);
+  `npm run verify` passed formatting, lint, type checks, migration rollback
+  checks, 76 unit/contract/catalog/eval tests, and the production build.
+- Review handoff: independently audit all ten records for arithmetic,
+  originality, misconception-rationale determinism, hint non-leakage,
+  conceptual prerequisite necessity, structural distinction/observable
+  evidence coverage, and Division E format fidelity before changing any
+  review state or enabling the program.
+
 ## 2026-09-18 — Math Kangaroo shipped with program-isolated learner journeys
 
 - Completed the Math Kangaroo shipping gate after human approval of all 16

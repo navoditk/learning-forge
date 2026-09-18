@@ -10,8 +10,8 @@ import { skillCatalog } from '../../src/curriculum/catalog';
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(contentCatalog).toHaveLength(70);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(70);
+    expect(contentCatalog).toHaveLength(80);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(80);
     expect(new Set(contentCatalog.map((item) => item.skillCode))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -23,7 +23,10 @@ describe('ratios content seed', () => {
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
     expect(reviewedItems.length).toBe(70);
-    expect(pendingItems.length).toBe(0);
+    expect(pendingItems.length).toBe(10);
+    expect(pendingItems.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
+    expect(pendingItems.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
+    expect(pendingItems.every((item) => !item.review.reviewedAt)).toBe(true);
     expect(reviewedItems.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
     expect(contentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
   });
@@ -84,6 +87,55 @@ describe('ratios content seed', () => {
         ),
       ),
     ).toThrow('requires Math Kangaroo contest-format metadata');
+  });
+
+  it('keeps MOEMS contest items as numeric or text free-response without Math Kangaroo metadata', () => {
+    const moemsSkillCodes = new Set(
+      skillCatalog.filter((skill) => skill.program === 'moems-6').map((skill) => skill.code),
+    );
+    const contestItems = contentCatalog.filter(
+      (item) => moemsSkillCodes.has(item.skillCode) && item.mode === 'contest',
+    );
+    expect(contestItems).toHaveLength(5);
+    expect(contestItems.every((item) => !item.contestFormat)).toBe(true);
+    expect(
+      contestItems.every((item) => ['numeric', 'text'].includes(item.deterministicValidator.type)),
+    ).toBe(true);
+  });
+
+  it('self-audits MOEMS coverage, prerequisites, and canonical answers', () => {
+    const moemsSkills = skillCatalog.filter((skill) => skill.program === 'moems-6');
+    const expectedAnswers = new Map([
+      ['moems6-number-and-place-value-1', '74'],
+      ['moems6-number-and-place-value-2', '563'],
+      ['moems6-patterns-and-counting-1', '29'],
+      ['moems6-patterns-and-counting-2', '12'],
+      ['moems6-geometry-and-measurement-1', '66 square centimeters'],
+      ['moems6-geometry-and-measurement-2', '94 square centimeters'],
+      ['moems6-logic-and-arrangements-1', '2'],
+      ['moems6-logic-and-arrangements-2', '6'],
+      ['moems6-cryptarithm-reasoning-1', '2'],
+      ['moems6-cryptarithm-reasoning-2', '9'],
+    ]);
+
+    for (const skill of moemsSkills) {
+      const records = contentCatalog.filter((item) => item.skillCode === skill.code);
+      expect(records).toHaveLength(2);
+      expect(new Set(records.map((item) => item.mode))).toEqual(new Set(['core', 'contest']));
+      expect(new Set(records.map((item) => item.prompt)).size).toBe(2);
+      expect(
+        records.every(
+          (item) =>
+            item.prerequisiteSkillCodes.join('|') === skill.prerequisiteSkillCodes.join('|'),
+        ),
+      ).toBe(true);
+    }
+
+    for (const [id, answer] of expectedAnswers) {
+      const item = contentCatalog.find((candidate) => candidate.id === id);
+      expect(item?.deterministicValidator.canonicalAnswer).toBe(answer);
+      expect(item?.deterministicValidator.acceptedAnswers).toContain(answer);
+    }
   });
 
   it('includes original accessible figures for Math Kangaroo geometry and spatial reasoning', () => {

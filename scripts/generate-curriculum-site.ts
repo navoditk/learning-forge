@@ -32,6 +32,10 @@ const DOMAIN_LABELS: Record<CurriculumDomain, string> = {
   'mk6-geometry-and-spatial-reasoning': 'Geometry & Spatial Reasoning',
   'mk6-logical-reasoning': 'Logical Reasoning',
   'mk6-combinatorics': 'Combinatorics',
+  'moems6-number-and-arithmetic': 'Number & Arithmetic',
+  'moems6-patterns-and-counting': 'Patterns & Counting',
+  'moems6-geometry-and-measurement': 'Geometry & Measurement',
+  'moems6-logic-and-arrangements': 'Logic & Arrangements',
 };
 
 const MODE_LABELS: Record<ContentItem['mode'], string> = {

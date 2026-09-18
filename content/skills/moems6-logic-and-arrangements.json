@@ -1,0 +1,20 @@
+{
+  "code": "moems6-logic-and-arrangements",
+  "title": "Logic and constrained arrangements",
+  "program": "moems-6",
+  "domain": "moems6-logic-and-arrangements",
+  "standards": ["MOEMS-E-LOGIC-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Translates ordering, adjacency, or exclusion clues into a complete set of cases.",
+    "Eliminates impossible cases and verifies that the surviving arrangement satisfies every clue."
+  ],
+  "misconceptionCodes": [
+    "checks-one-clue",
+    "omits-case",
+    "reverses-order-clue",
+    "double-counts-cases"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require a unique correct arrangement or count and a case table, list, or equivalent verification showing every clue was applied."
+}

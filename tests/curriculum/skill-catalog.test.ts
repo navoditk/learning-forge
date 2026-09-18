@@ -42,17 +42,42 @@ describe('skill catalog', () => {
     );
   });
 
+  it('covers the initial MOEMS Division E graph with namespaced codes', () => {
+    const moemsSkills = skillCatalog.filter((skill) => skill.program === 'moems-6');
+    expect(moemsSkills).toHaveLength(5);
+    expect(moemsSkills.every((skill) => skill.code.startsWith('moems6-'))).toBe(true);
+    expect(new Set(moemsSkills.map((skill) => skill.domain))).toEqual(
+      new Set([
+        'moems6-number-and-arithmetic',
+        'moems6-patterns-and-counting',
+        'moems6-geometry-and-measurement',
+        'moems6-logic-and-arrangements',
+      ]),
+    );
+  });
+
   it('renders available authored programs in the curriculum site', () => {
     execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
     const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
 
     expect(generatedSite).toContain('Math Kangaroo (Grade 6)');
     expect(generatedSite).toContain('Multi-step arithmetic reasoning');
+    expect(generatedSite).toContain('MOEMS Division E (Grade 6)');
     const mathKangarooSection = generatedSite.match(
-      /<section class="program-section" id="program-math-kangaroo-6">([\s\S]*?)<section class="program-section program-section-empty" id="program-moems-6">/,
+      /<section class="program-section" id="program-math-kangaroo-6">([\s\S]*?)<section class="program-section" id="program-moems-6">/,
     );
     expect(mathKangarooSection?.[1]).not.toContain('Coming soon');
     expect(mathKangarooSection?.[1]).not.toContain('Draft — pending human approval');
+  });
+
+  it('keeps pending MOEMS content out of the available curriculum section', () => {
+    execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
+    const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
+    const moemsSection = generatedSite.match(
+      /<section class="program-section" id="program-moems-6">([\s\S]*?)<section class="program-section program-section-empty" id="program-amc-8">/,
+    );
+    expect(moemsSection?.[1]).toContain('Draft — pending human approval');
+    expect(moemsSection?.[1]).toContain('Two-digit lock code');
   });
 
   it('renders accessible collapsible domains and skills', () => {

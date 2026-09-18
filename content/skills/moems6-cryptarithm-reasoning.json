@@ -1,0 +1,21 @@
+{
+  "code": "moems6-cryptarithm-reasoning",
+  "title": "Cryptarithm and digit-equation reasoning",
+  "program": "moems-6",
+  "domain": "moems6-number-and-arithmetic",
+  "standards": ["MOEMS-E-CRYPT-1"],
+  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "observableEvidence": [
+    "Uses column values, carries, distinct-digit constraints, and zero restrictions to solve a letter-to-digit equation.",
+    "Checks a proposed digit assignment in every column and explains why alternatives fail."
+  ],
+  "misconceptionCodes": [
+    "forgets-carry",
+    "reuses-digit",
+    "allows-leading-zero",
+    "ignores-place-value",
+    "wrong-operation"
+  ],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Require a valid complete assignment on a delayed cryptarithm and a column-by-column verification with all distinctness and leading-digit rules checked."
+}

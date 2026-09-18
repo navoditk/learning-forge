@@ -1,0 +1,15 @@
+{
+  "code": "moems6-number-and-place-value",
+  "title": "Number and place-value reasoning",
+  "program": "moems-6",
+  "domain": "moems6-number-and-arithmetic",
+  "standards": ["MOEMS-E-ARITH-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses place value, divisibility, and arithmetic relationships to infer an unknown number rather than testing values blindly.",
+    "Explains why a numerical constraint forces the answer or narrows it to one possibility."
+  ],
+  "misconceptionCodes": ["ignores-place-value", "tests-without-constraint", "wrong-operation"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require a correct deterministic answer and a short explanation identifying the decisive place-value or arithmetic constraint on a delayed item."
+}

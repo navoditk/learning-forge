@@ -1,0 +1,55 @@
+{
+  "id": "moems6-geometry-and-measurement-1",
+  "version": "content-1",
+  "title": "A rectangle from its perimeter",
+  "skillCode": "moems6-geometry-and-measurement",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MOEMS-E-GEOM-1"],
+  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "observableEvidence": [
+    "Uses a perimeter equation to recover a missing side and then computes area."
+  ],
+  "prompt": "A rectangle has perimeter 34 centimeters. Its length is 11 centimeters. What is its area in square centimeters?",
+  "solutionRepresentation": "2(11 + w) = 34, so 11 + w = 17 and w = 6. The area is 11 × 6 = 66 square centimeters.",
+  "solutionMethod": "Use the perimeter to find the width, then multiply length by width for area.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "66 square centimeters",
+    "acceptedAnswers": ["66", "66 square centimeters", "66 cm^2", "66 cm2"],
+    "equivalenceNotes": "Accept 66 with or without the square-centimeter unit."
+  },
+  "misconceptionCodes": ["confuses-perimeter-area", "adds-noncorresponding-lengths"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Perimeter uses all four sides, while area uses a product of two side lengths.",
+      "question": "What equation relates the known length, unknown width, and perimeter?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "There are two equal lengths and two equal widths in a rectangle.",
+      "question": "After accounting for both lengths, what total remains for the two widths?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Once the missing side is found, switch from an addition relationship to the rectangle area formula.",
+      "question": "Which two side measures should be multiplied for the requested unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["66", "66 square centimeters", "6", "17"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Learning Forge content review",
+    "originalityStatement": "Original rectangle measurement problem written from first principles without a copied diagram or wording."
+  },
+  "accessibilityNotes": "Use explicit side names and units in text; no visual figure is necessary.",
+  "accessibleAlternative": "Read aloud or display: A rectangle has perimeter 34 centimeters and length 11 centimeters. Find its area."
+}

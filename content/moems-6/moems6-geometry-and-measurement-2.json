@@ -1,0 +1,55 @@
+{
+  "id": "moems6-geometry-and-measurement-2",
+  "version": "content-1",
+  "title": "A corner removed from a square",
+  "skillCode": "moems6-geometry-and-measurement",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MOEMS-E-GEOM-1"],
+  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "observableEvidence": [
+    "Decomposes a modified region and preserves the original unit relationship to calculate exact area."
+  ],
+  "prompt": "A 10-centimeter by 10-centimeter square has a 2-centimeter by 3-centimeter rectangle removed from one corner. What is the area of the remaining shape in square centimeters?",
+  "solutionRepresentation": "The original square has area 10 × 10. The removed corner has area 2 × 3. Subtract the removed area from the original area.",
+  "solutionMethod": "Find the area of the whole square and subtract the area of the missing rectangular corner.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "94 square centimeters",
+    "acceptedAnswers": ["94", "94 square centimeters", "94 cm^2", "94 cm2"],
+    "equivalenceNotes": "Accept 94 with or without the square-centimeter unit."
+  },
+  "misconceptionCodes": ["confuses-perimeter-area", "assumes-figure-scale"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Treat the shape as a complete square before considering the missing corner.",
+      "question": "What two regions could you find separately and then compare?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Area is measured in square centimeters, so multiply the two side measures of each rectangle.",
+      "question": "Which area should be removed from the square's area?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "The missing corner does not require the outside boundary lengths; it only changes the area inside the original square.",
+      "question": "What subtraction represents the remaining region?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["94", "94 square centimeters", "100", "6"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Learning Forge content review",
+    "originalityStatement": "Original area-decomposition problem written from first principles; no contest diagram or wording is reproduced."
+  },
+  "accessibilityNotes": "Give the dimensions in text and do not require estimating a drawing; a learner may sketch the square and corner if helpful.",
+  "accessibleAlternative": "Read aloud or display: Start with a 10 by 10 square. Remove a 2 by 3 rectangle from one corner. Find the remaining area."
+}

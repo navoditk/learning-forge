@@ -1,0 +1,20 @@
+{
+  "code": "moems6-patterns-and-counting",
+  "title": "Patterns and constrained counting",
+  "program": "moems-6",
+  "domain": "moems6-patterns-and-counting",
+  "standards": ["MOEMS-E-PATTERN-1"],
+  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "observableEvidence": [
+    "Counts arrangements or digit patterns by organizing cases and avoiding double-counting.",
+    "Identifies a rule in a changing sequence and uses it to answer a new question about the pattern."
+  ],
+  "misconceptionCodes": [
+    "double-counts-cases",
+    "assumes-linear-pattern",
+    "misses-leading-zero-rule",
+    "tests-without-constraint"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require a correct count or predicted term plus a representation of the cases or rule that makes duplicate or invalid cases visible."
+}

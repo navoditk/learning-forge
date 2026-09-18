@@ -1,0 +1,55 @@
+{
+  "id": "moems6-patterns-and-counting-1",
+  "version": "content-1",
+  "title": "Growing tile rows",
+  "skillCode": "moems6-patterns-and-counting",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MOEMS-E-PATTERN-1"],
+  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "observableEvidence": [
+    "Extends an additive pattern and states the rule used to reach a later term."
+  ],
+  "prompt": "A row of tiles has 2 tiles in stage 1, 5 tiles in stage 2, 8 tiles in stage 3, and continues by the same rule. How many tiles are in stage 10?",
+  "solutionRepresentation": "The number increases by 3 each stage. Stage 10 is 2 + 9 × 3 = 29.",
+  "solutionMethod": "Find the constant change, count how many changes reach the requested stage, and add them to the first term.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "29",
+    "acceptedAnswers": ["29", "twenty-nine"],
+    "equivalenceNotes": "Accept 29 in numeric or word form."
+  },
+  "misconceptionCodes": ["assumes-linear-pattern", "tests-without-constraint"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Compare neighboring stages instead of jumping straight to the last one.",
+      "question": "How many tiles are added each time?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "From stage 1 to stage 10 there are one fewer changes than the stage number.",
+      "question": "How many equal increases occur after the first stage?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Use first term plus repeated change times number of changes, rather than adding the stage labels.",
+      "question": "What expression combines the first row with all the repeated increases?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["29", "twenty-nine", "3", "9"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Learning Forge content review",
+    "originalityStatement": "Original tile-row sequence written from first principles; it does not reproduce any contest item or diagram."
+  },
+  "accessibilityNotes": "List the first three stage counts in text and offer a number line or table as an optional representation.",
+  "accessibleAlternative": "Read aloud or display: Stage counts are 2, 5, and 8, increasing by the same amount. Find the count at stage 10."
+}

@@ -68,6 +68,16 @@ import mk6LogicalDeductionPuzzles1 from '../../content/math-kangaroo-6/mk6-logic
 import mk6LogicalDeductionPuzzles2 from '../../content/math-kangaroo-6/mk6-logical-deduction-puzzles-2.json';
 import mk6CombinatorialCounting1 from '../../content/math-kangaroo-6/mk6-combinatorial-counting-1.json';
 import mk6CombinatorialCounting2 from '../../content/math-kangaroo-6/mk6-combinatorial-counting-2.json';
+import moems6NumberAndPlaceValue1 from '../../content/moems-6/moems6-number-and-place-value-1.json';
+import moems6NumberAndPlaceValue2 from '../../content/moems-6/moems6-number-and-place-value-2.json';
+import moems6PatternsAndCounting1 from '../../content/moems-6/moems6-patterns-and-counting-1.json';
+import moems6PatternsAndCounting2 from '../../content/moems-6/moems6-patterns-and-counting-2.json';
+import moems6GeometryAndMeasurement1 from '../../content/moems-6/moems6-geometry-and-measurement-1.json';
+import moems6GeometryAndMeasurement2 from '../../content/moems-6/moems6-geometry-and-measurement-2.json';
+import moems6LogicAndArrangements1 from '../../content/moems-6/moems6-logic-and-arrangements-1.json';
+import moems6LogicAndArrangements2 from '../../content/moems-6/moems6-logic-and-arrangements-2.json';
+import moems6CryptarithmReasoning1 from '../../content/moems-6/moems6-cryptarithm-reasoning-1.json';
+import moems6CryptarithmReasoning2 from '../../content/moems-6/moems6-cryptarithm-reasoning-2.json';
 import { ContentItem, ContentItemSchema } from '../contracts/content';
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
 
@@ -142,6 +152,16 @@ const rawContent = [
   mk6LogicalDeductionPuzzles2,
   mk6CombinatorialCounting1,
   mk6CombinatorialCounting2,
+  moems6NumberAndPlaceValue1,
+  moems6NumberAndPlaceValue2,
+  moems6PatternsAndCounting1,
+  moems6PatternsAndCounting2,
+  moems6GeometryAndMeasurement1,
+  moems6GeometryAndMeasurement2,
+  moems6LogicAndArrangements1,
+  moems6LogicAndArrangements2,
+  moems6CryptarithmReasoning1,
+  moems6CryptarithmReasoning2,
 ] as const;
 
 export function validateContentCatalog(items: readonly unknown[] = rawContent): ContentItem[] {

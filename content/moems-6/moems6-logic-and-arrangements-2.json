@@ -1,0 +1,55 @@
+{
+  "id": "moems6-logic-and-arrangements-2",
+  "version": "content-1",
+  "title": "Four remaining cards",
+  "skillCode": "moems6-logic-and-arrangements",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MOEMS-E-LOGIC-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Counts arrangements by combining an order constraint with an adjacency exclusion and checking cases systematically."
+  ],
+  "prompt": "Five cards P, Q, R, S, and T are placed in a row. P must be first, Q must appear before R, and S may not be next to T. How many rows are possible?",
+  "solutionRepresentation": "With P fixed first, arrange Q, R, S, T in the remaining four positions. Half of the 24 orders have Q before R. Of those, 6 have S next to T, so 12 − 6 = 6 valid rows.",
+  "solutionMethod": "Count the order-constrained arrangements, then subtract the arrangements violating the adjacency restriction.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "6",
+    "acceptedAnswers": ["6", "six"],
+    "equivalenceNotes": "Accept 6 in numeric or word form."
+  },
+  "misconceptionCodes": ["double-counts-cases", "checks-one-clue", "omits-case"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Fix the card whose position is already determined before counting anything else.",
+      "question": "Which four cards still need to be arranged?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "First count the orders satisfying Q before R, then identify the subset in which S and T are neighbors.",
+      "question": "What broad count-minus-bad-cases structure fits the conditions?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For the bad cases, group S and T as a block in either internal order and then apply the Q-before-R condition.",
+      "question": "How would you count the excluded neighboring cases without listing every row?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["6", "six", "24", "12"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Learning Forge content review",
+    "originalityStatement": "Original card-arrangement problem written from first principles; no archive wording or arrangement is reproduced."
+  },
+  "accessibilityNotes": "Use a text list or tactile cards for the five labels; do not depend on position in a displayed graphic.",
+  "accessibleAlternative": "Read aloud or display: Put P first. Arrange Q, R, S, T so Q is before R and S is not next to T. Count the rows."
+}

@@ -1,0 +1,55 @@
+{
+  "id": "moems6-cryptarithm-reasoning-2",
+  "version": "content-1",
+  "title": "Carry in a letter equation",
+  "skillCode": "moems6-cryptarithm-reasoning",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MOEMS-E-CRYPT-1"],
+  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "observableEvidence": [
+    "Tracks a carry and distinct digit restrictions through a column addition to determine a letter digit."
+  ],
+  "prompt": "In the addition A7 + 5B = 1C2, A is 3 and all shown letters stand for different digits. What digit is C?",
+  "solutionRepresentation": "The units column is 7 + B and must end in 2, so B is 5 and the carry is 1. The tens column is 3 + 5 + 1 = 9, so C is 9. The hundreds digit is 1.",
+  "solutionMethod": "Solve from the units column, record the carry, and use it in the tens column.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "9",
+    "acceptedAnswers": ["9", "nine"],
+    "equivalenceNotes": "Accept 9 in numeric or word form."
+  },
+  "misconceptionCodes": ["forgets-carry", "reuses-digit"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Begin in the units column because its result digit is already shown.",
+      "question": "What must the units addition produce before you move left?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The units column may send a carry into the tens column; record that carry explicitly.",
+      "question": "What information from the units column must be included in the tens calculation?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Combine the known tens digit, the other addend's tens digit, and the carry, then compare with the tens result letter.",
+      "question": "Which sum determines C?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["9", "nine", "5", "1"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Learning Forge content review",
+    "originalityStatement": "Original carry-based digit equation written from first principles; no MOEMS cryptarithm wording or solution is reproduced."
+  },
+  "accessibilityNotes": "Present the addition in a plain-text column layout or read each place aloud; do not require a visual worksheet.",
+  "accessibleAlternative": "Read aloud or display: In A7 + 5B = 1C2, A is 3 and letters represent different digits. Find C."
+}

@@ -33,6 +33,11 @@ import mk6AngleAndShapeProperties from '../../content/skills/mk6-angle-and-shape
 import mk6SpatialVisualization3d from '../../content/skills/mk6-spatial-visualization-3d.json';
 import mk6LogicalDeductionPuzzles from '../../content/skills/mk6-logical-deduction-puzzles.json';
 import mk6CombinatorialCounting from '../../content/skills/mk6-combinatorial-counting.json';
+import moems6NumberAndPlaceValue from '../../content/skills/moems6-number-and-place-value.json';
+import moems6PatternsAndCounting from '../../content/skills/moems6-patterns-and-counting.json';
+import moems6GeometryAndMeasurement from '../../content/skills/moems6-geometry-and-measurement.json';
+import moems6LogicAndArrangements from '../../content/skills/moems6-logic-and-arrangements.json';
+import moems6CryptarithmReasoning from '../../content/skills/moems6-cryptarithm-reasoning.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { topologicalOrder } from './topological-sort';
 
@@ -72,6 +77,11 @@ const rawSkills = [
   mk6SpatialVisualization3d,
   mk6LogicalDeductionPuzzles,
   mk6CombinatorialCounting,
+  moems6NumberAndPlaceValue,
+  moems6PatternsAndCounting,
+  moems6GeometryAndMeasurement,
+  moems6LogicAndArrangements,
+  moems6CryptarithmReasoning,
 ] as const;
 
 export function topologicalSkillOrder(skills: readonly Skill[]): string[] {

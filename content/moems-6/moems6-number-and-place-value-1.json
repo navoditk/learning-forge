@@ -1,0 +1,55 @@
+{
+  "id": "moems6-number-and-place-value-1",
+  "version": "content-1",
+  "title": "Two-digit lock code",
+  "skillCode": "moems6-number-and-place-value",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MOEMS-E-ARITH-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses a digit-sum and place-value relationship to determine a two-digit number."
+  ],
+  "prompt": "A two-digit lock code has digits that add to 11. The tens digit is 3 more than the ones digit. What is the lock code?",
+  "solutionRepresentation": "Let the ones digit be u. The tens digit is u + 3, so u + (u + 3) = 11. Thus u = 4 and the tens digit is 7, giving 74.",
+  "solutionMethod": "Represent one digit with a variable, use the two constraints, and place the resulting digits in their correct positions.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "74",
+    "acceptedAnswers": ["74", "seventy-four"],
+    "equivalenceNotes": "Accept the two-digit number 74 in numeric or word form."
+  },
+  "misconceptionCodes": ["ignores-place-value", "tests-without-constraint"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Name one digit first and express the other digit in terms of it.",
+      "question": "If the ones digit is u, how can you write the tens digit?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Substitute that expression into the digit-sum condition.",
+      "question": "What equation says that u plus the tens digit totals 11?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Once the ones digit is known, use the stated difference to find the tens digit and then read the number in tens-then-ones order.",
+      "question": "Which digit belongs in the tens place?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["74", "seventy-four", "4", "7"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Learning Forge content review",
+    "originalityStatement": "Original lock-code problem written from first principles, using only the approved MOEMS Division E skill type of place-value constraint reasoning."
+  },
+  "accessibilityNotes": "Present the two digit conditions as text and allow the learner to write a simple equation; no visual layout is required.",
+  "accessibleAlternative": "Read aloud or display: A two-digit lock code has digits that add to 11. Its tens digit is 3 more than its ones digit. Find the code."
+}

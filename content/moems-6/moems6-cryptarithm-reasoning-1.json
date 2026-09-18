@@ -1,0 +1,55 @@
+{
+  "id": "moems6-cryptarithm-reasoning-1",
+  "version": "content-1",
+  "title": "A two-digit digit equation",
+  "skillCode": "moems6-cryptarithm-reasoning",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MOEMS-E-CRYPT-1"],
+  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "observableEvidence": [
+    "Uses place-value expansion to extract the relationship between the digits in a two-digit reversal equation."
+  ],
+  "prompt": "A two-digit number AB is 18 less than the number BA made by reversing its digits. What is the difference between the digits B and A?",
+  "solutionRepresentation": "BA − AB = (10B + A) − (10A + B) = 9(B − A). Since the difference is 18, 9(B − A) = 18, so B − A = 2.",
+  "solutionMethod": "Expand both two-digit numbers by place value, subtract, and solve the resulting digit relationship.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "2",
+    "acceptedAnswers": ["2", "two"],
+    "equivalenceNotes": "Accept the positive digit difference 2 in numeric or word form."
+  },
+  "misconceptionCodes": ["ignores-place-value", "wrong-operation"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Write a two-digit number in terms of its tens and ones digits before comparing it with its reversal.",
+      "question": "How can you express AB and BA using A and B?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Subtract the original expression from the reversed expression and collect like digit terms.",
+      "question": "What common factor appears in the difference?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Use the given numerical difference only after simplifying the place-value expression.",
+      "question": "What digit difference remains after dividing by the common factor?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["18", "9"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Learning Forge content review",
+    "originalityStatement": "Original digit-equation problem written from first principles and not copied from a cryptarithm collection."
+  },
+  "accessibilityNotes": "State the place-value expansions in plain text and allow symbolic or verbal reasoning.",
+  "accessibleAlternative": "Read aloud or display: AB is a two-digit number and BA is its digit reversal. BA is 18 greater than AB. Find B minus A."
+}

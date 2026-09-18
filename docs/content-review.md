@@ -16,6 +16,15 @@ approval record for the exact scope. A deeper pedagogical audit (standards
 depth, misconception-code accuracy, difficulty calibration, accessibility)
 remains a candidate for follow-up before any real pilot use.
 
+**MOEMS Division E draft handoff (2026-09-18):** The catalog now also contains
+10 original `llm_drafted` MOEMS Division E records across five `moems6-`
+skills. Each skill has one core-prep and one contest free-response record;
+all ten remain `review.status: "pending_review"` and are excluded from the
+servable catalog. The independent reviewer must re-derive every answer,
+check prerequisite necessity and two-record observable-evidence coverage,
+confirm the records are not close paraphrases of MOEMS or APSMO material, and
+review Division E format fidelity and accessibility before human approval.
+
 ## Review checklist
 
 For each problem, the reviewer must verify:

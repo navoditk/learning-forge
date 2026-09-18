@@ -1,0 +1,55 @@
+{
+  "id": "moems6-number-and-place-value-2",
+  "version": "content-1",
+  "title": "A constrained three-digit number",
+  "skillCode": "moems6-number-and-place-value",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MOEMS-E-ARITH-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Combines three digit constraints and divisibility reasoning to determine an unknown three-digit number."
+  ],
+  "prompt": "A three-digit number has a hundreds digit that is 2 more than its ones digit. Its tens digit is twice its ones digit. The sum of its digits is 14. What is the number?",
+  "solutionRepresentation": "Let the ones digit be u. The hundreds digit is u + 2 and the tens digit is 2u. Their sum is (u + 2) + 2u + u = 14, so 4u = 12 and u = 3. The digits are 5, 6, and 3, so the number is 563.",
+  "solutionMethod": "Translate each place-value clue into an expression, solve the digit-sum equation, and restore the place order.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "563",
+    "acceptedAnswers": ["563", "five hundred sixty-three", "563."],
+    "equivalenceNotes": "Accept the exact three-digit number with ordinary punctuation or word form."
+  },
+  "misconceptionCodes": ["ignores-place-value", "wrong-operation"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Use the ones digit as the single unknown so every other digit can be described from it.",
+      "question": "How can you write the hundreds and tens digits using u?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Add the three expressions for the digits and set that total equal to the stated digit sum.",
+      "question": "What equation represents the sum of all three digits?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "After solving for the ones digit, calculate the other two digits separately before assembling the number.",
+      "question": "What place-value order should you use when writing the three digits?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["563", "five hundred sixty-three", "3", "5", "6", "14"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Learning Forge content review",
+    "originalityStatement": "Original three-digit constraint problem written from first principles, inspired only by the approved MOEMS Division E arithmetic skill family."
+  },
+  "accessibilityNotes": "Use plain text equations and read each place-value condition aloud; no diagram is required.",
+  "accessibleAlternative": "Read aloud or display: A three-digit number has hundreds digit 2 more than ones digit, tens digit twice ones digit, and digit sum 14. Find the number."
+}

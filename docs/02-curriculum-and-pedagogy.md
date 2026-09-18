@@ -27,9 +27,10 @@ The full skill graph and sample problems (answers/hints excluded) are published 
 directly from `skillCatalog`/`contentCatalog` by `scripts/generate-curriculum-site.ts`. It
 regenerates automatically on every push to `main` (`.github/workflows/curriculum-site.yml`), so
 it can never drift from what's actually shipped. Each `Skill` carries a `program` field.
-Grade 6 Math and Math Kangaroo are currently available as isolated learner journeys; future
-programs such as AMC 8, MATHCOUNTS, MOEMS, and Grade 6 ELA can be added as new top-level
-sections without restructuring existing content.
+Grade 6 Math and Math Kangaroo are currently available as isolated learner journeys. MOEMS
+Division E has an authored, pending-review section that remains unavailable to learners until
+human content-owner approval. Future programs such as AMC 8, MATHCOUNTS, and Grade 6 ELA can
+be added as new top-level sections without restructuring existing content.
 
 ## Initial Math skill graph
 
@@ -87,6 +88,31 @@ Two content tiers: core prep (foundational) and contest (full contest
 difficulty), using the shared `mode` field's `core`/`contest` values. Skill
 codes are namespaced with an `mk6-` prefix per
 `docs/curriculum-authoring-playbook.md`.
+
+## MOEMS Division E Grade 6 skill graph
+
+Additive Division E-targeted preparation for the same Grade 6 learner
+(`program: "moems-6"`); the approved source dossier is in
+`docs/curriculum-sources.md`. The initial graph is intentionally bounded to
+original preparation for the official five monthly contests and does not
+author Division M or dual-placement content.
+
+- Number and arithmetic
+  - number and place-value reasoning
+  - cryptarithm and digit-equation reasoning
+- Patterns and counting
+  - patterns and constrained counting
+- Geometry and measurement
+  - geometry and measurement reasoning
+- Logic and arrangements
+  - logic and constrained arrangements
+
+Each skill has exactly two structurally distinct records: one `core` prep
+record and one `contest` free-response record. MOEMS contest records use
+numeric/text validators and intentionally do not carry Math Kangaroo's
+multiple-choice `contestFormat` metadata. All ten records are
+`llm_drafted` and `pending_review`; the program remains unavailable until
+independent human review and approval.
 
 ## Learning loop
 

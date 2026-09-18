@@ -1,0 +1,55 @@
+{
+  "id": "moems6-logic-and-arrangements-1",
+  "version": "content-1",
+  "title": "Two book blocks",
+  "skillCode": "moems6-logic-and-arrangements",
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MOEMS-E-LOGIC-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Groups immediate-order clues into blocks and counts the possible complete arrangements."
+  ],
+  "prompt": "Four different books W, X, Y, and Z are placed in a row. W must be immediately before X, and Y must be immediately before Z. How many different rows are possible?",
+  "solutionRepresentation": "The pair WX is one block and the pair YZ is another block. The two blocks can be ordered in two ways.",
+  "solutionMethod": "Treat each forced adjacent pair as a single block, then arrange the blocks.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "2",
+    "acceptedAnswers": ["2", "two"],
+    "equivalenceNotes": "Accept 2 in numeric or word form."
+  },
+  "misconceptionCodes": ["omits-case", "reverses-order-clue"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "An immediate-before clue keeps two books together in a fixed order.",
+      "question": "Which books can be treated as one unit?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "After making the two units, no individual book can move inside its unit.",
+      "question": "How many orders can the two units have?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "List each unit order once and check that both original adjacency clues remain true.",
+      "question": "What are the two unit orders you would verify?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["2"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Learning Forge content review",
+    "originalityStatement": "Original book-arrangement problem written from first principles using a general constrained-ordering skill type."
+  },
+  "accessibilityNotes": "Represent each book by its letter and allow the learner to list arrangements in text; no diagram is required.",
+  "accessibleAlternative": "Read aloud or display: Arrange W, X, Y, Z in a row with W immediately before X and Y immediately before Z. Count the possible rows."
+}
