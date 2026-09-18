@@ -1,5 +1,33 @@
 # Progress
 
+## 2026-09-19 (cont.) — Math Kangaroo independent review logged
+
+- **Scope:** Completed the independent `curriculum-review` pass for commit
+  `d072119`'s new Math Kangaroo Grade 6 (`math-kangaroo-6`) skill graph and
+  16 draft content records. Review notes were added to `docs/content-review.md`
+  only; no `content/` JSON, runtime code, or catalog wiring was changed.
+- **Findings:** Logged 2 major and 3 minor issues. Major: (1) the 8
+  `mode: "contest"` records do not yet embody the dossier's approved contest
+  format/difficulty (no 5-choice structure or 3/4/5-point-tier encoding, and
+  several prompts are routine rather than clearly contest-style); (2) three
+  prerequisite edges create unjustified gating barriers
+  (`mk6-angle-and-shape-properties`,
+  `mk6-spatial-visualization-3d`, `mk6-combinatorial-counting`). Minor: one
+  hint-leakage defect in `mk6-clock-and-calendar-reasoning-2`, several
+  semantically misleading `deterministicValidator.type: "numeric"` labels on
+  text/time answers, and one documentation caveat around the secondary-sourced
+  "Benjamin" label.
+- **Evidence:** Independently re-derived all 16 answers by hand/first
+  principles and found no arithmetic disagreements; re-verified both logic
+  puzzles, including the corrected `mk6-logical-deduction-puzzles-2`, as
+  uniquely solvable. Review recommendation recorded as
+  `not ready for human review` / advisory verdict `Do not approve`.
+- **Review status and risk:** All 16 Math Kangaroo records remain
+  `pending_review`; this review does not change `review.status` and does not
+  constitute human approval. Next: author/follow-up remediation for the logged
+  findings, then re-run independent review before any human content-owner
+  approval decision.
+
 ## 2026-09-16 — Grade 6 Math v2 complete-candidate cleanup and comparison handoff
 
 - **Scope:** Completed the final holistic cleanup under
