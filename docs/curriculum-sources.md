@@ -299,6 +299,158 @@ answer-choice set — only the general skill type and difficulty tier; (g)
 build the skill graph's prerequisite edges from first principles (no
 external school-pacing sequencing source exists for this program).
 
+## MOEMS Division E (Grade 6) research — 2026-09-17
+
+**Status: Pending product/content-owner review.** This dossier is the
+dedicated MOEMS research the Grade 6 Math v2 dossier explicitly deferred. It
+cannot self-approve; curriculum authoring may begin only after a human marks
+this section approved.
+
+### Scope and learner context
+
+- **Learner**: the same Grade 6 learner already served by the shipped
+  Grade 6 Math (CCSS-M) curriculum; MOEMS content is *additive*
+  contest-preparation material, not a replacement core curriculum.
+- **Program**: Mathematical Olympiads for Elementary and Middle Schools
+  (**MOEMS**), specifically a Division E-targeted dossier for this learner.
+- **Content tiers**: **core prep** and **contest**, mirroring the approved
+  Math Kangaroo structure. This dossier does not surface a primary-source
+  reason to change that two-tier decision for MOEMS.
+- **Related-program boundary**: Math Kangaroo already has its own approved
+  dossier above. MOEMS **Division M**, **AMC 8**, and **MATHCOUNTS** remain
+  out of scope for this section and require separate research/approval if
+  they are later authoring targets.
+- **Retrieval date**: 2026-09-17.
+
+### Source register
+
+| Authority and source role | Exact title, issuing body, edition/date, URL, and retrieval status | Supported claim and limitation |
+|---|---|---|
+| **Primary; organization identity, goals, and homepage division labels** | *Math Olympiads for Elementary and Middle Schools \| MOEMS*, Mathematical Olympiads for Elementary and Middle Schools, Inc. (MOEMS); page date not stated; https://www.moems.org/ (retrieved 2026-09-17, HTTP 200) | Confirms MOEMS as the program owner; homepage text states the program's goals include multiple strategies, mathematical flexibility, creativity, and ingenuity, and the rendered homepage labels show **Division E Grades 4-6** and **Division M Grades 6-8**. Homepage alone does not resolve the Grade 6 overlap policy documented more explicitly below. |
+| **Primary; program overview and division structure** | *About the Program*, MOEMS; page date not stated; https://www.moems.org/pages/about-the-program (retrieved 2026-09-17, HTTP 200) | States MOEMS "provides five monthly problem-solving contests" and that "the Elementary is for grades 4, 5 and 6, and the Middle School for grades 6, 7 and 8." Confirms Grade 6 is included in Division E, but also shows Grade 6 overlap with Division M rather than an exclusive E-vs-M split. |
+| **Primary; official contest format and calendar cadence** | *Contests & Tournaments*, MOEMS; page date not stated; https://www.moems.org/pages/contests-tournaments (retrieved 2026-09-17, HTTP 200) | Page metadata and extractable page text confirm **five Olympiad contests**, each consisting of **five questions**, **30 minutes**, held monthly from **November through March**. Also distinguishes local/regional tournaments from the monthly Olympiads. |
+| **Primary; official administration, scoring, and Grade 6 placement rule** | *PICO Corner*, MOEMS; page date not stated; https://www.moems.org/pages/pico-corner (retrieved 2026-09-17, HTTP 200) | Extractable page text states students work alone; each correct answer earns **1 point**; calculators, rulers, graph paper, and other aids/resources are not permitted; after the fifth Olympiad, team score uses the cumulative scores of the top 10 students. Crucially, it also states **6th grade students may be placed on either a Division E or Division M team**, and may appear on both if both divisions are available at the school. |
+| **Primary; official public resource hub** | *Resources*, MOEMS; page date not stated; https://www.moems.org/pages/resources (retrieved 2026-09-17, HTTP 200) | Official public hub linking MOEMS practice/archive materials, including the Division E sample contest, contest-problem volumes, and contest supplements. The HTML page is reachable and its links are extractable, but most archive detail is exposed through outbound links rather than prose on the page itself. |
+| **Primary; official public sample contest on an affiliated official channel** | *SampleE.pdf - Google Drive*, linked from MOEMS *Resources* as **DOWNLOAD SAMPLE DIVISION E**; file title visible on the Google Drive view page; internal contest date shown in the PDF as **January 16, 2018**; https://drive.google.com/file/d/1w8AkMWqMAHPidIEfAs9044xp-bjRSTHT/view (retrieved 2026-09-17, view URL HTTP 200; direct download URL `https://drive.google.com/uc?export=download&id=1w8AkMWqMAHPidIEfAs9044xp-bjRSTHT` returned HTTP 303 redirect to Googleusercontent, then HTTP 200 PDF bytes) | Confirms MOEMS publicly distributes an official Division E sample contest. The sample supports skill-type observations for authoring (e.g., non-routine arithmetic/place-value reasoning, geometry/area reasoning, constrained-number logic, and cryptarithm-style reasoning) and demonstrates MOEMS' own "contest + solutions/follow-up" instructional pattern. No problem text, solution text, or diagrams may be reproduced. |
+| **Primary; official archive of past Division E contest-problem collections** | *Math Olympiad Contest Problems Volume 1*, *Math Olympiad Contest Problems Volume 2*, *Math Olympiad Contest Problems Volume 3*, and *Math Olympiad Contest Problems Volume 4*, MOEMS; official Shopify product-data endpoints on `moems.org`, with `published_at` values **2025-08-23** (Volume 1) and **2025-09-03** (Volumes 2-4); https://www.moems.org/products/mops-volume-1.js, https://www.moems.org/products/mops-volume-02.js, https://www.moems.org/products/mops-volume-03.js, https://www.moems.org/products/mops-volume-04.js (retrieved 2026-09-17, all HTTP 200) | These official product records expose year spans and Division E counts for past MOEMS collections: **1979/80-1994/95, 400 Division E problems** (Vol. 1); **1995/96-2004/05, 200 Division E problems** (Vol. 2); **2005/06-2012/13, 200 Division E problems** (Vol. 3); **2013/14-2016/17, 100 Division E problems** (Vol. 4). This is an official archive family for topic-coverage and difficulty-progression inspiration only, not a license to reuse content. Volume 4 also mixes in APSMO Junior/Senior material, so MOEMS-vs-APSMO boundaries must stay explicit. |
+| **Primary; official recent-year archive listing (preferred archive citation per source rule 10)** | *Contest Supplements*, MOEMS; canonical product page https://www.moems.org/products/contest-supplements (retrieved 2026-09-17, HTTP 200) plus official machine-readable product endpoint with `published_at` **2025-09-03**: https://www.moems.org/products/contest-supplements.js (retrieved 2026-09-17, HTTP 200) | The official product-data endpoint exposes **Division E (`E`) and Division M (`M`) digital-download variants for seasons `98-99` through `23-24`**. This is the strongest official recent-year archive listing located during this research pass, and should be the **preferred source for MOEMS topic/difficulty progression inspiration** during authoring. Limitation: the listing provides year/division coverage, not a public syllabus or extracted problem taxonomy. |
+| **Primary; specific archive URLs checked but not located** | `https://www.moems.org/pages/past-contests`, `https://www.moems.org/pages/sample-contests`, `https://www.moems.org/pages/problem-archive`, and `https://www.moems.org/pages/archives` (retrieved 2026-09-17, all HTTP 404) | These checks document the searches performed for a single public "past contests/problem archive" landing page. Their 404 results do **not** prove no such page exists anywhere else; they only show these guessed paths were not valid. The official archive sources actually located are the *Resources* page, *Contest Supplements*, and the official contest-problem volumes above. |
+
+### Standards framework and version
+
+MOEMS has **no CCSS-style adopted standards document** and no single official,
+dated syllabus page equivalent to California's Grade 6 CCSS-M framework.
+Instead, the usable primary-source framework for authoring is the combination
+of MOEMS' own published program goals, official contest structure, official
+Division E sample contest, and official archive of past contest-problem
+collections/supplements. For Learning Forge, MOEMS authoring must therefore
+remain explicitly **additive** to the shipped Grade 6 Math curriculum rather
+than acting as a replacement scope for core standards mastery.
+
+### Standards-domain coverage summary
+
+MOEMS does not publish an extractable official domain-by-domain syllabus in
+the style of a state standards framework. What is directly supported by the
+primary sources above is:
+
+- **Problem-solving process**: MOEMS explicitly emphasizes multiple
+  strategies, mathematical flexibility, creativity, and ingenuity.
+- **Season format**: Division E learners encounter a seasonal sequence of
+  **five** monthly contests, each with **five** non-routine questions in
+  **30 minutes**, completed individually, with **no calculators/rulers/graph
+  paper** and **1 point per correct answer**.
+- **Grade-band scope**: Grade 6 is included in Division E, but official MOEMS
+  materials also permit Grade 6 participation in Division M; this dossier is
+  intentionally bounded to Division E-targeted authoring for the current
+  learner.
+- **Skill-type signals from the official Division E sample and archive**:
+  original authoring can safely expect MOEMS Division E to draw from
+  upper-elementary/early-middle-school contest families such as
+  arithmetic/place-value reasoning, digit/pattern counting, geometry/area or
+  measurement reasoning, constrained arrangement/logic structures, and
+  cryptarithm-style numerical reasoning — all in non-routine problem-solving
+  form rather than routine worksheet form.
+
+Because MOEMS provides no formal standards matrix, authoring should verify its
+final domain breakdown against representative official archive years from the
+*Contest Supplements* and past-problem volumes rather than treating the bullet
+list above as a complete official syllabus.
+
+### Local sequencing source
+
+**Not applicable.** MOEMS is a contest program, not a school-paced district
+curriculum. No Irvine USD or other district pacing guide was sought for this
+dossier. Sequencing for any future `moems6-` skill graph should therefore use
+the repository's normal prerequisite-graph discipline, while treating the
+existing Grade 6 Math curriculum as the additive core baseline.
+
+### Content-tier inspiration and originality constraints
+
+Use the same two tiers already approved for Math Kangaroo:
+
+- **Core prep**: original skill-building work that prepares the learner for
+  MOEMS-style reasoning, potentially using MOEMS' own public sample/solution
+  pattern as inspiration for "multiple methods + follow-up" scaffolding, but
+  never copying a MOEMS prompt, solution, follow-up question, layout, or
+  diagram.
+- **Contest**: original full-difficulty MOEMS-style items shaped by the
+  official format above (five-question, 30-minute, individual, no-calculator,
+  one-point-per-correct seasonal Olympiads) and by the official archive's
+  long-run difficulty progression.
+
+The official archive located for this program is copyrighted competition
+material sold or distributed by MOEMS. It may inform **skill types,
+difficulty bands, and format conventions only**. No actual archived problem,
+sample prompt, solution, follow-up question, answer box layout, or distinctive
+wording may be reproduced or closely paraphrased.
+
+### Conflicts and gaps requiring human review
+
+1. **Grade 6 is not exclusive to Division E in the extractable primary
+   sources.** The user requested a Division E dossier, and Grade 6 is indeed
+   included in Division E. However, MOEMS' own *About the Program* and *PICO
+   Corner* pages also place Grade 6 within Division M eligibility, with
+   *PICO Corner* explicitly saying 6th graders may be placed on either
+   division and even on both if both divisions are available. Human review
+   should confirm that Learning Forge still wants a Division E-targeted
+   `moems6-` curriculum for this learner, rather than a future Division M or
+   dual-placement strategy.
+2. **No single official MOEMS syllabus or standards map was located.** The
+   framework here is assembled from official format/goals/sample/archive
+   sources, not from a one-document topic specification. Human review should
+   accept or reject that source posture before authoring begins.
+3. **The official archive is distributed across several surfaces rather than a
+   single public landing page.** Searches performed found the official
+   *Resources* page, official sample Division E file, official contest-problem
+   volumes, and the official *Contest Supplements* listing, but not a single
+   `/past-contests`-style page (documented 404 checks above).
+4. **Recent official archive coverage is exposed through a Shopify `.js`
+   endpoint rather than prose on the HTML product page.** That endpoint is on
+   the official domain and machine-readable, but a human reviewer may wish to
+   confirm the `E / 98-99` through `E / 23-24` season listing directly in a
+   browser before authoring relies on it.
+5. **Volume 4 mixes MOEMS and APSMO material, and Volume 5 is APSMO-only in
+   its visible description.** For a MOEMS Division E dossier, authoring
+   should treat APSMO items as related but not automatically interchangeable
+   with MOEMS monthly Olympiads unless a later human decision says otherwise.
+
+### Research handoff for authoring
+
+After human approval, `moems6-authoring` should: (a) use the `moems6-`
+skill-code prefix; (b) keep MOEMS explicitly **additive** to the shipped
+Grade 6 Math curriculum; (c) build **core prep** and **contest** tiers, not a
+single undifferentiated bank; (d) treat the official MOEMS format as **five
+monthly contests, five questions each, 30 minutes, individual work, 1 point
+per correct answer, no calculators/rulers/graph paper**; (e) derive topic
+coverage and difficulty progression primarily from the official archive
+already located — especially *Contest Supplements* (`E / 98-99` through
+`E / 23-24`) plus the official past-problem volumes and public Division E
+sample — while keeping APSMO-labeled material explicitly separate; (f) never
+reproduce or closely paraphrase an actual MOEMS/archived/sample problem,
+solution, follow-up, or diagram; and (g) keep this first MOEMS increment
+bounded to **Division E-targeted Grade 6 preparation** unless a later,
+separately approved dossier expands scope.
+
 ## Standards source
 
 - **Framework**: Common Core State Standards for Mathematics, Grade 6, as

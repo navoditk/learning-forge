@@ -158,7 +158,44 @@
   constitute human approval. Next: author/follow-up remediation for the logged
   findings, then re-run independent review before any human content-owner
   approval decision.
+## 2026-09-17 — MOEMS Division E Grade 6 research dossier (pending review)
 
+- **Completed `moems6-research`**: added a new
+  "MOEMS Division E (Grade 6) research — 2026-09-17" section to
+  `docs/curriculum-sources.md`, following the Math Kangaroo dossier
+  structure exactly (scope, source register, standards/framework posture,
+  coverage summary, sequencing, originality constraints, conflicts/gaps, and
+  authoring handoff).
+- **Confirmed from primary official MOEMS sources**: MOEMS is the program
+  owner; the program emphasizes multiple strategies, flexibility,
+  creativity, and ingenuity; the seasonal Olympiad format is **five monthly
+  contests**, each with **five questions** in **30 minutes**; students work
+  individually; calculators/rulers/graph paper are not allowed; each correct
+  answer is worth **1 point**; and MOEMS publicly distributes an official
+  Division E sample contest plus an official archive of past contest
+  materials through its `Resources`, `Contest Supplements`, and contest-book
+  product pages.
+- **Official archive finding required by source rule 10**: located
+  `https://www.moems.org/products/contest-supplements` (HTTP 200) and its
+  official machine-readable endpoint
+  `https://www.moems.org/products/contest-supplements.js` (HTTP 200), which
+  exposes Division E (`E`) and Division M (`M`) digital-download variants
+  for seasons `98-99` through `23-24`. Also recorded MOEMS' official past
+  contest-problem book volumes covering Division E years 1979/80-2016/17 and
+  the public Division E sample file linked from `https://www.moems.org/pages/resources`
+  (HTTP 200).
+- **Primary-source nuance surfaced**: although the dossier is intentionally
+  bounded to **Division E** for this Grade 6 learner, official MOEMS
+  materials do **not** make Grade 6 exclusive to Division E. `About the
+  Program` includes Grade 6 in both the elementary and middle-school
+  descriptions, and `PICO Corner` explicitly says 6th graders may be placed
+  on either Division E or Division M teams (or both, if both divisions are
+  available at the school). This is recorded as a human-review item, not
+  silently resolved by the research agent.
+- **Review status**: section is marked **Pending product/content-owner
+  review**. No self-approval is claimed. Next: human review of the MOEMS
+  dossier, especially the Grade 6 Division E-vs-M boundary and acceptance of
+  the archive/syllabus posture before any `moems6-authoring` work begins.
 ## 2026-09-16 — Grade 6 Math v2 complete-candidate cleanup and comparison handoff
 
 - **Scope:** Completed the final holistic cleanup under
