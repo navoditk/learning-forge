@@ -1,5 +1,36 @@
 # Progress
 
+## 2026-09-17 — Math Kangaroo figure increment independent review logged
+
+- **Scope:** Completed the independent `curriculum-review` pass for commit
+  `2593aa2` covering the new Math Kangaroo figure contract/rendering changes
+  and the five `content-2` figure-bearing records. Review notes were appended
+  to `docs/content-review.md` only; no `content/` or `src/` files were
+  changed in this pass.
+- **Outcome:** Logged 1 **major** issue and no minor issues. The two new angle
+  diagrams (`mk6-angle-and-shape-properties-1`,
+  `mk6-angle-and-shape-properties-2`) are not geometrically faithful to their
+  labeled measures: their drawn rays/triangle coordinates visually encode
+  angles materially different from the prompt's 65°, 50°, 70°, and implied
+  supplementary values, with no "not to scale" caveat.
+- **Evidence:** Recomputed the drawn geometry from the SVG coordinates:
+  `mk6-angle-and-shape-properties-1` draws about 54.2° / 125.8° rather than
+  65° / 115°; `mk6-angle-and-shape-properties-2` draws about 42.7°, 72.6°,
+  64.7° (exterior about 115.3°) rather than 50°, 70°, 60° / 120°. The
+  remaining figure scope passed inspection: static-SVG safety restrictions,
+  encoded image rendering, no unnecessary figure data to the model provider,
+  no answer-bearing solution leakage on the curriculum site, `content-2`
+  version bumps, and all `pending_review` states. Ran `npm run
+  curriculum:site`, `npm run content:validate`, `npm run curriculum:validate`,
+  `npm run typecheck`, `npm test` (71/71), `npm run build`,
+  `npx prettier --check docs/content-review.md docs/PROGRESS.md`, and
+  `git diff --check`; all passed.
+- **Review status and risk:** Advisory verdict is `Do not approve` /
+  `not ready for human review` for this increment until the two misleading
+  angle figures are redrawn or clearly marked/reworked so they do not visually
+  contradict the stated relationships. All 16 Math Kangaroo records remain
+  `pending_review`.
+
 ## 2026-09-17 — AMC 8 primary-source gate resolved and research approved
 
 - Product owner supplied the current official MAA PDF, *Official Rules and

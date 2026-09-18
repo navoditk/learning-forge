@@ -415,3 +415,97 @@ npm run content:validate
 - I found no remaining defect in the reviewed remediation scope. Human
   product/content-owner approval is still required before any `pending_review`
   Math Kangaroo record becomes servable.
+
+## 2026-09-17 — Math Kangaroo figure increment — independent review
+
+- **Scope:** Commit `2593aa2` only: `ContentFigureSchema` and SVG safety
+  restrictions in `src/contracts/content.ts`; `svgDataUri` in
+  `src/content/figure.ts`; learner rendering and service wiring in
+  `src/app/page.tsx` and `src/phase1/service.ts`; curriculum-site rendering
+  in `scripts/generate-curriculum-site.ts`; related tests; and the five
+  `content-2` Math Kangaroo records with figures.
+- **Reviewer:** Independent `curriculum-review` pass (advisory only; this
+  review does **not** change any content `review.status` field).
+- **Overall verdict:** **Do not approve**.
+- **Recommendation:** **not ready for human review**.
+
+### What was checked
+
+1. **Figure/schema safety:** reviewed the new `ContentFigureSchema` static-SVG
+   subset and re-checked all five new figure payloads for disallowed elements,
+   script/event handlers, `href`/`xlink`, `url(...)`, or stylesheet usage.
+2. **Rendering/injection path:** checked `svgDataUri`, learner rendering in
+   `src/app/page.tsx`, curriculum-site rendering, and provider wiring to
+   verify figures render as encoded image data URIs rather than inline SVG,
+   are not sent to the tutor model provider, and do not add answer-bearing
+   solution text to the public curriculum site.
+3. **Content fidelity/accessibility:** independently inspected each of the
+   five figure-bearing `content-2` records for geometric faithfulness to the
+   prompt, answer leakage, originality risk, alt text, caption, and usable
+   nonvisual access path.
+4. **Version/review state:** verified the five changed records are correctly
+   versioned `content-2` and that all 16 Math Kangaroo records remain
+   `pending_review`.
+5. **Technical integrity:** ran `npm run curriculum:site`, `npm run
+   content:validate`, `npm run curriculum:validate`, `npm run typecheck`,
+   `npm test`, `npm run build`, `npx prettier --check docs/content-review.md
+   docs/PROGRESS.md`, and `git diff --check`.
+
+### Verified findings
+
+1. **Severity:** major
+   **Confidence:** high
+   **Files / lines:** `content/math-kangaroo-6/mk6-angle-and-shape-properties-1.json:15-17`;
+   `content/math-kangaroo-6/mk6-angle-and-shape-properties-2.json:15-17`
+   **Rule violated:** Review dimensions 5, 6, and 8. The user-requested figure
+   review requires each SVG to be mathematically/geometrically faithful to its
+   prompt and not to mislead the learner.
+   **Evidence:** both new angle figures visually encode angle measures that do
+   not match the labeled values. In `mk6-angle-and-shape-properties-1`, the ray
+   drawn from `(240,180)` to `(330,55)` makes an angle of about **54.2°** with
+   the horizontal rightward line, not the labeled **65°**; the supplementary
+   angle is therefore about **125.8°**, not **115°**. In
+   `mk6-angle-and-shape-properties-2`, the triangle vertices
+   `(105,235)`, `(300,55)`, and `(385,235)` produce interior angles of about
+   **42.7°**, **72.6°**, and **64.7°** (exterior about **115.3°**), not the
+   labeled **50°**, **70°**, and implied **60°/120°** relationships. These
+   are not harmless style differences: the drawings visibly cue the wrong
+   geometry in exactly the skill family being taught, and neither the figure
+   metadata nor the prompt marks them as not-to-scale.
+   **Smallest safe remediation:** redraw both angle SVGs so the depicted
+   geometry matches the labeled measures closely enough to be instructionally
+   faithful, or explicitly mark them as not to scale and redesign them so they
+   do not visually contradict the stated relationships.
+
+### Additional checks with no defect found
+
+- **SVG safety:** the new schema and current figure payloads block or avoid
+  executable/remote-resource SVG patterns in scope here; I found no script,
+  external-resource, or stylesheet injection path in the reviewed figures.
+- **Helper/rendering:** `svgDataUri` percent-encodes the SVG and both learner
+  and curriculum-site surfaces render it as an image source rather than inline
+  active DOM SVG.
+- **Model-provider minimization:** the learner session includes `figure` for
+  client rendering, but `getTutorContext` / hint-provider input still send only
+  prompt, skill code, canonical answer, and protected tokens — not raw figure
+  markup or alt text.
+- **Public curriculum site:** regenerated site still omits canonical answers,
+  accepted answers, solution text, hints, and forbidden-leakage patterns. The
+  new figures appear with captions/alt text only.
+- **Versioning/review status:** all five figure-bearing records are correctly
+  bumped to `content-2`, and all 16 Math Kangaroo records remain
+  `pending_review`.
+- **Originality:** I found no evidence that the five reviewed figures are
+  copied from a contest archive; they appear repository-authored.
+- **Accessibility path:** the figure records include meaningful `altText`,
+  `caption`, `accessibilityNotes`, and `accessibleAlternative`. The reviewed
+  non-angle figures are consistent with their prompts and do not leak answers.
+
+### Questions
+
+- None. The issue above is a verified defect, not an open question.
+
+### Residual risks
+
+- Aside from the angle-faithfulness defect above, I found no additional figure
+  safety or answer-leakage problem in scope.
