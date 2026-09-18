@@ -27,7 +27,7 @@
     "type": "multiple_choice",
     "canonicalAnswer": "120 degrees",
     "acceptedAnswers": ["120", "120 degrees", "120°", "E"],
-    "equivalenceNotes": "Accept with or without the degree symbol or word."
+    "equivalenceNotes": "Accept with or without the degree symbol or word, or as choice E."
   },
   "misconceptionCodes": ["ignores-straight-line-angle-sum", "assumes-angles-sum-to-90"],
   "hintSteps": [

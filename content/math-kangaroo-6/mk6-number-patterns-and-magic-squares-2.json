@@ -27,7 +27,7 @@
     "type": "multiple_choice",
     "canonicalAnswer": "72",
     "acceptedAnswers": ["72", "E"],
-    "equivalenceNotes": "Only the exact 8th-term value is accepted."
+    "equivalenceNotes": "Accept the exact 8th-term value or choice E."
   },
   "misconceptionCodes": ["extends-pattern-by-guessing"],
   "hintSteps": [

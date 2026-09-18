@@ -27,7 +27,7 @@
     "type": "multiple_choice",
     "canonicalAnswer": "2400",
     "acceptedAnswers": ["2400", "2,400", "2400 people", "C"],
-    "equivalenceNotes": "Accept with or without a comma or the word 'people'."
+    "equivalenceNotes": "Accept with or without a comma or the word 'people', or as choice C."
   },
   "misconceptionCodes": ["stops-after-one-step", "mixes-unit-scales"],
   "hintSteps": [

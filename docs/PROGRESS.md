@@ -1,5 +1,19 @@
 # Progress
 
+## 2026-09-19 (cont.) — Math Kangaroo second-review remediation
+
+- Resolved the second independent review's remaining major hint-leakage issue
+  by replacing the first hints in the perimeter-invariance and exposed-cube-
+  faces items. The revised hints direct comparison of changed boundary/faces
+  without asking the learner to compute a value equal to the final answer.
+- Updated four multiple-choice validator notes to explicitly document their
+  accepted choice labels, matching their `acceptedAnswers`.
+- Corrected the perimeter item's originality statement to describe
+  perimeter-invariance rather than composite-area reasoning. All 16 records
+  remain `pending_review`.
+- Next: final independent review pass before requesting human content-owner
+  approval.
+
 ## 2026-09-19 (cont.) — Math Kangaroo second independent review logged
 
 - **Scope:** Completed a second independent `curriculum-review` pass against

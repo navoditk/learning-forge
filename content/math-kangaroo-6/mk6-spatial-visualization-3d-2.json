@@ -34,8 +34,8 @@
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "First count the exposed unit-square faces on the complete rectangular block using its three pairs of opposite faces.",
-      "question": "What is 2 times the sum of 4×3, 4×2, and 3×2?"
+      "prompt": "Before calculating the full surface area, focus on the removed corner cube and compare its outside faces with its formerly hidden contact faces.",
+      "question": "How many faces of a corner cube were outside, and how many touched neighboring cubes?"
     },
     {
       "order": 2,

@@ -32,7 +32,7 @@
       "1. Gus 2. Dee 3. Eli 4. Fay",
       "B"
     ],
-    "equivalenceNotes": "Accept the four names in finishing order, separated by commas, spaces, or numbered."
+    "equivalenceNotes": "Accept the four names in finishing order, separated by commas, spaces, or numbered, or as choice B."
   },
   "misconceptionCodes": [
     "accepts-first-consistent-option-without-checking-all-constraints",

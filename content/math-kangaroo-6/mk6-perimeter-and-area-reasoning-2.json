@@ -34,8 +34,8 @@
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "Focus on boundary lengths rather than area. First find the original rectangle's perimeter.",
-      "question": "What is 2 times the sum of 10 and 6?"
+      "prompt": "Focus on boundary lengths rather than area. Compare what the corner cut removes from the outside boundary with what it adds along the new inside boundary.",
+      "question": "Which outer segments disappear, and which equal-length inner segments replace them?"
     },
     {
       "order": 2,
@@ -58,7 +58,7 @@
   "review": {
     "status": "pending_review",
     "reviewer": "Pending human content review (drafted by curriculum-author agent)",
-    "originalityStatement": "Original composite-shape scenario written for this repository, inspired only by the general Math Kangaroo skill type of composite-area reasoning at contest difficulty; no problem or diagram reproduced from any contest archive."
+    "originalityStatement": "Original composite-shape scenario written for this repository, inspired only by the general Math Kangaroo skill type of perimeter-invariance reasoning at contest difficulty; no problem or diagram reproduced from any contest archive."
   },
   "accessibilityNotes": "Provide a plain-text description of the L-shape's dimensions as an alternative to any diagram, describing it as a rectangle with a smaller rectangular corner removed.",
   "accessibleAlternative": "Read aloud or display: A 10-by-6-meter rectangle has a 4-by-3-meter rectangle cut from one corner. Find the perimeter of the remaining L-shape from the five listed choices."
