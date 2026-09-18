@@ -509,3 +509,81 @@ npm run content:validate
 
 - Aside from the angle-faithfulness defect above, I found no additional figure
   safety or answer-leakage problem in scope.
+
+## 2026-09-17 — Math Kangaroo angle-figure correction — final focused review
+
+- **Scope:** Commit `4cc2336` only: corrected SVG geometry in
+  `content/math-kangaroo-6/mk6-angle-and-shape-properties-1.json` and
+  `content/math-kangaroo-6/mk6-angle-and-shape-properties-2.json`, plus the
+  new numerical regression test in `tests/content/catalog.test.ts`.
+- **Reviewer:** Independent `curriculum-review` pass (advisory only; this
+  review does **not** change any content `review.status` field).
+- **Overall verdict:** **Approve**.
+- **Recommendation:** **ready for human review**.
+
+### What was checked
+
+1. **SVG geometry fidelity:** independently re-derived the represented angles
+   from the tagged coordinates in both corrected SVGs and checked the implied
+   supplementary/exterior relationships.
+2. **Arc/label coherence:** inspected the arc endpoints and label placement to
+   verify they reinforce, rather than contradict, the corrected geometry.
+3. **Regression-test integrity:** reviewed the new catalog test to confirm it
+   parses `data-role`-tagged coordinates from the SVG markup and computes angle
+   measures numerically instead of snapshotting strings.
+4. **Accessibility/leakage/safety regression:** re-checked alt text,
+   accessible alternatives, hint ladders, figure safety constraints, and public
+   rendering expectations for the two corrected records.
+5. **Version/review state and technical integrity:** verified the records are
+   now `content-3`, remain `pending_review`, and ran `npm run
+   content:validate`, `npm run curriculum:validate`, `npm run typecheck`,
+   `npm test`, `npm run build`, `npx prettier --check docs/content-review.md
+   docs/PROGRESS.md`, and `git diff --check`.
+
+### Verified findings
+
+- None. I found no remaining defect in the focused remediation scope.
+
+### Additional checks with no defect found
+
+- **Corrected figure 1 geometry:** in
+  `content/math-kangaroo-6/mk6-angle-and-shape-properties-1.json:15-17`, the
+  tagged ray now derives to about **65.0001°** against the right horizontal
+  half-line, implying a supplementary angle of about **114.9999°**. The two
+  arc endpoints align with those same boundaries, so the arcs do not introduce
+  a conflicting visual.
+- **Corrected figure 2 geometry:** in
+  `content/math-kangaroo-6/mk6-angle-and-shape-properties-2.json:15-17`, the
+  tagged triangle vertices now derive to about **50.0001°**, **69.9999°**, and
+  **60.0000°**, which implies an exterior straight-line angle of about
+  **119.99998°** at the right vertex. The exterior arc is drawn on the
+  straight-line extension side, consistent with the intended **120°** label `x`.
+- **Regression test quality:** `tests/content/catalog.test.ts:110-149`
+  genuinely derives geometry from tagged coordinates. It extracts the
+  `data-role="angle-ray"` and `data-role="angle-triangle"` coordinates from
+  the live SVG strings, computes angles using vector dot products, and asserts
+  closeness to **65°**, **50°**, **70°**, and **60°**. That is a meaningful
+  regression guard against future coordinate drift.
+- **Accessibility:** both corrected records still provide accurate `altText`,
+  `caption`, `accessibilityNotes`, and full `accessibleAlternative` text for a
+  nonvisual learner.
+- **Answer leakage:** the figure markup itself still contains only the intended
+  givens (`65 degrees`, `50 degrees`, `70 degrees`, and `x`) and does not
+  reveal `115 degrees`, `60 degrees`, or `120 degrees`. The hint ladders in
+  these two records remain unchanged and do not contain any forbidden leakage
+  substring.
+- **SVG safety/rendering:** the correction commit does not weaken the existing
+  static-SVG safety boundary or the encoded-image rendering path previously
+  reviewed; I found no new script, remote-resource, or provider-data exposure.
+- **Version/review status:** both corrected items are appropriately bumped to
+  `content-3`, and both still show `review.status: "pending_review"`.
+
+### Questions
+
+- None.
+
+### Residual risks
+
+- No defect remains in this focused figure-correction scope. Human
+  product/content-owner approval is still required before any `pending_review`
+  Math Kangaroo record becomes servable.

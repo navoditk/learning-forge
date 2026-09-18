@@ -1,5 +1,31 @@
 # Progress
 
+## 2026-09-17 — Math Kangaroo angle-figure correction passed focused review
+
+- Completed the final focused independent `curriculum-review` pass for commit
+  `4cc2336`, limited to the corrected angle SVGs in
+  `mk6-angle-and-shape-properties-1` and `mk6-angle-and-shape-properties-2`
+  plus the new regression test coverage.
+- Independently re-derived the corrected tagged geometry from the SVG
+  coordinates: the straight-line item now depicts about `65.0001°` and
+  `114.9999°`; the triangle item now depicts about `50.0001°`, `69.9999°`,
+  and `60.0000°`, implying an exterior angle of about `119.99998°`. The arc
+  placement and labels are consistent with those relationships and do not add
+  a conflicting visual cue.
+- Verified the new test numerically computes angles from `data-role`-tagged
+  coordinates rather than snapshotting strings, so future coordinate drift
+  should fail validation.
+- Re-checked accessibility, answer leakage, SVG safety, and review-state
+  behavior: no regression found; both corrected records are now `content-3`
+  and remain `pending_review`.
+- Evidence: `npm run content:validate`, `npm run curriculum:validate`,
+  `npm run typecheck`, `npm test` (72/72), `npm run build`,
+  `npx prettier --check docs/content-review.md docs/PROGRESS.md`, and
+  `git diff --check` all passed.
+- Advisory outcome: **Approve** / `ready for human review` for this focused
+  remediation. Human product/content-owner approval is still required before
+  any `pending_review` record becomes servable.
+
 ## 2026-09-17 — Math Kangaroo angle-figure geometry corrected
 
 - Independent figure review found that the first-pass angle SVG coordinates
