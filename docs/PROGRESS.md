@@ -1182,3 +1182,105 @@ All 5 `v3-*` todos (`v3-contract-changes`, `v3-graph-merge`,
 `v3-graph-merge-content-review`, `v3-content-human-review`,
 `v3-content-merge`, `v3-validate-ship`) marked done. The Grade 6 Math v3
 merge workstream is complete.
+
+## 2026-09-18 — Contest-program fleet: shared infrastructure prerequisite (complete)
+
+- **Scope:** One-time shared prep before starting the sequential contest-
+  program fleet (Math Kangaroo → MOEMS → AMC 8 → MATHCOUNTS, each run
+  through the full research → human-approve → author → independent-review
+  (fix/re-review loop, capped at 2 cycles) → human-approve → validate/ship
+  pipeline). Each program will get its own independent
+  `docs/curriculum-sources.md` section, its own review packet under
+  `docs/curriculum-review-packets/`, and its own skill/content files — never
+  merged into another program's records.
+- **Extended `CurriculumProgramSchema`** (`src/contracts/curriculum.ts`) from
+  `['grade-6-math']` to also include `'math-kangaroo-6'`, `'moems-6'`,
+  `'amc-8'`, `'mathcounts-6'`, matching the codes already anticipated by
+  `PROGRAM_ROSTER` (`src/curriculum/program-roster.ts`) for the subject
+  switcher.
+- **Added roster entries** for MOEMS and MATHCOUNTS (Math Kangaroo and AMC 8
+  were already present, both still `available: false` pending their own
+  ship step).
+- **Documented a skill-code namespace convention** in
+  `docs/curriculum-authoring-playbook.md`: since `skillsByCode` is one flat
+  map across every program, each new program's skill codes must carry a
+  short stable prefix (`mk6-`, `moems6-`, `amc8-`, `mc6-`) so they can never
+  collide with Grade 6 Math's 27 existing codes or each other's, and a bare
+  Grade 6 Math code must never be reused even where the underlying concept
+  overlaps (mode + program already distinguish depth/contest revisits of a
+  topic).
+- **No changes to `CurriculumDomainSchema`**: each program will decide and
+  add its own domain values during its own authoring step 1, not upfront,
+  since the right domain breakdown depends on that program's actual syllabus
+  structure (single-round MCQ vs. numeric-only vs. multi-round).
+
+Validation: `npx tsc --noEmit`, `npm run lint`, `npx prettier --check` (the
+touched files), and `npm test` (61/61, unchanged) all pass.
+
+`fleet-shared-infra` marked done. Next: `mk6-research` (Math Kangaroo
+Grade 6 research dossier, via the `curriculum-researcher` agent).
+
+## 2026-09-19 — Math Kangaroo research dossier (pending review)
+
+- **Completed `mk6-research`**: added a new "Math Kangaroo (Grades 5–6 /
+  'Benjamin' level) research — 2026-09-19" section to
+  `docs/curriculum-sources.md`, following the same structure as the Grade 6
+  Math v2 dossier (scope, source register, framework, domain coverage,
+  sequencing, originality discipline, conflicts/gaps, authoring handoff).
+- **Sourcing outcome**: confirmed via Math Kangaroo USA's own site
+  (`mathkangaroo.org`) that Grade 6 falls in the official "Levels 5 & 6"
+  grouping. Could **not** confirm, against extractable primary-source text,
+  the exact contest format figures (30 questions, 120 max points, ~75
+  minutes) or the traditional level name "Benjamin" — the relevant official
+  FAQ/format pages render via client-side JavaScript the available fetch
+  tooling could not expand. These figures are recorded as
+  **secondary-sourced and provisional**, with an explicit recommendation
+  that a human confirm them (by viewing the page directly or locating an
+  official downloadable rules PDF) before `mk6-authoring` encodes any exact
+  number as fact.
+- **Topic coverage** (arithmetic, geometry, logic, combinatorics) is sourced
+  only from a Math Kangaroo India syllabus page (a different national
+  affiliate, not Math Kangaroo USA) via secondary summaries — flagged as
+  "plausible but unconfirmed" pending a US-specific source.
+- **Open product decision surfaced**: whether Math Kangaroo content should be
+  contest-tier only (assumed) or also include a core prep tier.
+- Section is marked **"Pending product/content-owner review"** — the
+  research agent cannot self-approve. Next: human review of this dossier
+  (`mk6-research-approval`), then `mk6-authoring` can begin.
+
+## 2026-09-19 (cont.) — Math Kangaroo research approved
+
+- Product/content owner reviewed and resolved the open items in the Math
+  Kangaroo dossier: confirmed contest format is **30 questions, 3/4/5-point
+  tiers, 120 max points, 75 minutes** (owner initially suggested 120
+  minutes; cross-checked against Think Academy's page, which states 75
+  minutes for grades 5-12, and owner confirmed 75 minutes is correct);
+  confirmed **both core-prep and contest tiers** should be authored (not
+  contest-only).
+- Owner additionally pointed out Math Kangaroo USA's official past-exam PDF
+  archive (`https://mathkangaroo.org/mks/practice/pdf-exams/`, years
+  1998-2023, all levels) as a source; confirmed this page exists and is
+  primary, and recorded it in the dossier as the authoritative
+  topic/style-inspiration source for authoring (never to reproduce actual
+  archived problems).
+- `docs/curriculum-sources.md`'s Math Kangaroo section status updated to
+  **"Approved by the product/content owner on 2026-09-19."**
+- `mk6-research` and `mk6-research-approval` marked done. Next:
+  `mk6-authoring` (build the `mk6-` namespaced skill graph and core-prep +
+  contest content, per the research handoff in the dossier).
+
+## 2026-09-19 (cont.) — Research skill updated for historical question banks
+
+- Updated `docs/curriculum-research-playbook.md` (new required input item 5)
+  and `.github/skills/curriculum-research/SKILL.md` (new source rule 10) to
+  require every contest/olympiad-style research pass to actively search for
+  and cite the program owner's own official past-paper/problem archive,
+  preferring it over third-party prep-provider summaries for topic-coverage
+  and difficulty-progression inspiration (never for reproducing actual
+  problems).
+- Retroactively applied to the already-approved Math Kangaroo dossier: its
+  source register and handoff already cite Math Kangaroo USA's official PDF
+  archive (`mathkangaroo.org/mks/practice/pdf-exams/`, 1998-2023); no
+  further change needed there.
+- This update applies going forward to the MOEMS and AMC 8 research now
+  starting in parallel worktrees (see below).

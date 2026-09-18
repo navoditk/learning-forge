@@ -69,6 +69,23 @@ not a paraphrase from memory.
    informal and undocumented") must be written down as an explicit open item
    rather than silently omitted. An honest gap is far more useful later than
    an untraceable assumption.
+5. **Historical question banks / past-paper archives (contest and
+   olympiad-style programs).** For any contest, olympiad, or exam-style
+   program (Math Kangaroo, MOEMS, AMC 8, MATHCOUNTS, and similar), actively
+   search for and record the program's own official archive of past
+   competitions/exams (e.g., a "past papers," "previous years," or "problem
+   archive" page on the program-owner's official site). Record: the exact
+   archive page title, issuing body, the range of years/levels it claims to
+   cover, the URL, and retrieval status. Where the official archive itself
+   cannot be fully read (e.g., client-side rendering, login walls), still
+   record its existence and scope from what is extractable (page title,
+   metadata, or a direct fetch of an individual year's PDF), and note what
+   could not be confirmed. This archive is the preferred source for topic
+   coverage, difficulty progression, and skill-type inspiration during
+   authoring — ahead of third-party prep-provider summaries — subject to the
+   same originality rule as item 3: informing skill *types* and difficulty
+   levels only, never reproducing an actual archived problem, wording,
+   diagram, or answer-choice set.
 
 ## Process
 
@@ -85,11 +102,14 @@ not a paraphrase from memory.
    competition family by name, and read enough about its *style* (format,
    reasoning approach, typical skill types) to describe it precisely without
    needing to reproduce any of its actual problems or text.
-4. Write the findings into a new dated section of `docs/curriculum-sources.md`
+4. For contest/olympiad-style programs, search specifically for the
+   program-owner's official past-paper or problem archive (see input item 5
+   above) before relying on third-party aggregators for topic coverage.
+5. Write the findings into a new dated section of `docs/curriculum-sources.md`
    following the structure of the existing Grade 6 Math section (Standards
    source / Local sequencing source / Content originality and style sources
    / Open items).
-5. Have the product/content owner review the new section before any skill or
+6. Have the product/content owner review the new section before any skill or
    content authoring begins, the same review gate already used for content
    provenance (`docs/09-decisions-and-open-questions.md`, decision #4).
 

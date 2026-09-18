@@ -45,6 +45,14 @@ before researching. Do not infer a jurisdiction or school system.
    related program has not yet been researched, say so explicitly and
    record it as out of scope for this dossier rather than omitting it
    silently — do not infer that an unresearched program is unimportant.
+10. For any contest, olympiad, or exam-style program, actively search for
+    the program owner's own official archive of past competitions or exams
+    (a "past papers," "previous years," or "problem archive" page). Record
+    its title, issuing body, the years/levels it claims to cover, URL, and
+    retrieval status, even if the page's full listing cannot be extracted.
+    Prefer this official archive over third-party prep-provider summaries
+    as the topic-coverage and difficulty-progression inspiration source for
+    authoring — subject to the same non-reproduction rule as source rule 5.
 
 ## Required output
 

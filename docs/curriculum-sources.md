@@ -144,6 +144,146 @@ contest-style records only, keep program-specific enrichment out of scope
 unless a separate approved dossier exists, preserve provenance/review gates,
 and leave every authored increment pending independent human/content review.
 
+## Math Kangaroo (Grades 5–6 / "Benjamin" level) research — 2026-09-19
+
+**Status: Approved by the product/content owner on 2026-09-19**, with the
+contest-format figures and content-tier decision below confirmed directly by
+the owner (see "Conflicts and gaps" resolutions). This dossier is the
+dedicated Math Kangaroo research the Grade 6 Math v2 dossier explicitly
+deferred (see the source register entry above and the "Standards framework"
+note in that section). Approval authorizes `mk6-authoring` to proceed.
+
+### Scope and learner context
+
+- **Learner**: the same Grade 6 learner already served by the shipped
+  Grade 6 Math (CCSS-M) curriculum; Math Kangaroo content is *additive*
+  contest-preparation material, not a replacement core curriculum.
+- **Program**: Math Kangaroo, the international problem-solving competition
+  operated in the United States by **Math Kangaroo USA** (official site
+  `mathkangaroo.org`), for the grade band that includes Grade 6.
+- **Content tiers**: **core prep** (foundational skills for learners not yet
+  ready for contest-level reasoning) **and contest** (confirmed by the
+  product/content owner, 2026-09-19).
+- **Retrieval dates**: 2026-09-19 (all sources below).
+
+### Source register
+
+| Authority and source role | Exact title, issuing body, edition/date, URL, and retrieval status | Supported claim and limitation |
+|---|---|---|
+| **Primary; organization identity and grade/level grouping** | *Math Kangaroo Int'l Competition in Mathematics – Home Page*, Math Kangaroo USA; page date not stated (schema.org `Organization` name "Math Kangaroo USA"); https://mathkangaroo.org/mks/ (retrieved 2026-09-19, HTTP 200) | Confirms Math Kangaroo USA as the issuing body for the US competition. |
+| **Primary; confirms Grade 6 falls in the "Levels 5 & 6" grouping** | *Math Kangaroo Practice Materials: Grades 5-6 (Levels 5 & 6)*, Math Kangaroo USA; page metadata `article:published_time` 2025-08-17, `article:modified_time` 2026-05-19; https://mathkangaroo.org/mks/practice/grades-5-6/ (retrieved 2026-09-19, HTTP 200; page content rendered as client-side/JS content the fetch tool could not simplify to readable text beyond the page `<title>`/meta description, which state the grouping) | Establishes, from the official site's own title and metadata, that Grade 6 is grouped with Grade 5 as "Levels 5 & 6." Does **not** independently confirm the traditional international level name "Benjamin" (see below) or any topic/format detail — the page body text could not be extracted. |
+| **Primary; confirms official statistics are tracked "at each level"** | *Current and Past Statistics – Math Kangaroo USA*, Math Kangaroo USA; `article:modified_time` 2026-04-30; https://mathkangaroo.org/mks/about-math-kangaroo/statistics/ (retrieved 2026-09-19, HTTP 200; body not extractable for the same client-side-rendering reason as above) | Corroborates that Math Kangaroo USA organizes results "at each level," consistent with the Levels 5 & 6 grouping above. Does not itself supply the numeric score/format facts below. |
+| **Primary; attempted, partially inaccessible** | *About the Test (FAQ)*, Math Kangaroo USA; page date not stated; https://mathkangaroo.org/mks/faqs/about-the-test/ (retrieved 2026-09-19, HTTP 200; only one accordion FAQ answer — about photocopy/re-scoring requests — rendered as extractable text; the questions covering test length, question count, and scoring rules are present on the page but collapsed behind JavaScript the fetch tool could not expand) | Confirms the FAQ page exists and is reachable, but could not be used to verify the exact question count/point/duration figures reported below. |
+| **Primary; attempted, not located** | `https://mathkangaroo.org/mks/levels/` and `https://mathkangaroo.org/mks/contest/` (guessed URLs for a level/format overview page) (retrieved 2026-09-19, both HTTP 404) | These specific URLs do not host content; this does not establish that no such official page exists anywhere on the site, only that these two guessed paths do not. |
+| **Secondary; corroborates format figures, from a US-focused test-prep provider (not Math Kangaroo USA itself)** | *Math Kangaroo Prep Courses & Mock Exams*, Think Academy US (`thethinkacademy.com`); page date not stated; https://www.thethinkacademy.com/math-kangaroo (retrieved 2026-09-19, HTTP 200, body extracted successfully) | States: single round, **75-minute** test; **24 questions for grades 1–4** and **30 questions for grades 5–12**; questions split into three point tiers — 3 points (basic), 4 points (intermediate), 5 points (advanced); all multiple-choice with 5 options; no calculators. This independently corroborates the 30-question/75-minute/120-max-point figures below. Note: the user-suggested domain was `thinkacademy.org`; the reachable site with this content is `thethinkacademy.com` — recorded here for citation accuracy. |
+| **Primary; official past-exam archive, style/topic-inspiration source** | *Download Pdf Exams from Previous Years*, Math Kangaroo USA; `article:published_time` 2017-02-21, `article:modified_time` 2025-08-27, page metadata states coverage "Year: 1998-2023 \| Level 1-12"; https://mathkangaroo.org/mks/practice/pdf-exams/ (retrieved 2026-09-19, HTTP 200; only page `<title>`/meta description extractable, the exam listing itself renders via client-side JavaScript the fetch tool could not expand) | Confirms Math Kangaroo USA officially publishes downloadable original test PDFs spanning 1998–2023 across all levels, including Level 5-6 (Benjamin). This is the **authoritative source authoring should use for topic-type and difficulty-progression inspiration** (per the existing originality discipline: informing skill *types*/format only, never reproducing an actual problem, wording, diagram, or answer set). A companion *Answer Keys* page (`https://mathkangaroo.org/mks/answer-keys/`) was also identified via search but not independently fetched this pass. |
+| **Secondary; used only to interpret/corroborate the primary "Levels 5 & 6" grouping** | Multiple third-party competition-prep aggregators (e.g., prep-course and olympiad-info sites) returned via web search, not individually verified as authoritative; retrieved 2026-09-19 | Report, consistently across independent aggregators, that the traditional international Math Kangaroo level name for grades 5–6 is **"Benjamin"** (grades 1–2 "Pre-Ecolier," 3–4 "Ecolier," 5–6 "Benjamin," 7–8 "Cadet," 9–10 "Junior," 11–12 "Student"), and that the Benjamin-and-up format is **30 multiple-choice questions, maximum 120 points, no penalty for a wrong answer, and 75 minutes** testing time (3/4/5-point tiered scoring, per the Think Academy source above). **Confirmed by the product/content owner on 2026-09-19** as the figures to record (see "Conflicts and gaps" below for the resolved 75-vs-120-minute discrepancy). |
+| **Secondary; syllabus/topic-coverage inspiration only, not a US-official source** | *Syllabus*, Math Kangaroo India (a distinct national affiliate of the same international competition, not Math Kangaroo USA); page date not stated; https://www.mathkangaroo.in/contest/syllabus (retrieved 2026-09-19; body not extractable, client-side rendered) | Cited only because independent secondary summaries of this page describe grades 5–6 topic coverage (arithmetic incl. fractions/decimals, magic squares, clock/calendar problems; geometry incl. perimeter, area of rectangles/triangles, angle types, cubes/rectangular solids; basic logic; simple combinatorics). Because this is a different national affiliate's page, not Math Kangaroo USA's, and its body text could not be independently re-verified, treat this topic list as a **plausible but unconfirmed starting point**, not an authoritative US syllabus. |
+
+### Standards framework and version
+
+Math Kangaroo has **no CCSS-style adopted standards document** — unlike
+Grade 6 Math's CDE/CCSS-M framework, Math Kangaroo's content boundaries are
+defined only by its own competition's traditional level structure and past
+papers, which are not published as a single dated "standards" text. This
+dossier therefore substitutes an explicit **level/format profile** (see
+source register) for the "standards framework" the other dossiers have, and
+flags the score/format/topic details above as provisional pending primary
+confirmation.
+
+### Standards-domain coverage summary
+
+For Grade 6 ("Benjamin," grades 5–6):
+
+- Arithmetic: whole-number/fraction/decimal operations, number patterns
+  (e.g., magic squares), clock and calendar reasoning.
+- Geometry: perimeter and area of basic polygons, angle classification,
+  properties of cubes/rectangular solids, lines and rays.
+- Logical reasoning: non-routine, multi-step reasoning problems that do not
+  map cleanly to a single CCSS-M domain.
+- Combinatorics: simple counting/arrangement problems.
+- **Format (confirmed 2026-09-19)**: 30 multiple-choice questions (5 options
+  each), split into three point tiers — 10 questions worth 3 points (basic),
+  10 worth 4 points (intermediate), 10 worth 5 points (advanced) — maximum
+  120 points, no penalty for a wrong answer, 75 minutes, no calculators.
+  Topic-coverage items above remain sourced only from a Math Kangaroo India
+  syllabus page and Think Academy prep summaries (see gap below); the
+  numeric format figures are owner-confirmed.
+
+### Local sequencing source
+
+**Not applicable.** Math Kangaroo is a national/international contest, not a
+school-paced curriculum; there is no school-district pacing guide to consult,
+and none was sought. Sequencing for any authored skills will instead follow
+this repository's existing convention: an explicit `prerequisiteSkillCodes`
+dependency graph, validated for cycles by `topologicalSkillOrder`, exactly as
+Grade 6 Math already does.
+
+### Content-tier inspiration and originality constraints
+
+Two tiers, confirmed by the product/content owner on 2026-09-19: **core
+prep** (foundational versions of the same skill types, scaffolding a learner
+toward contest readiness) and **contest** (full-difficulty, timed-style
+items matching the confirmed 3/4/5-point tiers). Any authored skill/content
+in either tier must be original, inspired only by the general skill *types*
+and format conventions described above and by Math Kangaroo USA's own
+official past-exam PDF archive (1998–2023, see source register) — e.g., "a
+multi-step arithmetic reasoning item in a 5-option multiple-choice format";
+no actual Math Kangaroo problem, wording, diagram, or answer choice set —
+from any national affiliate, including Math Kangaroo USA or Math Kangaroo
+India, or from any prep-provider's mock exam — may be reproduced or
+paraphrased. This mirrors the existing "Contest" tier discipline in the
+Content originality and style sources table below, extended explicitly to
+this program with an added "core prep" tier.
+
+### Conflicts and gaps requiring human review
+
+1. ~~The exact question count (30), maximum score (120), and time limit
+   were sourced only from secondary aggregators~~ — **resolved 2026-09-19**:
+   product/content owner confirmed 30 questions, 120 max points (3/4/5-point
+   tiers), 75 minutes, corroborated by the Think Academy source above.
+2. The traditional level name "Benjamin" for grades 5–6 remains
+   secondary-sourced only; the official US site's own extractable material
+   confirms the grade grouping ("Levels 5 & 6") but was not observed to use
+   the word "Benjamin" in the content this session could extract. Low risk
+   (naming only, does not affect content/format), but authoring should avoid
+   asserting "Benjamin" as an official US Math Kangaroo term without a
+   direct primary citation.
+3. ~~Whether Math Kangaroo content should be single-tier or also include a
+   core prep tier~~ — **resolved 2026-09-19**: product/content owner
+   confirmed both **core prep** and **contest** tiers.
+4. The India-affiliate syllabus page remains the only source found
+   describing topic coverage in list form for a non-US affiliate. **Partly
+   mitigated 2026-09-19**: Math Kangaroo USA's own official past-exam PDF
+   archive (1998–2023, all levels, see source register) is confirmed to
+   exist and should be treated as the primary topic/style-inspiration source
+   during authoring, ahead of the India syllabus page or Think Academy
+   summaries. The archive's page body could not be extracted this session
+   (client-side rendering), so authoring should attempt a direct fetch of
+   specific year/level PDFs (or a human should browse the archive and note
+   representative topics/years) rather than relying solely on this dossier's
+   secondary summaries.
+
+### Research handoff for authoring
+
+`mk6-authoring` may proceed. Authoring must: (a) use the `mk6-` skill-code
+prefix per `docs/curriculum-authoring-playbook.md`; (b) build both a **core
+prep** tier (foundational skills leading up to contest readiness) and a
+**contest** tier, consistent with the owner-confirmed decision above; (c) use
+the confirmed format (30 questions, 3/4/5-point tiers, 120 max points, 75
+minutes, no calculators, 5 options per question) when describing the contest
+format to learners; (d) treat "Benjamin" as an informal/traditional label
+only, not an official US Math Kangaroo term, unless a primary citation is
+later found; (e) draw topic/difficulty-progression inspiration primarily
+from Math Kangaroo USA's own official past-exam PDF archive
+(`https://mathkangaroo.org/mks/practice/pdf-exams/`, years 1998–2023, Level
+5-6) — attempting direct PDF fetches for representative recent years — and
+treat the India-syllabus/Think-Academy topic lists as secondary corroboration
+only; (f) never reproduce an actual archived problem, wording, diagram, or
+answer-choice set — only the general skill type and difficulty tier; (g)
+build the skill graph's prerequisite edges from first principles (no
+external school-pacing sequencing source exists for this program).
+
 ## Standards source
 
 - **Framework**: Common Core State Standards for Mathematics, Grade 6, as

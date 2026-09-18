@@ -1,6 +1,12 @@
 import { z } from 'zod';
 
-export const CurriculumProgramSchema = z.enum(['grade-6-math']);
+export const CurriculumProgramSchema = z.enum([
+  'grade-6-math',
+  'math-kangaroo-6',
+  'moems-6',
+  'amc-8',
+  'mathcounts-6',
+]);
 
 export type CurriculumProgram = z.infer<typeof CurriculumProgramSchema>;
 

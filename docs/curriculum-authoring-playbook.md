@@ -47,7 +47,24 @@ item for what that costs later).
 3. Set `program` (e.g., `grade-6-math`, `grade-6-ela`, `amc-8`) so the new
    subject/program appears as its own top-level section on the generated
    curriculum site (`scripts/generate-curriculum-site.ts`) without
-   restructuring existing content, exactly as ADR-0006 anticipated.
+   restructuring existing content, exactly as ADR-0006 anticipated. `program`
+   must already be a value in `CurriculumProgramSchema`
+   (`src/contracts/curriculum.ts`) — extend that enum (and, if the program
+   should appear in the subject switcher, `PROGRAM_ROSTER` in
+   `src/curriculum/program-roster.ts`) as a one-time prerequisite step before
+   authoring any skill JSON for it, not as part of authoring itself.
+3a. **Skill-code namespace.** `skillsByCode` is a single flat map across every
+   program, so codes must never collide across programs, including with
+   Grade 6 Math's existing 27 skills. Prefix every new program's skill codes
+   with a short, stable program tag and a hyphen (e.g. `mk6-` for Math
+   Kangaroo Grade 6, `moems6-` for MOEMS Division E, `amc8-` for AMC 8,
+   `mc6-` for MATHCOUNTS), so a skill reads like `mk6-ratio-reasoning` rather
+   than a bare `ratio-reasoning` that could shadow (or be shadowed by) a
+   Grade 6 Math skill of a similar name. Do not reuse a bare Grade 6 Math
+   skill code even if the underlying concept overlaps — content mode
+   (`core`/`depth`/`contest`) and `program` already capture that a topic is
+   revisited at contest depth; a shared code would incorrectly imply the two
+   programs share one skill's prerequisite/mastery state.
 4. Author each `Skill` as a new JSON file under `content/skills/`, shaped to
    `SkillSchema` (`src/contracts/curriculum.ts`): standards codes exactly as
    cited in `docs/curriculum-sources.md`, prerequisites, observable
