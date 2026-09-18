@@ -100,11 +100,52 @@ describe('ratios content seed', () => {
 
     expect(figuredItems).toHaveLength(5);
     for (const item of figuredItems) {
-      expect(item.version).toBe('content-2');
+      expect(['content-2', 'content-3']).toContain(item.version);
       expect(item.figure?.svgMarkup).toMatch(/^<svg /);
       expect(item.figure?.altText.length).toBeGreaterThan(30);
       expect(item.accessibleAlternative.length).toBeGreaterThan(30);
     }
+  });
+
+  it('keeps labeled Math Kangaroo angle figures geometrically accurate', () => {
+    const angleBetween = (
+      vertex: [number, number],
+      first: [number, number],
+      second: [number, number],
+    ) => {
+      const firstVector = [first[0] - vertex[0], first[1] - vertex[1]];
+      const secondVector = [second[0] - vertex[0], second[1] - vertex[1]];
+      const dot = firstVector[0] * secondVector[0] + firstVector[1] * secondVector[1];
+      const magnitudes =
+        Math.hypot(firstVector[0], firstVector[1]) * Math.hypot(secondVector[0], secondVector[1]);
+      return (Math.acos(dot / magnitudes) * 180) / Math.PI;
+    };
+
+    const straightLineItem = contentCatalog.find(
+      (item) => item.id === 'mk6-angle-and-shape-properties-1',
+    );
+    const ray = straightLineItem?.figure?.svgMarkup.match(
+      /data-role="angle-ray" x1="([^"]+)" y1="([^"]+)" x2="([^"]+)" y2="([^"]+)"/,
+    );
+    expect(ray).toBeTruthy();
+    const rightAngle = angleBetween(
+      [Number(ray![1]), Number(ray![2])],
+      [Number(ray![1]) + 100, Number(ray![2])],
+      [Number(ray![3]), Number(ray![4])],
+    );
+    expect(rightAngle).toBeCloseTo(65, 2);
+
+    const triangleItem = contentCatalog.find(
+      (item) => item.id === 'mk6-angle-and-shape-properties-2',
+    );
+    const points = triangleItem?.figure?.svgMarkup
+      .match(/data-role="angle-triangle" points="([^"]+)"/)?.[1]
+      .split(' ')
+      .map((point) => point.split(',').map(Number) as [number, number]);
+    expect(points).toHaveLength(3);
+    expect(angleBetween(points![0], points![1], points![2])).toBeCloseTo(50, 2);
+    expect(angleBetween(points![1], points![0], points![2])).toBeCloseTo(70, 2);
+    expect(angleBetween(points![2], points![0], points![1])).toBeCloseTo(60, 2);
   });
 
   it('rejects gaps in hint ordering and content that is not marked owned', () => {

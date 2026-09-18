@@ -1,5 +1,17 @@
 # Progress
 
+## 2026-09-17 — Math Kangaroo angle-figure geometry corrected
+
+- Independent figure review found that the first-pass angle SVG coordinates
+  did not match their labels even though the problem answers were correct.
+- Corrected the straight-line ray to 65 degrees and the triangle vertices to
+  interior angles 50, 70, and 60 degrees (therefore exterior angle 120).
+  Bumped both corrected records to `content-3`.
+- Added regression tests that derive the represented angles numerically from
+  tagged SVG coordinates, preventing future visual edits from silently
+  contradicting the labels.
+- All Math Kangaroo records remain `pending_review` pending focused re-review.
+
 ## 2026-09-17 — Math Kangaroo figure increment independent review logged
 
 - **Scope:** Completed the independent `curriculum-review` pass for commit
