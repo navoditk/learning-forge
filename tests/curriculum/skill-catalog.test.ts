@@ -67,6 +67,19 @@ describe('skill catalog', () => {
     expect(generatedSite).toContain('function expandHashTarget()');
   });
 
+  it('renders collapsible program and domain groups in the sidebar', () => {
+    execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
+    const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
+
+    expect(generatedSite).toContain('<li class="nav-program">');
+    expect(generatedSite).toContain('<summary>Math Kangaroo (Grade 6)');
+    expect(generatedSite).toContain('<li class="nav-domain">');
+    expect(generatedSite).toContain('<summary>Geometry &amp; Spatial Reasoning</summary>');
+    expect(generatedSite).toContain(
+      "document.querySelector('.sidebar a[href=\"' + location.hash + '\"]')",
+    );
+  });
+
   it('has no duplicate skill codes across the whole multi-program catalog', () => {
     expect(new Set(skillCatalog.map((skill) => skill.code)).size).toBe(skillCatalog.length);
   });

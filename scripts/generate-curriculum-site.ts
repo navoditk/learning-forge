@@ -189,14 +189,17 @@ function buildBody(): { title: string; stats: string; body: string } {
     for (const [domain, domainSkills] of byDomain) {
       const domainAnchor = slugify(domain);
       domainNav.push(`
-        <li>
-          <a href="#domain-${domainAnchor}">${escapeHtml(DOMAIN_LABELS[domain])}</a>
-          <ul>${domainSkills
-            .map(
-              (skill) =>
-                `<li><a href="#skill-${slugify(skill.code)}">${escapeHtml(skill.title)}</a></li>`,
-            )
-            .join('')}</ul>
+        <li class="nav-domain">
+          <details>
+            <summary>${escapeHtml(DOMAIN_LABELS[domain])}</summary>
+            <a class="nav-section-link" href="#domain-${domainAnchor}">View section</a>
+            <ul>${domainSkills
+              .map(
+                (skill) =>
+                  `<li><a href="#skill-${slugify(skill.code)}">${escapeHtml(skill.title)}</a></li>`,
+              )
+              .join('')}</ul>
+          </details>
         </li>`);
 
       domainSections.push(`
@@ -212,8 +215,11 @@ function buildBody(): { title: string; stats: string; body: string } {
 
     navSections.push(`
       <li class="nav-program">
-        <a href="#program-${programAnchor}">${escapeHtml(roster.label)}</a>${pendingProgramBadge}
-        <ul>${domainNav.join('')}</ul>
+        <details${roster.code === 'grade-6-math' ? ' open' : ''}>
+          <summary>${escapeHtml(roster.label)} ${pendingProgramBadge}</summary>
+          <a class="nav-section-link" href="#program-${programAnchor}">View program</a>
+          <ul>${domainNav.join('')}</ul>
+        </details>
       </li>`);
 
     programSections.push(`
@@ -318,6 +324,12 @@ const CSS = `
   .sidebar a { text-decoration: none; font-weight: 600; }
   .sidebar li li a { font-weight: 400; font-size: 0.9rem; }
   .sidebar ul ul { padding-left: 0.9rem; margin-top: 0.35rem; }
+  .sidebar summary { cursor: pointer; font-weight: 600; }
+  .sidebar summary:hover, .sidebar summary:focus-visible { color: var(--accent); }
+  .sidebar .nav-domain { margin-top: 0.45rem; }
+  .sidebar .nav-domain summary { font-size: 0.9rem; font-weight: 400; }
+  .sidebar .nav-section-link { display: inline-block; margin: 0.25rem 0 0 0.9rem; color: var(--text-muted); font-size: 0.78rem; font-weight: 400; }
+  .sidebar .nav-section-link:hover, .sidebar .nav-section-link:focus-visible { color: var(--accent); }
   .sidebar-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 1.5rem; }
   .content { flex: 1 1 auto; padding: 2.5rem 2.5rem 5rem; min-width: 0; }
   .page-header { max-width: 720px; margin-bottom: 3rem; }
@@ -392,6 +404,12 @@ ${body}
     if (target.matches('details')) target.open = true;
     for (const details of target.querySelectorAll('details')) details.open = true;
     let parent = target.parentElement;
+    while (parent) {
+      if (parent.matches('details')) parent.open = true;
+      parent = parent.parentElement;
+    }
+    const navLink = document.querySelector('.sidebar a[href="' + location.hash + '"]');
+    parent = navLink?.parentElement;
     while (parent) {
       if (parent.matches('details')) parent.open = true;
       parent = parent.parentElement;

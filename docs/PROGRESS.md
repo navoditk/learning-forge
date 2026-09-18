@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-09-17 — Collapsible curriculum sidebar
+
+- Made authored program and domain groups in the curriculum site's left
+  navigation collapsible with native `<details>/<summary>` controls.
+- Grade 6 Math starts expanded; other authored programs start collapsed.
+  Selecting a program, domain, or skill deep link automatically expands the
+  matching sidebar path as well as the corresponding content section.
+- Unauthored `Coming soon` entries remain simple links without empty disclosure
+  controls.
+
 ## 2026-09-17 — AMC 8 reviewed; primary-rule confirmation still blocking
 
 - Product/content owner selected a readiness-gated Grade 6 progression:
