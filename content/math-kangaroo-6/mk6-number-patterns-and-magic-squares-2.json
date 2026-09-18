@@ -56,8 +56,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-17",
     "originalityStatement": "Original numeric sequence written for this repository, inspired only by the general Math Kangaroo skill type of pattern-extension reasoning at contest difficulty; no problem reproduced from any contest archive."
   },
   "accessibilityNotes": "Present the sequence and its terms as plain text; no diagram is required for this item.",

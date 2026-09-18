@@ -56,8 +56,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-17",
     "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of multi-step fraction word problems at contest difficulty; no problem, wording, or diagram reproduced from any contest archive."
   },
   "accessibilityNotes": "Present all numbers and quantities in plain text; no diagram is required for this item.",

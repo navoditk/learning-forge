@@ -24,9 +24,9 @@ export default function HelpPage() {
       <h1>How Learning Forge works</h1>
       <p>
         This guide walks through every part of the platform a learner or parent can see today.
-        Learning Forge is a pilot: it only covers Grade 6 Math right now, and every feature below is
-        designed so claims about progress are always traceable back to something the learner
-        actually did — never a guess or a grade.
+        Learning Forge is a pilot covering Grade 6 Math and Math Kangaroo preparation. Every feature
+        below is designed so claims about progress are always traceable back to something the
+        learner actually did — never a guess or a grade.
       </p>
 
       <section aria-labelledby="help-recommended">

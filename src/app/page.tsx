@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -95,6 +95,7 @@ type Plan = {
 type ActivityMode = 'practice' | 'diagnostic' | 'review';
 
 export default function Home() {
+  const [program, setProgram] = useState('grade-6-math');
   const [session, setSession] = useState<Session>();
   const [response, setResponse] = useState('');
   const [attempt, setAttempt] = useState<AttemptResult>();
@@ -110,6 +111,8 @@ export default function Home() {
   const [hintPending, setHintPending] = useState(false);
   const hintButtonRef = useRef<HTMLButtonElement>(null);
   const responseInputRef = useRef<HTMLInputElement>(null);
+  const selectedProgramRef = useRef(program);
+  selectedProgramRef.current = program;
 
   useEffect(() => {
     // Disabling the button while a hint request is in flight drops keyboard
@@ -119,75 +122,84 @@ export default function Home() {
     if (!hintPending) hintButtonRef.current?.focus();
   }, [hintPending]);
 
-  function loadPlan() {
-    fetch('/api/phase1/plan')
+  const loadPlan = useCallback(() => {
+    fetch(`/api/phase1/plan?program=${encodeURIComponent(program)}`)
       .then(async (result) => {
         if (!result.ok) return;
-        setPlan(await result.json());
+        const loaded = await result.json();
+        if (selectedProgramRef.current === program) setPlan(loaded);
       })
       .catch(() => undefined);
-  }
+  }, [program]);
 
-  function loadDiagnosticPlan() {
-    fetch('/api/phase1/diagnostic')
+  const loadDiagnosticPlan = useCallback(() => {
+    fetch(`/api/phase1/diagnostic?program=${encodeURIComponent(program)}`)
       .then(async (result) => {
         if (!result.ok) return;
-        setDiagnosticPlan(await result.json());
+        const loaded = await result.json();
+        if (selectedProgramRef.current === program) setDiagnosticPlan(loaded);
       })
       .catch(() => undefined);
-  }
+  }, [program]);
 
-  function loadReviewQueue() {
-    fetch('/api/phase1/review')
+  const loadReviewQueue = useCallback(() => {
+    fetch(`/api/phase1/review?program=${encodeURIComponent(program)}`)
       .then(async (result) => {
         if (!result.ok) return;
-        setReviewQueue(await result.json());
+        const loaded = await result.json();
+        if (selectedProgramRef.current === program) setReviewQueue(loaded);
       })
       .catch(() => undefined);
-  }
+  }, [program]);
 
-  function loadProgress() {
-    fetch('/api/phase1/progress')
+  const loadProgress = useCallback(() => {
+    fetch(`/api/phase1/progress?program=${encodeURIComponent(program)}`)
       .then(async (result) => {
         if (!result.ok) return;
-        setProgress(await result.json());
+        const loaded = await result.json();
+        if (selectedProgramRef.current === program) setProgress(loaded);
       })
       .catch(() => undefined);
-  }
+  }, [program]);
 
-  function startActivity(contentId?: string, activityMode: ActivityMode = 'practice') {
-    setError('');
-    setAttempt(undefined);
-    setTutor(undefined);
-    setHintCount(0);
-    setCheck(undefined);
-    setResponse('');
-    setMode(activityMode);
-    const query = contentId ? `?contentId=${encodeURIComponent(contentId)}` : '';
-    fetch(`/api/phase1/session${query}`)
-      .then(async (result) => {
-        if (!result.ok) throw new Error('Session could not be loaded.');
-        const loaded: Session = await result.json();
-        setSession(loaded);
-        // Rehydrate a resumed session's progress instead of showing a blank
-        // form - the learner shouldn't lose an in-progress attempt, hint
-        // count, or independent-check result on refresh.
-        if (loaded.latestAttempt) {
-          setAttempt({
-            attemptId: loaded.latestAttempt.attemptId,
-            correctness: loaded.latestAttempt.correctness,
-          });
-        }
-        setHintCount(loaded.hintCount);
-        if (loaded.latestCheck) {
-          setCheck({
-            attemptId: loaded.latestCheck.attemptId,
-            correctness: loaded.latestCheck.correctness,
-          });
-        }
-      })
-      .catch((reason: Error) => setError(reason.message));
-  }
+  const startActivity = useCallback(
+    (contentId?: string, activityMode: ActivityMode = 'practice') => {
+      setError('');
+      setAttempt(undefined);
+      setTutor(undefined);
+      setHintCount(0);
+      setCheck(undefined);
+      setResponse('');
+      setMode(activityMode);
+      const query = new URLSearchParams({ program });
+      if (contentId) query.set('contentId', contentId);
+      fetch(`/api/phase1/session?${query}`)
+        .then(async (result) => {
+          if (!result.ok) throw new Error('Session could not be loaded.');
+          const loaded: Session = await result.json();
+          if (selectedProgramRef.current !== program) return;
+          setSession(loaded);
+          // Rehydrate a resumed session's progress instead of showing a blank
+          // form - the learner shouldn't lose an in-progress attempt, hint
+          // count, or independent-check result on refresh.
+          if (loaded.latestAttempt) {
+            setAttempt({
+              attemptId: loaded.latestAttempt.attemptId,
+              correctness: loaded.latestAttempt.correctness,
+            });
+          }
+          setHintCount(loaded.hintCount);
+          if (loaded.latestCheck) {
+            setCheck({
+              attemptId: loaded.latestCheck.attemptId,
+              correctness: loaded.latestCheck.correctness,
+            });
+          }
+        })
+        .catch((reason: Error) => setError(reason.message));
+    },
+    [program],
+  );
 
   useEffect(() => {
     startActivity();
@@ -195,7 +207,7 @@ export default function Home() {
     loadDiagnosticPlan();
     loadReviewQueue();
     loadProgress();
-  }, []);
+  }, [loadDiagnosticPlan, loadPlan, loadProgress, loadReviewQueue, startActivity]);
 
   const submitEndpoint: Record<ActivityMode, string> = {
     practice: '/api/phase1/attempt',
@@ -311,7 +323,7 @@ export default function Home() {
           Learning Forge
           <small>Local synthetic session</small>
         </div>
-        <ProgramSwitcher />
+        <ProgramSwitcher value={program} onChange={setProgram} />
         <nav aria-label="Primary navigation">
           <Link href="/parent">Parent evidence</Link>
           <Link href="/help">Help</Link>

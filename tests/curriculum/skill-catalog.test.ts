@@ -42,17 +42,17 @@ describe('skill catalog', () => {
     );
   });
 
-  it('renders authored unavailable programs as pending drafts in the curriculum site', () => {
+  it('renders available authored programs in the curriculum site', () => {
     execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
     const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
 
     expect(generatedSite).toContain('Math Kangaroo (Grade 6)');
-    expect(generatedSite).toContain('Draft — pending human approval');
     expect(generatedSite).toContain('Multi-step arithmetic reasoning');
     const mathKangarooSection = generatedSite.match(
       /<section class="program-section" id="program-math-kangaroo-6">([\s\S]*?)<section class="program-section program-section-empty" id="program-moems-6">/,
     );
     expect(mathKangarooSection?.[1]).not.toContain('Coming soon');
+    expect(mathKangarooSection?.[1]).not.toContain('Draft — pending human approval');
   });
 
   it('renders accessible collapsible domains and skills', () => {

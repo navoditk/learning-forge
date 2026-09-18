@@ -30,6 +30,19 @@ test.describe('synthetic Phase 1 journeys', () => {
     await expect(page.getByRole('heading', { name: 'Garden rows' })).toBeVisible();
   });
 
+  test('learner can switch programs without mixing curriculum activities', async ({ page }) => {
+    await page.goto('/');
+
+    await page.getByLabel('Subject').selectOption('math-kangaroo-6');
+    await expect(page.getByRole('heading', { name: 'Bake sale change' })).toBeVisible();
+    await expect(
+      page
+        .getByRole('region', { name: 'Recommended next activities' })
+        .getByText('Multi-step arithmetic reasoning'),
+    ).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Garden rows' })).toHaveCount(0);
+  });
+
   test('parent can see evidence linked to the learner attempt', async ({ page }) => {
     await page.goto('/parent');
 

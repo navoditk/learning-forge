@@ -1,5 +1,40 @@
 # Progress
 
+## 2026-09-18 — Math Kangaroo shipped with program-isolated learner journeys
+
+- Completed the Math Kangaroo shipping gate after human approval of all 16
+  records and enabled `math-kangaroo-6` in the shared program roster.
+- Made the learner program selector functional and scoped session defaults,
+  recommendations, placement, spaced review, and learner-visible progress to
+  the selected curriculum. Server routes validate that the requested program
+  is available and reject content IDs from another program, preventing Math
+  Kangaroo activities from entering the default Grade 6 Math journey.
+- Kept the established Grade 6 Math default session (`unit-rates-1`) stable;
+  each additional program selects its own reviewed core item by default.
+- Added integration and browser regressions for both program isolation and
+  unavailable/mismatched program rejection.
+- Evidence: `npm run verify` passed formatting, lint, type checks, migration
+  rollback checks, 72/72 unit/contract/catalog/eval tests, and the production
+  build; the full integration suite passed 31/31 and the full serial
+  Playwright suite passed 21/21.
+- Next: author the approved MOEMS Division E dossier as the next independent
+  curriculum increment.
+
+## 2026-09-17 — Math Kangaroo content approved for serving
+
+- Following successful independent reviews of the full 16-record curriculum,
+  contest-format remediation, hint/prerequisite fixes, and the original
+  accessible-figure increment, the product/content owner approved all 16 Math
+  Kangaroo records.
+- Changed each record to `review.status: "reviewed"` with reviewer
+  `Navodit Kaushik` and review date `2026-09-17`; enabled
+  `math-kangaroo-6` in the shared program roster.
+- Updated current-state documentation and catalog tests to reflect 70/70
+  reviewed records and zero pending. Historical progress/review entries remain
+  unchanged as an audit trail of the earlier pending state.
+- Next: complete program-isolated shipping validation, then MOEMS Division E
+  authoring.
+
 ## 2026-09-17 — Math Kangaroo angle-figure correction passed focused review
 
 - Completed the final focused independent `curriculum-review` pass for commit

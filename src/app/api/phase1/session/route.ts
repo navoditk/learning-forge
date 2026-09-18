@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { startSession } from '../../../../phase1/service';
+import { parseAvailableProgram } from '../../../../phase1/program';
 import { requireHouseholdContext } from '../../../../server/household-context';
 
 export async function GET(request: NextRequest) {
@@ -13,7 +14,8 @@ export async function GET(request: NextRequest) {
 
   const contentId = request.nextUrl.searchParams.get('contentId') ?? undefined;
   try {
-    return NextResponse.json(await startSession(identity, { contentId }));
+    const program = parseAvailableProgram(request.nextUrl.searchParams.get('program'));
+    return NextResponse.json(await startSession(identity, { contentId, program }));
   } catch {
     return NextResponse.json({ error: 'Unknown content' }, { status: 400 });
   }

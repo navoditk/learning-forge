@@ -49,8 +49,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-17",
     "originalityStatement": "Original logic-puzzle scenario written for this repository, inspired only by the general Math Kangaroo skill type of constraint-based deduction; no problem reproduced from any contest archive."
   },
   "accessibilityNotes": "Present all constraints as a plain-text list rather than relying on a grid diagram alone.",

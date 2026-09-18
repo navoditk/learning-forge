@@ -26,9 +26,10 @@ The full skill graph and sample problems (answers/hints excluded) are published 
 [navoditk.github.io/learning-forge](https://navoditk.github.io/learning-forge/), generated
 directly from `skillCatalog`/`contentCatalog` by `scripts/generate-curriculum-site.ts`. It
 regenerates automatically on every push to `main` (`.github/workflows/curriculum-site.yml`), so
-it can never drift from what's actually shipped. Each `Skill` carries a `program` field
-(currently only `grade-6-math`) so future programs - Math Kangaroo, AMC 8, MATHCOUNTS, MOEMS,
-Grade 6 ELA - can be added as new top-level sections without restructuring existing content.
+it can never drift from what's actually shipped. Each `Skill` carries a `program` field.
+Grade 6 Math and Math Kangaroo are currently available as isolated learner journeys; future
+programs such as AMC 8, MATHCOUNTS, MOEMS, and Grade 6 ELA can be added as new top-level
+sections without restructuring existing content.
 
 ## Initial Math skill graph
 
@@ -66,8 +67,8 @@ Each skill must define prerequisites, standards, observable evidence, common mis
 Additive contest-preparation program for the same Grade 6 learner
 (`program: "math-kangaroo-6"`); see `docs/curriculum-sources.md`'s Math
 Kangaroo dossier for the researched sources and format this graph is built
-from. Content is currently in `pending_review` status (drafted, not yet
-human-reviewed) — see `docs/PROGRESS.md` for status.
+from. Its 16 content records completed independent review and were approved by
+the product/content owner on 2026-09-17 — see `docs/PROGRESS.md` for evidence.
 
 - Arithmetic and number patterns
   - multi-step arithmetic reasoning

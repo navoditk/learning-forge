@@ -78,6 +78,35 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     expect(plan.unavailableSkills).toEqual([]);
   });
 
+  it('isolates sessions, placement, plans, and progress by curriculum program', async () => {
+    await ensureSyntheticIdentity();
+
+    const plan = await getPlan(SYNTHETIC_IDENTITY, { program: 'math-kangaroo-6' });
+    expect(plan.items.length).toBeGreaterThan(0);
+    expect(plan.items.every((item) => item.skillCode.startsWith('mk6-'))).toBe(true);
+
+    const diagnostic = await getDiagnosticPlan(SYNTHETIC_IDENTITY, {
+      program: 'math-kangaroo-6',
+    });
+    expect(diagnostic.items.length).toBeGreaterThan(0);
+    expect(diagnostic.items.every((item) => item.skillCode.startsWith('mk6-'))).toBe(true);
+
+    const progress = await getLearnerProgress(SYNTHETIC_IDENTITY, {
+      program: 'math-kangaroo-6',
+    });
+    expect(progress.skills).toHaveLength(8);
+    expect(progress.skills.every((skill) => skill.skillCode.startsWith('mk6-'))).toBe(true);
+
+    const session = await startSession(SYNTHETIC_IDENTITY, { program: 'math-kangaroo-6' });
+    expect(session.content.skillCode).toMatch(/^mk6-/);
+    await expect(
+      startSession(SYNTHETIC_IDENTITY, {
+        program: 'math-kangaroo-6',
+        contentId: 'ratio-language-1',
+      }),
+    ).rejects.toThrow('Unknown content for program');
+  });
+
   it('records an attempt, tutor interaction, and parent evidence', async () => {
     await ensureSyntheticIdentity();
     const session = await startSession(SYNTHETIC_IDENTITY);

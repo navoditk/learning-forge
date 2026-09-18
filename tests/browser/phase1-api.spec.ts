@@ -22,7 +22,9 @@ test.describe('Phase 1 API route validation and error paths', () => {
     });
     expect(invalid.status()).toBe(400);
 
-    const session = await (await request.get('/api/phase1/session')).json();
+    const session = await (
+      await request.get('/api/phase1/session?contentId=ratio-language-1')
+    ).json();
     const premature = await request.post('/api/phase1/check', {
       data: { sessionId: session.sessionId, learnerResponse: '15' },
     });
@@ -42,7 +44,9 @@ test.describe('Phase 1 API route validation and error paths', () => {
     });
     expect(unknownAttempt.status()).toBe(404);
 
-    const session = await (await request.get('/api/phase1/session')).json();
+    const session = await (
+      await request.get('/api/phase1/session?contentId=fraction-decimal-operations-1')
+    ).json();
     const attempt = await (
       await request.post('/api/phase1/attempt', {
         data: { sessionId: session.sessionId, learnerResponse: '15' },
@@ -72,5 +76,21 @@ test.describe('Phase 1 API route validation and error paths', () => {
     const body = await response.json();
     expect(Array.isArray(body.attempts)).toBe(true);
     expect(Array.isArray(body.mastery)).toBe(true);
+  });
+
+  test('program-scoped routes reject unavailable and mismatched curricula', async ({ request }) => {
+    const unavailable = await request.get('/api/phase1/plan?program=moems-6');
+    expect(unavailable.status()).toBe(400);
+
+    const mismatched = await request.get(
+      '/api/phase1/session?program=math-kangaroo-6&contentId=ratio-language-1',
+    );
+    expect(mismatched.status()).toBe(400);
+
+    const plan = await (await request.get('/api/phase1/plan?program=math-kangaroo-6')).json();
+    expect(plan.items.length).toBeGreaterThan(0);
+    expect(
+      plan.items.every((item: { skillCode: string }) => item.skillCode.startsWith('mk6-')),
+    ).toBe(true);
   });
 });

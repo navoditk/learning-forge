@@ -2,6 +2,7 @@ import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
 import { servableContentCatalog } from '../content/catalog';
 import {
+  CurriculumProgram,
   PlannerContentItem,
   PlannerMasteryRecord,
   PlannerSkill,
@@ -33,6 +34,18 @@ function resolveContent(contentId?: string) {
   const item = servableContentCatalog.find((candidate) => candidate.id === id);
   if (!item) throw new Error(`Unknown content: ${id}`);
   return item;
+}
+
+const DEFAULT_PROGRAM: CurriculumProgram = 'grade-6-math';
+
+function programCatalog(program: CurriculumProgram) {
+  const skills = skillCatalog.filter((skill) => skill.program === program);
+  const skillCodes = new Set(skills.map((skill) => skill.code));
+  return {
+    skills,
+    skillCodes,
+    content: servableContentCatalog.filter((item) => skillCodes.has(item.skillCode)),
+  };
 }
 
 export const phase1Content = resolveContent();
@@ -115,9 +128,18 @@ async function getSessionState(identity: HouseholdIdentity, sessionId: string) {
 
 export async function startSession(
   identity: HouseholdIdentity,
-  input: { contentId?: string } = {},
+  input: { contentId?: string; program?: CurriculumProgram } = {},
 ) {
-  const content = resolveContent(input.contentId);
+  const program = input.program ?? DEFAULT_PROGRAM;
+  const catalog = programCatalog(program);
+  const content = input.contentId
+    ? resolveContent(input.contentId)
+    : program === DEFAULT_PROGRAM
+      ? resolveContent()
+      : (catalog.content.find((item) => item.mode === 'core') ?? catalog.content[0]);
+  if (!content || !catalog.skillCodes.has(content.skillCode)) {
+    throw new Error(`Unknown content for program: ${input.contentId ?? program}`);
+  }
   // Resume an in-progress session for this content instead of creating a
   // duplicate one on every page load/refresh - a session only ends once its
   // independent check passes (see recordIndependentCheck).
@@ -288,8 +310,9 @@ const DEFAULT_DIAGNOSTIC_MAX_ITEMS = 5;
  */
 export async function getDiagnosticPlan(
   identity: HouseholdIdentity,
-  input: { maxItems?: number } = {},
+  input: { maxItems?: number; program?: CurriculumProgram } = {},
 ) {
+  const catalog = programCatalog(input.program ?? DEFAULT_PROGRAM);
   const maxItems = input.maxItems ?? DEFAULT_DIAGNOSTIC_MAX_ITEMS;
   const masteryRows = await prisma.masteryEstimate.findMany({
     where: {
@@ -302,7 +325,7 @@ export async function getDiagnosticPlan(
   const assessedSkillCodes = new Set(masteryRows.map((row) => row.skillCode));
 
   const contentBySkill = new Map<string, (typeof servableContentCatalog)[number][]>();
-  for (const item of servableContentCatalog) {
+  for (const item of catalog.content) {
     const items = contentBySkill.get(item.skillCode) ?? [];
     items.push(item);
     contentBySkill.set(item.skillCode, items);
@@ -315,7 +338,7 @@ export async function getDiagnosticPlan(
     skillTitle: string;
     prompt: string;
   }[] = [];
-  for (const skillCode of topologicalSkillOrder(skillCatalog)) {
+  for (const skillCode of topologicalSkillOrder(catalog.skills)) {
     if (items.length >= maxItems) break;
     const skill = skillsByCode.get(skillCode);
     // Only root skills (no prerequisites) are diagnosed directly - a
@@ -467,8 +490,9 @@ const DEFAULT_REVIEW_MAX_ITEMS = 5;
  */
 export async function getReviewQueue(
   identity: HouseholdIdentity,
-  input: { maxItems?: number } = {},
+  input: { maxItems?: number; program?: CurriculumProgram } = {},
 ) {
+  const catalog = programCatalog(input.program ?? DEFAULT_PROGRAM);
   const maxItems = input.maxItems ?? DEFAULT_REVIEW_MAX_ITEMS;
   const dueBefore = new Date(Date.now() - MASTERY_REVIEW_INTERVAL_DAYS * 24 * 60 * 60 * 1000);
   const dueMastery = await prisma.masteryEstimate.findMany({
@@ -477,6 +501,7 @@ export async function getReviewQueue(
       learnerProfileId: identity.learnerProfileId,
       algorithmVersion: PHASE_1_MASTERY_VERSION,
       independentDelayedCheck: true,
+      skillCode: { in: [...catalog.skillCodes] },
       updatedAt: { lte: dueBefore },
     },
     orderBy: { updatedAt: 'asc' },
@@ -485,7 +510,7 @@ export async function getReviewQueue(
   });
 
   const contentBySkill = new Map<string, (typeof servableContentCatalog)[number][]>();
-  for (const item of servableContentCatalog) {
+  for (const item of catalog.content) {
     const items = contentBySkill.get(item.skillCode) ?? [];
     items.push(item);
     contentBySkill.set(item.skillCode, items);
@@ -697,8 +722,9 @@ const PHASE_1_DEFAULT_TIME_BUDGET_MINUTES = 30;
 
 export async function getPlan(
   identity: HouseholdIdentity,
-  input: { timeBudgetMinutes?: number } = {},
+  input: { timeBudgetMinutes?: number; program?: CurriculumProgram } = {},
 ) {
+  const catalog = programCatalog(input.program ?? DEFAULT_PROGRAM);
   const masteryRows = await prisma.masteryEstimate.findMany({
     where: {
       householdId: identity.householdId,
@@ -721,13 +747,13 @@ export async function getPlan(
     };
   }
 
-  const content: PlannerContentItem[] = servableContentCatalog.map((item) => ({
+  const content: PlannerContentItem[] = catalog.content.map((item) => ({
     id: item.id,
     skillCode: item.skillCode,
     mode: item.mode,
     difficulty: item.difficulty,
   }));
-  const skills: PlannerSkill[] = skillCatalog.map((skill) => ({
+  const skills: PlannerSkill[] = catalog.skills.map((skill) => ({
     code: skill.code,
     prerequisiteSkillCodes: skill.prerequisiteSkillCodes,
   }));
@@ -765,7 +791,12 @@ const RECENT_STRENGTHS_MAX_ITEMS = 5;
 // Learner-facing progress view. Every claim here must be directly traceable
 // to a persisted MasteryEstimate or Attempt row - no derived scores, grades,
 // or rankings are shown, only qualitative status backed by real evidence.
-export async function getLearnerProgress(identity: HouseholdIdentity) {
+export async function getLearnerProgress(
+  identity: HouseholdIdentity,
+  input: { program?: CurriculumProgram } = {},
+) {
+  const program = input.program ?? DEFAULT_PROGRAM;
+  const catalog = programCatalog(program);
   const masteryRows = await prisma.masteryEstimate.findMany({
     where: {
       householdId: identity.householdId,
@@ -776,7 +807,7 @@ export async function getLearnerProgress(identity: HouseholdIdentity) {
   });
   const masteryBySkillCode = new Map(masteryRows.map((row) => [row.skillCode, row]));
 
-  const skills = skillCatalog.map((skill) => {
+  const skills = catalog.skills.map((skill) => {
     const mastery = masteryBySkillCode.get(skill.code);
     const status: SkillProgressStatus = !mastery
       ? 'NOT_STARTED'
@@ -815,6 +846,7 @@ export async function getLearnerProgress(identity: HouseholdIdentity) {
   }[] = [];
   for (const attempt of confirmingAttempts) {
     const skillCode = resolveContent(attempt.contentKey).skillCode;
+    if (!catalog.skillCodes.has(skillCode)) continue;
     if (seenSkills.has(skillCode)) continue;
     seenSkills.add(skillCode);
     recentStrengths.push({
@@ -826,7 +858,7 @@ export async function getLearnerProgress(identity: HouseholdIdentity) {
     if (recentStrengths.length >= RECENT_STRENGTHS_MAX_ITEMS) break;
   }
 
-  const plan = await getPlan(identity);
+  const plan = await getPlan(identity, { program });
   const nextActivity = plan.items[0]
     ? {
         contentId: plan.items[0].contentId,

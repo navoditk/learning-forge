@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-17",
     "originalityStatement": "Original magic-square scenario written for this repository, inspired only by the general Math Kangaroo skill type of magic-square reasoning; no problem or diagram reproduced from any contest archive."
   },
   "accessibilityNotes": "Present the magic square's known and blank cells as a plain-text description (row by row) rather than relying on a visual grid image alone.",

@@ -56,8 +56,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending human content review (drafted by curriculum-author agent)",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-17",
     "originalityStatement": "Original scenario written for this repository, inspired only by the general Math Kangaroo skill type of calendar/modular-arithmetic word problems at contest difficulty; no problem reproduced from any contest archive."
   },
   "accessibilityNotes": "Present the problem entirely in plain text; no calendar diagram is required for this item.",
