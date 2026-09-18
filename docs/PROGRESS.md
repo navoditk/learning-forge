@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-09-17 — AMC 8 reviewed; primary-rule confirmation still blocking
+
+- Product/content owner selected a readiness-gated Grade 6 progression:
+  learners begin with core prep and unlock the contest tier only after
+  structured prerequisite evidence. AMC 8 remains additive optional
+  enrichment, not expected Grade 6 mastery.
+- Product/content owner requires direct MAA primary confirmation of
+  five-choice format, scoring/no-guessing-penalty, and calculator rules before
+  authoring format-specific content.
+- Focused follow-up checks found historical MAA rules/sample PDF URLs through
+  web search, but direct retrieval returned 404; the current MAA policy route
+  remained 403 to CLI access and exposed only introductory text through the
+  safe fetcher. A Wayback availability check returned 429. Search-result
+  summaries were not treated as primary evidence.
+- AMC 8 dossier remains `Pending product/content-owner review`; authoring is
+  blocked until a verifiable primary MAA artifact resolves these rules.
+
 ## 2026-09-17 — MOEMS Division E research approved
 
 - Product/content owner approved the MOEMS source dossier and selected
@@ -24,8 +41,9 @@
   keyboard- and screen-reader-accessible `<details>/<summary>` controls.
   Domains start expanded, skill cards start collapsed, and sidebar/hash
   navigation automatically expands the selected target and its ancestors.
-- MOEMS and AMC 8 research dossiers remain isolated and pending product/content
-  owner review while their scope decisions are evaluated.
+- MOEMS and AMC 8 research began in isolated worktrees; their dossiers are now
+  integrated into `docs/curriculum-sources.md`. MOEMS is approved, while AMC 8
+  remains pending the direct-primary-rule confirmation documented above.
 
 ## 2026-09-17 — Curriculum site shows independently reviewed drafts
 
