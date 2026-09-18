@@ -4,7 +4,7 @@
   "program": "moems-6",
   "domain": "moems6-geometry-and-measurement",
   "standards": ["MOEMS-E-GEOM-1"],
-  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Decomposes or compares geometric regions and converts the relationships into exact perimeter, area, or measurement calculations.",
     "Uses an invariant such as equal lengths, equal areas, or a fixed total to solve an unfamiliar diagram-free geometry situation."

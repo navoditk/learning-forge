@@ -4,7 +4,7 @@
   "program": "moems-6",
   "domain": "moems6-patterns-and-counting",
   "standards": ["MOEMS-E-PATTERN-1"],
-  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Counts arrangements or digit patterns by organizing cases and avoiding double-counting.",
     "Identifies a rule in a changing sequence and uses it to answer a new question about the pattern."

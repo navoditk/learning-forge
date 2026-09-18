@@ -596,3 +596,111 @@ npm run content:validate
 - No defect remains in this focused figure-correction scope. Human
   product/content-owner approval is still required before any `pending_review`
   Math Kangaroo record becomes servable.
+
+
+## 2026-09-18 — MOEMS Division E Grade 6 authoring increment — independent review
+
+- **Scope:** Commit `994eaf0` only: five `content/skills/moems6-*.json` skills, ten `content/moems-6/*.json` records, the MOEMS Division E source dossier in `docs/curriculum-sources.md`, the review gate in `docs/content-review.md`, and the program-catalog checks in `tests/content/catalog.test.ts` and `tests/curriculum/skill-catalog.test.ts`.
+- **Reviewer:** Independent `curriculum-review` pass (advisory only; this review does not change any content `review.status` field or the curriculum JSON itself).
+- **Overall verdict:** **Two verified major prerequisite defects remain in the current increment.**
+- **Recommendation:** **not ready for human review**.
+
+### What was checked
+
+1. **Source fidelity:** re-read the approved MOEMS Division E dossier in `docs/curriculum-sources.md` and checked the increment against the approved boundaries: five monthly contests, five questions each, 30 minutes, individual work, one point per correct answer, no calculators/rulers/graph paper, and no single official syllabus. The content remains additive, not a replacement core curriculum, and the reviewed records do not claim an official syllabus or a Division M/dual-placement path.
+2. **Coverage and skill boundaries:** inspected the five `moems6-` skill records and the ten item records to confirm the initial graph is bounded to the approved families: number/place-value, patterns/counting, geometry/measurement, logic/arrangements, and cryptarithm reasoning. The graph is compact and uses a signed additive structure without claiming a full MOEMS curriculum map.
+3. **Subject accuracy:** independently solved all ten items from first principles. Each canonical answer, accepted answer, unit, and free-response validator pattern was verified without relying on the authoring agent or the catalog self-audit.
+4. **Prerequisites:** re-read all five skill records and all ten mirrored content prerequisite declarations against the strict repository rule in `.github/skills/curriculum-authoring/SKILL.md:34-39` and `docs/curriculum-authoring-playbook.md:40-46`: a learner must be mathematically/conceptually unable to achieve the entire downstream skill without the upstream skill. The valid edge is only `moems6-cryptarithm-reasoning` → `moems6-number-and-place-value`; `moems6-patterns-and-counting` and `moems6-geometry-and-measurement` are over-broad barriers. `moems6-logic-and-arrangements` and `moems6-number-and-place-value` correctly have no prerequisite.
+5. **Structural distinction and mastery evidence:** checked that each skill has two records, one `core` and one `contest` item, with different prompts and observable-evidence targets; every skill's two items jointly exercise the relevant evidence rather than being duplicative worksheets.
+6. **Misconception logic and hints:** traced each misconception code to the likely incorrect step and assessed whether the associated hints lead the learner toward the correct strategy without revealing the final answer. Each hint ladder is contiguous and additive; hint 1 does not reveal a final answer or equivalent intermediate value.
+7. **Originality and safety:** checked the prompts for close resemblance to MOEMS/APSMO material and for age-appropriateness. The prompts are original, plain-text, and accessibility-first; no visual dependence or unsafe content was found.
+8. **Technical integrity:** ran the repository's relevant validations for content and curriculum: `npm run content:validate` and `npm run curriculum:validate`.
+
+### Verified defects
+
+1. **Severity:** major; **confidence:** high.
+   **Files / lines:** `content/skills/moems6-patterns-and-counting.json:7`; mirrored declarations in `content/moems-6/moems6-patterns-and-counting-1.json:9` and `content/moems-6/moems6-patterns-and-counting-2.json:9`.
+   **Violated rule:** `.github/skills/curriculum-authoring/SKILL.md:34-39` and `docs/curriculum-authoring-playbook.md:40-46`; prerequisites must be genuine conceptual dependencies for the entire downstream skill, not generic arithmetic fluency, shared use of numbers, or a convenient teaching order.
+   **Evidence:** The skill's own evidence covers (a) identifying an additive sequence rule and extending it (`moems6-patterns-and-counting-1.json:13-14`) and (b) organizing distinct ordered choices after applying divisibility by 5 (`moems6-patterns-and-counting-2.json:13-14`). Neither capability requires mastery of the separate number/place-value skill as defined in `content/skills/moems6-number-and-place-value.json:8-10`; a learner can identify a repeated change, count cases, and apply a divisibility condition without first mastering the upstream skill's digit-constraint reasoning. The fact that one item names digit places is insufficient to gate the entire downstream skill.
+   **Smallest safe remediation:** remove `moems6-number-and-place-value` from the skill's `prerequisiteSkillCodes` and from both mirrored content `prerequisiteSkillCodes` arrays. Preserve the existing records, answers, and review statuses.
+
+2. **Severity:** major; **confidence:** high.
+   **Files / lines:** `content/skills/moems6-geometry-and-measurement.json:7`; mirrored declarations in `content/moems-6/moems6-geometry-and-measurement-1.json:9` and `content/moems-6/moems6-geometry-and-measurement-2.json:9`.
+   **Violated rule:** `.github/skills/curriculum-authoring/SKILL.md:34-39` and `docs/curriculum-authoring-playbook.md:40-46`; a shared numerical procedure or ordinary calculation is not a prerequisite unless the downstream skill is impossible without the upstream skill.
+   **Evidence:** The skill's evidence is geometric decomposition/invariants and perimeter, area, and measurement relationships (`content/skills/moems6-geometry-and-measurement.json:8-10`). The two records require rectangle perimeter-to-area reasoning and subtracting a corner area (`moems6-geometry-and-measurement-1.json:13-14`, `moems6-geometry-and-measurement-2.json:13-14`). These depend on geometric concepts and basic operations, not on the full number/place-value skill; shared use of numbers and multiplication does not establish conceptual inability.
+   **Smallest safe remediation:** remove `moems6-number-and-place-value` from the skill's `prerequisiteSkillCodes` and from both mirrored content `prerequisiteSkillCodes` arrays. Preserve the existing records, answers, and review statuses.
+
+3. **Severity:** none (verified valid edge); **confidence:** high.
+   **Files / lines:** `content/skills/moems6-cryptarithm-reasoning.json:7`; mirrored declarations in `content/moems-6/moems6-cryptarithm-reasoning-1.json:9` and `content/moems-6/moems6-cryptarithm-reasoning-2.json:9`.
+   **Evidence:** Both records require place-value expansion or column-value/carry reasoning (`moems6-cryptarithm-reasoning-1.json:13-14`, `moems6-cryptarithm-reasoning-2.json:13-14`), matching the skill evidence at `content/skills/moems6-cryptarithm-reasoning.json:8-10`. A learner cannot achieve the entire defined cryptarithm skill without that upstream conceptual foundation. This edge should remain.
+
+4. **Severity:** none (verified valid independence); **confidence:** high.
+   **Files / lines:** `content/skills/moems6-logic-and-arrangements.json:7`, `content/skills/moems6-number-and-place-value.json:7`, and mirrored content declarations at `content/moems-6/moems6-logic-and-arrangements-1.json:9`, `content/moems-6/moems6-logic-and-arrangements-2.json:9`, `content/moems-6/moems6-number-and-place-value-1.json:9`, and `content/moems-6/moems6-number-and-place-value-2.json:9`.
+   **Evidence:** Logic/arrangements is independently defined by case construction, ordering, and adjacency constraints (`moems6-logic-and-arrangements.json:8-10`), while number/place-value is a root skill. No prerequisite edge is declared or required.
+
+### Questions
+
+- None. The two unjustified barriers are verified defects; the remaining prerequisite conclusions are verified from the skill boundaries and all ten mirrored content records.
+
+### Residual risks
+
+- The dossier itself is intentionally explicit that MOEMS has no single official syllabus, so the initial skills remain a bounded authoring approximation rather than a complete official scope statement.
+- The current dataset is a minimal seeded increment, not a full seasonal MOEMS contest-set model; it does not attempt to reproduce contest bundles beyond a per-skill core/contest pairing.
+- The items are original and mathematically sound, but the repo's content contract still treats these as `llm_drafted` and `pending_review`, so human approval remains the formal acceptance gate.
+- The remediation is intentionally not applied in this focused review because curriculum JSON and content records are out of scope; the defects must be corrected in a follow-up curriculum change before approval.
+
+### Evidence summary
+
+- `moems6-number-and-place-value-1`: correct answer `74`; tens digit = ones + 3; ones + tens = 11 => ones = 4, tens = 7.
+- `moems6-number-and-place-value-2`: correct answer `563`; let ones = x, tens = 2x, hundreds = x + 2; 4x + 2 = 14 => x = 3, number = 563.
+- `moems6-patterns-and-counting-1`: correct answer `29`; 2, 5, 8, ... by +3; stage 10 = 2 + 9 × 3 = 29.
+- `moems6-patterns-and-counting-2`: correct answer `12`; divisible by 5 fixes ones = 5; remaining two places are ordered choices from four digits => 4 × 3 = 12.
+- `moems6-geometry-and-measurement-1`: correct answer `66 square centimeters`; width = (34 − 22)/2 = 6; area = 11 × 6 = 66.
+- `moems6-geometry-and-measurement-2`: correct answer `94 square centimeters`; 10 × 10 − 2 × 3 = 100 − 6 = 94.
+- `moems6-logic-and-arrangements-1`: correct answer `2`; treat WX and YZ as blocks; two block orders.
+- `moems6-logic-and-arrangements-2`: correct answer `6`; 24 arrangements with P fixed, half satisfy Q before R = 12, subtract 6 invalid adjacent-S/T cases = 6.
+- `moems6-cryptarithm-reasoning-1`: correct answer `2`; 9(B − A) = 18 => B − A = 2.
+- `moems6-cryptarithm-reasoning-2`: correct answer `9`; units 7 + B ends in 2 => B = 5 and carry 1; tens 3 + 5 + 1 = 9 => C = 9.
+
+### Validation outcomes
+
+- `npm run content:validate` — passed.
+- `npm run curriculum:validate` — passed.
+
+not ready for human review
+
+
+## 2026-09-18 — MOEMS prerequisite remediation re-review
+
+- **Scope:** current uncommitted MOEMS prerequisite remediation on top of commit `994eaf0`; reviewed the five `content/skills/moems6-*.json` skill records, the four changed `content/moems-6/moems6-{patterns-and-counting,geometry-and-measurement}-*.json` records, the retained cryptarithm edge, and the focused validation outputs.
+- **Reviewer:** Independent `curriculum-review` pass (advisory only; this review does not change any `review.status` field or any curriculum JSON).
+- **Overall verdict:** **The unjustified place-value prerequisites are removed and the MOEMS graph remains acyclic and conceptually sound.**
+- **Recommendation:** **ready for human review**.
+
+### What was checked
+
+1. **Graph integrity:** confirmed the two unjustified edges were removed from `content/skills/moems6-patterns-and-counting.json:7` and `content/skills/moems6-geometry-and-measurement.json:7`, and from the mirrored content records `content/moems-6/moems6-patterns-and-counting-1.json:9`, `content/moems-6/moems6-patterns-and-counting-2.json:9`, `content/moems-6/moems6-geometry-and-measurement-1.json:9`, and `content/moems-6/moems6-geometry-and-measurement-2.json:9`.
+2. **Conceptual necessity:** re-verified the upstream edge remains only on `content/skills/moems6-cryptarithm-reasoning.json:7` and in its mirrored records `content/moems-6/moems6-cryptarithm-reasoning-1.json:9` and `content/moems-6/moems6-cryptarithm-reasoning-2.json:9`; cryptarithm reasoning still depends on place-value and carry logic, while patterns/counting and geometry/measurement do not.
+3. **Versioning and provenance:** confirmed the four remediated content records are bumped to `content-2`, remain `review.status: "pending_review"`, and retain `provenance.origin: "llm_drafted"` / `licenseStatus: "owned"` with no provenance rewrite.
+4. **No new curriculum regressions:** checked the graph for cycles, unknown prerequisite references, and catalog mismatch against the MOEMS skill set; no new cycles or serving leak were introduced in the current diff.
+5. **Focused validation:** ran `npm run content:validate` and `npm run curriculum:validate`.
+
+### Verified findings
+
+- No remaining blocker, major, or minor findings.
+
+### Residual risks
+
+- All four changed content records remain `pending_review`; the review gate is still the formal approval checkpoint.
+
+### Evidence summary
+
+- `content/skills/moems6-patterns-and-counting.json` and `content/skills/moems6-geometry-and-measurement.json` now have `prerequisiteSkillCodes: []`.
+- The mirrored files `content/moems-6/moems6-patterns-and-counting-1.json`, `content/moems-6/moems6-patterns-and-counting-2.json`, `content/moems-6/moems6-geometry-and-measurement-1.json`, and `content/moems-6/moems6-geometry-and-measurement-2.json` now also have `prerequisiteSkillCodes: []` and `version: "content-2"`.
+- `content/skills/moems6-cryptarithm-reasoning.json` still has `prerequisiteSkillCodes: ["moems6-number-and-place-value"]`, which is conceptually necessary for column-value and carry logic in both cryptarithm items.
+- `npm run content:validate` passed (14/14), `npm run curriculum:validate`
+  passed (15/15), and the subsequent full `npm run verify` passed all 76
+  unit/contract/catalog/eval tests and the production build. The review
+  agent's isolated timeout was not reproducible and is not a verified defect.
+
+ready for human review

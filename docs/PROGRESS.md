@@ -1,5 +1,19 @@
 # Progress
 
+## 2026-09-18 — MOEMS prerequisite review remediation
+
+- Removed the two unjustified graph edges from number/place-value to
+  patterns/counting and geometry/measurement, including their four mirrored
+  content declarations. Those capabilities are now independent roots rather
+  than being gated by generic numerical fluency.
+- Retained the reviewed conceptual dependency from cryptarithm reasoning to
+  number/place-value and added explicit graph regression assertions.
+- Bumped the four remediated content records to `content-2`; all ten MOEMS
+  records remain `pending_review`.
+- Focused independent re-review found no remaining curriculum defect. The
+  complete `npm run verify` gate passed 76 tests and the production build.
+- Next: human product/content-owner approval.
+
 ## 2026-09-18 — MOEMS Division E Grade 6 authoring increment handed off
 
 - Verified the approved MOEMS Division E source section in
@@ -1768,3 +1782,12 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   educator/content owner must still set `review.status: "reviewed"` before
   any record is servable.
 - Next: `mk6-independent-review` via the `curriculum-reviewer` agent/skill.
+## 2026-09-18 — MOEMS prerequisite remediation re-review
+
+- Re-checked the current uncommitted prerequisite fix on top of commit `994eaf0`: the two unjustified place-value edges were removed from `moems6-patterns-and-counting` and `moems6-geometry-and-measurement`, and those same changes are mirrored in the four affected content records.
+- The four changed content records are version-bumped to `content-2`, remain `pending_review`, and keep the same provenance (`llm_drafted` + `owned`).
+- The cryptarithm dependency remains in place as a genuine place-value/carry dependency and no cycles or hidden prerequisite gaps were introduced in the MOEMS graph.
+- Focused validation passed 14/14 content tests and 15/15 curriculum tests;
+  the full repository gate then passed 76 tests and the production build.
+  No blocker, major, or minor finding remains, so the advisory recommendation
+  is **ready for human review**.

@@ -54,6 +54,18 @@ describe('skill catalog', () => {
         'moems6-logic-and-arrangements',
       ]),
     );
+    expect(
+      moemsSkills.find((skill) => skill.code === 'moems6-patterns-and-counting')
+        ?.prerequisiteSkillCodes,
+    ).toEqual([]);
+    expect(
+      moemsSkills.find((skill) => skill.code === 'moems6-geometry-and-measurement')
+        ?.prerequisiteSkillCodes,
+    ).toEqual([]);
+    expect(
+      moemsSkills.find((skill) => skill.code === 'moems6-cryptarithm-reasoning')
+        ?.prerequisiteSkillCodes,
+    ).toEqual(['moems6-number-and-place-value']);
   });
 
   it('renders available authored programs in the curriculum site', () => {

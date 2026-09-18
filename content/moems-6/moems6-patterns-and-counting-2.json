@@ -1,12 +1,12 @@
 {
   "id": "moems6-patterns-and-counting-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Three-digit selections ending in five",
   "skillCode": "moems6-patterns-and-counting",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MOEMS-E-PATTERN-1"],
-  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Counts constrained digit arrangements by fixing a forced place and organizing the remaining choices without double-counting."
   ],
