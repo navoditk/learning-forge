@@ -15,6 +15,14 @@
   before product/content-owner approval; the Scripps program remains
   unavailable.
 
+## 2026-09-19 — Scripps focused validator remediation
+
+- Narrowed the etymology contest prompt to request only the spelling selected
+  by its deterministic validator, removing an unscored “and why” reasoning
+  requirement identified in the focused re-review.
+- The Scripps program remains unavailable pending final independent
+  confirmation and product/content-owner content approval.
+
 ## 2026-09-19 — Scripps Grade 6 isolated authoring increment
 
 - Confirmed the product/content owner's 2026-09-19 approval recorded in the

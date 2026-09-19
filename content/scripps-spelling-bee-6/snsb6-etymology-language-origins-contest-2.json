@@ -10,7 +10,7 @@
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],
-  "prompt": "Two invented spellings are \"zorin\" and \"sorin.\" The source used z for initial voiced /z/. Which should a careful speller try first, and why?",
+  "prompt": "Two invented spellings are \"zorin\" and \"sorin.\" The source used z for initial voiced /z/. Enter the spelling to try first.",
   "solutionRepresentation": "Try zorin first because the origin clue supports z; keep confidence proportional.",
   "solutionMethod": "rank-origin-hypotheses",
   "deterministicValidator": {
