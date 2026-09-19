@@ -1,6 +1,6 @@
 {
   "id": "amc8-coordinate-geometry-2",
-  "version": "content-2",
+  "version": "content-3",
   "title": "Area of a rectangle with a rectangular region removed",
   "skillCode": "amc8-coordinate-geometry",
   "mode": "contest",
@@ -62,7 +62,7 @@
       {
         "label": "E",
         "text": "30",
-        "rationale": "Subtracts the removed rectangle's coordinates in the wrong order when finding its side lengths (2 − 5 = −3 and 2 − 4 = −2), which flips the sign of the removed area and adds 6 to the large rectangle's area instead of subtracting it: 24 + 6 = 30.",
+        "rationale": "Reverses only the horizontal coordinate difference for the removed rectangle (2 − 5 = −3) while keeping the vertical difference as 4 − 2 = 2. This gives a signed area of −6, so subtracting it produces 24 − (−6) = 30.",
         "misconceptionCode": "subtracts-coordinates-in-wrong-order"
       }
     ]

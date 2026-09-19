@@ -1,5 +1,41 @@
 # Progress
 
+## 2026-09-18 — AMC 8 final distractor correction
+
+- Corrected the remaining coordinate-geometry distractor mechanism: choice E
+  now reverses only the horizontal coordinate difference, producing signed
+  removed area `-6` and therefore `24 - (-6) = 30` exactly as stated.
+- Bumped `amc8-coordinate-geometry-2` to `content-3`; its answer, prompt,
+  figure, provenance, and `pending_review` state are unchanged.
+- Next: final focused independent re-review before human approval.
+
+## 2026-09-18 — AMC 8 remediation commit `c654f34` focused independent re-review
+
+- Re-reviewed the approved readiness decision, all changed AMC records/skills,
+  six rewritten contest items and core partners, planner/catalog/contracts,
+  accessibility figures, provenance, metadata, and prior findings without
+  changing curriculum/source/contracts/catalog/planner/tests, availability, or
+  review statuses.
+- Confirmed the exact AMC 8 contest gate: `estimate >= 0.80`, confidence
+  `MEDIUM`/`HIGH`, and `independentDelayedCheck === true`; weak evidence stays
+  on core prep, eligible skills receive contest items, and non-AMC programs
+  preserve legacy behavior. Confirmed all AMC contest records carry the
+  catalog-enforced gate and remain pending/unavailable.
+- Independently solved all six rewritten records and verified choices,
+  validators, hints, pair distinction, coordinate SVG mapping, geometry
+  proportions/disclaimer, official metadata, provenance, and zero-edge graph.
+- **Unresolved minor finding:** choice E in
+  `content/amc-8/amc8-coordinate-geometry-2.json:63-66` claims reversed
+  coordinate differences produce `30`, but the stated arithmetic does not;
+  fix the rationale/distractor before human review.
+- Validation passed: `npm run content:validate` (17), `npm run
+  curriculum:validate` (17), focused catalog/planner tests (29), and
+  `npm run verify` (85 tests plus production build). `git diff --check
+  c654f34^ c654f34` passed.
+- Recommendation: **not ready for human review** until the single
+  deterministic distractor rationale is corrected, then repeat this focused
+  review.
+
 ## 2026-09-18 — AMC 8 strict contest-readiness policy approved
 
 - The product/content owner approved the remediated strict contest unlock:

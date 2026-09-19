@@ -713,6 +713,132 @@ not ready for human review
 
 ready for human review
 
+## 2026-09-18 — AMC 8 remediation commit `c654f34` — focused independent re-review
+
+- **Scope:** Re-reviewed remediation commit `c654f34` against the approved AMC 8
+  dossier and readiness decision, the six rewritten contest records and their
+  core partners, all changed AMC skills, catalog/contracts/planner wiring,
+  changed tests, and the prior findings above.
+- **Reviewer:** Independent `curriculum-review` pass. This report is advisory;
+  it does not change curriculum/source/contracts/catalog/planner/tests,
+  `review.status`, or program availability.
+- **Overall recommendation:** **not ready for human review** because one
+  rewritten distractor rationale remains mathematically non-deterministic.
+
+### Readiness, catalog, and program-boundary verification
+
+The new gate is correctly enforced for AMC 8 contest items: no mastery row,
+`0.5`/`LOW`/`false`, and an estimate at or above `0.80` without
+`independentDelayedCheck === true` all withhold contest items. Only evidence
+with `estimate >= 0.80`, confidence `MEDIUM` or `HIGH` (implemented as
+`disallowLowConfidence: true`), and `independentDelayedCheck === true`
+unlocks the contest item. An eligible gated skill receives its contest item
+instead of being skipped, while an ineligible gated skill continues receiving
+core preparation. The phase-1 service passes the per-item contract through to
+the planner.
+
+Catalog enforcement independently requires every AMC 8 contest record to carry
+the exact `{ minEstimate: 0.8, disallowLowConfidence: true,
+requireIndependentDelayedCheck: true }` contract, in addition to official
+AMC-8 metadata. Content without that field retains the existing planner path;
+the focused tests and full suite preserve Grade 6 Math, Math Kangaroo, and
+MOEMS behavior. AMC 8 remains unavailable, all 16 records remain
+`pending_review`, and no review or serving status was changed.
+
+### Independent item re-derivation
+
+The six rewritten contest answers are correct:
+
+| Record | Independent derivation |
+|---|---|
+| `amc8-elementary-geometry-2` | `13*11 - (5*12)/2 - 4*4 = 143 - 30 - 16 = 97`. |
+| `amc8-spatial-visualization-2` | `Q+R = 13+7 = 20`; `P` is opposite `U`, so `U = 20-9 = 11`. |
+| `amc8-graphs-and-tables-2` | Day 4 is 76; increases are 24, 48, 96; Day 7 is `76+24+48+96 = 244`. |
+| `amc8-introductory-algebra-2` | `w(w+4)=96`, so `(w-8)(w+12)=0`; a width is positive, hence `w=8`. |
+| `amc8-coordinate-geometry-2` | Outer area `(5-(-1))(6-2)=24`; removed area `(5-2)(4-2)=6`; remainder `18`. |
+| `amc8-proportional-reasoning-2` | Juice amounts are `24*(1/4)=6` and `40*(3/8)=15`; total `21`. |
+
+I checked every A-E choice, accepted answer, and misconception mapping. The
+core/contest pairs are textually distinct and the rewritten contest items add
+multi-step transfer rather than merely changing numbers. Hints remain ordered,
+age-appropriate, and do not contain the answer-leakage patterns. The
+coordinate, geometry, graph, algebra, spatial, and mixture distractors mostly
+trace to reproducible errors.
+
+### Verified finding
+
+1. **Severity:** minor; **confidence:** high.
+   **Files / lines:** `content/amc-8/amc8-coordinate-geometry-2.json:63-66`.
+   **Violated source/rule:** `docs/content-review.md` requires each distractor
+   rationale to deterministically produce its stated choice and identify the
+   corresponding misconception.
+   **Evidence:** Choice E is `30`, but the rationale says the learner computes
+   both removed-rectangle differences in reverse order, `2-5=-3` and
+   `2-4=-2`, then adds `6` to `24`. Those two reversed differences multiply to
+   `(+6)`, not a negative area; subtracting that product gives `18`, not
+   `30`. The stated operation therefore does not reproduce the distractor.
+   **Smallest safe remediation:** replace the rationale with a precise,
+   reproducible signed-difference error that yields `30`, or replace choice E
+   and its misconception code with a distractor whose calculation is explicit
+   and correct.
+
+### Reassessment of the six original findings
+
+1. **Readiness gate — resolved.** The exact owner-approved threshold and
+   delayed-check gate is contract-enforced for every AMC 8 contest record;
+   weak evidence withholds contest items, eligible skills receive them, and
+   other programs retain legacy behavior.
+2. **Coordinate-geometry-2 SVG mapping — resolved.** The origin/scale mapping
+   now places `(-1,2)`, `(5,6)`, `(2,2)`, and `(5,4)` at the declared pixel
+   coordinates; the outer and removed rectangles, vertex markers, labels,
+   accessible alternative, and regression test agree. No answer is present in
+   the figure or alternative.
+3. **Routine contest tier — substantially remediated, residual risk remains.**
+   Each rewritten contest item is multi-step and structurally distinct from
+   its core partner, with `challenging` difficulty labels. However, this
+   repository-only pass cannot certify that six short synthetic items match
+   the full historical AMC 8 difficulty distribution; human contest-content
+   review should still assess the intended difficulty ramp.
+4. **Graph/table and algebra distractor defects — resolved for the reported
+   defects.** The rewritten choices now have mechanism-matched calculations
+   and declared skill-level misconception codes. The new coordinate choice-E
+   defect above is separate and remains unresolved.
+5. **Scale ambiguity — resolved.** Geometry-1 explicitly says “not to scale;
+   use the labeled measures.” Geometry-2 is proportionally drawn: the outer
+   rectangle is 13:11, the triangle legs are 12:5, and the square is square;
+   its caption and alternative state that it is drawn to labeled proportions.
+6. **Metadata and gates — resolved.** All contest records retain official
+   AMC-8 format metadata and the eligibility claim, use `content-2` where
+   changed, preserve pending/owned/LLM-drafted provenance, remain unavailable,
+   and carry the exact readiness contract. No new prerequisite cycle, hidden
+   catalog gate, or other-program regression was found.
+
+### Source, accessibility, and structural checks
+
+The approved dossier still describes the eight-skill map as a Learning Forge
+synthesis rather than an official MAA syllabus, and the changed records make
+no license claim beyond repository-owned original drafts. All AMC skills remain
+zero-prerequisite roots; no cycle or unjustified new edge was introduced.
+Accessible alternatives are consistent with the visual data, and the
+coordinate SVG uses data attributes and a text-equivalent path without
+answer leakage. Official contest metadata is consistent across all eight
+contest records.
+
+### Validation outcomes
+
+- `npm run content:validate` — passed, 17 content tests.
+- `npm run curriculum:validate` — passed, 17 curriculum tests.
+- `npx vitest run tests/content/catalog.test.ts tests/planner/plan-next-activities.test.ts` — passed, 29 tests.
+- `npm run verify` — passed formatting, lint, typecheck, migration down-check,
+  85 unit/contract/catalog/eval/tutor/notification/curriculum/planner tests,
+  and production build.
+- `git diff --check c654f34^ c654f34` — passed.
+
+### Files changed by this review
+
+- `docs/content-review.md`
+- `docs/PROGRESS.md`
+
 ## 2026-09-18 — AMC 8 Grade 6 prep authoring increment — independent review
 
 - **Scope:** Commit `b4f99d2`: the approved AMC 8 dossier section in
