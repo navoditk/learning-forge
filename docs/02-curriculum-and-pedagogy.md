@@ -31,6 +31,19 @@ Grade 6 Math, Math Kangaroo, MOEMS Division E, AMC 8 Grade 6 prep, and MATHCOUNT
 currently available as isolated learner journeys. Future programs such as Grade 6 ELA can be added
 as new top-level sections without restructuring existing content.
 
+The approved next enrichment research wave contains three independent,
+currently unavailable programs for the same Grade 6 learner:
+
+- Scripps National Spelling Bee preparation;
+- International Geography Bee preparation under the International Academic
+  Competitions pathway; and
+- current-season Science Olympiad Division B preparation.
+
+Each program will receive its own primary-source dossier and human approval
+gate before authoring. The intended product structure is core prep plus contest
+content; this scope decision does not yet define a skill graph, reproduce
+official competition material, or make any program learner-available.
+
 ## Initial Math skill graph
 
 - Ratios and proportional reasoning

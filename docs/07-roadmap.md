@@ -44,6 +44,20 @@ Add reading passages with provenance, evidence selection, constructed response r
 
 Only after evidence: Science/Social Studies, additional grades, voice, handwriting/image input, native mobile, teacher tools, and organization-level administration.
 
+### Approved enrichment research wave
+
+Research may proceed independently, before authoring, for:
+
+- Scripps National Spelling Bee preparation for the Grade 6 learner;
+- International Geography Bee preparation under International Academic
+  Competitions; and
+- the current Science Olympiad Division B season for the Grade 6 learner.
+
+Each uses separate core-prep and contest tiers, separate source and review
+dossiers, and the standard research → human source approval → authoring →
+independent review → human content approval workflow. Research approval for
+one program does not approve or block another.
+
 ## Work breakdown rule
 
 Each issue must fit one coherent change, list acceptance criteria, identify test/eval evidence, and avoid coupling multiple phases. Each phase ends with a tagged demo, screenshot/video evidence, updated docs, and a retrospective.

@@ -1,5 +1,20 @@
 # Progress
 
+## 2026-09-19 — Next enrichment research fleet scoped
+
+- Pushed the completed five-program math curriculum fleet to `origin/main`;
+  local and remote `main` were synchronized at `ef5b64b`.
+- Added three independent future programs to the curriculum roadmap and
+  unavailable program roster: Scripps National Spelling Bee Grade 6,
+  International Geography Bee Grade 6 under International Academic
+  Competitions, and current-season Science Olympiad Division B for the Grade 6
+  learner.
+- Product/content owner selected core-prep and contest tiers for all three.
+  Each program requires its own official-source dossier and human approval
+  before authoring; no content or learner availability is introduced here.
+- Next: run three parallel, read-only primary-source research agents and
+  integrate separate pending-review dossiers.
+
 ## 2026-09-18 — MATHCOUNTS content approved for serving
 
 - The product/content owner approved all sixteen MATHCOUNTS Grade 6 records
