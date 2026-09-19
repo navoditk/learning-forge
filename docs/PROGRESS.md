@@ -1,5 +1,17 @@
 # Progress
 
+## 2026-09-19 — Scripps dossier approved for authoring
+
+- Product/content owner explicitly approved the Scripps National Spelling Bee
+  Grade 6 dossier after the Bailly study-method source was rendered and
+  reviewed.
+- Approved boundary: school and regional preparation; original vocabulary in
+  both tiers; strict exclusion of official Scripps list content; unofficial
+  positioning; and re-verification when 2027 national rules publish.
+- This authorizes isolated authoring only. New skills and content must remain
+  pending review, and independent review plus human content approval are still
+  required before serving.
+
 ## 2026-09-19 — Scripps study-method source reviewed
 
 - Rendered and reviewed the official two-page scanned *How to Study for a

@@ -840,11 +840,12 @@ Authoring may proceed under the approved boundaries. The author should:
 
 ## Scripps National Spelling Bee Grade 6 research — 2026-09-19
 
-**Status: Pending final product/content-owner approval.** Scope decisions were
-recorded on 2026-09-19. The scanned *How to Study for a Spelling Bee* source
-was rendered and reviewed on 2026-09-19; it reinforces the proposed domains
-and does not introduce a material scope change. Authoring remains blocked
-until the product/content owner approves this dossier.
+**Status: Approved for isolated authoring by the product/content owner on
+2026-09-19.** Scope decisions were recorded on 2026-09-19. The scanned *How
+to Study for a Spelling Bee* source was rendered and reviewed on 2026-09-19;
+it reinforces the proposed domains and does not introduce a material scope
+change. This approval authorizes isolated authoring only; all authored records
+remain pending independent review and human content approval.
 
 ### Scope and learner context
 
@@ -965,7 +966,8 @@ Remaining gates and operational gaps:
    curricular.
 2. Regional-partner rules were not retrieved. The 2027 Suggested Rules remain
    a non-binding baseline, and authored procedure must allow local variance.
-3. Product/content-owner approval is still required before authoring.
+3. This dossier is approved for isolated authoring; independent review and
+   human content approval remain required before serving.
 
 ### Research handoff
 
