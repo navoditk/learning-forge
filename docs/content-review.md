@@ -1,15 +1,18 @@
 # Content review
 
-The catalog contains 112 original/LLM-drafted, synthetic problem records
+The catalog contains 128 original/LLM-drafted, synthetic problem records
 across Grade 6 Math, Math Kangaroo Grade 6, MOEMS Division E, AMC 8 Grade 6
-prep, and the MATHCOUNTS Grade 6 draft. The records are versioned JSON and
+prep, MATHCOUNTS Grade 6, and the pending Scripps National Spelling Bee Grade 6
+draft. The records are versioned JSON and
 remain separate from generated (live-tutor) content. Every record names its
 review state; only `review.status: "reviewed"` records enter the servable
 catalog.
 
-**Current status (2026-09-18):** all 112 records are marked `reviewed` and
+**Current status (2026-09-19):** 112 records are marked `reviewed` and
 learner-servable through their isolated programs (Grade 6 Math, Math Kangaroo
-Grade 6, MOEMS Division E, AMC 8, and MATHCOUNTS Grade 6). Earlier Grade 6
+Grade 6, MOEMS Division E, AMC 8, and MATHCOUNTS Grade 6). The 16 Scripps
+records remain `pending_review` and unavailable to learners until independent
+review and product/content-owner approval. Earlier Grade 6
 Math approval was product/content-owner approval by Navodit Kaushik, not a
 separately engaged subject-matter-expert educator review; a deeper pedagogical
 audit remains a candidate follow-up before broader pilot use.

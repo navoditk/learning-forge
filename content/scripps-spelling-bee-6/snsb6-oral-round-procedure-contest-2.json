@@ -10,7 +10,7 @@
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],
-  "prompt": "Write a three-part script: acknowledge the word, ask one allowed clarification, and spell aloud calmly.",
+  "prompt": "Enter the three actions in order for a local-round practice turn: acknowledge, clarify if allowed, spell aloud.",
   "solutionRepresentation": "Include acknowledgment, a request if locally allowed, and a deliberate spelled response; do not assume a universal timer.",
   "solutionMethod": "sequence-an-oral-turn",
   "deterministicValidator": {

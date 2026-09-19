@@ -10,13 +10,13 @@
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],
-  "prompt": "A hypothetical note says: \"colorway, chiefly US; colourway, chiefly UK.\" How should the forms be described?",
+  "prompt": "Enter the concise description: colorway is chiefly US; colourway is chiefly UK variant.",
   "solutionRepresentation": "Colorway is chiefly US and colourway a chiefly UK variant; neither is universally wrong.",
   "solutionMethod": "interpret-variant-label",
   "deterministicValidator": {
     "type": "text",
     "canonicalAnswer": "colorway is chiefly US; colourway is chiefly UK variant",
-    "acceptedAnswers": ["colorway is chiefly US; colourway is chiefly UK variant", "colorway"],
+    "acceptedAnswers": ["colorway is chiefly US; colourway is chiefly UK variant"],
     "equivalenceNotes": "Accept equivalent wording only when it preserves the stated evidence and meaning."
   },
   "misconceptionCodes": ["ignores-supplied-evidence"],

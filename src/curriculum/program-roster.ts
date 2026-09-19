@@ -25,7 +25,6 @@ export const PROGRAM_ROSTER: readonly ProgramRosterEntry[] = [
   { code: 'grade-6-ela', label: 'Grade 6 ELA', available: false },
   { code: 'grade-6-science', label: 'Grade 6 Science', available: false },
   { code: 'grade-6-social-studies', label: 'Grade 6 Social Studies', available: false },
-  { code: 'scripps-spelling-bee-6', label: 'Scripps Spelling Bee (Grade 6)', available: false },
   {
     code: 'international-geography-bee-6',
     label: 'International Geography Bee (Grade 6)',

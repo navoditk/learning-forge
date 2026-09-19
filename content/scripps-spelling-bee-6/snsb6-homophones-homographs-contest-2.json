@@ -10,13 +10,13 @@
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],
-  "prompt": "In \"The bat flew from the attic,\" does bat mean an animal or sports equipment? Explain.",
+  "prompt": "Enter the meaning of bat in \"The bat flew from the attic\": animal or sports equipment.",
   "solutionRepresentation": "It means an animal because flew from the attic supplies the context.",
   "solutionMethod": "use-context-clue",
   "deterministicValidator": {
     "type": "text",
     "canonicalAnswer": "animal",
-    "acceptedAnswers": ["animal", "animal"],
+    "acceptedAnswers": ["animal"],
     "equivalenceNotes": "Accept equivalent wording only when it preserves the stated evidence and meaning."
   },
   "misconceptionCodes": ["ignores-supplied-evidence"],

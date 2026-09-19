@@ -10,13 +10,13 @@
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],
-  "prompt": "The original word \"reusable\" has a prefix, base, and suffix. Name the base and explain the parts.",
+  "prompt": "Enter the base of \"reusable\" only. The word has prefix re- and suffix -able.",
   "solutionRepresentation": "The base is use; re- means again and -able means capable of.",
   "solutionMethod": "segment-morphemes",
   "deterministicValidator": {
     "type": "text",
     "canonicalAnswer": "use",
-    "acceptedAnswers": ["use", "use"],
+    "acceptedAnswers": ["use"],
     "equivalenceNotes": "Accept equivalent wording only when it preserves the stated evidence and meaning."
   },
   "misconceptionCodes": ["ignores-supplied-evidence"],

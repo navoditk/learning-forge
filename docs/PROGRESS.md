@@ -1,5 +1,20 @@
 # Progress
 
+## 2026-09-19 — Scripps independent-review remediation
+
+- Remediated the independent review findings in the Scripps increment:
+  open-response prompts now request the short values represented by their
+  deterministic exact-match validators, placeholder answers were removed,
+  the duplicate unavailable roster entry was removed, and
+  `docs/content-review.md` now documents 128 total records with 16 Scripps
+  records pending review.
+- Validation passed: `npm run content:validate` (19 tests),
+  `npm run curriculum:validate` (19 tests), `npm run typecheck`,
+  `npm run format:check`, and `npm test` (89 tests).
+- Remaining gate: a fresh independent review must confirm the remediation
+  before product/content-owner approval; the Scripps program remains
+  unavailable.
+
 ## 2026-09-19 — Scripps Grade 6 isolated authoring increment
 
 - Confirmed the product/content owner's 2026-09-19 approval recorded in the

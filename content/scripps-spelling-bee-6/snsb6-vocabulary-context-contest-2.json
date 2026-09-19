@@ -10,13 +10,13 @@
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],
-  "prompt": "Write one sentence using invented adjective \"brindlewise\" to mean careful about small details.",
+  "prompt": "Enter the invented adjective that means careful about small details: brindlewise.",
   "solutionRepresentation": "A valid response uses brindlewise as an adjective and shows careful attention to details.",
   "solutionMethod": "compose-context",
   "deterministicValidator": {
     "type": "text",
-    "canonicalAnswer": "A valid sentence using brindlewise as an adjective",
-    "acceptedAnswers": ["A valid sentence using brindlewise as an adjective", "brindlewise"],
+    "canonicalAnswer": "brindlewise",
+    "acceptedAnswers": ["brindlewise"],
     "equivalenceNotes": "Accept equivalent wording only when it preserves the stated evidence and meaning."
   },
   "misconceptionCodes": ["ignores-supplied-evidence"],
