@@ -107,17 +107,17 @@ describe('skill catalog', () => {
     expect(moemsSection?.[1]).toContain('Two-digit lock code');
   });
 
-  it('renders authored AMC 8 content as pending and unavailable', () => {
+  it('renders approved AMC 8 content as available', () => {
     execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
     const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
     const amcSection = generatedSite.match(
       /<section class="program-section" id="program-amc-8">([\s\S]*?)<section class="program-section program-section-empty" id="program-mathcounts-6">/,
     );
 
-    expect(amcSection?.[1]).toContain('Draft — pending human approval');
+    expect(amcSection?.[1]).not.toContain('Draft — pending human approval');
     expect(amcSection?.[1]).toContain('AMC 8 (Grade 6 prep)');
     expect(amcSection?.[1]).toContain('Counting and probability');
-    expect(amcSection?.[1]).toContain('Pending review');
+    expect(amcSection?.[1]).not.toContain('Pending review');
   });
 
   it('renders accessible collapsible domains and skills', () => {

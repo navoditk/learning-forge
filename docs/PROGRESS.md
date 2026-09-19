@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-09-18 — AMC 8 content approved for serving
+
+- The product/content owner approved all sixteen AMC 8 records after the
+  strict readiness policy, contest difficulty, SVG fidelity, scale treatment,
+  and distractor remediation passed final independent review.
+- Changed all sixteen records to `review.status: "reviewed"` with reviewer
+  `Navodit Kaushik` and review date `2026-09-18`; enabled `amc-8` in the
+  shared program roster.
+- Preserved the Grade 6 prep boundary and the owner-approved contest unlock:
+  estimate at least `0.80`, `MEDIUM`/`HIGH` confidence, and a passed
+  independent delayed check.
+- Evidence: generated curriculum site contains 48 skills and 96 problems;
+  `npm run verify` passed 85 unit/contract/catalog/eval/planner tests and the
+  production build; the full integration suite passed 31/31 and the full
+  serial Playwright suite passed 21/21.
+- Next: full shipping validation, then MATHCOUNTS research.
+
 ## 2026-09-18 — AMC 8 final distractor correction
 
 - Corrected the remaining coordinate-geometry distractor mechanism: choice E

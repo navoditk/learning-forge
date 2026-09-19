@@ -22,8 +22,8 @@ describe('ratios content seed', () => {
 
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
-    expect(reviewedItems.length).toBe(80);
-    expect(pendingItems.length).toBe(16);
+    expect(reviewedItems.length).toBe(96);
+    expect(pendingItems.length).toBe(0);
     expect(pendingItems.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
     expect(pendingItems.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
     expect(pendingItems.every((item) => !item.review.reviewedAt)).toBe(true);
@@ -247,7 +247,7 @@ describe('ratios content seed', () => {
       ).toBe(true);
       expect(records.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
       expect(records.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
-      expect(records.every((item) => item.review.status === 'pending_review')).toBe(true);
+      expect(records.every((item) => item.review.status === 'reviewed')).toBe(true);
     }
 
     for (const [id, answer] of expectedAnswers) {
@@ -485,7 +485,7 @@ describe('ratios content seed', () => {
     expect(servableContentCatalog.length).toBeGreaterThan(0);
     expect(servableContentCatalog.length).toBeLessThanOrEqual(contentCatalog.length);
     expect(servableContentCatalog.every((item) => item.review.status === 'reviewed')).toBe(true);
-    expect(servableContentCatalog.every((item) => !item.skillCode.startsWith('amc8-'))).toBe(true);
+    expect(servableContentCatalog.some((item) => item.skillCode.startsWith('amc8-'))).toBe(true);
 
     // Exercise the gate's actual filtering behavior against a synthetic mix
     // of reviewed and pending_review items, independent of whatever the

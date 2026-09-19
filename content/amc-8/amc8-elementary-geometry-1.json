@@ -57,8 +57,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Independent reviewer pending",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
   },
   "accessibilityNotes": "Show the diagram with labels and provide the full text alternative; the cut-out dimensions must not rely on color alone. The figure is not drawn to scale; use the labeled 10 cm, 6 cm, 4 cm, and 3 cm measures, not the visual proportions, to solve.",

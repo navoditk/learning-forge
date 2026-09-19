@@ -50,6 +50,15 @@ test.describe('synthetic Phase 1 journeys', () => {
         .getByText('Number and place-value reasoning'),
     ).toBeVisible();
     await expect(page.getByRole('button', { name: 'Bake sale change' })).toHaveCount(0);
+
+    await page.getByLabel('Subject').selectOption('amc-8');
+    await expect(page.getByRole('heading', { name: 'Spinner complement probability' })).toBeVisible();
+    await expect(
+      page
+        .getByRole('region', { name: 'Recommended next activities' })
+        .getByText('Counting and probability'),
+    ).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Two-digit lock code' })).toHaveCount(0);
   });
 
   test('parent can see evidence linked to the learner attempt', async ({ page }) => {
