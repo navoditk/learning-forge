@@ -1258,3 +1258,38 @@ remained:
 
 Focused content/curriculum checks and `npm run verify` passed (89 tests plus
 production build). No blocker or major issue remained.
+
+## 2026-09-18 — MATHCOUNTS Grade 6 final focused independent review
+
+- **Scope:** Final cleanup commit `c54bbf0` on `51e7655`, limited to the
+  geometry analogy, numerical SVG regression, current review inventory, and
+  regression confirmation of all earlier findings.
+- **Reviewer:** Independent `curriculum-review` pass (advisory only; this
+  review does **not** change any content `review.status` field).
+- **Recommendation:** **ready for human review**.
+
+### Outcome
+
+- Verified the analogous geometry example now infers a `7 by 5` corner rather
+  than the target's `6 by 4` corner and does not disclose target
+  intermediates or answer `116`; the record is correctly versioned
+  `content-4`.
+- Independently derived the SVG's full width `14`, full height `10`, remaining
+  top edge `8`, remaining right edge `6`, and shoelace area `116` from its
+  polygon coordinates and scale. The regression test performs those same
+  calculations rather than trusting self-declared dimensions.
+- Independently counted 112 catalog records: 96 reviewed/servable across Grade
+  6 Math, Math Kangaroo, MOEMS, and AMC 8; 16 MATHCOUNTS records remain
+  `pending_review` and unavailable.
+- Reconfirmed source/scope boundaries, originality, hint protection,
+  provenance, content versions, legacy-program behavior, and every prior
+  review finding.
+- `npm run content:validate` (19), `npm run curriculum:validate` (19), and
+  `npm run verify` (89 tests plus production build) passed.
+
+### Verified findings
+
+- No remaining blocker, major, or minor findings.
+
+Human product/content-owner approval is still required before any MATHCOUNTS
+record becomes reviewed or learner-servable.
