@@ -54,6 +54,14 @@ import mc6SequencesAndPatterns from '../../content/skills/mc6-sequences-and-patt
 import mc6GeometryAreaAndAngles from '../../content/skills/mc6-geometry-area-and-angles.json';
 import mc6CountingAndProbability from '../../content/skills/mc6-counting-and-probability.json';
 import mc6LogicalReasoning from '../../content/skills/mc6-logical-reasoning.json';
+import snsb6OrthographicPatterns from '../../content/skills/snsb6-orthographic-patterns.json';
+import snsb6MorphologyRoots from '../../content/skills/snsb6-morphology-roots.json';
+import snsb6EtymologyLanguageOrigins from '../../content/skills/snsb6-etymology-language-origins.json';
+import snsb6PhonemeGraphemeMapping from '../../content/skills/snsb6-phoneme-grapheme-mapping.json';
+import snsb6HomophonesHomographs from '../../content/skills/snsb6-homophones-homographs.json';
+import snsb6VocabularyContext from '../../content/skills/snsb6-vocabulary-context.json';
+import snsb6VariantDictionaryJudgment from '../../content/skills/snsb6-variant-dictionary-judgment.json';
+import snsb6OralRoundProcedure from '../../content/skills/snsb6-oral-round-procedure.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { topologicalOrder } from './topological-sort';
 
@@ -114,6 +122,14 @@ const rawSkills = [
   mc6GeometryAreaAndAngles,
   mc6CountingAndProbability,
   mc6LogicalReasoning,
+  snsb6OrthographicPatterns,
+  snsb6MorphologyRoots,
+  snsb6EtymologyLanguageOrigins,
+  snsb6PhonemeGraphemeMapping,
+  snsb6HomophonesHomographs,
+  snsb6VocabularyContext,
+  snsb6VariantDictionaryJudgment,
+  snsb6OralRoundProcedure,
 ] as const;
 
 export function topologicalSkillOrder(skills: readonly Skill[]): string[] {

@@ -44,6 +44,13 @@ const DOMAIN_LABELS: Record<CurriculumDomain, string> = {
   'mc6-algebra-and-patterns': 'Algebra & Patterns',
   'mc6-geometry-and-measurement': 'Geometry & Measurement',
   'mc6-counting-probability-and-logic': 'Counting, Probability & Logic',
+  'snsb6-orthography': 'Orthography',
+  'snsb6-morphology': 'Morphology, Affixes & Roots',
+  'snsb6-etymology': 'Etymology & Language Origins',
+  'snsb6-phonology': 'Pronunciation & Sound Mapping',
+  'snsb6-vocabulary': 'Vocabulary & Meaning',
+  'snsb6-variants': 'Variants & Dictionary Labels',
+  'snsb6-procedure': 'Oral-Round Procedure',
 };
 
 const MODE_LABELS: Record<ContentItem['mode'], string> = {

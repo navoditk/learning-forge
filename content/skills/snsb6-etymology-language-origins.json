@@ -1,0 +1,15 @@
+{
+  "code": "snsb6-etymology-language-origins",
+  "title": "Etymology and language-of-origin reasoning",
+  "program": "scripps-spelling-bee-6",
+  "domain": "snsb6-etymology",
+  "standards": ["SNSB6-ETYM-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses a supplied origin clue to compare plausible spellings.",
+    "States what an origin clue supports and what remains uncertain."
+  ],
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent response and one delayed response in a different format; the learner must explain the linguistic or procedural evidence."
+}

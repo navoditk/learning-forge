@@ -1,0 +1,15 @@
+{
+  "code": "snsb6-vocabulary-context",
+  "title": "Vocabulary and meaning in context",
+  "program": "scripps-spelling-bee-6",
+  "domain": "snsb6-vocabulary",
+  "standards": ["SNSB6-VOCAB-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses definition, sentence, and part of speech to infer meaning.",
+    "Produces a context sentence preserving meaning and grammar."
+  ],
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent response and one delayed response in a different format; the learner must explain the linguistic or procedural evidence."
+}

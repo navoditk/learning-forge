@@ -6,6 +6,7 @@ export const CurriculumProgramSchema = z.enum([
   'moems-6',
   'amc-8',
   'mathcounts-6',
+  'scripps-spelling-bee-6',
 ]);
 
 export type CurriculumProgram = z.infer<typeof CurriculumProgramSchema>;
@@ -32,6 +33,13 @@ export const CurriculumDomainSchema = z.enum([
   'mc6-algebra-and-patterns',
   'mc6-geometry-and-measurement',
   'mc6-counting-probability-and-logic',
+  'snsb6-orthography',
+  'snsb6-morphology',
+  'snsb6-etymology',
+  'snsb6-phonology',
+  'snsb6-vocabulary',
+  'snsb6-variants',
+  'snsb6-procedure',
 ]);
 
 export type CurriculumDomain = z.infer<typeof CurriculumDomainSchema>;

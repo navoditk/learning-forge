@@ -1,0 +1,15 @@
+{
+  "code": "snsb6-morphology-roots",
+  "title": "Morphology, affixes, and roots",
+  "program": "scripps-spelling-bee-6",
+  "domain": "snsb6-morphology",
+  "standards": ["SNSB6-MORPH-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Segments an original word into meaningful parts.",
+    "Uses a root or affix to predict spelling or meaning."
+  ],
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent response and one delayed response in a different format; the learner must explain the linguistic or procedural evidence."
+}

@@ -1,0 +1,15 @@
+{
+  "code": "snsb6-orthographic-patterns",
+  "title": "Orthographic pattern reasoning",
+  "program": "scripps-spelling-bee-6",
+  "domain": "snsb6-orthography",
+  "standards": ["SNSB6-ORTH-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Identifies a letter pattern and applies it to an unseen original word.",
+    "Explains a spelling choice using position or neighboring letters."
+  ],
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent response and one delayed response in a different format; the learner must explain the linguistic or procedural evidence."
+}

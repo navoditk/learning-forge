@@ -1,0 +1,15 @@
+{
+  "code": "snsb6-oral-round-procedure",
+  "title": "School and regional oral-round procedure",
+  "program": "scripps-spelling-bee-6",
+  "domain": "snsb6-procedure",
+  "standards": ["SNSB6-PROC-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Chooses a permitted clarification request for an oral situation.",
+    "Rehearses a calm spelling routine while acknowledging local rules."
+  ],
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent response and one delayed response in a different format; the learner must explain the linguistic or procedural evidence."
+}

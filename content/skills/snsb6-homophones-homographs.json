@@ -1,0 +1,15 @@
+{
+  "code": "snsb6-homophones-homographs",
+  "title": "Homophone and homograph discrimination",
+  "program": "scripps-spelling-bee-6",
+  "domain": "snsb6-vocabulary",
+  "standards": ["SNSB6-HOM-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Selects a spelling whose meaning fits a sentence.",
+    "Explains how context disambiguates a sound-alike or same-spelling pair."
+  ],
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent response and one delayed response in a different format; the learner must explain the linguistic or procedural evidence."
+}

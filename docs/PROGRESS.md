@@ -1,5 +1,23 @@
 # Progress
 
+## 2026-09-19 — Scripps Grade 6 isolated authoring increment
+
+- Confirmed the product/content owner's 2026-09-19 approval recorded in the
+  Scripps dossier and authored eight isolated `snsb6-` skills plus sixteen
+  original, structurally distinct core/contest records.
+- Added orthography, morphology, etymology, phonology, homophone/homograph,
+  vocabulary, variant-label, and oral-procedure coverage under
+  `scripps-spelling-bee-6`.
+- All records are `llm_drafted`, `owned`, and `pending_review`; the program
+  remains unavailable. Content is framed as unofficial school/regional
+  preparation and contains no official SNSB list material. Re-verification
+  against the 2027 National Contest Rules remains required.
+- Validation evidence: `npm run content:validate`,
+  `npm run curriculum:validate`, and `npm run typecheck` are the targeted
+  checks for this increment (run after implementation).
+- Next: independent curriculum/content review, then human content approval;
+  do not enable the program before both gates pass.
+
 ## 2026-09-19 — Scripps dossier approved for authoring
 
 - Product/content owner explicitly approved the Scripps National Spelling Bee

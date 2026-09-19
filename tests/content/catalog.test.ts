@@ -10,8 +10,8 @@ import { skillCatalog } from '../../src/curriculum/catalog';
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(contentCatalog).toHaveLength(112);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(112);
+    expect(contentCatalog).toHaveLength(128);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(128);
     expect(new Set(contentCatalog.map((item) => item.skillCode))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -23,7 +23,7 @@ describe('ratios content seed', () => {
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
     expect(reviewedItems.length).toBe(112);
-    expect(pendingItems.length).toBe(0);
+    expect(pendingItems.length).toBe(16);
     expect(pendingItems.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
     expect(pendingItems.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
     expect(pendingItems.every((item) => !item.review.reviewedAt)).toBe(true);

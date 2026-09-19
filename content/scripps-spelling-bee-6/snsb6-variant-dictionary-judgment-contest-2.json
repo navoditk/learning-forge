@@ -1,0 +1,55 @@
+{
+  "id": "snsb6-variant-dictionary-judgment-contest-2",
+  "version": "content-1",
+  "title": "Choose a cautious response",
+  "skillCode": "snsb6-variant-dictionary-judgment",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-VAR-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
+  ],
+  "prompt": "A local judge says two variants are dictionary-listed but does not say which the regional bee accepts. What is safest?",
+  "solutionRepresentation": "Ask the judge or consult event guidance; local rules govern.",
+  "solutionMethod": "handle-uncertain-variant",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "Ask the judge which variant is accepted.",
+    "acceptedAnswers": ["Ask the judge which variant is accepted.", "ask judge"],
+    "equivalenceNotes": "Accept equivalent wording only when it preserves the stated evidence and meaning."
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Identify the sound, word part, context clue, label, or local-rule limitation that matters.",
+      "question": "What clue should guide your first step?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "State the relevant evidence before committing to a response.",
+      "question": "Which evidence can you cite?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Connect the evidence to your response without copying an answer from the prompt.",
+      "question": "How does the evidence support your response?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["Ask the judge which variant is accepted."],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record using the approved SNSB domain signal; it does not reproduce official SNSB list content, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text; no visual formatting or official list data is required.",
+  "accessibleAlternative": "A local judge says two variants are dictionary-listed but does not say which the regional bee accepts. What is safest?"
+}

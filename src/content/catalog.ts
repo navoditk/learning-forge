@@ -110,6 +110,22 @@ import mc6CountingAndProbability1 from '../../content/mathcounts-6/mc6-counting-
 import mc6CountingAndProbability2 from '../../content/mathcounts-6/mc6-counting-and-probability-2.json';
 import mc6LogicalReasoning1 from '../../content/mathcounts-6/mc6-logical-reasoning-1.json';
 import mc6LogicalReasoning2 from '../../content/mathcounts-6/mc6-logical-reasoning-2.json';
+import snsb6OrthographicPatterns1 from '../../content/scripps-spelling-bee-6/snsb6-orthographic-patterns-core-1.json';
+import snsb6OrthographicPatterns2 from '../../content/scripps-spelling-bee-6/snsb6-orthographic-patterns-contest-2.json';
+import snsb6MorphologyRoots1 from '../../content/scripps-spelling-bee-6/snsb6-morphology-roots-core-1.json';
+import snsb6MorphologyRoots2 from '../../content/scripps-spelling-bee-6/snsb6-morphology-roots-contest-2.json';
+import snsb6EtymologyLanguageOrigins1 from '../../content/scripps-spelling-bee-6/snsb6-etymology-language-origins-core-1.json';
+import snsb6EtymologyLanguageOrigins2 from '../../content/scripps-spelling-bee-6/snsb6-etymology-language-origins-contest-2.json';
+import snsb6PhonemeGraphemeMapping1 from '../../content/scripps-spelling-bee-6/snsb6-phoneme-grapheme-mapping-core-1.json';
+import snsb6PhonemeGraphemeMapping2 from '../../content/scripps-spelling-bee-6/snsb6-phoneme-grapheme-mapping-contest-2.json';
+import snsb6HomophonesHomographs1 from '../../content/scripps-spelling-bee-6/snsb6-homophones-homographs-core-1.json';
+import snsb6HomophonesHomographs2 from '../../content/scripps-spelling-bee-6/snsb6-homophones-homographs-contest-2.json';
+import snsb6VocabularyContext1 from '../../content/scripps-spelling-bee-6/snsb6-vocabulary-context-core-1.json';
+import snsb6VocabularyContext2 from '../../content/scripps-spelling-bee-6/snsb6-vocabulary-context-contest-2.json';
+import snsb6VariantDictionaryJudgment1 from '../../content/scripps-spelling-bee-6/snsb6-variant-dictionary-judgment-core-1.json';
+import snsb6VariantDictionaryJudgment2 from '../../content/scripps-spelling-bee-6/snsb6-variant-dictionary-judgment-contest-2.json';
+import snsb6OralRoundProcedure1 from '../../content/scripps-spelling-bee-6/snsb6-oral-round-procedure-core-1.json';
+import snsb6OralRoundProcedure2 from '../../content/scripps-spelling-bee-6/snsb6-oral-round-procedure-contest-2.json';
 import { ContentItem, ContentItemSchema } from '../contracts/content';
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
 
@@ -226,6 +242,22 @@ const rawContent = [
   mc6CountingAndProbability2,
   mc6LogicalReasoning1,
   mc6LogicalReasoning2,
+  snsb6OrthographicPatterns1,
+  snsb6OrthographicPatterns2,
+  snsb6MorphologyRoots1,
+  snsb6MorphologyRoots2,
+  snsb6EtymologyLanguageOrigins1,
+  snsb6EtymologyLanguageOrigins2,
+  snsb6PhonemeGraphemeMapping1,
+  snsb6PhonemeGraphemeMapping2,
+  snsb6HomophonesHomographs1,
+  snsb6HomophonesHomographs2,
+  snsb6VocabularyContext1,
+  snsb6VocabularyContext2,
+  snsb6VariantDictionaryJudgment1,
+  snsb6VariantDictionaryJudgment2,
+  snsb6OralRoundProcedure1,
+  snsb6OralRoundProcedure2,
 ] as const;
 
 export function validateContentCatalog(items: readonly unknown[] = rawContent): ContentItem[] {
