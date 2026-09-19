@@ -1,6 +1,6 @@
 {
   "id": "mc6-sequences-and-patterns-2",
-  "version": "content-2",
+  "version": "content-3",
   "title": "Sum of the first twenty terms",
   "skillCode": "mc6-sequences-and-patterns",
   "mode": "contest",
@@ -20,7 +20,7 @@
       "incorrectPoints": 0,
       "blankPoints": 0
     },
-    "eligibility": "Full-time students in grades 6-8 are eligible for the MATHCOUNTS Competition Series, subject to the official school or Non-School Competitor registration rules."
+    "eligibility": "Students in grades 6-8 are eligible for the MATHCOUNTS Competition Series, subject to the official school or Non-School Competitor registration rules."
   },
   "solutionRepresentation": "The common difference is 4. The 20th term is 3 + 19 x 4 = 3 + 76 = 79. Pair the first and last terms: each of the 10 pairs (first with last, second with second-to-last, and so on) adds to 3 + 79 = 82. The sum is 10 x 82 = 820.",
   "solutionMethod": "Find the last term, then multiply the number of terms by the average of the first and last term.",

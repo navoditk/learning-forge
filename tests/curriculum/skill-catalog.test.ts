@@ -117,7 +117,7 @@ describe('skill catalog', () => {
     expect(mathcountsSection?.[1]).toContain('pending independent review');
     expect(mathcountsSection?.[1]).not.toContain('passed independent review');
     // The public draft page never renders answers or hints.
-    expect(mathcountsSection?.[1]).not.toContain('88 square');
+    expect(mathcountsSection?.[1]).not.toContain('116 square');
   });
 
   it('renders available authored programs in the curriculum site', () => {

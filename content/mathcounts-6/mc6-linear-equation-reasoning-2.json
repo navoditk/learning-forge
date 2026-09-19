@@ -1,6 +1,6 @@
 {
   "id": "mc6-linear-equation-reasoning-2",
-  "version": "content-2",
+  "version": "content-3",
   "title": "Quarters and dimes",
   "skillCode": "mc6-linear-equation-reasoning",
   "mode": "contest",
@@ -20,7 +20,7 @@
       "incorrectPoints": 0,
       "blankPoints": 0
     },
-    "eligibility": "Full-time students in grades 6-8 are eligible for the MATHCOUNTS Competition Series, subject to the official school or Non-School Competitor registration rules."
+    "eligibility": "Students in grades 6-8 are eligible for the MATHCOUNTS Competition Series, subject to the official school or Non-School Competitor registration rules."
   },
   "solutionRepresentation": "Let q be the number of quarters, so the number of dimes is q + 4. Work in cents: quarters contribute 25q and dimes contribute 10(q + 4), and the total is 320 cents. So 25q + 10(q + 4) = 320. Distribute: 25q + 10q + 40 = 320. Combine: 35q + 40 = 320, so 35q = 280 and q = 8. Check: 8 quarters is 200 cents and 12 dimes is 120 cents, totaling 320 cents.",
   "solutionMethod": "Write each coin count in one variable, express total value in cents, distribute, and solve.",

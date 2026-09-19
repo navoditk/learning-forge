@@ -1,6 +1,6 @@
 {
   "id": "mc6-number-theory-fundamentals-1",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Largest identical bouquets",
   "skillCode": "mc6-number-theory-fundamentals",
   "mode": "core",
@@ -36,7 +36,7 @@
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "If you had 12 apples and 18 pears, the greatest number of identical fruit baskets is the greatest common factor of 12 and 18.",
+      "prompt": "If you had 20 apples and 28 pears, the greatest number of identical fruit baskets is the greatest common factor of 20 and 28.",
       "question": "How does that same idea give the number of bouquets here?"
     }
   ],

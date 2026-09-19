@@ -1138,3 +1138,97 @@ not ready for human review
 ### Recommendation
 
 **ready for human review**
+
+## 2026-09-18 — MATHCOUNTS Grade 6 initial independent review
+
+- **Scope:** Authoring baseline `899511d`: eight `mc6-` skills, sixteen
+  `content/mathcounts-6/` records, MATHCOUNTS contest contracts/catalog
+  validation, curriculum-site rendering, tests, and current documentation.
+- **Reviewer:** Independent `curriculum-review` pass (advisory only; no content
+  status or availability changed).
+- **Recommendation:** **not ready for human review**.
+
+### Verified findings
+
+1. **Major, high confidence — false prerequisite gate.**
+   `mc6-fraction-percent-fluency` gated the entire proportional-reasoning skill
+   because one contest item composed rate and percent work, even though the
+   foundational core rate evidence did not require percent mastery.
+2. **Major, high confidence — target-answer leakage.**
+   `mc6-logical-reasoning-2`'s third hint supplied the target configuration
+   and resolved the final speaker rather than providing a distinct analogy.
+3. **Major, high confidence — unsupported geometry mastery claims.**
+   The skill claimed composite perimeter and triangle-angle evidence that
+   neither authored record assessed.
+4. **Major, high confidence — legacy schema validation weakened.**
+   Making choices optional and adding calculator-permitted metadata allowed
+   malformed legacy contest shapes unless program-specific catalog validation
+   happened to catch them.
+5. **Major, high confidence — inaccurate public review claim.**
+   The generated draft page said pending MATHCOUNTS content had passed
+   independent review.
+6. **Minor, high confidence — requested answer form ignored.**
+   The probability record requested a lowest-term fraction but accepted a
+   decimal.
+7. **Minor, high confidence — valid currency forms rejected.**
+   The bicycle-price record omitted equivalent two-decimal currency forms.
+
+### Evidence and outcome
+
+- Independently recomputed all sixteen canonical answers and checked free-
+  response validators, hints, the SVG, source/format fidelity, originality,
+  pending-review state, and serving exclusion.
+- The approved Sprint/Target, Team/Countdown, and school/chapter boundaries
+  were otherwise preserved.
+- Focused content/curriculum checks and `npm run verify` passed with 89 tests
+  and the production build.
+
+## 2026-09-18 — MATHCOUNTS Grade 6 focused re-review after first remediation
+
+- **Scope:** Baseline `899511d` plus remediation `a235f0a`; all first-review
+  findings and complete MATHCOUNTS regression scope.
+- **Reviewer:** Independent `curriculum-review` pass (advisory only; no content
+  status or availability changed).
+- **Recommendation:** **not ready for human review**.
+
+### First-review resolution
+
+All seven initial findings were verified resolved: the false gate was removed,
+the leaking logic hint replaced, geometry claims narrowed, legacy schema
+guards restored, public draft wording corrected, fraction form enforced, and
+currency forms expanded. Changed records were version-bumped and remained
+pending.
+
+### New verified findings
+
+1. **Major, high confidence — routine geometry contest item.**
+   `mc6-geometry-area-and-angles-2` was direct rectangle subtraction with all
+   dimensions supplied, duplicating a developing Grade 6 task rather than the
+   approved contest tier's multi-concept transfer.
+2. **Minor, high confidence — unsupported eligibility wording.**
+   Contest metadata promoted `full-time` from learner context into an
+   eligibility claim not stated in the approved dossier's eligibility line.
+3. **Minor, medium confidence — analogous GCF answer collision.**
+   The worked example's GCF equaled the target canonical answer.
+4. **Minor, high confidence — hint progression regression.**
+   The remediated logic ladder ended with a second representation hint rather
+   than a distinct analogous worked example.
+5. **Minor, high confidence — mastery/validator mismatch.**
+   Geometry mastery demanded explicit units while the deterministic validator
+   allowed a bare number.
+6. **Minor, high confidence — missing repository review trail.**
+   The MATHCOUNTS findings and remediation claim were not yet traceable in
+   this review log.
+7. **Minor, medium confidence — inconsistent leakage guards.**
+   Several safe-to-guard canonical answers were absent from
+   `forbiddenLeakagePatterns`.
+
+### Evidence and outcome
+
+- Re-derived every answer and verified the prior seven fixes, all content
+  versions, round metadata, source boundaries, figure scale, accessibility,
+  pending/unavailable gates, and legacy program behavior.
+- `npm run verify`, focused content/curriculum validation, generated-site
+  inspection, and the 31-test integration suite passed.
+- Human review remained blocked pending remediation and another independent
+  pass.

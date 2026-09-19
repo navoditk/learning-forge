@@ -1,6 +1,6 @@
 {
   "id": "mc6-logical-reasoning-1",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Who finished first",
   "skillCode": "mc6-logical-reasoning",
   "mode": "core",
@@ -40,7 +40,13 @@
       "question": "Applying that reasoning, who must take the remaining first place?"
     }
   ],
-  "forbiddenLeakagePatterns": ["Cy was first", "Cy is first", "answer is Cy", "Cy finished first"],
+  "forbiddenLeakagePatterns": [
+    "Cy",
+    "Cy was first",
+    "Cy is first",
+    "answer is Cy",
+    "Cy finished first"
+  ],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"

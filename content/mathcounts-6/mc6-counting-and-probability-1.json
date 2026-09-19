@@ -1,6 +1,6 @@
 {
   "id": "mc6-counting-and-probability-1",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Lunch special combinations",
   "skillCode": "mc6-counting-and-probability",
   "mode": "core",
@@ -40,7 +40,7 @@
       "question": "How does the two-category product idea stretch to three categories?"
     }
   ],
-  "forbiddenLeakagePatterns": ["24 different", "twenty-four", "is 24"],
+  "forbiddenLeakagePatterns": ["24", "24 different", "twenty-four", "is 24"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"

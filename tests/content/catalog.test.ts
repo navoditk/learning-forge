@@ -374,7 +374,7 @@ describe('ratios content seed', () => {
       ['mc6-sequences-and-patterns-1', '67'],
       ['mc6-sequences-and-patterns-2', '820'],
       ['mc6-geometry-area-and-angles-1', '31'],
-      ['mc6-geometry-area-and-angles-2', '88'],
+      ['mc6-geometry-area-and-angles-2', '116'],
       ['mc6-counting-and-probability-1', '24'],
       ['mc6-counting-and-probability-2', '1/4'],
       ['mc6-logical-reasoning-1', 'Cy'],
@@ -414,6 +414,17 @@ describe('ratios content seed', () => {
     expect(bicyclePrice?.deterministicValidator.acceptedAnswers).toEqual(
       expect.arrayContaining(['240.00', '$240.00', '240.00 dollars']),
     );
+
+    const geometry = contentCatalog.find((item) => item.id === 'mc6-geometry-area-and-angles-2');
+    const svg = geometry?.figure?.svgMarkup ?? '';
+    const scale = Number(svg.match(/data-unit-px="([^"]+)"/)?.[1]);
+    const removedCorner = svg.match(
+      /data-role="removed-corner" data-width-m="([^"]+)" data-height-m="([^"]+)" x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)"/,
+    );
+    expect(scale).toBe(20);
+    expect(removedCorner).toBeTruthy();
+    expect(Number(removedCorner![5]) / scale).toBe(Number(removedCorner![1]));
+    expect(Number(removedCorner![6]) / scale).toBe(Number(removedCorner![2]));
 
     for (const [id, answer] of expectedAnswers) {
       const item = contentCatalog.find((candidate) => candidate.id === id);

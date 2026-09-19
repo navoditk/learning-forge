@@ -1,5 +1,29 @@
 # Progress
 
+## 2026-09-18 — MATHCOUNTS second-review remediation
+
+- The focused re-review confirmed all seven first-pass fixes, then found one
+  remaining major difficulty-calibration defect and six minor audit,
+  hint-progression, source-wording, answer-form, and leakage-guard defects.
+- Rewrote the geometry Target record as multi-concept transfer: the learner
+  must infer both missing-corner dimensions from full and remaining side
+  lengths before subtracting areas. Updated the scaled accessible SVG,
+  solution, hints, validator, and numerical figure regression; the new
+  canonical answer is `116`.
+- Removed the unsupported word `full-time` from contest eligibility metadata
+  while retaining the approved grades 6-8 and school/Non-School Competitor
+  registration caveat. Restored a genuinely different analogous logic example
+  and changed the GCF example so it cannot disclose the target answer.
+- Aligned geometry mastery with the validator evidence and strengthened safe
+  bare-answer leakage guards. Added the missing MATHCOUNTS first- and
+  second-review audit trail to `docs/content-review.md`.
+- All records remain `pending_review`; the program remains unavailable.
+- Validation passes end to end: `npm run verify` (89
+  unit/contract/catalog/eval/planner tests plus production build), integration
+  31/31, and serial Playwright 21/21.
+- Next: complete validation and a final focused independent review before
+  human approval.
+
 ## 2026-09-18 — MATHCOUNTS first-review remediation
 
 - Remediated all seven findings from the independent review of authoring

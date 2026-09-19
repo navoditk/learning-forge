@@ -1,6 +1,6 @@
 {
   "id": "mc6-geometry-area-and-angles-1",
-  "version": "content-2",
+  "version": "content-3",
   "title": "Splitting the leftover angle",
   "skillCode": "mc6-geometry-area-and-angles",
   "mode": "core",
@@ -40,7 +40,7 @@
       "question": "How does that halving step apply to your leftover angle?"
     }
   ],
-  "forbiddenLeakagePatterns": ["each angle is 31", "is 31 degrees", "thirty-one"],
+  "forbiddenLeakagePatterns": ["31", "each angle is 31", "is 31 degrees", "thirty-one"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
