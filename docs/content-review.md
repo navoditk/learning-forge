@@ -677,7 +677,6 @@ npm run content:validate
 
 not ready for human review
 
-
 ## 2026-09-18 — MOEMS prerequisite remediation re-review
 
 - **Scope:** current uncommitted MOEMS prerequisite remediation on top of commit `994eaf0`; reviewed the five `content/skills/moems6-*.json` skill records, the four changed `content/moems-6/moems6-{patterns-and-counting,geometry-and-measurement}-*.json` records, the retained cryptarithm edge, and the focused validation outputs.
@@ -1088,3 +1087,54 @@ contest records.
 - `docs/PROGRESS.md` — appended a concise review-status entry only.
 
 not ready for human review
+
+## 2026-09-18 — AMC 8 final focused independent review of `ead188a`
+
+- **Scope:** Independently reviewed commit `ead188a` in the context of
+  remediation commit `c654f34` and the prior AMC 8 reviews above. This report
+  is advisory and does not change curriculum, contracts, catalog, planner,
+  tests, `review.status`, or program availability.
+- **Coordinate-geometry correction:** In
+  `content/amc-8/amc8-coordinate-geometry-2.json`, choice E now reverses only
+  the horizontal difference, `2 - 5 = -3`, while retaining the vertical
+  difference, `4 - 2 = 2`. The signed cutout area is therefore `-3 * 2 = -6`,
+  and `24 - (-6) = 30`, matching choice E exactly. The misconception code
+  `subtracts-coordinates-in-wrong-order` and its rationale describe the same
+  mechanism.
+- **Version and preservation:** The record is `content-3`. Compared with
+  `c654f34`, the only curriculum-record changes are the version bump and
+  choice-E rationale; the prompt, answer choices and mappings, figure and
+  accessibility text, hints, validator, solution, leakage patterns,
+  provenance, and `pending_review` state are unchanged.
+- **Prior findings:** The six findings from the `c654f34` re-review remain
+  resolved. The strict owner-approved readiness gate remains catalog-enforced
+  for every AMC 8 contest record with
+  `{ minEstimate: 0.8, disallowLowConfidence: true,
+  requireIndependentDelayedCheck: true }`; AMC 8 remains pending and
+  unavailable. No new prerequisite, metadata, accessibility, originality,
+  pedagogy, subject-accuracy, or other technical finding was identified.
+- **Verified findings:** None. There are no remaining blocker, major, or minor
+  findings in this focused pass. Existing originality and historical
+  contest-difficulty checks remain human-review considerations, not verified
+  defects in this commit.
+
+### Validation outcomes
+
+- `npm run content:validate` — passed, 17 tests.
+- `npm run curriculum:validate` — passed, 17 tests.
+- `npx vitest run tests/content/catalog.test.ts tests/planner/plan-next-activities.test.ts`
+  — passed, 29 tests.
+- `npm run verify` — passed formatting, lint, typecheck, migration
+  down-migration check, 85 tests, and production build.
+- Field-level comparison against `c654f34` — confirmed only the intended
+  version/rationale changes.
+- `git diff --check c654f34..ead188a` — passed.
+
+### Files changed by this review
+
+- `docs/content-review.md`
+- `docs/PROGRESS.md`
+
+### Recommendation
+
+**ready for human review**

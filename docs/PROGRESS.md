@@ -2020,6 +2020,24 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   educator/content owner must still set `review.status: "reviewed"` before
   any record is servable.
 - Next: `mk6-independent-review` via the `curriculum-reviewer` agent/skill.
+## 2026-09-18 — AMC 8 final focused independent review of `ead188a`
+
+- Confirmed choice E in `content/amc-8/amc8-coordinate-geometry-2.json`:
+  reverse only `x` to get `-3`, retain `y = 2`, derive signed cutout area
+  `-6`, and calculate `24 - (-6) = 30`. The misconception code and rationale
+  align, and the record is version `content-3`.
+- Confirmed the prompt, answer choices and mappings, figure and accessibility
+  text, hints, validator, solution, leakage patterns, provenance, and
+  `pending_review` state are unchanged from `c654f34`.
+- Reconfirmed all prior re-review findings remain resolved, the exact
+  owner-approved AMC 8 readiness gate is catalog-enforced, AMC 8 remains
+  pending/unavailable, and no blocker, major, or minor finding remains.
+- Validation passed: `npm run content:validate` (17), `npm run
+  curriculum:validate` (17), focused catalog/planner tests (29), and
+  `npm run verify` (85 tests plus production build). Field-level preservation
+  and `git diff --check c654f34..ead188a` also passed.
+- Recommendation: **ready for human review**.
+
 ## 2026-09-18 — MOEMS prerequisite remediation re-review
 
 - Re-checked the current uncommitted prerequisite fix on top of commit `994eaf0`: the two unjustified place-value edges were removed from `moems6-patterns-and-counting` and `moems6-geometry-and-measurement`, and those same changes are mirrored in the four affected content records.
