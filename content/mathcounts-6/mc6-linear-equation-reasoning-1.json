@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved algebraic-expressions-and-equations family; no official MATHCOUNTS problem, wording, or solution is reproduced."
   },
   "accessibilityNotes": "No figure is required; the relationship is stated entirely in words.",

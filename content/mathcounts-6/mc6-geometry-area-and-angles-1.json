@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved plane-geometry and measurement family; no official MATHCOUNTS problem, wording, or solution is reproduced."
   },
   "accessibilityNotes": "No figure is required; the straight-line total, the known angle, and the equal-split condition are stated in words.",

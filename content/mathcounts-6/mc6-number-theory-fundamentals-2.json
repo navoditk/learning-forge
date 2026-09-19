@@ -57,8 +57,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS Sprint-style problem written from first principles using the approved number-theory family; no official MATHCOUNTS problem, value set, or solution is reproduced or paraphrased."
   },
   "accessibilityNotes": "The problem is purely numerical and needs no figure; divisors and the required remainder are stated in words.",

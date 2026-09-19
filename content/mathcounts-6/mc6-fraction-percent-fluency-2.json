@@ -60,8 +60,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS Target-style problem written from first principles using the approved percents family; no official MATHCOUNTS problem, value set, or solution is reproduced or paraphrased."
   },
   "accessibilityNotes": "No figure is required; the starting price and the two percent changes are stated in text.",

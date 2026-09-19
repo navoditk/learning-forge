@@ -79,7 +79,7 @@ test.describe('Phase 1 API route validation and error paths', () => {
   });
 
   test('program-scoped routes reject unavailable and mismatched curricula', async ({ request }) => {
-    const unavailable = await request.get('/api/phase1/plan?program=mathcounts-6');
+    const unavailable = await request.get('/api/phase1/plan?program=grade-6-ela');
     expect(unavailable.status()).toBe(400);
 
     const mismatched = await request.get(
@@ -102,5 +102,15 @@ test.describe('Phase 1 API route validation and error paths', () => {
     const amcPlan = await (await request.get('/api/phase1/plan?program=amc-8')).json();
     expect(amcPlan.items.length).toBeGreaterThan(0);
     expect(amcPlan.items.every((item: { mode: string }) => item.mode === 'core')).toBe(true);
+
+    const mathcountsPlan = await (
+      await request.get('/api/phase1/plan?program=mathcounts-6')
+    ).json();
+    expect(mathcountsPlan.items.length).toBeGreaterThan(0);
+    expect(
+      mathcountsPlan.items.every((item: { skillCode: string }) =>
+        item.skillCode.startsWith('mc6-'),
+      ),
+    ).toBe(true);
   });
 });

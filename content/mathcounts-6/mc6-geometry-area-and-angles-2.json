@@ -71,8 +71,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS Target-style problem and figure drawn from first principles for the approved geometry-and-measurement family; no official MATHCOUNTS problem, diagram, value set, or solution is reproduced or paraphrased."
   },
   "accessibilityNotes": "The dashed rectangle marks the removed corner using shape, not color; every dimension is also given in the text so the figure is not required.",

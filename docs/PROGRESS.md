@@ -1,5 +1,20 @@
 # Progress
 
+## 2026-09-18 — MATHCOUNTS content approved for serving
+
+- The product/content owner approved all sixteen MATHCOUNTS Grade 6 records
+  after the final independent review found no remaining defects.
+- Marked all records `reviewed` by `Navodit Kaushik` on `2026-09-18` and
+  enabled `mathcounts-6` in the shared program roster.
+- Preserved the approved first-release boundary: isolated school/chapter
+  Sprint and Target preparation, no Team Round mode, no comprehensive
+  state/national-readiness claim, and no mandatory Countdown gate.
+- Evidence: generated curriculum site contains 56 skills and 112 problems;
+  `npm run verify` passed 89 unit/contract/catalog/eval/planner tests and the
+  production build; the integration suite passed 31/31 and the full serial
+  Playwright suite passed 21/21.
+- Next: commit the approved release.
+
 ## 2026-09-18 — MATHCOUNTS final independent review passed
 
 - The final focused independent review of cleanup commit `c54bbf0` found no

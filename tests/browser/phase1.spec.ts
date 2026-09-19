@@ -61,6 +61,17 @@ test.describe('synthetic Phase 1 journeys', () => {
         .getByText('Counting and probability'),
     ).toBeVisible();
     await expect(page.getByRole('button', { name: 'Two-digit lock code' })).toHaveCount(0);
+
+    await page.getByLabel('Subject').selectOption('mathcounts-6');
+    await expect(page.getByRole('heading', { name: 'Largest identical bouquets' })).toBeVisible();
+    await expect(
+      page
+        .getByRole('region', { name: 'Recommended next activities' })
+        .getByText('Number theory fundamentals'),
+    ).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Spinner complement probability' })).toHaveCount(
+      0,
+    );
   });
 
   test('parent can see evidence linked to the learner attempt', async ({ page }) => {

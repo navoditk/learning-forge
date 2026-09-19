@@ -22,8 +22,8 @@ describe('ratios content seed', () => {
 
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
-    expect(reviewedItems.length).toBe(96);
-    expect(pendingItems.length).toBe(16);
+    expect(reviewedItems.length).toBe(112);
+    expect(pendingItems.length).toBe(0);
     expect(pendingItems.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
     expect(pendingItems.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
     expect(pendingItems.every((item) => !item.review.reviewedAt)).toBe(true);
@@ -393,14 +393,13 @@ describe('ratios content seed', () => {
             item.prerequisiteSkillCodes.join('|') === skill.prerequisiteSkillCodes.join('|'),
         ),
       ).toBe(true);
-      // MATHCOUNTS is not yet approved: every record stays llm_drafted, owned,
-      // and pending independent review, and must never leak into the servable
-      // catalog.
+      // MATHCOUNTS remains model-assisted and owned after human approval.
       expect(records.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
       expect(records.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
-      expect(records.every((item) => item.review.status === 'pending_review')).toBe(true);
-      expect(records.every((item) => !item.review.reviewedAt)).toBe(true);
-      expect(servableContentCatalog.some((item) => item.skillCode === skill.code)).toBe(false);
+      expect(records.every((item) => item.review.status === 'reviewed')).toBe(true);
+      expect(records.every((item) => item.review.reviewer === 'Navodit Kaushik')).toBe(true);
+      expect(records.every((item) => item.review.reviewedAt === '2026-09-18')).toBe(true);
+      expect(servableContentCatalog.some((item) => item.skillCode === skill.code)).toBe(true);
     }
 
     expect(mathcountsSkills.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);

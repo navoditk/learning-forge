@@ -27,10 +27,9 @@ The full skill graph and sample problems (answers/hints excluded) are published 
 directly from `skillCatalog`/`contentCatalog` by `scripts/generate-curriculum-site.ts`. It
 regenerates automatically on every push to `main` (`.github/workflows/curriculum-site.yml`), so
 it can never drift from what's actually shipped. Each `Skill` carries a `program` field.
-Grade 6 Math, Math Kangaroo, MOEMS Division E, and AMC 8 Grade 6 prep are currently available as
-isolated learner journeys. MATHCOUNTS Grade 6 is authored as a draft and remains unavailable to
-learners pending independent review and human approval. Future programs such as Grade 6 ELA can be
-added as new top-level sections without restructuring existing content.
+Grade 6 Math, Math Kangaroo, MOEMS Division E, AMC 8 Grade 6 prep, and MATHCOUNTS Grade 6 are
+currently available as isolated learner journeys. Future programs such as Grade 6 ELA can be added
+as new top-level sections without restructuring existing content.
 
 ## Initial Math skill graph
 
@@ -152,7 +151,7 @@ preference. Core-first contest access is enforced by the existing planner:
 when a skill has both core and contest records, contest records are not planned
 until structured mastery evidence exists for that skill.
 
-## MATHCOUNTS Grade 6 skill graph (draft — pending review)
+## MATHCOUNTS Grade 6 skill graph
 
 Additive contest-preparation program for the same Grade 6 learner
 (`program: "mathcounts-6"`); the approved source dossier is the
@@ -191,9 +190,10 @@ matching the official Sprint/Target short-answer format, and carry
 program-specific `contestFormat` metadata that encodes an explicit round per
 record: Sprint (1 point, no calculators) or Target (2 points, calculators
 permitted). No record implies a full simulated competition, defines
-multiple-choice answers, or uses the AMC 8 readiness gate. All 16 records are
-`llm_drafted`, `owned`, and `pending_review`; `mathcounts-6` stays unavailable
-to learners until independent review and human approval.
+multiple-choice answers, or uses the AMC 8 readiness gate. All 16
+`llm_drafted`/`owned` records completed independent review and were approved by
+the product/content owner on 2026-09-18; `mathcounts-6` is learner-available
+as an isolated journey.
 
 ### Prerequisite self-audit
 

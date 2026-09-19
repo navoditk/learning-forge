@@ -7,11 +7,10 @@ remain separate from generated (live-tutor) content. Every record names its
 review state; only `review.status: "reviewed"` records enter the servable
 catalog.
 
-**Current status (2026-09-18):** 96 records are marked `reviewed` and
-learner-servable through their available programs (Grade 6 Math, Math Kangaroo
-Grade 6, MOEMS Division E, and AMC 8). The 16 MATHCOUNTS records remain
-`pending_review`, and `mathcounts-6` remains unavailable. Earlier Grade 6 Math
-approval was product/content-owner approval by Navodit Kaushik, not a
+**Current status (2026-09-18):** all 112 records are marked `reviewed` and
+learner-servable through their isolated programs (Grade 6 Math, Math Kangaroo
+Grade 6, MOEMS Division E, AMC 8, and MATHCOUNTS Grade 6). Earlier Grade 6
+Math approval was product/content-owner approval by Navodit Kaushik, not a
 separately engaged subject-matter-expert educator review; a deeper pedagogical
 audit remains a candidate follow-up before broader pilot use.
 
@@ -25,11 +24,12 @@ prep records completed independent review and product/content-owner approval
 and are learner-servable through the isolated `amc-8` program behind its
 strict readiness gate.
 
-**MATHCOUNTS draft handoff (2026-09-18):** The catalog also contains 16
+**MATHCOUNTS status (2026-09-18):** The catalog also contains 16
 original `llm_drafted` MATHCOUNTS Grade 6 records across eight `mc6-` skills.
 Each skill has one core-prep record and one Sprint- or Target-style contest
-free-response record. All 16 remain `review.status: "pending_review"` and are
-excluded from the servable catalog because `mathcounts-6` is unavailable.
+free-response record. All 16 completed independent review and were approved by
+the product/content owner on 2026-09-18; they are learner-servable through the
+isolated `mathcounts-6` program.
 
 ## Review checklist
 

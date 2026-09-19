@@ -62,8 +62,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS Sprint-style logic problem written from first principles using the classic knights-and-knaves idea; no official MATHCOUNTS problem, wording, or solution is reproduced or paraphrased."
   },
   "accessibilityNotes": "No figure is required; all three statements are stated in text and can be tracked in a written table of possibilities.",

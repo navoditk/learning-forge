@@ -52,8 +52,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS-style core logic problem written for this repository from the approved logic family; no official MATHCOUNTS problem, wording, or solution is reproduced."
   },
   "accessibilityNotes": "No figure is required; all clues are stated in text and can be tracked in a written list.",

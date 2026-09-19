@@ -46,8 +46,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved dossier's number-theory family; no official MATHCOUNTS problem, wording, value set, or solution is reproduced."
   },
   "accessibilityNotes": "All quantities are textual; no figure is required because the two flower counts and the grouping rule are fully described in words.",

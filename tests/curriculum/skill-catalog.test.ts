@@ -104,19 +104,17 @@ describe('skill catalog', () => {
     expect(mathcountsSkills.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);
   });
 
-  it('renders MATHCOUNTS as an authored draft that stays unavailable to learners', () => {
+  it('renders approved MATHCOUNTS content as available', () => {
     execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
     const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
     const mathcountsSection = generatedSite.match(
       /<section class="program-section" id="program-mathcounts-6">([\s\S]*?)(?:<section class="program-section|<\/main>)/,
     );
     expect(mathcountsSection?.[1]).toBeTruthy();
-    expect(mathcountsSection?.[1]).toContain('Draft — pending human approval');
     expect(mathcountsSection?.[1]).toContain('Number theory fundamentals');
-    expect(mathcountsSection?.[1]).toContain('Pending review');
-    expect(mathcountsSection?.[1]).toContain('pending independent review');
-    expect(mathcountsSection?.[1]).not.toContain('passed independent review');
-    // The public draft page never renders answers or hints.
+    expect(mathcountsSection?.[1]).not.toContain('Draft — pending human approval');
+    expect(mathcountsSection?.[1]).not.toContain('Pending review');
+    // The public curriculum page never renders answers or hints.
     expect(mathcountsSection?.[1]).not.toContain('116 square');
   });
 

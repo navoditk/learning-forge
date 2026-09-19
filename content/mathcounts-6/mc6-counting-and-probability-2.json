@@ -57,8 +57,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS Sprint-style probability problem written from first principles using the approved counting-and-probability family; no official MATHCOUNTS problem, value set, or solution is reproduced or paraphrased."
   },
   "accessibilityNotes": "No figure is required; the dice and the target condition are described in text, and outcomes can be organized in a written list.",

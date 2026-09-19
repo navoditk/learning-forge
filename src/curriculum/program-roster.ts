@@ -16,7 +16,7 @@ export const PROGRAM_ROSTER: readonly ProgramRosterEntry[] = [
   { code: 'math-kangaroo-6', label: 'Math Kangaroo (Grade 6)', available: true },
   { code: 'moems-6', label: 'MOEMS Division E (Grade 6)', available: true },
   { code: 'amc-8', label: 'AMC 8 (Grade 6 prep)', available: true },
-  { code: 'mathcounts-6', label: 'MATHCOUNTS (Grade 6)', available: false },
+  { code: 'mathcounts-6', label: 'MATHCOUNTS (Grade 6)', available: true },
   { code: 'grade-6-ela', label: 'Grade 6 ELA', available: false },
   { code: 'grade-6-science', label: 'Grade 6 Science', available: false },
   { code: 'grade-6-social-studies', label: 'Grade 6 Social Studies', available: false },

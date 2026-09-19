@@ -57,8 +57,9 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "Pending independent curriculum review",
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "reviewedAt": "2026-09-18",
     "originalityStatement": "Original MATHCOUNTS Sprint-style problem written from first principles using the approved equations family; no official MATHCOUNTS problem, value set, or solution is reproduced or paraphrased."
   },
   "accessibilityNotes": "No figure is required; coin types, the total value, and the comparison clue are stated in text.",
