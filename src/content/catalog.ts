@@ -247,6 +247,9 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
       if (![3, 4, 5].includes(item.contestFormat.pointValue)) {
         throw new Error(`${item.id} must use Math Kangaroo 3/4/5 point tiers`);
       }
+      if (item.contestFormat.calculatorPolicy === 'calculators_permitted') {
+        throw new Error(`${item.id} must not permit calculators in Math Kangaroo contest mode`);
+      }
       if (item.deterministicValidator.type !== 'multiple_choice') {
         throw new Error(`${item.id} must use a multiple-choice validator in contest mode`);
       }

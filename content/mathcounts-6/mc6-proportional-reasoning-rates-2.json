@@ -1,12 +1,12 @@
 {
   "id": "mc6-proportional-reasoning-rates-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Mango price after a raise",
   "skillCode": "mc6-proportional-reasoning-rates",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MC6-PR-01"],
-  "prerequisiteSkillCodes": ["mc6-fraction-percent-fluency"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Chains a unit rate with a percent increase and scales it to a new quantity to find a total cost."
   ],
@@ -20,7 +20,7 @@
       "incorrectPoints": 0,
       "blankPoints": 0
     },
-    "eligibility": "The MATHCOUNTS Competition Series is open to grades 6-8; a Grade 6 learner is eligible per the official rules."
+    "eligibility": "Full-time students in grades 6-8 are eligible for the MATHCOUNTS Competition Series, subject to the official school or Non-School Competitor registration rules."
   },
   "solutionRepresentation": "The regular price of one mango is $6.00 divided by 5, which is $1.20. Raising it by 10% gives Friday's price: 1.20 x 1.10 = 1.32 dollars per mango. Eight mangoes cost 1.32 x 8 = 10.56 dollars.",
   "solutionMethod": "Find the unit price, apply the percent increase to one mango, then multiply by the number of mangoes.",

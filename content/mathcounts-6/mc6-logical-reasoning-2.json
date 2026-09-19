@@ -1,6 +1,6 @@
 {
   "id": "mc6-logical-reasoning-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Knights and knaves count",
   "skillCode": "mc6-logical-reasoning",
   "mode": "contest",
@@ -20,7 +20,7 @@
       "incorrectPoints": 0,
       "blankPoints": 0
     },
-    "eligibility": "The MATHCOUNTS Competition Series is open to grades 6-8; a Grade 6 learner is eligible per the official rules."
+    "eligibility": "Full-time students in grades 6-8 are eligible for the MATHCOUNTS Competition Series, subject to the official school or Non-School Competitor registration rules."
   },
   "solutionRepresentation": "Suppose P is a knight; then P's claim 'Q is a knight' is true, so Q is a knight. But then Q, a knight, truthfully says P and Q are different types, which contradicts both being knights. So P is a knave. Then P's claim is false, so Q is not a knight, meaning Q is also a knave. Q the knave says P and Q are different types; that statement is false, so P and Q are actually the same type, which fits both being knaves. Now R claims at least one of P and Q is a knight, but both are knaves, so that claim is false; therefore R is a knave. All three are knaves, so the number of knights is 0.",
   "solutionMethod": "Assume a type for P, propagate the truth or lie rules through Q and R, and keep the assignment that is fully consistent.",
@@ -46,9 +46,9 @@
     },
     {
       "order": 3,
-      "assistanceLevel": "analogous_worked_example",
-      "prompt": "If a speaker says 'at least one of those two is a knight' but both of those two are liars, then the speaker's claim is false, so the speaker must also be a liar.",
-      "question": "Once each islander's type is settled, how do you count how many of them are knights?"
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make a four-row table for P and Q: knight-knight, knight-knave, knave-knight, and knave-knave. In each row, compare what P and Q say with what their assigned types require, crossing out only inconsistent rows. Use the surviving row to test R separately.",
+      "question": "Which rows survive both P's and Q's truth-or-lie requirements before you analyze R?"
     }
   ],
   "forbiddenLeakagePatterns": [

@@ -249,7 +249,7 @@ function buildBody(): { title: string; stats: string; body: string } {
         ${
           roster.available
             ? ''
-            : '<p class="page-intro">This authored draft has passed independent review but is not learner-servable until human content-owner approval.</p>'
+            : '<p class="page-intro">This authored draft is pending independent review and human content-owner approval and is not learner-servable.</p>'
         }
         ${domainSections.join('')}
       </section>`);

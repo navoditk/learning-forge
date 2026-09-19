@@ -4,7 +4,7 @@
   "program": "mathcounts-6",
   "domain": "mc6-number-and-proportional-reasoning",
   "standards": ["MC6-PR-01"],
-  "prerequisiteSkillCodes": ["mc6-fraction-percent-fluency"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Finds and applies unit rates to compare or scale quantities.",
     "Solves multi-step proportion and scaling problems, including percent-based price or quantity changes."

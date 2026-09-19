@@ -202,12 +202,11 @@ edge was tested against genuine conceptual necessity (a learner must be
 mathematically unable to reach the downstream skill without the upstream one),
 not teaching order:
 
-- **Kept — `mc6-fraction-percent-fluency → mc6-proportional-reasoning-rates`.**
-  The rate/proportion skill's scope includes percent-based price and quantity
-  changes, whose sub-steps are exactly the fraction/decimal/percent
-  conversions and percent-of computations of the upstream skill; the contest
-  record literally executes a percent increase on a computed unit price. This
-  is compositional necessity, not sequencing.
+- **Rejected — fraction/percent fluency → proportional reasoning/rates.** The
+  contest record composes a unit rate with a percent increase, but the core
+  rate skill can be demonstrated independently with whole-number division.
+  Requiring percent mastery would therefore block foundational rate work
+  because of one challenge composition rather than a conceptual necessity.
 - **Rejected — number theory → proportional reasoning.** Simplifying a ratio
   can use the GCF, but proportional reasoning does not require formal
   factor/GCF machinery; this is a convenience overlap, so no edge.
@@ -220,8 +219,8 @@ not teaching order:
 - **Rejected — any edge into geometry or logic.** Neither the area/angle nor
   the deduction skills are conceptually blocked by another skill in this
   bounded graph. When uncertain, no edge was added rather than an
-  instructional-sequence edge. The resulting graph is acyclic with a single
-  audited edge.
+  instructional-sequence edge. The resulting graph is acyclic and has no
+  prerequisite edges.
 
 ## Learning loop
 

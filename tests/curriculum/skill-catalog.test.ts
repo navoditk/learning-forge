@@ -83,7 +83,7 @@ describe('skill catalog', () => {
     expect(amc8Skills.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);
   });
 
-  it('covers the initial MATHCOUNTS Grade 6 graph with namespaced codes and one audited edge', () => {
+  it('covers the initial MATHCOUNTS Grade 6 graph with namespaced codes and no false gates', () => {
     const mathcountsSkills = skillCatalog.filter((skill) => skill.program === 'mathcounts-6');
     expect(mathcountsSkills).toHaveLength(8);
     expect(mathcountsSkills.every((skill) => skill.code.startsWith('mc6-'))).toBe(true);
@@ -101,16 +101,7 @@ describe('skill catalog', () => {
     expect(
       mathcountsSkills.every((skill) => skill.standards.every((code) => /^MC6-/.test(code))),
     ).toBe(true);
-    // Only genuine conceptual dependency retained after the self-audit.
-    expect(
-      mathcountsSkills.find((skill) => skill.code === 'mc6-proportional-reasoning-rates')
-        ?.prerequisiteSkillCodes,
-    ).toEqual(['mc6-fraction-percent-fluency']);
-    expect(
-      mathcountsSkills
-        .filter((skill) => skill.code !== 'mc6-proportional-reasoning-rates')
-        .every((skill) => skill.prerequisiteSkillCodes.length === 0),
-    ).toBe(true);
+    expect(mathcountsSkills.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);
   });
 
   it('renders MATHCOUNTS as an authored draft that stays unavailable to learners', () => {
@@ -123,6 +114,8 @@ describe('skill catalog', () => {
     expect(mathcountsSection?.[1]).toContain('Draft — pending human approval');
     expect(mathcountsSection?.[1]).toContain('Number theory fundamentals');
     expect(mathcountsSection?.[1]).toContain('Pending review');
+    expect(mathcountsSection?.[1]).toContain('pending independent review');
+    expect(mathcountsSection?.[1]).not.toContain('passed independent review');
     // The public draft page never renders answers or hints.
     expect(mathcountsSection?.[1]).not.toContain('88 square');
   });

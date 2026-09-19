@@ -87,6 +87,22 @@ describe('ratios content seed', () => {
         ),
       ),
     ).toThrow('requires Math Kangaroo contest-format metadata');
+
+    expect(() =>
+      validateContentCatalog(
+        contentCatalog.map((item) =>
+          item.id === withoutFormat.id
+            ? {
+                ...item,
+                contestFormat: {
+                  ...item.contestFormat,
+                  calculatorPolicy: 'calculators_permitted',
+                },
+              }
+            : item,
+        ),
+      ),
+    ).toThrow('Calculator-permitted contest metadata is limited to MATHCOUNTS Target');
   });
 
   it('models every AMC 8 contest item as five-choice +1/0 no-calculator format', () => {
@@ -161,6 +177,16 @@ describe('ratios content seed', () => {
         ),
       ),
     ).toThrow('must encode the approved AMC 8 readiness gate');
+
+    expect(
+      ContentItemSchema.safeParse({
+        ...withMathKangarooTier,
+        contestFormat: {
+          ...withMathKangarooTier.contestFormat,
+          answerChoices: undefined,
+        },
+      }).success,
+    ).toBe(false);
   });
 
   it('keeps MOEMS contest items as numeric or text free-response without Math Kangaroo metadata', () => {
@@ -331,7 +357,7 @@ describe('ratios content seed', () => {
             : item,
         ),
       ),
-    ).toThrow('MATHCOUNTS Sprint format');
+    ).toThrow('Calculator-permitted contest metadata is limited to MATHCOUNTS Target');
   });
 
   it('self-audits MATHCOUNTS coverage, prerequisites, review state, and canonical answers', () => {
@@ -377,17 +403,17 @@ describe('ratios content seed', () => {
       expect(servableContentCatalog.some((item) => item.skillCode === skill.code)).toBe(false);
     }
 
-    // Exactly one genuine conceptual prerequisite edge survives the self-audit:
-    // proportional-reasoning composes fraction/percent fluency.
-    const proportional = mathcountsSkills.find(
-      (skill) => skill.code === 'mc6-proportional-reasoning-rates',
+    expect(mathcountsSkills.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);
+
+    const probability = contentCatalog.find((item) => item.id === 'mc6-counting-and-probability-2');
+    expect(probability?.deterministicValidator.acceptedAnswers).not.toContain('0.25');
+
+    const bicyclePrice = contentCatalog.find(
+      (item) => item.id === 'mc6-fraction-percent-fluency-2',
     );
-    expect(proportional?.prerequisiteSkillCodes).toEqual(['mc6-fraction-percent-fluency']);
-    expect(
-      mathcountsSkills
-        .filter((skill) => skill.code !== 'mc6-proportional-reasoning-rates')
-        .every((skill) => skill.prerequisiteSkillCodes.length === 0),
-    ).toBe(true);
+    expect(bicyclePrice?.deterministicValidator.acceptedAnswers).toEqual(
+      expect.arrayContaining(['240.00', '$240.00', '240.00 dollars']),
+    );
 
     for (const [id, answer] of expectedAnswers) {
       const item = contentCatalog.find((candidate) => candidate.id === id);

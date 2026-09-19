@@ -1,5 +1,31 @@
 # Progress
 
+## 2026-09-18 — MATHCOUNTS first-review remediation
+
+- Remediated all seven findings from the independent review of authoring
+  baseline `899511d`; all 16 records remain `pending_review` and
+  `mathcounts-6` remains unavailable.
+- Removed the fraction/percent prerequisite from proportional reasoning
+  because one contest item's composition did not justify gating foundational
+  unit-rate work. The MATHCOUNTS graph now has no prerequisite edges.
+- Replaced the target-specific logic hint with a neutral truth-table
+  representation, narrowed geometry evidence/mastery claims to the authored
+  straight-line-angle and rectangular-composite-area scope, required
+  lowest-term fraction form where requested, and accepted valid two-decimal
+  currency forms.
+- Restored format-dependent schema protection: choice-based formats require
+  five choices, MATHCOUNTS Sprint/Target forbid choices, and
+  calculator-permitted metadata is limited to Target. Added regression tests
+  so the MATHCOUNTS extension cannot weaken Math Kangaroo or AMC validation.
+- Corrected the generated site's unreviewed-draft wording and expanded all
+  contest eligibility metadata to retain full-time enrollment and official
+  school/Non-School Competitor registration caveats.
+- Validation passes end to end: `npm run verify` (89
+  unit/contract/catalog/eval/planner tests plus production build), integration
+  31/31, and serial Playwright 21/21.
+- Next: run complete validation and a focused independent re-review before
+  requesting human content approval.
+
 ## 2026-09-18 — MATHCOUNTS Grade 6 initial authoring (draft, pending review)
 
 - Authored one issue-sized, isolated `mathcounts-6` skill graph and content

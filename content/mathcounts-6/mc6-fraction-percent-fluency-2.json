@@ -1,6 +1,6 @@
 {
   "id": "mc6-fraction-percent-fluency-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Raise then lower a bike price",
   "skillCode": "mc6-fraction-percent-fluency",
   "mode": "contest",
@@ -20,15 +20,15 @@
       "incorrectPoints": 0,
       "blankPoints": 0
     },
-    "eligibility": "The MATHCOUNTS Competition Series is open to grades 6-8; a Grade 6 learner is eligible per the official rules."
+    "eligibility": "Full-time students in grades 6-8 are eligible for the MATHCOUNTS Competition Series, subject to the official school or Non-School Competitor registration rules."
   },
   "solutionRepresentation": "The first change raises 250 by 20%: 250 x 1.20 = 300. The second change lowers the new price of 300 by 20%: 300 x 0.80 = 240. The 20% decrease is taken on 300, not on the original 250, so the price does not return to 250; the final price is $240.",
   "solutionMethod": "Apply each percent change in order to the current price, using the updated amount for the second change.",
   "deterministicValidator": {
     "type": "numeric",
     "canonicalAnswer": "240",
-    "acceptedAnswers": ["240", "$240", "240 dollars"],
-    "equivalenceNotes": "Accept the dollar amount with or without a dollar sign or the word dollars."
+    "acceptedAnswers": ["240", "$240", "240 dollars", "240.00", "$240.00", "240.00 dollars"],
+    "equivalenceNotes": "Accept the dollar amount with or without a dollar sign or the word dollars, including an explicit two-decimal currency form."
   },
   "misconceptionCodes": [
     "treats-percent-change-as-additive",

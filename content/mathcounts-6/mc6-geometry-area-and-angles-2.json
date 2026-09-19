@@ -1,6 +1,6 @@
 {
   "id": "mc6-geometry-area-and-angles-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Area of an L-shaped garden",
   "skillCode": "mc6-geometry-area-and-angles",
   "mode": "contest",
@@ -20,7 +20,7 @@
       "incorrectPoints": 0,
       "blankPoints": 0
     },
-    "eligibility": "The MATHCOUNTS Competition Series is open to grades 6-8; a Grade 6 learner is eligible per the official rules."
+    "eligibility": "Full-time students in grades 6-8 are eligible for the MATHCOUNTS Competition Series, subject to the official school or Non-School Competitor registration rules."
   },
   "solutionRepresentation": "The full rectangle has area 12 x 9 = 108 square meters. The removed corner rectangle has area 5 x 4 = 20 square meters. The L-shaped garden is what remains: 108 - 20 = 88 square meters.",
   "solutionMethod": "Find the full rectangle's area, then subtract the removed corner rectangle's area.",

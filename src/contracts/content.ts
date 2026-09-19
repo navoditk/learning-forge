@@ -112,6 +112,32 @@ export const ContestFormatSchema = z
   })
   .strict()
   .superRefine((format, context) => {
+    const isMathcounts =
+      format.format === 'mathcounts-sprint' || format.format === 'mathcounts-target';
+    if (!isMathcounts && !format.answerChoices) {
+      context.addIssue({
+        code: 'custom',
+        path: ['answerChoices'],
+        message: 'Choice-based contest formats require five answer choices',
+      });
+    }
+    if (isMathcounts && format.answerChoices) {
+      context.addIssue({
+        code: 'custom',
+        path: ['answerChoices'],
+        message: 'MATHCOUNTS Sprint and Target formats must be free response',
+      });
+    }
+    if (
+      format.calculatorPolicy === 'calculators_permitted' &&
+      format.format !== 'mathcounts-target'
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['calculatorPolicy'],
+        message: 'Calculator-permitted contest metadata is limited to MATHCOUNTS Target',
+      });
+    }
     if (
       format.answerChoices &&
       new Set(format.answerChoices.map((choice) => choice.label)).size !== 5

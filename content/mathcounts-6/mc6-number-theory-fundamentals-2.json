@@ -1,6 +1,6 @@
 {
   "id": "mc6-number-theory-fundamentals-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Same remainder from three divisors",
   "skillCode": "mc6-number-theory-fundamentals",
   "mode": "contest",
@@ -20,7 +20,7 @@
       "incorrectPoints": 0,
       "blankPoints": 0
     },
-    "eligibility": "The MATHCOUNTS Competition Series is open to grades 6-8; a Grade 6 learner is eligible per the official rules."
+    "eligibility": "Full-time students in grades 6-8 are eligible for the MATHCOUNTS Competition Series, subject to the official school or Non-School Competitor registration rules."
   },
   "solutionRepresentation": "A number that leaves remainder 1 when divided by 4, 6, and 9 is one more than a number divisible by all three. The least common multiple of 4, 6, and 9 is 36 (not 4 x 6 x 9). The smallest positive multiple of 36 is 36 itself, so the number is 36 + 1 = 37. Checking: 37 = 9(4) + 1 = 6(6) + 1 = 4(9) + 1.",
   "solutionMethod": "Find the least common multiple of the three divisors, then add the common remainder.",
