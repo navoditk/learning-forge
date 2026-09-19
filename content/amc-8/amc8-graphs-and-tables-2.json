@@ -1,16 +1,16 @@
 {
   "id": "amc8-graphs-and-tables-2",
-  "version": "content-1",
-  "title": "Extending a table pattern",
+  "version": "content-2",
+  "title": "Table with a changing pattern",
   "skillCode": "amc8-graphs-and-tables",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-DATA-1"],
   "prerequisiteSkillCodes": [],
   "observableEvidence": [
-    "Identifies a constant change in a table and extends the relationship to a larger target value."
+    "Identifies a constant change in the first part of a table, recognizes where that pattern changes to a doubling increase, and extends the table correctly across both regimes in one multi-step solution."
   ],
-  "prompt": "A table has pairs (x, y): (1, 5), (2, 8), (3, 11), and (4, 14). The same pattern continues. For which value of x is y = 35?",
+  "prompt": "A store's daily sales, in dollars, for the first four days are: Day 1: 40, Day 2: 52, Day 3: 64, Day 4: 76 (each day increases by the same amount). Starting with the increase from Day 4 to Day 5, the amount added between consecutive days doubles every day after that. What are the sales, in dollars, on Day 7?",
   "contestFormat": {
     "format": "amc-8",
     "pointValue": 1,
@@ -23,72 +23,78 @@
       "blankPoints": 0
     },
     "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "readinessRequirement": {
+      "minEstimate": 0.8,
+      "disallowLowConfidence": true,
+      "requireIndependentDelayedCheck": true
+    },
     "answerChoices": [
       {
         "label": "A",
-        "text": "9",
-        "rationale": "Extends by adding 3 until y is near 29 but stops two steps before reaching 35.",
-        "misconceptionCode": "extends-by-wrong-interval"
-      },
-      {
-        "label": "B",
-        "text": "10",
-        "rationale": "Solves 3x + 5 = 35, using the first y-value as the intercept instead of checking the table relationship.",
+        "text": "112",
+        "rationale": "Assumes the pattern stays a constant +12 increase for every day, giving Day 5 = 88, Day 6 = 100, Day 7 = 112, instead of switching to a doubling increase after Day 4.",
         "misconceptionCode": "assumes-linear-pattern-without-checking"
       },
       {
+        "label": "B",
+        "text": "148",
+        "rationale": "Doubles the increase only once (Day 4-to-5 becomes 24) but then keeps adding 24 for every later day instead of doubling again each time: Day 5 = 100, Day 6 = 124, Day 7 = 148.",
+        "misconceptionCode": "extends-by-wrong-interval"
+      },
+      {
         "label": "C",
-        "text": "11",
-        "rationale": "Correct: the table follows y = 3x + 2, so 3x + 2 = 35 gives x = 11."
+        "text": "168",
+        "rationale": "Adds only the three increases after Day 4 (24 + 48 + 96 = 168) without adding them to Day 4's sales, reporting the total change instead of the Day 7 amount.",
+        "misconceptionCode": "uses-total-instead-of-change"
       },
       {
         "label": "D",
-        "text": "12",
-        "rationale": "Solves 3x − 1 = 35, shifting the relationship by one because the row labels start at 1.",
+        "text": "232",
+        "rationale": "Starts the doubling pattern from Day 3's value (64) instead of Day 4's value (76): 64 + 24 + 48 + 96 = 232.",
         "misconceptionCode": "reads-wrong-row-or-column"
       },
       {
         "label": "E",
-        "text": "13",
-        "rationale": "Counts seven more y-steps from 14 but adds them to the current x-value incorrectly.",
-        "misconceptionCode": "extends-by-wrong-interval"
+        "text": "244",
+        "rationale": "Correct: the increase doubles starting after Day 4: Day 5 = 76 + 24 = 100, Day 6 = 100 + 48 = 148, Day 7 = 148 + 96 = 244."
       }
     ]
   },
-  "solutionRepresentation": "The y-values increase by 3 whenever x increases by 1. Since y = 5 when x = 1, the rule is y = 3x + 2. Set 3x + 2 = 35, so 3x = 33 and x = 11.",
-  "solutionMethod": "Find the constant change, write or reason from the linear rule, and solve for the target y-value.",
+  "solutionRepresentation": "The first four days increase by a constant 12 each time (40, 52, 64, 76). Starting after Day 4, the increase doubles: Day 4-to-5 is 24, Day 5-to-6 is 48, and Day 6-to-7 is 96. So Day 5 = 76 + 24 = 100, Day 6 = 100 + 48 = 148, and Day 7 = 148 + 96 = 244.",
+  "solutionMethod": "Find the constant increase in the first part of the table, then track how that increase doubles at each later step and add the increases in order to reach the target day.",
   "deterministicValidator": {
     "type": "multiple_choice",
-    "canonicalAnswer": "11",
-    "acceptedAnswers": ["11", "x = 11", "C"],
-    "equivalenceNotes": "Accept the x-value alone, as an equation, or as choice C."
+    "canonicalAnswer": "244",
+    "acceptedAnswers": ["244", "$244", "E"],
+    "equivalenceNotes": "Accept the amount with or without a dollar sign or as choice E."
   },
   "misconceptionCodes": [
-    "extends-by-wrong-interval",
     "assumes-linear-pattern-without-checking",
+    "extends-by-wrong-interval",
+    "uses-total-instead-of-change",
     "reads-wrong-row-or-column"
   ],
   "hintSteps": [
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "Look at how y changes when x increases by one.",
-      "question": "What constant change appears in the y-values?"
+      "prompt": "The first four days follow one pattern, but the prompt says the pattern changes after Day 4.",
+      "question": "What constant amount does the table increase by for the first four days?"
     },
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "After finding the constant change, compare the rule with the first row instead of guessing the starting value.",
-      "question": "What must be added to the multiple of x to match the row where x is 1?"
+      "prompt": "After Day 4, each new increase is double the previous increase, not the same increase repeated.",
+      "question": "What are the Day 4-to-5, Day 5-to-6, and Day 6-to-7 increases, one at a time?"
     },
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "For pairs (1, 4), (2, 7), the rule is not just 3x; it needs an added amount to match the table.",
-      "question": "Which answer choice satisfies the table's rule for the target y-value?"
+      "prompt": "If a value is 10 and the next three increases are 2, 4, and 8 (each one doubling), the final value is 10 + 2 + 4 + 8 = 24.",
+      "question": "Which answer choice adds Day 4's value to the three doubling increases the same way?"
     }
   ],
-  "forbiddenLeakagePatterns": ["x = 11", "choice c", "3x + 2 = 35"],
+  "forbiddenLeakagePatterns": ["244", "choice e", "148 + 96"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
@@ -98,6 +104,6 @@
     "reviewer": "Independent reviewer pending",
     "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
   },
-  "accessibilityNotes": "Represent the table as ordered coordinate pairs or a semantic table; no image is required.",
-  "accessibleAlternative": "Read aloud or display: The ordered pairs are (1,5), (2,8), (3,11), and (4,14). The pattern continues. Find x when y is 35."
+  "accessibilityNotes": "Represent the table as ordered day/amount pairs or a semantic table; no image is required.",
+  "accessibleAlternative": "Read aloud or display: Day 1 is 40 dollars, Day 2 is 52, Day 3 is 64, and Day 4 is 76 (a constant increase of 12 each day). Starting with the increase from Day 4 to Day 5, each later increase is double the one before it. Find the sales on Day 7."
 }

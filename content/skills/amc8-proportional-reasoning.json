@@ -13,7 +13,8 @@
     "additive-scaling",
     "inverts-ratio",
     "treats-part-as-total",
-    "uses-wrong-unit-rate"
+    "uses-wrong-unit-rate",
+    "swaps-ratios-between-groups"
   ],
   "difficultyBands": ["foundational", "developing", "challenging"],
   "masteryCheckRule": "Require an exact proportional result and a representation of the multiplicative relationship, followed by one delayed independent transfer item."

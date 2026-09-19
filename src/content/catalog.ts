@@ -246,6 +246,14 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
       ) {
         throw new Error(`${item.id} must encode the official AMC 8 format`);
       }
+      const readiness = item.contestFormat.readinessRequirement;
+      if (
+        readiness?.minEstimate !== 0.8 ||
+        readiness.disallowLowConfidence !== true ||
+        readiness.requireIndependentDelayedCheck !== true
+      ) {
+        throw new Error(`${item.id} must encode the approved AMC 8 readiness gate`);
+      }
       if (item.deterministicValidator.type !== 'multiple_choice') {
         throw new Error(`${item.id} must use a multiple-choice validator in contest mode`);
       }

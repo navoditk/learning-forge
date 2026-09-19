@@ -576,6 +576,32 @@ problem statements into Learning Forge.
    standards-style syllabus. Authoring must describe its internal skill map as
    a Learning Forge synthesis rather than an official MAA curriculum.
 
+### Readiness-gate remediation addendum — 2026-09-18 remediation increment
+
+The 2026-09-18 independent review of commit `b4f99d2` found that the
+core-prep-first gate above was not actually enforced: the planner unlocked a
+contest recommendation from any mastery row, including one with a `0.5`
+estimate, `LOW` confidence, and no independent delayed check, and a fully
+"secure" skill was skipped from the plan entirely (no core **and** no contest
+follow-up). This has been remediated in the planner/content contracts:
+
+- AMC 8 contest records now declare a structured
+  `contestFormat.readinessRequirement` (`minEstimate: 0.8`,
+  `disallowLowConfidence: true`, `requireIndependentDelayedCheck: true`),
+  passed through to the planner as `PlannerContentItem.contestReadinessRequirement`.
+- The planner only recommends a skill's contest-tier item once its mastery
+  evidence satisfies **all three** conditions at once: `estimate >= 0.8`,
+  confidence is not `LOW`, and `independentDelayedCheck === true`. Core-prep
+  items remain available for that skill until eligibility is reached.
+- This `0.8` threshold is deliberately set **above** the generic `0.75`
+  "secure" mastery threshold documented in
+  `docs/02-curriculum-and-pedagogy.md`, reflecting the product owner's
+  stricter, explicitly approved bar for AMC 8 contest-tier access versus the
+  default cross-skill security bar.
+- Content without a declared `readinessRequirement` (Grade 6 Math, Math
+  Kangaroo, MOEMS) is unaffected and keeps its existing legacy planner
+  behavior unchanged.
+
 ### Research handoff for authoring
 
 The direct-primary rule gate is resolved and human approval is recorded above.

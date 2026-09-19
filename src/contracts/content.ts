@@ -66,6 +66,22 @@ export const ContestFormatSchema = z
       .strict()
       .optional(),
     eligibility: z.string().trim().min(1).max(300).optional(),
+    // Documented, versioned core-prep-first contest readiness contract
+    // (see docs/curriculum-sources.md's AMC 8 readiness-gate note and the
+    // planner's `PlannerContestReadinessRequirement`): when present, the
+    // planner must withhold this contest item until the learner's mastery
+    // evidence for the owning skill clears every declared bar. This is a
+    // typed content/planner contract field, not a skill-code heuristic, so
+    // any program can opt a contest record into the stricter gate the same
+    // way.
+    readinessRequirement: z
+      .object({
+        minEstimate: z.number().min(0).max(1),
+        disallowLowConfidence: z.boolean(),
+        requireIndependentDelayedCheck: z.boolean(),
+      })
+      .strict()
+      .optional(),
     answerChoices: z
       .array(
         z

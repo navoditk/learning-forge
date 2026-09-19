@@ -1,20 +1,20 @@
 {
   "id": "amc8-spatial-visualization-2",
-  "version": "content-1",
-  "title": "Cube net opposite face",
+  "version": "content-2",
+  "title": "Cube net with opposite-face number sums",
   "skillCode": "amc8-spatial-visualization",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-SPATIAL-1"],
   "prerequisiteSkillCodes": [],
   "observableEvidence": [
-    "Folds a cube net mentally and identifies the face opposite the center square."
+    "Folds a cube net mentally to identify which three pairs of squares become opposite faces, then uses a shared-sum condition across those pairs to solve for an unknown face value."
   ],
-  "prompt": "A cube net has square P in the center, Q directly above P, R directly below P, S directly left of P, T directly right of P, and U attached directly above Q. When the net is folded into a cube, which face is opposite P?",
+  "prompt": "A cube net has square P in the center, Q directly above P, R directly below P, S directly left of P, T directly right of P, and U attached directly above Q. The six squares are labeled with the numbers 7, 8, 9, 11, 12, and 13, one per square: P = 9, Q = 13, R = 7, S = 12, and T = 8, and U has the one remaining number. When the net is folded into a cube, every pair of opposite faces has the same sum. What number is on face U?",
   "figure": {
     "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 420 360\" role=\"img\"><rect width=\"420\" height=\"360\" fill=\"#ffffff\"/><g stroke=\"#2c534f\" stroke-width=\"4\" fill=\"#eaf4f2\"><rect x=\"170\" y=\"150\" width=\"70\" height=\"70\"/><rect x=\"170\" y=\"80\" width=\"70\" height=\"70\"/><rect x=\"170\" y=\"220\" width=\"70\" height=\"70\"/><rect x=\"100\" y=\"150\" width=\"70\" height=\"70\"/><rect x=\"240\" y=\"150\" width=\"70\" height=\"70\"/><rect x=\"170\" y=\"10\" width=\"70\" height=\"70\"/></g><g font-family=\"Arial, sans-serif\" font-size=\"28\" fill=\"#22221f\" text-anchor=\"middle\" dominant-baseline=\"middle\"><text x=\"205\" y=\"185\">P</text><text x=\"205\" y=\"115\">Q</text><text x=\"205\" y=\"255\">R</text><text x=\"135\" y=\"185\">S</text><text x=\"275\" y=\"185\">T</text><text x=\"205\" y=\"45\">U</text></g></svg>",
-    "altText": "A cube net made of six equal squares: P is in the center; Q is above P; R is below P; S is left of P; T is right of P; U is above Q.",
-    "caption": "A labeled cube net.",
+    "altText": "A cube net made of six equal squares: P is in the center; Q is above P; R is below P; S is left of P; T is right of P; U is above Q. The prompt text assigns a number to each labeled square except U.",
+    "caption": "A labeled cube net; the number assigned to each square is given in the prompt text, not shown on the diagram.",
     "width": 420,
     "height": 360
   },
@@ -30,68 +30,78 @@
       "blankPoints": 0
     },
     "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "readinessRequirement": {
+      "minEstimate": 0.8,
+      "disallowLowConfidence": true,
+      "requireIndependentDelayedCheck": true
+    },
     "answerChoices": [
       {
         "label": "A",
-        "text": "Face Q",
-        "rationale": "Q shares an edge with P in the net, so it folds adjacent to P rather than opposite it.",
+        "text": "7",
+        "rationale": "Assumes Q, the square touching P in the net, is opposite P instead of R, and computes 20 - 13 = 7 using the wrong neighbor as the opposite face.",
         "misconceptionCode": "confuses-adjacent-and-opposite-faces"
       },
       {
         "label": "B",
-        "text": "Face R",
-        "rationale": "R shares an edge with P and folds adjacent to P, even though it is opposite Q.",
-        "misconceptionCode": "confuses-adjacent-and-opposite-faces"
+        "text": "11",
+        "rationale": "Correct: Q and R are directly in line through the center (Q-P-R), so they fold to opposite faces, giving the shared sum 13 + 7 = 20. Since P and U are also directly in line (U-Q-P), P and U are opposite too, so U = 20 - 9 = 11."
       },
       {
         "label": "C",
-        "text": "Face S",
-        "rationale": "S shares an edge with P and becomes a side face adjacent to P.",
-        "misconceptionCode": "confuses-adjacent-and-opposite-faces"
+        "text": "12",
+        "rationale": "Assumes every arm of the net folds the same way and copies S's value (12) for U, without checking which pair is actually opposite P.",
+        "misconceptionCode": "assumes-symmetry-not-stated"
       },
       {
         "label": "D",
-        "text": "Face T",
-        "rationale": "T shares an edge with P and becomes a side face adjacent to P.",
-        "misconceptionCode": "confuses-adjacent-and-opposite-faces"
+        "text": "13",
+        "rationale": "Loses track of the fold direction from Q to U and copies U = Q = 13, instead of recognizing that U folds to the far side, opposite P.",
+        "misconceptionCode": "loses-orientation-when-folding"
       },
       {
         "label": "E",
-        "text": "Face U",
-        "rationale": "Correct: Q folds up beside P, and the square beyond Q folds over to the face opposite P."
+        "text": "20",
+        "rationale": "Reports the shared opposite-face sum itself (20) instead of finishing the last step of solving for U.",
+        "misconceptionCode": "reports-intermediate-value-as-final-answer"
       }
     ]
   },
-  "solutionRepresentation": "The four squares Q, R, S, and T are attached directly to P, so they fold to faces adjacent to P. The square U is attached beyond Q, so after Q folds up, U folds over to the face opposite P.",
-  "solutionMethod": "Track which net squares share an edge with the center and then fold the square attached beyond an adjacent face across from the center.",
+  "solutionRepresentation": "In the net, Q and R sit directly above and below P in a straight line (Q-P-R), so when folded they become opposite faces; their sum is 13 + 7 = 20, which is the constant sum for every opposite pair. U and Q and P are also in a straight line (U-Q-P), so U is opposite P, giving U = 20 - 9 = 11. (As a check, S and T are also opposite: 12 + 8 = 20, confirming the shared sum.)",
+  "solutionMethod": "Use the net's straight-line arrangement of three squares to identify which pairs fold to opposite faces, then use the shared opposite-face sum to solve for the unknown value.",
   "deterministicValidator": {
     "type": "multiple_choice",
-    "canonicalAnswer": "Face U",
-    "acceptedAnswers": ["Face U", "U", "E"],
-    "equivalenceNotes": "Accept the face name U, the phrase Face U, or choice E."
+    "canonicalAnswer": "11",
+    "acceptedAnswers": ["11", "U = 11", "B"],
+    "equivalenceNotes": "Accept the number alone, as U = 11, or as choice B."
   },
-  "misconceptionCodes": ["confuses-adjacent-and-opposite-faces", "loses-orientation-when-folding"],
+  "misconceptionCodes": [
+    "confuses-adjacent-and-opposite-faces",
+    "assumes-symmetry-not-stated",
+    "loses-orientation-when-folding",
+    "reports-intermediate-value-as-final-answer"
+  ],
   "hintSteps": [
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "Start by identifying the faces that share an edge with the center square in the net.",
-      "question": "Which faces must become adjacent to the center face?"
+      "prompt": "Look for three squares in a straight line in the net; the two outer squares in that line become opposite faces when folded.",
+      "question": "Which two squares are in a straight line with U in between it and P?"
     },
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "The face attached beyond an adjacent face folds after that adjacent face moves upward.",
-      "question": "Where does the square beyond the top neighbor land relative to the center?"
+      "prompt": "Use a pair of opposite faces whose numbers you already know to find the shared sum every opposite pair must have.",
+      "question": "What do Q and R add up to, and what does that tell you about every opposite pair?"
     },
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "In a strip of three squares A-B-C, if B is attached to the center face A, then C can fold across from A.",
-      "question": "Which answer choice plays that beyond-the-neighbor role here?"
+      "prompt": "If two known opposite faces add to 20, and the pair you need includes a face labeled 9, the unknown face is 20 minus 9.",
+      "question": "Which answer choice equals the shared sum minus P's number?"
     }
   ],
-  "forbiddenLeakagePatterns": ["face u", "choice e", "opposite p is u"],
+  "forbiddenLeakagePatterns": ["u = 11", "choice b", "20 - 9 = 11"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
@@ -101,6 +111,6 @@
     "reviewer": "Independent reviewer pending",
     "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
   },
-  "accessibilityNotes": "Provide both the net diagram and the positional text; labels must be readable and not color-dependent.",
-  "accessibleAlternative": "Read aloud or display: The cube net has P in the center; Q above P; R below P; S left of P; T right of P; and U above Q. Find which face is opposite P when folded."
+  "accessibilityNotes": "Provide both the net diagram and the positional text; labels must be readable and not color-dependent. The numeric value assigned to each labeled square is stated in the prompt text rather than drawn on the figure.",
+  "accessibleAlternative": "Read aloud or display: The cube net has P in the center; Q above P; R below P; S left of P; T right of P; and U above Q. P = 9, Q = 13, R = 7, S = 12, and T = 8; U has the one remaining number from the set 7, 8, 9, 11, 12, 13. Every pair of opposite faces has the same sum when folded. Find the number on face U."
 }

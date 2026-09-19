@@ -752,6 +752,7 @@ export async function getPlan(
     skillCode: item.skillCode,
     mode: item.mode,
     difficulty: item.difficulty,
+    contestReadinessRequirement: item.contestFormat?.readinessRequirement,
   }));
   const skills: PlannerSkill[] = catalog.skills.map((skill) => ({
     code: skill.code,

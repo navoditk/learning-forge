@@ -1,16 +1,16 @@
 {
   "id": "amc8-introductory-algebra-2",
-  "version": "content-1",
-  "title": "Positive number square relation",
+  "version": "content-2",
+  "title": "Rectangle width from a quadratic area relationship",
   "skillCode": "amc8-introductory-algebra",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-ALG-1"],
   "prerequisiteSkillCodes": [],
   "observableEvidence": [
-    "Solves a simple quadratic relationship with a positive-number condition and checks the value in the original equation."
+    "Translates a word relationship into a quadratic equation, solves it by factoring, and applies a positive-quantity condition to choose the correct root."
   ],
-  "prompt": "A positive number n satisfies n² + 4 = 40. What is n?",
+  "prompt": "A rectangle's length is 4 more than its width, and the rectangle's area is 96 square units. What is the width, in units?",
   "contestFormat": {
     "format": "amc-8",
     "pointValue": 1,
@@ -23,73 +23,78 @@
       "blankPoints": 0
     },
     "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "readinessRequirement": {
+      "minEstimate": 0.8,
+      "disallowLowConfidence": true,
+      "requireIndependentDelayedCheck": true
+    },
     "answerChoices": [
       {
         "label": "A",
-        "text": "-6",
-        "rationale": "After isolating n² = 36, chooses the negative square root even though the prompt says n is positive.",
+        "text": "-12",
+        "rationale": "Solves w^2 + 4w - 96 = 0 correctly to the two roots 8 and -12, but reports the negative root without checking that a width must be positive.",
         "misconceptionCode": "ignores-positive-condition"
       },
       {
         "label": "B",
-        "text": "6",
-        "rationale": "Correct: n² = 36, and the positive square root is 6."
+        "text": "8",
+        "rationale": "Correct: width w and length w + 4 satisfy w(w + 4) = 96, so w^2 + 4w - 96 = 0, which factors as (w - 8)(w + 12) = 0. Since w must be positive, w = 8."
       },
       {
         "label": "C",
-        "text": "18",
-        "rationale": "Treats n² as 2n, so 2n + 4 = 40 gives 2n = 36 and n = 18.",
-        "misconceptionCode": "treats-square-as-double"
+        "text": "12",
+        "rationale": "Reverses the relationship, treating the width as 4 more than the length instead of the length being 4 more than the width. This gives w(w - 4) = 96, which factors as (w - 12)(w + 8) = 0, so w = 12.",
+        "misconceptionCode": "reverses-inverse-operations"
       },
       {
         "label": "D",
-        "text": "36",
-        "rationale": "Subtracts 4 from 40 to get n² = 36, then reports 36 without taking a square root.",
-        "misconceptionCode": "takes-square-root-too-early"
+        "text": "16",
+        "rationale": "Misreads w^2 as 2w, turning the equation into 2w + 4w = 96, so 6w = 96 and w = 16.",
+        "misconceptionCode": "treats-square-as-double"
       },
       {
         "label": "E",
-        "text": "44",
-        "rationale": "Adds 4 to 40 instead of subtracting it, producing 44 before the square is isolated.",
-        "misconceptionCode": "reverses-inverse-operations"
+        "text": "46",
+        "rationale": "Turns the product w(w + 4) into a sum, w + w + 4 = 96, instead of distributing the multiplication, giving 2w + 4 = 96 and w = 46.",
+        "misconceptionCode": "combines-unlike-terms"
       }
     ]
   },
-  "solutionRepresentation": "Subtract 4 from both sides: n² = 36. Since n is positive, n = 6. Check: 6² + 4 = 36 + 4 = 40.",
-  "solutionMethod": "Isolate the square term, take the positive square root, and check in the original equation.",
+  "solutionRepresentation": "Let w be the width, so the length is w + 4. The area gives w(w + 4) = 96, or w^2 + 4w - 96 = 0. This factors as (w - 8)(w + 12) = 0, so w = 8 or w = -12. Since a width must be positive, w = 8. Check: length = 12, and 8 x 12 = 96.",
+  "solutionMethod": "Translate the word relationship into a quadratic equation, factor it, and use the positive-quantity condition to select the correct root, then check in the original relationship.",
   "deterministicValidator": {
     "type": "multiple_choice",
-    "canonicalAnswer": "6",
-    "acceptedAnswers": ["6", "n = 6", "B"],
-    "equivalenceNotes": "Accept 6 alone, as n = 6, or as choice B."
+    "canonicalAnswer": "8",
+    "acceptedAnswers": ["8", "w = 8", "B"],
+    "equivalenceNotes": "Accept 8 alone, as w = 8, or as choice B."
   },
   "misconceptionCodes": [
     "ignores-positive-condition",
+    "reverses-inverse-operations",
     "treats-square-as-double",
-    "takes-square-root-too-early",
-    "reverses-inverse-operations"
+    "combines-unlike-terms"
   ],
   "hintSteps": [
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "Isolate the squared term before thinking about square roots.",
-      "question": "What operation removes the added amount from the left side?"
+      "prompt": "Let a variable stand for the width, then write the length in terms of that same variable.",
+      "question": "If the width is w, what expression represents the length?"
     },
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "After the squared term is alone, use the positive-number condition to choose the positive root.",
-      "question": "Which answer choice squares to the isolated value?"
+      "prompt": "Multiply the width and length expressions together and set the product equal to the given area to form an equation.",
+      "question": "What equation do you get when you set width times length equal to 96?"
     },
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "For m squared plus 1 equals 10, first get m squared alone, then choose the positive square root if m is positive.",
-      "question": "Which answer choice follows that same order and respects the positive-number condition?"
+      "prompt": "For a rectangle whose length is 3 more than its width with area 40, the equation w(w + 3) = 40 factors as (w - 5)(w + 8) = 0, and only the positive root is a valid width.",
+      "question": "Which answer choice is the positive root of this rectangle's equation?"
     }
   ],
-  "forbiddenLeakagePatterns": ["n = 6", "choice b", "positive square root is 6"],
+  "forbiddenLeakagePatterns": ["w = 8", "choice b", "(w - 8)(w + 12)"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
@@ -99,6 +104,6 @@
     "reviewer": "Independent reviewer pending",
     "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
   },
-  "accessibilityNotes": "Render n squared in accessible text as n² or 'n squared'; no diagram is needed.",
-  "accessibleAlternative": "Read aloud or display: A positive number n satisfies n squared plus four equals forty. Find n."
+  "accessibilityNotes": "Render exponents in accessible text as w^2 or 'w squared'; no diagram is needed.",
+  "accessibleAlternative": "Read aloud or display: A rectangle's length is 4 more than its width. The area is 96 square units. Find the width."
 }

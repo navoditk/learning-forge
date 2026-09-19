@@ -1,5 +1,150 @@
 # Progress
 
+## 2026-09-18 — AMC 8 strict contest-readiness policy approved
+
+- The product/content owner approved the remediated strict contest unlock:
+  mastery estimate at least `0.80`, confidence `MEDIUM` or `HIGH`, and a
+  passed independent delayed check for the owning skill.
+- Added catalog enforcement so every AMC 8 contest record must carry this
+  exact structured readiness contract; omission cannot silently fall back to
+  the legacy challenge behavior used by other programs.
+- AMC 8 remains unavailable and all 16 records remain `pending_review`
+  pending focused independent re-review of the complete remediation.
+
+## 2026-09-18 — AMC 8 Grade 6 prep remediation increment
+
+- Remediated all six findings from the 2026-09-18 independent review of
+  commit `b4f99d2` (see `docs/content-review.md`, which is left unmodified
+  as a historical record). AMC 8 remains **pending review and unavailable**
+  in the servable catalog; no `review.status` was set to `reviewed`, and no
+  feature flag or catalog wiring was changed to expose AMC 8 to learners.
+- **Finding 1 — planner readiness gate:** Redesigned the contest-readiness
+  gate as an explicit, type-safe contract instead of a skill-code-prefix
+  hack. Added `contestFormat.readinessRequirement`
+  (`minEstimate`/`disallowLowConfidence`/`requireIndependentDelayedCheck`) to
+  `ContestFormatSchema` (`src/contracts/content.ts`) and a matching optional
+  `contestReadinessRequirement` on `PlannerContentItem`
+  (`src/contracts/planner.ts`), wired through `src/phase1/service.ts`.
+  Rewrote `src/planner/plan-next-activities.ts` so a skill carrying this
+  metadata only recommends its contest item once mastery evidence satisfies
+  `estimate >= 0.8`, confidence not `LOW`, and `independentDelayedCheck ===
+  true` together; core-prep stays available until then, and the previous bug
+  where a fully "secure" skill was skipped from the plan entirely (no core,
+  no contest) no longer applies to gated skills. Content without this field
+  (Grade 6 Math, Math Kangaroo, MOEMS) is byte-for-byte unchanged in
+  behavior. Documented the `0.8` threshold decision in
+  `docs/curriculum-sources.md`. Added four focused tests in
+  `tests/planner/plan-next-activities.test.ts` covering no evidence, weak
+  evidence (`0.5`/`LOW`/`false`), threshold met without a delayed check, and
+  fully eligible evidence.
+- **Finding 2 — coordinate-geometry-2 figure bug:** The SVG's rectangle and
+  vertex markers were drawn two units too low (origin/scale math error), so
+  the figure did not depict the prompt's `(-1, 2)` and `(5, 6)` points.
+  Rewrote the figure with corrected pixel math and `data-role`/`data-x`/
+  `data-y`/`data-origin-*`/`data-unit-px` attributes, and added a new
+  regression test in `tests/content/catalog.test.ts` (parallel to the
+  existing Math Kangaroo angle-figure test) that numerically recomputes the
+  data-space coordinates from the raw pixel geometry and asserts they equal
+  the prompt's points.
+- **Finding 3 — six routine contest records rewritten** into original,
+  non-routine, multi-step transfer problems (topic-aligned, five A-E
+  choices, every distractor rationale hand-verified to deterministically
+  produce its stated value):
+  - `amc8-elementary-geometry-2`: composite-area problem (13 m x 11 m
+    rectangle minus a 5-12 right triangle minus a 4 m square) with a new,
+    proportionally exact figure. **Answer: 97** (was 13).
+  - `amc8-spatial-visualization-2`: numeric cube-net opposite-face-sum
+    problem using the same net topology; extends the "outer squares of a
+    straight three-square run are opposite faces" rule to a second inferred
+    pair. **Answer: 11** (unchanged mechanism, now a numeric multi-step
+    answer instead of "Face U").
+  - `amc8-graphs-and-tables-2`: two-regime table-extension problem (constant
+    +12 for four days, then a doubling increase). **Answer: 244** (was 11).
+  - `amc8-introductory-algebra-2`: rectangle-area quadratic word problem
+    (`w(w + 4) = 96`, factors to `(w-8)(w+12)=0`, positive root). **Answer:
+    8** (was 6); this also resolves Finding 5 below.
+  - `amc8-coordinate-geometry-2`: kept the required prompt points `(-1, 2)`
+    and `(5, 6)` and added a second cutout rectangle `(2, 2)`-`(5, 4)` for
+    genuine multi-step transfer. **Answer: 18** (was 24).
+  - `amc8-proportional-reasoning-2`: two-pitcher mixture-combination problem
+    (ratios 1:3 of 24 cups and 3:5 of 40 cups, combined). **Answer: 21**
+    (was 9).
+  - All six version-bumped to `content-2`; all six now carry the new
+    `contestFormat.readinessRequirement`.
+- **Finding 4 — graph/table and algebra defects:** Resolved by the finding-3
+  rewrites: `amc8-graphs-and-tables-2`'s new distractors each reuse an
+  already-declared, mechanism-matched misconception code
+  (`assumes-linear-pattern-without-checking`, `extends-by-wrong-interval`,
+  `uses-total-instead-of-change`, `reads-wrong-row-or-column`);
+  `amc8-introductory-algebra-2`'s new distractors likewise reuse
+  already-declared codes with corrected, verified mechanisms
+  (`ignores-positive-condition`, `reverses-inverse-operations`,
+  `treats-square-as-double`, `combines-unlike-terms`). New misconception
+  codes introduced for the other rewrites
+  (`skips-halving-triangle-area`, `omits-a-removed-region`,
+  `confuses-adjacent-and-opposite-faces`, `assumes-symmetry-not-stated`,
+  `loses-orientation-when-folding`, `reports-intermediate-value-as-final-answer`,
+  `ignores-the-removed-region`, `swaps-ratios-between-groups`) were declared
+  at the owning skill level in `content/skills/amc8-*.json` and listed on the
+  corresponding item, satisfying the catalog's skill/item misconception-code
+  consistency check.
+- **Finding 5 — scale ambiguity:** `amc8-elementary-geometry-1`'s figure
+  caption and accessibility text now explicitly state "not to scale; use the
+  labeled measures" (version bumped to `content-2`). The rewritten
+  `amc8-elementary-geometry-2` figure is drawn to exact labeled proportions
+  (13:11 rectangle, true 5-12-13 triangle legs, true square), so no
+  disclaimer was needed there; its accessibility notes state it is drawn to
+  the labeled proportions.
+- **Finding 6 — metadata/gates preserved:** Official AMC metadata
+  (`format: 'amc-8'`, `pointValue: 1`, `questionCount: 25`,
+  `timeLimitMinutes: 40`, `calculatorPolicy: 'no_calculators'`,
+  `scoring: {1,0,0}`, the eligibility string) is unchanged on every record.
+  `review.status` remains `pending_review` on all AMC 8 records; the
+  `docs/content-review.md` historical findings were not edited.
+- **Validation:** `npx tsc --noEmit` clean; `npm run lint` clean;
+  `npx prettier --check .` clean; focused
+  `tests/planner/plan-next-activities.test.ts` (12 tests) and
+  `tests/content/catalog.test.ts` (17 tests, including the new coordinate
+  regression test) pass; full `npm test` (85 tests across contracts,
+  content, evals, tutor, notification, curriculum, planner, foundation)
+  passes, including the existing assertion that AMC 8 renders as pending and
+  unavailable; `npm run verify` (format check, lint, typecheck, migration
+  down-check, full test run, production `next build`) passes end to end.
+- **Residual risks:** The six rewritten problems and their distractor
+  rationales are original drafts verified by hand/script for internal
+  arithmetic consistency, but — like the rest of the AMC 8 catalog — they
+  still require independent human subject-matter review before
+  `review.status` may be set to `reviewed` or AMC 8 unlocked; this increment
+  intentionally leaves both untouched. Future contest programs must make
+  their own explicit readiness decision; the AMC 8 catalog now enforces the
+  owner-approved strict gate on every AMC 8 contest record.
+- **Next recommended issue:** Human/independent re-review of the six
+  rewritten AMC 8 records and the new planner gate, followed by the standard
+  reviewer sign-off path (`review.status` → `reviewed`) once approved; no
+  further engineering action is required to unblock that review.
+
+## 2026-09-18 — AMC 8 Grade 6 prep independent review
+
+- Completed an independent review of commit `b4f99d2` without changing
+  curriculum/source/contracts/catalog/planner/tests or any review status.
+- Verified all 16 answers, accepted forms, units, methods, validators,
+  choices, distractor logic, hints, provenance, accessibility paths, six SVG
+  payloads, source-format claims, graph isolation, and pending/unavailable
+  serving gates.
+- Findings recorded in `docs/content-review.md`: contest readiness currently
+  unlocks from any mastery row including `0.5`/`LOW`/no delayed check; the
+  coordinate-geometry-2 figure encodes the wrong y-coordinates; the contest
+  tier is mostly routine rather than full-difficulty; and two distractor
+  rationale/misconception mappings are incorrect. Two schematic figures also
+  need an explicit not-to-scale decision.
+- Validation passed: `npm run content:validate` (16 tests),
+  `npm run curriculum:validate` (17 tests), focused/full unit tests (81),
+  and `npm run verify` (format, lint, typecheck, migration check, tests,
+  production build). AMC 8 remains unavailable and all 16 records remain
+  `pending_review`.
+- Next: remediate the review findings in a separate authoring/engineering
+  increment, then repeat independent review before human approval.
+
 ## 2026-09-18 — AMC 8 Grade 6 prep authoring increment handed off
 
 - Verified the approved AMC 8 source section in `docs/curriculum-sources.md`:

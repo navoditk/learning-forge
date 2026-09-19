@@ -14,7 +14,8 @@
     "ignores-negative-coordinates",
     "uses-diagonal-distance-for-axis-aligned-segment",
     "confuses-perimeter-and-area",
-    "reads-axis-labels-backward"
+    "reads-axis-labels-backward",
+    "ignores-the-removed-region"
   ],
   "difficultyBands": ["foundational", "developing", "challenging"],
   "masteryCheckRule": "Require a correct coordinate-derived measure with evidence of axis direction and distance reasoning, plus one delayed coordinate-transfer item."

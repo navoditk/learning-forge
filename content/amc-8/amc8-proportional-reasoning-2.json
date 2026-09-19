@@ -1,16 +1,16 @@
 {
   "id": "amc8-proportional-reasoning-2",
-  "version": "content-1",
-  "title": "Juice mixture ratio",
+  "version": "content-2",
+  "title": "Combining two mixtures with different ratios",
   "skillCode": "amc8-proportional-reasoning",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-RATIO-1"],
   "prerequisiteSkillCodes": [],
   "observableEvidence": [
-    "Interprets a part-to-part mixture ratio as a part-to-whole fraction before scaling to the pitcher total."
+    "Applies two different part-to-whole ratios to two separate quantities, finds each part amount, and adds the two part amounts together in one multi-step solution."
   ],
-  "prompt": "A fruit drink is mixed in the ratio 3 cups juice to 5 cups water. A pitcher contains 24 cups of this drink in the same ratio. How many cups of juice are in the pitcher?",
+  "prompt": "Pitcher A holds 24 cups of a juice mixture in which juice and water are in the ratio 1 : 3. Pitcher B holds 40 cups of a juice mixture in which juice and water are in the ratio 3 : 5. The contents of both pitchers are poured into one large container. How many cups of juice are in the large container?",
   "contestFormat": {
     "format": "amc-8",
     "pointValue": 1,
@@ -23,68 +23,78 @@
       "blankPoints": 0
     },
     "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "readinessRequirement": {
+      "minEstimate": 0.8,
+      "disallowLowConfidence": true,
+      "requireIndependentDelayedCheck": true
+    },
     "answerChoices": [
       {
         "label": "A",
-        "text": "6",
-        "rationale": "Treats the juice as one fourth of the mixture rather than 3 of the 8 total ratio parts.",
-        "misconceptionCode": "treats-part-as-total"
+        "text": "19",
+        "rationale": "Swaps the two ratios between the pitchers: uses 3 : 5 for Pitcher A, giving 24 × 3/8 = 9 cups of juice, and uses 1 : 3 for Pitcher B, giving 40 × 1/4 = 10 cups of juice, for a total of 19.",
+        "misconceptionCode": "swaps-ratios-between-groups"
       },
       {
         "label": "B",
-        "text": "8",
-        "rationale": "Divides the total cups by the 3 juice parts, using the part count as if it were the total number of parts.",
-        "misconceptionCode": "treats-part-as-total"
+        "text": "21",
+        "rationale": "Correct: for Pitcher A, juice is 1 part out of 1 + 3 = 4 total parts, so juice = 24 × 1/4 = 6 cups. For Pitcher B, juice is 3 parts out of 3 + 5 = 8 total parts, so juice = 40 × 3/8 = 15 cups. Combined juice = 6 + 15 = 21 cups."
       },
       {
         "label": "C",
-        "text": "9",
-        "rationale": "Correct: juice is 3 of the 8 total parts, and 3/8 of 24 is 9."
+        "text": "23",
+        "rationale": "Uses the wrong unit rate for Pitcher A, treating 1 : 3 as 1 part out of 3 total parts instead of 1 out of 4, giving 24 × 1/3 = 8 cups; Pitcher B is found correctly as 15 cups; total = 8 + 15 = 23.",
+        "misconceptionCode": "uses-wrong-unit-rate"
       },
       {
         "label": "D",
-        "text": "15",
-        "rationale": "Finds the water amount, 5/8 of 24, instead of the juice amount.",
+        "text": "43",
+        "rationale": "Inverts each ratio and finds the water amount instead of the juice amount: Pitcher A gives 24 × 3/4 = 18 cups and Pitcher B gives 40 × 5/8 = 25 cups, for a total of 43.",
         "misconceptionCode": "inverts-ratio"
       },
       {
         "label": "E",
-        "text": "16",
-        "rationale": "Subtracts the mistaken 8-cup result from 24, compounding the wrong part-to-whole setup.",
-        "misconceptionCode": "uses-wrong-unit-rate"
+        "text": "46",
+        "rationale": "Finds Pitcher A's juice amount correctly as 6 cups, but treats all of Pitcher B's 40 cups as juice instead of applying its ratio, giving 6 + 40 = 46.",
+        "misconceptionCode": "treats-part-as-total"
       }
     ]
   },
-  "solutionRepresentation": "The whole ratio has 3 + 5 = 8 equal parts. The juice is 3 of those 8 parts, so the juice amount is (3/8) × 24 = 9 cups.",
-  "solutionMethod": "Convert the part-to-part ratio to a part-to-whole fraction and scale by the total volume.",
+  "solutionRepresentation": "In Pitcher A, juice and water are in the ratio 1 : 3, so juice is 1 out of 1 + 3 = 4 total parts: juice = 24 × 1/4 = 6 cups. In Pitcher B, juice and water are in the ratio 3 : 5, so juice is 3 out of 3 + 5 = 8 total parts: juice = 40 × 3/8 = 15 cups. Combining both pitchers gives 6 + 15 = 21 cups of juice.",
+  "solutionMethod": "Convert each pitcher's ratio into a juice fraction of its own total, compute each pitcher's juice amount separately, then add the two amounts together.",
   "deterministicValidator": {
     "type": "multiple_choice",
-    "canonicalAnswer": "9",
-    "acceptedAnswers": ["9", "9 cups", "C"],
-    "equivalenceNotes": "Accept the number of cups with or without units or as choice C."
+    "canonicalAnswer": "21",
+    "acceptedAnswers": ["21", "21 cups", "B"],
+    "equivalenceNotes": "Accept the amount with or without units or as choice B."
   },
-  "misconceptionCodes": ["treats-part-as-total", "inverts-ratio", "uses-wrong-unit-rate"],
+  "misconceptionCodes": [
+    "swaps-ratios-between-groups",
+    "uses-wrong-unit-rate",
+    "inverts-ratio",
+    "treats-part-as-total"
+  ],
   "hintSteps": [
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "The ratio compares juice to water, but the pitcher amount is the whole drink.",
-      "question": "How many total equal parts are in one full batch of the ratio?"
+      "prompt": "Work with each pitcher's ratio separately before combining anything.",
+      "question": "For Pitcher A, how many total parts are in the ratio 1 : 3, and what fraction of the pitcher is juice?"
     },
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "After finding total parts, decide what fraction of the whole drink is juice.",
-      "question": "Which ratio number belongs in the numerator for the juice fraction?"
+      "prompt": "Multiply each pitcher's own total cups by its own juice fraction to find that pitcher's juice amount.",
+      "question": "How many cups of juice are in Pitcher A, and how many are in Pitcher B?"
     },
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "In a 2 to 3 mixture, the first ingredient is 2 out of 5 total parts, not 2 out of 3.",
-      "question": "Which answer choice uses the correct part-to-whole fraction here?"
+      "prompt": "If one pitcher of 10 cups has a 1:1 ratio of juice to water, it has 5 cups of juice; adding a second pitcher's juice amount to that gives the combined total.",
+      "question": "Which answer choice is the sum of the two pitchers' separate juice amounts?"
     }
   ],
-  "forbiddenLeakagePatterns": ["9 cups", "choice c", "3/8 of 24 is 9"],
+  "forbiddenLeakagePatterns": ["6 + 15", "choice b", "= 21 cups"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
@@ -94,6 +104,6 @@
     "reviewer": "Independent reviewer pending",
     "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
   },
-  "accessibilityNotes": "State the ratio and pitcher total in text; a tape diagram may be offered but is not required.",
-  "accessibleAlternative": "Read aloud or display: A drink has a 3 to 5 ratio of juice to water. In 24 cups of drink, find the cups of juice."
+  "accessibilityNotes": "Present both ratios and totals as text; no diagram is required.",
+  "accessibleAlternative": "Read aloud or display: Pitcher A has 24 cups with juice to water ratio 1 to 3. Pitcher B has 40 cups with juice to water ratio 3 to 5. Both pitchers are combined. Find the total cups of juice."
 }

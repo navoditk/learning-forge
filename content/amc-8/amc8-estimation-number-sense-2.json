@@ -1,6 +1,6 @@
 {
   "id": "amc8-estimation-number-sense-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Puzzle booth estimate",
   "skillCode": "amc8-estimation-number-sense",
   "mode": "contest",
@@ -53,7 +53,12 @@
         "rationale": "Treats 48% as about 3/4 of 200, an unreasonable magnitude for a percent just under one-half.",
         "misconceptionCode": "chooses-unreasonable-magnitude"
       }
-    ]
+    ],
+    "readinessRequirement": {
+      "minEstimate": 0.8,
+      "disallowLowConfidence": true,
+      "requireIndependentDelayedCheck": true
+    }
   },
   "solutionRepresentation": "48% is close to 50%, and 199 is close to 200. Half of 200 is 100, so the closest choice is 100.",
   "solutionMethod": "Use 50% as a benchmark for 48% and 200 as a compatible total, then choose the closest option.",

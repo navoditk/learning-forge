@@ -146,43 +146,79 @@ describe('planNextActivities', () => {
     expect(result.unavailableSkills).toEqual([]);
   });
 
-  it('keeps AMC 8 contest-tier records behind structured prerequisite evidence', () => {
+  describe('AMC 8 contest-tier structured readiness gate', () => {
+    // Every AMC 8 skill code, derived from the real skill catalog rather
+    // than a skill-code-prefix string check, so the planner and this test
+    // both rely only on the `program` field and the per-item
+    // `contestReadinessRequirement` contract.
+    const amc8SkillCodes = new Set(
+      skillCatalog.filter((skill) => skill.program === 'amc-8').map((skill) => skill.code),
+    );
     const amc8Skills: PlannerSkill[] = skillCatalog
-      .filter((skill) => skill.program === 'amc-8')
+      .filter((skill) => amc8SkillCodes.has(skill.code))
       .map((skill) => ({
         code: skill.code,
         prerequisiteSkillCodes: skill.prerequisiteSkillCodes,
       }));
     const amc8Content: PlannerContentItem[] = contentCatalog
-      .filter((item) => item.skillCode.startsWith('amc8-'))
+      .filter((item) => amc8SkillCodes.has(item.skillCode))
       .map((item) => ({
         id: item.id,
         skillCode: item.skillCode,
         mode: item.mode,
         difficulty: item.difficulty,
+        contestReadinessRequirement: item.contestFormat?.readinessRequirement,
       }));
 
-    const initialPlan = planNextActivities({
-      skills: amc8Skills,
-      content: amc8Content,
-      masteryBySkillCode: {},
-      timeBudgetMinutes: 200,
-    });
-    expect(initialPlan.items).toHaveLength(8);
-    expect(initialPlan.items.every((item) => item.mode === 'core')).toBe(true);
+    function planWithMastery(masteryBySkillCode: PlannerInput['masteryBySkillCode']) {
+      return planNextActivities({
+        skills: amc8Skills,
+        content: amc8Content,
+        masteryBySkillCode,
+        timeBudgetMinutes: 200,
+      });
+    }
 
-    const masteryBySkillCode = Object.fromEntries(
-      amc8Skills.map((skill) => [
-        skill.code,
-        { estimate: 0.5, confidenceBand: 'LOW' as const, independentDelayedCheck: false },
-      ]),
-    );
-    const afterEvidencePlan = planNextActivities({
-      skills: amc8Skills,
-      content: amc8Content,
-      masteryBySkillCode,
-      timeBudgetMinutes: 200,
+    it('offers only core prep when there is no mastery evidence at all', () => {
+      const plan = planWithMastery({});
+      expect(plan.items).toHaveLength(8);
+      expect(plan.items.every((item) => item.mode === 'core')).toBe(true);
     });
-    expect(afterEvidencePlan.items.filter((item) => item.mode === 'contest')).toHaveLength(8);
+
+    it('withholds contest items for weak, low-confidence, unconfirmed evidence (0.5/LOW/false)', () => {
+      const masteryBySkillCode = Object.fromEntries(
+        amc8Skills.map((skill) => [
+          skill.code,
+          { estimate: 0.5, confidenceBand: 'LOW' as const, independentDelayedCheck: false },
+        ]),
+      );
+      const plan = planWithMastery(masteryBySkillCode);
+      expect(plan.items.filter((item) => item.mode === 'contest')).toHaveLength(0);
+      expect(plan.items.every((item) => item.mode === 'core')).toBe(true);
+    });
+
+    it('withholds contest items when the estimate threshold is met but there is no independent delayed check', () => {
+      const masteryBySkillCode = Object.fromEntries(
+        amc8Skills.map((skill) => [
+          skill.code,
+          { estimate: 0.9, confidenceBand: 'HIGH' as const, independentDelayedCheck: false },
+        ]),
+      );
+      const plan = planWithMastery(masteryBySkillCode);
+      expect(plan.items.filter((item) => item.mode === 'contest')).toHaveLength(0);
+      expect(plan.items.every((item) => item.mode === 'core')).toBe(true);
+    });
+
+    it('unlocks the eligible contest activity once every documented bar is cleared, and stops recommending core', () => {
+      const masteryBySkillCode = Object.fromEntries(
+        amc8Skills.map((skill) => [
+          skill.code,
+          { estimate: 0.9, confidenceBand: 'HIGH' as const, independentDelayedCheck: true },
+        ]),
+      );
+      const plan = planWithMastery(masteryBySkillCode);
+      expect(plan.items.filter((item) => item.mode === 'contest')).toHaveLength(8);
+      expect(plan.items.every((item) => item.mode === 'contest')).toBe(true);
+    });
   });
 });

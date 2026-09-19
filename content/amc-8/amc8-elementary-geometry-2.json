@@ -1,22 +1,22 @@
 {
   "id": "amc8-elementary-geometry-2",
-  "version": "content-1",
-  "title": "Right-triangle hypotenuse",
+  "version": "content-2",
+  "title": "Lawn with two removed regions",
   "skillCode": "amc8-elementary-geometry",
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-GEOM-1"],
   "prerequisiteSkillCodes": [],
   "observableEvidence": [
-    "Uses the Pythagorean relationship on a right triangle with integer legs to identify the hypotenuse."
+    "Combines a right-triangle area (found from its legs) with a separate square area to subtract two removed regions from a rectangle in one multi-step solution."
   ],
-  "prompt": "A right triangle has legs of length 5 and 12. What is the length of its hypotenuse?",
+  "prompt": "A rectangular lawn measures 13 m by 11 m. A straight cut removes a right-triangular corner whose legs measure 5 m and 12 m, and a separate square patio of side 4 m is removed from the opposite corner. What is the area of the lawn that remains, in square meters?",
   "figure": {
-    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 420 260\" role=\"img\"><rect width=\"420\" height=\"260\" fill=\"#ffffff\"/><polygon points=\"80,200 320,200 80,80\" fill=\"#eaf4f2\" stroke=\"#2c534f\" stroke-width=\"4\"/><path d=\"M80 178 H102 V200\" fill=\"none\" stroke=\"#22221f\" stroke-width=\"3\"/><text x=\"190\" y=\"230\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#22221f\">12</text><text x=\"44\" y=\"144\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#22221f\">5</text><text x=\"208\" y=\"128\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#22221f\">?</text></svg>",
-    "altText": "A right triangle has a horizontal leg labeled 12, a vertical leg labeled 5, a right-angle marker between them, and the slanted hypotenuse marked with a question mark.",
-    "caption": "A right triangle with legs 5 and 12.",
-    "width": 420,
-    "height": 260
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 440\" role=\"img\"><rect width=\"560\" height=\"440\" fill=\"#ffffff\"/><rect x=\"90\" y=\"70\" width=\"390\" height=\"330\" fill=\"#eaf4f2\" stroke=\"#2c534f\" stroke-width=\"4\"/><polygon points=\"480,70 120,70 480,220\" fill=\"#ffffff\" stroke=\"#c16b36\" stroke-width=\"4\" stroke-dasharray=\"8 5\"/><rect x=\"90\" y=\"280\" width=\"120\" height=\"120\" fill=\"#ffffff\" stroke=\"#c16b36\" stroke-width=\"4\" stroke-dasharray=\"8 5\"/><line x1=\"90\" y1=\"420\" x2=\"480\" y2=\"420\" stroke=\"#22221f\" stroke-width=\"3\"/><line x1=\"70\" y1=\"70\" x2=\"70\" y2=\"400\" stroke=\"#22221f\" stroke-width=\"3\"/><text x=\"255\" y=\"438\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#22221f\">13 m</text><text x=\"18\" y=\"240\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#22221f\">11 m</text><text x=\"275\" y=\"55\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#8a3f25\">12 m</text><text x=\"488\" y=\"150\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#8a3f25\">5 m</text><text x=\"100\" y=\"345\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#8a3f25\">4 m</text></svg>",
+    "altText": "A rectangle labeled 13 meters wide and 11 meters tall has a right-triangular corner removed at the top right, with a horizontal leg of 12 meters and a vertical leg of 5 meters, and a 4-meter square removed from the bottom-left corner. The rectangle is drawn to these proportions.",
+    "caption": "A rectangular lawn with a triangular corner and a square corner both removed, drawn to the labeled proportions.",
+    "width": 560,
+    "height": 440
   },
   "contestFormat": {
     "format": "amc-8",
@@ -30,68 +30,77 @@
       "blankPoints": 0
     },
     "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
+    "readinessRequirement": {
+      "minEstimate": 0.8,
+      "disallowLowConfidence": true,
+      "requireIndependentDelayedCheck": true
+    },
     "answerChoices": [
       {
         "label": "A",
-        "text": "7",
-        "rationale": "Subtracts the shorter leg from the longer leg, 12 − 5, instead of using squared side lengths.",
-        "misconceptionCode": "squares-sides-incorrectly"
+        "text": "67",
+        "rationale": "Uses 5 x 12 = 60 as the triangle's area instead of half that product (5 x 12 / 2 = 30), then still subtracts both removed regions: 143 - 60 - 16 = 67.",
+        "misconceptionCode": "skips-halving-triangle-area"
       },
       {
         "label": "B",
-        "text": "11",
-        "rationale": "Combines the squares incorrectly as 144 − 25 = 119 and then estimates the square root downward.",
-        "misconceptionCode": "squares-sides-incorrectly"
+        "text": "97",
+        "rationale": "Correct: the rectangle's area is 13 x 11 = 143 square meters. The removed triangle's area is (5 x 12) / 2 = 30 square meters, and the removed square's area is 4 x 4 = 16 square meters. The remaining area is 143 - 30 - 16 = 97 square meters."
       },
       {
         "label": "C",
-        "text": "13",
-        "rationale": "Correct: 5² + 12² = 25 + 144 = 169, and the square root of 169 is 13."
+        "text": "113",
+        "rationale": "Subtracts only the triangular cutout (30) and forgets to remove the square patio (16): 143 - 30 = 113.",
+        "misconceptionCode": "omits-a-removed-region"
       },
       {
         "label": "D",
-        "text": "17",
-        "rationale": "Adds the two legs, 5 + 12, which gives a perimeter part rather than the hypotenuse.",
-        "misconceptionCode": "confuses-perimeter-and-area"
+        "text": "127",
+        "rationale": "Subtracts only the square patio (16) and forgets to remove the triangular cutout (30): 143 - 16 = 127.",
+        "misconceptionCode": "omits-a-removed-region"
       },
       {
         "label": "E",
-        "text": "60",
-        "rationale": "Multiplies the legs, 5 × 12, treating area-like multiplication as a side length.",
-        "misconceptionCode": "confuses-perimeter-and-area"
+        "text": "157",
+        "rationale": "Adds the triangular area to the rectangle instead of subtracting it, while still correctly subtracting the square patio: 143 + 30 - 16 = 157.",
+        "misconceptionCode": "adds-instead-of-subtracts-area"
       }
     ]
   },
-  "solutionRepresentation": "For a right triangle, the hypotenuse c satisfies c² = 5² + 12² = 25 + 144 = 169. Therefore c = 13.",
-  "solutionMethod": "Apply the Pythagorean relationship to the two legs and take the positive square root.",
+  "solutionRepresentation": "The rectangle's area is 13 x 11 = 143 square meters. The removed right triangle has legs 5 and 12, so its area is (5 x 12) / 2 = 30 square meters. The removed square has area 4 x 4 = 16 square meters. The remaining area is 143 - 30 - 16 = 97 square meters.",
+  "solutionMethod": "Find the whole rectangle's area, subtract the areas of both removed regions (a right triangle and a square) separately, and keep square-meter units.",
   "deterministicValidator": {
     "type": "multiple_choice",
-    "canonicalAnswer": "13",
-    "acceptedAnswers": ["13", "13 units", "C"],
-    "equivalenceNotes": "Accept the length with or without units or as choice C."
+    "canonicalAnswer": "97",
+    "acceptedAnswers": ["97", "97 square meters", "B"],
+    "equivalenceNotes": "Accept the area with or without square-meter units or as choice B."
   },
-  "misconceptionCodes": ["squares-sides-incorrectly", "confuses-perimeter-and-area"],
+  "misconceptionCodes": [
+    "skips-halving-triangle-area",
+    "omits-a-removed-region",
+    "adds-instead-of-subtracts-area"
+  ],
   "hintSteps": [
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "For a right triangle, the slanted side is related to the squares of the legs.",
-      "question": "What relationship connects the two legs and the hypotenuse?"
+      "prompt": "This lawn has two separate regions removed from the same rectangle, not just one.",
+      "question": "What are the areas of the whole rectangle, the triangular cutout, and the square cutout, found separately?"
     },
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "Square each leg before combining them; do not add the leg lengths directly.",
-      "question": "What sum of squares should equal the hypotenuse squared?"
+      "prompt": "The triangle's area needs half of the product of its two legs, not the full product.",
+      "question": "What is (5 x 12) divided by 2?"
     },
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "A 3-4 right triangle has hypotenuse 5 because 3 squared plus 4 squared gives 5 squared.",
-      "question": "Which answer choice fits the same relationship here?"
+      "prompt": "If a 20-square-meter yard loses a 3-square-meter triangular corner and a 2-square-meter square corner, the remaining area subtracts both pieces: 20 - 3 - 2.",
+      "question": "Which answer choice subtracts both removed regions from this rectangle's area the same way?"
     }
   ],
-  "forbiddenLeakagePatterns": ["13 units", "choice c", "c = 13"],
+  "forbiddenLeakagePatterns": ["97 square", "choice b", "143 - 30 - 16"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
@@ -101,6 +110,6 @@
     "reviewer": "Independent reviewer pending",
     "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
   },
-  "accessibilityNotes": "Provide the labeled right-triangle diagram and a text alternative; the right angle marker must not be the only source of information.",
-  "accessibleAlternative": "Read aloud or display: A right triangle has perpendicular legs of lengths 5 and 12. Find the length of the hypotenuse from the five choices."
+  "accessibilityNotes": "Show the diagram with labels and provide the full text alternative; the two cut-out dimensions must not rely on color alone. The figure is drawn to the labeled proportions (13:11 for the rectangle, 12:5 for the triangle's legs, and a true square for the 4 m cutout).",
+  "accessibleAlternative": "Read aloud or display: Start with a rectangle 13 meters by 11 meters. Remove a right triangular corner with legs 12 meters and 5 meters, and separately remove a 4-meter square from the opposite corner. Find the remaining area."
 }

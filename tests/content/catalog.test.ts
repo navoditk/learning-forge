@@ -110,6 +110,11 @@ describe('ratios content seed', () => {
         incorrectPoints: 0,
         blankPoints: 0,
       });
+      expect(item.contestFormat?.readinessRequirement).toEqual({
+        minEstimate: 0.8,
+        disallowLowConfidence: true,
+        requireIndependentDelayedCheck: true,
+      });
       expect(item.contestFormat?.answerChoices).toHaveLength(5);
       expect(item.contestFormat?.answerChoices.map((choice) => choice.label)).toEqual([
         'A',
@@ -143,6 +148,19 @@ describe('ratios content seed', () => {
         ),
       ),
     ).toThrow('must use AMC 8 +1 scoring');
+
+    expect(() =>
+      validateContentCatalog(
+        contentCatalog.map((item) =>
+          item.id === withMathKangarooTier.id
+            ? {
+                ...item,
+                contestFormat: { ...item.contestFormat, readinessRequirement: undefined },
+              }
+            : item,
+        ),
+      ),
+    ).toThrow('must encode the approved AMC 8 readiness gate');
   });
 
   it('keeps MOEMS contest items as numeric or text free-response without Math Kangaroo metadata', () => {
@@ -202,17 +220,17 @@ describe('ratios content seed', () => {
       ['amc8-estimation-number-sense-1', '6000'],
       ['amc8-estimation-number-sense-2', '100'],
       ['amc8-proportional-reasoning-1', '18 dollars'],
-      ['amc8-proportional-reasoning-2', '9'],
+      ['amc8-proportional-reasoning-2', '21'],
       ['amc8-elementary-geometry-1', '54 square centimeters'],
-      ['amc8-elementary-geometry-2', '13'],
+      ['amc8-elementary-geometry-2', '97'],
       ['amc8-spatial-visualization-1', '8'],
-      ['amc8-spatial-visualization-2', 'Face U'],
+      ['amc8-spatial-visualization-2', '11'],
       ['amc8-graphs-and-tables-1', 'Thursday'],
-      ['amc8-graphs-and-tables-2', '11'],
+      ['amc8-graphs-and-tables-2', '244'],
       ['amc8-introductory-algebra-1', '7'],
-      ['amc8-introductory-algebra-2', '6'],
+      ['amc8-introductory-algebra-2', '8'],
       ['amc8-coordinate-geometry-1', '6'],
-      ['amc8-coordinate-geometry-2', '24'],
+      ['amc8-coordinate-geometry-2', '18'],
     ]);
 
     expect(amc8Skills).toHaveLength(8);
@@ -296,6 +314,81 @@ describe('ratios content seed', () => {
     expect(angleBetween(points![0], points![1], points![2])).toBeCloseTo(50, 2);
     expect(angleBetween(points![1], points![0], points![2])).toBeCloseTo(70, 2);
     expect(angleBetween(points![2], points![0], points![1])).toBeCloseTo(60, 2);
+  });
+
+  it('keeps the AMC 8 coordinate-geometry figure numerically faithful to the prompt points', () => {
+    const item = contentCatalog.find((candidate) => candidate.id === 'amc8-coordinate-geometry-2');
+    const svg = item?.figure?.svgMarkup ?? '';
+
+    const originMatch = svg.match(
+      /data-role="x-axis"[^>]*data-origin-x="([^"]+)" data-origin-y="([^"]+)" data-unit-px="([^"]+)"/,
+    );
+    expect(originMatch).toBeTruthy();
+    const originX = Number(originMatch![1]);
+    const originY = Number(originMatch![2]);
+    const unitPx = Number(originMatch![3]);
+
+    const toDataCoords = (pixelX: number, pixelY: number) => [
+      (pixelX - originX) / unitPx,
+      (originY - pixelY) / unitPx,
+    ];
+
+    const outerRect = svg.match(
+      /data-role="outer-rectangle" data-x1="([^"]+)" data-y1="([^"]+)" data-x2="([^"]+)" data-y2="([^"]+)"/,
+    );
+    expect(outerRect).toBeTruthy();
+    expect(Number(outerRect![1])).toBeCloseTo(-1, 6);
+    expect(Number(outerRect![2])).toBeCloseTo(2, 6);
+    expect(Number(outerRect![3])).toBeCloseTo(5, 6);
+    expect(Number(outerRect![4])).toBeCloseTo(6, 6);
+
+    const removedRect = svg.match(
+      /data-role="removed-rectangle" data-x1="([^"]+)" data-y1="([^"]+)" data-x2="([^"]+)" data-y2="([^"]+)"/,
+    );
+    expect(removedRect).toBeTruthy();
+    expect(Number(removedRect![1])).toBeCloseTo(2, 6);
+    expect(Number(removedRect![2])).toBeCloseTo(2, 6);
+    expect(Number(removedRect![3])).toBeCloseTo(5, 6);
+    expect(Number(removedRect![4])).toBeCloseTo(4, 6);
+
+    const outerRectPixels = svg.match(
+      /<rect x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)" fill="#eaf4f2"[^>]*data-role="outer-rectangle"/,
+    );
+    expect(outerRectPixels).toBeTruthy();
+    const [outerLeft, outerTop] = toDataCoords(
+      Number(outerRectPixels![1]),
+      Number(outerRectPixels![2]),
+    );
+    const [outerRight, outerBottom] = toDataCoords(
+      Number(outerRectPixels![1]) + Number(outerRectPixels![3]),
+      Number(outerRectPixels![2]) + Number(outerRectPixels![4]),
+    );
+    expect(outerLeft).toBeCloseTo(-1, 6);
+    expect(outerBottom).toBeCloseTo(2, 6);
+    expect(outerRight).toBeCloseTo(5, 6);
+    expect(outerTop).toBeCloseTo(6, 6);
+
+    const vertexMatches = [
+      ...svg.matchAll(/data-role="vertex" data-x="([^"]+)" data-y="([^"]+)"/g),
+    ].map((match) => [Number(match[1]), Number(match[2])]);
+    expect(vertexMatches).toEqual([
+      [-1, 2],
+      [5, 6],
+      [2, 2],
+      [5, 4],
+    ]);
+
+    const vertexPixels = [
+      ...svg.matchAll(
+        /<circle cx="([^"]+)" cy="([^"]+)"[^>]*data-role="vertex" data-x="([^"]+)" data-y="([^"]+)"/g,
+      ),
+    ];
+    expect(vertexPixels).toHaveLength(4);
+    for (const [, cx, cy, dataX, dataY] of vertexPixels) {
+      const [computedX, computedY] = toDataCoords(Number(cx), Number(cy));
+      expect(computedX).toBeCloseTo(Number(dataX), 6);
+      expect(computedY).toBeCloseTo(Number(dataY), 6);
+    }
   });
 
   it('rejects gaps in hint ordering and content that is not marked owned', () => {

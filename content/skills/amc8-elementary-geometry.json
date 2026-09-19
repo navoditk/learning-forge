@@ -14,7 +14,9 @@
     "adds-instead-of-subtracts-area",
     "squares-sides-incorrectly",
     "assumes-diagram-to-scale",
-    "drops-units"
+    "drops-units",
+    "skips-halving-triangle-area",
+    "omits-a-removed-region"
   ],
   "difficultyBands": ["foundational", "developing", "challenging"],
   "masteryCheckRule": "Require a correct measure with the relevant geometric relationship named, plus one delayed item using a different representation."

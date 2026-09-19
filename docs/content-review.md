@@ -712,3 +712,253 @@ not ready for human review
   agent's isolated timeout was not reproducible and is not a verified defect.
 
 ready for human review
+
+## 2026-09-18 — AMC 8 Grade 6 prep authoring increment — independent review
+
+- **Scope:** Commit `b4f99d2`: the approved AMC 8 dossier section in
+  `docs/curriculum-sources.md`, the AMC 8 additions to the skill/content
+  catalogs and contracts/planner, eight `content/skills/amc8-*.json` files,
+  sixteen `content/amc-8/*.json` records, six SVG figures, ADR-0004, and the
+  changed tests/site wiring.
+- **Reviewer:** Independent `curriculum-review` pass. This report is advisory;
+  it does not change any curriculum JSON, contract, catalog, planner, test, or
+  `review.status` field.
+- **Overall verdict:** **Do not approve.**
+- **Recommendation:** **not ready for human review**.
+
+### What was checked
+
+1. **Source fidelity and boundaries:** Re-read the approved AMC 8 dossier and
+   the authoring/review playbooks. The shipped metadata correctly represents
+   the confirmed format: 25 questions, 40 minutes, five choices A-E, no
+   calculators, and +1 correct / 0 wrong / 0 blank. The eligibility string is
+   repeated on every contest record and the skill map is presented as a
+   Learning Forge synthesis rather than an official MAA syllabus. The eight
+   skills cover every primary MAA topic family named in the dossier:
+   counting/probability, estimation, proportional reasoning, elementary
+   geometry, spatial visualization, graphs/tables, introductory algebra, and
+   coordinate geometry.
+2. **Subject accuracy:** Independently solved all sixteen records from first
+   principles. The canonical answer and units/form are correct in every item:
+
+   | Record | Independent derivation |
+   |---|---|
+   | `amc8-counting-probability-1` | Non-triangle sectors = 3 + 2 of 8, so `5/8`. |
+   | `amc8-counting-probability-2` | Even sum requires odd-odd or even-even; `13,31,24,42`, so `4`. |
+   | `amc8-estimation-number-sense-1` | `198 ≈ 200`, `31 ≈ 30`; `200 × 30 = 6000`. |
+   | `amc8-estimation-number-sense-2` | `48% of 199 ≈ 50% of 200 = 100`. |
+   | `amc8-proportional-reasoning-1` | `$7.20 / 4 = $1.80`; `10 × $1.80 = $18`. |
+   | `amc8-proportional-reasoning-2` | Juice is `3/(3+5)` of 24, so `9` cups. |
+   | `amc8-elementary-geometry-1` | `10×6 − (4×3)/2 = 60−6 = 54 cm²`. |
+   | `amc8-elementary-geometry-2` | `sqrt(5²+12²) = sqrt(169) = 13`. |
+   | `amc8-spatial-visualization-1` | All 8 cubes in a `2×2×2` block are corners; each has 3 painted faces. |
+   | `amc8-spatial-visualization-2` | Q/R/S/T are adjacent to P; U folds to the face opposite P. |
+   | `amc8-graphs-and-tables-1` | First value at least 30 is Thursday's 39 pages. |
+   | `amc8-graphs-and-tables-2` | Differences are +3 and the rule is `y=3x+2`; `y=35` gives `x=11`. |
+   | `amc8-introductory-algebra-1` | `3x+5=26`; subtract 5 and divide by 3, giving `x=7`. |
+   | `amc8-introductory-algebra-2` | `n²=36` and n is positive, so `n=6`. |
+   | `amc8-coordinate-geometry-1` | Equal y-values make a horizontal segment; `4−(−2)=6`. |
+   | `amc8-coordinate-geometry-2` | Side lengths are `5−(−1)=6` and `6−2=4`; area `24`. |
+
+   I also checked every contest choice against the canonical answer and
+   independently evaluated each distractor rationale/misconception. Most are
+   deterministic and plausible; the two rationale defects below remain.
+3. **Coverage and skill design:** Each skill has exactly one core and one
+   contest record, with different prompts and evidence statements. The graph
+   is namespaced, acyclic, and has no unknown prerequisite references.
+   However, several contest records introduce a distinct subskill not taught
+   by their paired core record, so a skill-level mastery row is too coarse to
+   establish readiness for the contest item.
+4. **Prerequisite audit:** The explicit AMC graph has eight roots and no cycles
+   or unjustified teaching-order edges. Strictly auditing conceptual
+   readiness reveals hidden gaps: the core geometry item is area subtraction
+   while the contest item requires the Pythagorean theorem; core spatial
+   painting-count reasoning does not establish cube-net folding; core
+   coordinate distance does not establish rectangle area from opposite
+   vertices; and core table threshold reading does not establish rule
+   extrapolation. These are not necessarily graph edges between the broad
+   skills, but they are readiness gaps inside the skill boundaries and make
+   the current contest unlock evidence non-specific.
+5. **Hints and pedagogy:** All sixteen ladders have contiguous orders and no
+   automated forbidden-pattern hit. Hints generally scaffold rather than
+   reveal answers. The contest items are safe in tone and age-appropriate,
+   but several are routine textbook exercises despite the dossier's
+   “full-difficulty AMC-8-style” contest tier; see finding 3.
+6. **Originality, provenance, safety:** Prompts and figures do not show direct
+   copied or close-paraphrased language from the reviewed MAA/AJHSME
+   material. All records remain `llm_drafted`, `owned`, and
+   `pending_review`; no licensing claim says that MAA permits reproduction.
+   This is a bounded originality check, not an exhaustive archive similarity
+   search. The content is child-safe and has no unsafe personal-data,
+   persuasive, or external-contact behavior.
+7. **Figures and ADR-0004:** All six figures use the allowed static SVG
+   element subset and contain no scripts, event handlers, external URLs,
+   stylesheets, or answer-bearing solution text. Every figure has alt text,
+   a caption, and a plain-text alternative. `amc8-coordinate-geometry-1`
+   is coordinate-consistent; the cube net is topologically correct. The
+   rectangle/cutout and 5-12 triangle are schematic and do not state
+   “not to scale”; their labels still identify the intended data. The
+   `amc8-coordinate-geometry-2` rectangle is not data-faithful; see finding
+   2. The figures remain isolated from tutor-provider input and AMC 8 remains
+   unavailable.
+
+### Verified findings
+
+1. **Severity:** major; **confidence:** high.
+   **Files / lines:** `tests/planner/plan-next-activities.test.ts:149-186`;
+   `src/planner/plan-next-activities.ts:18-23,45-75`; the planner contract
+   `src/contracts/planner.ts:15-19`.
+   **Violated source/rule:** Approved AMC 8 dossier,
+   `docs/curriculum-sources.md:563-566`, requires contest access only after
+   structured prerequisite evidence; `docs/02-curriculum-and-pedagogy.md`
+   requires multiple observations over time and an independent delayed check
+   before “Secure.”
+   **Evidence:** The regression test explicitly creates every AMC skill with
+   `estimate: 0.5`, `confidenceBand: "LOW"`, and
+   `independentDelayedCheck: false`, then expects all eight contest records to
+   be planned (`tests/planner/plan-next-activities.test.ts:175-186`). The
+   implementation treats any mastery row as sufficient to append one
+   non-core challenge (`src/planner/plan-next-activities.ts:65-75`); it does
+   not inspect confidence or delayed-check state for contest eligibility.
+   This is not structured readiness evidence and is especially unsafe because
+   the records are broad skill-level proxies with the hidden subskill gaps
+   described above.
+   **Smallest safe remediation:** add an explicit contract-level contest
+   eligibility predicate/field and require evidence from multiple independent
+   observations, at minimum a non-LOW confidence band plus
+   `independentDelayedCheck: true` (and a documented estimate threshold),
+   before selecting `mode: "contest"`. Keep core selection available while
+   contest eligibility is false. Update the planner test to assert that the
+   current 0.5/LOW/false case yields zero contest items; do not infer
+   readiness from row existence.
+
+2. **Severity:** major; **confidence:** high.
+   **Files / lines:** `content/amc-8/amc8-coordinate-geometry-2.json:14-20`;
+   specifically the axis lines at `:14`, rectangle at `:14`, and labels at
+   `:14`; prompt/data at `:10-12`.
+   **Violated source/rule:** `docs/content-review.md` figure checklist and
+   ADR-0004 require authored diagrams to be reviewed for mathematical
+   correctness and fidelity to the content data.
+   **Evidence:** The prompt labels opposite vertices `(-1,2)` and `(5,6)`.
+   With the SVG's own axis mapping (origin at `(120,280)`, 40 px/unit), the
+   marked rectangle corners at `(80,280)` and `(320,120)` are `(-1,0)` and
+   `(5,4)`, not `(-1,2)` and `(5,6)`. The rectangle is shifted down two
+   coordinate units relative to both labels. The accessible alternative
+   repeats the prompt coordinates, so the visual and text paths disagree.
+   **Smallest safe remediation:** move the axes/rectangle/points together so
+   the drawn corners encode `(-1,2)` and `(5,6)`, or remove the grid as a
+   non-data-bearing schematic and explicitly state that only the text
+   coordinates govern the calculation. Re-check the accessible alternative
+   and generated site after the fix.
+
+3. **Severity:** major; **confidence:** high.
+   **Files / lines:** `content/amc-8/amc8-elementary-geometry-2.json:6-12`,
+   `content/amc-8/amc8-spatial-visualization-2.json:6-12`,
+   `content/amc-8/amc8-graphs-and-tables-2.json:6-12`,
+   `content/amc-8/amc8-introductory-algebra-2.json:6-12`,
+   `content/amc-8/amc8-coordinate-geometry-2.json:6-12`,
+   `content/amc-8/amc8-proportional-reasoning-2.json:6-12`.
+   **Violated source/rule:** `docs/curriculum-sources.md:470` defines the
+   contest tier as full-difficulty AMC-8-style items, while the authoring
+   playbook and review checklist require coherent observable evidence and
+   age-appropriate progression.
+   **Evidence:** The contest set includes direct routine exercises: a 5-12
+   Pythagorean triple, solving `n²+4=40`, a 3:5 mixture scaled to 24, reading
+   a simple cube net, extending a constant-difference table, and computing an
+   axis-aligned rectangle area. These are mathematically correct, but they
+   do not provide the promised contest-level difficulty ramp or transfer
+   beyond the paired core records. The core/contest pair therefore cannot
+   jointly support a defensible skill-level “contest ready” claim.
+   **Smallest safe remediation:** either revise the contest records to require
+   non-routine multi-step transfer while retaining original wording, or
+   narrow the dossier/catalog language and difficulty labels to “AMC 8-style
+   foundational practice.” Split materially distinct subskills into separate
+   namespaced skills if they must be independently mastered.
+
+4. **Severity:** minor; **confidence:** high.
+   **File / lines:** `content/amc-8/amc8-graphs-and-tables-2.json:44-55`,
+   especially choice E at `:52-55`.
+   **Violated source/rule:** `docs/content-review.md` requires every
+   distractor rationale to trace to a real misconception and the stated
+   answer choice.
+   **Evidence:** Choice E is `13`, but its rationale says to count seven more
+   y-steps from 14 and add them to the current x-value. Seven + the current
+   x-value 4 gives `11`, the correct answer, not `13`. The rationale neither
+   explains 13 nor identifies a reproducible misconception.
+   **Smallest safe remediation:** replace the rationale with a deterministic
+   error that actually produces 13 and add/use a matching declared
+   misconception code, or replace the distractor.
+
+5. **Severity:** minor; **confidence:** high.
+   **File / lines:** `content/amc-8/amc8-introductory-algebra-2.json:35-40`,
+   especially choice D at `:38-40`.
+   **Violated source/rule:** `docs/content-review.md` requires distractor
+   rationales and misconception codes to describe the learner error that
+   produces the distractor.
+   **Evidence:** Choice D is `36`, with rationale “Subtracts 4 ... to get
+   n² = 36, then reports 36 without taking a square root,” but its
+   `misconceptionCode` is `takes-square-root-too-early`. The described error is
+   failure to take the square root, not taking it too early; the declared
+   code is semantically inverted.
+   **Smallest safe remediation:** introduce/use a matching
+   `fails-to-take-square-root` misconception code and update the skill/item
+   declarations, or rewrite the distractor rationale to match the existing
+   code.
+
+6. **Severity:** minor; **confidence:** medium.
+   **Files / lines:** `content/amc-8/amc8-elementary-geometry-1.json:14-20`,
+   `content/amc-8/amc8-elementary-geometry-2.json:14-20`, and their
+   corresponding `figure` metadata.
+   **Violated source/rule:** ADR-0004 and the figure review checklist require
+   diagrams not to visually contradict labeled data.
+   **Evidence:** The cutout drawing's outer rectangle is approximately
+   340:180 (1.89), not 10:6 (1.67), and the 5-12 triangle is drawn with
+   approximately 240:120 (2.0), not 12:5 (2.4). The labels make the intended
+   values recoverable, but neither figure says “not to scale,” so a learner
+   may use visual proportion as evidence in a geometry lesson.
+   **Smallest safe remediation:** redraw to the labeled proportions where
+   practical, or add an explicit “not to scale; use the labeled measures”
+   note to the figure/accessibility metadata and ensure the visual does not
+   cue a contradictory relationship.
+
+### Questions
+
+- The official eligibility wording in the dossier uses “grade 8 and below /
+  age 15.5 or younger,” while each record says “grade 8 or below and age
+  15.5 years or younger.” I did not classify this as a verified defect because
+  the dossier's slash is ambiguous; the content owner should confirm whether
+  the official rule is conjunctive and then standardize the exact wording.
+- The core graph record accepts `"Thursday 39"` in a text validator even
+  though the question asks for a day. The schema permits it and no runtime
+  normalizer was changed in this commit; confirm that the actual scorer
+  intentionally accepts an answer plus extraneous supporting data.
+
+### Residual risks
+
+- No exhaustive string/diagram similarity search against every MAA/AJHSME
+  archive item was possible in this repository-only pass. The records appear
+  independently authored, but `llm_drafted` content still requires human
+  originality review.
+- The AMC 8 program is correctly isolated: `amc-8` remains unavailable,
+  pending records are excluded from the servable catalog, and the site labels
+  the section as draft/pending. Existing schema/catalog/build checks passing
+  does not establish readiness evidence or mathematical/pedagogical quality.
+- The six SVGs are static and encoded as image data URIs, but the current SVG
+  contract does not validate coordinate/data fidelity or enforce explicit
+  not-to-scale annotations.
+
+### Validation outcomes
+
+- `npm run content:validate` — passed (16 tests).
+- `npm run curriculum:validate` — passed (17 tests).
+- Focused/full unit command — passed (81 tests).
+- `npm run verify` — passed formatting, lint, typecheck, migration
+  down-migration check, 81 tests, and production build.
+- `git diff --check b4f99d2^ b4f99d2` — passed.
+
+### Files changed by this review
+
+- `docs/content-review.md` — appended this advisory report only.
+- `docs/PROGRESS.md` — appended a concise review-status entry only.
+
+not ready for human review

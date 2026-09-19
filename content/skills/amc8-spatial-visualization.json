@@ -13,7 +13,8 @@
     "counts-hidden-faces",
     "confuses-adjacent-and-opposite-faces",
     "assumes-symmetry-not-stated",
-    "loses-orientation-when-folding"
+    "loses-orientation-when-folding",
+    "reports-intermediate-value-as-final-answer"
   ],
   "difficultyBands": ["foundational", "developing", "challenging"],
   "masteryCheckRule": "Require a correct spatial relationship or count with an orientation/folding explanation and one delayed independent spatial-transfer check."

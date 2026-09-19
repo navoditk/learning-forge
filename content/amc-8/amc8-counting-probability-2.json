@@ -1,6 +1,6 @@
 {
   "id": "amc8-counting-probability-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Lucky two-digit codes",
   "skillCode": "amc8-counting-probability",
   "mode": "contest",
@@ -53,7 +53,12 @@
         "rationale": "Counts all different-digit two-digit codes, 4 choices for the tens digit and 3 for the ones digit, without applying the even-sum condition.",
         "misconceptionCode": "ignores-even-sum-condition"
       }
-    ]
+    ],
+    "readinessRequirement": {
+      "minEstimate": 0.8,
+      "disallowLowConfidence": true,
+      "requireIndependentDelayedCheck": true
+    }
   },
   "solutionRepresentation": "An even digit sum happens when both digits have the same parity. The odd digits 1 and 3 make 13 and 31. The even digits 2 and 4 make 24 and 42. That gives 4 lucky codes.",
   "solutionMethod": "Split into odd-odd and even-even cases, then count ordered codes with no repeated digits.",
