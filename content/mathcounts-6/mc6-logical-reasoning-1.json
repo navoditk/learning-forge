@@ -1,0 +1,55 @@
+{
+  "id": "mc6-logical-reasoning-1",
+  "version": "content-1",
+  "title": "Who finished first",
+  "skillCode": "mc6-logical-reasoning",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MC6-LOG-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses ordering clues and elimination to deduce a unique first-place finisher."
+  ],
+  "prompt": "Three friends, Ana, Ben, and Cy, finished a race in the top three places with no ties. Ana did not finish first. Cy finished ahead of Ana. Ben finished last. Who finished first?",
+  "solutionRepresentation": "Ben finished last, so Ben is third. That leaves first and second for Ana and Cy. Ana did not finish first, so Ana is second, and Cy is first. This also matches the clue that Cy finished ahead of Ana.",
+  "solutionMethod": "Fix the person with a known place, then use the remaining clues to eliminate positions.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "Cy",
+    "acceptedAnswers": ["Cy", "cy", "Cy finished first"],
+    "equivalenceNotes": "Accept the name in any capitalization, alone or in a short sentence."
+  },
+  "misconceptionCodes": ["ignores-a-constraint", "assumes-order-without-proof"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Start from the clue that pins down exactly one person's place with certainty.",
+      "question": "Which clue tells you someone's exact finishing place?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once the last-place runner is fixed, only two people remain for first and second; use the 'did not finish first' clue to place them.",
+      "question": "If the last place is taken, which two runners are left for first and second?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If Dana is not first and someone finished ahead of Dana, then Dana cannot be first and must be placed lower.",
+      "question": "Applying that reasoning, who must take the remaining first place?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["Cy was first", "Cy is first", "answer is Cy", "Cy finished first"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS-style core logic problem written for this repository from the approved logic family; no official MATHCOUNTS problem, wording, or solution is reproduced."
+  },
+  "accessibilityNotes": "No figure is required; all clues are stated in text and can be tracked in a written list.",
+  "accessibleAlternative": "Read aloud or display: In a three-person race with no ties, Ana is not first, Cy is ahead of Ana, and Ben is last. Who finished first?"
+}

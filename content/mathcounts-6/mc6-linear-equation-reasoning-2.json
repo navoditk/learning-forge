@@ -1,0 +1,66 @@
+{
+  "id": "mc6-linear-equation-reasoning-2",
+  "version": "content-1",
+  "title": "Quarters and dimes",
+  "skillCode": "mc6-linear-equation-reasoning",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MC6-AEE-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Sets up a one-variable equation from a coin-value context with a comparison clue, distributes correctly, and solves it."
+  ],
+  "prompt": "A collection of quarters and dimes is worth $3.20 in all. There are 4 more dimes than quarters. How many quarters are in the collection?",
+  "contestFormat": {
+    "format": "mathcounts-sprint",
+    "pointValue": 1,
+    "calculatorPolicy": "no_calculators",
+    "scoring": {
+      "correctPoints": 1,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "The MATHCOUNTS Competition Series is open to grades 6-8; a Grade 6 learner is eligible per the official rules."
+  },
+  "solutionRepresentation": "Let q be the number of quarters, so the number of dimes is q + 4. Work in cents: quarters contribute 25q and dimes contribute 10(q + 4), and the total is 320 cents. So 25q + 10(q + 4) = 320. Distribute: 25q + 10q + 40 = 320. Combine: 35q + 40 = 320, so 35q = 280 and q = 8. Check: 8 quarters is 200 cents and 12 dimes is 120 cents, totaling 320 cents.",
+  "solutionMethod": "Write each coin count in one variable, express total value in cents, distribute, and solve.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "8",
+    "acceptedAnswers": ["8", "eight", "8 quarters"],
+    "equivalenceNotes": "Accept the whole number in digits, in word form, or with the word quarters."
+  },
+  "misconceptionCodes": ["forgets-to-distribute", "misreads-comparison-language"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Choose a variable for the number of quarters, then write the number of dimes in terms of that same variable.",
+      "question": "If q is the number of quarters, how many dimes are there?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write the total value in cents: each quarter is worth 25 and each dime is worth 10, and the whole collection is worth 320 cents.",
+      "question": "What equation sets the total coin value equal to 320 cents?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "When a coin count is written as an expression like q + 4, multiply the coin's value through the whole quantity before combining like terms.",
+      "question": "How do you expand 10 times the quantity for the dimes before solving?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["8 quarters", "q = 8", "eight quarters"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS Sprint-style problem written from first principles using the approved equations family; no official MATHCOUNTS problem, value set, or solution is reproduced or paraphrased."
+  },
+  "accessibilityNotes": "No figure is required; coin types, the total value, and the comparison clue are stated in text.",
+  "accessibleAlternative": "Read aloud or display: A pile of quarters and dimes is worth $3.20. There are 4 more dimes than quarters. How many quarters are there?"
+}

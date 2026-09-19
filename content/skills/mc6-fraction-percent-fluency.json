@@ -1,0 +1,20 @@
+{
+  "code": "mc6-fraction-percent-fluency",
+  "title": "Fraction and percent fluency",
+  "program": "mathcounts-6",
+  "domain": "mc6-number-and-proportional-reasoning",
+  "standards": ["MC6-PF-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Converts fluently among fractions, decimals, and percents in context.",
+    "Computes a percent of a quantity and a multi-step percent increase or decrease."
+  ],
+  "misconceptionCodes": [
+    "fraction-to-percent-error",
+    "treats-percent-change-as-additive",
+    "confuses-percent-of-with-percent-off",
+    "misplaces-decimal-in-percent"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent conversion between a fraction and a percent with the reasoning shown and one delayed check that carries out a multi-step percent change and interprets the result in context."
+}

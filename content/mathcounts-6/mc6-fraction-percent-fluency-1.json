@@ -1,0 +1,55 @@
+{
+  "id": "mc6-fraction-percent-fluency-1",
+  "version": "content-1",
+  "title": "Fraction of trail mix as a percent",
+  "skillCode": "mc6-fraction-percent-fluency",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MC6-PF-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Converts a fraction to an exact percent by finding its decimal form and expressing it out of one hundred."
+  ],
+  "prompt": "In a bowl of trail mix, 3/8 of the mix is almonds. What percent of the trail mix is almonds?",
+  "solutionRepresentation": "Divide to convert the fraction to a decimal: 3 divided by 8 is 0.375. A percent is a number out of 100, so multiply by 100: 0.375 x 100 = 37.5. The almonds make up 37.5% of the trail mix.",
+  "solutionMethod": "Convert the fraction to a decimal, then multiply by one hundred to express it as a percent.",
+  "deterministicValidator": {
+    "type": "percent",
+    "canonicalAnswer": "37.5%",
+    "acceptedAnswers": ["37.5%", "37.5 percent", "37.5"],
+    "equivalenceNotes": "Accept the percent with or without the percent sign or the word percent."
+  },
+  "misconceptionCodes": ["fraction-to-percent-error", "misplaces-decimal-in-percent"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A percent is a number out of one hundred, so it helps to first write the fraction as a decimal.",
+      "question": "What is 3 divided by 8 written as a decimal?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once the fraction is in decimal form, move to a value out of one hundred by multiplying the decimal by one hundred.",
+      "question": "How do you turn a decimal into a percent?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For example, 1/4 equals 0.25, and multiplying 0.25 by one hundred gives 25 percent.",
+      "question": "How does that same two-step method apply to the almond fraction?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["37.5", "0.375", "thirty-seven and a half"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved percents-and-fractions family; no official MATHCOUNTS problem, wording, or solution is reproduced."
+  },
+  "accessibilityNotes": "No figure is required; the fraction and the question are fully expressed in text.",
+  "accessibleAlternative": "Read aloud or display: In a bowl of trail mix, 3/8 of the mix is almonds. What percent of the trail mix is almonds?"
+}

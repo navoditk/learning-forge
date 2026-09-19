@@ -1,0 +1,55 @@
+{
+  "id": "mc6-proportional-reasoning-rates-1",
+  "version": "content-1",
+  "title": "Cheaper pencil by unit price",
+  "skillCode": "mc6-proportional-reasoning-rates",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MC6-PR-01"],
+  "prerequisiteSkillCodes": ["mc6-fraction-percent-fluency"],
+  "observableEvidence": [
+    "Computes each store's unit price and compares them to find how much cheaper one pencil is."
+  ],
+  "prompt": "Store A sells 6 identical pencils for $2.10. Store B sells 10 of the same pencils for $3.20. How many cents cheaper is one pencil at the store with the lower price per pencil?",
+  "solutionRepresentation": "Find each price per pencil. Store A: $2.10 divided by 6 is $0.35, or 35 cents each. Store B: $3.20 divided by 10 is $0.32, or 32 cents each. Store B is cheaper per pencil, and 35 - 32 = 3, so a pencil costs 3 cents less at Store B.",
+  "solutionMethod": "Divide each total price by its pencil count to get unit prices, then subtract the smaller from the larger.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "3",
+    "acceptedAnswers": ["3", "3 cents", "three"],
+    "equivalenceNotes": "Accept the whole number of cents with or without the word cents or in word form."
+  },
+  "misconceptionCodes": ["inverts-the-rate", "ignores-units-in-rate"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The two deals have different numbers of pencils, so compare them by the price of a single pencil.",
+      "question": "How do you find the cost of one pencil from a multi-pencil price?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Divide each store's total price by its number of pencils to get a per-pencil cost, then compare the two per-pencil costs.",
+      "question": "Which store has the smaller per-pencil cost, and by how much?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If 4 markers cost 80 cents, one marker costs 80 divided by 4, which is 20 cents; do the same unit-price step for each pencil deal.",
+      "question": "After finding both per-pencil costs, how do you find how much cheaper one pencil is?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["3 cents cheaper", "by 3 cents", "difference is 3"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved proportional-reasoning family; no official MATHCOUNTS problem, wording, or solution is reproduced."
+  },
+  "accessibilityNotes": "No figure is required; both deals are stated as counts and prices in text.",
+  "accessibleAlternative": "Read aloud or display: Store A sells 6 pencils for $2.10 and Store B sells 10 of the same pencils for $3.20. How many cents cheaper is one pencil at the cheaper store?"
+}

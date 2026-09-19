@@ -1,0 +1,20 @@
+{
+  "code": "mc6-logical-reasoning",
+  "title": "Logical reasoning",
+  "program": "mathcounts-6",
+  "domain": "mc6-counting-probability-and-logic",
+  "standards": ["MC6-LOG-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses given clues and elimination to deduce a unique ordering or identity.",
+    "Reasons about truth-tellers and constraints to rule out impossibilities and justify a conclusion."
+  ],
+  "misconceptionCodes": [
+    "accepts-first-consistent-guess",
+    "ignores-a-constraint",
+    "assumes-order-without-proof",
+    "confuses-necessary-and-possible"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent deduction that names the eliminating clue for each step and one delayed check that resolves a constraint or truth-teller puzzle and explains why the conclusion is forced."
+}

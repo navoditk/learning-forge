@@ -1,0 +1,71 @@
+{
+  "id": "mc6-logical-reasoning-2",
+  "version": "content-1",
+  "title": "Knights and knaves count",
+  "skillCode": "mc6-logical-reasoning",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MC6-LOG-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Tests each possible type assignment against truth-teller and liar rules to force a unique count of knights."
+  ],
+  "prompt": "On an island, knights always tell the truth and knaves always lie. You meet three islanders: P, Q, and R. P says, 'Q is a knight.' Q says, 'P and I are of different types.' R says, 'At least one of P and Q is a knight.' Exactly how many of the three islanders are knights?",
+  "contestFormat": {
+    "format": "mathcounts-sprint",
+    "pointValue": 1,
+    "calculatorPolicy": "no_calculators",
+    "scoring": {
+      "correctPoints": 1,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "The MATHCOUNTS Competition Series is open to grades 6-8; a Grade 6 learner is eligible per the official rules."
+  },
+  "solutionRepresentation": "Suppose P is a knight; then P's claim 'Q is a knight' is true, so Q is a knight. But then Q, a knight, truthfully says P and Q are different types, which contradicts both being knights. So P is a knave. Then P's claim is false, so Q is not a knight, meaning Q is also a knave. Q the knave says P and Q are different types; that statement is false, so P and Q are actually the same type, which fits both being knaves. Now R claims at least one of P and Q is a knight, but both are knaves, so that claim is false; therefore R is a knave. All three are knaves, so the number of knights is 0.",
+  "solutionMethod": "Assume a type for P, propagate the truth or lie rules through Q and R, and keep the assignment that is fully consistent.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "0",
+    "acceptedAnswers": ["0", "zero", "none"],
+    "equivalenceNotes": "Accept the whole number zero in digits or word form, or the word none."
+  },
+  "misconceptionCodes": ["accepts-first-consistent-guess", "confuses-necessary-and-possible"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Test a type for P and use the rule that a knight's statement must be true while a knave's statement must be false.",
+      "question": "If P were a knight, what would that force Q to be, and does it stay consistent?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Settle P and Q first from their own statements, then use R's statement about P and Q to fix R's type.",
+      "question": "After finding P and Q, does R's claim about them come out true or false?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If a speaker says 'at least one of those two is a knight' but both of those two are liars, then the speaker's claim is false, so the speaker must also be a liar.",
+      "question": "Once each islander's type is settled, how do you count how many of them are knights?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "0 knights",
+    "zero knights",
+    "none are knights",
+    "all three are knaves"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS Sprint-style logic problem written from first principles using the classic knights-and-knaves idea; no official MATHCOUNTS problem, wording, or solution is reproduced or paraphrased."
+  },
+  "accessibilityNotes": "No figure is required; all three statements are stated in text and can be tracked in a written table of possibilities.",
+  "accessibleAlternative": "Read aloud or display: Knights always tell the truth and knaves always lie. P says Q is a knight. Q says P and Q are different types. R says at least one of P and Q is a knight. How many of the three are knights?"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "mc6-sequences-and-patterns-1",
+  "version": "content-1",
+  "title": "Tenth term of a pattern",
+  "skillCode": "mc6-sequences-and-patterns",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MC6-SSP-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Finds the common difference of an arithmetic pattern and uses it to reach a specified later term."
+  ],
+  "prompt": "A pattern begins 4, 11, 18, 25, ... and continues by adding the same amount each time. What is the 10th number in the pattern?",
+  "solutionRepresentation": "Each step adds 7, since 11 - 4 = 7. To reach the 10th term, start at the first term and add 7 nine times, because there are nine steps between the 1st and 10th terms: 4 + 9 x 7 = 4 + 63 = 67.",
+  "solutionMethod": "Find the common difference, then add it one fewer time than the term number, starting from the first term.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "67",
+    "acceptedAnswers": ["67", "sixty-seven"],
+    "equivalenceNotes": "Accept the whole number in digits or word form."
+  },
+  "misconceptionCodes": ["off-by-one-term-count", "adds-common-difference-once"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Find how much the pattern grows at each step by subtracting one term from the next.",
+      "question": "What number is added to move from one term to the next?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "To reach the 10th term, start at the first term and add the common difference a certain number of times, which is one fewer than ten.",
+      "question": "How many times do you add the common difference to get from the 1st term to the 10th term?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In the pattern 5, 8, 11, ... the 4th term is 5 plus three jumps, because there are three steps between the 1st and 4th terms.",
+      "question": "How many jumps separate the 1st and 10th terms in your pattern?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["is 67", "sixty-seven", "tenth term is 67"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved sequences-and-patterns family; no official MATHCOUNTS problem, wording, or solution is reproduced."
+  },
+  "accessibilityNotes": "No figure is required; the first four terms and the growth rule are given in text.",
+  "accessibleAlternative": "Read aloud or display: A pattern starts 4, 11, 18, 25 and keeps adding the same amount. Find the 10th number."
+}

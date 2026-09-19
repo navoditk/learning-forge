@@ -10,8 +10,8 @@ import { skillCatalog } from '../../src/curriculum/catalog';
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(contentCatalog).toHaveLength(96);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(96);
+    expect(contentCatalog).toHaveLength(112);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(112);
     expect(new Set(contentCatalog.map((item) => item.skillCode))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -23,7 +23,7 @@ describe('ratios content seed', () => {
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
     expect(reviewedItems.length).toBe(96);
-    expect(pendingItems.length).toBe(0);
+    expect(pendingItems.length).toBe(16);
     expect(pendingItems.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
     expect(pendingItems.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
     expect(pendingItems.every((item) => !item.review.reviewedAt)).toBe(true);
@@ -65,7 +65,7 @@ describe('ratios content seed', () => {
     for (const item of contestItems) {
       expect(item.deterministicValidator.type).toBe('multiple_choice');
       expect(item.contestFormat?.answerChoices).toHaveLength(5);
-      expect(item.contestFormat?.answerChoices.map((choice) => choice.label)).toEqual([
+      expect(item.contestFormat?.answerChoices?.map((choice) => choice.label)).toEqual([
         'A',
         'B',
         'C',
@@ -73,7 +73,7 @@ describe('ratios content seed', () => {
         'E',
       ]);
       expect(
-        item.contestFormat?.answerChoices.some(
+        item.contestFormat?.answerChoices?.some(
           (choice) => choice.text === item.deterministicValidator.canonicalAnswer,
         ),
       ).toBe(true);
@@ -116,7 +116,7 @@ describe('ratios content seed', () => {
         requireIndependentDelayedCheck: true,
       });
       expect(item.contestFormat?.answerChoices).toHaveLength(5);
-      expect(item.contestFormat?.answerChoices.map((choice) => choice.label)).toEqual([
+      expect(item.contestFormat?.answerChoices?.map((choice) => choice.label)).toEqual([
         'A',
         'B',
         'C',
@@ -124,13 +124,13 @@ describe('ratios content seed', () => {
         'E',
       ]);
       expect(
-        item.contestFormat?.answerChoices.some(
+        item.contestFormat?.answerChoices?.some(
           (choice) => choice.text === item.deterministicValidator.canonicalAnswer,
         ),
       ).toBe(true);
       expect(
         item.contestFormat?.answerChoices
-          .filter((choice) => choice.text !== item.deterministicValidator.canonicalAnswer)
+          ?.filter((choice) => choice.text !== item.deterministicValidator.canonicalAnswer)
           .every((choice) => choice.rationale && choice.misconceptionCode),
       ).toBe(true);
     }
@@ -249,6 +249,145 @@ describe('ratios content seed', () => {
       expect(records.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
       expect(records.every((item) => item.review.status === 'reviewed')).toBe(true);
     }
+
+    for (const [id, answer] of expectedAnswers) {
+      const item = contentCatalog.find((candidate) => candidate.id === id);
+      expect(item?.deterministicValidator.canonicalAnswer).toBe(answer);
+      expect(item?.deterministicValidator.acceptedAnswers).toContain(answer);
+    }
+  });
+
+  it('models every MATHCOUNTS contest item as a free-response Sprint or Target round', () => {
+    const mathcountsSkillCodes = new Set(
+      skillCatalog.filter((skill) => skill.program === 'mathcounts-6').map((skill) => skill.code),
+    );
+    const contestItems = contentCatalog.filter(
+      (item) => mathcountsSkillCodes.has(item.skillCode) && item.mode === 'contest',
+    );
+
+    expect(contestItems).toHaveLength(8);
+    expect(new Set(contestItems.map((item) => item.contestFormat?.format))).toEqual(
+      new Set(['mathcounts-sprint', 'mathcounts-target']),
+    );
+    for (const item of contestItems) {
+      // Sprint/Target are short-answer rounds, never multiple choice.
+      expect(item.contestFormat?.answerChoices).toBeUndefined();
+      expect(['numeric', 'text', 'ratio', 'percent']).toContain(item.deterministicValidator.type);
+      expect(item.contestFormat?.readinessRequirement).toBeUndefined();
+      if (item.contestFormat?.format === 'mathcounts-sprint') {
+        expect(item.contestFormat?.pointValue).toBe(1);
+        expect(item.contestFormat?.calculatorPolicy).toBe('no_calculators');
+        expect(item.contestFormat?.scoring).toEqual({
+          correctPoints: 1,
+          incorrectPoints: 0,
+          blankPoints: 0,
+        });
+      } else {
+        expect(item.contestFormat?.pointValue).toBe(2);
+        expect(item.contestFormat?.calculatorPolicy).toBe('calculators_permitted');
+        expect(item.contestFormat?.scoring).toEqual({
+          correctPoints: 2,
+          incorrectPoints: 0,
+          blankPoints: 0,
+        });
+      }
+    }
+
+    // A MATHCOUNTS contest record must not smuggle in multiple-choice metadata.
+    const sprintItem = contestItems.find(
+      (item) => item.contestFormat?.format === 'mathcounts-sprint',
+    )!;
+    expect(() =>
+      validateContentCatalog(
+        contentCatalog.map((item) =>
+          item.id === sprintItem.id
+            ? {
+                ...item,
+                contestFormat: {
+                  ...item.contestFormat,
+                  answerChoices: [
+                    { label: 'A', text: '1' },
+                    { label: 'B', text: '2' },
+                    { label: 'C', text: '3' },
+                    { label: 'D', text: '4' },
+                    { label: 'E', text: '5' },
+                  ],
+                },
+              }
+            : item,
+        ),
+      ),
+    ).toThrow('must be free response');
+
+    // A Sprint record must keep the no-calculator, 1-point round facts.
+    expect(() =>
+      validateContentCatalog(
+        contentCatalog.map((item) =>
+          item.id === sprintItem.id
+            ? {
+                ...item,
+                contestFormat: { ...item.contestFormat, calculatorPolicy: 'calculators_permitted' },
+              }
+            : item,
+        ),
+      ),
+    ).toThrow('MATHCOUNTS Sprint format');
+  });
+
+  it('self-audits MATHCOUNTS coverage, prerequisites, review state, and canonical answers', () => {
+    const mathcountsSkills = skillCatalog.filter((skill) => skill.program === 'mathcounts-6');
+    const expectedAnswers = new Map([
+      ['mc6-number-theory-fundamentals-1', '6'],
+      ['mc6-number-theory-fundamentals-2', '37'],
+      ['mc6-fraction-percent-fluency-1', '37.5%'],
+      ['mc6-fraction-percent-fluency-2', '240'],
+      ['mc6-proportional-reasoning-rates-1', '3'],
+      ['mc6-proportional-reasoning-rates-2', '10.56'],
+      ['mc6-linear-equation-reasoning-1', '9'],
+      ['mc6-linear-equation-reasoning-2', '8'],
+      ['mc6-sequences-and-patterns-1', '67'],
+      ['mc6-sequences-and-patterns-2', '820'],
+      ['mc6-geometry-area-and-angles-1', '31'],
+      ['mc6-geometry-area-and-angles-2', '88'],
+      ['mc6-counting-and-probability-1', '24'],
+      ['mc6-counting-and-probability-2', '1/4'],
+      ['mc6-logical-reasoning-1', 'Cy'],
+      ['mc6-logical-reasoning-2', '0'],
+    ]);
+
+    expect(mathcountsSkills).toHaveLength(8);
+    for (const skill of mathcountsSkills) {
+      const records = contentCatalog.filter((item) => item.skillCode === skill.code);
+      expect(records).toHaveLength(2);
+      expect(new Set(records.map((item) => item.mode))).toEqual(new Set(['core', 'contest']));
+      expect(new Set(records.map((item) => item.prompt)).size).toBe(2);
+      expect(
+        records.every(
+          (item) =>
+            item.prerequisiteSkillCodes.join('|') === skill.prerequisiteSkillCodes.join('|'),
+        ),
+      ).toBe(true);
+      // MATHCOUNTS is not yet approved: every record stays llm_drafted, owned,
+      // and pending independent review, and must never leak into the servable
+      // catalog.
+      expect(records.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
+      expect(records.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
+      expect(records.every((item) => item.review.status === 'pending_review')).toBe(true);
+      expect(records.every((item) => !item.review.reviewedAt)).toBe(true);
+      expect(servableContentCatalog.some((item) => item.skillCode === skill.code)).toBe(false);
+    }
+
+    // Exactly one genuine conceptual prerequisite edge survives the self-audit:
+    // proportional-reasoning composes fraction/percent fluency.
+    const proportional = mathcountsSkills.find(
+      (skill) => skill.code === 'mc6-proportional-reasoning-rates',
+    );
+    expect(proportional?.prerequisiteSkillCodes).toEqual(['mc6-fraction-percent-fluency']);
+    expect(
+      mathcountsSkills
+        .filter((skill) => skill.code !== 'mc6-proportional-reasoning-rates')
+        .every((skill) => skill.prerequisiteSkillCodes.length === 0),
+    ).toBe(true);
 
     for (const [id, answer] of expectedAnswers) {
       const item = contentCatalog.find((candidate) => candidate.id === id);

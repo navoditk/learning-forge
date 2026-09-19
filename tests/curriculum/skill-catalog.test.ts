@@ -83,6 +83,50 @@ describe('skill catalog', () => {
     expect(amc8Skills.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);
   });
 
+  it('covers the initial MATHCOUNTS Grade 6 graph with namespaced codes and one audited edge', () => {
+    const mathcountsSkills = skillCatalog.filter((skill) => skill.program === 'mathcounts-6');
+    expect(mathcountsSkills).toHaveLength(8);
+    expect(mathcountsSkills.every((skill) => skill.code.startsWith('mc6-'))).toBe(true);
+    expect(new Set(mathcountsSkills.map((skill) => skill.code)).size).toBe(8);
+    expect(new Set(mathcountsSkills.map((skill) => skill.domain))).toEqual(
+      new Set([
+        'mc6-number-and-proportional-reasoning',
+        'mc6-algebra-and-patterns',
+        'mc6-geometry-and-measurement',
+        'mc6-counting-probability-and-logic',
+      ]),
+    );
+    // Internal repo-owned reference codes MC6-<DOMAIN>-<NN>, not official
+    // MATHCOUNTS standards.
+    expect(
+      mathcountsSkills.every((skill) => skill.standards.every((code) => /^MC6-/.test(code))),
+    ).toBe(true);
+    // Only genuine conceptual dependency retained after the self-audit.
+    expect(
+      mathcountsSkills.find((skill) => skill.code === 'mc6-proportional-reasoning-rates')
+        ?.prerequisiteSkillCodes,
+    ).toEqual(['mc6-fraction-percent-fluency']);
+    expect(
+      mathcountsSkills
+        .filter((skill) => skill.code !== 'mc6-proportional-reasoning-rates')
+        .every((skill) => skill.prerequisiteSkillCodes.length === 0),
+    ).toBe(true);
+  });
+
+  it('renders MATHCOUNTS as an authored draft that stays unavailable to learners', () => {
+    execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
+    const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
+    const mathcountsSection = generatedSite.match(
+      /<section class="program-section" id="program-mathcounts-6">([\s\S]*?)(?:<section class="program-section|<\/main>)/,
+    );
+    expect(mathcountsSection?.[1]).toBeTruthy();
+    expect(mathcountsSection?.[1]).toContain('Draft — pending human approval');
+    expect(mathcountsSection?.[1]).toContain('Number theory fundamentals');
+    expect(mathcountsSection?.[1]).toContain('Pending review');
+    // The public draft page never renders answers or hints.
+    expect(mathcountsSection?.[1]).not.toContain('88 square');
+  });
+
   it('renders available authored programs in the curriculum site', () => {
     execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
     const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
@@ -111,7 +155,7 @@ describe('skill catalog', () => {
     execFileSync('npm', ['run', 'curriculum:site'], { stdio: 'ignore' });
     const generatedSite = readFileSync('dist/curriculum-site/index.html', 'utf8');
     const amcSection = generatedSite.match(
-      /<section class="program-section" id="program-amc-8">([\s\S]*?)<section class="program-section program-section-empty" id="program-mathcounts-6">/,
+      /<section class="program-section" id="program-amc-8">([\s\S]*?)<section class="program-section" id="program-mathcounts-6">/,
     );
 
     expect(amcSection?.[1]).not.toContain('Draft — pending human approval');

@@ -94,6 +94,22 @@ import amc8IntroductoryAlgebra1 from '../../content/amc-8/amc8-introductory-alge
 import amc8IntroductoryAlgebra2 from '../../content/amc-8/amc8-introductory-algebra-2.json';
 import amc8CoordinateGeometry1 from '../../content/amc-8/amc8-coordinate-geometry-1.json';
 import amc8CoordinateGeometry2 from '../../content/amc-8/amc8-coordinate-geometry-2.json';
+import mc6NumberTheoryFundamentals1 from '../../content/mathcounts-6/mc6-number-theory-fundamentals-1.json';
+import mc6NumberTheoryFundamentals2 from '../../content/mathcounts-6/mc6-number-theory-fundamentals-2.json';
+import mc6FractionPercentFluency1 from '../../content/mathcounts-6/mc6-fraction-percent-fluency-1.json';
+import mc6FractionPercentFluency2 from '../../content/mathcounts-6/mc6-fraction-percent-fluency-2.json';
+import mc6ProportionalReasoningRates1 from '../../content/mathcounts-6/mc6-proportional-reasoning-rates-1.json';
+import mc6ProportionalReasoningRates2 from '../../content/mathcounts-6/mc6-proportional-reasoning-rates-2.json';
+import mc6LinearEquationReasoning1 from '../../content/mathcounts-6/mc6-linear-equation-reasoning-1.json';
+import mc6LinearEquationReasoning2 from '../../content/mathcounts-6/mc6-linear-equation-reasoning-2.json';
+import mc6SequencesAndPatterns1 from '../../content/mathcounts-6/mc6-sequences-and-patterns-1.json';
+import mc6SequencesAndPatterns2 from '../../content/mathcounts-6/mc6-sequences-and-patterns-2.json';
+import mc6GeometryAreaAndAngles1 from '../../content/mathcounts-6/mc6-geometry-area-and-angles-1.json';
+import mc6GeometryAreaAndAngles2 from '../../content/mathcounts-6/mc6-geometry-area-and-angles-2.json';
+import mc6CountingAndProbability1 from '../../content/mathcounts-6/mc6-counting-and-probability-1.json';
+import mc6CountingAndProbability2 from '../../content/mathcounts-6/mc6-counting-and-probability-2.json';
+import mc6LogicalReasoning1 from '../../content/mathcounts-6/mc6-logical-reasoning-1.json';
+import mc6LogicalReasoning2 from '../../content/mathcounts-6/mc6-logical-reasoning-2.json';
 import { ContentItem, ContentItemSchema } from '../contracts/content';
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
 
@@ -194,6 +210,22 @@ const rawContent = [
   amc8IntroductoryAlgebra2,
   amc8CoordinateGeometry1,
   amc8CoordinateGeometry2,
+  mc6NumberTheoryFundamentals1,
+  mc6NumberTheoryFundamentals2,
+  mc6FractionPercentFluency1,
+  mc6FractionPercentFluency2,
+  mc6ProportionalReasoningRates1,
+  mc6ProportionalReasoningRates2,
+  mc6LinearEquationReasoning1,
+  mc6LinearEquationReasoning2,
+  mc6SequencesAndPatterns1,
+  mc6SequencesAndPatterns2,
+  mc6GeometryAreaAndAngles1,
+  mc6GeometryAreaAndAngles2,
+  mc6CountingAndProbability1,
+  mc6CountingAndProbability2,
+  mc6LogicalReasoning1,
+  mc6LogicalReasoning2,
 ] as const;
 
 export function validateContentCatalog(items: readonly unknown[] = rawContent): ContentItem[] {
@@ -217,6 +249,9 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
       }
       if (item.deterministicValidator.type !== 'multiple_choice') {
         throw new Error(`${item.id} must use a multiple-choice validator in contest mode`);
+      }
+      if (!item.contestFormat.answerChoices) {
+        throw new Error(`${item.id} requires five Math Kangaroo answer choices`);
       }
       if (
         !item.contestFormat.answerChoices.some(
@@ -257,6 +292,9 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
       if (item.deterministicValidator.type !== 'multiple_choice') {
         throw new Error(`${item.id} must use a multiple-choice validator in contest mode`);
       }
+      if (!item.contestFormat.answerChoices) {
+        throw new Error(`${item.id} requires five AMC 8 answer choices`);
+      }
       if (
         !item.contestFormat.answerChoices.some(
           (choice) => choice.text === item.deterministicValidator.canonicalAnswer,
@@ -272,6 +310,55 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
         )
       ) {
         throw new Error(`${item.id} must include AMC 8 distractor rationales`);
+      }
+    }
+    if (skill.program === 'mathcounts-6' && item.mode === 'contest') {
+      const format = item.contestFormat;
+      if (!format) {
+        throw new Error(`${item.id} requires MATHCOUNTS contest-format metadata`);
+      }
+      if (format.format !== 'mathcounts-sprint' && format.format !== 'mathcounts-target') {
+        throw new Error(`${item.id} must identify its round as MATHCOUNTS Sprint or Target`);
+      }
+      // MATHCOUNTS Sprint and Target are short-answer rounds: they must not
+      // carry multiple-choice metadata or a choice-based validator.
+      if (format.answerChoices) {
+        throw new Error(
+          `${item.id} must be free response; MATHCOUNTS Sprint and Target carry no answer choices`,
+        );
+      }
+      if (!['numeric', 'text', 'ratio', 'percent'].includes(item.deterministicValidator.type)) {
+        throw new Error(`${item.id} must use a free-response validator in MATHCOUNTS contest mode`);
+      }
+      if (format.readinessRequirement) {
+        throw new Error(
+          `${item.id} must not gate MATHCOUNTS core mastery with a contest readiness requirement`,
+        );
+      }
+      if (format.format === 'mathcounts-sprint') {
+        if (
+          format.pointValue !== 1 ||
+          format.calculatorPolicy !== 'no_calculators' ||
+          format.scoring?.correctPoints !== 1 ||
+          format.scoring?.incorrectPoints !== 0 ||
+          format.scoring?.blankPoints !== 0
+        ) {
+          throw new Error(
+            `${item.id} must encode the no-calculator MATHCOUNTS Sprint format (1 point, no calculators)`,
+          );
+        }
+      } else {
+        if (
+          format.pointValue !== 2 ||
+          format.calculatorPolicy !== 'calculators_permitted' ||
+          format.scoring?.correctPoints !== 2 ||
+          format.scoring?.incorrectPoints !== 0 ||
+          format.scoring?.blankPoints !== 0
+        ) {
+          throw new Error(
+            `${item.id} must encode the calculator-permitted MATHCOUNTS Target format (2 points, calculators permitted)`,
+          );
+        }
       }
     }
     if (item.provenance.origin === 'licensed') {

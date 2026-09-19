@@ -1,0 +1,66 @@
+{
+  "id": "mc6-sequences-and-patterns-2",
+  "version": "content-1",
+  "title": "Sum of the first twenty terms",
+  "skillCode": "mc6-sequences-and-patterns",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MC6-SSP-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses the first-plus-last pairing structure of an arithmetic pattern to sum many terms without listing them all."
+  ],
+  "prompt": "The numbers 3, 7, 11, 15, ... form a pattern that increases by 4 each time. What is the sum of the first 20 numbers in this pattern?",
+  "contestFormat": {
+    "format": "mathcounts-sprint",
+    "pointValue": 1,
+    "calculatorPolicy": "no_calculators",
+    "scoring": {
+      "correctPoints": 1,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "The MATHCOUNTS Competition Series is open to grades 6-8; a Grade 6 learner is eligible per the official rules."
+  },
+  "solutionRepresentation": "The common difference is 4. The 20th term is 3 + 19 x 4 = 3 + 76 = 79. Pair the first and last terms: each of the 10 pairs (first with last, second with second-to-last, and so on) adds to 3 + 79 = 82. The sum is 10 x 82 = 820.",
+  "solutionMethod": "Find the last term, then multiply the number of terms by the average of the first and last term.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "820",
+    "acceptedAnswers": ["820", "eight hundred twenty"],
+    "equivalenceNotes": "Accept the whole number in digits or word form."
+  },
+  "misconceptionCodes": ["off-by-one-term-count", "confuses-term-number-with-value"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "You do not need to add all twenty terms one at a time; use the pattern's symmetry instead.",
+      "question": "What is the common difference in this pattern?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Find the last term first, then pair the first term with the last, the second with the second-to-last, and so on.",
+      "question": "What does each such first-and-last pair add up to?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For 2, 5, 8, 11 the total is the number of terms times the average of the first and last term, where the average is the midpoint of the first and last values.",
+      "question": "How can the first-plus-last pairing give the total for twenty terms quickly?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["820", "eight hundred twenty"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS Sprint-style problem written from first principles using the approved sequences-and-series family; no official MATHCOUNTS problem, value set, or solution is reproduced or paraphrased."
+  },
+  "accessibilityNotes": "No figure is required; the first four terms and the growth rule are stated in text.",
+  "accessibleAlternative": "Read aloud or display: The pattern 3, 7, 11, 15 increases by 4 each time. Find the sum of its first 20 numbers."
+}

@@ -1,0 +1,20 @@
+{
+  "code": "mc6-linear-equation-reasoning",
+  "title": "Linear equation reasoning",
+  "program": "mathcounts-6",
+  "domain": "mc6-algebra-and-patterns",
+  "standards": ["MC6-AEE-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Translates a word problem into a one-variable linear equation and solves it.",
+    "Interprets and checks a solution against the conditions in context."
+  ],
+  "misconceptionCodes": [
+    "reverses-operations",
+    "drops-a-term-when-isolating",
+    "misreads-comparison-language",
+    "forgets-to-distribute"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent equation-solving solution with the setup shown and one delayed check that translates a new context into an equation and verifies the answer satisfies every stated condition."
+}

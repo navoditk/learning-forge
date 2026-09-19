@@ -1,0 +1,73 @@
+{
+  "id": "mc6-geometry-area-and-angles-2",
+  "version": "content-1",
+  "title": "Area of an L-shaped garden",
+  "skillCode": "mc6-geometry-area-and-angles",
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["MC6-PG-01", "MC6-MEAS-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Finds the area of an L-shaped figure by subtracting the removed corner rectangle from the full rectangle."
+  ],
+  "prompt": "An L-shaped garden is formed by removing a rectangular corner from a larger rectangle. The full rectangle is 12 meters wide and 9 meters tall. The removed corner rectangle is 5 meters wide and 4 meters tall. What is the area, in square meters, of the L-shaped garden?",
+  "contestFormat": {
+    "format": "mathcounts-target",
+    "pointValue": 2,
+    "calculatorPolicy": "calculators_permitted",
+    "scoring": {
+      "correctPoints": 2,
+      "incorrectPoints": 0,
+      "blankPoints": 0
+    },
+    "eligibility": "The MATHCOUNTS Competition Series is open to grades 6-8; a Grade 6 learner is eligible per the official rules."
+  },
+  "solutionRepresentation": "The full rectangle has area 12 x 9 = 108 square meters. The removed corner rectangle has area 5 x 4 = 20 square meters. The L-shaped garden is what remains: 108 - 20 = 88 square meters.",
+  "solutionMethod": "Find the full rectangle's area, then subtract the removed corner rectangle's area.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "88",
+    "acceptedAnswers": ["88", "88 square meters", "eighty-eight"],
+    "equivalenceNotes": "Accept the whole number with or without the unit square meters or in word form."
+  },
+  "misconceptionCodes": ["confuses-area-and-perimeter", "adds-all-sides-for-composite-area"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "An L-shape can be treated as a full rectangle with a smaller rectangular corner taken away.",
+      "question": "What are the width and height of the large rectangle before the corner is removed?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Find the area of the full large rectangle, then subtract the area of the removed corner rectangle.",
+      "question": "How do you compute the area of each rectangle from its width and height?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A 10 by 7 rectangle with a 3 by 2 corner removed has area 70 minus 6; use that same subtraction idea here.",
+      "question": "What subtraction of two rectangle areas gives the L-shaped area for these measurements?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["88 square", "is 88", "eighty-eight"],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 420 340\" role=\"img\"><rect width=\"420\" height=\"340\" fill=\"#ffffff\"/><polygon points=\"70,280 370,280 370,155 245,155 245,55 70,55\" fill=\"#e4efed\" stroke=\"#2c534f\" stroke-width=\"4\"/><rect x=\"245\" y=\"55\" width=\"125\" height=\"100\" fill=\"#ffffff\" stroke=\"#b0a999\" stroke-width=\"2\" stroke-dasharray=\"6 5\"/><text x=\"220\" y=\"312\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#22221f\">12 meters</text><text x=\"40\" y=\"170\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"18\" fill=\"#22221f\" transform=\"rotate(-90 40 170)\">9 meters</text><text x=\"307\" y=\"96\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">5 meters</text><text x=\"352\" y=\"112\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\" transform=\"rotate(-90 352 112)\">4 meters</text></svg>",
+    "altText": "An L-shaped garden made by removing a rectangular corner from a larger rectangle. The full rectangle is labeled 12 meters wide and 9 meters tall. The removed corner, shown as a dashed rectangle in the upper right, is labeled 5 meters wide and 4 meters tall.",
+    "caption": "An L-shaped garden: a 12 by 9 rectangle with a 5 by 4 corner removed.",
+    "width": 420,
+    "height": 340
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS Target-style problem and figure drawn from first principles for the approved geometry-and-measurement family; no official MATHCOUNTS problem, diagram, value set, or solution is reproduced or paraphrased."
+  },
+  "accessibilityNotes": "The dashed rectangle marks the removed corner using shape, not color; every dimension is also given in the text so the figure is not required.",
+  "accessibleAlternative": "Read aloud or display: A large rectangle is 12 meters wide and 9 meters tall. A 5 meter by 4 meter rectangle is removed from one corner, leaving an L-shaped garden. Find the area of the L-shape in square meters."
+}

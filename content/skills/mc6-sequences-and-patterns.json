@@ -1,0 +1,20 @@
+{
+  "code": "mc6-sequences-and-patterns",
+  "title": "Sequences and patterns",
+  "program": "mathcounts-6",
+  "domain": "mc6-algebra-and-patterns",
+  "standards": ["MC6-SSP-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Extends an arithmetic pattern and finds a specified later term.",
+    "Uses the structure of a pattern to compute a sum or count efficiently instead of listing every term."
+  ],
+  "misconceptionCodes": [
+    "off-by-one-term-count",
+    "confuses-term-number-with-value",
+    "assumes-arithmetic-when-not",
+    "adds-common-difference-once"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent term-finding solution that names the common difference and one delayed check that uses pattern structure to compute a sum or count without listing every term."
+}

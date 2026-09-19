@@ -52,11 +52,18 @@ export const DeterministicValidatorSchema = z
 
 export const ContestFormatSchema = z
   .object({
-    format: z.enum(['math-kangaroo', 'amc-8']).optional(),
-    pointValue: z.union([z.literal(1), z.literal(3), z.literal(4), z.literal(5)]),
+    // Program-specific round identifiers. MATHCOUNTS Sprint and Target are
+    // distinct free-response rounds (see docs/curriculum-sources.md's
+    // MATHCOUNTS dossier): Sprint is no-calculator, Target permits
+    // calculators. They are deliberately kept separate from the
+    // multiple-choice `math-kangaroo`/`amc-8` formats.
+    format: z.enum(['math-kangaroo', 'amc-8', 'mathcounts-sprint', 'mathcounts-target']).optional(),
+    pointValue: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     questionCount: z.number().int().min(1).max(40).optional(),
     timeLimitMinutes: z.number().int().min(1).max(180).optional(),
-    calculatorPolicy: z.enum(['no_calculators', 'not_specified']).optional(),
+    calculatorPolicy: z
+      .enum(['no_calculators', 'calculators_permitted', 'not_specified'])
+      .optional(),
     scoring: z
       .object({
         correctPoints: z.number(),
@@ -82,6 +89,10 @@ export const ContestFormatSchema = z
       })
       .strict()
       .optional(),
+    // Multiple-choice answer set for choice-based rounds (Math Kangaroo,
+    // AMC 8). Optional because free-response rounds (MATHCOUNTS Sprint and
+    // Target are short-answer, not multiple choice) carry no answer choices;
+    // when present it must be a full five-choice A-E set.
     answerChoices: z
       .array(
         z
@@ -96,11 +107,15 @@ export const ContestFormatSchema = z
           })
           .strict(),
       )
-      .length(5),
+      .length(5)
+      .optional(),
   })
   .strict()
   .superRefine((format, context) => {
-    if (new Set(format.answerChoices.map((choice) => choice.label)).size !== 5) {
+    if (
+      format.answerChoices &&
+      new Set(format.answerChoices.map((choice) => choice.label)).size !== 5
+    ) {
       context.addIssue({
         code: 'custom',
         path: ['answerChoices'],

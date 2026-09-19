@@ -1,0 +1,20 @@
+{
+  "code": "mc6-proportional-reasoning-rates",
+  "title": "Proportional reasoning and rates",
+  "program": "mathcounts-6",
+  "domain": "mc6-number-and-proportional-reasoning",
+  "standards": ["MC6-PR-01"],
+  "prerequisiteSkillCodes": ["mc6-fraction-percent-fluency"],
+  "observableEvidence": [
+    "Finds and applies unit rates to compare or scale quantities.",
+    "Solves multi-step proportion and scaling problems, including percent-based price or quantity changes."
+  ],
+  "misconceptionCodes": [
+    "inverts-the-rate",
+    "adds-instead-of-scaling",
+    "ignores-units-in-rate",
+    "uses-part-as-whole-in-proportion"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent unit-rate comparison with units tracked and one delayed check that chains a rate with a percent change and interprets the scaled result in context."
+}

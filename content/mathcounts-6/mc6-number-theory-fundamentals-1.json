@@ -1,0 +1,55 @@
+{
+  "id": "mc6-number-theory-fundamentals-1",
+  "version": "content-1",
+  "title": "Largest identical bouquets",
+  "skillCode": "mc6-number-theory-fundamentals",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MC6-NT-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses the greatest common factor of two counts to find the largest number of identical, remainder-free groups."
+  ],
+  "prompt": "A florist has 30 roses and 42 tulips. She wants to make identical bouquets that use all of the flowers, with no flowers left over and the largest possible number of bouquets. How many bouquets can she make?",
+  "solutionRepresentation": "Each bouquet needs the same number of roses and the same number of tulips, so the number of bouquets must divide both 30 and 42. The largest number that divides both is their greatest common factor. Since 30 = 2 x 3 x 5 and 42 = 2 x 3 x 7, the greatest common factor is 2 x 3, which is 6. Six bouquets use five roses and seven tulips each.",
+  "solutionMethod": "Model the number of identical groups as the greatest common factor of the two flower counts.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "6",
+    "acceptedAnswers": ["6", "6 bouquets", "six"],
+    "equivalenceNotes": "Accept the whole number with or without the word bouquets or in word form."
+  },
+  "misconceptionCodes": ["confuses-gcf-and-lcm", "miscounts-factors"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Each bouquet must use the same whole number of roses and the same whole number of tulips, with none left over.",
+      "question": "What kind of number must divide both the rose count and the tulip count exactly?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Think about the numbers that divide 30 exactly and the numbers that divide 42 exactly, then look for the largest number they share.",
+      "question": "Which shared divisor of 30 and 42 is the greatest?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If you had 12 apples and 18 pears, the greatest number of identical fruit baskets is the greatest common factor of 12 and 18.",
+      "question": "How does that same idea give the number of bouquets here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["6 bouquets", "6 identical", "answer is 6"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved dossier's number-theory family; no official MATHCOUNTS problem, wording, value set, or solution is reproduced."
+  },
+  "accessibilityNotes": "All quantities are textual; no figure is required because the two flower counts and the grouping rule are fully described in words.",
+  "accessibleAlternative": "Read aloud or display: A florist has 30 roses and 42 tulips. She makes identical bouquets that use every flower with none left over and wants as many bouquets as possible. How many bouquets can she make?"
+}

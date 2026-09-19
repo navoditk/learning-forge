@@ -28,8 +28,9 @@ directly from `skillCatalog`/`contentCatalog` by `scripts/generate-curriculum-si
 regenerates automatically on every push to `main` (`.github/workflows/curriculum-site.yml`), so
 it can never drift from what's actually shipped. Each `Skill` carries a `program` field.
 Grade 6 Math, Math Kangaroo, MOEMS Division E, and AMC 8 Grade 6 prep are currently available as
-isolated learner journeys. Future programs such as MATHCOUNTS and Grade 6 ELA can be added as new
-top-level sections without restructuring existing content.
+isolated learner journeys. MATHCOUNTS Grade 6 is authored as a draft and remains unavailable to
+learners pending independent review and human approval. Future programs such as Grade 6 ELA can be
+added as new top-level sections without restructuring existing content.
 
 ## Initial Math skill graph
 
@@ -150,6 +151,77 @@ edge was a genuine conceptual dependency rather than a teaching-order
 preference. Core-first contest access is enforced by the existing planner:
 when a skill has both core and contest records, contest records are not planned
 until structured mastery evidence exists for that skill.
+
+## MATHCOUNTS Grade 6 skill graph (draft — pending review)
+
+Additive contest-preparation program for the same Grade 6 learner
+(`program: "mathcounts-6"`); the approved source dossier is the
+`MATHCOUNTS Grade 6 research — 2026-09-18` section of
+`docs/curriculum-sources.md`. This is an **initial bounded graph, not an
+exhaustive MATHCOUNTS syllabus**: it is a Learning Forge synthesis of the
+official topic families most central to school- and chapter-level Sprint and
+Target preparation, not an official MATHCOUNTS sequence. The first release
+broadly prepares for individual Sprint and Target; it makes no comprehensive
+state or national readiness claim, defers an authentic Team Round mode, and
+keeps optional Countdown-style speed drills out of scope for this increment
+(the contest tier and schema can host them later without gating core mastery).
+
+- Number and proportional reasoning
+  - number theory fundamentals (`MC6-NT-01`)
+  - fraction and percent fluency (`MC6-PF-01`)
+  - proportional reasoning and rates (`MC6-PR-01`)
+- Algebra and patterns
+  - linear equation reasoning (`MC6-AEE-01`)
+  - sequences and patterns (`MC6-SSP-01`)
+- Geometry and measurement
+  - plane geometry: area and angles (`MC6-PG-01`, `MC6-MEAS-01`)
+- Counting, probability and logic
+  - counting and probability (`MC6-PCC-01`)
+  - logical reasoning (`MC6-LOG-01`)
+
+The `MC6-<DOMAIN>-<NN>` codes are repository-owned internal reference codes
+grounded in the approved dossier's topic abbreviations; they are **not**
+official MATHCOUNTS standards, and no school/chapter/state/national level is
+encoded into them. Skill codes are namespaced with an `mc6-` prefix per
+`docs/curriculum-authoring-playbook.md`.
+
+Each skill has exactly two structurally distinct records: one `core` prep
+record and one `contest` record. Contest records are **free response**,
+matching the official Sprint/Target short-answer format, and carry
+program-specific `contestFormat` metadata that encodes an explicit round per
+record: Sprint (1 point, no calculators) or Target (2 points, calculators
+permitted). No record implies a full simulated competition, defines
+multiple-choice answers, or uses the AMC 8 readiness gate. All 16 records are
+`llm_drafted`, `owned`, and `pending_review`; `mathcounts-6` stays unavailable
+to learners until independent review and human approval.
+
+### Prerequisite self-audit
+
+Following the playbook's dedicated prerequisite-audit pass, every candidate
+edge was tested against genuine conceptual necessity (a learner must be
+mathematically unable to reach the downstream skill without the upstream one),
+not teaching order:
+
+- **Kept — `mc6-fraction-percent-fluency → mc6-proportional-reasoning-rates`.**
+  The rate/proportion skill's scope includes percent-based price and quantity
+  changes, whose sub-steps are exactly the fraction/decimal/percent
+  conversions and percent-of computations of the upstream skill; the contest
+  record literally executes a percent increase on a computed unit price. This
+  is compositional necessity, not sequencing.
+- **Rejected — number theory → proportional reasoning.** Simplifying a ratio
+  can use the GCF, but proportional reasoning does not require formal
+  factor/GCF machinery; this is a convenience overlap, so no edge.
+- **Rejected — linear equations → sequences/patterns.** A Grade 6 learner can
+  extend an arithmetic pattern and sum it by pairing without formal equation
+  solving; the edge would only reflect textbook order.
+- **Rejected — counting → probability across skills.** Probability composes on
+  counting, but both live inside the single `mc6-counting-and-probability`
+  skill; no cross-skill edge is needed.
+- **Rejected — any edge into geometry or logic.** Neither the area/angle nor
+  the deduction skills are conceptually blocked by another skill in this
+  bounded graph. When uncertain, no edge was added rather than an
+  instructional-sequence edge. The resulting graph is acyclic with a single
+  audited edge.
 
 ## Learning loop
 

@@ -1,0 +1,55 @@
+{
+  "id": "mc6-geometry-area-and-angles-1",
+  "version": "content-1",
+  "title": "Splitting the leftover angle",
+  "skillCode": "mc6-geometry-area-and-angles",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MC6-PG-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses the straight-line angle total, then halves the leftover angle to find an unknown angle."
+  ],
+  "prompt": "Three rays meet at a point on a straight line. One of the angles along the line measures 118 degrees. The rest of the straight angle is split into two equal angles. What is the measure, in degrees, of each of the two equal angles?",
+  "solutionRepresentation": "Angles along one side of a straight line add to 180 degrees. After removing the 118 degree angle, the leftover is 180 - 118 = 62 degrees. That leftover is split into two equal angles, so each is 62 divided by 2 = 31 degrees.",
+  "solutionMethod": "Subtract the known angle from 180 degrees, then divide the leftover into two equal parts.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "31",
+    "acceptedAnswers": ["31", "31 degrees", "thirty-one"],
+    "equivalenceNotes": "Accept the degree measure with or without the word degrees or in word form."
+  },
+  "misconceptionCodes": ["assumes-angles-equal-without-reason", "uses-360-for-straight-line"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The angles that sit along one side of a straight line together make a half-turn.",
+      "question": "What do the angles on one side of a straight line add up to?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Subtract the known angle from the straight-line total to find the leftover angle, which is then divided into two equal parts.",
+      "question": "Once you know the leftover angle, how do you find each equal part?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "If a straight line has a 100 degree angle and the rest is split into two equal angles, the rest is 80 degrees and each equal angle is half of 80.",
+      "question": "How does that halving step apply to your leftover angle?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["each angle is 31", "is 31 degrees", "thirty-one"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved plane-geometry and measurement family; no official MATHCOUNTS problem, wording, or solution is reproduced."
+  },
+  "accessibilityNotes": "No figure is required; the straight-line total, the known angle, and the equal-split condition are stated in words.",
+  "accessibleAlternative": "Read aloud or display: On a straight line, one angle is 118 degrees and the remaining angle is split into two equal angles. Find each equal angle in degrees."
+}

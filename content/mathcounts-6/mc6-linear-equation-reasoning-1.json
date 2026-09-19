@@ -1,0 +1,55 @@
+{
+  "id": "mc6-linear-equation-reasoning-1",
+  "version": "content-1",
+  "title": "A number described two ways",
+  "skillCode": "mc6-linear-equation-reasoning",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MC6-AEE-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Writes a one-variable equation with the variable on both sides and solves it, then checks the solution in context."
+  ],
+  "prompt": "Twice a number, decreased by 5, equals the same number increased by 4. What is the number?",
+  "solutionRepresentation": "Let the number be n. Twice the number decreased by 5 is 2n - 5, and the number increased by 4 is n + 4. Set them equal: 2n - 5 = n + 4. Subtract n from both sides: n - 5 = 4. Add 5 to both sides: n = 9. Check: 2(9) - 5 = 13 and 9 + 4 = 13, so both sides match.",
+  "solutionMethod": "Translate each phrase into an expression, set them equal, and solve the one-variable equation.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "9",
+    "acceptedAnswers": ["9", "nine", "n = 9"],
+    "equivalenceNotes": "Accept the whole number in digits, in word form, or written as n equals the value."
+  },
+  "misconceptionCodes": ["reverses-operations", "drops-a-term-when-isolating"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Let the unknown be a single variable, then write each described phrase as an expression using that variable.",
+      "question": "How do you write 'twice a number, decreased by 5' with a variable?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Set the two expressions equal, then gather the variable on one side and the plain numbers on the other.",
+      "question": "What equation do you get after subtracting the smaller variable term from both sides?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For 3n - 2 = n + 6, subtract n from both sides to get 2n - 2 = 6, then add 2 and finish solving for n.",
+      "question": "How do those same steps isolate the variable in your equation?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["number is 9", "n = 9", "equals 9", "answer is 9"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved algebraic-expressions-and-equations family; no official MATHCOUNTS problem, wording, or solution is reproduced."
+  },
+  "accessibilityNotes": "No figure is required; the relationship is stated entirely in words.",
+  "accessibleAlternative": "Read aloud or display: Twice a number minus 5 equals that same number plus 4. Find the number."
+}

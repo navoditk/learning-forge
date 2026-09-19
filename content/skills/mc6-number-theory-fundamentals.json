@@ -1,0 +1,20 @@
+{
+  "code": "mc6-number-theory-fundamentals",
+  "title": "Number theory fundamentals",
+  "program": "mathcounts-6",
+  "domain": "mc6-number-and-proportional-reasoning",
+  "standards": ["MC6-NT-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Finds and uses factors, multiples, greatest common factor, and least common multiple to solve multi-step problems.",
+    "Applies divisibility and remainder reasoning to determine unknown counts or numbers."
+  ],
+  "misconceptionCodes": [
+    "confuses-gcf-and-lcm",
+    "multiplies-numbers-for-lcm",
+    "miscounts-factors",
+    "ignores-divisibility-rule"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent factor/GCF/LCM solution with the reasoning shown and one delayed check that applies divisibility or remainder reasoning to a new number without a worked template."
+}

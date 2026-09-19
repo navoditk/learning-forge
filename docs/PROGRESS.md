@@ -1,5 +1,83 @@
 # Progress
 
+## 2026-09-18 — MATHCOUNTS Grade 6 initial authoring (draft, pending review)
+
+- Authored one issue-sized, isolated `mathcounts-6` skill graph and content
+  catalog from the approved `MATHCOUNTS Grade 6 research — 2026-09-18` dossier,
+  under the fixed boundaries: program `mathcounts-6`, `mc6-` skill prefix,
+  additive to Grade 6 Math, Sprint/Target first-release focus, optional
+  Countdown deferred, no Team Round, and no comprehensive state/national claim.
+- **Skills (8, 4 domains):** `content/skills/mc6-*.json` —
+  `mc6-number-theory-fundamentals`, `mc6-fraction-percent-fluency`,
+  `mc6-proportional-reasoning-rates` (domain
+  `mc6-number-and-proportional-reasoning`); `mc6-linear-equation-reasoning`,
+  `mc6-sequences-and-patterns` (`mc6-algebra-and-patterns`);
+  `mc6-geometry-area-and-angles` (`mc6-geometry-and-measurement`);
+  `mc6-counting-and-probability`, `mc6-logical-reasoning`
+  (`mc6-counting-probability-and-logic`). Internal repo-owned reference codes
+  `MC6-<DOMAIN>-<NN>` (NT/PF/PR/AEE/SSP/PG+MEAS/PCC/LOG), not official
+  MATHCOUNTS standards. Documented as an initial bounded graph, not exhaustive.
+- **Content (16):** `content/mathcounts-6/mc6-*-{1,2}.json` — exactly two
+  structurally distinct records per skill (one `core`, one `contest`), all
+  `llm_drafted`, `owned`, and `pending_review`. Core builds foundations and
+  answer-form discipline; contest adds timed, multi-concept transfer. One
+  original accessible SVG figure (L-shaped composite area) using the existing
+  safe figure contract; every other item is accessible text. Independently
+  verified all 16 canonical answers and the figure area (shoelace = 88) and
+  confirmed the knights-and-knaves puzzle has a unique 0-knight solution.
+- **Prerequisite graph:** a single audited edge,
+  `mc6-fraction-percent-fluency → mc6-proportional-reasoning-rates`
+  (the rate/percent contest record literally executes a percent increase on a
+  computed unit price — compositional necessity). All other candidate edges
+  were rejected as teaching-order/convenience overlaps; when uncertain, no edge
+  was added. Graph is acyclic. Full per-skill self-audit is in
+  `docs/02-curriculum-and-pedagogy.md`.
+- **Contract/catalog changes (surgical, typed, program-specific):**
+  `src/contracts/content.ts` extends `ContestFormatSchema` with
+  `mathcounts-sprint`/`mathcounts-target` formats, adds `pointValue` `2`, adds
+  `calculators_permitted` to `calculatorPolicy`, and makes `answerChoices`
+  optional (MATHCOUNTS Sprint/Target are free response, not multiple choice)
+  with a guarded uniqueness refine. `src/contracts/curriculum.ts` adds the four
+  `mc6-*` domains. `src/content/catalog.ts` adds a `mathcounts-6` contest
+  branch enforcing: Sprint = 1 point + `no_calculators`, Target = 2 points +
+  `calculators_permitted`, free-response validator, no answer choices, and no
+  contest readiness gate on core mastery; MK/AMC branches hardened with
+  explicit `answerChoices` presence guards so their behavior is not weakened.
+  `scripts/generate-curriculum-site.ts` adds the four domain labels.
+- **Format metadata decision:** each contest record carries exactly one
+  explicit round (Sprint: NT, AEE, SSP, PCC, LOG; Target: PF, PR, PG).
+  `questionCount`/`timeLimitMinutes` are intentionally omitted so a single
+  practice item never implies a full simulated 30-/8-problem competition; the
+  pedagogically relevant round facts (scoring weight and calculator posture)
+  are encoded. No Countdown or Team metadata was added.
+- **Availability:** `mathcounts-6` stays `available: false` in
+  `PROGRAM_ROSTER`, all 16 records stay `pending_review`, so they are excluded
+  from `servableContentCatalog` and `/api/phase1/plan?program=mathcounts-6`
+  keeps returning 400. The curriculum site renders MATHCOUNTS as
+  "Draft — pending human approval" with answers/hints redacted.
+- **Tests:** updated `tests/content/catalog.test.ts` (96→112 total, 16 pending)
+  and added MATHCOUNTS free-response Sprint/Target format + coverage/pending
+  self-audit tests; updated `tests/curriculum/skill-catalog.test.ts` (AMC
+  section boundary regex, new MATHCOUNTS graph + draft-render tests).
+- **Validation results:** the curriculum site regenerates at 56 skills / 112
+  problems; `npm run verify` passes formatting, lint, type checks, migration
+  rollback checks, 89 unit/contract/catalog/eval/planner tests, and the
+  production build. The database-backed integration suite passes 31/31 and
+  the full serial Playwright suite passes 21/21.
+- **Residual risks / open items for review:** contest metadata omits
+  question-count/time so it does not describe the whole round; the single
+  prerequisite edge, though audited, is the strongest judgment call and should
+  be re-checked; geometry is represented by one broad skill (coordinate/solid
+  geometry, statistics/data, and measurement conversions are deferred);
+  Countdown/Team remain deferred; `review.reviewer` is a
+  "Pending independent curriculum review" placeholder required by the schema.
+- **Next (independent review):** run `.github/skills/curriculum-review`
+  (`curriculum-reviewer` agent) over the new skills/content/contract/catalog/
+  tests for source fidelity, originality, mathematics, distractor-free
+  free-response validators, accessibility, and the prerequisite audit. Do not
+  approve or enable `mathcounts-6`; leave every record `pending_review` until a
+  human content owner approves.
+
 ## 2026-09-18 — MATHCOUNTS Grade 6 research approved
 
 - Added a dedicated pending-review source dossier for `mathcounts-6` using

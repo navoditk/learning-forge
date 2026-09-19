@@ -1,0 +1,55 @@
+{
+  "id": "mc6-counting-and-probability-1",
+  "version": "content-1",
+  "title": "Lunch special combinations",
+  "skillCode": "mc6-counting-and-probability",
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MC6-PCC-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses the multiplication principle to count outcomes across independent choice categories."
+  ],
+  "prompt": "A lunch special lets you pick one of 4 sandwiches, one of 3 drinks, and one of 2 desserts. How many different lunch specials are possible?",
+  "solutionRepresentation": "Each choice is made independently, so the counts multiply: 4 sandwiches x 3 drinks x 2 desserts = 24 different lunch specials.",
+  "solutionMethod": "Apply the multiplication principle across the three independent choice categories.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "24",
+    "acceptedAnswers": ["24", "twenty-four", "24 specials"],
+    "equivalenceNotes": "Accept the whole number in digits, in word form, or with the word specials."
+  },
+  "misconceptionCodes": ["adds-instead-of-multiplying-choices", "counts-total-wrong"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Each pick is independent: choosing a sandwich does not limit the drink or the dessert.",
+      "question": "When choices are made independently, do you add or multiply the numbers of options?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Multiply the number of sandwich options by the number of drink options by the number of dessert options.",
+      "question": "What three numbers do you need to multiply together?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "With 2 shirts and 5 hats you can make 2 times 5 outfits; extend that same product to three categories here.",
+      "question": "How does the two-category product idea stretch to three categories?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["24 different", "twenty-four", "is 24"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "Pending independent curriculum review",
+    "originalityStatement": "Original MATHCOUNTS-style core problem written for this repository from the approved counting-and-probability family; no official MATHCOUNTS problem, wording, or solution is reproduced."
+  },
+  "accessibilityNotes": "No figure is required; the three menu categories and their counts are stated in text.",
+  "accessibleAlternative": "Read aloud or display: A lunch special has one of 4 sandwiches, one of 3 drinks, and one of 2 desserts. How many different specials are possible?"
+}

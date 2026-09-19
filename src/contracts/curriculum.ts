@@ -28,6 +28,10 @@ export const CurriculumDomainSchema = z.enum([
   'amc8-number-and-ratio-reasoning',
   'amc8-geometry-and-visualization',
   'amc8-data-and-algebra',
+  'mc6-number-and-proportional-reasoning',
+  'mc6-algebra-and-patterns',
+  'mc6-geometry-and-measurement',
+  'mc6-counting-probability-and-logic',
 ]);
 
 export type CurriculumDomain = z.infer<typeof CurriculumDomainSchema>;

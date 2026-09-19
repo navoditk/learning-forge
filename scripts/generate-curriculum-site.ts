@@ -40,6 +40,10 @@ const DOMAIN_LABELS: Record<CurriculumDomain, string> = {
   'amc8-number-and-ratio-reasoning': 'Number & Ratio Reasoning',
   'amc8-geometry-and-visualization': 'Geometry & Visualization',
   'amc8-data-and-algebra': 'Data & Algebra',
+  'mc6-number-and-proportional-reasoning': 'Number & Proportional Reasoning',
+  'mc6-algebra-and-patterns': 'Algebra & Patterns',
+  'mc6-geometry-and-measurement': 'Geometry & Measurement',
+  'mc6-counting-probability-and-logic': 'Counting, Probability & Logic',
 };
 
 const MODE_LABELS: Record<ContentItem['mode'], string> = {

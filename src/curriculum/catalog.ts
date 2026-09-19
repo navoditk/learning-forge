@@ -46,6 +46,14 @@ import amc8SpatialVisualization from '../../content/skills/amc8-spatial-visualiz
 import amc8GraphsAndTables from '../../content/skills/amc8-graphs-and-tables.json';
 import amc8IntroductoryAlgebra from '../../content/skills/amc8-introductory-algebra.json';
 import amc8CoordinateGeometry from '../../content/skills/amc8-coordinate-geometry.json';
+import mc6NumberTheoryFundamentals from '../../content/skills/mc6-number-theory-fundamentals.json';
+import mc6FractionPercentFluency from '../../content/skills/mc6-fraction-percent-fluency.json';
+import mc6ProportionalReasoningRates from '../../content/skills/mc6-proportional-reasoning-rates.json';
+import mc6LinearEquationReasoning from '../../content/skills/mc6-linear-equation-reasoning.json';
+import mc6SequencesAndPatterns from '../../content/skills/mc6-sequences-and-patterns.json';
+import mc6GeometryAreaAndAngles from '../../content/skills/mc6-geometry-area-and-angles.json';
+import mc6CountingAndProbability from '../../content/skills/mc6-counting-and-probability.json';
+import mc6LogicalReasoning from '../../content/skills/mc6-logical-reasoning.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { topologicalOrder } from './topological-sort';
 
@@ -98,6 +106,14 @@ const rawSkills = [
   amc8GraphsAndTables,
   amc8IntroductoryAlgebra,
   amc8CoordinateGeometry,
+  mc6NumberTheoryFundamentals,
+  mc6FractionPercentFluency,
+  mc6ProportionalReasoningRates,
+  mc6LinearEquationReasoning,
+  mc6SequencesAndPatterns,
+  mc6GeometryAreaAndAngles,
+  mc6CountingAndProbability,
+  mc6LogicalReasoning,
 ] as const;
 
 export function topologicalSkillOrder(skills: readonly Skill[]): string[] {

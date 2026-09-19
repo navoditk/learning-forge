@@ -1,0 +1,20 @@
+{
+  "code": "mc6-geometry-area-and-angles",
+  "title": "Plane geometry: area and angles",
+  "program": "mathcounts-6",
+  "domain": "mc6-geometry-and-measurement",
+  "standards": ["MC6-PG-01", "MC6-MEAS-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Computes areas and perimeters of composite plane figures by decomposition or subtraction.",
+    "Uses angle relationships on straight lines and in triangles to find an unknown angle."
+  ],
+  "misconceptionCodes": [
+    "confuses-area-and-perimeter",
+    "adds-all-sides-for-composite-area",
+    "assumes-angles-equal-without-reason",
+    "uses-360-for-straight-line"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent angle-relationship solution with the reasoning shown and one delayed check that finds a composite area by decomposition or subtraction and states the correct square units."
+}

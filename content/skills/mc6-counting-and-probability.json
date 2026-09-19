@@ -1,0 +1,20 @@
+{
+  "code": "mc6-counting-and-probability",
+  "title": "Counting and probability",
+  "program": "mathcounts-6",
+  "domain": "mc6-counting-probability-and-logic",
+  "standards": ["MC6-PCC-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Counts outcomes using organized lists, the multiplication principle, or cases so nothing is missed or repeated.",
+    "Computes a probability as favorable outcomes over total equally likely outcomes and reduces it to lowest terms."
+  ],
+  "misconceptionCodes": [
+    "adds-instead-of-multiplying-choices",
+    "double-counts-arrangements",
+    "uses-favorable-as-probability",
+    "counts-total-wrong"
+  ],
+  "difficultyBands": ["foundational", "developing", "challenging"],
+  "masteryCheckRule": "Require one independent organized count using the multiplication principle and one delayed check that computes a reduced probability and explains why no outcome was missed or double-counted."
+}
