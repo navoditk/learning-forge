@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-09-19 — Scripps study-method source reviewed
+
+- Rendered and reviewed the official two-page scanned *How to Study for a
+  Spelling Bee* by Dr. Jacques Bailly after text extraction proved unavailable.
+- The source reinforces current-level entry, deliberate oral performance
+  practice, roots and etymology, language and sound patterns, exception
+  tracking, dictionary pronunciation symbols, and incremental progression.
+- No material scope change was identified. Scripps authoring remains blocked
+  pending explicit product/content-owner approval of the dossier.
+
 ## 2026-09-19 — Scripps research decisions recorded
 
 - Product/content owner selected school-and-regional preparation, original
