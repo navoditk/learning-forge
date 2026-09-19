@@ -52,7 +52,9 @@ test.describe('synthetic Phase 1 journeys', () => {
     await expect(page.getByRole('button', { name: 'Bake sale change' })).toHaveCount(0);
 
     await page.getByLabel('Subject').selectOption('amc-8');
-    await expect(page.getByRole('heading', { name: 'Spinner complement probability' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Spinner complement probability' }),
+    ).toBeVisible();
     await expect(
       page
         .getByRole('region', { name: 'Recommended next activities' })
