@@ -1,6 +1,6 @@
 {
   "id": "mc6-geometry-area-and-angles-2",
-  "version": "content-3",
+  "version": "content-4",
   "title": "Infer the missing corner of a garden",
   "skillCode": "mc6-geometry-area-and-angles",
   "mode": "contest",
@@ -54,7 +54,7 @@
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "For a 15 by 11 rectangle whose remaining top edge is 9 and remaining right edge is 7, the missing corner would be 15 minus 9 by 11 minus 7. Use that inference pattern before subtracting areas here.",
+      "prompt": "For a 16 by 12 rectangle whose remaining top edge is 9 and remaining right edge is 7, the missing corner would be 16 minus 9 by 12 minus 7. Use that inference pattern before subtracting areas here.",
       "question": "What are this garden's missing corner dimensions, and how do they determine its area?"
     }
   ],

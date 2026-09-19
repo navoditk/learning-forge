@@ -1,5 +1,23 @@
 # Progress
 
+## 2026-09-18 — MATHCOUNTS final-review cleanup
+
+- The third independent pass confirmed all fourteen previously recorded
+  findings resolved and found no remaining mathematical, source-fidelity,
+  scope, accessibility, serving-gate, or legacy-program defect.
+- Corrected three final minor issues: changed the geometry analogy so its
+  inferred dimensions no longer match the target, expanded its numerical SVG
+  regression to verify all `14/10/8/6` lengths and shoelace area `116`, and
+  refreshed `docs/content-review.md` to the current 112-record inventory
+  (96 reviewed, 16 MATHCOUNTS pending).
+- The geometry contest record is now `content-4`; all MATHCOUNTS records
+  remain pending and unavailable.
+- Validation passes end to end: `npm run verify` (89
+  unit/contract/catalog/eval/planner tests plus production build), integration
+  31/31, and serial Playwright 21/21.
+- Next: validate and run one final focused independent confirmation before
+  human approval.
+
 ## 2026-09-18 — MATHCOUNTS second-review remediation
 
 - The focused re-review confirmed all seven first-pass fixes, then found one

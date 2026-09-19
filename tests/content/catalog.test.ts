@@ -425,6 +425,22 @@ describe('ratios content seed', () => {
     expect(removedCorner).toBeTruthy();
     expect(Number(removedCorner![5]) / scale).toBe(Number(removedCorner![1]));
     expect(Number(removedCorner![6]) / scale).toBe(Number(removedCorner![2]));
+    const polygonPoints = svg
+      .match(/data-role="l-shape"[^>]*points="([^"]+)"/)?.[1]
+      .split(' ')
+      .map((point) => point.split(',').map(Number) as [number, number]);
+    expect(polygonPoints).toHaveLength(6);
+    const xs = polygonPoints!.map(([x]) => x);
+    const ys = polygonPoints!.map(([, y]) => y);
+    expect((Math.max(...xs) - Math.min(...xs)) / scale).toBe(14);
+    expect((Math.max(...ys) - Math.min(...ys)) / scale).toBe(10);
+    expect((polygonPoints![4][0] - polygonPoints![5][0]) / scale).toBe(8);
+    expect((polygonPoints![0][1] - polygonPoints![2][1]) / scale).toBe(6);
+    const doubledPixelArea = polygonPoints!.reduce((sum, [x, y], index) => {
+      const [nextX, nextY] = polygonPoints![(index + 1) % polygonPoints!.length];
+      return sum + x * nextY - nextX * y;
+    }, 0);
+    expect(Math.abs(doubledPixelArea) / 2 / scale ** 2).toBe(116);
 
     for (const [id, answer] of expectedAnswers) {
       const item = contentCatalog.find((candidate) => candidate.id === id);

@@ -1,15 +1,16 @@
 # Content review
 
-The catalog contains 96 original/LLM-drafted, synthetic problem records across
-Grade 6 Math, Math Kangaroo Grade 6, MOEMS Division E, and the AMC 8 Grade 6
-prep draft. The records are versioned JSON and remain separate from generated
-(live-tutor) content. Every record names its review state; only
-`review.status: "reviewed"` records enter the servable catalog.
+The catalog contains 112 original/LLM-drafted, synthetic problem records
+across Grade 6 Math, Math Kangaroo Grade 6, MOEMS Division E, AMC 8 Grade 6
+prep, and the MATHCOUNTS Grade 6 draft. The records are versioned JSON and
+remain separate from generated (live-tutor) content. Every record names its
+review state; only `review.status: "reviewed"` records enter the servable
+catalog.
 
-**Current status (2026-09-18):** 80 records are marked `reviewed` and
+**Current status (2026-09-18):** 96 records are marked `reviewed` and
 learner-servable through their available programs (Grade 6 Math, Math Kangaroo
-Grade 6, and MOEMS Division E). The 16 AMC 8 records remain
-`pending_review`, and `amc-8` remains unavailable. Earlier Grade 6 Math
+Grade 6, MOEMS Division E, and AMC 8). The 16 MATHCOUNTS records remain
+`pending_review`, and `mathcounts-6` remains unavailable. Earlier Grade 6 Math
 approval was product/content-owner approval by Navodit Kaushik, not a
 separately engaged subject-matter-expert educator review; a deeper pedagogical
 audit remains a candidate follow-up before broader pilot use.
@@ -19,19 +20,16 @@ Division E records across five `moems6-` skills completed independent review,
 were approved by the product/content owner on 2026-09-18, and are now
 learner-servable through the isolated `moems-6` program.
 
-**AMC 8 draft handoff (2026-09-18):** The catalog now also contains 16
-original `llm_drafted` AMC 8 Grade 6 prep records across eight `amc8-` skills.
-Each skill has one core-prep record and one contest multiple-choice record.
-Contest records encode the official 25-question, 40-minute, no-calculator,
-five-choice A-E, +1 correct / 0 wrong / 0 blank AMC 8 format and are distinct
-from Math Kangaroo's 3/4/5-point tiers and MOEMS free-response records. All 16
-remain `review.status: "pending_review"` and are excluded from the servable
-catalog because `amc-8` is unavailable. The independent reviewer must
-re-derive every answer, check the zero-edge prerequisite self-audit, confirm
-the two records per skill are structurally distinct and jointly cover
-observable evidence, trace every distractor rationale to its answer choice,
-inspect accessible SVG figures, and verify originality against AMC 8/AJHSME
-archives before any approval.
+**AMC 8 status (2026-09-18):** The 16 original `llm_drafted` AMC 8 Grade 6
+prep records completed independent review and product/content-owner approval
+and are learner-servable through the isolated `amc-8` program behind its
+strict readiness gate.
+
+**MATHCOUNTS draft handoff (2026-09-18):** The catalog also contains 16
+original `llm_drafted` MATHCOUNTS Grade 6 records across eight `mc6-` skills.
+Each skill has one core-prep record and one Sprint- or Target-style contest
+free-response record. All 16 remain `review.status: "pending_review"` and are
+excluded from the servable catalog because `mathcounts-6` is unavailable.
 
 ## Review checklist
 
@@ -1232,3 +1230,31 @@ pending.
   inspection, and the 31-test integration suite passed.
 - Human review remained blocked pending remediation and another independent
   pass.
+
+## 2026-09-18 — MATHCOUNTS Grade 6 third independent review
+
+- **Scope:** Authoring `899511d` plus remediation commits `a235f0a` and
+  `51e7655`; every prior finding and the complete final curriculum.
+- **Reviewer:** Independent `curriculum-review` pass (advisory only; no content
+  status or availability changed).
+- **Recommendation:** **not ready for human review** pending three minor
+  corrections.
+
+### Outcome and findings
+
+The reviewer verified all fourteen previously recorded findings resolved,
+re-derived all sixteen answers, and confirmed source/round fidelity, the
+approved school/chapter boundary, SVG accuracy and accessibility, originality,
+legacy validation, and pending/unavailable gates. Three minor findings
+remained:
+
+1. The rewritten geometry analogy produced the same `6` and `4` intermediate
+   dimensions as the target, weakening answer protection.
+2. The geometry SVG regression checked only the removed rectangle's
+   self-declared dimensions rather than independently deriving all four
+   labeled lengths and polygon area `116`.
+3. This document's current-status header still described the pre-AMC-shipping
+   96-record/80-reviewed inventory.
+
+Focused content/curriculum checks and `npm run verify` passed (89 tests plus
+production build). No blocker or major issue remained.
