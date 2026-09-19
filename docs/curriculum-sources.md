@@ -1,8 +1,8 @@
 # Curriculum sources and attribution
 
-This document is the single, checkable record of what informed the Grade 6
-Math curriculum, so it can be audited later and used as a template when a new
-subject or grade is added. It complements, but does not replace, the
+This document is the single, checkable record of what informed Learning
+Forge's researched curricula, so each program can be audited independently.
+It complements, but does not replace, the
 per-record `standards`/`provenance` fields already validated in
 `content/skills/*.json` and `content/{ratios,number-system,
 expressions-and-equations,geometry,statistics}/*.json` — this doc explains
@@ -837,6 +837,377 @@ Authoring may proceed under the approved boundaries. The author should:
    order, topic-index order, or a preferred teaching sequence. Preserve
    program isolation, provenance, pending-review gates, answer-leakage
    controls, accessibility, and structured validation.
+
+## Scripps National Spelling Bee Grade 6 research — 2026-09-19
+
+**Status: Pending product/content-owner review.** This dossier is research
+only and does not authorize authoring.
+
+### Scope and learner context
+
+- Same Grade 6 learner in Irvine, California; this is additive enrichment,
+  not a replacement for Grade 6 ELA.
+- Official target: Scripps National Spelling Bee (SNSB), 2027 season.
+- No IUSD pacing source is requested or used.
+- Intended Learning Forge tiers: `core` prep and `contest`; these are not
+  official SNSB competition levels or One/Two/Three Bee labels.
+- International Geography Bee and Science Olympiad Division B are separate
+  dossiers. Grade 6 ELA remains a separate future standards-aligned program.
+- Grade 6 is inside the current eligibility band, but actual participation
+  requires the learner's school to be enrolled in the applicable SNSB program.
+- Retrieval date: 2026-09-19.
+
+### Source register
+
+| Authority and role | Exact source, issuer, date/version, URL, and retrieval status | Supported claim and limitation |
+|---|---|---|
+| **Primary; current local guidance** | *2027 Suggested Rules for Spelling Bees*, Scripps National Spelling Bee; PDF creation date 2026-08-12; https://spellingbee.com/sites/default/files/inline-files/2027_Suggested_Rules_for_Spelling_Bees.pdf (HTTP 200) | Local/school round procedure, roles, elimination, appeals, variants, and allowed requests. Explicitly suggested rather than binding; local officials retain discretion. |
+| **Primary; current eligibility** | *eligibility requirements for the 2027 national competition*, SNSB; modified 2026-09-01; https://spellingbee.com/sites/default/files/inline-files/2027%20Eligibility%20Requirements.pdf (HTTP 200) | National grade/age limits and school-enrollment requirement. It does not control eligibility for every local competition. |
+| **Primary; most recent complete national rules** | *Contest Rules of the 2026 Scripps National Spelling Bee*, SNSB; PDF creation date 2025-08-18; https://spellingbee.com/sites/default/files/inline-files/SCRIPPS--2026%20SPELLING%20BEE%20OFFICIAL%20RULES_FINAL.pdf (HTTP 200) | National segments, word-source policy, timing, scoring/elimination, vocabulary, roles, appeals, and Spell-off. Historical relative to the 2027 season. |
+| **Primary; currency check** | *Rules*, SNSB; page date not stated; https://www.spellingbee.com/rules (HTTP 200) | States 2027 National Contest Rules will be available in late fall 2026. Guessed 2027 national-rule PDF paths returned HTTP 404. |
+| **Primary; current pathway/resources** | *Enrollment*, SNSB; https://www.spellingbee.com/enrollment (HTTP 200), and *2027 Educator Guide*, SNSB; created 2026-08-13, modified 2026-09-15; https://mcusercontent.com/af54d277651e6822d87b375a3/files/e5662be7-fb39-5de6-d275-1cf0e47cbc57/2027_Educator_Guide.pdf (HTTP 200) | Classroom/school/regional/national pathway, school enrollment, current dates, school formats, roles, and study-resource architecture. Administrative guidance, not a syllabus. |
+| **Primary; study architecture** | *Study Tips*, https://www.spellingbee.com/study-tips; *Words of the Champions*, https://www.spellingbee.com/study-list; *Word Club*, https://www.spellingbee.com/word-club; *Spelling Bee Resource Center*, https://www.spellingbee.com/resource-center (all SNSB, page dates not stated, HTTP 200) | Grade-level lists, 450-word School Spelling Bee Study List, 4,000-word *Words of the Champions*, difficulty labels, vocabulary practice, and authorized access channels. Access does not grant reuse rights. |
+| **Primary; reading-level signal** | *2026-2027 Bee's Bookshelf Reading List*, SNSB; created 2026-07-06; https://spellingbee.com/sites/default/files/inline-files/2027%20Bee%27s%20Bookshelf%20Reading%20List.pdf (HTTP 200) | Bookshelf reading levels map One Bee to grades 1-3, Two Bee to grades 4-6, and Three Bee to grades 7-8. This mapping must not be transferred to *Words of the Champions* difficulty tiers. |
+| **Primary; official archive** | *100 Years of the Bee*, SNSB; https://history.spellingbee.com/ and https://history.spellingbee.com/years/ (HTTP 403 with default curl user agent; HTTP 200 with browser user agent) | Official history archive with 98 year pages spanning 1925-2026, excluding wartime years 1943-1945 and 2020. It is a champions/history archive, not a past-list or past-paper archive. |
+| **Primary; official dictionary** | *Merriam-Webster Unabridged*, Merriam-Webster, Inc.; © 2026; https://unabridged.merriam-webster.com/ (HTTP 200, subscription-gated) | SNSB's official spelling authority and primary source for pronunciations, definitions, and origins. Its content is not available for reproduction. |
+| **Primary; binding reuse terms** | *User Agreement*, The E.W. Scripps Company; updated/effective 2019-08-20; https://www.spellingbee.com/bee-user-agreement (HTTP 200) | Service Content is for personal, non-commercial use; reproduction, derivative works, publishing, and unauthorized scraping are prohibited. Download permission, including for spelling lists, grants no ownership or general reuse right. |
+| **Primary; local operational locator** | *Current Regional Partners*, SNSB; https://www.spellingbee.com/current-regional-partners (HTTP 200) | Lists an Irvine-based Orange County Register/O.C. Department of Education partner. The learner's specific school route was not established. |
+
+No secondary source supplies a substantive claim. Web search was used only to
+locate official artifacts that were then retrieved directly.
+
+### Framework, coverage, and sequencing authority
+
+SNSB publishes no standards document, grade-specific syllabus, or mandatory
+scope and sequence. The usable 2027 framework combines current eligibility and
+suggested local rules, the historical 2026 national rules pending publication
+of the 2027 edition, and the official study-resource architecture.
+
+Source-grounded Learning Forge domain signals are:
+
+- orthographic patterns and letter-sequence accuracy;
+- morphology, affixes, bases, and roots;
+- etymology and language-of-origin reasoning;
+- pronunciation and phoneme-grapheme mapping;
+- homophone/homograph discrimination;
+- vocabulary and meaning in context;
+- standard-variant and dictionary-label judgment; and
+- competition procedure and oral performance.
+
+These are product-synthesized domains, not an official SNSB syllabus.
+Sequencing signals are weak and non-binding: grade-level lists, the School
+Spelling Bee Study List's first-to-eighth-grade progression, One/Two/Three Bee
+difficulty labels, the separately defined Bookshelf reading levels, and
+competition-stage escalation. Any authored graph must instead use genuine
+linguistic prerequisites and learner evidence.
+
+Current local guidance permits oral, written, online, or combined formats and
+may include spelling and vocabulary. In oral rounds, a speller may request a
+definition, sentence, part of speech, language of origin, or alternate
+pronunciation. Local rules do not set a universal turn time and are subject to
+regional variation. The 2026 national rules describe spelling, vocabulary,
+written-test, and Spell-off formats, but must not be presented as final 2027
+rules.
+
+### Archive, tiers, originality, and licensing
+
+The official archive is historical rather than a reusable question bank.
+Specific guessed past-list paths (`/past-word-lists`, `/word-lists`,
+`/archive`, `/school-spelling-bee`, `/words-of-the-champions`) returned HTTP
+404. Past word lists were therefore **not located via the searches
+performed**; this does not rule out portal-only or regional archives.
+
+Both tiers must use original Learning Forge material:
+
+- `core`: transferable phonological, orthographic, morphological,
+  etymological, and vocabulary reasoning;
+- `contest`: original procedure and performance practice under correctly
+  versioned local/national constraints.
+
+No official list word set, list membership, definition, sentence,
+pronunciation, etymology, competition list, test, or Word Club content may be
+copied, transcribed, reordered, seeded into a new list, or closely
+paraphrased. Legitimate school/parent/app/book access is not a reuse license.
+Practice items must be selected independently by linguistic feature and must
+not imply Scripps endorsement.
+
+### Conflicts, gaps, and decisions requiring human review
+
+1. Approve or revise the recommendation to target classroom and school-bee
+   preparation first, with regional procedure as awareness-only contest
+   content and no national/Spell-off readiness claim.
+2. Approve inclusion of an original vocabulary/meaning-in-context strand in
+   both tiers.
+3. Affirm the strict boundary that official SNSB study-list words may not be
+   used as a source, seed, sample set, or validation corpus.
+4. Verify the learner's school enrollment and regional-partner route before
+   the current enrollment deadline; this is operational, not curricular.
+5. Treat local officials' rules as controlling and the 2027 Suggested Rules
+   only as a baseline.
+6. Require unofficial, independent-preparation framing with no implied SNSB
+   endorsement.
+7. Re-run the rule comparison when the 2027 National Contest Rules publish.
+8. A human should read the scanned *How to Study for a Spelling Bee* PDF,
+   which had no extractable text layer, before authoring.
+
+### Research handoff
+
+After human approval only, use program `scripps-spelling-bee-6`, skill prefix
+`snsb6-`, and repository-owned codes `SNSB6-<DOMAIN>-<NN>` (for example
+`ORTH`, `MORPH`, `ETYM`, `PHON`, `HOM`, `VOCAB`, `VAR`, `PROC`). Keep
+`core`/`contest` separate from official levels, build edges from conceptual
+necessity rather than list order, use current 2027 sources ahead of the
+historical 2026 national rules, author every linguistic artifact from first
+principles, and preserve pending review, accessibility, answer protection, and
+program isolation.
+
+## IAC National Geography Bee Grade 6 research — 2026-09-19
+
+**Status: Pending product/content-owner review.** This dossier is research
+only and does not authorize authoring.
+
+### Scope and learner context
+
+- Same Grade 6 learner in Irvine, California; additive enrichment rather than
+  a replacement for Grade 6 Social Studies.
+- The current U.S. official program name is **National Geography Bee**. IAC
+  says the U.S. competition was called International Geography Bee before the
+  2023-2024 academic year. The existing program identifier remains
+  `international-geography-bee-6` pending a label decision.
+- Correct current division: standalone **6th Grade Division**.
+- No IUSD pacing input. Intended tiers: `core` prep and `contest`.
+- Scripps Spelling Bee, Science Olympiad, Grade 6 Social Studies, the US
+  Geography Bee, US Geography Championships, National Geography Bowl, and
+  International Geography Championships remain separate or deferred.
+- Retrieval date: 2026-09-19.
+
+### Source register
+
+| Authority and role | Exact source, issuer, date/version, URL, and retrieval status | Supported claim and limitation |
+|---|---|---|
+| **Primary; current program/pathway** | *National Geography Bee: Middle & Elementary School*, International Academic Competitions U.S.; published 2023-11-08, modified 2026-09-14; https://www.iacompetitions.com/emsgeographybee/ (HTTP 200) | Grade 6 division, ORQE/Regional/National pathway, formats, qualification, world-geography scope, and 2027 Nationals. |
+| **Primary; ORQE portal** | *Welcome to International Academic Competitions*, IAC ORQE portal; page date not stated; https://orqe.iac-exams.com/ (HTTP 200) | 2026-2027 ORQEs are available; K-8 learners require a parent/teacher sponsor account. Live exam content is account-gated. |
+| **Primary; current registration** | *Regionals Registration*, IAC; published 2022-11-04, modified 2026-09-18; https://www.iacompetitions.com/registration/ (HTTP 200) | ORQE requirement, current Regional eligibility, buzzer format, and set participation limits. Operational dates/locations can change. |
+| **Primary; rules index** | *Rules, Scoresheets, & Question Distribution*, IAC; published 2023-08-11, modified 2026-09-12; https://www.iacompetitions.com/rules-scoresheets-question-distribution/ (HTTP 200) | Current index for Regional/National rules, scoresheets, answer acceptance, and question distribution. |
+| **Primary; Regional rules** | *IAC National Science, History, and Geography Regional Bees Rules Sheet*, IAC; updated November 2025; https://docs.google.com/document/d/1x-1ybZz5zZ0QlkM8kZun-adkPQW06HLwAvakp6mHmg8/edit?usp=sharing (HTTP 200 via text export) | Race-to-five buzzer rules, scoring, timing, protests, and qualification. |
+| **Primary; National preliminary rules** | *IAC Middle & Elementary School National Championships — Bee Competition Rules Summary for Preliminary Rounds*, IAC; publication date not stated; https://www.iacompetitions.com/wp-content/uploads/2024/05/IAC-Middle-Elementary-School-National-Championships-Individual-Event-Preliminary-Rounds-Scoring-System-and-Rules-Summary.pdf (HTTP 200) | National preliminary scoring, timing, penalties, advancement, and tiebreaks. |
+| **Primary; official distribution** | *Official Question Distribution*, IAC; date not stated; https://docs.google.com/document/d/1X9mcwsIGjgpyZwk_aA6lJjJFvUvg42VvF_aNxZZUhHM/edit (HTTP 200 via text export) | Tournament-level Middle/Elementary geography distribution. Frequencies need not occur exactly in each round; this is not a grade-specific syllabus. |
+| **Primary; current study guidance** | *Study Guides*, IAC; modified 2026-09-13; https://www.iacompetitions.com/study-guides/ (HTTP 200), and *2026-27 National Geography Bee Red Set Study Guide*; https://www.iacompetitions.com/wp-content/uploads/2026/09/2026-27-Red-Set-Geography-Study-Guide-1.pdf (HTTP 200) | Guides reflect already-written Regional sets, are incomplete, and are not produced for Nationals. They are preparation aids, not sequencing authority. |
+| **Primary; buzzer archive** | *EMS – National Geography Bee – Past Questions*, IAC; https://www.iacompetitions.com/ems-national-geography-bee-past-questions/ (HTTP 200) | Official archive headings span 2016-2017 through 2025-2026, but recent availability is incomplete and stage-dependent. |
+| **Primary; written archive** | *Elementary & Middle School – Past Online Regional Qualifying Exams*, IAC; https://www.iacompetitions.com/2022-2023-elementary-middle-school-online-regional-qualifying-exams/ (HTTP 200) | Official 2019-2020 through 2021-2022 ORQE materials and keys, plus grade-banded winter samples including Grades 5-6. |
+| **Primary; naming/legacy archive** | *USA* and *Resources*, International Geography Bee; https://www.internationalgeographybee.com/usa/ and https://www.internationalgeographybee.com/usa/resources/ (HTTP 200) | Confirms the U.S. naming transition and historical 2016-2017 through 2021-2022 IGB resources. |
+
+No secondary source supplies a substantive claim.
+
+### Framework, format, coverage, and sequencing
+
+There is no grade-specific IAC geography syllabus. The 2026-2027 competition
+framework consists of the current pathway page, current rules, official
+distribution, set-specific study guidance, and official archives.
+
+The Grade 6 pathway is:
+
+1. a free 50-question, four-choice, 20-minute Online Regional Qualifying Exam
+   with no wrong-answer penalty and approximately half the questions using a
+   map, photograph, chart, or comparable visual;
+2. Regional Tournaments with three preliminary and one final buzzer round,
+   each using 30 pyramidal questions; and
+3. National Championships with four preliminary buzzer rounds followed by
+   age-division playoffs.
+
+The current official scope includes political, human, cultural, and physical
+geography worldwide. The official 30-question distribution gives 26
+world/regional slots and four concept slots (current events, economic,
+historical, and physical geography). Product-synthesized coverage signals
+therefore include regional/world geography, physical systems, human/cultural
+geography, political and economic geography, historical geography, original
+map/chart/geospatial interpretation, bounded current geography, and pyramidal
+clue/buzzer judgment. These are not official standards.
+
+No mandatory teaching order exists. The distribution is breadth guidance,
+study guides are incomplete and set-specific, and archives demonstrate
+historical format/difficulty. Any sequence must be labeled a Learning Forge
+synthesis driven by prerequisites, learner evidence, visual literacy, and a
+progression from written recognition to oral recall.
+
+### Archives, tiers, originality, and licensing
+
+The official buzzer archive exposes selected Middle/Elementary materials from
+2016-2017 through 2025-2026, including recent finals but not a complete recent
+Regional/National preliminary archive. The ORQE archive exposes 2019-2020,
+2020-2021, and 2021-2022 exams/keys plus Grades 5-6 winter material. A legacy
+NQE archive link returned HTTP 404; this does not establish that no older NQEs
+exist elsewhere.
+
+No affirmative reuse license was located, and IAC pages state all rights
+reserved. Public questions, clues and their order, answer sets, maps, charts,
+photos, diagrams, study-guide language, and solutions may inform only broad
+coverage, format, visual demand, and relative difficulty. Learning Forge must
+create original questions and original or separately rights-cleared accessible
+visuals.
+
+- `core`: durable geography concepts, regional knowledge, systems, and visual
+  literacy;
+- `contest`: distinct ORQE-style multiple-choice/visual practice and
+  buzzer-style pyramidal clue progression.
+
+### Conflicts, gaps, and decisions requiring human review
+
+1. Choose the learner-facing label: recommended **National Geography Bee
+   (IAC U.S.; formerly International Geography Bee in the U.S.)**, while
+   retaining the existing identifier.
+2. Approve or revise the recommendation to cover the ORQE plus Regional and
+   National preliminary mechanics, with no comprehensive National-playoff or
+   International readiness claim.
+3. Keep US Geography Bee, US Geography Championships, National Geography
+   Bowl, and IGC separate unless later researched and approved.
+4. Define an `as of` date, approved source set, review cadence, and retirement
+   policy for current-geography records.
+5. Require original/rights-cleared maps, charts, diagrams, and photos with
+   complete text alternatives.
+6. Do not encode the accessible but currently unlinked National playoff
+   scoring document as durable 2027 metadata without confirmation.
+7. Current pages conflict between four subject Regionals (one per color set)
+   and wording about up to seven sites; treat four as corroborated and record
+   the other sentence as unresolved.
+8. Recent archives are incomplete, and some archive page modification dates
+   predate files they now link.
+
+### Research handoff
+
+After approval only, retain program `international-geography-bee-6`, use
+prefix `igb6-`, and repository-owned codes
+`LF-IAC-NGB6-<DOMAIN>-<NN>` (`WRG`, `PHY`, `HUM`, `POL`, `ECO`, `HIS`,
+`MAP`, `CUR`, `BUZ`). Author original `core` and `contest` pairs, explicitly
+distinguish ORQE from buzzer formats, include accessible original visual
+reasoning, keep volatile current geography separately reviewable, and never
+merge adjacent IAC programs or reproduce official material.
+
+## Science Olympiad Division B 2027 research — 2026-09-19
+
+**Status: Pending product/content-owner review.** This dossier is research
+only and does not authorize authoring.
+
+### Scope and learner context
+
+- Same Grade 6 learner in Irvine, California; additive enrichment, not a
+  replacement for Grade 6 Science/NGSS.
+- Official target: Science Olympiad Division B, 2027 season (2026-2027
+  academic year). Division B covers Grades 6-9.
+- Participation is team-only through the learner's school; there is no
+  individual-competitor equivalent.
+- No IUSD pacing. California/SoCal sources are used only for local pathway
+  context, never as national event-rule authority.
+- Intended tiers: `core` prep and `contest`.
+- Scripps Spelling Bee, IAC Geography Bee, and future Grade 6 Science are
+  separate dossiers.
+- Retrieval date: 2026-09-19.
+
+### Source register
+
+| Authority and role | Exact source, issuer, date/version, URL, and retrieval status | Supported claim and limitation |
+|---|---|---|
+| **Primary; current rules access** | *2027 Rules*, Science Olympiad; manuals available from 2026-09-08; https://www.soinc.org/rules-2027 (HTTP 200) | Establishes the 2027 season and Division B Grades 6-9. Rules manuals are free but email-gated and were not reproduced. |
+| **Primary; current slate** | *2027 Division B Events*, Science Olympiad; https://www.soinc.org/events/2027-division-b-events?cb=20260919 (HTTP 200), and *2027 Event Table*, https://www.soinc.org/events/2027-event-table (HTTP 200) | Current 23-event Division B slate and five official categories. The cache-busting query avoids a stale canonical-page render documented below. |
+| **Primary; public event scope** | *B Event Short Descriptions*, Science Olympiad; https://www.soinc.org/learn/b-event-short-descriptions (HTTP 200) | Current one-to-two-sentence event scope. Safe for broad scope signals, not a substitute for event rules. |
+| **Primary; national schedule** | *2027 National Tournament Division B Schedule*, Science Olympiad; ©2027-B74; https://www.soinc.org/sites/default/files/uploaded_files/Updated_SONT27_Schedule.pdf (HTTP 200) | Ohio State University, May 14-15, 2027; event blocks plus Impound/Self-Schedule flags. National logistics, not instructional sequence. |
+| **Primary; team/eligibility** | *Team Size & Grade Levels*, https://www.soinc.org/start-team/team-size-grade-levels, and *Team Qualification and Home School Policy*, https://www.soinc.org/home_virtual_schools (Science Olympiad, HTTP 200) | Division B Grades 6-9; up to 15 team members with grade restrictions; participation must be through a qualifying school team, not as an individual. |
+| **Primary; program/structure** | *B/C Events*, https://www.soinc.org/bc-events, and *About Science Olympiad*, https://www.soinc.org/info/about-science-olympiad (HTTP 200) | 23 events, 15-student teams, approximately six blocks, Invitational/Regional/State/National structure, and annual event rotation. |
+| **Primary; general/scoring rules** | *GENERAL RULES, CODE OF ETHICS AND SPIRIT OF THE PROBLEM* V. 2025, https://www.soinc.org/ethics_rules, and *Scoring Guidelines*, https://www.soinc.org/scoring_guidelines (HTTP 200) | General conduct, construction responsibility, external-assistance limits, penalties, per-event ranks, and lower-is-better team totals. Event-specific rules remain in the 2027 manual. |
+| **Primary; safety** | *Eye Protection*, Science Olympiad; policy updated 2015-07-29; https://www.soinc.org/eye_protection, and *Building and Tools Policy*, original adoption 1986; https://www.soinc.org/building-and-tools-policy (HTTP 200) | Z87-marked eye protection categories and non-negotiable participation rule; age-appropriate tool/chemical safety; student construction and adult limits. Their stated dates must be preserved. |
+| **Primary; standards signal** | *2026 Science Olympiad Event Alignment to National Educational Standards*, updated 2025-10-07; https://www.soinc.org/sites/default/files/uploaded_files/2026.NGSS_.Alignment.DivB_.pdf (HTTP 200) | Per-event Middle School NGSS alignment for the 2026 slate. Historical relative to 2027 and not a 2027 syllabus. |
+| **Primary; official archives** | *Event Archive*, https://www.soinc.org/learn/event-archive; *Event History*, https://www.soinc.org/learn/event-history; *Digital Test Packets*, https://store.soinc.org/us/digital-test-packets/c/2723?resetallfilter=1; *Past Tournament Results*, https://www.soinc.org/play/past-tournament-results (HTTP 200) | Retired events; searchable 1984-2027 history; paid national test packets labeled 2020, 2022-2027; and national results from 1985 onward. Purchase/access grants no reuse license. |
+| **Primary; copyright** | *Copyrights, Media and Use*, Science Olympiad, Inc.; Copyright 2027; https://www.soinc.org/copyrights_use (HTTP 200) | Prohibits reproduction, editing, posting, republication, sale, rental, and sublicensing of official resources. |
+| **Primary; SoCal pathway** | Southern California Science Olympiad home/state/registration pages; https://socalscioly.org/, https://socalscioly.org/?tab=tournaments&page=state, https://socalscioly.org/?tab=registration (HTTP 200) | Confirms 2026-2027 season, Orange County Regional pathway, and national rules authority. Orange County date remained TBD. |
+
+No third-party coach, wiki, or prep source supplies a claim.
+
+### Framework and 2027 event coverage
+
+There is no grade-specific Science Olympiad syllabus. The governing framework
+is the 2027 event slate and official Rules Manual, plus public national
+policies. The newest located Division B NGSS alignment is 2026 and must remain
+historically labeled.
+
+The 23 current events span:
+
+- **Life, Personal & Social Science**: Anatomy and Physiology, Botany, Disease
+  Detectives, Heredity, Water Quality;
+- **Earth and Space Science**: Dynamic Planet, Meteorology, Remote Sensing,
+  Rocks and Minerals, Solar System;
+- **Physical Science & Chemistry**: Circuit Lab, Crime Busters, Food Science,
+  Hovercraft, Thermodynamics;
+- **Technology & Engineering**: Boomilever, Elastic Launched Gliders, Roller
+  Coaster, Scrambler; and
+- **Inquiry & Nature of Science**: Codebusters, Experimental Design,
+  Ping-Pong Parachute, Write It Do It.
+
+This parallel slate is not an instructional sequence. Public descriptions
+support a product-side distinction among study, lab, build, hybrid, and
+communication/inquiry events, but Science Olympiad does not publish those
+labels as an official typology.
+
+### Archives, tiers, originality, safety, and sequencing
+
+Official archives include retired events, an Event History filter covering
+1984-2027, paid Division B/C National Test Packets, and past National results.
+Rules manuals are email-gated; test packets and starter resources may be paid.
+Neither free nor paid access grants a reuse license.
+
+- `core`: original underlying science concepts, evidence interpretation, and
+  durable data/visual reasoning for an approved event subset;
+- `contest`: original timed, multi-concept interpretation using unfamiliar
+  data and imagery, without reproducing rules or tests.
+
+Do not reproduce or closely paraphrase event-rule text, dimensions,
+tolerances, material/resource limits, event scoring formulas, official tests,
+keys, diagrams, score sheets, checklists, or build specifications. Never
+author chemical procedures, tool instructions, build/launch procedures,
+material lists, or device dimensions. Actual participation is governed by the
+official 2027 manual, event-specific safety, qualified school supervision, and
+required eye protection.
+
+No official sequence or local pacing source exists. Category order, schedule
+blocks, and conflict blocks are logistics rather than prerequisites. Any
+sequence must be a season-versioned Learning Forge synthesis based on
+conceptual dependencies, the learner's foundation, NGSS structure, and
+evidence.
+
+### Conflicts, gaps, and decisions requiring human review
+
+1. Approve or revise a bounded first release of 6-8 lower-equipment study
+   events: Anatomy and Physiology, Botany, Heredity, Disease Detectives,
+   Meteorology, Rocks and Minerals, Solar System, and Dynamic Planet.
+2. Frame the product as individual preparation that supports a school team;
+   no independent competition pathway exists.
+3. Approve deferring all build/lab events until safe supervised workflows
+   exist. Do not present solo exercises as authentic Write It Do It or
+   Experimental Design team practice.
+4. Approve explicit season versioning; the slate and within-event topics
+   rotate annually.
+5. Make no Regional/State/National-readiness or official-rule coverage claim.
+6. Decide whether to purchase official test packets later; purchase would not
+   permit reproduction.
+7. The canonical current-events URL served stale cached content until a query
+   string forced the correct 23-event slate. Authors must revalidate against
+   multiple current official artifacts.
+8. Current official supporting pages carry mixed dates (General Rules V.
+   2025, Eye Protection referencing 2016, newest NGSS alignment 2026, stale
+   2026 score sheets/corrections banner). Preserve each artifact's date and do
+   not silently call it 2027.
+9. Orange County Regional and SoCal State dates were not located as final;
+   the former was explicitly TBD.
+
+### Research handoff
+
+After approval only, use season-versioned program `scioly-b-2027`, skill
+prefix `sob27-`, and repository-owned codes `SOB27-<CAT>-<NN>` (`LPS`, `ESS`,
+`PSC`, `TE`, `INQ`). Author only the approved event subset, keep `core` and
+`contest` distinct from tournament levels, cite applicable NGSS codes without
+claiming Science Olympiad endorsement, use current official public scope and
+safety sources, and do not infer gated event rules. Preserve team-support
+framing, program isolation, accessibility, provenance, review gates, and an
+annual September re-research trigger.
 
 ## Standards source
 

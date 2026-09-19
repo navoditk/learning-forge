@@ -1,5 +1,21 @@
 # Progress
 
+## 2026-09-19 — Enrichment research fleet completed
+
+- Completed three independent, read-only primary-source investigations and
+  added separate pending-review dossiers for Scripps National Spelling Bee
+  Grade 6, IAC National Geography Bee Grade 6, and Science Olympiad Division B
+  2027 to `docs/curriculum-sources.md`.
+- Each dossier records the current framework and format, exact source
+  register, official archive search, licensing boundary, product-synthesized
+  domain signals, open conflicts, required human decisions, and a conditional
+  authoring handoff.
+- No curriculum skills or learner content were authored, and all three
+  programs remain unavailable pending program-specific product/content-owner
+  approval.
+- Next: review and resolve each dossier's scope decisions independently before
+  invoking curriculum authoring.
+
 ## 2026-09-19 — Next enrichment research fleet scoped
 
 - Pushed the completed five-program math curriculum fleet to `origin/main`;
