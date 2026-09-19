@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-09-18 — MATHCOUNTS Grade 6 research approved
+
+- Added a dedicated pending-review source dossier for `mathcounts-6` using
+  current official MATHCOUNTS rules, the 2026-2027 handbook preview, the
+  complete 2025-2026 handbook, current topic filters, preparation resources,
+  and the official rotating past-competition archive.
+- Confirmed the grades 6-8 pathway and distinct Sprint, Target, Team, and
+  Countdown rules without treating the handbook's CCSS index as a prescribed
+  MATHCOUNTS curriculum or copying proprietary contest material.
+- The product/content owner approved a bounded first increment:
+  school/chapter Sprint and Target preparation, optional contest-tier
+  Countdown drills, state-aware extension without a comprehensive readiness
+  claim, and no authentic Team Round mode until collaborative participation
+  is supported.
+- Next: begin isolated authoring with the `mc6-` namespace and original
+  `core`/`contest` records, then run independent curriculum review.
+
 ## 2026-09-18 — AMC 8 content approved for serving
 
 - The product/content owner approved all sixteen AMC 8 records after the

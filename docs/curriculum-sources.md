@@ -617,6 +617,227 @@ after structured prerequisite evidence; and (g) never reproduce an actual
 archived AMC 8 or AJHSME problem, wording, diagram, answer-choice set, or
 solution.
 
+## MATHCOUNTS Grade 6 research — 2026-09-18
+
+**Status: Approved by the product/content owner on 2026-09-18.** Approval
+authorizes an isolated `mathcounts-6` authoring increment for the same Grade 6
+learner already served by the school-aligned Grade 6 Math curriculum. The
+approved first release targets school/chapter Sprint and Target preparation,
+keeps Countdown drills optional in the contest tier, defers Team Round mode,
+and makes no comprehensive state/national-readiness claim.
+
+### Scope and learner context
+
+- **Learner**: the same full-time Grade 6 learner in Irvine, California.
+  MATHCOUNTS is additive enrichment, not a replacement for the California
+  Grade 6 standards curriculum.
+- **Eligibility context**: Grade 6 is directly eligible for the official
+  grades 6-8 Competition Series, subject to school or Non-School Competitor
+  registration rules.
+- **School alignment**: no IUSD pacing or district sequence is requested or
+  used. The existing Grade 6 Math curriculum remains the standards-aligned
+  base.
+- **Approved first-release boundary**: broad school- and chapter-level
+  preparation, with Sprint and Target as the primary individual formats,
+  optional Countdown practice, and state-aware extension that does not claim
+  comprehensive state or national preparation.
+- **Content tiers**: `core` prep and `contest`. These are Learning Forge
+  product tiers, not official competition levels.
+- **Related-program boundary**: Math Kangaroo Grades 5-6, MOEMS Division E,
+  and AMC 8 have separate approved dossiers. Grade 6 ELA, science, and social
+  studies are also out of scope.
+- **Retrieval date**: 2026-09-18 for all sources and path checks below.
+
+### Source register
+
+| Authority and source role | Exact title, issuing body, edition/date, URL, and retrieval status | Supported claim and limitation |
+|---|---|---|
+| **Primary; current rules** | *OFFICIAL RULES + PROCEDURES*, MATHCOUNTS Foundation; current body governs the **2026-2027** Competition Series, publication date not stated; https://www.mathcounts.org/programs/official-rules-procedures (HTTP 200) | Eligibility, school/individual participation, advancement, round scoring, official Countdown procedure, calculator restrictions, and conduct rules. |
+| **Primary; program and format overview** | *MATHCOUNTS COMPETITION SERIES*, MATHCOUNTS Foundation; page date not stated; https://www.mathcounts.org/programs/mathcounts-competition-series (HTTP 200) | Confirms grades 6-8, the school/chapter/state/national pathway, and the purposes, timing, question counts, and calculator posture of the four rounds. |
+| **Primary; current season FAQ** | *COMPETITION RULES & FAQ*, MATHCOUNTS Foundation; visible body labeled **2026-2027**, publication date not stated; https://www.mathcounts.org/programs/competition-rules-faq (HTTP 200) | Current season dates, eligibility summary, registration limits, school types, and the Non-School Competitor pathway. Its HTML description still names 2020-2021, so the current visible body and rules page govern this dossier. |
+| **Primary; current preparation artifact** | *School Handbook Preview MATHCOUNTS 2026-2027*, copyright MATHCOUNTS, Inc. 2026; exact publication day not stated in the artifact; https://www.mathcounts.org/sites/default/files/2627%20HB%20PREVIEW%20pages%20-%20PDF%20v2_updated%208-17.pdf (HTTP 200, PDF; response `Last-Modified` 2026-08-18 is transport metadata, not publication metadata) | Describes the full handbook's 200 problems, Warm-Ups, Workouts, Stretches, calculator distinctions, solutions, difficulty ratings, and Problem Index + CCSS Mapping. The preview does not expose the full index. |
+| **Primary; prior complete handbook used for taxonomy detail** | *2025-2026 School Handbook*, copyright MATHCOUNTS, Inc. 2025; https://www.mathcounts.org/sites/default/files/2526%20COACHES%20HB%20250%20PROBLEMS%20%2B%20SOLUTIONS%20%2B%20cover.pdf (HTTP 200, PDF) | Most recent complete handbook located. Supplies the official topic index, CCSS-mapping method, and 1-7 difficulty descriptions. It is historical relative to the current 2026-2027 preview and is labeled accordingly. |
+| **Primary; official rotating archive** | *PAST COMPETITIONS*, MATHCOUNTS Foundation; page date not stated; https://www.mathcounts.org/resources/past-competitions (HTTP 200) | At retrieval, provided School Sample Sprint/Target/Team files and 2025-2026 Chapter and State Sprint/Target/Team/Countdown files, keys, and solutions. The page says prior files are replaced as current competitions are completed, so this is not a stable free longitudinal archive. |
+| **Primary; official searchable archive metadata** | *OPLET*, MATHCOUNTS Foundation; page date not stated; https://www.mathcounts.org/resources/oplet (HTTP 200) | Describes a subscription database with 15,500 problems, 6,500 step-by-step solutions, more than 20 years of handbook/competition material, topic/difficulty/use/year filters, and a displayed 1990-2019 year filter. It does not provide a reuse license or prove continuous coverage of every level and round. |
+| **Primary; current public taxonomy** | *PROBLEM OF THE WEEK ARCHIVE*, MATHCOUNTS Foundation; page date not stated; https://www.mathcounts.org/resources/problem-week-archive (HTTP 200) | Provides current official topic filters and Easy/Medium/Difficult activity labels; useful for breadth and multi-part reasoning signals, not a prescribed sequence. |
+| **Primary; current instructional resources** | *MATHCOUNTS MINIS*, MATHCOUNTS Foundation; page date not stated; https://www.mathcounts.org/resources/mathcounts-minis (HTTP 200) | Describes more than 100 video/activity lessons of 35-60 minutes with topic and CCSS filters. Numeric identifiers and featured lists are not treated as a formal curriculum sequence. |
+| **Primary; local pathway lookup** | *LOCAL COMPETITION INFORMATION* and *CHAPTER & STATE COMPETITION SEARCH*, MATHCOUNTS Foundation; page dates not stated; https://www.mathcounts.org/programs/local-competition-information and https://www.mathcounts.org/programs/chapter-state-competition-search (both HTTP 200) | Official mechanisms for current chapter/state dates, locations, and contacts. This pass did not establish the learner's Irvine chapter or registration route; that is an operational decision rather than curriculum sequencing evidence. |
+
+No secondary source supplies a substantive claim in this dossier. Web search
+was used only to locate the official pages and artifacts above.
+
+### Standards framework, format, and domain coverage
+
+MATHCOUNTS does not provide a CCSS-style, grade-specific syllabus. The
+official framework available for authoring is the combination of its current
+rules, competition formats, handbook resources, topic filters, difficulty
+signals, and past-competition archive. A Grade 6/7/8 or
+school/chapter/state/national topic matrix was **not located via the official
+paths searched**; no claim is made that coach-only or internal planning
+material does not exist.
+
+The four official levels are school, chapter, state, and national. For the
+current 2026-2027 season, the FAQ lists school competition from November 2026
+through January 2027, chapter competition during February 2027, state
+competition during March 2027, and the national competition on May 9-10,
+2027. These dates are season-specific, not evergreen.
+
+Official round and scoring facts are:
+
+| Round | Official format | Calculator and scoring facts |
+|---|---|---|
+| Sprint | 30 individual problems in 40 minutes | No calculator; 1 point per correct response |
+| Target | 8 individual problems in four pairs, 6 minutes per pair | Calculator permitted under the official restrictions; 2 points per correct response |
+| Team | 10 collaborative problems in 20 minutes for the school's official team of up to four students | Calculator permitted; each correct Team problem contributes 2 points to Team Score |
+| Countdown | Oral/head-to-head speed round, generally up to 45 seconds per problem | No calculator; optional at school/chapter/state and official at nationals. National procedures differ from the published chapter/state procedure. |
+
+The Individual Score is Sprint correct plus twice Target correct, for a
+maximum of 46. The Team Score is the sum of four team members' Individual
+Scores divided by four, plus twice Team correct, for a maximum of 66. An
+individual competitor does not take the Team Round. Calculators are allowed
+for Target, Team, and necessary tiebreakers, but not Sprint or Countdown;
+phones, tablets, laptops, smart devices, Wi-Fi-capable calculators, and
+QWERTY-keypad calculators are prohibited.
+
+The current official Problem of the Week and Minis filters expose these
+coverage signals:
+
+- Algebraic Expressions and Equations;
+- Coordinate Geometry;
+- General Math;
+- Logic;
+- Measurement;
+- Number Theory;
+- Percents and Fractions;
+- Plane Geometry;
+- Probability, Counting and Combinatorics;
+- Problem Solving (Misc.);
+- Proportional Reasoning;
+- Sequences, Series and Patterns;
+- Solid Geometry; and
+- Statistics and Data.
+
+The prior complete handbook substantially corroborates this taxonomy and
+warns that problems often span multiple categories even though each indexed
+problem receives one category. Its CCSS mapping assigns one code, or `SMP`
+when a mathematical-practice standard is the better fit, to each handbook
+problem. That mapping describes the handbook's problems; it is not a
+MATHCOUNTS-adopted curriculum or evidence that the program is bounded by
+Grade 6 CCSS.
+
+The 2025-2026 handbook's 1-7 difficulty descriptions provide a useful
+progression signal: 1-3 generally use beginning middle-school content and one
+or two steps, 4-5 use some middle-school topic knowledge and multi-step
+reasoning, and 6-7 use advanced middle-school concepts or strategies and
+multiple concepts. OPLET's public page separately describes a 1-5 filter;
+these must not be merged into one scale.
+
+### Sequencing source and authority
+
+There is no local school-pacing source and no official mandatory MATHCOUNTS
+Grade 6 sequence in this dossier. The eventual Learning Forge sequence must
+be identified explicitly as a product synthesis based on genuine conceptual
+prerequisites, the existing Grade 6 Math foundation, official difficulty
+signals, round-specific demands, and learner evidence.
+
+The School Handbook, Minis, and Problem of the Week provide preparation
+formats and coverage evidence, not a required order. Warm-Up, Workout, and
+Stretch labels or Mini identifiers must not be treated as an official
+instructional progression without direct source support.
+
+### Official archive and originality constraints
+
+The official *PAST COMPETITIONS* page is the preferred public archive for
+format, topic, and difficulty inspiration. At retrieval it linked:
+
+- School Sample Sprint, Target, Team, and answer-key files;
+- 2025-2026 Chapter Sprint, Target, Team, Countdown, answer-key, and solution
+  files; and
+- 2025-2026 State Sprint, Target, Team, Countdown, answer-key, and solution
+  files.
+
+Representative School Sample, 2026 Chapter Sprint, and 2026 State Sprint PDFs
+were directly retrievable with HTTP 200. The archive is rotating rather than
+a permanent year-by-year public bank. OPLET advertises broader historical
+coverage but is subscription-gated. A guessed 2026 National Sprint PDF path
+returned HTTP 404, and no national file was linked from the public archive;
+a public 2026 national paper was therefore **not located via the official
+archive paths and direct-path check performed**, rather than asserted not to
+exist.
+
+The handbooks state `All rights reserved`, and no license permitting
+Learning Forge to reproduce, adapt, or redistribute MATHCOUNTS material was
+located. Free access, paid books, or an OPLET subscription do not create such
+a license. Official problems, wording, values, scenarios, diagrams, answer
+sets, distractors, round layouts, solution exposition, and screenshots must
+not be copied or closely paraphrased. They may inform only broad skill types,
+coverage, relative difficulty, calculator/no-calculator demands, timing,
+round mechanics, and general reasoning demands. Every Learning Forge item
+must use independently constructed wording, values, structure, figures, and
+solutions.
+
+### Conflicts, gaps, and decisions requiring human review
+
+1. **Resolved 2026-09-18 — first-release pathway**: the owner approved broad
+   school/chapter preparation, state-aware contest extensions, and no
+   comprehensive state/national-readiness claim.
+2. **Resolved 2026-09-18 — Team Round boundary**: the owner approved deferring
+   a distinct Team Round mode. Team is a collaborative format only for the
+   official school team; an individual activity must not be presented as
+   authentic Team Round practice. It can be reconsidered if the learner joins
+   a team and the product can support multi-participant or coach-facilitated
+   sessions.
+3. **Resolved 2026-09-18 — Countdown boundary**: the owner approved original
+   Countdown-style speed drills only as optional `contest`-tier practice.
+   Countdown must not gate core mastery.
+4. **Registration route**: the learner's school-team versus individual/NSC
+   status and Irvine chapter were not resolved. This changes operational
+   participation and Team access, not the source-grounded individual
+   curriculum.
+5. **Current-source conflicts**: the FAQ's HTML description is stale
+   (2020-2021) despite its visible 2026-2027 body. The FAQ says the current
+   School Competition releases November 3, 2026, while the current handbook
+   preview says November 6, 2026. Neither discrepancy affects curriculum
+   scope, but both remain recorded rather than silently reconciled.
+6. **Current versus historical detail**: the 2026-2027 preview confirms the
+   current handbook structure but omits its full index; detailed topic and
+   1-7 difficulty evidence comes from the complete 2025-2026 handbook and is
+   labeled historical.
+7. **Issuer labels**: official pages use MATHCOUNTS Foundation while handbook
+   copyright notices use MATHCOUNTS, Inc.; this dossier preserves each
+   artifact's own label.
+8. **Archive limits**: the public archive rotates recent files, OPLET is
+   subscription-gated, and a public national paper was not located through
+   the checks above. Authoring must not infer missing national format or
+   content details.
+
+### Research handoff for the curriculum-authoring agent
+
+Authoring may proceed under the approved boundaries. The author should:
+
+1. Use program `mathcounts-6`, skill prefix `mc6-`, and internal reference
+   codes `MC6-<DOMAIN>-<NN>`. These codes are repository-owned, not official
+   MATHCOUNTS standards. Suggested domain abbreviations are `AEE`, `CG`, `GM`,
+   `LOG`, `MEAS`, `NT`, `PF`, `PG`, `PCC`, `PS`, `PR`, `SSP`, `SG`, and `SD`,
+   corresponding to the official categories above.
+2. Keep the program additive to Grade 6 Math and create both `core` and
+   `contest` records. Do not equate those tiers with official competition
+   levels or encode school/chapter/state/national into standards codes; no
+   level-specific syllabus supports that mapping.
+3. Prioritize original Sprint and Target preparation. Core should build
+   foundations and answer-form/units discipline; contest should add timed,
+   multi-concept transfer, with optional Countdown drills. Defer authentic
+   Team Round mode and state/national-readiness claims unless the owner
+   explicitly changes this boundary.
+4. Use current rules and format pages first, then the current handbook
+   preview and online taxonomy, the prior complete handbook for clearly
+   labeled historical detail, the current official past-competition archive,
+   and OPLET public metadata. Never extract or reproduce proprietary content.
+5. Build graph edges from genuine conceptual necessity rather than handbook
+   order, topic-index order, or a preferred teaching sequence. Preserve
+   program isolation, provenance, pending-review gates, answer-leakage
+   controls, accessibility, and structured validation.
+
 ## Standards source
 
 - **Framework**: Common Core State Standards for Mathematics, Grade 6, as
