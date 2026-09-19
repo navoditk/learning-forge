@@ -94,7 +94,32 @@ around it, without more network debugging:
   temporary token-gated HTTP setup route to be added to the app instead,
   used once, then removed.
 
-## 4. Sign in
+## 4. Reset the parent password
+
+Password recovery is operator-controlled for this single-household pilot. It
+updates the existing account in place and does not create a public reset-token
+or email-delivery surface.
+
+Run this from the Render web service's **Shell** tab so it uses the internal
+`DATABASE_URL`. Read the password without echoing it, export it only for the
+reset process, and then remove it from the shell environment:
+
+```bash
+read -s LEARNING_FORGE_NEW_PASSWORD
+export LEARNING_FORGE_NEW_PASSWORD
+npm run reset-parent-password -- --email=your-real-email@example.com
+unset LEARNING_FORGE_NEW_PASSWORD
+```
+
+The script never prints the password and refuses unknown or non-parent
+accounts. Existing JWT sessions are not revoked; sign out any active browser
+sessions after a reset. A future multi-household release needs a self-service,
+single-use, expiring email-token flow and session revocation.
+
+For a local account, run the same commands from this repository with the local
+`DATABASE_URL`.
+
+## 5. Sign in
 
 Visit the deployed URL, sign in with the account just created. The real
 Anthropic adapter is enabled by default in this deployment

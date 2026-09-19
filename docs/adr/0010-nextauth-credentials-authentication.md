@@ -110,3 +110,11 @@ real bug found in the process: `MasteryContribution.attempt` uses
 tests/Playwright must delete `MasteryContribution`/`MasteryEstimate` rows
 before the household — extracted into `src/server/delete-household-evidence.ts`
 after the Playwright e2e teardown hit exactly this foreign-key violation.
+
+**Update 2026-09-19**: the product owner approved an operator-controlled
+password reset for the single-household pilot. `scripts/reset-parent-password.ts`
+updates the existing parent's bcrypt hash in place and accepts the new password
+only through the temporary `LEARNING_FORGE_NEW_PASSWORD` environment variable,
+not a command-line argument. It creates no public token or email surface.
+Existing JWT sessions are not revoked, which is an accepted single-household
+pilot limitation and must be addressed before a multi-household release.

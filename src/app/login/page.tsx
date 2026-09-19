@@ -58,6 +58,9 @@ function LoginForm() {
           </button>
         </form>
         {error && <p role="alert">{error}</p>}
+        <p className="auth-recovery">
+          Forgot your password? This private pilot uses an operator-assisted password reset.
+        </p>
       </div>
     </main>
   );

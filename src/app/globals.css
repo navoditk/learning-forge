@@ -329,3 +329,9 @@ nav[aria-label='Primary navigation'] a {
   border-radius: var(--radius);
   padding: var(--spacing-3);
 }
+
+.auth-recovery {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}

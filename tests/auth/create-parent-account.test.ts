@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { afterAll, describe, expect, it } from 'vitest';
 
 import { createParentAccount } from '../../scripts/create-parent-account';
+import { resetParentPassword } from '../../scripts/reset-parent-password';
 import { verifyParentCredentials } from '../../src/auth/verify-credentials';
 import { deleteHouseholdEvidence } from '../../src/server/delete-household-evidence';
 
@@ -69,5 +70,28 @@ describe('parent account provisioning and credential verification', () => {
     await expect(verifyParentCredentials(undefined, 'anything')).resolves.toBeNull();
     await expect(verifyParentCredentials(testEmail, undefined)).resolves.toBeNull();
     await expect(verifyParentCredentials(testEmail, '')).resolves.toBeNull();
+  });
+
+  it('resets the existing parent password without creating another account', async () => {
+    await expect(
+      resetParentPassword({
+        email: testEmail,
+        password: 'new correct horse battery staple',
+      }),
+    ).resolves.toEqual({ status: 'reset', email: testEmail });
+
+    await expect(
+      verifyParentCredentials(testEmail, 'correct horse battery staple'),
+    ).resolves.toBeNull();
+    await expect(
+      verifyParentCredentials(testEmail, 'new correct horse battery staple'),
+    ).resolves.toMatchObject({ email: testEmail, householdId: createdHouseholdId });
+
+    await expect(
+      resetParentPassword({
+        email: 'unknown-parent@example.com',
+        password: 'another valid password',
+      }),
+    ).resolves.toEqual({ status: 'not_found' });
   });
 });

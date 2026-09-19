@@ -9,6 +9,7 @@ test.describe('authentication', () => {
     await page.goto('/');
     await expect(page).toHaveURL(/\/login/);
     await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
+    await expect(page.getByText(/operator-assisted password reset/i)).toBeVisible();
 
     await page.goto('/parent');
     await expect(page).toHaveURL(/\/login/);

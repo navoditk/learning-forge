@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-09-19 — Operator-controlled parent password reset
+
+- Added an operator-only reset command for the single-household pilot that
+  updates the existing parent account's bcrypt hash in place.
+- The new password is supplied through the temporary
+  `LEARNING_FORGE_NEW_PASSWORD` environment variable, never a CLI argument or
+  log message. Unknown and non-parent accounts are rejected.
+- Added integration coverage for old-password rejection, new-password
+  acceptance, and unknown-account refusal; added visible recovery guidance on
+  the login page and documented local/Render Shell operation.
+- Validation passed: `npm run verify` (89 tests and production build),
+  database-backed `npm run test:integration` (32 tests), and serial
+  `npm run test:e2e -- --workers=1` (21 browser tests).
+- Accepted pilot limitation: existing JWT sessions are not revoked. A future
+  multi-household workflow requires expiring one-time email tokens and session
+  revocation.
+
 ## 2026-09-19 — Scripps content approved and enabled
 
 - Product/content owner approved all sixteen Scripps National Spelling Bee
