@@ -8,11 +8,10 @@ remain separate from generated (live-tutor) content. Every record names its
 review state; only `review.status: "reviewed"` records enter the servable
 catalog.
 
-**Current status (2026-09-19):** 112 records are marked `reviewed` and
+**Current status (2026-09-19):** all 128 records are marked `reviewed` and
 learner-servable through their isolated programs (Grade 6 Math, Math Kangaroo
-Grade 6, MOEMS Division E, AMC 8, and MATHCOUNTS Grade 6). The 16 Scripps
-records remain `pending_review` and unavailable to learners until independent
-review and product/content-owner approval. Earlier Grade 6
+Grade 6, MOEMS Division E, AMC 8, MATHCOUNTS Grade 6, and Scripps National
+Spelling Bee Grade 6). Earlier Grade 6
 Math approval was product/content-owner approval by Navodit Kaushik, not a
 separately engaged subject-matter-expert educator review; a deeper pedagogical
 audit remains a candidate follow-up before broader pilot use.

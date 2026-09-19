@@ -46,9 +46,10 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "pending human review",
-    "originalityStatement": "LLM-drafted original Learning Forge practice record using the approved SNSB domain signal; it does not reproduce official SNSB list content, rules text, or a competition item."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record using the approved SNSB domain signal; it does not reproduce official SNSB list content, rules text, or a competition item.",
+    "reviewedAt": "2026-09-19"
   },
   "accessibilityNotes": "All information is presented in text; no visual formatting or official list data is required.",
   "accessibleAlternative": "A made-up base is \"cycle.\" Which spelling means the act of cycling again: recyc___?"

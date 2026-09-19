@@ -20,7 +20,7 @@ export const PROGRAM_ROSTER: readonly ProgramRosterEntry[] = [
   {
     code: 'scripps-spelling-bee-6',
     label: 'Scripps National Spelling Bee (Grade 6)',
-    available: false,
+    available: true,
   },
   { code: 'grade-6-ela', label: 'Grade 6 ELA', available: false },
   { code: 'grade-6-science', label: 'Grade 6 Science', available: false },

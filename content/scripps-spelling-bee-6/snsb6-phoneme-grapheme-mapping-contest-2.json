@@ -10,7 +10,7 @@
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],
-  "prompt": "Two pronunciations differ in the first vowel: /\u02c8ko\u028a.r\u0259l/ or /\u02c8k\u0252r.\u0259l/. What follow-up should the speller request?",
+  "prompt": "Two pronunciations differ in the first vowel: /ˈkoʊ.rəl/ or /ˈkɒr.əl/. What follow-up should the speller request?",
   "solutionRepresentation": "Ask which pronunciation the official expects because the vowel difference changes plausible spellings.",
   "solutionMethod": "request-disambiguating-pronunciation",
   "deterministicValidator": {
@@ -46,10 +46,11 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "pending human review",
-    "originalityStatement": "LLM-drafted original Learning Forge practice record using the approved SNSB domain signal; it does not reproduce official SNSB list content, rules text, or a competition item."
+    "status": "reviewed",
+    "reviewer": "Navodit Kaushik",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record using the approved SNSB domain signal; it does not reproduce official SNSB list content, rules text, or a competition item.",
+    "reviewedAt": "2026-09-19"
   },
   "accessibilityNotes": "All information is presented in text; no visual formatting or official list data is required.",
-  "accessibleAlternative": "Two pronunciations differ in the first vowel: /\u02c8ko\u028a.r\u0259l/ or /\u02c8k\u0252r.\u0259l/. What follow-up should the speller request?"
+  "accessibleAlternative": "Two pronunciations differ in the first vowel: /ˈkoʊ.rəl/ or /ˈkɒr.əl/. What follow-up should the speller request?"
 }

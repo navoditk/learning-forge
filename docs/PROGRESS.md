@@ -1,5 +1,20 @@
 # Progress
 
+## 2026-09-19 — Scripps content approved and enabled
+
+- Product/content owner approved all sixteen Scripps National Spelling Bee
+  Grade 6 records after the final independent review found no remaining
+  defects. Marked each record `reviewed` by `Navodit Kaushik` on 2026-09-19
+  and enabled `scripps-spelling-bee-6` in the program roster.
+- Preserved the approved boundary: unofficial school and regional preparation,
+  original vocabulary work, strict exclusion of official Scripps list
+  content, and no national/Spell-off readiness claim.
+- The curriculum catalog now contains 128 reviewed records across six
+  isolated programs. The 2027 National Contest Rules and local regional rules
+  remain re-verification risks.
+- Next: continue with independent approval of the Geography Bee and Science
+  Olympiad research dossiers; do not author either until separately approved.
+
 ## 2026-09-19 — Scripps independent-review remediation
 
 - Remediated the independent review findings in the Scripps increment:

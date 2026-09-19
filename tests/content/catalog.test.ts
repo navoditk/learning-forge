@@ -22,11 +22,8 @@ describe('ratios content seed', () => {
 
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
-    expect(reviewedItems.length).toBe(112);
-    expect(pendingItems.length).toBe(16);
-    expect(pendingItems.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
-    expect(pendingItems.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
-    expect(pendingItems.every((item) => !item.review.reviewedAt)).toBe(true);
+    expect(reviewedItems.length).toBe(128);
+    expect(pendingItems.length).toBe(0);
     expect(reviewedItems.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
     expect(contentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
   });

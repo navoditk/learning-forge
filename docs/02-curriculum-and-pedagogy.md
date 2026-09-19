@@ -132,8 +132,7 @@ an isolated learner journey.
 Additive, unofficial preparation for school and regional spelling-bee
 pathways (`program: "scripps-spelling-bee-6"`), based on the approved
 2026-09-19 dossier in `docs/curriculum-sources.md`. This is not an official
-SNSB syllabus, does not claim national or Spell-off readiness, and remains
-unavailable until independent review and human content approval. The 2027
+SNSB syllabus and does not claim national or Spell-off readiness. The 2027
 National Contest Rules must be re-verified when published; local officials'
 rules govern.
 
@@ -150,7 +149,9 @@ Each skill has one original `core` record and one original `contest` record,
 for sixteen `llm_drafted` records total. Both tiers include original
 vocabulary/meaning work where relevant. No official SNSB study-list words,
 definitions, pronunciations, rules text, or competition items were used as
-content; all records remain `pending_review`.
+content. All sixteen records completed independent review and were approved by
+the product/content owner on 2026-09-19; the program is available as an
+isolated learner journey.
 
 ## AMC 8 Grade 6 prep skill graph
 
