@@ -840,8 +840,10 @@ Authoring may proceed under the approved boundaries. The author should:
 
 ## Scripps National Spelling Bee Grade 6 research — 2026-09-19
 
-**Status: Pending product/content-owner review.** This dossier is research
-only and does not authorize authoring.
+**Status: Pending final product/content-owner review.** Scope decisions were
+recorded on 2026-09-19, but authoring remains blocked until a human reads the
+scanned *How to Study for a Spelling Bee* source and confirms whether it
+changes the domain or sequencing guidance.
 
 ### Scope and learner context
 
@@ -867,6 +869,7 @@ only and does not authorize authoring.
 | **Primary; currency check** | *Rules*, SNSB; page date not stated; https://www.spellingbee.com/rules (HTTP 200) | States 2027 National Contest Rules will be available in late fall 2026. Guessed 2027 national-rule PDF paths returned HTTP 404. |
 | **Primary; current pathway/resources** | *Enrollment*, SNSB; https://www.spellingbee.com/enrollment (HTTP 200), and *2027 Educator Guide*, SNSB; created 2026-08-13, modified 2026-09-15; https://mcusercontent.com/af54d277651e6822d87b375a3/files/e5662be7-fb39-5de6-d275-1cf0e47cbc57/2027_Educator_Guide.pdf (HTTP 200) | Classroom/school/regional/national pathway, school enrollment, current dates, school formats, roles, and study-resource architecture. Administrative guidance, not a syllabus. |
 | **Primary; study architecture** | *Study Tips*, https://www.spellingbee.com/study-tips; *Words of the Champions*, https://www.spellingbee.com/study-list; *Word Club*, https://www.spellingbee.com/word-club; *Spelling Bee Resource Center*, https://www.spellingbee.com/resource-center (all SNSB, page dates not stated, HTTP 200) | Grade-level lists, 450-word School Spelling Bee Study List, 4,000-word *Words of the Champions*, difficulty labels, vocabulary practice, and authorized access channels. Access does not grant reuse rights. |
+| **Primary; official study advice, unread** | *How to Study for a Spelling Bee*, Dr. Jacques Bailly, SNSB Head Pronouncer and 1980 champion; PDF created 2010-11-11 and modified 2016-10-11; https://spellingbee.com/sites/default/files/inline-files/How%20to%20Study%20for%20a%20Spelling%20Bee.pdf (HTTP 200) | Current official study-tips page links this two-page scanned PDF, but it has no extractable text layer. Its substantive guidance remains uncited pending human review. |
 | **Primary; reading-level signal** | *2026-2027 Bee's Bookshelf Reading List*, SNSB; created 2026-07-06; https://spellingbee.com/sites/default/files/inline-files/2027%20Bee%27s%20Bookshelf%20Reading%20List.pdf (HTTP 200) | Bookshelf reading levels map One Bee to grades 1-3, Two Bee to grades 4-6, and Three Bee to grades 7-8. This mapping must not be transferred to *Words of the Champions* difficulty tiers. |
 | **Primary; official archive** | *100 Years of the Bee*, SNSB; https://history.spellingbee.com/ and https://history.spellingbee.com/years/ (HTTP 403 with default curl user agent; HTTP 200 with browser user agent) | Official history archive with 98 year pages spanning 1925-2026, excluding wartime years 1943-1945 and 2020. It is a champions/history archive, not a past-list or past-paper archive. |
 | **Primary; official dictionary** | *Merriam-Webster Unabridged*, Merriam-Webster, Inc.; © 2026; https://unabridged.merriam-webster.com/ (HTTP 200, subscription-gated) | SNSB's official spelling authority and primary source for pronunciations, definitions, and origins. Its content is not available for reproduction. |
@@ -931,24 +934,30 @@ paraphrased. Legitimate school/parent/app/book access is not a reuse license.
 Practice items must be selected independently by linguistic feature and must
 not imply Scripps endorsement.
 
-### Conflicts, gaps, and decisions requiring human review
+### Recorded human decisions and remaining gates
 
-1. Approve or revise the recommendation to target classroom and school-bee
-   preparation first, with regional procedure as awareness-only contest
-   content and no national/Spell-off readiness claim.
-2. Approve inclusion of an original vocabulary/meaning-in-context strand in
-   both tiers.
-3. Affirm the strict boundary that official SNSB study-list words may not be
-   used as a source, seed, sample set, or validation corpus.
-4. Verify the learner's school enrollment and regional-partner route before
-   the current enrollment deadline; this is operational, not curricular.
-5. Treat local officials' rules as controlling and the 2027 Suggested Rules
-   only as a baseline.
-6. Require unofficial, independent-preparation framing with no implied SNSB
-   endorsement.
-7. Re-run the rule comparison when the 2027 National Contest Rules publish.
-8. A human should read the scanned *How to Study for a Spelling Bee* PDF,
-   which had no extractable text layer, before authoring.
+The product/content owner recorded these decisions on 2026-09-19:
+
+1. Cover **school and regional preparation**, rather than the narrower
+   school-first recommendation. Make no national or Spell-off readiness claim.
+2. Include original vocabulary and meaning-in-context work in both tiers.
+3. Strictly exclude official SNSB study-list words as a source, seed, sample
+   set, or validation corpus.
+4. Re-run the rule comparison when the 2027 National Contest Rules publish.
+5. Require unofficial, independent-preparation framing with no implied SNSB
+   endorsement; local officials' rules govern.
+6. Require a human to read the scanned *How to Study for a Spelling Bee* PDF
+   before authoring.
+
+Remaining gates and operational gaps:
+
+1. A human must record whether the Bailly PDF changes the proposed domain or
+   sequencing guidance. Until then, this dossier is not approved.
+2. The learner's school enrollment and regional-partner route should be
+   verified before the current enrollment deadline; this is operational, not
+   curricular.
+3. Regional-partner rules were not retrieved. The 2027 Suggested Rules remain
+   a non-binding baseline, and authored procedure must allow local variance.
 
 ### Research handoff
 

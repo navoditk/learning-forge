@@ -1,5 +1,17 @@
 # Progress
 
+## 2026-09-19 — Scripps research decisions recorded
+
+- Product/content owner selected school-and-regional preparation, original
+  vocabulary in both tiers, strict exclusion of official Scripps list content,
+  2027 national-rule re-verification, and independent/non-endorsed
+  positioning.
+- Authoring remains blocked because the owner also required a human review of
+  Dr. Jacques Bailly's scanned *How to Study for a Spelling Bee* PDF before
+  final dossier approval.
+- Geography Bee and Science Olympiad research remain independently pending
+  product/content-owner review.
+
 ## 2026-09-19 — Enrichment research fleet completed
 
 - Completed three independent, read-only primary-source investigations and
