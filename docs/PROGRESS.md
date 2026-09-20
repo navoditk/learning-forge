@@ -2877,3 +2877,15 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   passed with 120 tests and a production build.
 - This closes automated contract evidence only; it does not substitute for
   the required independent architecture review or manual release approvals.
+
+## 2026-09-19 — Default-off progression release gate
+
+- Added a server-side default-closed release gate around the pilot progression
+  read and assessment mutation endpoints, returning `RELEASE_GATE_CLOSED`
+  until the approved release conditions are explicitly opened.
+- Learner and parent progression UI now remains hidden unless the corresponding
+  public build-time gate is enabled. E2E opts in explicitly so gated behavior
+  remains covered without making the default deployment serve progression.
+- Added unit coverage for the closed-by-default contract. Validation:
+  `npm run verify` passed with 121 tests and a production build, integration
+  tests passed (34), and full E2E passed (22).

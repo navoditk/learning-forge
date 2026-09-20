@@ -6,6 +6,7 @@ import {
   AssessmentSubmissionError,
 } from '../../../../../progression/assessment-submission';
 import { requireHouseholdContext } from '../../../../../server/household-context';
+import { isProgressionReleaseGateOpen } from '../../../../../progression/release-gates';
 import { AssessmentStoreUnavailableError } from '../../../../../assessment/store';
 
 const RequestSchema = z
@@ -18,6 +19,12 @@ const RequestSchema = z
   .strict();
 
 export async function POST(request: Request) {
+  if (!isProgressionReleaseGateOpen()) {
+    return NextResponse.json(
+      { error: 'Course progression release gate is closed', reasonCode: 'RELEASE_GATE_CLOSED' },
+      { status: 404 },
+    );
+  }
   let identity;
   try {
     identity = await requireHouseholdContext();

@@ -107,6 +107,9 @@ type CourseProgress = {
   }>;
 };
 
+const progressionReleaseGateOpen =
+  process.env.NEXT_PUBLIC_COURSE_PROGRESSION_RELEASE_GATE_OPEN === 'true';
+
 type ActivityMode = 'practice' | 'diagnostic' | 'review';
 
 export default function Home() {
@@ -179,6 +182,7 @@ export default function Home() {
   }, [program]);
 
   const loadCourseProgress = useCallback(() => {
+    if (!progressionReleaseGateOpen) return;
     fetch('/api/progression/pilot')
       .then(async (result) => {
         if (!result.ok) return;
@@ -408,7 +412,7 @@ export default function Home() {
           </details>
         </section>
       )}
-      {courseProgress && (
+      {progressionReleaseGateOpen && courseProgress && (
         <section aria-labelledby="course-progress-heading">
           <h2 id="course-progress-heading">Course progress</h2>
           <p>

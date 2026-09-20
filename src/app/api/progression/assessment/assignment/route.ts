@@ -12,6 +12,7 @@ import {
 } from '../../../../../curriculum/pilot-catalog';
 import { programsByCode } from '../../../../../curriculum/program-registry';
 import { requireHouseholdContext } from '../../../../../server/household-context';
+import { isProgressionReleaseGateOpen } from '../../../../../progression/release-gates';
 import {
   AssessmentStoreUnavailableError,
   createAssessmentStore,
@@ -75,6 +76,12 @@ function requiredCount(
 }
 
 export async function POST(request: NextRequest) {
+  if (!isProgressionReleaseGateOpen()) {
+    return NextResponse.json(
+      { error: 'Course progression release gate is closed', reasonCode: 'RELEASE_GATE_CLOSED' },
+      { status: 404 },
+    );
+  }
   let identity;
   try {
     identity = await requireHouseholdContext();

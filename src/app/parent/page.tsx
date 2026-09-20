@@ -55,6 +55,9 @@ type CourseProgress = {
   }>;
 };
 
+const progressionReleaseGateOpen =
+  process.env.NEXT_PUBLIC_COURSE_PROGRESSION_RELEASE_GATE_OPEN === 'true';
+
 export default function ParentPage() {
   const [evidence, setEvidence] = useState<Evidence>();
   const [error, setError] = useState('');
@@ -75,12 +78,14 @@ export default function ParentPage() {
         setEvidence(await result.json());
       })
       .catch((reason: Error) => setError(reason.message));
-    fetch('/api/progression/pilot')
-      .then(async (result) => {
-        if (!result.ok) return;
-        setCourseProgress(await result.json());
-      })
-      .catch(() => undefined);
+    if (progressionReleaseGateOpen) {
+      fetch('/api/progression/pilot')
+        .then(async (result) => {
+          if (!result.ok) return;
+          setCourseProgress(await result.json());
+        })
+        .catch(() => undefined);
+    }
   }, []);
 
   async function loadDigest() {
@@ -191,7 +196,7 @@ export default function ParentPage() {
           )}
         </section>
       )}
-      {courseProgress && (
+      {progressionReleaseGateOpen && courseProgress && (
         <section aria-labelledby="course-progress-heading">
           <h2 id="course-progress-heading">Course progression</h2>
           <p>

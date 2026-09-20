@@ -29,6 +29,9 @@ export default defineConfig({
       // own .env (which may carry TUTOR_MODEL_PROVIDER=anthropic for real
       // local use) - tests must never make real, billed API calls.
       TUTOR_MODEL_PROVIDER: 'fake',
+      // E2E explicitly opts into the otherwise closed progression gate.
+      COURSE_PROGRESSION_RELEASE_GATE_OPEN: 'true',
+      NEXT_PUBLIC_COURSE_PROGRESSION_RELEASE_GATE_OPEN: 'true',
     },
     url: 'http://127.0.0.1:3000/',
     reuseExistingServer: !process.env.CI,
