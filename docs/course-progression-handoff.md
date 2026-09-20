@@ -39,7 +39,7 @@ release gates.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-61` | **59 approved; 2 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-61` | **61 approved; 0 open** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -193,7 +193,7 @@ implementing task cannot approve its own output. Only the human product/content
 owner approves.
 
 **No inventing parameters.** Every threshold, window, interval, pass bar,
-weight, and volume is a `D-nn` entry. If an entry is still `OPEN`, stop and
+weight, and volume is a `D-nn` entry. If an entry becomes `OPEN`, stop and
 report it rather than substituting a recommendation or a default.
 
 **No commits or pushes** unless the human explicitly asks.

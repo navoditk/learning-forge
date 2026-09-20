@@ -26,6 +26,20 @@
   the exact four-bank, no-reuse package requirements without fabricating or
   exposing held-out items. The package itself remains an external dependency.
 
+## 2026-09-20 — Staging shadow pilot evidence
+
+- Ran the staging-only synthetic shadow pilot against the disposable local
+  PostgreSQL database; it created and closed five synthetic sessions and five
+  shadow decisions.
+- The run produced one `DENY → ALLOW` divergence with reason code
+  `LOCKED_PREREQUISITE` for the `unit-rates-1` practice target. This is useful
+  evidence for review, not an approval: it indicates the legacy behavior
+  currently allows a practice target that the proposed prerequisite policy
+  would lock.
+- The divergence remains unresolved and no production session or shadow row was
+  changed. C4 remains unauthorized until representative non-enforcing traffic
+  and an independent disposition are completed.
+
 ## 2026-09-20 — Draft private assessment package generated
 
 - Generated a local, non-production draft at
@@ -174,9 +188,9 @@ are optional wrappers over it and are not the source of procedure.
 - **Next task:** complete the independent fourth-draft architecture/C1–C3
   review and representative shadow-divergence review, then obtain the human
   approvals required before C4.
-- **Blocking decisions:** 59 entries are approved; only the non-critical
-  content-volume pointer D-36 and elapsed-time capture scope D-39 remain open
-  in `docs/course-progression-decisions.md`.
+- **Blocking decisions:** `docs/course-progression-decisions.md` records all 61
+  entries approved; D-36 and D-39 remain explicitly revisitable pilot choices,
+  not open decisions.
 - **Do not** perform the C4 authorization cutover, serve progression UI, or
   resume curriculum authoring until the handoff’s independent/manual gates are
   recorded. The existing progression UI and endpoints remain closed by
