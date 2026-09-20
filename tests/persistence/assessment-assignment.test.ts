@@ -359,6 +359,27 @@ describe('assessment assignment persistence', () => {
         where: { assignmentId: assignment.assignment.id, releasedAt: null },
       }),
     ).toBe(0);
+    const nextAssignment = await createAssessmentAssignment(
+      {
+        householdId,
+        learnerProfileId,
+        kind: AssessmentKind.LESSON_ASSESSMENT,
+        targetKind: ProgressionTargetKind.LESSON,
+        targetRef: { code: 'ratio-language-lesson', version: '1.0.0' },
+        bankRef: { code: 'ratio-language-lesson-bank', version: '1.0.0' },
+        policyProfileRef: { code: 'grade-6-math-default', version: '1.0.0' },
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        curriculumSnapshotHash: 'sha256:bank',
+        itemsPerAttempt: 1,
+        requiredCount: 1,
+        expiresAt: new Date(Date.now() + 60_000),
+        idempotencyKey: 'assignment-key-after-invalidated',
+      },
+      store,
+    );
+    // The earlier scored fixture counts; this invalidated run does not.
+    expect(nextAssignment.assignment.attemptOrdinal).toBe(2);
   });
 
   it('projects a passed unit assessment into unit completion state', async () => {

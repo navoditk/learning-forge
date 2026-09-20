@@ -235,14 +235,9 @@ export async function createAssessmentAssignment(
         }));
 
       const attemptOrdinal =
-        (await transaction.assessmentAssignment.count({
-          where: {
-            learnerProfileId: input.learnerProfileId,
-            kind: input.kind,
-            targetCode: input.targetRef.code,
-            targetVersion: input.targetRef.version,
-          },
-        })) + 1;
+        previousAssignments.filter(
+          (previous) => previous.result?.outcome === 'PASS' || previous.result?.outcome === 'FAIL',
+        ).length + 1;
       const assignment = await transaction.assessmentAssignment.create({
         data: {
           householdId: input.householdId,

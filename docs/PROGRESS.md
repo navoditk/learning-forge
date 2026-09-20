@@ -3110,6 +3110,14 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   requires at least one real shadow decision plus completed dispositions.
 - Added regression coverage for the vacuous-empty-set boundary.
 
+## 2026-09-19 — Terminal-run ordinal correction
+
+- Corrected assessment `attemptOrdinal` calculation to count only scored
+  `PASS`/`FAIL` results. `EXPIRED`, `ABANDONED`, and `INVALIDATED` terminal
+  runs now remain outside reassessment allowance as specified.
+- Added persistence coverage proving an invalidated run does not consume the
+  next scored attempt ordinal.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version
