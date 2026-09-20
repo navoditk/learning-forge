@@ -94,11 +94,22 @@
   `llm_drafted` and `pending_review`; none is approved or enabled.
 - Structurally validated all four banks and computed their integrity hashes;
   all bank references match. The current loader intentionally rejects the
-  draft because its items remain `pending_review`. Draft SHA-256:
-  `5c356576c7ee5a91aa2e4c1882425601e46238290a47ef8ba47716267b4634c8`.
+  draft because its items remain `pending_review`. Current canonical package
+  SHA-256:
+  `3081c4108e464d24306722df0abb72f25ee4edc3e2666c961ddbc766ee81a9d7`.
 - The draft is intentionally outside Git and must receive independent
   mathematics/content, originality, accessibility, and child-safety review
   before it can be installed as the private package.
+
+## 2026-09-20 — Automated draft-package QA
+
+- Redacted QA covered all 4 banks and 45 items: 45 unique IDs, 45 unique
+  prompts, 45 item hashes, 45 accessibility pairs, 45 provenance records, and
+  45 validator canonical answers present in their accepted-answer lists.
+- No automated leakage-pattern, duplicate, or structural findings were
+  produced. This does not establish mathematical correctness, originality,
+  pedagogical quality, accessibility approval, or child-safety approval; those
+  remain human review gates.
 
 ## 2026-09-20 — Held-out package integrity enforcement
 

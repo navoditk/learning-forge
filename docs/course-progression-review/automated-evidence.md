@@ -60,6 +60,16 @@ At the current verified rollout checkpoint (`2f34c7f`):
 - This is evidence for independent review only; it is not representative
   production traffic and does not authorize C4.
 
+## Private draft-package QA
+
+- Redacted QA covered 4 banks and 45 items: all item IDs and prompts were
+  unique; all 45 item hashes, accessibility pairs, provenance records, and
+  validator canonical-answer memberships were present.
+- No automated structural or forbidden-pattern findings were produced.
+- Current package digest is recorded only in the private handoff/progress
+  trace; the package remains `pending_review` and is rejected by the serving
+  loader. Automated QA is not content approval.
+
 ## Not proven by automation
 
 - Independent fourth-draft/C1–C3 review.
