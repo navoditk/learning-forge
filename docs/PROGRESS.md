@@ -3086,6 +3086,16 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - The complete 10-migration forward/down/forward round trip passed locally;
   the development database and learner evidence were not used for rollback.
 
+## 2026-09-19 — Browser and local readiness verification
+
+- Full Playwright coverage passed (22 tests), including learner/parent
+  journeys, keyboard navigation, automated WCAG checks, and the default-gated
+  progression API behavior.
+- A read-only local readiness query found zero unbound open sessions, but also
+  zero shadow decisions. The resulting empty divergence set is intentionally
+  treated as vacuous evidence and does not satisfy the required independent
+  shadow review or authorize C4.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version
