@@ -20,6 +20,8 @@ The private held-out assessment package is deliberately not included here.
 Install it through the approved private delivery channel and record only its
 version, digest, and review status in the independent review artifact. Do not
 commit assessment prompts, answers, or learner data to this repository.
+Use `private-assessment-package-handoff.md` for the exact bank and volume
+requirements.
 
 ## Order of use
 

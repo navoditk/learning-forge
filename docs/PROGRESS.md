@@ -22,6 +22,9 @@
   failed because the deployed service still precedes these uncommitted script
   changes. The earlier deployed readiness job succeeded. No database or
   learner state was changed by either job.
+- Added `private-assessment-package-handoff.md`, which gives the content owner
+  the exact four-bank, no-reuse package requirements without fabricating or
+  exposing held-out items. The package itself remains an external dependency.
 
 ## 2026-09-20 — C4 unblock artifact bundle
 
