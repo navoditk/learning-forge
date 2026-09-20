@@ -3286,3 +3286,11 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Added database integration coverage for the immutable-row behavior and
   delayed-check pin. The write path is not called by learner-serving routes;
   runtime authorization and the release gate remain unchanged.
+## 2026-09-20 — Prisma transitive audit remediation
+
+- Added a narrow npm override for `deepmerge-ts@8.0.0`, the compatible patched
+  release used by Prisma config; the audit-recommended Prisma downgrade was
+  not adopted.
+- `npm audit --omit=dev` now reports zero vulnerabilities. Full verification,
+  integration, and browser checks remain required before deployment evidence is
+  considered current.
