@@ -10,6 +10,7 @@ approval.
 | Gate | Artifact | Status |
 |---|---|---|
 | Fourth-draft architecture and C1–C3 review | `independent-review.md` | **Awaiting independent reviewer** |
+| Reviewer handoff packet | `independent-review-request.md` | **Ready to send** |
 | Representative C3 shadow review | `shadow-divergence-review.md` | **Awaiting representative traffic and review** |
 | Staging synthetic shadow evidence | `staging-shadow-pilot.md` | **Collected; one divergence unresolved** |
 | Accessibility | `accessibility-acceptance.md` | **Product-owner accepted for scoped pilot; evidence assumed** |
