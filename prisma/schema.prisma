@@ -386,6 +386,10 @@ model MasteryEstimate {
   estimate                Float
   confidenceBand          ConfidenceBand
   algorithmVersion        String
+  policyProfileCode       String?
+  policyProfileVersion    String?
+  policyProfileHash       String?
+  curriculumSnapshotHash  String?
   independentDelayedCheck Boolean
   createdAt               DateTime              @default(now())
   updatedAt               DateTime              @updatedAt

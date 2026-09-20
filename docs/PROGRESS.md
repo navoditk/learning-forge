@@ -2962,3 +2962,14 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Added U16/U17-focused regression coverage. The release gate remains closed;
   endpoint wiring, persistence columns, and independent/manual approvals are
   still outstanding.
+
+## 2026-09-19 — Mastery provenance migration
+
+- Added nullable policy-profile code/version/hash and curriculum-snapshot hash
+  columns to `MasteryEstimate`, with a reviewed reversible migration and
+  household-export coverage. Nullability preserves legacy phase-1 rows without
+  inventing provenance; new progression persistence must populate the pins.
+- Validation: Prisma schema validation and migration deployment passed;
+  database-backed integration tests passed (35), and the down migration was
+  exercised transactionally. Database-free verification also passed with 138
+  tests and a production build.
