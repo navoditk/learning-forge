@@ -33,7 +33,13 @@ export class UnavailableAssessmentStore implements AssessmentStore {
 }
 
 export function createAssessmentStore(): AssessmentStore {
-  return createPrivateAssessmentPackageStoreFromEnvironment() ?? new UnavailableAssessmentStore();
+  try {
+    return createPrivateAssessmentPackageStoreFromEnvironment() ?? new UnavailableAssessmentStore();
+  } catch {
+    // A missing, malformed, or unreviewed mounted package is an unavailable
+    // held-out store. Never surface parser details or fall back to public data.
+    return new UnavailableAssessmentStore();
+  }
 }
 
 export function createInMemoryAssessmentStore(

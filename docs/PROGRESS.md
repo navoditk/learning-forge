@@ -68,6 +68,14 @@
   served until independently reviewed and rehashed.
 - Full DB-free verification passes with 163 tests.
 
+## 2026-09-20 — Invalid package fail-closed response
+
+- Normalized missing, malformed, or unreviewed mounted packages to the
+  explicit `ASSESSMENT_STORE_UNAVAILABLE` boundary instead of exposing a
+  generic assignment-conflict response.
+- Added coverage for an invalid mounted path. Full DB-free verification passes
+  with 164 tests; integration and browser suites also remain green.
+
 ## 2026-09-20 — Draft private assessment package generated
 
 - Generated a local, non-production draft at
