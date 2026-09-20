@@ -304,6 +304,24 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
         }),
       ).toBe(1);
 
+      const diagnostic = await startSession(identity, {
+        contentId: 'unit-rates-1',
+        activityKind: 'PLACEMENT',
+      });
+      expect(diagnostic.resumed).toBe(false);
+      expect(
+        await prisma.session.findUnique({
+          where: { id: diagnostic.sessionId },
+          select: { activityKind: true },
+        }),
+      ).toEqual({ activityKind: 'PLACEMENT' });
+      expect(
+        await prisma.shadowDecision.findFirst({
+          where: { learnerProfileId: identity.learnerProfileId, activityKind: 'PLACEMENT' },
+          select: { activityKind: true },
+        }),
+      ).toEqual({ activityKind: 'PLACEMENT' });
+
       const attempt = await recordAttempt(identity, {
         sessionId: first.sessionId,
         learnerResponse: '15',

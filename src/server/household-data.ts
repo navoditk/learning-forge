@@ -10,6 +10,67 @@ type DatabaseClient = PrismaClient | Prisma.TransactionClient;
  */
 export const HOUSEHOLD_DELETION_CONFIRMATION_PHRASE = 'DELETE';
 
+/**
+ * This is the reviewed model coverage contract for the household export and
+ * deletion paths. The companion coverage test compares it with Prisma's
+ * generated model list so a new model cannot be added without an explicit
+ * privacy review.
+ */
+export const HOUSEHOLD_DATA_MODEL_COVERAGE = {
+  export: [
+    'Household',
+    'User',
+    'LearnerProfile',
+    'ConsentRecord',
+    'Session',
+    'Attempt',
+    'AssistanceEvent',
+    'TutorInteraction',
+    'TutorTrace',
+    'MasteryEstimate',
+    'MasteryContribution',
+    'AssessmentAssignment',
+    'AssessmentRunState',
+    'AssessmentResult',
+    'ActiveAssessmentLease',
+    'LearnerPlacement',
+    'LearnerUnitState',
+    'LearnerLessonState',
+    'UnlockGrant',
+    'SkipRecord',
+    'OverrideRecord',
+    'ReviewSchedule',
+    'LearningEvent',
+    'ShadowDecision',
+  ],
+  delete: [
+    'Household',
+    'User',
+    'LearnerProfile',
+    'ConsentRecord',
+    'Session',
+    'Attempt',
+    'AssistanceEvent',
+    'TutorInteraction',
+    'TutorTrace',
+    'MasteryEstimate',
+    'MasteryContribution',
+    'AssessmentAssignment',
+    'AssessmentRunState',
+    'AssessmentResult',
+    'ActiveAssessmentLease',
+    'LearnerPlacement',
+    'LearnerUnitState',
+    'LearnerLessonState',
+    'UnlockGrant',
+    'SkipRecord',
+    'OverrideRecord',
+    'ReviewSchedule',
+    'LearningEvent',
+    'ShadowDecision',
+  ],
+} as const;
+
 export function isHouseholdDeletionConfirmed(confirmation: unknown): boolean {
   return confirmation === HOUSEHOLD_DELETION_CONFIRMATION_PHRASE;
 }

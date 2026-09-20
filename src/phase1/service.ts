@@ -16,6 +16,7 @@ import { planNextActivities } from '../planner';
 import { loadPolicyArtifacts } from '../progression/artifacts';
 import { buildShadowDecision } from '../progression/shadow';
 import { policyHash, resolvePolicyProfile } from '../progression/policy';
+import type { ActivityKind } from '../contracts/policy';
 import { prisma } from '../server/prisma';
 import { isUniqueConstraintViolation } from '../server/prisma-errors';
 import { TutorResponse } from '../tutor';
@@ -32,6 +33,7 @@ export const PHASE_1_MASTERY_VERSION = 'mastery-phase-1-1';
  * ADR-0003). This module has no knowledge of which one it's talking to.
  */
 export type HouseholdIdentity = { householdId: string; learnerProfileId: string };
+export type SessionActivityKind = Extract<ActivityKind, 'PRACTICE' | 'PLACEMENT' | 'REVIEW'>;
 
 function resolveContent(contentId?: string) {
   const id = contentId ?? PHASE_1_CONTENT_ID;
@@ -132,9 +134,14 @@ async function getSessionState(identity: HouseholdIdentity, sessionId: string) {
 
 export async function startSession(
   identity: HouseholdIdentity,
-  input: { contentId?: string; program?: CurriculumProgram } = {},
+  input: {
+    contentId?: string;
+    program?: CurriculumProgram;
+    activityKind?: SessionActivityKind;
+  } = {},
 ) {
   const program = input.program ?? DEFAULT_PROGRAM;
+  const activityKind = input.activityKind ?? 'PRACTICE';
   const catalog = programCatalog(program);
   const content = input.contentId
     ? resolveContent(input.contentId)
@@ -153,6 +160,7 @@ export async function startSession(
       learnerProfileId: identity.learnerProfileId,
       contentKey: content.id,
       endedAt: null,
+      activityKind,
     },
     orderBy: { startedAt: 'desc' },
   });
@@ -163,14 +171,14 @@ export async function startSession(
         householdId: identity.householdId,
         learnerProfileId: identity.learnerProfileId,
         contentKey: content.id,
-        activityKind: 'PRACTICE',
+        activityKind,
         targetCode: content.id,
         targetVersion: content.version,
         policyProfileVersion: '1.0.0',
       },
     }));
   if (!existing)
-    await writeShadowDecision(identity, program, content.id, content.version, 'PRACTICE');
+    await writeShadowDecision(identity, program, content.id, content.version, activityKind);
   const state = await getSessionState(identity, session.id);
   return {
     sessionId: session.id,

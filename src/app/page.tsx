@@ -172,6 +172,14 @@ export default function Home() {
       setResponse('');
       setMode(activityMode);
       const query = new URLSearchParams({ program });
+      query.set(
+        'activityKind',
+        activityMode === 'diagnostic'
+          ? 'PLACEMENT'
+          : activityMode === 'review'
+            ? 'REVIEW'
+            : 'PRACTICE',
+      );
       if (contentId) query.set('contentId', contentId);
       fetch(`/api/phase1/session?${query}`)
         .then(async (result) => {

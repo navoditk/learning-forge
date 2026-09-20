@@ -2779,3 +2779,30 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - C4 authorization cutover and C5 learner/parent UI remain intentionally
   pending; they require the remaining approved policy decisions, shadow
   divergence review, and the C4 expand/contract gate.
+
+## 2026-09-19 — Progression policy recommendations approved
+
+- The product owner authorized adoption of the remaining decision-matrix
+  recommendations. `D-04`–`D-35`, `D-41`–`D-55`, `D-59`, and `D-61` now carry
+  approved values dated 2026-09-19; only the non-critical `D-36` pointer and
+  `D-39` elapsed-time scope remain open.
+- This approval resolves parameter selection, but does not self-approve the
+  independent architecture/C1–C3 review or the manual gates for shadow
+  divergence, privacy/safety, child-safe wording, screen-reader accessibility,
+  migration review, and authored-content review.
+- Next: complete the independent C1–C3 review and the automated acceptance
+  coverage, then perform the approved C4 expand/contract authorization work.
+
+## 2026-09-19 — C1–C3 review remediation checkpoint
+
+- Session creation now preserves the requested legacy activity kind for
+  practice, placement, and review sessions in both the nullable binding and
+  the shadow decision; the learner UI and API route pass this kind explicitly.
+- Added a durable Prisma-model coverage contract and a DB-free test that fails
+  when a schema model is missing from household export or deletion review.
+- Validation: `npm run verify` passed with 108 tests and a production build;
+  `DATABASE_URL=... npm run test:integration` passed all 32 database-backed
+  tests. The first integration invocation without `DATABASE_URL` was an
+  environment setup failure, not a test failure.
+- C4 authorization cutover, independent review, shadow-divergence sign-off,
+  and the progression learner/parent UI remain pending.

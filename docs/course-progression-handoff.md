@@ -21,15 +21,16 @@ every other program adopts it as authored data rather than new policy code.
 ## 2. Current phase
 
 **Architecture plus staged contract implementation.** The fourth draft was
-reviewed internally, A0/A1 are implemented, and A2 is complete: all 128
-records use the canonical practice shape and the live catalog rejects legacy
-records. The six substantive prerequisite-edge recommendations are approved.
-Stage B is next, but its concrete policy artifacts remain gated by the open
-policy decisions listed in the decision matrix.
+reviewed internally, A0/A1 are implemented, A2 is complete, and Stage B is
+complete. C1–C3 are shipped as a non-enforcing persistence,
+export/deletion, dual-write, and shadow-mode foundation. The product owner
+approved the remaining policy recommendations on 2026-09-19; only the
+non-critical D-36 content-volume pointer and D-39 elapsed-time capture scope
+remain open.
 
-No learner-state migration or authorization cutover has been performed. A2
-practice-content transformation is in progress under the approved metadata
-disposition; teaching, assessment, and review content remain untouched.
+No authorization cutover has been performed. Teaching, assessment, and review
+content remain untouched, and C4/C5 still require their independent and manual
+release gates.
 
 ## 3. Artifacts and their status
 
@@ -37,7 +38,7 @@ disposition; teaching, assessment, and review content remain untouched.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-61` | **13 approved; 48 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-61` | **59 approved; 2 open** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -95,13 +96,10 @@ decision it touches before implementation.
 
 ## 6. The exact next task
 
-> Resolve the six substantive prerequisite-edge decisions listed in
-> Approve the concrete Stage B policy values, then author the versioned policy
-> artifacts and pure policy modules. Do not hard-code recommendations while
-> those decision entries remain OPEN.
-
-After those gates, the next implementation task is **Stage A2** — content
-transformation only — as defined in architecture §11.4.
+> Complete the independent architecture/C1–C3 review, review representative
+> shadow divergences, and then implement the approved C4 expand/contract
+> authorization cutover. Do not serve progression UI until C4 and the manual
+> accessibility, wording, privacy, and content gates are recorded.
 
 ## 7. Stage dependencies
 

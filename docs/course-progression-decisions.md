@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **13 approved; 48 open.** Approved entries are explicitly marked in
+- Status: **59 approved; 2 open.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -160,9 +160,9 @@ curriculum site. They cannot become held-out retroactively.
 | Field | Value |
 |---|---|
 | Kind | product |
-| Status | **APPROVED 2026-09-19** |
+| Status | **APPROVED 2026-09-19, confirmed 2026-09-19** |
 | Recommendation | Ship enforcement with sequencing **off**, enable after one week of observation |
-| Approved value | _pending_ |
+| Approved value | Ship enforcement with sequencing off; enable sequencing after one week of observation |
 | Approver | Product owner |
 | Blocks | Cutover plan |
 
@@ -177,9 +177,9 @@ See `docs/course-progression-architecture.md` §7.
 | Field | Value |
 |---|---|
 | Kind | product |
-| Status | **OPEN — acknowledgement, not a value** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | Acknowledge and proceed |
-| Approved value | _pending_ |
+| Approved value | Acknowledge and proceed; existing access may be refused until an authored gate opens |
 | Approver | Product owner |
 | Blocks | Authorization increment |
 
@@ -192,9 +192,9 @@ existing live learner can reach today unreachable until its gate opens.
 | Field | Value |
 |---|---|
 | Kind | security |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | Password re-entry within a short step-up window before an override is written |
-| Approved value | _pending_ |
+| Approved value | Password re-entry within a short step-up window before an override is written |
 | Approver | Product owner + privacy/safety owner |
 | Blocks | Parent/operator override (`§9`) |
 
@@ -207,27 +207,27 @@ None may be hard-coded. All live in a versioned `ProgressionPolicyProfile`.
 
 | ID | Symbol | Parameter | Recommendation | Status | Approver |
 |---|---|---|---|---|---|
-| D-07 | `assistanceWeight[]` | Weight by maximum assistance used | Carry today's documented ladder: `1.00 / 0.90 / 0.75 / 0.55 / 0.35 / 0.10` | **OPEN** | Product/pedagogy owner |
-| D-08 | `contextWeight[]` | Weight by assessment context | `delayed_check 1.00`, `unit_assessment 1.00`, `lesson_assessment 0.95`, `review 0.90`, `practice 0.80`, `placement 0.40` | **OPEN** | Product/pedagogy owner |
-| D-09 | `ρ` | Repeat-exposure discount per prior exposure to the same item | `0.6` | **OPEN** | Product/pedagogy owner |
-| D-10 | `H` | Recency half-life (days) | `30` | **OPEN** | Product/pedagogy owner |
-| D-11 | `N` | Aggregation window (most recent observations) | `8` | **OPEN** | Product/pedagogy owner |
-| D-12 | `M_med` | Minimum evidence mass for `MEDIUM` | `1.6` | **OPEN** | Product/pedagogy owner |
-| D-13 | `K_med` | Minimum independent observations for `MEDIUM` | `2` | **OPEN** | Product/pedagogy owner |
-| D-14 | `θ_med` | Minimum estimate for `MEDIUM` | `0.70` | **OPEN** | Product/pedagogy owner |
-| D-15 | `θ_gate` | Minimum estimate for a structural unlock gate | `0.75` (today's planner `DEFAULT_SECURE_THRESHOLD`) | **OPEN** | Product/pedagogy owner |
-| D-16 | `θ_relock` | Estimate below which a `CONFIRMED` skill is flagged for early review | `0.55` | **OPEN** | Product/pedagogy owner |
-| D-17 | `stalenessDays` | Days without an observation before confidence degrades one band | `45` | **OPEN** | Product/pedagogy owner |
-| D-18 | `spacingIntervals[]` | Expanding review intervals (days), replacing the flat 14 | `3 / 7 / 21 / 45` | **OPEN** | Product/pedagogy owner |
+| D-07 | `assistanceWeight[]` | Weight by maximum assistance used | Carry today's documented ladder: `1.00 / 0.90 / 0.75 / 0.55 / 0.35 / 0.10` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-08 | `contextWeight[]` | Weight by assessment context | `delayed_check 1.00`, `unit_assessment 1.00`, `lesson_assessment 0.95`, `review 0.90`, `practice 0.80`, `placement 0.40` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-09 | `ρ` | Repeat-exposure discount per prior exposure to the same item | `0.6` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-10 | `H` | Recency half-life (days) | `30` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-11 | `N` | Aggregation window (most recent observations) | `8` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-12 | `M_med` | Minimum evidence mass for `MEDIUM` | `1.6` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-13 | `K_med` | Minimum independent observations for `MEDIUM` | `2` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-14 | `θ_med` | Minimum estimate for `MEDIUM` | `0.70` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-15 | `θ_gate` | Minimum estimate for a structural unlock gate | `0.75` (today's planner `DEFAULT_SECURE_THRESHOLD`) | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-16 | `θ_relock` | Estimate below which a `CONFIRMED` skill is flagged for early review | `0.55` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-17 | `stalenessDays` | Days without an observation before confidence degrades one band | `45` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-18 | `spacingIntervals[]` | Expanding review intervals (days), replacing the flat 14 | `3 / 7 / 21 / 45` | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
 ### D-19 — `Attempt.highestAssistance` correction strategy
 
 | Field | Value |
 |---|---|
 | Kind | policy |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | **Option 2 — derive at read time from `AssistanceEvent`, and drop or ignore the stored column** |
-| Approved value | _pending_ |
+| Approved value | Derive maximum assistance at read time from `AssistanceEvent`; ignore the stored column |
 | Approver | Product/engineering owner |
 | Blocks | Mastery aggregation; parent evidence; household export |
 
@@ -254,9 +254,9 @@ by assistance-level ordinal**, never "most recent".
 | Field | Value |
 |---|---|
 | Kind | policy |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | Shadow-compute the new version alongside the old, compare, then switch the active pointer; never mutate existing rows |
-| Approved value | _pending_ |
+| Approved value | Shadow-compute the new version alongside the old, compare, then switch the active pointer; never mutate existing rows |
 | Approver | Product/engineering owner |
 | Blocks | Mastery increment |
 
@@ -269,18 +269,18 @@ row for the live household.
 
 | ID | Parameter | Recommendation | Status | Approver |
 |---|---|---|---|---|
-| D-21 | `minDelayHours` — minimum separation from the last instruction or assistance event for that skill | `20` (next calendar day) | **OPEN** | Product/pedagogy owner |
-| D-22 | `placementProbeMaxItems` | `5` (today's cap) | **OPEN** | Product/pedagogy owner |
-| D-23 | `lessonAssessment.itemsPerAttempt` | `3` | **OPEN** | Product/pedagogy owner |
-| D-24 | `lessonAssessment.passBar` — correct items required out of `itemsPerAttempt` | `3 of 3` at independent assistance | **OPEN** | Product/pedagogy owner |
-| D-25 | `unitAssessment.itemsPerAttempt` | `6` | **OPEN** | Product/pedagogy owner |
-| D-26 | `unitAssessment.passBar` | `5 of 6` | **OPEN** | Product/pedagogy owner |
-| D-27 | `maxReassessments` — consecutive reassessments before routing to a parent-visible "needs help" state | `2` | **OPEN** | Product/pedagogy owner |
-| D-28 | `reassessmentCooldown` | one completed practice session **and** `12` hours | **OPEN** | Product/pedagogy owner |
-| D-29 | `assessmentRunExpiry` — how long an `IN_PROGRESS` run stays valid before `EXPIRED` | `24` hours | **OPEN** | Product/pedagogy owner |
-| D-30 | `feedbackLevel` after a scored run | `PER_ITEM_CORRECTNESS` without revealing correct answers | **OPEN** | Product/pedagogy owner |
-| D-31 | Skip bar — evidence required to mark a lesson `COMPLETE_BY_SKIP` | Pass the lesson assessment bank at `D-24` on the **first** run, with no prior teaching or practice event for that skill | **OPEN** | Product/pedagogy owner |
-| D-32 | Unit skip bar | Pass the unit assessment at `D-26` on the first run | **OPEN** | Product/pedagogy owner |
+| D-21 | `minDelayHours` — minimum separation from the last instruction or assistance event for that skill | `20` (next calendar day) | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-22 | `placementProbeMaxItems` | `5` (today's cap) | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-23 | `lessonAssessment.itemsPerAttempt` | `3` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-24 | `lessonAssessment.passBar` — correct items required out of `itemsPerAttempt` | `3 of 3` at independent assistance | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-25 | `unitAssessment.itemsPerAttempt` | `6` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-26 | `unitAssessment.passBar` | `5 of 6` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-27 | `maxReassessments` — consecutive reassessments before routing to a parent-visible "needs help" state | `2` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-28 | `reassessmentCooldown` | one completed practice session **and** `12` hours | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-29 | `assessmentRunExpiry` — how long an `IN_PROGRESS` run stays valid before `EXPIRED` | `24` hours | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-30 | `feedbackLevel` after a scored run | `PER_ITEM_CORRECTNESS` without revealing correct answers | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-31 | Skip bar — evidence required to mark a lesson `COMPLETE_BY_SKIP` | Pass the lesson assessment bank at `D-24` on the **first** run, with no prior teaching or practice event for that skill | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-32 | Unit skip bar | Pass the unit assessment at `D-26` on the first run | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
 `D-24` and `D-26` are the "ordinary lesson/unit assessment pass bars" and are
 deliberately listed here rather than in the architecture document, which
@@ -295,9 +295,9 @@ states only that a bar exists and where it is read from.
 | Field | Value |
 |---|---|
 | Kind | product |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | Render completion and mastery as two separate, separately-labeled facts; never merge them into one "done" state |
-| Approved value | _pending_ |
+| Approved value | Render completion and mastery as two separate, separately-labeled facts; never merge them into one "done" state |
 | Approver | Product owner |
 | Blocks | Parent evidence increment |
 
@@ -310,9 +310,9 @@ and can master a skill without completing its lesson (via skip). See
 | Field | Value |
 |---|---|
 | Kind | product |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | `3`, staged one lesson at a time; the approved bound is 2–4 |
-| Approved value | _pending_ |
+| Approved value | 3, staged one lesson at a time |
 | Approver | Product owner |
 | Blocks | Pilot scope |
 
@@ -435,9 +435,9 @@ assert `expect(records).toHaveLength(2)` and
 | Field | Value |
 |---|---|
 | Kind | product |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | One manual screen-reader pass over the progression surfaces before the pilot serves a learner; axe automation is not sufficient for live-region and focus-order quality |
-| Approved value | _pending_ |
+| Approved value | One manual screen-reader pass over progression surfaces before serving a learner |
 | Approver | Accessibility/product owner |
 | Blocks | Pilot serving |
 
@@ -450,18 +450,18 @@ architecture referenced or implied without a decision entry.
 
 | ID | Policy key | Parameter | Recommendation | Status | Approver |
 |---|---|---|---|---|---|
-| D-42 | `lessonMinPracticeItems` | Distinct practice items a learner must attempt before a lesson's practice threshold is met | `4` | **OPEN** | Product/pedagogy owner |
-| D-43 | `delayedCheckItemsPerAttempt`, `delayedCheckPassBar` | Items presented in a delayed check, and how many must be correct | `2` items, `2 of 2` | **OPEN** | Product/pedagogy owner |
-| D-44 | `delayedCheckReuse` | Whether a delayed check may reuse an item the learner has seen for that skill | **No reuse** — unseen items only | **OPEN** | Product/pedagogy owner |
-| D-45 | `reviewItemsPerAttempt`, `reviewPassBar` | Items presented in a spaced review, and how many must be correct | `1` item, `1 of 1` | **OPEN** | Product/pedagogy owner |
-| D-46 | `reviewReuse` | Whether a review may reuse a previously seen item, and after what interval | Reuse permitted only for items not seen within the last two spacing intervals | **OPEN** | Product/pedagogy owner |
-| D-47 | `stepUpReauthLifetimeMinutes` | How long a step-up re-authentication remains valid for writing overrides | `10` minutes, single-use per override | **OPEN** | Product owner + privacy/safety owner |
-| D-48 | `teachingRecordsPerLesson` | Teaching records authored per lesson | `1`, with a second alternative representation optional | **OPEN** | Product/pedagogy owner |
-| D-49 | `practiceRecordsPerLesson` | Practice records authored per lesson | At least `D-42` plus headroom for remediation on unseen items | **OPEN** | Product/pedagogy owner |
-| D-50 | `reviewRecordsPerSkill` | Review-role records authored per skill | `2`, so a review need not repeat the item that confirmed the skill | **OPEN** | Product/pedagogy owner |
-| D-51 | `difficultyWeight[]` | Whether item difficulty modifies evidence weight, and if so how | **Do not weight by difficulty in the first version.** Keep `difficultyWeight` absent rather than set to 1.0, so its absence is a recorded choice rather than a silent default | **OPEN** | Product/pedagogy owner |
+| D-42 | `lessonMinPracticeItems` | Distinct practice items a learner must attempt before a lesson's practice threshold is met | `4` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-43 | `delayedCheckItemsPerAttempt`, `delayedCheckPassBar` | Items presented in a delayed check, and how many must be correct | `2` items, `2 of 2` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-44 | `delayedCheckReuse` | Whether a delayed check may reuse an item the learner has seen for that skill | **No reuse** — unseen items only | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-45 | `reviewItemsPerAttempt`, `reviewPassBar` | Items presented in a spaced review, and how many must be correct | `1` item, `1 of 1` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-46 | `reviewReuse` | Whether a review may reuse a previously seen item, and after what interval | Reuse permitted only for items not seen within the last two spacing intervals | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-47 | `stepUpReauthLifetimeMinutes` | How long a step-up re-authentication remains valid for writing overrides | `10` minutes, single-use per override | **APPROVED 2026-09-19** | Product owner + privacy/safety owner |
+| D-48 | `teachingRecordsPerLesson` | Teaching records authored per lesson | `1`, with a second alternative representation optional | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-49 | `practiceRecordsPerLesson` | Practice records authored per lesson | At least `D-42` plus headroom for remediation on unseen items | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-50 | `reviewRecordsPerSkill` | Review-role records authored per skill | `2`, so a review need not repeat the item that confirmed the skill | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-51 | `difficultyWeight[]` | Whether item difficulty modifies evidence weight, and if so how | **Do not weight by difficulty in the first version.** Keep `difficultyWeight` absent rather than set to 1.0, so its absence is a recorded choice rather than a silent default | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
-| D-59 | `allowAssistanceInPractice` | Whether assistance-supported practice counts toward a lesson's practice threshold | `true` — completion may be earned with help; mastery is what assistance discounts | **OPEN** | Product/pedagogy owner |
+| D-59 | `allowAssistanceInPractice` | Whether assistance-supported practice counts toward a lesson's practice threshold | `true` — completion may be earned with help; mastery is what assistance discounts | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
 `D-24` and `D-26` remain the ordinary lesson and unit assessment pass bars.
 `D-07` remains the sole authority for assistance weights; the table in
@@ -551,9 +551,9 @@ target" is a denial, not a permission. See
 | Field | Value |
 |---|---|
 | Kind | product |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | **Idempotent replay on a matching idempotency key; reject on a different key while an active assignment exists** |
-| Approved value | _pending_ |
+| Approved value | Idempotent replay on a matching idempotency key; reject with `ACTIVE_ASSIGNMENT_EXISTS` on a different key while an active assignment exists |
 | Approver | Product/engineering owner |
 | Blocks | `AssessmentAssignment` implementation |
 
@@ -570,9 +570,9 @@ double-clicked button an error rather than a no-op.
 | Field | Value |
 |---|---|
 | Kind | content |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | A versioned `child-safe-phrasing` artifact holding approved phrasings and a prohibited-pattern list, reviewed like content and referenced by version from the wording test |
-| Approved value | _pending_ |
+| Approved value | A versioned `child-safe-phrasing` artifact with approved phrasings and prohibited patterns, reviewed like content |
 | Approver | Product owner + accessibility/product owner |
 | Blocks | Acceptance test E10 |
 
@@ -667,9 +667,9 @@ This is independent of `D-01` — it is wrong under both branches.
 | Field | Value |
 |---|---|
 | Kind | product |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-19** |
 | Recommendation | Architecture approval alone is **not** sufficient; the set below must be satisfied |
-| Approved value | _pending_ |
+| Approved value | All listed independent-review, publication, exposure, content, registry, rollout, and stage-merge gates must be satisfied before authoring resumes |
 | Approver | Product/content owner + engineering owner |
 | Blocks | Lifting the authoring pause |
 
