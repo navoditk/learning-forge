@@ -17,6 +17,10 @@ At the verified rollout checkpoint before this evidence-document-only update:
 - `npm run test:e2e` passed: 22 Playwright tests covering authentication,
   learner/parent journeys, keyboard operation, automated WCAG checks, and
   fail-closed progression API behavior.
+- With the draft package mounted outside Git and the gate enabled only in the
+  local test server, the focused API suite passed the real assignment path:
+  HTTP 201 with three selected, hashed held-out items. The default fail-closed
+  assertion is skipped only in this explicitly mounted mode.
 - `DATABASE_URL=postgresql://... npm run test:migrations` passed the complete
   forward/down/forward schema-equivalence check across all 10 migrations.
 - The test commands now provide a local PostgreSQL fallback while honoring an

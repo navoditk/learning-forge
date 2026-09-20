@@ -32,6 +32,12 @@ export default defineConfig({
       // E2E explicitly opts into the otherwise closed progression gate.
       COURSE_PROGRESSION_RELEASE_GATE_OPEN: 'true',
       NEXT_PUBLIC_COURSE_PROGRESSION_RELEASE_GATE_OPEN: 'true',
+      ...(process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH
+        ? {
+            LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH:
+              process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH,
+          }
+        : {}),
     },
     url: 'http://127.0.0.1:3000/',
     reuseExistingServer: !process.env.CI,

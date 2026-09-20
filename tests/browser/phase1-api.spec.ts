@@ -81,6 +81,10 @@ test.describe('Phase 1 API route validation and error paths', () => {
   test('pilot progression route is readable and held-out assignment creation fails closed', async ({
     request,
   }) => {
+    test.skip(
+      Boolean(process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH),
+      'This assertion is for the default no-package fail-closed environment.',
+    );
     const progression = await request.get('/api/progression/pilot');
     expect(progression.status()).toBe(200);
     const body = await progression.json();
@@ -98,6 +102,33 @@ test.describe('Phase 1 API route validation and error paths', () => {
     });
     expect(assignment.status()).toBe(503);
     expect((await assignment.json()).reasonCode).toBe('ASSESSMENT_STORE_UNAVAILABLE');
+  });
+
+  test('staging private package serves a real lesson assignment when explicitly mounted', async ({
+    request,
+  }) => {
+    test.skip(
+      !process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH,
+      'Requires an explicitly mounted private assessment package.',
+    );
+
+    const assignment = await request.post('/api/progression/assessment/assignment', {
+      data: {
+        kind: 'LESSON_ASSESSMENT',
+        targetKind: 'LESSON',
+        targetCode: 'ratio-language-lesson',
+        targetVersion: '1.0.0',
+        idempotencyKey: `private-package-${randomUUID()}`,
+      },
+    });
+    expect(assignment.status()).toBe(201);
+    const body = await assignment.json();
+    expect(body.assignment.selectedItems).toHaveLength(3);
+    expect(
+      body.assignment.selectedItems.every((item: { hash: string }) =>
+        item.hash.startsWith('sha256:'),
+      ),
+    ).toBe(true);
   });
 
   test('program-scoped routes reject unavailable and mismatched curricula', async ({ request }) => {

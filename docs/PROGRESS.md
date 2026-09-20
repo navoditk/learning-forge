@@ -59,6 +59,11 @@
   authentication, and the fail-closed progression API path.
 - With the same local PostgreSQL connection, `npm run test:migrations` passed
   the complete 10-migration forward/down/forward schema-equivalence check.
+- Added a mounted-package Playwright smoke path. With the draft package kept
+  outside Git and the gate enabled only by the local test harness, the real
+  lesson-assignment endpoint returned HTTP 201 with three hashed selected
+  items; the normal no-package environment continues to assert fail-closed
+  behavior.
 - Render deployment for `c0e42e3` is live. The deployed review page returns
   HTTP 200, while the assessment endpoint still returns the intentional
   `RELEASE_GATE_CLOSED` response.
