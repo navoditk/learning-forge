@@ -40,6 +40,23 @@ export function unitStatusAfterLessonUpdate(
     : 'IN_PROGRESS';
 }
 
+export function unitStatusAfterAssessment(input: {
+  current: UnitCompletionStatus;
+  outcome: AssessmentOutcome;
+  hadPriorLessonWork: boolean;
+}): UnitCompletionStatus {
+  if (input.outcome === 'PASS') {
+    if (input.current === 'COMPLETE' || input.current === 'COMPLETE_BY_SKIP') {
+      return input.current;
+    }
+    return input.hadPriorLessonWork ? 'COMPLETE' : 'COMPLETE_BY_SKIP';
+  }
+  if (input.outcome === 'FAIL' && input.current === 'ASSESSMENT_PENDING') {
+    return 'IN_PROGRESS';
+  }
+  return input.current;
+}
+
 export async function applyPilotLessonAssessmentOutcome(
   transaction: Prisma.TransactionClient,
   input: {
@@ -139,6 +156,134 @@ export async function applyPilotLessonAssessmentOutcome(
       overrideStatus: 'NONE',
       policyProfileVersion: input.policyProfileVersion,
       enteredAt: input.now,
+    },
+  });
+}
+
+export async function applyPilotUnitAssessmentOutcome(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    unitCode: string;
+    unitVersion: string;
+    assessmentRunId: string;
+    policyProfileCode: string;
+    policyProfileVersion: string;
+    outcome: AssessmentOutcome;
+    now: Date;
+  },
+): Promise<void> {
+  const unit = PILOT_UNITS.find(
+    (candidate) => candidate.code === input.unitCode && candidate.version === input.unitVersion,
+  );
+  if (!unit) return;
+
+  const current = await transaction.learnerUnitState.findUnique({
+    where: {
+      learnerProfileId_unitCode_unitVersion: {
+        learnerProfileId: input.learnerProfileId,
+        unitCode: input.unitCode,
+        unitVersion: input.unitVersion,
+      },
+    },
+  });
+  if (!current) return;
+
+  const practiceContentIds = PILOT_LESSONS.filter((lesson) =>
+    unit.lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
+  ).flatMap((lesson) => lesson.practiceContentRefs.map((ref) => ref.id));
+  const hadPriorLessonWork =
+    (await transaction.attempt.count({
+      where: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        contentKey: { in: practiceContentIds },
+      },
+    })) > 0;
+  const completionStatus = unitStatusAfterAssessment({
+    current: current.completionStatus,
+    outcome: input.outcome,
+    hadPriorLessonWork,
+  });
+
+  await transaction.learnerUnitState.update({
+    where: { id: current.id },
+    data: {
+      completionStatus,
+      policyProfileVersion: input.policyProfileVersion,
+      completedAt:
+        completionStatus === 'COMPLETE' || completionStatus === 'COMPLETE_BY_SKIP'
+          ? (current.completedAt ?? input.now)
+          : current.completedAt,
+    },
+  });
+
+  if (completionStatus !== 'COMPLETE_BY_SKIP') return;
+
+  const evidenceRefs = {
+    assessmentRunId: input.assessmentRunId,
+    outcome: input.outcome,
+  };
+  for (const lessonRef of unit.lessonRefs) {
+    const lesson = PILOT_LESSONS.find(
+      (candidate) => candidate.code === lessonRef.code && candidate.version === lessonRef.version,
+    );
+    if (!lesson) continue;
+    await transaction.learnerLessonState.upsert({
+      where: {
+        learnerProfileId_lessonCode_lessonVersion: {
+          learnerProfileId: input.learnerProfileId,
+          lessonCode: lesson.code,
+          lessonVersion: lesson.version,
+        },
+      },
+      update: {
+        completionStatus: 'COMPLETE_BY_SKIP',
+        remediationStatus: 'NONE',
+        policyProfileVersion: input.policyProfileVersion,
+        assessmentPassedAt: input.now,
+      },
+      create: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+        completionStatus: 'COMPLETE_BY_SKIP',
+        remediationStatus: 'NONE',
+        policyProfileVersion: input.policyProfileVersion,
+        assessmentPassedAt: input.now,
+      },
+    });
+    await transaction.skipRecord.create({
+      data: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        targetKind: 'LESSON',
+        targetCode: lesson.code,
+        targetVersion: lesson.version,
+        runId: input.assessmentRunId,
+        method: 'UNIT_ASSESSMENT',
+        evidenceRefs,
+        requirementVersion: input.policyProfileVersion,
+        policyProfileCode: input.policyProfileCode,
+        policyProfileVersion: input.policyProfileVersion,
+      },
+    });
+  }
+  await transaction.skipRecord.create({
+    data: {
+      householdId: input.householdId,
+      learnerProfileId: input.learnerProfileId,
+      targetKind: 'UNIT',
+      targetCode: unit.code,
+      targetVersion: unit.version,
+      runId: input.assessmentRunId,
+      method: 'UNIT_ASSESSMENT',
+      evidenceRefs,
+      requirementVersion: input.policyProfileVersion,
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
     },
   });
 }

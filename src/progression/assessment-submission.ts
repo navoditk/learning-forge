@@ -11,7 +11,10 @@ import type { AssessmentContentItem } from '../contracts/progression';
 import { createAssessmentStore, type AssessmentStore } from '../assessment/store';
 import { prisma } from '../server/prisma';
 import { isTerminalAssessmentStatus, transitionAssessmentRun } from './assessment-state';
-import { applyPilotLessonAssessmentOutcome } from './learner-state';
+import {
+  applyPilotLessonAssessmentOutcome,
+  applyPilotUnitAssessmentOutcome,
+} from './learner-state';
 
 type SelectedItem = { id: string; version: string; hash: string; ordinal: number };
 
@@ -300,6 +303,19 @@ export async function submitAssessmentItem(
           policyProfileVersion: assignment.policyProfileVersion,
           outcome,
           firstRun: assignment.attemptOrdinal === 1,
+          now,
+        });
+      }
+      if (assignment.kind === 'UNIT_ASSESSMENT') {
+        await applyPilotUnitAssessmentOutcome(transaction, {
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+          unitCode: assignment.targetCode,
+          unitVersion: assignment.targetVersion,
+          assessmentRunId: run.id,
+          policyProfileCode: assignment.policyProfileCode,
+          policyProfileVersion: assignment.policyProfileVersion,
+          outcome,
           now,
         });
       }

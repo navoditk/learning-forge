@@ -2878,6 +2878,20 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - This closes automated contract evidence only; it does not substitute for
   the required independent architecture review or manual release approvals.
 
+## 2026-09-19 — Unit-assessment state projection
+
+- Added the approved unit-assessment transition: a passing assessment moves a
+  pending unit to `COMPLETE`, a first-run pass with no prior lesson work marks
+  the unit and each lesson `COMPLETE_BY_SKIP` with retained `SkipRecord` audit
+  rows, and a failed pending assessment returns the unit to `IN_PROGRESS`.
+- Added persistence coverage for the ordinary lesson-work path and pure state
+  coverage for pass/fail/skip semantics.
+- Validation: `npm run verify` passed with 122 tests and a production build;
+  database integration tests passed (35); full E2E passed (22).
+- This remains behind the default-off progression release gate and does not
+  replace the independent C1–C3 review, private bank review, or C4/manual
+  release approvals.
+
 ## 2026-09-19 — Default-off progression release gate
 
 - Added a server-side default-closed release gate around the pilot progression

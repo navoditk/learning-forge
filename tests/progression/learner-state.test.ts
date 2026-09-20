@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   lessonStatusAfterAssessment,
+  unitStatusAfterAssessment,
   unitStatusAfterLessonUpdate,
 } from '../../src/progression/learner-state';
 
@@ -30,5 +31,36 @@ describe('progression learner-state rules', () => {
       'ASSESSMENT_PENDING',
     );
     expect(unitStatusAfterLessonUpdate(['COMPLETE', 'IN_PROGRESS'])).toBe('IN_PROGRESS');
+  });
+
+  it('distinguishes a unit skip pass and keeps completed units historical', () => {
+    expect(
+      unitStatusAfterAssessment({
+        current: 'ASSESSMENT_PENDING',
+        outcome: 'PASS',
+        hadPriorLessonWork: false,
+      }),
+    ).toBe('COMPLETE_BY_SKIP');
+    expect(
+      unitStatusAfterAssessment({
+        current: 'ASSESSMENT_PENDING',
+        outcome: 'PASS',
+        hadPriorLessonWork: true,
+      }),
+    ).toBe('COMPLETE');
+    expect(
+      unitStatusAfterAssessment({
+        current: 'ASSESSMENT_PENDING',
+        outcome: 'FAIL',
+        hadPriorLessonWork: true,
+      }),
+    ).toBe('IN_PROGRESS');
+    expect(
+      unitStatusAfterAssessment({
+        current: 'COMPLETE',
+        outcome: 'FAIL',
+        hadPriorLessonWork: true,
+      }),
+    ).toBe('COMPLETE');
   });
 });

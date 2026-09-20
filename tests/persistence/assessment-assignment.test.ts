@@ -171,4 +171,101 @@ describe('assessment assignment persistence', () => {
       createAssessmentAssignment({ ...base, idempotencyKey: 'assignment-key-3' }, store),
     ).rejects.toMatchObject({ code: 'ACTIVE_ASSIGNMENT_EXISTS' });
   });
+
+  it('projects a passed unit assessment into unit completion state', async () => {
+    const practiceSession = await prisma.session.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        contentKey: 'ratio-language-1',
+        activityKind: 'PRACTICE',
+        targetCode: 'ratio-language-lesson',
+        targetVersion: '1.0.0',
+        policyProfileVersion: '1.0.0',
+      },
+    });
+    await prisma.attempt.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        sessionId: practiceSession.id,
+        contentKey: 'ratio-language-1',
+        contentVersion: '1.0.0',
+        learnerResponse: '2:3',
+        normalizedResponse: '2:3',
+        correctness: 'CORRECT',
+        scoringMethod: 'DETERMINISTIC',
+        attemptNumber: 1,
+        elapsedSeconds: 0,
+        highestAssistance: 'INDEPENDENT',
+        context: 'PRACTICE',
+        policyVersion: '1.0.0',
+      },
+    });
+    await prisma.learnerUnitState.update({
+      where: {
+        learnerProfileId_unitCode_unitVersion: {
+          learnerProfileId,
+          unitCode: 'ratios-and-proportional-reasoning',
+          unitVersion: '1.0.0',
+        },
+      },
+      data: { completionStatus: 'ASSESSMENT_PENDING' },
+    });
+
+    const store = createInMemoryAssessmentStore([
+      {
+        code: 'ratios-proportional-reasoning-unit-bank',
+        version: '1.0.0',
+        contentHash: 'sha256:unit-bank',
+        items: [assessmentItem],
+      },
+    ]);
+    const assignment = await createAssessmentAssignment(
+      {
+        householdId,
+        learnerProfileId,
+        kind: AssessmentKind.UNIT_ASSESSMENT,
+        targetKind: ProgressionTargetKind.UNIT,
+        targetRef: { code: 'ratios-and-proportional-reasoning', version: '1.0.0' },
+        bankRef: { code: 'ratios-proportional-reasoning-unit-bank', version: '1.0.0' },
+        policyProfileRef: { code: 'grade-6-math-default', version: '1.0.0' },
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        curriculumSnapshotHash: 'sha256:unit-bank',
+        itemsPerAttempt: 1,
+        requiredCount: 1,
+        expiresAt: new Date(Date.now() + 60_000),
+        idempotencyKey: 'unit-assessment-key',
+      },
+      store,
+    );
+    const session = assignment.assignment.sessions[0];
+    if (!session) throw new Error('Unit assessment session was not created');
+
+    await submitAssessmentItem(
+      {
+        householdId,
+        learnerProfileId,
+        assignmentId: assignment.assignment.id,
+        sessionId: session.id,
+        ordinal: 1,
+        learnerResponse: '2:3',
+      },
+      store,
+    );
+
+    await expect(
+      prisma.learnerUnitState.findUnique({
+        where: {
+          learnerProfileId_unitCode_unitVersion: {
+            learnerProfileId,
+            unitCode: 'ratios-and-proportional-reasoning',
+            unitVersion: '1.0.0',
+          },
+        },
+        select: { completionStatus: true },
+      }),
+    ).resolves.toEqual({ completionStatus: 'COMPLETE' });
+  });
 });
