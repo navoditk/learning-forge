@@ -3001,6 +3001,14 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   practice non-reset, and lapse behavior. Endpoint wiring remains gated by the
   independent/manual release approvals.
 
+## 2026-09-19 — Downstream stale-evidence state rules
+
+- Added pure prerequisite-decay transitions: in-progress downstream work is
+  grandfathered and queued for its next gate, untouched grants are flagged
+  `staleEvidence`, and historical completion is never re-locked.
+- Added coverage for weak and healthy prerequisites. This remains policy/state
+  logic only; authorization and learner-serving wiring remain gated.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

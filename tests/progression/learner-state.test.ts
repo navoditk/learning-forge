@@ -10,6 +10,7 @@ import {
   lapseReviewSchedule,
   preserveReviewScheduleForPractice,
 } from '../../src/progression/review-schedule';
+import { flagStaleDownstreamEvidence } from '../../src/progression/unlock-relock';
 
 describe('progression learner-state rules', () => {
   it('keeps completion historical and distinguishes a first-run skip', () => {
@@ -98,5 +99,44 @@ describe('progression learner-state rules', () => {
         now,
       ),
     ).toEqual({ dueAt: now, intervalIndex: 1, lastOutcome: 'LAPSED' });
+  });
+
+  it('grandfathers in-progress work and flags untouched downstream work as stale', () => {
+    expect(
+      flagStaleDownstreamEvidence({
+        state: { targetStatus: 'IN_PROGRESS', staleEvidence: false, reEvaluationQueued: false },
+        prerequisiteEstimate: 0.4,
+        relockEstimate: 0.55,
+      }),
+    ).toEqual({ targetStatus: 'IN_PROGRESS', staleEvidence: false, reEvaluationQueued: true });
+    expect(
+      flagStaleDownstreamEvidence({
+        state: { targetStatus: 'NOT_STARTED', staleEvidence: false, reEvaluationQueued: false },
+        prerequisiteEstimate: 0.4,
+        relockEstimate: 0.55,
+      }),
+    ).toEqual({ targetStatus: 'NOT_STARTED', staleEvidence: true, reEvaluationQueued: true });
+  });
+
+  it('never relocks historical completion or flags healthy prerequisites', () => {
+    const complete = {
+      targetStatus: 'COMPLETE' as const,
+      staleEvidence: false,
+      reEvaluationQueued: false,
+    };
+    expect(
+      flagStaleDownstreamEvidence({
+        state: complete,
+        prerequisiteEstimate: 0.1,
+        relockEstimate: 0.55,
+      }),
+    ).toEqual(complete);
+    expect(
+      flagStaleDownstreamEvidence({
+        state: { targetStatus: 'NOT_STARTED', staleEvidence: false, reEvaluationQueued: false },
+        prerequisiteEstimate: 0.8,
+        relockEstimate: 0.55,
+      }),
+    ).toEqual({ targetStatus: 'NOT_STARTED', staleEvidence: false, reEvaluationQueued: false });
   });
 });
