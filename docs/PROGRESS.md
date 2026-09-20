@@ -48,6 +48,19 @@
   assessment boundary remains fail-closed when the package is absent or
   invalid.
 
+## 2026-09-20 — Integration, browser, and deployment verification
+
+- With the disposable local PostgreSQL database explicitly configured,
+  `npm run test:integration` passed all 39 persistence, Phase 1, and auth
+  tests. The default shell invocation requires `DATABASE_URL`; no production
+  database was used for these tests.
+- With the same local database, `npm run test:e2e` passed all 22 browser tests,
+  including keyboard journeys, automated WCAG checks, learner/parent flows,
+  authentication, and the fail-closed progression API path.
+- Render deployment for `c0e42e3` is live. The deployed review page returns
+  HTTP 200, while the assessment endpoint still returns the intentional
+  `RELEASE_GATE_CLOSED` response.
+
 ## 2026-09-20 — C4 unblock artifact bundle
 
 - Added `docs/course-progression-review/` with an independent fourth-draft/C1–C3
