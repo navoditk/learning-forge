@@ -1,4 +1,5 @@
 import type { AssessmentContentItem, Ref } from '../contracts';
+import { createPrivateAssessmentPackageStoreFromEnvironment } from './private-package-store';
 
 export type HeldOutAssessmentBank = {
   code: string;
@@ -32,7 +33,7 @@ export class UnavailableAssessmentStore implements AssessmentStore {
 }
 
 export function createAssessmentStore(): AssessmentStore {
-  return new UnavailableAssessmentStore();
+  return createPrivateAssessmentPackageStoreFromEnvironment() ?? new UnavailableAssessmentStore();
 }
 
 export function createInMemoryAssessmentStore(

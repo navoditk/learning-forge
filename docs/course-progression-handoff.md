@@ -24,9 +24,10 @@ every other program adopts it as authored data rather than new policy code.
 reviewed internally, A0/A1 are implemented, A2 is complete, and Stage B is
 complete. C1–C3 are shipped as a non-enforcing persistence,
 export/deletion, dual-write, and shadow-mode foundation. The product owner
-approved the remaining policy recommendations on 2026-09-19; only the
-non-critical D-36 content-volume pointer and D-39 elapsed-time capture scope
-remain open.
+approved the remaining policy recommendations on 2026-09-19 and approved the
+revisitable D-36 pilot-volume and D-39 elapsed-time decisions on 2026-09-20.
+No course-progression decision entries remain open. Independent and manual
+release gates still remain required.
 
 No authorization cutover has been performed. Teaching, assessment, and review
 content remain untouched, and C4/C5 still require their independent and manual
@@ -81,12 +82,10 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-Fifty-nine entries in `docs/course-progression-decisions.md` are approved and
-two remain open: the non-critical content-volume pointer `D-36` and the
-elapsed-time capture scope `D-39`. Each later stage must resolve every
-decision it touches before implementation; neither open entry is required for
-the C4 authorization mechanics, but `D-39` is required before treating
-elapsed-time evidence as production mastery evidence.
+All sixty-one entries in `docs/course-progression-decisions.md` are approved.
+D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
+before treating elapsed-time evidence as production mastery evidence. Each
+later stage must still use the approved value for every decision it touches.
 
 | Order | Decision | Why first |
 |---|---|---|

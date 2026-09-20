@@ -1,5 +1,104 @@
 # Progress
 
+## 2026-09-20 — C3/C4 operational unblock bundle (items 1–4)
+
+- Added an exact-ID legacy-session drain service and operator command. It only
+  ends explicitly selected open, unbound sessions, preserves attempts, and
+  requires a reason plus confirmation; the 11 live unbound sessions (6 with
+  attempts) were inspected but not mutated.
+- Added a staging-only synthetic C3 shadow-pilot command and a redacted shadow
+  review exporter. The pilot refuses to run without the staging environment
+  marker and was not run against production.
+- Added a fail-closed private held-out assessment-package loader. It validates
+  the package schema and requires each item to reference its containing bank;
+  no private assessment package was fabricated or installed.
+- Added package-boundary and session-drain tests. Full verification passed:
+  formatting, lint, typecheck, migration down checks, 158 tests, and the
+  production build.
+- C4 remains unauthorized. Independent review, representative shadow
+  evidence/dispositions, named manual gate records, selected-session drain,
+  and installation of the reviewed private package remain release actions.
+- A read-only Render job was attempted for the new shadow-review exporter; it
+  failed because the deployed service still precedes these uncommitted script
+  changes. The earlier deployed readiness job succeeded. No database or
+  learner state was changed by either job.
+
+## 2026-09-20 — C4 unblock artifact bundle
+
+- Added `docs/course-progression-review/` with an independent fourth-draft/C1–C3
+  review template, a redacted shadow-divergence review register, a manual-gate
+  approval record, and the ordered C4 cutover runbook.
+- Added `npm run progression:shadow-review`, which exports the full redacted
+  readiness/shadow packet and accepts only decision IDs plus terminal review
+  statuses from an optional dispositions file.
+- These are explicitly templates and do not fabricate the missing private
+  held-out assessment package, representative C3 shadow traffic, independent
+  review, or human approvals.
+- The bundle makes the remaining external inputs and their evidence format
+  actionable. C4 remains unauthorized until the completed artifacts are
+  supplied and reviewed.
+- Product owner approved D-36 with a smallest practical three-lesson pilot
+  volume (one teaching, six practice, and two review records per lesson/skill,
+  with assessment-bank sizes derived from the approved no-reuse reassessment
+  policy) and approved D-39 as a deferred post-pilot elapsed-time increment.
+  Both decisions are explicitly revisitable after live Grade 6 Math evidence;
+  elapsed time remains excluded from mastery evidence.
+
+## 2026-09-20 — Browser review surface
+
+- Added a read-only `/review/course-progression` page for product, engineering,
+  and privacy/data review. It summarizes the three-lesson Grade 6 pilot, shows
+  current gate status, and lists the privacy questions from the authoritative
+  inventory without exposing learner data or held-out assessment items.
+- The page is informational only and does not open the progression release gate.
+
+## 2026-09-20 — Scoped product-owner risk acceptance
+
+- At the product owner's explicit direction, recorded assumed completion of the
+  manual accessibility, privacy/data, and child-safety reviews for the
+  single-household Grade 6 Math pilot.
+- Added separate acceptance records with reinforcement checks and revisit
+  triggers. These records do not claim an independent audit, legal compliance,
+  or completion of the independent architecture/shadow review.
+- The release gate remains closed until the independent review, representative
+  shadow evidence, held-out package, and remaining operational evidence are
+  complete.
+
+## 2026-09-20 — Render readiness evidence
+
+- Authenticated to the Render workspace with the official CLI and ran a
+  read-only PostgreSQL readiness query against `learning-forge-db`.
+- Observed **11 unbound open sessions**, **0 shadow decisions**, and **0
+  divergent shadow decisions**. This is not C4-ready: the sessions need the
+  approved drain/residue handling and representative non-enforcing C3 traffic
+  must exist before shadow review.
+- Allowed this machine's `/32` address for the query under the explicit
+  authorization to keep it persistently configured. No database URL, password,
+  learner identifier, or shadow-row contents were recorded.
+
+## 2026-09-20 — C3/C4 operational tooling
+
+- Added an exact-ID, operator-confirmed legacy-session drain command that
+  preserves attempts and refuses to infer bindings or use an age-based bulk
+  default.
+- Added a staging-only synthetic C3 shadow-pilot harness covering practice,
+  placement, and review requests. It refuses to run unless the environment is
+  explicitly marked `staging`.
+- Added a fail-closed private assessment-package loader via
+  `LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH`; it validates the package and never
+  falls back to public practice content.
+- The live 11-session residue was not mutated, the staging harness was not run
+  against production, and no private assessment package was fabricated.
+
+## 2026-09-20 — Authorized development IP allow-list
+
+- Per explicit product-owner instruction, added the current development
+  machine's single `/32` address to `learning-forge-db` as
+  `authorized-development-machine`; no other addresses were added.
+- Verified database connectivity with a read-only `SELECT 1`. This is a
+  persistent operational setting and may need updating if the ISP changes the
+  machine's public address.
+
 ## Resume here
 
 **Picking this repository up in a new session or a different CLI?** The active

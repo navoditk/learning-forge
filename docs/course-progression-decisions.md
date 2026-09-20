@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **59 approved; 2 open.** Approved entries are explicitly marked in
+- Status: **61 approved; 0 open.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -352,10 +352,10 @@ sound.
 | Field | Value |
 |---|---|
 | Kind | content |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-20** |
 | Recommendation | See `D-48`, `D-49`, `D-50`, and `D-42`, which are the actual independent inputs |
-| Approved value | _pending_ |
-| Approver | Product/pedagogy owner |
+| Approved value | For the initial three-lesson Grade 6 Math pilot: one teaching record per lesson; six practice records per lesson (four threshold items plus two remediation headroom items); two review records per skill; nine held-out lesson-assessment items per lesson and eighteen held-out unit-assessment items, derived from the approved no-reuse reassessment policy. Revisit volumes after live pilot observation; any expansion remains separately reviewed. |
+| Approver | Product/pedagogy owner (explicit approval in chat) |
 | Blocks | Authoring volume |
 
 This entry is a pointer, not an independent value. Content volume is not one
@@ -411,10 +411,10 @@ assert `expect(records).toHaveLength(2)` and
 | Field | Value |
 |---|---|
 | Kind | product |
-| Status | **OPEN** |
+| Status | **APPROVED 2026-09-20** |
 | Recommendation | Separate increment; the delay window does **not** depend on it |
-| Approved value | _pending_ |
-| Approver | Product/engineering owner |
+| Approved value | Defer real elapsed-time capture to a post-pilot increment. Keep the current non-evidence value out of mastery calculations, parent claims, and release gates. Revisit after live Grade 6 Math observation. |
+| Approver | Product/engineering owner (explicit approval in chat) |
 | Blocks | Nothing in the progression critical path |
 
 `Attempt.elapsedSeconds` is hardcoded to `0` in `createAttempt`.
