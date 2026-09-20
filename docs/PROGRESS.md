@@ -49,6 +49,15 @@
 - The full DB-free verification suite passes with 160 tests; no progression
   authorization behavior changed.
 
+## 2026-09-20 — U4/U5 role and record-count coverage
+
+- Added explicit U4 tests proving teaching records reject practice-only
+  validators/hints and assessment records reject hint ladders.
+- Added explicit U5 coverage proving the legacy exact-two rule remains enforced
+  for skill-graph-only programs during the transition boundary.
+- Full DB-free verification passes with 162 tests; no runtime authorization
+  behavior changed.
+
 ## 2026-09-20 — Draft private assessment package generated
 
 - Generated a local, non-production draft at

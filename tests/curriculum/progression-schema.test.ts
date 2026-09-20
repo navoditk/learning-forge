@@ -84,6 +84,40 @@ describe('course progression contracts', () => {
     ).toBe(false);
   });
 
+  it('rejects practice-only fields on teaching and assessment records', () => {
+    expect(
+      TeachingContentItemSchema.safeParse({
+        ...base,
+        role: 'teaching',
+        explanation: 'A ratio compares two quantities.',
+        deterministicValidator: {},
+        hintSteps: [],
+      }).success,
+    ).toBe(false);
+
+    const assessment = {
+      ...base,
+      id: 'assessment-1',
+      role: 'assessment' as const,
+      assessmentBankRef: { code: 'bank', version: '1.0.0' },
+      prompt: 'Which ratio is equivalent?',
+      solutionRepresentation: '2:3',
+      solutionMethod: 'Equivalent ratios',
+      deterministicValidator: {
+        type: 'ratio' as const,
+        canonicalAnswer: '2:3',
+        acceptedAnswers: ['2:3'],
+        equivalenceNotes: 'Equivalent ratio notation',
+      },
+      misconceptionCodes: [],
+      forbiddenLeakagePatterns: ['2:3'],
+    };
+    expect(AssessmentContentItemSchema.safeParse(assessment).success).toBe(true);
+    expect(AssessmentContentItemSchema.safeParse({ ...assessment, hintSteps: [] }).success).toBe(
+      false,
+    );
+  });
+
   it('forbids hints on review records', () => {
     expect(
       ReviewContentItemSchema.safeParse({

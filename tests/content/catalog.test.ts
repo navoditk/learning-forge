@@ -741,6 +741,24 @@ describe('ratios content seed', () => {
     ).not.toThrow();
   });
 
+  it('keeps the legacy exact-two invariant for skill-graph-only programs', () => {
+    const source = contentCatalog.find((item) => skillCodeOf(item).startsWith('mk6-'));
+    expect(source).toBeDefined();
+    const legacy = { ...(source as unknown as Record<string, unknown>) };
+    delete legacy.role;
+    delete legacy.skillRef;
+    delete legacy.itemReadinessRefs;
+    legacy.skillCode = skillCodeOf(source!);
+    legacy.prerequisiteSkillCodes = [];
+
+    expect(() =>
+      validateTransitionContentCatalog([
+        ...contentCatalog.filter((item) => item.id !== source!.id),
+        legacy,
+      ]),
+    ).toThrow('must have exactly 2 legacy records in skill-graph-only mode');
+  });
+
   it('treats content versions as distinct records', () => {
     const first = legacyItem();
     const second = { ...first, version: `${first.version}-revised` };
