@@ -3103,6 +3103,13 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - The command is read-only, reports counts and status only, and cannot enable
   authorization or serve progression UI.
 
+## 2026-09-19 — Fail-closed empty-shadow readiness
+
+- Corrected the C4 readiness predicate so an empty shadow-decision dataset
+  cannot be reported as ready for independent review. Drain completion now
+  requires at least one real shadow decision plus completed dispositions.
+- Added regression coverage for the vacuous-empty-set boundary.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

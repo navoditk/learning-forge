@@ -33,7 +33,8 @@ export function summarizeCutoverReadiness(input: {
     unboundOpenSessionCount: input.unboundOpenSessionCount,
     drainComplete,
     shadowReview,
-    readyForIndependentReview: drainComplete && shadowReview.reviewComplete,
+    readyForIndependentReview:
+      drainComplete && shadowReview.totalDecisions > 0 && shadowReview.reviewComplete,
   };
 }
 

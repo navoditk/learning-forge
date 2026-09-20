@@ -56,4 +56,17 @@ describe('cutover readiness', () => {
     expect(JSON.stringify(report)).not.toContain('householdId');
     expect(JSON.stringify(report)).not.toContain('learnerProfileId');
   });
+
+  it('does not treat an empty shadow dataset as review evidence', () => {
+    expect(
+      summarizeCutoverReadiness({
+        unboundOpenSessionCount: 0,
+        shadowDecisions: [],
+      }),
+    ).toMatchObject({
+      drainComplete: true,
+      shadowReview: { totalDecisions: 0, reviewComplete: true },
+      readyForIndependentReview: false,
+    });
+  });
 });
