@@ -1,4 +1,5 @@
 import { Program, ProgramSchema } from '../contracts/progression';
+import { PILOT_PROGRAM_UNIT_REFS } from './pilot-catalog';
 
 const policy = (code: string) => ({ code, version: '1.0.0' });
 
@@ -11,7 +12,7 @@ const rawProgramRegistry = [
     subjectKind: 'graded-academic',
     skillCodePrefix: null,
     progressionMode: 'hybrid',
-    unitRefs: [],
+    unitRefs: PILOT_PROGRAM_UNIT_REFS,
     accessPolicyRef: policy('grade-6-math-access'),
     legacyCompatibilityPolicyRef: policy('grade-6-math-legacy-compatibility'),
     defaultPolicyProfileRef: policy('grade-6-math-default'),

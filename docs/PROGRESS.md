@@ -2815,3 +2815,21 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   prerequisite: independent C1–C3/shadow review before C4 or C5.
 - No runtime authorization or progression UI was enabled by this documentation
   correction.
+
+## 2026-09-19 — Rollout increment: pilot spine and held-out boundary
+
+- Added the Grade 6 Math pilot Unit → three ordered Lessons → practice-item
+  references and lesson/unit assessment-bank metadata. The registry now points
+  to this pilot spine, and catalog validation proves lesson ordering and bank
+  skill coverage.
+- Added the server-only held-out assessment-store port with a fail-closed
+  default; public practice content cannot become an assessment fallback.
+- Added server-owned assessment item selection, bank-size checks, idempotent
+  assignment creation, active-run protection, and the assessment run-state
+  transition module. Added the first assignment endpoint; it returns
+  `ASSESSMENT_STORE_UNAVAILABLE` until the reviewed private package is
+  installed.
+- Validation: targeted curriculum/progression tests, typecheck, lint,
+  production build, and the DB-backed assignment persistence test pass. Full
+  verification remains green. The private assessment package and assessment
+  submission/scoring workflow are the next implementation gates.

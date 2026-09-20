@@ -1,0 +1,73 @@
+import { describe, expect, it } from 'vitest';
+
+import { AssessmentContentItemSchema } from '../../src/contracts/progression';
+import {
+  AssessmentAssignmentError,
+  selectAssessmentItems,
+} from '../../src/progression/assessment-assignment';
+
+const item = (id: string) =>
+  AssessmentContentItemSchema.parse({
+    id,
+    version: '1.0.0',
+    title: id,
+    role: 'assessment',
+    skillRef: { code: 'ratio-language', version: '1.0.0' },
+    mode: 'core',
+    difficulty: 'foundational',
+    standards: ['6.RP.A.1'],
+    observableEvidence: ['States a ratio.'],
+    prompt: 'What ratio is shown?',
+    assessmentBankRef: { code: 'bank', version: '1.0.0' },
+    solutionRepresentation: 'A ratio',
+    solutionMethod: 'Read the quantities in order.',
+    deterministicValidator: {
+      type: 'ratio',
+      canonicalAnswer: '2:3',
+      acceptedAnswers: ['2:3'],
+      equivalenceNotes: 'Equivalent ratio forms are accepted.',
+    },
+    misconceptionCodes: [],
+    forbiddenLeakagePatterns: ['2:3'],
+    provenance: { origin: 'original', licenseStatus: 'owned' },
+    review: {
+      status: 'reviewed',
+      reviewer: 'reviewer',
+      reviewedAt: '2026-01-01',
+      originalityStatement: 'Original.',
+    },
+    accessibilityNotes: 'Text is sufficient.',
+    accessibleAlternative: 'Read the prompt aloud.',
+    itemReadinessRefs: [],
+  });
+
+describe('assessment assignment selection', () => {
+  it('selects server-owned items in stable order and excludes prior items', () => {
+    const selected = selectAssessmentItems(
+      {
+        code: 'bank',
+        version: '1.0.0',
+        contentHash: 'sha256:bank',
+        items: [item('a'), item('b'), item('c')].map((candidate) => ({
+          ...candidate,
+          hash: `sha256:${candidate.id}`,
+        })),
+      },
+      2,
+      new Set(['a@1.0.0']),
+    );
+    expect(selected).toEqual([
+      { id: 'b', version: '1.0.0', hash: 'sha256:b', ordinal: 1 },
+      { id: 'c', version: '1.0.0', hash: 'sha256:c', ordinal: 2 },
+    ]);
+  });
+
+  it('fails closed when the eligible bank is too small', () => {
+    expect(() =>
+      selectAssessmentItems(
+        { code: 'bank', version: '1.0.0', contentHash: 'sha256:bank', items: [] },
+        1,
+      ),
+    ).toThrowError(AssessmentAssignmentError);
+  });
+});

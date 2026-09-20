@@ -189,6 +189,7 @@ export const AssessmentContentItemSchema = TransitionContentBaseSchema.extend({
   misconceptionCodes: z.array(z.string().regex(/^[a-z0-9-]+$/)).max(10),
   forbiddenLeakagePatterns: z.array(z.string().trim().min(1).max(200)).max(20),
 }).strict();
+export type AssessmentContentItem = z.infer<typeof AssessmentContentItemSchema>;
 
 export const ReviewContentItemSchema = TransitionContentBaseSchema.extend({
   role: z.literal('review'),
