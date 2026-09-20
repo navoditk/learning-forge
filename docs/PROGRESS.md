@@ -1845,27 +1845,20 @@ are optional wrappers over it and are not the source of procedure.
 
 ## Current status
 
-- **Course progression: architecture phase, fourth draft, pending review
-  (2026-09-19).** `docs/course-progression-architecture.md`,
-  `docs/course-progression-decisions.md`, and
-  `docs/adr/0013-course-progression-structure.md` specify the
-  `Program → Unit → Lesson → Skill → Practice → Assessment → Review`
-  capability piloted on Grade 6 Math Ratios. Specification only — no runtime
-  behavior, schema, dependency, or content exists for it. Sixty-one decisions
-  (`D-01` … `D-61`) are open, and nothing is approved. Resolution order:
-  `D-58` first (the site generator reads the raw catalog rather than a reviewed
-  projection — nothing unreviewed is public today, but the next pending record
-  merged would be; **Stage A0** closes it before any other work), then `D-01`
-  (open-book versus held-out, which selects an entire product configuration),
-  `D-38` (throws at module load), `D-52`/`D-60` (without which cutover strands
-  24 Grade 6 Math skills or silently permits five unitless programs), and
-  `D-40`. **New
-  curriculum authoring is paused** until independent review and human approval;
-  research continues.
+- **Course progression: staged implementation checkpoint (2026-09-20).** A0,
+  A1, A2, and Stage B are complete. C1–C3 persistence, export/deletion
+  coverage, dual-write/shadow mode, progression endpoints, held-out package
+  validation, review UI, and fail-closed release gates are implemented and
+  verified. The three-lesson Grade 6 Math Ratios and Proportional Reasoning
+  pilot is the active scope. All 61 progression decisions are approved in the
+  authoritative matrix; D-36 and D-39 remain explicitly revisitable pilot
+  choices. C4 authorization and C5 learner serving remain closed pending the
+  independent fourth-draft/C1–C3 review, representative shadow disposition,
+  reviewed private assessment package, and manual gate record.
 - Phase: 1 — synthetic journeys across all 5 Grade 6 Math domains, skill graph, planner, an actionable planner UI, an on-demand parent weekly digest, and a basic accessible visual design (now automated-WCAG-AA-checked) covered; **Grade 6 Math curriculum v3 shipped 2026-09-18**: 27 skills, 54/54 content records fully human-reviewed (0 pending), merged from the v1 baseline plus the independently-researched/reviewed v2 candidate graph (see the 2026-09-16 through 2026-09-18 entries below for the full merge, safety-gate, and content-review trail); the pilot-readiness decisions (audience, identity/auth, hosting, consent/retention, provider, budget/latency, eval gate) are made for a single-household pilot (ADR-0008, ADR-0009, ADR-0005). **All three approved implementation tracks are now live**: Track 1, real authentication (ADR-0010). Track 2, real Claude adapter (ADR-0011), reviewed, approved, and enabled. Track 3, Render deployment (ADR-0012) — **confirmed genuinely live 2026-09-13**: a real account was provisioned, sign-in works at `https://learning-forge.onrender.com`, and a real hint request was confirmed hitting the real Anthropic API (visible ~1-2s latency, non-templated text), not the fake adapter. This is a real, live, single-household pilot now, not just a local demonstration
 - Branch: `main`
 - Repository state: PRs #13–#42 are merged to `main`; the deployed app is live and working. The web service is currently on the **Starter** plan by deliberate choice for this pilot. The original Free-plan decision is deferred for a later cost review, not an operational blocker.
-- Last verified commit: `162b8ac feat: refresh portal visual design and add a subject switcher (#42)`
+- Last verified course-progression checkpoint: `8d637ca fix: enforce grade 6 assessment package shape`
 - Operational cleanup in progress: tutor traces now retain an optional session
   reference, and the live hint route enforces configurable household-daily and
   session hint limits before calling the model. The current defaults are 100
@@ -2886,9 +2879,9 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Added regression tests for both cases.
 - Validation: `npm run verify` passed again with 96 tests and a production
   build.
-- Remaining gate: a separate human/agent independent review is still required
-  before A2 content transformation; no unresolved A1 blocker was found in this
-  pass.
+- Remaining course-progression gate: independent review and manual release
+  approval; the production progression assignment endpoint intentionally
+  returns `RELEASE_GATE_CLOSED` until those gates are complete.
 
 ## 2026-09-19 — A0/A1 remediation increment
 
