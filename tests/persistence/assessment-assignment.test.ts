@@ -4,6 +4,8 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { AssessmentContentItem } from '../../src/contracts/progression';
 import { createInMemoryAssessmentStore } from '../../src/assessment/store';
 import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
+import { loadPolicyArtifacts } from '../../src/progression/artifacts';
+import { resolvePolicyProfile } from '../../src/progression/policy';
 import { submitAssessmentItem } from '../../src/progression/assessment-submission';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
@@ -63,6 +65,15 @@ describe('assessment assignment persistence', () => {
   });
 
   it('creates one assignment/run/lease and replays the same idempotency key', async () => {
+    const artifacts = loadPolicyArtifacts();
+    const profileRecord = artifacts.profiles.find(
+      (profile) => profile.code === 'grade-6-math-default',
+    );
+    if (!profileRecord) throw new Error('Grade 6 Math policy profile is missing');
+    const profile = resolvePolicyProfile(profileRecord);
+    const accessPolicy = artifacts.accessPolicies.find(
+      (policy) => policy.code === 'grade-6-math-access',
+    );
     const input = {
       householdId,
       learnerProfileId,
@@ -78,6 +89,16 @@ describe('assessment assignment persistence', () => {
       requiredCount: 1,
       expiresAt: new Date(Date.now() + 60_000),
       idempotencyKey: 'assignment-key-1',
+      maxReassessments: profile.maxReassessments,
+      reassessmentCooldownHours: profile.reassessmentCooldownHours,
+      shadow: {
+        requestKind: 'test-assessment-assignment',
+        activityKind: 'LESSON_ASSESSMENT' as const,
+        accessPolicy,
+        policyProfile: profile,
+        skillCodes: ['ratio-language'],
+        prerequisiteSkillCodes: { 'ratio-language': [] },
+      },
     } as const;
     const store = createInMemoryAssessmentStore([
       {
@@ -95,6 +116,11 @@ describe('assessment assignment persistence', () => {
     expect(await prisma.assessmentAssignment.count({ where: { householdId } })).toBe(1);
     expect(await prisma.assessmentRunState.count()).toBe(1);
     expect(await prisma.activeAssessmentLease.count()).toBe(1);
+    expect(
+      await prisma.shadowDecision.count({
+        where: { householdId, requestKind: 'test-assessment-assignment' },
+      }),
+    ).toBe(1);
 
     const session = first.assignment.sessions[0];
     if (!session) throw new Error('Assessment session was not created');

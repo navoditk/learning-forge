@@ -8,6 +8,7 @@ import {
 } from '../../../../../progression/assessment-assignment';
 import { loadPolicyArtifacts } from '../../../../../progression/artifacts';
 import { policyHash, resolvePolicyProfile } from '../../../../../progression/policy';
+import { skillsByCode } from '../../../../../curriculum/catalog';
 import {
   PILOT_ASSESSMENT_BANKS,
   PILOT_LESSONS,
@@ -126,11 +127,19 @@ export async function POST(request: NextRequest) {
       (candidate) => candidate.code === bankRef.code && candidate.version === bankRef.version,
     );
     if (!bank) throw new Error('Assessment bank metadata is unavailable');
+    const targetLesson =
+      body.targetKind === 'LESSON'
+        ? PILOT_LESSONS.find(
+            (lesson) => lesson.code === target.code && lesson.version === target.version,
+          )
+        : undefined;
+    const targetUnit =
+      body.targetKind === 'UNIT'
+        ? PILOT_UNITS.find((unit) => unit.code === target.code && unit.version === target.version)
+        : undefined;
     const requiredSkillCodes =
       body.kind === 'LESSON_ASSESSMENT' && body.targetKind === 'LESSON'
-        ? (PILOT_LESSONS.find(
-            (lesson) => lesson.code === target.code && lesson.version === target.version,
-          )?.skillRefs.map((skill) => skill.code) ?? [])
+        ? (targetLesson?.skillRefs.map((skill) => skill.code) ?? [])
         : [];
     const artifacts = loadPolicyArtifacts();
     const profileRecord = artifacts.profiles.find(
@@ -148,6 +157,20 @@ export async function POST(request: NextRequest) {
         ]),
       ),
     );
+    const accessPolicy = artifacts.accessPolicies.find(
+      (candidate) =>
+        candidate.code === program.accessPolicyRef.code &&
+        candidate.version === program.accessPolicyRef.version,
+    );
+    const shadowSkillCodes: string[] = targetLesson
+      ? targetLesson.skillRefs.map((skill) => skill.code)
+      : targetUnit
+        ? PILOT_LESSONS.filter((lesson) =>
+            targetUnit.lessonRefs.some(
+              (lessonRef) => lessonRef.code === lesson.code && lessonRef.version === lesson.version,
+            ),
+          ).flatMap((lesson) => lesson.skillRefs.map((skill) => skill.code))
+        : [];
     const required = requiredCount(body.kind, profile);
     if (required === undefined) {
       return NextResponse.json(
@@ -172,6 +195,19 @@ export async function POST(request: NextRequest) {
         requiredSkillCodes,
         maxReassessments: profile.maxReassessments,
         reassessmentCooldownHours: profile.reassessmentCooldownHours,
+        shadow: {
+          requestKind: 'assessment-assignment',
+          activityKind: body.kind,
+          accessPolicy,
+          policyProfile: profile,
+          skillCodes: [...new Set<string>(shadowSkillCodes)],
+          prerequisiteSkillCodes: Object.fromEntries(
+            [...new Set<string>(shadowSkillCodes)].map((skillCode) => [
+              skillCode,
+              skillsByCode.get(skillCode)?.prerequisiteSkillCodes ?? [],
+            ]),
+          ),
+        },
         expiresAt: new Date(Date.now() + profile.runExpiryHours * 60 * 60 * 1000),
         idempotencyKey: body.idempotencyKey,
       },

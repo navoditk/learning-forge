@@ -7,10 +7,12 @@ import {
 } from '@prisma/client';
 
 import type { Ref } from '../contracts/progression';
+import type { AccessPolicy, ActivityKind, ProgressionPolicyProfile } from '../contracts/policy';
 import { prisma } from '../server/prisma';
 import type { AssessmentStore, HeldOutAssessmentBank } from '../assessment/store';
 import { createAssessmentStore } from '../assessment/store';
 import { reassessmentEligibility, type ReassessmentRun } from './reassessment';
+import { buildShadowDecision } from './shadow';
 
 export type AssessmentSelection = {
   id: string;
@@ -96,6 +98,14 @@ export type CreateAssessmentAssignmentInput = {
   requiredSkillCodes?: readonly string[];
   maxReassessments?: number;
   reassessmentCooldownHours?: number;
+  shadow?: {
+    requestKind: string;
+    activityKind: ActivityKind;
+    accessPolicy: AccessPolicy | undefined;
+    policyProfile: ProgressionPolicyProfile;
+    skillCodes: readonly string[];
+    prerequisiteSkillCodes: Readonly<Record<string, readonly string[]>>;
+  };
   expiresAt: Date;
   idempotencyKey: string;
 };
@@ -288,6 +298,44 @@ export async function createAssessmentAssignment(
         },
         include: { runState: true, lease: true, sessions: true },
       });
+      if (input.shadow) {
+        const prerequisiteCodes = [
+          ...new Set(
+            input.shadow.skillCodes.flatMap(
+              (skillCode) => input.shadow?.prerequisiteSkillCodes[skillCode] ?? [],
+            ),
+          ),
+        ];
+        const priorMastery = await transaction.masteryEstimate.findMany({
+          where: {
+            learnerProfileId: input.learnerProfileId,
+            algorithmVersion: input.algorithmVersion,
+            skillCode: { in: prerequisiteCodes },
+            estimate: { gte: input.shadow.policyProfile.minEstimateGate },
+          },
+          select: { skillCode: true },
+        });
+        const masteredSkillCodes = new Set(priorMastery.map((record) => record.skillCode));
+        await transaction.shadowDecision.createMany({
+          data: input.shadow.skillCodes.map((skillCode) => ({
+            householdId: input.householdId,
+            learnerProfileId: input.learnerProfileId,
+            ...buildShadowDecision({
+              requestKind: input.shadow!.requestKind,
+              targetCode: input.targetRef.code,
+              targetVersion: input.targetRef.version,
+              skillCode,
+              activityKind: input.shadow!.activityKind,
+              prerequisiteSkillCodes: input.shadow!.prerequisiteSkillCodes[skillCode] ?? [],
+              masteredSkillCodes,
+              accessPolicy: input.shadow!.accessPolicy,
+              policyProfile: input.shadow!.policyProfile,
+              actualBehavior: 'ALLOWED',
+              algorithmVersion: input.algorithmVersion,
+            }),
+          })),
+        });
+      }
       return { assignment, replayed: false };
     },
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },

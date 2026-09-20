@@ -3025,6 +3025,17 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Added stable error codes, route responses, selection coverage, and pure
   boundary tests. The default-off release gate remains unchanged.
 
+## 2026-09-19 — Progression assessment shadow dual-write
+
+- Assessment assignment creation now writes one policy-only `ShadowDecision`
+  per covered skill in the same transaction as the assignment, using the
+  persisted policy hash and algorithm version. The write remains non-enforcing;
+  an assignment is still governed by the existing release gate and legacy
+  behavior.
+- Added persistence coverage proving the real assignment path creates the
+  shadow row without learner content. Independent divergence review and C4
+  authorization remain outstanding.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

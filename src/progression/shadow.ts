@@ -6,6 +6,7 @@ export type ShadowDecisionInput = {
   requestKind: string;
   targetCode: string;
   targetVersion: string;
+  skillCode?: string;
   activityKind: ActivityKind;
   prerequisiteSkillCodes: readonly string[];
   masteredSkillCodes: ReadonlySet<string>;
@@ -18,7 +19,7 @@ export type ShadowDecisionInput = {
 export function buildShadowDecision(input: ShadowDecisionInput) {
   const decision = authorizeActivity({
     activityKind: input.activityKind,
-    skillCode: input.targetCode,
+    skillCode: input.skillCode ?? input.targetCode,
     prerequisiteSkillCodes: [...input.prerequisiteSkillCodes],
     masteredSkillCodes: input.masteredSkillCodes,
     policy: input.accessPolicy,
