@@ -2,7 +2,7 @@ import type { AssessmentRunStatus } from '@prisma/client';
 
 export type AssessmentStateTransition = {
   from: AssessmentRunStatus;
-  event: 'START' | 'SUBMIT_ITEM' | 'SCORE' | 'EXPIRE' | 'ABANDON';
+  event: 'START' | 'SUBMIT_ITEM' | 'SCORE' | 'EXPIRE' | 'ABANDON' | 'INVALIDATE';
   to: AssessmentRunStatus;
 };
 
@@ -15,6 +15,9 @@ const transitions: readonly AssessmentStateTransition[] = [
   { from: 'IN_PROGRESS', event: 'EXPIRE', to: 'EXPIRED' },
   { from: 'PENDING', event: 'ABANDON', to: 'ABANDONED' },
   { from: 'IN_PROGRESS', event: 'ABANDON', to: 'ABANDONED' },
+  { from: 'PENDING', event: 'INVALIDATE', to: 'INVALIDATED' },
+  { from: 'IN_PROGRESS', event: 'INVALIDATE', to: 'INVALIDATED' },
+  { from: 'SUBMITTED', event: 'INVALIDATE', to: 'INVALIDATED' },
 ];
 
 export class InvalidAssessmentTransitionError extends Error {
@@ -37,5 +40,5 @@ export function transitionAssessmentRun(
 }
 
 export function isTerminalAssessmentStatus(status: AssessmentRunStatus): boolean {
-  return ['SCORED', 'EXPIRED', 'ABANDONED'].includes(status);
+  return ['SCORED', 'EXPIRED', 'ABANDONED', 'INVALIDATED'].includes(status);
 }

@@ -29,7 +29,8 @@ export class AssessmentSubmissionError extends Error {
       | 'SESSION_KIND_MISMATCH'
       | 'DUPLICATE_ITEM_SUBMISSION'
       | 'VERSION_MISMATCH'
-      | 'ASSESSMENT_EXPIRED',
+      | 'ASSESSMENT_EXPIRED'
+      | 'INVALIDATION_NOT_ALLOWED',
     message: string,
   ) {
     super(message);
@@ -447,6 +448,109 @@ export async function abandonAssessmentRun(
           data: { endedAt: now },
         });
       }
+      return { assignmentId: assignment.id, status: run.status, result };
+    },
+    { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+  );
+}
+
+export type InvalidateAssessmentInput = {
+  householdId: string;
+  learnerProfileId: string;
+  assignmentId: string;
+  invalidationReason: string;
+  invalidatedByUserId: string;
+};
+
+/**
+ * Voids defective assessment evidence without mutating or deleting the
+ * assignment/result history. This is an operator-facing service seam; the
+ * caller must perform operator authorization before invoking it.
+ */
+export async function invalidateAssessmentRun(
+  input: InvalidateAssessmentInput,
+  database: PrismaClient = prisma,
+) {
+  const reason = input.invalidationReason.trim();
+  if (!reason || !input.invalidatedByUserId.trim()) {
+    throw new AssessmentSubmissionError(
+      'INVALIDATION_NOT_ALLOWED',
+      'An invalidation reason and acting user are required.',
+    );
+  }
+  return database.$transaction(
+    async (transaction) => {
+      const assignment = await transaction.assessmentAssignment.findFirst({
+        where: {
+          id: input.assignmentId,
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+        },
+        include: { runState: true, lease: true, sessions: true, result: true },
+      });
+      if (!assignment || !assignment.runState) {
+        throw new AssessmentSubmissionError(
+          'ASSESSMENT_NOT_FOUND',
+          'Assessment assignment not found.',
+        );
+      }
+      if (isTerminalAssessmentStatus(assignment.runState.status) || assignment.result) {
+        throw new AssessmentSubmissionError(
+          'RUN_NOT_ACTIVE',
+          'The assessment run is already terminal.',
+        );
+      }
+      const attempts = await transaction.attempt.findMany({
+        where: { sessionId: { in: assignment.sessions.map((session) => session.id) } },
+        orderBy: { createdAt: 'asc' },
+        select: {
+          id: true,
+          contentKey: true,
+          contentVersion: true,
+          correctness: true,
+          highestAssistance: true,
+        },
+      });
+      const result = await transaction.assessmentResult.create({
+        data: {
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+          assignmentId: assignment.id,
+          outcome: 'INVALIDATED',
+          itemResults: attempts.map((attempt) => ({
+            attemptId: attempt.id,
+            contentId: attempt.contentKey,
+            contentVersion: attempt.contentVersion,
+            correctness: attempt.correctness,
+            maxAssistance: attempt.highestAssistance,
+            superseded: true,
+          })),
+          correctCount: 0,
+          requiredCount: requiredCount(assignment.requiredCount),
+          algorithmVersion: assignment.algorithmVersion,
+          policyProfileHash: assignment.policyProfileHash,
+          invalidationReason: reason,
+          invalidatedByUserId: input.invalidatedByUserId.trim(),
+        },
+      });
+      const run = await transaction.assessmentRunState.update({
+        where: { id: assignment.runState.id },
+        data: {
+          status: transitionAssessmentRun(assignment.runState.status, 'INVALIDATE'),
+          submittedAt: new Date(),
+          lastActivityAt: new Date(),
+        },
+      });
+      if (assignment.lease) {
+        await transaction.activeAssessmentLease.update({
+          where: { id: assignment.lease.id },
+          data: { releasedAt: new Date() },
+        });
+      }
+      await transaction.session.updateMany({
+        where: { id: { in: assignment.sessions.map((session) => session.id) }, endedAt: null },
+        data: { endedAt: new Date() },
+      });
       return { assignmentId: assignment.id, status: run.status, result };
     },
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },

@@ -3055,6 +3055,18 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   repository verification and integration gates pass; progression serving and
   C4/C5 remain behind the existing release and independent-review gates.
 
+## 2026-09-19 — Auditable invalidation terminal path
+
+- Added the missing `INVALIDATED` assessment-run state and reversible enum
+  migration required by the terminal-semantics contract.
+- Added an operator-authorized service seam that records an immutable,
+  superseded-evidence result with reason and acting-user identifiers, ends
+  sessions, and releases the lease atomically. No public invalidation route was
+  added because the repository does not yet provide an authenticated operator
+  context.
+- Added state-machine and database coverage. Authorization cutover, learner
+  serving, and independent/manual release gates remain unchanged.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

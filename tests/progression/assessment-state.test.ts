@@ -12,8 +12,10 @@ describe('assessment run state machine', () => {
     expect(transitionAssessmentRun('IN_PROGRESS', 'SUBMIT_ITEM')).toBe('IN_PROGRESS');
     expect(transitionAssessmentRun('SUBMITTED', 'SCORE')).toBe('SCORED');
     expect(transitionAssessmentRun('PENDING', 'EXPIRE')).toBe('EXPIRED');
+    expect(transitionAssessmentRun('IN_PROGRESS', 'INVALIDATE')).toBe('INVALIDATED');
     expect(isTerminalAssessmentStatus('SCORED')).toBe(true);
     expect(isTerminalAssessmentStatus('ABANDONED')).toBe(true);
+    expect(isTerminalAssessmentStatus('INVALIDATED')).toBe(true);
   });
 
   it('rejects illegal transitions instead of treating them as permission', () => {

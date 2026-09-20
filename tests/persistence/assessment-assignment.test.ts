@@ -8,6 +8,7 @@ import { loadPolicyArtifacts } from '../../src/progression/artifacts';
 import { resolvePolicyProfile } from '../../src/progression/policy';
 import {
   abandonAssessmentRun,
+  invalidateAssessmentRun,
   submitAssessmentItem,
 } from '../../src/progression/assessment-submission';
 import { deleteHouseholdData } from '../../src/server/household-data';
@@ -291,6 +292,73 @@ describe('assessment assignment persistence', () => {
     expect(result?.outcome).toBe('INCONCLUSIVE');
     expect(result?.correctCount).toBe(1);
     expect(result?.itemResults).toHaveLength(1);
+  });
+
+  it('invalidates defective runs while retaining superseded evidence and releasing the lease', async () => {
+    const store = createInMemoryAssessmentStore([
+      {
+        code: 'ratio-language-lesson-bank',
+        version: '1.0.0',
+        contentHash: 'sha256:bank',
+        items: [assessmentItem],
+      },
+    ]);
+    const assignment = await createAssessmentAssignment(
+      {
+        householdId,
+        learnerProfileId,
+        kind: AssessmentKind.LESSON_ASSESSMENT,
+        targetKind: ProgressionTargetKind.LESSON,
+        targetRef: { code: 'ratio-language-lesson', version: '1.0.0' },
+        bankRef: { code: 'ratio-language-lesson-bank', version: '1.0.0' },
+        policyProfileRef: { code: 'grade-6-math-default', version: '1.0.0' },
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        curriculumSnapshotHash: 'sha256:bank',
+        itemsPerAttempt: 1,
+        requiredCount: 1,
+        expiresAt: new Date(Date.now() + 60_000),
+        idempotencyKey: 'assignment-key-invalidated',
+      },
+      store,
+    );
+    const session = assignment.assignment.sessions[0];
+    if (!session) throw new Error('Assessment session was not created');
+    await prisma.attempt.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        sessionId: session.id,
+        contentKey: assessmentItem.id,
+        contentVersion: assessmentItem.version,
+        learnerResponse: '2:3',
+        normalizedResponse: '2:3',
+        correctness: 'CORRECT',
+        scoringMethod: 'DETERMINISTIC',
+        attemptNumber: 1,
+        elapsedSeconds: 0,
+        highestAssistance: 'INDEPENDENT',
+        context: 'LESSON_ASSESSMENT',
+        policyVersion: '1.0.0',
+      },
+    });
+    const invalidated = await invalidateAssessmentRun({
+      householdId,
+      learnerProfileId,
+      assignmentId: assignment.assignment.id,
+      invalidationReason: 'Assessment bank version was defective.',
+      invalidatedByUserId: 'operator-test-user',
+    });
+    expect(invalidated.status).toBe('INVALIDATED');
+    expect(invalidated.result).toMatchObject({ outcome: 'INVALIDATED', correctCount: 0 });
+    expect(invalidated.result.itemResults).toEqual([
+      expect.objectContaining({ attemptId: expect.any(String), superseded: true }),
+    ]);
+    expect(
+      await prisma.activeAssessmentLease.count({
+        where: { assignmentId: assignment.assignment.id, releasedAt: null },
+      }),
+    ).toBe(0);
   });
 
   it('projects a passed unit assessment into unit completion state', async () => {

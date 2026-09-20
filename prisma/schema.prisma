@@ -116,6 +116,7 @@ enum AssessmentRunStatus {
   SCORED
   EXPIRED
   ABANDONED
+  INVALIDATED
 }
 
 enum AssessmentOutcome {
