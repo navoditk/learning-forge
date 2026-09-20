@@ -13,6 +13,8 @@ import type { AssessmentStore, HeldOutAssessmentBank } from '../assessment/store
 import { createAssessmentStore } from '../assessment/store';
 import { reassessmentEligibility, type ReassessmentRun } from './reassessment';
 import { buildShadowDecision } from './shadow';
+import { expireAssessment } from './assessment-submission';
+import { isTerminalAssessmentStatus } from './assessment-state';
 
 export type AssessmentSelection = {
   id: string;
@@ -161,6 +163,7 @@ export async function createAssessmentAssignment(
         return { assignment: replay, replayed: true };
       }
 
+      const now = new Date();
       const activeLease = await transaction.activeAssessmentLease.findFirst({
         where: {
           learnerProfileId: input.learnerProfileId,
@@ -169,12 +172,31 @@ export async function createAssessmentAssignment(
           targetVersion: input.targetRef.version,
           releasedAt: null,
         },
+        include: { assignment: { include: { runState: true, result: true } } },
       });
       if (activeLease) {
-        throw new AssessmentAssignmentError(
-          'ACTIVE_ASSIGNMENT_EXISTS',
-          'An assessment run is already active for this target.',
-        );
+        const run = activeLease.assignment.runState;
+        const leaseExpired = activeLease.expiresAt <= now || (run ? run.expiresAt <= now : false);
+        if (!leaseExpired) {
+          throw new AssessmentAssignmentError(
+            'ACTIVE_ASSIGNMENT_EXISTS',
+            'An assessment run is already active for this target.',
+          );
+        }
+        if (run && !isTerminalAssessmentStatus(run.status) && !activeLease.assignment.result) {
+          await expireAssessment(
+            transaction,
+            activeLease.assignment.id,
+            run.id,
+            activeLease.id,
+            now,
+          );
+        } else {
+          await transaction.activeAssessmentLease.update({
+            where: { id: activeLease.id },
+            data: { releasedAt: now },
+          });
+        }
       }
 
       const previousAssignments = await transaction.assessmentAssignment.findMany({

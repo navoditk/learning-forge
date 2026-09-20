@@ -557,7 +557,7 @@ export async function invalidateAssessmentRun(
   );
 }
 
-async function expireAssessment(
+export async function expireAssessment(
   transaction: Prisma.TransactionClient,
   assignmentId: string,
   runId: string,

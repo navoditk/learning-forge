@@ -3118,6 +3118,14 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Added persistence coverage proving an invalidated run does not consume the
   next scored attempt ordinal.
 
+## 2026-09-19 — Expired-lease release on next assignment
+
+- Corrected assignment creation to treat an expired lease/run as released on
+  the next write, finalize the stale run as `EXPIRED` with its evidence, and
+  then acquire the replacement lease atomically.
+- Added persistence coverage for replacement after an expired active lease;
+  unexpired active runs still return `ACTIVE_ASSIGNMENT_EXISTS`.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

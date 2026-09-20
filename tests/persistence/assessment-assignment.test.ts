@@ -380,6 +380,73 @@ describe('assessment assignment persistence', () => {
     );
     // The earlier scored fixture counts; this invalidated run does not.
     expect(nextAssignment.assignment.attemptOrdinal).toBe(2);
+    await abandonAssessmentRun({
+      householdId,
+      learnerProfileId,
+      assignmentId: nextAssignment.assignment.id,
+    });
+  });
+
+  it('finalizes an expired active lease before acquiring the next assignment', async () => {
+    const store = createInMemoryAssessmentStore([
+      {
+        code: 'ratio-language-lesson-bank',
+        version: '1.0.0',
+        contentHash: 'sha256:bank',
+        items: [assessmentItem],
+      },
+    ]);
+    const expired = await createAssessmentAssignment(
+      {
+        householdId,
+        learnerProfileId,
+        kind: AssessmentKind.LESSON_ASSESSMENT,
+        targetKind: ProgressionTargetKind.LESSON,
+        targetRef: { code: 'ratio-language-lesson', version: '1.0.0' },
+        bankRef: { code: 'ratio-language-lesson-bank', version: '1.0.0' },
+        policyProfileRef: { code: 'grade-6-math-default', version: '1.0.0' },
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        curriculumSnapshotHash: 'sha256:bank',
+        itemsPerAttempt: 1,
+        requiredCount: 1,
+        expiresAt: new Date(Date.now() - 1_000),
+        idempotencyKey: 'assignment-key-stale-lease',
+      },
+      store,
+    );
+    const replacement = await createAssessmentAssignment(
+      {
+        householdId,
+        learnerProfileId,
+        kind: AssessmentKind.LESSON_ASSESSMENT,
+        targetKind: ProgressionTargetKind.LESSON,
+        targetRef: { code: 'ratio-language-lesson', version: '1.0.0' },
+        bankRef: { code: 'ratio-language-lesson-bank', version: '1.0.0' },
+        policyProfileRef: { code: 'grade-6-math-default', version: '1.0.0' },
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        curriculumSnapshotHash: 'sha256:bank',
+        itemsPerAttempt: 1,
+        requiredCount: 1,
+        expiresAt: new Date(Date.now() + 60_000),
+        idempotencyKey: 'assignment-key-after-stale-lease',
+      },
+      store,
+    );
+    expect(replacement.replayed).toBe(false);
+    expect(
+      await prisma.assessmentResult.findUnique({
+        where: { assignmentId: expired.assignment.id },
+        select: { outcome: true },
+      }),
+    ).toEqual({ outcome: 'INCONCLUSIVE' });
+    expect(
+      await prisma.activeAssessmentLease.findUnique({
+        where: { assignmentId: expired.assignment.id },
+        select: { releasedAt: true },
+      }),
+    ).toMatchObject({ releasedAt: expect.any(Date) });
   });
 
   it('projects a passed unit assessment into unit completion state', async () => {
