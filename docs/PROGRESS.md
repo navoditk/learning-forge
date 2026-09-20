@@ -2857,3 +2857,12 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   placement/unit/delayed-check/review policy wiring; complete the C4
   authorization cutover; and obtain independent architecture, privacy/safety,
   accessibility, migration, and authored-content approvals.
+
+## 2026-09-19 — Shadow audit hash remediation
+
+- Corrected shadow decisions to persist the canonical SHA-256 policy-profile
+  hash rather than serialized policy JSON.
+- Added a regression assertion tying shadow evidence to `policyHash`.
+- Validation: focused shadow test and `npm run verify` passed; the independent
+  C1–C3 review, private assessment package, and C4/manual release gates remain
+  outstanding.

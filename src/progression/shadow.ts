@@ -1,5 +1,6 @@
 import { AccessPolicy, ActivityKind, ProgressionPolicyProfile } from '../contracts/policy';
 import { authorizeActivity } from './policy';
+import { policyHash } from './policy';
 
 export type ShadowDecisionInput = {
   requestKind: string;
@@ -33,7 +34,7 @@ export function buildShadowDecision(input: ShadowDecisionInput) {
     divergent: (decision.allowed ? 'ALLOWED' : 'DENIED') !== input.actualBehavior,
     policyProfileCode: input.policyProfile.code,
     policyProfileVersion: input.policyProfile.version,
-    policyProfileHash: JSON.stringify(input.policyProfile),
+    policyProfileHash: policyHash(input.policyProfile),
     algorithmVersion: input.algorithmVersion,
   };
 }

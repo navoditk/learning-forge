@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { loadPolicyArtifacts } from '../../src/progression/artifacts';
 import { buildShadowDecision } from '../../src/progression/shadow';
+import { policyHash } from '../../src/progression/policy';
 
 describe('progression shadow decisions', () => {
   it('records divergence without changing the actual legacy behavior', () => {
@@ -29,5 +30,7 @@ describe('progression shadow decisions', () => {
     expect(decision.shadowReasonCode).toBe('LOCKED_PREREQUISITE');
     expect(decision.actualBehavior).toBe('ALLOWED');
     expect(decision.divergent).toBe(true);
+    expect(decision.policyProfileHash).toBe(policyHash(profile));
+    expect(decision.policyProfileHash).not.toContain('grade-6-math-default');
   });
 });
