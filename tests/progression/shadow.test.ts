@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { loadPolicyArtifacts } from '../../src/progression/artifacts';
-import { buildShadowDecision } from '../../src/progression/shadow';
+import { buildShadowDecision, buildShadowReviewPacket } from '../../src/progression/shadow';
 import { policyHash } from '../../src/progression/policy';
 
 describe('progression shadow decisions', () => {
@@ -32,5 +32,82 @@ describe('progression shadow decisions', () => {
     expect(decision.divergent).toBe(true);
     expect(decision.policyProfileHash).toBe(policyHash(profile));
     expect(decision.policyProfileHash).not.toContain('grade-6-math-default');
+  });
+
+  it('summarizes only divergent, non-sensitive evidence for independent review', () => {
+    const decisions = [
+      {
+        id: 'shadow-1',
+        requestKind: 'practice',
+        targetCode: 'unit-rates',
+        targetVersion: '1.0.0',
+        activityKind: 'PRACTICE' as const,
+        shadowDecision: 'DENY' as const,
+        shadowReasonCode: 'LOCKED_PREREQUISITE',
+        actualBehavior: 'ALLOWED' as const,
+        divergent: true,
+        policyProfileCode: 'grade-6-math-default',
+        policyProfileVersion: '1.0.0',
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        occurredAt: new Date('2026-01-01T00:00:00Z'),
+      },
+      {
+        id: 'shadow-2',
+        requestKind: 'practice',
+        targetCode: 'ratio-language',
+        targetVersion: '1.0.0',
+        activityKind: 'PRACTICE' as const,
+        shadowDecision: 'ALLOW' as const,
+        shadowReasonCode: 'ALLOW',
+        actualBehavior: 'ALLOWED' as const,
+        divergent: false,
+        policyProfileCode: 'grade-6-math-default',
+        policyProfileVersion: '1.0.0',
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        occurredAt: new Date('2026-01-01T00:00:00Z'),
+      },
+    ];
+    const packet = buildShadowReviewPacket(decisions, [
+      { decisionId: 'shadow-1', status: 'EXPLAINED' },
+    ]);
+    expect(packet.totalDecisions).toBe(2);
+    expect(packet.divergentDecisions).toBe(1);
+    expect(packet.allowToDeny).toBe(0);
+    expect(packet.denyToAllow).toBe(1);
+    expect(packet.byReasonCode).toEqual({ LOCKED_PREREQUISITE: 1 });
+    expect(packet.reviewComplete).toBe(true);
+    expect(packet.divergences[0]).not.toHaveProperty('learnerProfileId');
+    expect(packet.divergences[0]).not.toHaveProperty('prompt');
+  });
+
+  it('does not report review completion with unresolved or remediation divergences', () => {
+    const decision = {
+      id: 'shadow-1',
+      requestKind: 'practice',
+      targetCode: 'unit-rates',
+      targetVersion: '1.0.0',
+      activityKind: 'PRACTICE' as const,
+      shadowDecision: 'DENY' as const,
+      shadowReasonCode: 'LOCKED_PREREQUISITE',
+      actualBehavior: 'ALLOWED' as const,
+      divergent: true,
+      policyProfileCode: 'grade-6-math-default',
+      policyProfileVersion: '1.0.0',
+      policyProfileHash: 'sha256:policy',
+      algorithmVersion: 'mastery-1',
+      occurredAt: new Date('2026-01-01T00:00:00Z'),
+    };
+    expect(buildShadowReviewPacket([decision]).reviewComplete).toBe(false);
+    expect(
+      buildShadowReviewPacket(
+        [decision],
+        [{ decisionId: 'shadow-1', status: 'REQUIRES_REMEDIATION' }],
+      ),
+    ).toMatchObject({
+      reviewComplete: false,
+      remediationDecisionIds: ['shadow-1'],
+    });
   });
 });

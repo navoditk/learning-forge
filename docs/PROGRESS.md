@@ -2981,6 +2981,16 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   exercised transactionally. Database-free verification also passed with 138
   tests and a production build.
 
+## 2026-09-19 — Shadow divergence review packet
+
+- Added a redacted, reason-code-only shadow-review packet that counts
+  divergences by direction and reason, preserves version pins, and tracks
+  unresolved/remediation dispositions without including household identifiers,
+  learner text, prompts, or answers.
+- Added coverage proving explained divergences can be marked review-complete
+  while unresolved or remediation-required rows cannot. This is review
+  infrastructure only; it does not self-approve C4 or change authorization.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version
