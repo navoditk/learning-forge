@@ -106,6 +106,20 @@ describe('private held-out assessment package store', () => {
     );
   });
 
+  it('rejects packages containing pending-review items', async () => {
+    const path = await writePackage(packageDocument());
+    const document = JSON.parse(await readFile(path, 'utf8'));
+    document.banks[0].items[0].review = {
+      ...document.banks[0].items[0].review,
+      status: 'pending_review',
+    };
+    await writeFile(path, JSON.stringify(document), 'utf8');
+
+    expect(() => new PrivateAssessmentPackageStore(path)).toThrow(
+      'Private assessment items must be reviewed before serving',
+    );
+  });
+
   it('rejects tampered item and bank hashes', async () => {
     const path = await writePackage(packageDocument());
     const document = JSON.parse(await readFile(path, 'utf8'));

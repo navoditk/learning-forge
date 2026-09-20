@@ -29,6 +29,13 @@ const PackageBankSchema = z
           message: 'Assessment item must reference its containing private bank',
         });
       }
+      if (item.review.status !== 'reviewed') {
+        context.addIssue({
+          code: 'custom',
+          path: ['items', index, 'review', 'status'],
+          message: 'Private assessment items must be reviewed before serving',
+        });
+      }
     }
   });
 

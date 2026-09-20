@@ -58,6 +58,16 @@
 - Full DB-free verification passes with 162 tests; no runtime authorization
   behavior changed.
 
+## 2026-09-20 — Private package review gate enforcement
+
+- Changed `PrivateAssessmentPackageStore` to reject any assessment item whose
+  review status is not `reviewed`; package integrity and bank-reference checks
+  remain fail-closed.
+- Added regression coverage for pending-review package rejection. The local
+  model-assisted draft therefore remains a review artifact and cannot be
+  served until independently reviewed and rehashed.
+- Full DB-free verification passes with 163 tests.
+
 ## 2026-09-20 — Draft private assessment package generated
 
 - Generated a local, non-production draft at
@@ -65,8 +75,9 @@
 - The draft contains 45 original model-assisted candidate items: 9 each for
   the three lesson banks and 18 for the unit bank. Every item is marked
   `llm_drafted` and `pending_review`; none is approved or enabled.
-- Validated all four banks through `PrivateAssessmentPackageStore`; all bank
-  references match. Draft SHA-256:
+- Structurally validated all four banks and computed their integrity hashes;
+  all bank references match. The current loader intentionally rejects the
+  draft because its items remain `pending_review`. Draft SHA-256:
   `5c356576c7ee5a91aa2e4c1882425601e46238290a47ef8ba47716267b4634c8`.
 - The draft is intentionally outside Git and must receive independent
   mathematics/content, originality, accessibility, and child-safety review
