@@ -15,6 +15,8 @@ import {
   applyPilotLessonAssessmentOutcome,
   applyPilotUnitAssessmentOutcome,
 } from './learner-state';
+import { assessmentPasses } from './assessment-scoring';
+import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
 
 type SelectedItem = { id: string; version: string; hash: string; ordinal: number };
 
@@ -263,13 +265,31 @@ export async function submitAssessmentItem(
           contentVersion: candidate.version,
           attemptId: recorded?.id ?? attempt.id,
           correctness: recorded?.correctness ?? 'UNSCORED',
+          skillCode: bank.items.find(
+            (bankItem) => bankItem.id === candidate.id && bankItem.version === candidate.version,
+          )?.skillRef.code,
           maxAssistance: 'INDEPENDENT',
           superseded: false,
         };
       });
       const correctCount = itemResults.filter((result) => result.correctness === 'CORRECT').length;
       const required = requiredCount(assignment.requiredCount);
-      const outcome = correctCount >= required ? 'PASS' : 'FAIL';
+      const lesson =
+        assignment.kind === 'LESSON_ASSESSMENT'
+          ? PILOT_LESSONS.find(
+              (candidate) =>
+                candidate.code === assignment.targetCode &&
+                candidate.version === assignment.targetVersion,
+            )
+          : undefined;
+      const outcome = assessmentPasses({
+        kind: assignment.kind,
+        items: itemResults,
+        requiredCorrect: required,
+        coveredSkillCodes: lesson?.skillRefs.map((skill) => skill.code) ?? [],
+      })
+        ? 'PASS'
+        : 'FAIL';
       const updatedRun = await transaction.assessmentRunState.update({
         where: { id: run.id },
         data: {

@@ -3009,6 +3009,14 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Added coverage for weak and healthy prerequisites. This remains policy/state
   logic only; authorization and learner-serving wiring remain gated.
 
+## 2026-09-19 — Multi-skill assessment pass coverage
+
+- Added lesson-assessment coverage scoring: the ordinary pass bar is now
+  insufficient unless at least one correct selected item covers every skill in
+  the lesson. Assignment selection also reserves one item per required skill.
+- Added pure scoring tests for the failure and success cases. The existing
+  default-off release gate remains unchanged.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

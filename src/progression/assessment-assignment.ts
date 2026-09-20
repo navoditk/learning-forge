@@ -32,6 +32,7 @@ export function selectAssessmentItems(
   bank: HeldOutAssessmentBank,
   itemsPerAttempt: number,
   excludedItemKeys: ReadonlySet<string> = new Set(),
+  requiredSkillCodes: readonly string[] = [],
 ): AssessmentSelection[] {
   const candidates = bank.items.filter(
     (item) => !excludedItemKeys.has(`${item.id}@${item.version}`),
@@ -42,7 +43,31 @@ export function selectAssessmentItems(
       `Assessment bank ${bank.code}@${bank.version} has ${candidates.length} eligible items; ${itemsPerAttempt} required.`,
     );
   }
-  return candidates.slice(0, itemsPerAttempt).map((item, index) => ({
+  if (requiredSkillCodes.length > itemsPerAttempt) {
+    throw new AssessmentAssignmentError(
+      'ASSESSMENT_BANK_INSUFFICIENT',
+      `Assessment requires ${requiredSkillCodes.length} skill-covering items; ${itemsPerAttempt} selected.`,
+    );
+  }
+  const selected = requiredSkillCodes.map((skillCode) => {
+    const item = candidates.find((candidate) => candidate.skillRef.code === skillCode);
+    if (!item) {
+      throw new AssessmentAssignmentError(
+        'ASSESSMENT_BANK_INSUFFICIENT',
+        `Assessment bank ${bank.code}@${bank.version} has no eligible item for skill ${skillCode}.`,
+      );
+    }
+    return item;
+  });
+  const remaining = candidates.filter((candidate) => !selected.includes(candidate));
+  selected.push(...remaining.slice(0, Math.max(itemsPerAttempt - selected.length, 0)));
+  if (selected.length < itemsPerAttempt) {
+    throw new AssessmentAssignmentError(
+      'ASSESSMENT_BANK_INSUFFICIENT',
+      `Assessment bank ${bank.code}@${bank.version} cannot cover ${itemsPerAttempt} items with the required skills.`,
+    );
+  }
+  return selected.slice(0, itemsPerAttempt).map((item, index) => ({
     id: item.id,
     version: item.version,
     hash: item.hash,
@@ -63,6 +88,7 @@ export type CreateAssessmentAssignmentInput = {
   curriculumSnapshotHash: string;
   itemsPerAttempt: number;
   requiredCount: number;
+  requiredSkillCodes?: readonly string[];
   expiresAt: Date;
   idempotencyKey: string;
 };
@@ -88,7 +114,12 @@ export async function createAssessmentAssignment(
   database: PrismaClient = prisma,
 ) {
   const bank = await store.getBank(input.bankRef);
-  const selectedItems = selectAssessmentItems(bank, input.itemsPerAttempt);
+  const selectedItems = selectAssessmentItems(
+    bank,
+    input.itemsPerAttempt,
+    new Set(),
+    input.requiredSkillCodes,
+  );
   const selectedKeys = new Set(selectedItems.map((item) => `${item.id}@${item.version}`));
   const excludedItems = bank.items
     .filter((item) => !selectedKeys.has(`${item.id}@${item.version}`))

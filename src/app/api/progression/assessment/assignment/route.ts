@@ -123,6 +123,12 @@ export async function POST(request: NextRequest) {
       (candidate) => candidate.code === bankRef.code && candidate.version === bankRef.version,
     );
     if (!bank) throw new Error('Assessment bank metadata is unavailable');
+    const requiredSkillCodes =
+      body.kind === 'LESSON_ASSESSMENT' && body.targetKind === 'LESSON'
+        ? (PILOT_LESSONS.find(
+            (lesson) => lesson.code === target.code && lesson.version === target.version,
+          )?.skillRefs.map((skill) => skill.code) ?? [])
+        : [];
     const artifacts = loadPolicyArtifacts();
     const profileRecord = artifacts.profiles.find(
       (profile) =>
@@ -160,6 +166,7 @@ export async function POST(request: NextRequest) {
         curriculumSnapshotHash: bank.contentHash,
         itemsPerAttempt: itemsPerAttempt(body.kind, profile),
         requiredCount: required,
+        requiredSkillCodes,
         expiresAt: new Date(Date.now() + profile.runExpiryHours * 60 * 60 * 1000),
         idempotencyKey: body.idempotencyKey,
       },

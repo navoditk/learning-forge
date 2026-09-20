@@ -10,6 +10,7 @@ export * from './mastery-recalculation';
 export * from './artifacts';
 export * from './shadow';
 export * from './assessment-assignment';
+export * from './assessment-scoring';
 export * from './assessment-state';
 export * from './assessment-submission';
 export * from './learner-state';
