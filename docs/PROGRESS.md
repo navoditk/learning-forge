@@ -3096,6 +3096,13 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   treated as vacuous evidence and does not satisfy the required independent
   shadow review or authorize C4.
 
+## 2026-09-19 — Read-only readiness command
+
+- Added `npm run progression:readiness` to print the redacted C4 drain and
+  shadow-review summary for an operator or independent reviewer.
+- The command is read-only, reports counts and status only, and cannot enable
+  authorization or serve progression UI.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

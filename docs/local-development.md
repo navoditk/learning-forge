@@ -60,3 +60,12 @@ npm run test:migrations
 
 Use only a disposable local PostgreSQL connection for this command. It must
 never be pointed at production or a database containing learner evidence.
+
+To print the redacted C4 readiness summary without changing state:
+
+```bash
+npm run progression:readiness
+```
+
+The command reports counts and review status only; it is not an approval or an
+authorization switch.

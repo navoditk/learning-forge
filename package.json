@@ -16,6 +16,7 @@
     "create-parent-account": "tsx scripts/create-parent-account.ts",
     "reset-parent-password": "tsx scripts/reset-parent-password.ts",
     "report:tutor-usage": "tsx scripts/report-tutor-usage.ts",
+    "progression:readiness": "tsx scripts/report-progression-readiness.ts",
     "curriculum:site": "tsx scripts/generate-curriculum-site.ts",
     "eval:run-real": "tsx scripts/run-real-eval.ts",
     "format": "prettier --write .",
