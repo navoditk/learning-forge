@@ -8,7 +8,7 @@ independent review or C4 authorization.
 
 ## Repository evidence
 
-At commit `c0e42e3`:
+At the verified rollout checkpoint before this evidence-document-only update:
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
   159 unit/contract/progression tests, and production build.
@@ -17,6 +17,8 @@ At commit `c0e42e3`:
 - `npm run test:e2e` passed: 22 Playwright tests covering authentication,
   learner/parent journeys, keyboard operation, automated WCAG checks, and
   fail-closed progression API behavior.
+- `DATABASE_URL=postgresql://... npm run test:migrations` passed the complete
+  forward/down/forward schema-equivalence check across all 10 migrations.
 - The test commands now provide a local PostgreSQL fallback while honoring an
   explicitly supplied `DATABASE_URL`; production configuration is unchanged.
 

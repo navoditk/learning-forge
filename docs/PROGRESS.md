@@ -57,6 +57,8 @@
 - With the same local database, `npm run test:e2e` passed all 22 browser tests,
   including keyboard journeys, automated WCAG checks, learner/parent flows,
   authentication, and the fail-closed progression API path.
+- With the same local PostgreSQL connection, `npm run test:migrations` passed
+  the complete 10-migration forward/down/forward schema-equivalence check.
 - Render deployment for `c0e42e3` is live. The deployed review page returns
   HTTP 200, while the assessment endpoint still returns the intentional
   `RELEASE_GATE_CLOSED` response.
