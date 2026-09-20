@@ -51,6 +51,29 @@ function itemsPerAttempt(
   }
 }
 
+function requiredCount(
+  kind: AssessmentKind,
+  profile: {
+    lessonPassBar: { correct: number };
+    unitPassBar: { correct: number };
+    delayedCheckPassBar: { correct: number };
+    reviewPassBar: { correct: number };
+  },
+): number | undefined {
+  switch (kind) {
+    case 'LESSON_ASSESSMENT':
+      return profile.lessonPassBar.correct;
+    case 'UNIT_ASSESSMENT':
+      return profile.unitPassBar.correct;
+    case 'DELAYED_CHECK':
+      return profile.delayedCheckPassBar.correct;
+    case 'REVIEW':
+      return profile.reviewPassBar.correct;
+    case 'PLACEMENT':
+      return undefined;
+  }
+}
+
 export async function POST(request: NextRequest) {
   let identity;
   try {
@@ -109,6 +132,13 @@ export async function POST(request: NextRequest) {
         ]),
       ),
     );
+    const required = requiredCount(body.kind, profile);
+    if (required === undefined) {
+      return NextResponse.json(
+        { error: 'Placement scoring is not wired yet', reasonCode: 'PLACEMENT_NOT_IMPLEMENTED' },
+        { status: 409 },
+      );
+    }
     const assignment = await createAssessmentAssignment(
       {
         householdId: identity.householdId,
@@ -122,6 +152,7 @@ export async function POST(request: NextRequest) {
         algorithmVersion: 'mastery-phase-1-1',
         curriculumSnapshotHash: bank.contentHash,
         itemsPerAttempt: itemsPerAttempt(body.kind, profile),
+        requiredCount: required,
         expiresAt: new Date(Date.now() + profile.runExpiryHours * 60 * 60 * 1000),
         idempotencyKey: body.idempotencyKey,
       },

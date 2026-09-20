@@ -3,3 +3,7 @@ export * from './policy';
 export * from './mastery';
 export * from './artifacts';
 export * from './shadow';
+export * from './assessment-assignment';
+export * from './assessment-state';
+export * from './assessment-submission';
+export * from './learner-state';

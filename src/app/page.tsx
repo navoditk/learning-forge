@@ -92,6 +92,21 @@ type Plan = {
   unavailableSkills: string[];
 };
 
+type CourseProgress = {
+  units: Array<{
+    code: string;
+    title: string;
+    status: string;
+    lessons: Array<{
+      code: string;
+      title: string;
+      completionStatus: string;
+      remediationStatus: string;
+      latestAssessment?: { outcome: string; scoredAt: string };
+    }>;
+  }>;
+};
+
 type ActivityMode = 'practice' | 'diagnostic' | 'review';
 
 export default function Home() {
@@ -107,6 +122,7 @@ export default function Home() {
   const [diagnosticPlan, setDiagnosticPlan] = useState<DiagnosticPlan>();
   const [reviewQueue, setReviewQueue] = useState<ReviewQueue>();
   const [progress, setProgress] = useState<LearnerProgress>();
+  const [courseProgress, setCourseProgress] = useState<CourseProgress>();
   const [mode, setMode] = useState<ActivityMode>('practice');
   const [hintPending, setHintPending] = useState(false);
   const hintButtonRef = useRef<HTMLButtonElement>(null);
@@ -162,6 +178,15 @@ export default function Home() {
       .catch(() => undefined);
   }, [program]);
 
+  const loadCourseProgress = useCallback(() => {
+    fetch('/api/progression/pilot')
+      .then(async (result) => {
+        if (!result.ok) return;
+        setCourseProgress(await result.json());
+      })
+      .catch(() => undefined);
+  }, []);
+
   const startActivity = useCallback(
     (contentId?: string, activityMode: ActivityMode = 'practice') => {
       setError('');
@@ -215,7 +240,15 @@ export default function Home() {
     loadDiagnosticPlan();
     loadReviewQueue();
     loadProgress();
-  }, [loadDiagnosticPlan, loadPlan, loadProgress, loadReviewQueue, startActivity]);
+    loadCourseProgress();
+  }, [
+    loadCourseProgress,
+    loadDiagnosticPlan,
+    loadPlan,
+    loadProgress,
+    loadReviewQueue,
+    startActivity,
+  ]);
 
   const submitEndpoint: Record<ActivityMode, string> = {
     practice: '/api/phase1/attempt',
@@ -306,6 +339,7 @@ export default function Home() {
     }
     loadPlan();
     loadProgress();
+    loadCourseProgress();
   }
 
   if (error && !session)
@@ -372,6 +406,43 @@ export default function Home() {
               ))}
             </ul>
           </details>
+        </section>
+      )}
+      {courseProgress && (
+        <section aria-labelledby="course-progress-heading">
+          <h2 id="course-progress-heading">Course progress</h2>
+          <p>
+            <small>
+              Completion and mastery are tracked separately. Assessment results appear here only
+              after they are recorded.
+            </small>
+          </p>
+          {courseProgress.units.map((unit) => (
+            <article key={unit.code} aria-labelledby={`${unit.code}-heading`}>
+              <h3 id={`${unit.code}-heading`}>{unit.title}</h3>
+              <p>Unit status: {unit.status.toLocaleLowerCase().replaceAll('_', ' ')}</p>
+              <ol>
+                {unit.lessons.map((lesson) => (
+                  <li key={lesson.code}>
+                    <strong>{lesson.title}</strong> —{' '}
+                    {lesson.completionStatus.toLocaleLowerCase().replaceAll('_', ' ')}
+                    {lesson.remediationStatus !== 'NONE' && (
+                      <span>
+                        {' '}
+                        ({lesson.remediationStatus.toLocaleLowerCase().replaceAll('_', ' ')})
+                      </span>
+                    )}
+                    {lesson.latestAssessment && (
+                      <span>
+                        {' '}
+                        Latest assessment: {lesson.latestAssessment.outcome.toLocaleLowerCase()}.
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
         </section>
       )}
       {diagnosticPlan && diagnosticPlan.items.length > 0 && (

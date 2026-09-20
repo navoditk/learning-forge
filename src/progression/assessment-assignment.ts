@@ -1,4 +1,10 @@
-import { AssessmentKind, Prisma, PrismaClient, ProgressionTargetKind } from '@prisma/client';
+import {
+  AssessmentKind,
+  Prisma,
+  PrismaClient,
+  ProgressionActivityKind,
+  ProgressionTargetKind,
+} from '@prisma/client';
 
 import type { Ref } from '../contracts/progression';
 import { prisma } from '../server/prisma';
@@ -56,9 +62,25 @@ export type CreateAssessmentAssignmentInput = {
   algorithmVersion: string;
   curriculumSnapshotHash: string;
   itemsPerAttempt: number;
+  requiredCount: number;
   expiresAt: Date;
   idempotencyKey: string;
 };
+
+function sessionActivityKind(kind: AssessmentKind): ProgressionActivityKind {
+  switch (kind) {
+    case 'PLACEMENT':
+      return 'PLACEMENT';
+    case 'LESSON_ASSESSMENT':
+      return 'LESSON_ASSESSMENT';
+    case 'UNIT_ASSESSMENT':
+      return 'UNIT_ASSESSMENT';
+    case 'DELAYED_CHECK':
+      return 'DELAYED_CHECK';
+    case 'REVIEW':
+      return 'REVIEW';
+  }
+}
 
 export async function createAssessmentAssignment(
   input: CreateAssessmentAssignmentInput,
@@ -81,7 +103,7 @@ export async function createAssessmentAssignment(
             idempotencyKey: input.idempotencyKey,
           },
         },
-        include: { runState: true, lease: true },
+        include: { runState: true, lease: true, sessions: true },
       });
       if (replay) {
         const sameRequest =
@@ -144,6 +166,7 @@ export async function createAssessmentAssignment(
           selectedItems,
           excludedItems,
           attemptOrdinal,
+          requiredCount: input.requiredCount,
           idempotencyKey: input.idempotencyKey,
           runState: {
             create: {
@@ -166,8 +189,19 @@ export async function createAssessmentAssignment(
               expiresAt: input.expiresAt,
             },
           },
+          sessions: {
+            create: {
+              householdId: input.householdId,
+              learnerProfileId: input.learnerProfileId,
+              contentKey: input.targetRef.code,
+              activityKind: sessionActivityKind(input.kind),
+              targetCode: input.targetRef.code,
+              targetVersion: input.targetRef.version,
+              policyProfileVersion: input.policyProfileRef.version,
+            },
+          },
         },
-        include: { runState: true, lease: true },
+        include: { runState: true, lease: true, sessions: true },
       });
       return { assignment, replayed: false };
     },

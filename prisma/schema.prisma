@@ -27,6 +27,11 @@ enum AttemptContext {
   DIAGNOSTIC
   PRACTICE
   MASTERY_CHECK
+  PLACEMENT
+  LESSON_ASSESSMENT
+  UNIT_ASSESSMENT
+  DELAYED_CHECK
+  REVIEW
 }
 
 enum Correctness {
@@ -423,6 +428,7 @@ model AssessmentAssignment {
   selectedItems          Json
   excludedItems          Json
   attemptOrdinal         Int
+  requiredCount          Int?
   idempotencyKey         String
   createdAt              DateTime               @default(now())
   household              Household              @relation(fields: [householdId], references: [id], onDelete: Cascade)

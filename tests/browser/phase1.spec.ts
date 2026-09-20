@@ -4,6 +4,10 @@ test.describe('synthetic Phase 1 journeys', () => {
   test('learner submits a ratios answer and requests a bounded hint', async ({ page }) => {
     await page.goto('/');
 
+    await expect(page.getByRole('heading', { name: 'Course progress' })).toBeVisible();
+    await expect(
+      page.getByRole('article').getByText('Ratio language', { exact: true }),
+    ).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Recommended next activities' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Bicycle pace' })).toBeVisible();
     await page.getByLabel('Your answer').fill('15');
@@ -78,6 +82,8 @@ test.describe('synthetic Phase 1 journeys', () => {
     await page.goto('/parent');
 
     await expect(page.getByRole('heading', { name: 'Parent evidence' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Course progression' })).toBeVisible();
+    await expect(page.getByText('Ratios and proportional reasoning')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Learner' })).toBeVisible();
     await expect(page.getByText('Skill: unit-rates')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Recent attempts' })).toBeVisible();

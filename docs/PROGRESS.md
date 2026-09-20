@@ -2833,3 +2833,27 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   production build, and the DB-backed assignment persistence test pass. Full
   verification remains green. The private assessment package and assessment
   submission/scoring workflow are the next implementation gates.
+
+## 2026-09-19 — Rollout increment: assessment submission and progression surfaces
+
+- Added the remaining assessment attempt contexts and pinned required-count
+  metadata, with reversible migrations and contract coverage.
+- Added server-side assessment submission: assignment/session ownership,
+  held-out item/hash validation, expiry and duplicate protection, deterministic
+  scoring, immutable attempts, independent-assistance evidence, result
+  persistence, lease release, and lesson completion/remediation projection.
+- Added learner and parent pilot-progression views plus the read-only pilot
+  progression API. Completion and remediation remain separate from mastery
+  evidence.
+- Added persistence, state-machine, API, learner, parent, keyboard, and
+  accessibility coverage. The E2E configuration is serial because the
+  synthetic suite intentionally shares one disposable household.
+- Validation: `npm run verify` passed (117 tests and production build),
+  `DATABASE_URL=... npm run test:integration` passed (34 tests), and
+  `DATABASE_URL=... npm run test:e2e` passed (22 tests). The assignment API
+  continues to fail closed with `ASSESSMENT_STORE_UNAVAILABLE` until the
+  independently reviewed private assessment package is installed.
+- Remaining gates: install and review the private assessment package; finish
+  placement/unit/delayed-check/review policy wiring; complete the C4
+  authorization cutover; and obtain independent architecture, privacy/safety,
+  accessibility, migration, and authored-content approvals.

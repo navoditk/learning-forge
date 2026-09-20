@@ -78,6 +78,28 @@ test.describe('Phase 1 API route validation and error paths', () => {
     expect(Array.isArray(body.mastery)).toBe(true);
   });
 
+  test('pilot progression route is readable and held-out assignment creation fails closed', async ({
+    request,
+  }) => {
+    const progression = await request.get('/api/progression/pilot');
+    expect(progression.status()).toBe(200);
+    const body = await progression.json();
+    expect(body.units).toHaveLength(1);
+    expect(body.units[0].lessons).toHaveLength(3);
+
+    const assignment = await request.post('/api/progression/assessment/assignment', {
+      data: {
+        kind: 'LESSON_ASSESSMENT',
+        targetKind: 'LESSON',
+        targetCode: 'ratio-language-lesson',
+        targetVersion: '1.0.0',
+        idempotencyKey: `e2e-${randomUUID()}`,
+      },
+    });
+    expect(assignment.status()).toBe(503);
+    expect((await assignment.json()).reasonCode).toBe('ASSESSMENT_STORE_UNAVAILABLE');
+  });
+
   test('program-scoped routes reject unavailable and mismatched curricula', async ({ request }) => {
     const unavailable = await request.get('/api/phase1/plan?program=grade-6-ela');
     expect(unavailable.status()).toBe(400);

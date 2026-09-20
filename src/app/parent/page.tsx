@@ -40,6 +40,21 @@ type Digest = {
   skills: DigestSkillSummary[];
 };
 
+type CourseProgress = {
+  units: Array<{
+    code: string;
+    title: string;
+    status: string;
+    lessons: Array<{
+      code: string;
+      title: string;
+      completionStatus: string;
+      remediationStatus: string;
+      latestAssessment?: { outcome: string; resultId: string; scoredAt: string };
+    }>;
+  }>;
+};
+
 export default function ParentPage() {
   const [evidence, setEvidence] = useState<Evidence>();
   const [error, setError] = useState('');
@@ -51,6 +66,7 @@ export default function ParentPage() {
   const [deletionError, setDeletionError] = useState('');
   const [deletionPending, setDeletionPending] = useState(false);
   const [deletionComplete, setDeletionComplete] = useState(false);
+  const [courseProgress, setCourseProgress] = useState<CourseProgress>();
 
   useEffect(() => {
     fetch('/api/phase1/parent')
@@ -59,6 +75,12 @@ export default function ParentPage() {
         setEvidence(await result.json());
       })
       .catch((reason: Error) => setError(reason.message));
+    fetch('/api/progression/pilot')
+      .then(async (result) => {
+        if (!result.ok) return;
+        setCourseProgress(await result.json());
+      })
+      .catch(() => undefined);
   }, []);
 
   async function loadDigest() {
@@ -167,6 +189,36 @@ export default function ParentPage() {
               ))}
             </ul>
           )}
+        </section>
+      )}
+      {courseProgress && (
+        <section aria-labelledby="course-progress-heading">
+          <h2 id="course-progress-heading">Course progression</h2>
+          <p>
+            Completion history and current remediation are shown separately from mastery evidence.
+          </p>
+          {courseProgress.units.map((unit) => (
+            <article key={unit.code} aria-labelledby={`${unit.code}-heading`}>
+              <h3 id={`${unit.code}-heading`}>{unit.title}</h3>
+              <p>Unit status: {unit.status.toLocaleLowerCase().replaceAll('_', ' ')}</p>
+              <ul>
+                {unit.lessons.map((lesson) => (
+                  <li key={lesson.code}>
+                    <strong>{lesson.title}</strong>:{' '}
+                    {lesson.completionStatus.toLocaleLowerCase().replaceAll('_', ' ')}; remediation{' '}
+                    {lesson.remediationStatus.toLocaleLowerCase().replaceAll('_', ' ')}.
+                    {lesson.latestAssessment && (
+                      <span>
+                        {' '}
+                        Assessment: {lesson.latestAssessment.outcome.toLocaleLowerCase()} on{' '}
+                        {new Date(lesson.latestAssessment.scoredAt).toLocaleDateString()}.
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </section>
       )}
       <section aria-labelledby="digest-heading">

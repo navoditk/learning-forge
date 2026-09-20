@@ -5,6 +5,10 @@ import { AUTH_STORAGE_STATE_PATH } from './playwright/test-account';
 export default defineConfig({
   testDir: './tests/browser',
   fullyParallel: false,
+  // The synthetic suite intentionally shares one disposable household so
+  // that learner evidence can be inspected by the parent journey. Keep those
+  // stateful tests deterministic until fixture isolation is introduced.
+  workers: 1,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? 'line' : 'list',
   globalSetup: './playwright/global-setup.ts',

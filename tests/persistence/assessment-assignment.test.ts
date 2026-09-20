@@ -4,6 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { AssessmentContentItem } from '../../src/contracts/progression';
 import { createInMemoryAssessmentStore } from '../../src/assessment/store';
 import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
+import { submitAssessmentItem } from '../../src/progression/assessment-submission';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
 
@@ -74,6 +75,7 @@ describe('assessment assignment persistence', () => {
       algorithmVersion: 'mastery-1',
       curriculumSnapshotHash: 'sha256:bank',
       itemsPerAttempt: 1,
+      requiredCount: 1,
       expiresAt: new Date(Date.now() + 60_000),
       idempotencyKey: 'assignment-key-1',
     } as const;
@@ -93,6 +95,37 @@ describe('assessment assignment persistence', () => {
     expect(await prisma.assessmentAssignment.count({ where: { householdId } })).toBe(1);
     expect(await prisma.assessmentRunState.count()).toBe(1);
     expect(await prisma.activeAssessmentLease.count()).toBe(1);
+
+    const session = first.assignment.sessions[0];
+    if (!session) throw new Error('Assessment session was not created');
+    const submitted = await submitAssessmentItem(
+      {
+        householdId,
+        learnerProfileId,
+        assignmentId: first.assignment.id,
+        sessionId: session.id,
+        ordinal: 1,
+        learnerResponse: '2:3',
+      },
+      store,
+    );
+    expect(submitted.status).toBe('SCORED');
+    expect(submitted.result).toMatchObject({ outcome: 'PASS', correctCount: 1, requiredCount: 1 });
+    expect(
+      await prisma.learnerLessonState.findUnique({
+        where: {
+          learnerProfileId_lessonCode_lessonVersion: {
+            learnerProfileId,
+            lessonCode: 'ratio-language-lesson',
+            lessonVersion: '1.0.0',
+          },
+        },
+        select: { completionStatus: true, remediationStatus: true },
+      }),
+    ).toEqual({ completionStatus: 'COMPLETE_BY_SKIP', remediationStatus: 'NONE' });
+    expect(
+      await prisma.activeAssessmentLease.count({ where: { householdId, releasedAt: null } }),
+    ).toBe(0);
   });
 
   it('rejects conflicting idempotency and a second active target', async () => {
@@ -116,6 +149,7 @@ describe('assessment assignment persistence', () => {
       algorithmVersion: 'mastery-1',
       curriculumSnapshotHash: 'sha256:bank',
       itemsPerAttempt: 1,
+      requiredCount: 1,
       expiresAt: new Date(Date.now() + 60_000),
     } as const;
     await expect(
@@ -132,8 +166,9 @@ describe('assessment assignment persistence', () => {
     });
     await expect(
       createAssessmentAssignment({ ...base, idempotencyKey: 'assignment-key-2' }, store),
-    ).rejects.toMatchObject({
-      code: 'ACTIVE_ASSIGNMENT_EXISTS',
-    });
+    ).resolves.toMatchObject({ replayed: false });
+    await expect(
+      createAssessmentAssignment({ ...base, idempotencyKey: 'assignment-key-3' }, store),
+    ).rejects.toMatchObject({ code: 'ACTIVE_ASSIGNMENT_EXISTS' });
   });
 });

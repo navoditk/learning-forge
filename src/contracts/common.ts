@@ -13,6 +13,15 @@ export type AssistanceLevel = z.infer<typeof AssistanceLevelSchema>;
 
 export const ContentModeSchema = z.enum(['core', 'depth', 'contest']);
 
-export const AttemptContextSchema = z.enum(['diagnostic', 'practice', 'mastery_check']);
+export const AttemptContextSchema = z.enum([
+  'diagnostic',
+  'practice',
+  'mastery_check',
+  'placement',
+  'lesson_assessment',
+  'unit_assessment',
+  'delayed_check',
+  'review',
+]);
 
 export const VersionSchema = z.string().trim().min(1).max(100);
