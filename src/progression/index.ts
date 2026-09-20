@@ -2,6 +2,7 @@ export * from './exposure';
 export * from './delay-window';
 export * from './placement';
 export * from './skip-override';
+export * from './review-schedule';
 export * from './policy';
 export * from './mastery';
 export * from './mastery-recalculation';

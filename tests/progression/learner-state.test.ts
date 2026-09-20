@@ -5,6 +5,11 @@ import {
   unitStatusAfterAssessment,
   unitStatusAfterLessonUpdate,
 } from '../../src/progression/learner-state';
+import {
+  advanceReviewSchedule,
+  lapseReviewSchedule,
+  preserveReviewScheduleForPractice,
+} from '../../src/progression/review-schedule';
 
 describe('progression learner-state rules', () => {
   it('keeps completion historical and distinguishes a first-run skip', () => {
@@ -62,5 +67,36 @@ describe('progression learner-state rules', () => {
         hadPriorLessonWork: true,
       }),
     ).toBe('COMPLETE');
+  });
+
+  it('does not reset review scheduling on ordinary practice and expands intervals on review pass', () => {
+    const schedule = {
+      dueAt: new Date('2026-01-10T00:00:00Z'),
+      intervalIndex: 0,
+      lastOutcome: 'PASSED',
+    };
+    expect(preserveReviewScheduleForPractice(schedule)).toEqual(schedule);
+    expect(advanceReviewSchedule(schedule, new Date('2026-01-11T00:00:00Z'), [3, 7])).toEqual({
+      dueAt: new Date('2026-01-18T00:00:00Z'),
+      intervalIndex: 1,
+      lastOutcome: 'PASSED',
+    });
+    expect(
+      advanceReviewSchedule(
+        { ...schedule, intervalIndex: 1 },
+        new Date('2026-01-11T00:00:00Z'),
+        [3, 7],
+      ).intervalIndex,
+    ).toBe(1);
+  });
+
+  it('marks a lapsed review due immediately without changing its interval', () => {
+    const now = new Date('2026-01-11T00:00:00Z');
+    expect(
+      lapseReviewSchedule(
+        { dueAt: new Date('2026-01-18T00:00:00Z'), intervalIndex: 1, lastOutcome: 'PASSED' },
+        now,
+      ),
+    ).toEqual({ dueAt: now, intervalIndex: 1, lastOutcome: 'LAPSED' });
   });
 });

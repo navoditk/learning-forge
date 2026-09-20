@@ -2991,6 +2991,16 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   while unresolved or remediation-required rows cannot. This is review
   infrastructure only; it does not self-approve C4 or change authorization.
 
+## 2026-09-19 — Review schedule state rules
+
+- Added pure review scheduling transitions: ordinary practice preserves the
+  existing schedule, passed reviews advance through the approved spacing
+  intervals, and lapsed reviews become immediately due for remediation without
+  changing mastery or interval history.
+- Added regression coverage for interval expansion, final-interval capping,
+  practice non-reset, and lapse behavior. Endpoint wiring remains gated by the
+  independent/manual release approvals.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version
