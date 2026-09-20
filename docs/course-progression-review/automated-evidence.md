@@ -1,0 +1,42 @@
+# Automated rollout evidence
+
+**Scope:** Grade 6 Math pilot, held-out assessment boundary, progression
+state-machine/endpoints, UI, and release-gate behavior.
+
+**Evidence status:** Automated evidence complete; this document is not an
+independent review or C4 authorization.
+
+## Repository evidence
+
+At commit `c0e42e3`:
+
+- `npm run verify` passed: formatting, lint, typecheck, migration down checks,
+  159 unit/contract/progression tests, and production build.
+- `npm run test:integration` passed: 39 persistence, Phase 1, and auth tests
+  against the disposable local PostgreSQL database.
+- `npm run test:e2e` passed: 22 Playwright tests covering authentication,
+  learner/parent journeys, keyboard operation, automated WCAG checks, and
+  fail-closed progression API behavior.
+- The test commands now provide a local PostgreSQL fallback while honoring an
+  explicitly supplied `DATABASE_URL`; production configuration is unchanged.
+
+## Deployed evidence
+
+- Render service `learning-forge` deployed the verified application revision.
+- `/review/course-progression` returned HTTP 200.
+- The assessment-assignment endpoint returned `404` with
+  `reasonCode: RELEASE_GATE_CLOSED` while C4 remained unauthorized.
+- The deployed read-only shadow-review job succeeded.
+- Direct redacted database evidence showed 11 unbound open sessions, 0 shadow
+  decisions, and 0 divergent shadow decisions.
+
+## Not proven by automation
+
+- Independent fourth-draft/C1–C3 review.
+- Mathematical/content, originality, accessibility, or child-safety approval
+  of the draft private assessment package.
+- Representative non-enforcing shadow traffic and divergence dispositions.
+- Authorization to execute the C4 cutover.
+
+No learner identifiers, prompts, answers, or private package content belong in
+this artifact.
