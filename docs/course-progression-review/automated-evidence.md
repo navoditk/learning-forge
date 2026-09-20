@@ -45,6 +45,15 @@ At the verified rollout checkpoint before this evidence-document-only update:
 - Dependency audit after the PostCSS and `deepmerge-ts` overrides reports zero
   vulnerabilities.
 
+## Non-production staging evidence
+
+- The staging-only synthetic shadow pilot ran against a disposable local
+  database with five requests and five closed sessions.
+- It produced five shadow decisions and one unresolved `DENY → ALLOW`
+  divergence (`LOCKED_PREREQUISITE`) for the `unit-rates-1` practice target.
+- This is evidence for independent review only; it is not representative
+  production traffic and does not authorize C4.
+
 ## Not proven by automation
 
 - Independent fourth-draft/C1–C3 review.
