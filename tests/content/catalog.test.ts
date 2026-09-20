@@ -102,6 +102,21 @@ describe('ratios content seed', () => {
     expect(readinessByItem.get('percent-applications-2')).toEqual([]);
   });
 
+  it('rejects legacy prerequisiteSkillCodes from the live catalog', () => {
+    const candidate = contentCatalog.map((item, index) => {
+      if (index !== 0) return item;
+      const legacy = { ...(item as unknown as Record<string, unknown>) };
+      delete legacy.role;
+      delete legacy.skillRef;
+      delete legacy.itemReadinessRefs;
+      legacy.skillCode = skillCodeOf(item);
+      legacy.prerequisiteSkillCodes = [];
+      return legacy;
+    });
+
+    expect(() => validateContentCatalog(candidate)).toThrow('Invalid discriminator value');
+  });
+
   it('has deterministic validators and progressive, non-leaking hint ladders', () => {
     for (const item of contentCatalog) {
       expect(item.deterministicValidator.acceptedAnswers).toContain(

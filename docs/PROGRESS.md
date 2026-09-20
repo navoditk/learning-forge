@@ -2866,3 +2866,14 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Validation: focused shadow test and `npm run verify` passed; the independent
   C1–C3 review, private assessment package, and C4/manual release gates remain
   outstanding.
+
+## 2026-09-19 — Curriculum acceptance coverage U28–U31
+
+- Added falsifying coverage for self-referential and cross-program item
+  readiness references, non-hybrid legacy-policy declarations, live-catalog
+  rejection of roleless legacy records carrying prerequisite fields, and
+  assessment-bank skill coverage.
+- Validation: curriculum/content tests passed (34 tests); `npm run verify`
+  passed with 120 tests and a production build.
+- This closes automated contract evidence only; it does not substitute for
+  the required independent architecture review or manual release approvals.

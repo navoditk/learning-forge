@@ -145,6 +145,60 @@ describe('course progression contracts', () => {
     ).toThrow('outside the owning skill prerequisite closure');
   });
 
+  it('rejects self and cross-program item readiness references', () => {
+    expect(() =>
+      validateItemReadinessRefs(
+        [
+          {
+            id: 'self-item',
+            skillRef: { code: 'target', version: '1.0.0' },
+            itemReadinessRefs: [{ code: 'target', version: '1.0.0' }],
+          },
+        ],
+        [
+          {
+            code: 'target',
+            program: 'grade-6-math',
+            version: '1.0.0',
+            prerequisiteSkillCodes: [],
+          },
+        ],
+      ),
+    ).toThrow('cannot declare its owning skill');
+
+    expect(() =>
+      validateItemReadinessRefs(
+        [
+          {
+            id: 'cross-program-item',
+            skillRef: { code: 'target', version: '1.0.0' },
+            itemReadinessRefs: [{ code: 'other', version: '1.0.0' }],
+          },
+        ],
+        [
+          {
+            code: 'target',
+            program: 'grade-6-math',
+            version: '1.0.0',
+            prerequisiteSkillCodes: ['other'],
+          },
+          { code: 'other', program: 'math-kangaroo-6', version: '1.0.0' },
+        ],
+      ),
+    ).toThrow('another program');
+  });
+
+  it('rejects a non-hybrid program carrying a legacy compatibility policy', () => {
+    const program = PROGRAM_REGISTRY.find(({ code }) => code === 'math-kangaroo-6');
+    expect(program).toBeDefined();
+    expect(
+      ProgramSchema.safeParse({
+        ...program,
+        legacyCompatibilityPolicyRef: { code: 'legacy', version: '1.0.0' },
+      }).success,
+    ).toBe(false);
+  });
+
   it('validates the ordered Program → Unit → Lesson bank spine', () => {
     const programRef = { code: 'pilot', version: '1.0.0' };
     const unitRef = { code: 'unit-1', version: '1.0.0' };
