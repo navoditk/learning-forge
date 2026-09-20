@@ -10,6 +10,7 @@ import type { Ref } from '../contracts/progression';
 import { prisma } from '../server/prisma';
 import type { AssessmentStore, HeldOutAssessmentBank } from '../assessment/store';
 import { createAssessmentStore } from '../assessment/store';
+import { reassessmentEligibility, type ReassessmentRun } from './reassessment';
 
 export type AssessmentSelection = {
   id: string;
@@ -21,7 +22,11 @@ export type AssessmentSelection = {
 export class AssessmentAssignmentError extends Error {
   constructor(
     readonly code:
-      'ASSESSMENT_BANK_INSUFFICIENT' | 'ACTIVE_ASSIGNMENT_EXISTS' | 'IDEMPOTENCY_KEY_CONFLICT',
+      | 'ASSESSMENT_BANK_INSUFFICIENT'
+      | 'ACTIVE_ASSIGNMENT_EXISTS'
+      | 'IDEMPOTENCY_KEY_CONFLICT'
+      | 'MAX_REASSESSMENTS_REACHED'
+      | 'REASSESSMENT_COOLDOWN',
     message: string,
   ) {
     super(message);
@@ -89,6 +94,8 @@ export type CreateAssessmentAssignmentInput = {
   itemsPerAttempt: number;
   requiredCount: number;
   requiredSkillCodes?: readonly string[];
+  maxReassessments?: number;
+  reassessmentCooldownHours?: number;
   expiresAt: Date;
   idempotencyKey: string;
 };
@@ -114,16 +121,6 @@ export async function createAssessmentAssignment(
   database: PrismaClient = prisma,
 ) {
   const bank = await store.getBank(input.bankRef);
-  const selectedItems = selectAssessmentItems(
-    bank,
-    input.itemsPerAttempt,
-    new Set(),
-    input.requiredSkillCodes,
-  );
-  const selectedKeys = new Set(selectedItems.map((item) => `${item.id}@${item.version}`));
-  const excludedItems = bank.items
-    .filter((item) => !selectedKeys.has(`${item.id}@${item.version}`))
-    .map((item) => ({ id: item.id, version: item.version, reason: 'NOT_SELECTED' }));
 
   return database.$transaction(
     async (transaction) => {
@@ -169,6 +166,63 @@ export async function createAssessmentAssignment(
           'An assessment run is already active for this target.',
         );
       }
+
+      const previousAssignments = await transaction.assessmentAssignment.findMany({
+        where: {
+          learnerProfileId: input.learnerProfileId,
+          kind: input.kind,
+          targetKind: input.targetKind,
+          targetCode: input.targetRef.code,
+          targetVersion: input.targetRef.version,
+        },
+        select: { selectedItems: true, result: { select: { outcome: true, scoredAt: true } } },
+      });
+      const priorRuns: ReassessmentRun[] = previousAssignments.flatMap((previous) => {
+        if (!previous.result) return [];
+        const selectedItemKeys = Array.isArray(previous.selectedItems)
+          ? previous.selectedItems.flatMap((value) => {
+              if (typeof value !== 'object' || value === null || Array.isArray(value)) return [];
+              const object = value as Prisma.JsonObject;
+              return typeof object.id === 'string' && typeof object.version === 'string'
+                ? [`${object.id}@${object.version}`]
+                : [];
+            })
+          : [];
+        return [{ ...previous.result, selectedItemKeys }];
+      });
+      const eligibility =
+        input.maxReassessments !== undefined && input.reassessmentCooldownHours !== undefined
+          ? reassessmentEligibility({
+              priorRuns,
+              now: new Date(),
+              maxReassessments: input.maxReassessments,
+              cooldownHours: input.reassessmentCooldownHours,
+            })
+          : { eligible: true as const, excludedItemKeys: new Set<string>() };
+      if (!eligibility.eligible) {
+        throw new AssessmentAssignmentError(
+          eligibility.reasonCode,
+          eligibility.reasonCode === 'REASSESSMENT_COOLDOWN'
+            ? 'A reassessment cooldown is still active.'
+            : 'The maximum number of reassessments has been reached.',
+        );
+      }
+      const selectedItems = selectAssessmentItems(
+        bank,
+        input.itemsPerAttempt,
+        eligibility.excludedItemKeys,
+        input.requiredSkillCodes,
+      );
+      const selectedKeys = new Set(selectedItems.map((item) => `${item.id}@${item.version}`));
+      const excludedItems = bank.items
+        .filter((item) => !selectedKeys.has(`${item.id}@${item.version}`))
+        .map((item) => ({
+          id: item.id,
+          version: item.version,
+          reason: eligibility.excludedItemKeys.has(`${item.id}@${item.version}`)
+            ? 'FAILED_RUN'
+            : 'NOT_SELECTED',
+        }));
 
       const attemptOrdinal =
         (await transaction.assessmentAssignment.count({

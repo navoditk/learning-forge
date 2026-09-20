@@ -2,7 +2,10 @@ import { AssessmentKind, ProgressionTargetKind } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { createAssessmentAssignment } from '../../../../../progression/assessment-assignment';
+import {
+  AssessmentAssignmentError,
+  createAssessmentAssignment,
+} from '../../../../../progression/assessment-assignment';
 import { loadPolicyArtifacts } from '../../../../../progression/artifacts';
 import { policyHash, resolvePolicyProfile } from '../../../../../progression/policy';
 import {
@@ -167,6 +170,8 @@ export async function POST(request: NextRequest) {
         itemsPerAttempt: itemsPerAttempt(body.kind, profile),
         requiredCount: required,
         requiredSkillCodes,
+        maxReassessments: profile.maxReassessments,
+        reassessmentCooldownHours: profile.reassessmentCooldownHours,
         expiresAt: new Date(Date.now() + profile.runExpiryHours * 60 * 60 * 1000),
         idempotencyKey: body.idempotencyKey,
       },
@@ -174,6 +179,9 @@ export async function POST(request: NextRequest) {
     );
     return NextResponse.json(assignment, { status: assignment.replayed ? 200 : 201 });
   } catch (error) {
+    if (error instanceof AssessmentAssignmentError) {
+      return NextResponse.json({ error: error.message, reasonCode: error.code }, { status: 409 });
+    }
     if (error instanceof AssessmentStoreUnavailableError) {
       return NextResponse.json({ error: error.message, reasonCode: error.code }, { status: 503 });
     }

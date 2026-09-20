@@ -11,6 +11,7 @@ export * from './artifacts';
 export * from './shadow';
 export * from './assessment-assignment';
 export * from './assessment-scoring';
+export * from './reassessment';
 export * from './assessment-state';
 export * from './assessment-submission';
 export * from './learner-state';

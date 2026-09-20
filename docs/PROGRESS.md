@@ -3017,6 +3017,14 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Added pure scoring tests for the failure and success cases. The existing
   default-off release gate remains unchanged.
 
+## 2026-09-19 — Reassessment cooldown and item exclusion
+
+- Added policy-driven reassessment eligibility: failed runs enforce the
+  approved cooldown and maximum count, and every item from failed runs is
+  excluded from the next eligible assignment.
+- Added stable error codes, route responses, selection coverage, and pure
+  boundary tests. The default-off release gate remains unchanged.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version
