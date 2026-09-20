@@ -1,3 +1,4 @@
+import { Prisma, PrismaClient } from '@prisma/client';
 import type { Ref } from '../contracts/progression';
 import type { ProgressionPolicyProfile } from '../contracts/policy';
 import {
@@ -15,6 +16,7 @@ export type MasteryEstimateSnapshot = MasteryResult & {
   policyProfileRef: Ref;
   policyProfileHash: string;
   curriculumSnapshotHash: string;
+  delayedCheckStatus: DelayedCheckStatus;
   calculatedAt: Date;
 };
 
@@ -50,6 +52,7 @@ export function recalculateMastery(input: MasteryRecalculationInput): MasteryEst
     input.now,
     input.policyProfile.stalenessDays,
   );
+  const delayedCheckStatus = input.delayedCheckStatus ?? 'NOT_ATTEMPTED';
   return {
     ...result,
     learnerProfileId: input.learnerProfileId,
@@ -58,6 +61,33 @@ export function recalculateMastery(input: MasteryRecalculationInput): MasteryEst
     policyProfileRef: input.policyProfileRef,
     policyProfileHash: input.policyProfileHash,
     curriculumSnapshotHash: input.curriculumSnapshotHash,
+    delayedCheckStatus,
     calculatedAt: input.now,
   };
+}
+
+export async function persistMasteryEstimateSnapshot(
+  database: PrismaClient | Prisma.TransactionClient,
+  householdId: string,
+  snapshot: MasteryEstimateSnapshot,
+) {
+  if (snapshot.estimate === undefined) {
+    throw new Error('MASTERY_NOT_ASSESSED');
+  }
+  return database.masteryEstimate.create({
+    data: {
+      householdId,
+      learnerProfileId: snapshot.learnerProfileId,
+      skillCode: snapshot.skillCode,
+      estimate: snapshot.estimate,
+      confidenceBand: snapshot.confidenceBand,
+      algorithmVersion: snapshot.algorithmVersion,
+      policyProfileCode: snapshot.policyProfileRef.code,
+      policyProfileVersion: snapshot.policyProfileRef.version,
+      policyProfileHash: snapshot.policyProfileHash,
+      curriculumSnapshotHash: snapshot.curriculumSnapshotHash,
+      independentDelayedCheck: snapshot.delayedCheckStatus === 'CONFIRMED',
+      createdAt: snapshot.calculatedAt,
+    },
+  });
 }

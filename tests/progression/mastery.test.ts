@@ -199,6 +199,7 @@ describe('mastery aggregation', () => {
     expect(snapshot.algorithmVersion).toBe('mastery-2');
     expect(snapshot.policyProfileHash).toBe('sha256:policy');
     expect(snapshot.curriculumSnapshotHash).toBe('sha256:curriculum');
+    expect(snapshot.delayedCheckStatus).toBe('NOT_ATTEMPTED');
     expect(snapshot.estimate).toBe(1);
   });
 });

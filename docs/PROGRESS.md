@@ -2973,3 +2973,11 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   database-backed integration tests passed (35), and the down migration was
   exercised transactionally. Database-free verification also passed with 138
   tests and a production build.
+
+## 2026-09-19 — Pinned mastery snapshot persistence
+
+- Added persistence for recalculated mastery snapshots as new algorithm-version
+  rows, carrying policy and curriculum provenance and preserving prior rows.
+- Added database integration coverage for the immutable-row behavior and
+  delayed-check pin. The write path is not called by learner-serving routes;
+  runtime authorization and the release gate remain unchanged.
