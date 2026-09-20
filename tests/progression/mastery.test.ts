@@ -52,7 +52,74 @@ describe('mastery aggregation', () => {
       independent: true,
     };
     expect(
-      aggregateMastery([observation, { ...observation, itemId: 'b' }], profile, now).confidenceBand,
+      aggregateMastery([observation, { ...observation, itemId: 'b' }], profile, now, 'CONFIRMED')
+        .confidenceBand,
     ).toBe('HIGH');
+  });
+
+  it('does not produce HIGH without a confirmed delayed check', () => {
+    const now = new Date('2026-01-10T00:00:00Z');
+    const observation = {
+      itemId: 'a',
+      correctness: true,
+      assistanceOrdinal: 0,
+      context: 'practice',
+      occurredAt: now,
+      exposureCountBefore: 0,
+      independent: true,
+    };
+    expect(
+      aggregateMastery([observation, { ...observation, itemId: 'b' }], profile, now).confidenceBand,
+    ).toBe('MEDIUM');
+  });
+
+  it('uses maximum assistance and collapses repeated items within a session', () => {
+    const now = new Date('2026-01-10T00:00:00Z');
+    const observations = [
+      {
+        itemId: 'a',
+        sessionId: 'session-1',
+        correctness: false,
+        assistanceOrdinal: 1,
+        context: 'practice',
+        occurredAt: new Date('2026-01-09T00:00:00Z'),
+        exposureCountBefore: 0,
+        independent: false,
+      },
+      {
+        itemId: 'a',
+        sessionId: 'session-1',
+        correctness: true,
+        assistanceOrdinal: 0,
+        context: 'practice',
+        occurredAt: new Date('2026-01-10T00:00:00Z'),
+        exposureCountBefore: 0,
+        independent: true,
+      },
+    ];
+    const result = aggregateMastery(observations, profile, now);
+    expect(result.evidenceMass).toBeCloseTo(0.5);
+    expect(result.estimate).toBe(1);
+    expect(result.independentObservations).toBe(0);
+  });
+
+  it('keeps a prior correct observation in the denominator after a slip', () => {
+    const now = new Date('2026-01-10T00:00:00Z');
+    const correct = {
+      itemId: 'a',
+      correctness: true,
+      assistanceOrdinal: 0,
+      context: 'practice',
+      occurredAt: now,
+      exposureCountBefore: 0,
+      independent: true,
+    };
+    const result = aggregateMastery(
+      [correct, { ...correct, itemId: 'b', correctness: false }],
+      profile,
+      now,
+    );
+    expect(result.estimate).toBeGreaterThan(0);
+    expect(result.estimate).toBeLessThan(1);
   });
 });

@@ -2934,3 +2934,18 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Added unit coverage for the closed-by-default contract. Validation:
   `npm run verify` passed with 121 tests and a production build, integration
   tests passed (34), and full E2E passed (22).
+
+## 2026-09-19 — Mastery evidence aggregation hardening
+
+- Added superseded-observation exclusion, same-session/item collapse using the
+  latest response plus maximum assistance, chronological aggregation-window
+  selection, bounded raw-score support, and an explicit undefined estimate when
+  no evidence is available.
+- Required a confirmed delayed check for `HIGH` confidence and derived
+  independent-observation counts from the persisted assistance ordinal.
+- Added regression coverage for delayed confirmation, session collapse and
+  assistance weighting, and retaining prior correct evidence after a later
+  slip. Validation: `npm run verify` passed with 136 tests and a production
+  build.
+- Persistence/recalculation, delayed-check endpoint wiring, and the required
+  independent C1–C3/manual release approvals remain outstanding.
