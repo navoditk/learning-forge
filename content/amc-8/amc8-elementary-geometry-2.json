@@ -2,11 +2,15 @@
   "id": "amc8-elementary-geometry-2",
   "version": "content-2",
   "title": "Lawn with two removed regions",
-  "skillCode": "amc8-elementary-geometry",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-elementary-geometry",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-GEOM-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Combines a right-triangle area (found from its legs) with a separate square area to subtract two removed regions from a rectangle in one multi-step solution."
   ],

@@ -2,11 +2,15 @@
   "id": "snsb6-phoneme-grapheme-mapping-contest-2",
   "version": "content-1",
   "title": "Use an alternate pronunciation cue",
-  "skillCode": "snsb6-phoneme-grapheme-mapping",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-phoneme-grapheme-mapping",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["SNSB6-PHON-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],

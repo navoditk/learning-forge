@@ -2,11 +2,15 @@
   "id": "mc6-counting-and-probability-2",
   "version": "content-3",
   "title": "Dice sum that is a multiple of four",
-  "skillCode": "mc6-counting-and-probability",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-counting-and-probability",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MC6-PCC-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Counts favorable ordered dice outcomes by cases and writes the probability as a reduced fraction over the 36 outcomes."
   ],

@@ -2,11 +2,15 @@
   "id": "mk6-clock-and-calendar-reasoning-2",
   "version": "content-1",
   "title": "The 100th club meeting",
-  "skillCode": "mk6-clock-and-calendar-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-clock-and-calendar-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-ARITH-3"],
-  "prerequisiteSkillCodes": ["mk6-clock-and-calendar-reasoning"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Combines an event interval with an ordinal position, then uses a remainder modulo 7 to determine the weekday."
   ],
@@ -14,11 +18,26 @@
   "contestFormat": {
     "pointValue": 5,
     "answerChoices": [
-      { "label": "A", "text": "Monday" },
-      { "label": "B", "text": "Tuesday" },
-      { "label": "C", "text": "Wednesday" },
-      { "label": "D", "text": "Thursday" },
-      { "label": "E", "text": "Friday" }
+      {
+        "label": "A",
+        "text": "Monday"
+      },
+      {
+        "label": "B",
+        "text": "Tuesday"
+      },
+      {
+        "label": "C",
+        "text": "Wednesday"
+      },
+      {
+        "label": "D",
+        "text": "Thursday"
+      },
+      {
+        "label": "E",
+        "text": "Friday"
+      }
     ]
   },
   "solutionRepresentation": "From the 1st meeting to the 100th there are 99 intervals. The elapsed time is 99 × 9 = 891 days. Dividing 891 by 7 leaves a remainder of 2, so the weekday advances two days from Wednesday to Friday.",

@@ -2,11 +2,15 @@
   "id": "surface-area-and-volume-1",
   "version": "content-1",
   "title": "Triangular-prism surface area",
-  "skillCode": "surface-area-and-volume",
+  "role": "practice",
+  "skillRef": {
+    "code": "surface-area-and-volume",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.G.A.4"],
-  "prerequisiteSkillCodes": ["area-of-composite-shapes"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses a text-described net of a triangular prism to identify all faces and finds total surface area in square units."
   ],

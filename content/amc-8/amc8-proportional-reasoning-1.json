@@ -2,11 +2,15 @@
   "id": "amc8-proportional-reasoning-1",
   "version": "content-1",
   "title": "Notebook unit price",
-  "skillCode": "amc8-proportional-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-proportional-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["AMC8-RATIO-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Finds a unit rate from a total cost and scales it multiplicatively to a new quantity."
   ],

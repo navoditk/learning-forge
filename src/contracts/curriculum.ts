@@ -1,13 +1,9 @@
 import { z } from 'zod';
 
-export const CurriculumProgramSchema = z.enum([
-  'grade-6-math',
-  'math-kangaroo-6',
-  'moems-6',
-  'amc-8',
-  'mathcounts-6',
-  'scripps-spelling-bee-6',
-]);
+import { VersionSchema } from './common';
+import { ProgramCodeSchema } from './program-codes';
+
+export const CurriculumProgramSchema = ProgramCodeSchema;
 
 export type CurriculumProgram = z.infer<typeof CurriculumProgramSchema>;
 
@@ -53,6 +49,9 @@ const SkillCodeSchema = z.string().regex(/^[a-z0-9-]+$/);
 export const SkillSchema = z
   .object({
     code: SkillCodeSchema,
+    // Optional while the catalog transitions from legacy records. New
+    // versioned skills must use VersionedSkillSchema from progression.ts.
+    version: VersionSchema.optional(),
     title: z.string().trim().min(1).max(160),
     program: CurriculumProgramSchema,
     domain: CurriculumDomainSchema,

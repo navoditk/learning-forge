@@ -2,11 +2,15 @@
   "id": "mc6-geometry-area-and-angles-1",
   "version": "content-3",
   "title": "Splitting the leftover angle",
-  "skillCode": "mc6-geometry-area-and-angles",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-geometry-area-and-angles",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MC6-PG-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses the straight-line angle total, then halves the leftover angle to find an unknown angle."
   ],

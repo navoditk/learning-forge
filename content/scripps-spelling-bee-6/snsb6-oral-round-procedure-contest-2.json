@@ -2,11 +2,15 @@
   "id": "snsb6-oral-round-procedure-contest-2",
   "version": "content-1",
   "title": "Rehearse a local-round turn",
-  "skillCode": "snsb6-oral-round-procedure",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-oral-round-procedure",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["SNSB6-PROC-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],

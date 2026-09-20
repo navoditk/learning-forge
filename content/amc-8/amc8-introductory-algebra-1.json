@@ -2,11 +2,15 @@
   "id": "amc8-introductory-algebra-1",
   "version": "content-1",
   "title": "Solving a one-step expression equation",
-  "skillCode": "amc8-introductory-algebra",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-introductory-algebra",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["AMC8-ALG-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses inverse operations to solve a linear equation and can check the result by substitution."
   ],

@@ -2,11 +2,15 @@
   "id": "amc8-estimation-number-sense-2",
   "version": "content-2",
   "title": "Puzzle booth estimate",
-  "skillCode": "amc8-estimation-number-sense",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-estimation-number-sense",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-EST-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses a percent benchmark and rounded total to choose a reasonable no-calculator estimate."
   ],

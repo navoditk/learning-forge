@@ -10,6 +10,15 @@ Follow `docs/curriculum-authoring-playbook.md`,
 
 ## Preconditions
 
+0. Confirm new curriculum authoring is not currently paused. As of
+   2026-09-19 it is. **Architecture approval alone does not lift the pause**:
+   the required gate set is `D-61` in
+   `docs/course-progression-decisions.md`, which additionally requires the
+   publication hotfix (`D-58`, Stage A0), the assessment-exposure decision
+   (`D-01`), the record-shape decisions (`D-37`, `D-38`, `D-56`, `D-57`,
+   `D-40`), the rollout decision (`D-52`), and Stages A0/A1 merged so the role
+   schemas exist to author against. Check `docs/curriculum-agents.md` before
+   starting.
 1. Locate the target curriculum section in `docs/curriculum-sources.md`.
 2. Confirm it is explicitly approved by a human product/content owner.
 3. Confirm standards identifiers, edition, scope, and unresolved gaps are
@@ -30,7 +39,28 @@ Do not perform new source research silently inside the authoring task.
    `provenance.origin: "llm_drafted"` and begin with
    `review.status: "pending_review"`.
 6. Include age-appropriate misconceptions, hint progression, canonical
-   answers, deterministic validation, and accessible text alternatives.
+   answers, deterministic validation, and accessible text alternatives —
+   **as required by the record's role**. Once the role-specific schemas in
+   `docs/course-progression-architecture.md` §4.2 are approved and
+   implemented, these obligations differ by role and must not be applied
+   uniformly:
+   - `teaching` records carry an explanation, optional worked example,
+     accessibility notes, and an accessible alternative. They have **no**
+     deterministic validator, **no** hint ladder, and **no** canonical
+     answer, because they are not attemptable and produce no mastery
+     evidence.
+   - `practice` records keep today's full contract: deterministic validator,
+     canonical and accepted answers, a contiguous hint ladder, forbidden
+     leakage patterns, and misconception coverage.
+   - `assessment` and `review` records require a deterministic validator,
+     canonical and accepted answers, forbidden leakage patterns, and an
+     accessible alternative, and are **forbidden** a hint ladder. An
+     assessment item carrying hints is a defect, not a style choice.
+     The canonical role contract is
+     `docs/course-progression-architecture.md` §4.2; this list is a
+     convenience restatement and §4.2 governs. Where assessment records live
+     depends on `D-01`, which is open. Until those schemas exist, every record
+     is a `practice` record and the uniform contract applies.
 7. For every prerequisite edge, verify it is a genuine conceptual
    dependency: a learner must be mathematically/conceptually unable to
    achieve the downstream skill without the upstream one. An edge that only
@@ -42,6 +72,16 @@ Do not perform new source research silently inside the authoring task.
    exercise the skill's full `observableEvidence`/mastery-rule scope. Two
    records that vary only the numbers in the same pattern do not satisfy
    this; check coverage jointly across the whole set, not per-record.
+   Compare records by **item identity and version**, and by the reasoning the
+   item actually requires — not by whether their prompt strings differ, which
+   both over- and under-detects.
+   8a. **Check the catalog's record-count rule before adding a record.**
+   `validateContentCatalog` currently enforces exactly two content records per
+   skill and throws at module load, so adding a third record of any kind
+   crashes the application at import. Confirm the current rule, and whether
+   the role-aware replacement in `docs/course-progression-architecture.md`
+   §11.2 has been approved and implemented, before authoring anything beyond
+   the established pair.
 9. For every misconception-tied distractor, trace the exact error mechanism
    named in its rationale step by step and confirm it deterministically
    produces the stated wrong-answer value. A plausible-sounding rationale

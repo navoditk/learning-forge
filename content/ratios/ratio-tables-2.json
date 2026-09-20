@@ -2,11 +2,15 @@
   "id": "ratio-tables-2",
   "version": "content-1",
   "title": "Walking distance",
-  "skillCode": "ratio-tables",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-tables",
+    "version": "1.0.0"
+  },
   "mode": "depth",
   "difficulty": "challenging",
   "standards": ["6.RP.A.3"],
-  "prerequisiteSkillCodes": ["ratio-tables", "unit-rates"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses a ratio table to find an unfamiliar scale factor and explains the invariant rate."
   ],

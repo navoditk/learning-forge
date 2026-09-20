@@ -2,11 +2,15 @@
   "id": "variables-in-context-1",
   "version": "content-1",
   "title": "Workshop cost variable",
-  "skillCode": "variables-in-context",
+  "role": "practice",
+  "skillRef": {
+    "code": "variables-in-context",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.EE.B.6"],
-  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses a variable for a changing count and writes an expression for a fee plus repeated cost."
   ],

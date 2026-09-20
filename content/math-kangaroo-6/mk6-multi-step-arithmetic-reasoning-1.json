@@ -2,11 +2,15 @@
   "id": "mk6-multi-step-arithmetic-reasoning-1",
   "version": "content-1",
   "title": "Bake sale change",
-  "skillCode": "mk6-multi-step-arithmetic-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-multi-step-arithmetic-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["MK6-ARITH-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Combines whole-number and decimal operations across two steps to reach a single final answer."
   ],

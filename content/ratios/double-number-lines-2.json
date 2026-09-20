@@ -2,11 +2,15 @@
   "id": "double-number-lines-2",
   "version": "content-1",
   "title": "Watering schedule",
-  "skillCode": "double-number-lines",
+  "role": "practice",
+  "skillRef": {
+    "code": "double-number-lines",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.RP.A.3"],
-  "prerequisiteSkillCodes": ["double-number-lines", "ratio-tables"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses a proportional relationship in reverse and justifies the direction of scaling."
   ],

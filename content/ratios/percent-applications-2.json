@@ -2,11 +2,15 @@
   "id": "percent-applications-2",
   "version": "content-1",
   "title": "Recycled materials",
-  "skillCode": "percent-applications",
+  "role": "practice",
+  "skillRef": {
+    "code": "percent-applications",
+    "version": "1.0.0"
+  },
   "mode": "depth",
   "difficulty": "challenging",
   "standards": ["6.RP.A.3"],
-  "prerequisiteSkillCodes": ["percent-applications", "ratio-tables"],
+  "itemReadinessRefs": [],
   "observableEvidence": ["Finds the whole from a known percent and part, then checks the result."],
   "prompt": "A recycling club collected 18 kilograms of cans, which was 30% of all the material collected. What was the total mass of material?",
   "solutionRepresentation": "18 is 30% of the total, so total = 18 ÷ 0.30 = 60 kilograms.",

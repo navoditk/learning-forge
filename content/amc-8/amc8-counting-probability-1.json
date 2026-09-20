@@ -2,11 +2,15 @@
   "id": "amc8-counting-probability-1",
   "version": "content-1",
   "title": "Spinner complement probability",
-  "skillCode": "amc8-counting-probability",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-counting-probability",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["AMC8-COUNT-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Counts favorable spinner sectors by using the complement of the named category and writes the probability as favorable outcomes over total outcomes."
   ],

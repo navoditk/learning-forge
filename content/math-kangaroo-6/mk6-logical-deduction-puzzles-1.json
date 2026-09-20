@@ -2,11 +2,15 @@
   "id": "mk6-logical-deduction-puzzles-1",
   "version": "content-1",
   "title": "Who owns which pet?",
-  "skillCode": "mk6-logical-deduction-puzzles",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-logical-deduction-puzzles",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MK6-LOGIC-1"],
-  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses a small set of stated constraints to eliminate impossible pairings and deduce the one arrangement consistent with all of them."
   ],

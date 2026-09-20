@@ -2,11 +2,15 @@
   "id": "moems6-number-and-place-value-2",
   "version": "content-1",
   "title": "A constrained three-digit number",
-  "skillCode": "moems6-number-and-place-value",
+  "role": "practice",
+  "skillRef": {
+    "code": "moems6-number-and-place-value",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MOEMS-E-ARITH-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Combines three digit constraints and divisibility reasoning to determine an unknown three-digit number."
   ],

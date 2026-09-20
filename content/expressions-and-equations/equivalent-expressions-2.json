@@ -2,11 +2,20 @@
   "id": "equivalent-expressions-2",
   "version": "content-1",
   "title": "Combine like terms and evaluate",
-  "skillCode": "equivalent-expressions",
+  "role": "practice",
+  "skillRef": {
+    "code": "equivalent-expressions",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.EE.A.3", "6.EE.A.4"],
-  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "itemReadinessRefs": [
+    {
+      "code": "variables-and-expressions",
+      "version": "1.0.0"
+    }
+  ],
   "observableEvidence": [
     "Combines like terms to simplify an expression, then evaluates the simplified form by substitution."
   ],

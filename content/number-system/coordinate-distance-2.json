@@ -2,11 +2,15 @@
   "id": "coordinate-distance-2",
   "version": "content-1",
   "title": "Vertical distance through the origin",
-  "skillCode": "coordinate-distance",
+  "role": "practice",
+  "skillRef": {
+    "code": "coordinate-distance",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.NS.C.8"],
-  "prerequisiteSkillCodes": ["coordinate-plane"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Finds the vertical distance between points in different quadrants that share an x-coordinate."
   ],

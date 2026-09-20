@@ -2,11 +2,15 @@
   "id": "snsb6-etymology-language-origins-core-1",
   "version": "content-1",
   "title": "Use an origin clue",
-  "skillCode": "snsb6-etymology-language-origins",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-etymology-language-origins",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["SNSB6-ETYM-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],

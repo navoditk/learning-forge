@@ -2,11 +2,15 @@
   "id": "mc6-geometry-area-and-angles-2",
   "version": "content-4",
   "title": "Infer the missing corner of a garden",
-  "skillCode": "mc6-geometry-area-and-angles",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-geometry-area-and-angles",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MC6-PG-01", "MC6-MEAS-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Infers both dimensions of a removed rectangular corner from exposed side lengths, then subtracts its area from the full rectangle."
   ],

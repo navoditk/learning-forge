@@ -2,11 +2,15 @@
   "id": "mk6-spatial-visualization-3d-1",
   "version": "content-2",
   "title": "Faces of a rectangular box",
-  "skillCode": "mk6-spatial-visualization-3d",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-spatial-visualization-3d",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MK6-GEOM-3"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Counts the number of faces, edges, or vertices of a rectangular solid without a picture, reasoning from its structure."
   ],

@@ -2,11 +2,15 @@
   "id": "double-number-lines-1",
   "version": "content-1",
   "title": "Map scale",
-  "skillCode": "double-number-lines",
+  "role": "practice",
+  "skillRef": {
+    "code": "double-number-lines",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.RP.A.3"],
-  "prerequisiteSkillCodes": ["unit-rates"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Matches corresponding distances on two number lines using a constant scale."
   ],

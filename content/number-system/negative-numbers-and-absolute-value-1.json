@@ -2,11 +2,15 @@
   "id": "negative-numbers-and-absolute-value-1",
   "version": "content-1",
   "title": "Submarine depth",
-  "skillCode": "negative-numbers-and-absolute-value",
+  "role": "practice",
+  "skillRef": {
+    "code": "negative-numbers-and-absolute-value",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.NS.C.7"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Evaluates the absolute value of a negative number and interprets it as a distance from zero."
   ],

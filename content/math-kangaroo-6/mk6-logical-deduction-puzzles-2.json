@@ -2,11 +2,15 @@
   "id": "mk6-logical-deduction-puzzles-2",
   "version": "content-1",
   "title": "Race finish order",
-  "skillCode": "mk6-logical-deduction-puzzles",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-logical-deduction-puzzles",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-LOGIC-1"],
-  "prerequisiteSkillCodes": ["mk6-logical-deduction-puzzles"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses four interacting clues about relative order to determine a unique finishing order among four competitors, checking every clue against the final arrangement."
   ],
@@ -14,11 +18,26 @@
   "contestFormat": {
     "pointValue": 5,
     "answerChoices": [
-      { "label": "A", "text": "Dee, Gus, Eli, Fay" },
-      { "label": "B", "text": "Gus, Dee, Eli, Fay" },
-      { "label": "C", "text": "Gus, Eli, Fay, Dee" },
-      { "label": "D", "text": "Eli, Fay, Dee, Gus" },
-      { "label": "E", "text": "Fay, Gus, Dee, Eli" }
+      {
+        "label": "A",
+        "text": "Dee, Gus, Eli, Fay"
+      },
+      {
+        "label": "B",
+        "text": "Gus, Dee, Eli, Fay"
+      },
+      {
+        "label": "C",
+        "text": "Gus, Eli, Fay, Dee"
+      },
+      {
+        "label": "D",
+        "text": "Eli, Fay, Dee, Gus"
+      },
+      {
+        "label": "E",
+        "text": "Fay, Gus, Dee, Eli"
+      }
     ]
   },
   "solutionRepresentation": "Eli-immediately-before-Fay means they are adjacent as (Eli, Fay) in that order. Dee is before Eli but not first, so someone is before Dee; that must be Gus (the only remaining runner), giving Gus, Dee, Eli, Fay. Gus is not last, which is satisfied (Gus is 1st).",

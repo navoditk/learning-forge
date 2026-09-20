@@ -6,5 +6,8 @@ export * from './mastery';
 export * from './notification';
 export * from './planner';
 export * from './provider';
+export * from './program-codes';
+export * from './progression';
+export * from './policy';
 export * from './trace';
 export * from './tutor';

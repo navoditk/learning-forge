@@ -2,11 +2,15 @@
   "id": "coordinate-plane-1",
   "version": "content-1",
   "title": "Which quadrant",
-  "skillCode": "coordinate-plane",
+  "role": "practice",
+  "skillRef": {
+    "code": "coordinate-plane",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.NS.C.6"],
-  "prerequisiteSkillCodes": ["negative-numbers-and-absolute-value"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Determines the quadrant of a point from the signs of its x- and y-coordinates."
   ],

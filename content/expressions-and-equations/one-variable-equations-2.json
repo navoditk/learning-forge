@@ -2,14 +2,15 @@
   "id": "one-variable-equations-2",
   "version": "content-1",
   "title": "Solving with a rational coefficient",
-  "skillCode": "one-variable-equations",
+  "role": "practice",
+  "skillRef": {
+    "code": "one-variable-equations",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.EE.B.7"],
-  "prerequisiteSkillCodes": [
-    "equation-and-inequality-meaning",
-    "negative-numbers-and-absolute-value"
-  ],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Solves a one-variable equation with a nonnegative rational coefficient and checks the solution in the original equation."
   ],

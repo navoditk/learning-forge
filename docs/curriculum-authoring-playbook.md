@@ -27,6 +27,19 @@ content against an unresearched or uncited source repeats the exact gap this
 whole effort is meant to close (see `docs/curriculum-sources.md`'s IUSD open
 item for what that costs later).
 
+### Current pause (2026-09-19)
+
+**New curriculum authoring is paused.** Architecture approval alone does **not**
+lift it. The full gate set is `D-61` in
+`docs/course-progression-decisions.md`; in summary, resuming role-based
+authoring requires the architecture approved **and** `D-58` resolved with
+Stage A0 shipped, `D-01` resolved (plus `D-02` if held-out and `D-03`),
+`D-37`/`D-38`, `D-56`/`D-57`, `D-40`, `D-52` (plus `D-53` if hybrid), and
+Stages A0 and A1 merged so the role schemas exist to author against.
+
+Research and dossier review continue throughout. See `docs/curriculum-agents.md`
+for the boundary.
+
 ## Workflow
 
 ### 1. Design the skill graph
@@ -80,13 +93,13 @@ item for what that costs later).
 For each new skill, follow the existing, unchanged pipelines:
 
 1. A human names the target skill (from step 1), standard, difficulty band,
-   and mode (`core`, `depth`, or `contest`) — `docs/content-authoring-pipeline.md`,
-   step 1.
+   **role**, and mode (`core`, `depth`, or `contest`) —
+   `docs/content-authoring-pipeline.md`, step 1.
 2. Draft candidate content records (model-assisted or hand-authored) shaped
-   to `ContentItemSchema`, tagged with the correct `provenance.origin`
-   (`original` or `llm_drafted`; `licensed` only if `docs/curriculum-sources.md`
-   explicitly recorded a licensing decision for this subject) and
-   `review.status: "pending_review"`.
+   to the schema **for that role**, tagged with the correct
+   `provenance.origin` (`original` or `llm_drafted`; `licensed` only if
+   `docs/curriculum-sources.md` explicitly recorded a licensing decision for
+   this subject) and `review.status: "pending_review"`.
 3. Run `npm run content:validate` to check schema shape, unique IDs,
    contiguous hint ordering, required skill coverage, and forbidden
    answer-leakage patterns in hint text.
@@ -96,8 +109,38 @@ For each new skill, follow the existing, unchanged pipelines:
    the style sources named in `docs/curriculum-sources.md`, accessibility)
    before setting `review.status: "reviewed"`.
 
-Nothing in this step changes: the same schema-then-human-review gate applies
-regardless of subject, and content only reaches the catalog after review.
+**Role-specific contracts (specification; pending approval).**
+`docs/course-progression-architecture.md` §4.2 replaces the single
+`ContentItemSchema` with a role-discriminated union. Until that is approved
+and implemented, every record is a `practice` record and today's uniform
+contract applies unchanged. After it lands:
+
+| Role | Requires | Forbids |
+|---|---|---|
+| `teaching` | explanation, accessibility notes, accessible alternative, provenance, review; optional worked example and figure | deterministic validator, hint ladder, forbidden-leakage patterns |
+| `practice` | today's full contract, unchanged | — |
+| `assessment` | deterministic validator, canonical and accepted answers, forbidden-leakage patterns, accessible alternative, bank membership | **hint ladder** |
+| `review` | deterministic validator, accessible alternative | **hint ladder** |
+
+A teaching record is therefore **not** expected to carry a validator or hint
+ladder, and requiring one would force teaching material to masquerade as an
+assessable problem. Assessment and review records keep the validator contract
+because they are scored, but must never ship a hint ladder.
+
+The **canonical role contract** is `docs/course-progression-architecture.md`
+§4.2. The table above is a convenience restatement; §4.2 governs.
+
+Where assessment records live is `D-01` (open): Branch A puts them in this
+repository, Branch B in the store chosen by `D-02`.
+
+Note also that `validateContentCatalog` currently requires **exactly two**
+content records per skill and throws at module load. Adding a teaching or
+assessment record to an existing skill is blocked until that rule is replaced
+(`docs/course-progression-architecture.md` §11.2 and decision `D-38`).
+
+Nothing else in this step changes: the same schema-then-human-review gate
+applies regardless of subject or role, and content only reaches the catalog
+after review.
 
 ### 3. Wire into the runtime catalog
 

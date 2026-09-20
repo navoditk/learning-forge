@@ -2,11 +2,15 @@
   "id": "mc6-sequences-and-patterns-2",
   "version": "content-3",
   "title": "Sum of the first twenty terms",
-  "skillCode": "mc6-sequences-and-patterns",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-sequences-and-patterns",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MC6-SSP-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses the first-plus-last pairing structure of an arithmetic pattern to sum many terms without listing them all."
   ],

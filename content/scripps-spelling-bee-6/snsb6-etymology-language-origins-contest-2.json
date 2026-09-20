@@ -2,11 +2,15 @@
   "id": "snsb6-etymology-language-origins-contest-2",
   "version": "content-1",
   "title": "Compare competing origins",
-  "skillCode": "snsb6-etymology-language-origins",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-etymology-language-origins",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["SNSB6-ETYM-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],

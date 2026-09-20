@@ -2,11 +2,15 @@
   "id": "division-of-fractions-1",
   "version": "content-1",
   "title": "Ribbon pieces",
-  "skillCode": "division-of-fractions",
+  "role": "practice",
+  "skillRef": {
+    "code": "division-of-fractions",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.NS.A.1"],
-  "prerequisiteSkillCodes": ["fraction-decimal-operations"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Divides a fraction by a fraction using the reciprocal and interprets the quotient as a count of equal-sized pieces."
   ],

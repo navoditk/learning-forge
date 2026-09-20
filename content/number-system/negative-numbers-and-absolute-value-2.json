@@ -2,11 +2,15 @@
   "id": "negative-numbers-and-absolute-value-2",
   "version": "content-1",
   "title": "Golf scores",
-  "skillCode": "negative-numbers-and-absolute-value",
+  "role": "practice",
+  "skillRef": {
+    "code": "negative-numbers-and-absolute-value",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "developing",
   "standards": ["6.NS.C.5"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Orders several signed numbers on a number line to identify the smallest value in context."
   ],

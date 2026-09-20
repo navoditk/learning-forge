@@ -2,11 +2,15 @@
   "id": "mk6-clock-and-calendar-reasoning-1",
   "version": "content-1",
   "title": "Movie start time",
-  "skillCode": "mk6-clock-and-calendar-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-clock-and-calendar-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["MK6-ARITH-3"],
-  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Computes a resulting clock time after adding an elapsed duration that crosses the hour boundary, keeping AM/PM consistent."
   ],

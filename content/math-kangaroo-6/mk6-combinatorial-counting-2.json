@@ -2,11 +2,15 @@
   "id": "mk6-combinatorial-counting-2",
   "version": "content-1",
   "title": "Shortest routes avoiding the center",
-  "skillCode": "mk6-combinatorial-counting",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-combinatorial-counting",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-COMB-1"],
-  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Systematically counts shortest grid paths while excluding every route through a blocked intersection."
   ],
@@ -14,11 +18,26 @@
   "contestFormat": {
     "pointValue": 5,
     "answerChoices": [
-      { "label": "A", "text": "1" },
-      { "label": "B", "text": "2" },
-      { "label": "C", "text": "3" },
-      { "label": "D", "text": "4" },
-      { "label": "E", "text": "6" }
+      {
+        "label": "A",
+        "text": "1"
+      },
+      {
+        "label": "B",
+        "text": "2"
+      },
+      {
+        "label": "C",
+        "text": "3"
+      },
+      {
+        "label": "D",
+        "text": "4"
+      },
+      {
+        "label": "E",
+        "text": "6"
+      }
     ]
   },
   "solutionRepresentation": "There are 6 shortest paths, corresponding to arrangements of R,R,U,U. Four pass through the center: 2 ways to reach it (RU or UR) times 2 ways to leave it (RU or UR). Therefore 6 − 4 = 2 paths avoid it.",

@@ -2,11 +2,15 @@
   "id": "fraction-decimal-operations-2",
   "version": "content-1",
   "title": "Trail mix cost",
-  "skillCode": "fraction-decimal-operations",
+  "role": "practice",
+  "skillRef": {
+    "code": "fraction-decimal-operations",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.NS.B.3"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Multiplies a decimal rate by a decimal quantity and interprets the product as a total cost."
   ],

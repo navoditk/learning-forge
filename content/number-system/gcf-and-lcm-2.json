@@ -2,11 +2,15 @@
   "id": "gcf-and-lcm-2",
   "version": "content-1",
   "title": "Smallest shared multiple",
-  "skillCode": "gcf-and-lcm",
+  "role": "practice",
+  "skillRef": {
+    "code": "gcf-and-lcm",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "developing",
   "standards": ["6.NS.B.4"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Lists multiples of two whole numbers and identifies the smallest one they share."
   ],
@@ -24,7 +28,7 @@
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "A common multiple is a number that both numbers divide into evenly \u2014 the opposite direction from a common factor.",
+      "prompt": "A common multiple is a number that both numbers divide into evenly — the opposite direction from a common factor.",
       "question": "What are the first several multiples of 8?"
     },
     {
@@ -36,7 +40,7 @@
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "In a similar problem, the LCM of 6 and 9 is found by listing 6, 12, 18 and 9, 18 \u2014 the smallest shared value is 18.",
+      "prompt": "In a similar problem, the LCM of 6 and 9 is found by listing 6, 12, 18 and 9, 18 — the smallest shared value is 18.",
       "question": "Using that same idea, what is the smallest multiple shared by the lists for 8 and 12?"
     }
   ],

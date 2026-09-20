@@ -2,11 +2,15 @@
   "id": "statistical-questions-2",
   "version": "content-1",
   "title": "River lengths",
-  "skillCode": "statistical-questions",
+  "role": "practice",
+  "skillRef": {
+    "code": "statistical-questions",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "foundational",
   "standards": ["6.SP.A.1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Distinguishes a question that anticipates variability across a group from a question with one fixed answer."
   ],

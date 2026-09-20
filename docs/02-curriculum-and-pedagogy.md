@@ -267,6 +267,28 @@ not teaching order:
 
 The tutor is available throughout, but assistance changes the evidentiary weight of an attempt.
 
+This loop describes the intended pedagogy. It is **not** what the current
+implementation serves: there is no unit or lesson structure, no teaching
+content type (instruction happens only through hint ladders on assessable
+problems, which are scored as assistance), and the "mastery check" currently
+runs in the same sitting on the same item the learner was just tutored
+through — and requires prior tutoring to be available at all. The capability
+that closes that gap is specified in
+`docs/course-progression-architecture.md`
+(`Program → Unit → Lesson → Skill → Practice → Assessment → Review`) and
+recorded in `docs/adr/0013-course-progression-structure.md`. Every
+human-gated parameter it depends on is in
+`docs/course-progression-decisions.md`, and **all of them are open**. Both
+documents are **proposed and pending independent review and human
+approval**; no progression runtime behavior exists yet.
+
+**New curriculum authoring is paused** pending that review. Research may
+continue; see `docs/curriculum-agents.md` for the pause boundary and reason.
+Note also that `validateContentCatalog` currently requires exactly two
+content records per skill and throws at module load, so no teaching or
+assessment record can be added to any existing skill until that rule is
+replaced.
+
 ## Session recipe
 
 - 2–3 minutes: retrieval warm-up
@@ -290,6 +312,11 @@ Initial configurable weights:
 
 These are hypotheses, not validated psychometric constants. Preserve raw evidence and make weights configurable.
 
+For course progression these values are **superseded by `D-07`** in
+`docs/course-progression-decisions.md`, which is the single authoritative
+source for assistance weights. The table above is the historical product
+hypothesis and must not be cited as an approved value.
+
 ## Mastery policy
 
 Mastery requires multiple observations across time and contexts. A skill cannot become “mastered” from one LLM-scored interaction. Suggested states:
@@ -302,6 +329,15 @@ Mastery requires multiple observations across time and contexts. A skill cannot 
 - Review due
 
 Require an independent delayed check before “Secure.” Record uncertainty and avoid false precision in parent displays.
+
+These states are the target policy, not the implemented one. Today the
+learner-visible statuses are `NOT_STARTED` / `PRACTICING` /
+`INDEPENDENTLY_CONFIRMED`, the stored estimate is overwritten by the most
+recent attempt rather than aggregated, and the `HIGH` confidence band is
+unreachable in code. `docs/course-progression-architecture.md` §8 specifies
+the replacement mastery evidence contract, including an explicit aggregation
+formula; every weight and threshold in it is an open entry in
+`docs/course-progression-decisions.md`.
 
 ## ELA extension
 

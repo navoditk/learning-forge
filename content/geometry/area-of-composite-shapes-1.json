@@ -2,11 +2,15 @@
   "id": "area-of-composite-shapes-1",
   "version": "content-1",
   "title": "L-shaped room",
-  "skillCode": "area-of-composite-shapes",
+  "role": "practice",
+  "skillRef": {
+    "code": "area-of-composite-shapes",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.G.A.1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": ["Decomposes an L-shaped figure into two rectangles and adds their areas."],
   "prompt": "A room shaped like an L is made of two rectangles: one that is 6 meters by 4 meters, and another that is 3 meters by 2 meters. What is the total area of the room?",
   "solutionRepresentation": "Find each rectangle's area and add: 6×4 + 3×2 = 24 + 6 = 30 square meters.",

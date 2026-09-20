@@ -2,11 +2,15 @@
   "id": "mc6-proportional-reasoning-rates-2",
   "version": "content-3",
   "title": "Mango price after a raise",
-  "skillCode": "mc6-proportional-reasoning-rates",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-proportional-reasoning-rates",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MC6-PR-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Chains a unit rate with a percent increase and scales it to a new quantity to find a total cost."
   ],

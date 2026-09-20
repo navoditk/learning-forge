@@ -2,11 +2,15 @@
   "id": "amc8-graphs-and-tables-1",
   "version": "content-1",
   "title": "First day reaching a reading goal",
-  "skillCode": "amc8-graphs-and-tables",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-graphs-and-tables",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["AMC8-DATA-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Reads a table in order and identifies the first entry meeting an at-least condition."
   ],

@@ -1,18 +1,43 @@
 import { describe, expect, it } from 'vitest';
 
-import { ContentItemSchema } from '../../src/contracts/content';
+import { ContentItem, ContentItemSchema } from '../../src/contracts/content';
 import {
   contentCatalog,
   servableContentCatalog,
   validateContentCatalog,
+  validateTransitionContentCatalog,
 } from '../../src/content/catalog';
 import { skillCatalog } from '../../src/curriculum/catalog';
+
+function skillCodeOf(item: { skillCode?: string; skillRef?: { code: string } }): string {
+  return item.skillCode ?? item.skillRef?.code ?? '';
+}
+
+function readinessCodesOf(item: unknown): string[] {
+  return ((item as { itemReadinessRefs?: { code: string }[] }).itemReadinessRefs ?? []).map(
+    (ref) => ref.code,
+  );
+}
+
+const legacyItem = (): ContentItem => {
+  const item = contentCatalog[0] as unknown as Record<string, unknown>;
+  const skillRef = item.skillRef as { code: string };
+  const legacyFields = { ...item };
+  delete legacyFields.role;
+  delete legacyFields.skillRef;
+  delete legacyFields.itemReadinessRefs;
+  return {
+    ...legacyFields,
+    skillCode: skillRef.code,
+    prerequisiteSkillCodes: [],
+  } as unknown as ContentItem;
+};
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
     expect(contentCatalog).toHaveLength(128);
     expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(128);
-    expect(new Set(contentCatalog.map((item) => item.skillCode))).toEqual(
+    expect(new Set(contentCatalog.map(skillCodeOf))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
     expect(
@@ -26,6 +51,55 @@ describe('ratios content seed', () => {
     expect(pendingItems.length).toBe(0);
     expect(reviewedItems.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
     expect(contentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
+  });
+
+  it('accepts the mechanically transformed AMC 8 coordinate-geometry practice batch', () => {
+    const transformed = contentCatalog.filter((item) =>
+      ['amc8-coordinate-geometry-1', 'amc8-coordinate-geometry-2'].includes(item.id),
+    );
+
+    expect(transformed).toHaveLength(2);
+    expect(
+      transformed.every((item) => {
+        const candidate = item as unknown as {
+          role?: string;
+          skillRef?: { code: string; version: string };
+          itemReadinessRefs?: unknown[];
+          skillCode?: string;
+          prerequisiteSkillCodes?: unknown[];
+        };
+        return (
+          candidate.role === 'practice' &&
+          candidate.skillRef?.code === 'amc8-coordinate-geometry' &&
+          candidate.skillRef.version === '1.0.0' &&
+          candidate.itemReadinessRefs?.length === 0 &&
+          !candidate.skillCode &&
+          !candidate.prerequisiteSkillCodes
+        );
+      }),
+    ).toBe(true);
+  });
+
+  it('uses the approved skill graph and narrower readiness refs for disputed edges', () => {
+    const ratioTables = skillCatalog.find((skill) => skill.code === 'ratio-tables');
+    expect(ratioTables?.prerequisiteSkillCodes).toEqual([]);
+    expect(contentCatalog.every((item) => !('prerequisiteSkillCodes' in item))).toBe(true);
+
+    const readinessByItem = new Map(
+      contentCatalog.map((item) => [
+        item.id,
+        (
+          (item as unknown as { itemReadinessRefs?: { code: string }[] }).itemReadinessRefs ?? []
+        ).map((ref) => ref.code),
+      ]),
+    );
+    expect(readinessByItem.get('dependent-and-independent-variables-1')).toEqual([
+      'variables-and-expressions',
+    ]);
+    expect(readinessByItem.get('coordinate-geometry-1')).toEqual(['coordinate-plane']);
+    expect(readinessByItem.get('ratio-tables-1')).toEqual([]);
+    expect(readinessByItem.get('double-number-lines-1')).toEqual([]);
+    expect(readinessByItem.get('percent-applications-2')).toEqual([]);
   });
 
   it('has deterministic validators and progressive, non-leaking hint ladders', () => {
@@ -52,7 +126,7 @@ describe('ratios content seed', () => {
         .map((skill) => skill.code),
     );
     const contestItems = contentCatalog.filter(
-      (item) => mathKangarooSkillCodes.has(item.skillCode) && item.mode === 'contest',
+      (item) => mathKangarooSkillCodes.has(skillCodeOf(item)) && item.mode === 'contest',
     );
 
     expect(contestItems).toHaveLength(8);
@@ -107,7 +181,7 @@ describe('ratios content seed', () => {
       skillCatalog.filter((skill) => skill.program === 'amc-8').map((skill) => skill.code),
     );
     const contestItems = contentCatalog.filter(
-      (item) => amc8SkillCodes.has(item.skillCode) && item.mode === 'contest',
+      (item) => amc8SkillCodes.has(skillCodeOf(item)) && item.mode === 'contest',
     );
 
     expect(contestItems).toHaveLength(8);
@@ -191,7 +265,7 @@ describe('ratios content seed', () => {
       skillCatalog.filter((skill) => skill.program === 'moems-6').map((skill) => skill.code),
     );
     const contestItems = contentCatalog.filter(
-      (item) => moemsSkillCodes.has(item.skillCode) && item.mode === 'contest',
+      (item) => moemsSkillCodes.has(skillCodeOf(item)) && item.mode === 'contest',
     );
     expect(contestItems).toHaveLength(5);
     expect(contestItems.every((item) => !item.contestFormat)).toBe(true);
@@ -216,16 +290,11 @@ describe('ratios content seed', () => {
     ]);
 
     for (const skill of moemsSkills) {
-      const records = contentCatalog.filter((item) => item.skillCode === skill.code);
+      const records = contentCatalog.filter((item) => skillCodeOf(item) === skill.code);
       expect(records).toHaveLength(2);
       expect(new Set(records.map((item) => item.mode))).toEqual(new Set(['core', 'contest']));
       expect(new Set(records.map((item) => item.prompt)).size).toBe(2);
-      expect(
-        records.every(
-          (item) =>
-            item.prerequisiteSkillCodes.join('|') === skill.prerequisiteSkillCodes.join('|'),
-        ),
-      ).toBe(true);
+      expect(records.every((item) => readinessCodesOf(item).join('|') === '')).toBe(true);
     }
 
     for (const [id, answer] of expectedAnswers) {
@@ -258,16 +327,11 @@ describe('ratios content seed', () => {
 
     expect(amc8Skills).toHaveLength(8);
     for (const skill of amc8Skills) {
-      const records = contentCatalog.filter((item) => item.skillCode === skill.code);
+      const records = contentCatalog.filter((item) => skillCodeOf(item) === skill.code);
       expect(records).toHaveLength(2);
       expect(new Set(records.map((item) => item.mode))).toEqual(new Set(['core', 'contest']));
       expect(new Set(records.map((item) => item.prompt)).size).toBe(2);
-      expect(
-        records.every(
-          (item) =>
-            item.prerequisiteSkillCodes.join('|') === skill.prerequisiteSkillCodes.join('|'),
-        ),
-      ).toBe(true);
+      expect(records.every((item) => readinessCodesOf(item).join('|') === '')).toBe(true);
       expect(records.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
       expect(records.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
       expect(records.every((item) => item.review.status === 'reviewed')).toBe(true);
@@ -285,7 +349,7 @@ describe('ratios content seed', () => {
       skillCatalog.filter((skill) => skill.program === 'mathcounts-6').map((skill) => skill.code),
     );
     const contestItems = contentCatalog.filter(
-      (item) => mathcountsSkillCodes.has(item.skillCode) && item.mode === 'contest',
+      (item) => mathcountsSkillCodes.has(skillCodeOf(item)) && item.mode === 'contest',
     );
 
     expect(contestItems).toHaveLength(8);
@@ -380,23 +444,18 @@ describe('ratios content seed', () => {
 
     expect(mathcountsSkills).toHaveLength(8);
     for (const skill of mathcountsSkills) {
-      const records = contentCatalog.filter((item) => item.skillCode === skill.code);
+      const records = contentCatalog.filter((item) => skillCodeOf(item) === skill.code);
       expect(records).toHaveLength(2);
       expect(new Set(records.map((item) => item.mode))).toEqual(new Set(['core', 'contest']));
       expect(new Set(records.map((item) => item.prompt)).size).toBe(2);
-      expect(
-        records.every(
-          (item) =>
-            item.prerequisiteSkillCodes.join('|') === skill.prerequisiteSkillCodes.join('|'),
-        ),
-      ).toBe(true);
+      expect(records.every((item) => readinessCodesOf(item).join('|') === '')).toBe(true);
       // MATHCOUNTS remains model-assisted and owned after human approval.
       expect(records.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
       expect(records.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
       expect(records.every((item) => item.review.status === 'reviewed')).toBe(true);
       expect(records.every((item) => item.review.reviewer === 'Navodit Kaushik')).toBe(true);
       expect(records.every((item) => item.review.reviewedAt === '2026-09-18')).toBe(true);
-      expect(servableContentCatalog.some((item) => item.skillCode === skill.code)).toBe(true);
+      expect(servableContentCatalog.some((item) => skillCodeOf(item) === skill.code)).toBe(true);
     }
 
     expect(mathcountsSkills.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);
@@ -451,7 +510,7 @@ describe('ratios content seed', () => {
       'mk6-angle-and-shape-properties',
       'mk6-spatial-visualization-3d',
     ]);
-    const visualItems = contentCatalog.filter((item) => visualSkillCodes.has(item.skillCode));
+    const visualItems = contentCatalog.filter((item) => visualSkillCodes.has(skillCodeOf(item)));
     const figuredItems = visualItems.filter((item) => item.figure);
 
     expect(figuredItems).toHaveLength(5);
@@ -580,7 +639,7 @@ describe('ratios content seed', () => {
   });
 
   it('rejects gaps in hint ordering and content that is not marked owned', () => {
-    const item = contentCatalog[0];
+    const item = legacyItem();
     const withGap = {
       ...item,
       hintSteps: item.hintSteps.map((step, index) => ({ ...step, order: index + 2 })),
@@ -602,7 +661,7 @@ describe('ratios content seed', () => {
   });
 
   it('accepts a reviewed item once a reviewer and review date are recorded, and rejects one without a date', () => {
-    const item = contentCatalog[0];
+    const item = legacyItem();
     expect(() =>
       validateContentCatalog(
         contentCatalog.map((catalogItem) =>
@@ -632,7 +691,7 @@ describe('ratios content seed', () => {
 
   it('rejects a content difficulty that is outside its owning skill difficultyBands', () => {
     const item = contentCatalog.find((catalogItem) => {
-      const skill = skillCatalog.find((candidate) => candidate.code === catalogItem.skillCode);
+      const skill = skillCatalog.find((candidate) => candidate.code === skillCodeOf(catalogItem));
       return skill && !skill.difficultyBands.includes('foundational');
     });
     expect(item).toBeDefined();
@@ -648,7 +707,7 @@ describe('ratios content seed', () => {
   });
 
   it('rejects a misconception code that is not declared by the owning skill', () => {
-    const item = contentCatalog[0];
+    const item = legacyItem();
     expect(() =>
       validateContentCatalog(
         contentCatalog.map((catalogItem) =>
@@ -660,11 +719,45 @@ describe('ratios content seed', () => {
     ).toThrow('not declared by skill');
   });
 
-  it('rejects a catalog where a skill does not have exactly the required content record count', () => {
-    const item = contentCatalog[0];
+  it('allows role-aware content counts instead of the legacy exact-two invariant', () => {
+    const item = contentCatalog.find((catalogItem) => catalogItem.id === 'unit-rates-1')!;
     expect(() =>
       validateContentCatalog(contentCatalog.filter((catalogItem) => catalogItem.id !== item.id)),
-    ).toThrow('must have exactly');
+    ).not.toThrow();
+  });
+
+  it('treats content versions as distinct records', () => {
+    const first = legacyItem();
+    const second = { ...first, version: `${first.version}-revised` };
+    expect(() => validateTransitionContentCatalog([first, second])).not.toThrow('id@version');
+    expect(() => validateTransitionContentCatalog([{ ...first }, { ...first }])).toThrow(
+      'id@version references must be unique',
+    );
+  });
+
+  it('rejects a role-specific record that references an unknown skill', () => {
+    const first = legacyItem();
+    expect(() =>
+      validateContentCatalog([
+        {
+          id: 'teaching-unknown-skill',
+          version: '1.0.0',
+          title: 'Unknown skill teaching record',
+          role: 'teaching',
+          skillRef: { code: 'not-a-real-skill', version: '1.0.0' },
+          mode: 'core',
+          difficulty: first.difficulty,
+          standards: first.standards,
+          observableEvidence: ['Identifies the skill.'],
+          explanation: 'An explanation.',
+          provenance: first.provenance,
+          review: first.review,
+          accessibilityNotes: first.accessibilityNotes,
+          accessibleAlternative: first.accessibleAlternative,
+          itemReadinessRefs: [],
+        },
+      ]),
+    ).toThrow('references unknown skill');
   });
 
   it('excludes pending_review content from the servable catalog so it is never shown to a learner', () => {
@@ -673,7 +766,7 @@ describe('ratios content seed', () => {
     expect(servableContentCatalog.length).toBeGreaterThan(0);
     expect(servableContentCatalog.length).toBeLessThanOrEqual(contentCatalog.length);
     expect(servableContentCatalog.every((item) => item.review.status === 'reviewed')).toBe(true);
-    expect(servableContentCatalog.some((item) => item.skillCode.startsWith('amc8-'))).toBe(true);
+    expect(servableContentCatalog.some((item) => skillCodeOf(item).startsWith('amc8-'))).toBe(true);
 
     // Exercise the gate's actual filtering behavior against a synthetic mix
     // of reviewed and pending_review items, independent of whatever the

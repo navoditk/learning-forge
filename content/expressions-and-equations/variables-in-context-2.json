@@ -2,11 +2,15 @@
   "id": "variables-in-context-2",
   "version": "content-1",
   "title": "Changing number of seedling pots",
-  "skillCode": "variables-in-context",
+  "role": "practice",
+  "skillRef": {
+    "code": "variables-in-context",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.EE.B.6"],
-  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Explains a variable's possible values in a whole-number context and writes a matching expression."
   ],

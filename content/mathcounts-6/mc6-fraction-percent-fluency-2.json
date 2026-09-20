@@ -2,11 +2,15 @@
   "id": "mc6-fraction-percent-fluency-2",
   "version": "content-3",
   "title": "Raise then lower a bike price",
-  "skillCode": "mc6-fraction-percent-fluency",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-fraction-percent-fluency",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MC6-PF-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Carries out two successive percent changes on the updated amount and recognizes that they are not additive."
   ],

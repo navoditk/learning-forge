@@ -30,6 +30,52 @@ Add skill graph, diagnostic, planner, spaced review, full Math domains, content 
 
 Exit: a learner can use the product for four weeks without manual database intervention.
 
+### Phase 3a — Course progression (in progress: architecture phase)
+
+Before further curriculum breadth, the product must serve a **course** rather
+than a pool of practice problems. `docs/course-progression-architecture.md`
+specifies `Program → Unit → Lesson → Skill → Practice → Assessment → Review`,
+versioned pedagogical-policy profiles, held-out assessment, always-on
+fail-closed authorization, a parameterized mastery aggregation, genuinely
+delayed checks, placement/skip/override as three distinct mechanisms,
+remediation and reassessment, and evidence-linked parent progression claims
+that distinguish completion from mastery.
+
+Current state: **architecture and specification only**, proposed and pending
+independent review and human approval
+(`docs/adr/0013-course-progression-structure.md`). No runtime behavior,
+schema, dependency, or content has been added. All sixty-one human-gated
+decisions in `docs/course-progression-decisions.md` are open.
+
+Pilot scope: one Grade 6 Math ratios unit over the existing reviewed
+`ratio-language`, `unit-rates`, and `ratio-tables` skills. Delivery is staged
+as A0, A1, A2, B, C1–C5, then one content stage per approved lesson plus a
+final unit stage — so the stage count depends on `D-34` and is not assumed.
+Only stage C4 changes authorization, and it is ordered expand → drain → reject
+→ contract → enforce → remove bypass. Exit criteria are the named unit,
+leakage, integration, and Playwright acceptance tests in that document's §13,
+plus the manual gates in §13.7.
+
+Resolution order for the blocking decisions:
+
+1. `D-58` — the site generator reads the raw catalog rather than a reviewed
+   projection. No unreviewed content is public today, but the next
+   `pending_review` record merged to `main` would be published automatically.
+   **Stage A0 exists solely to close this and runs before all other
+   progression work.**
+2. `D-01` — open-book versus held-out assessment, and `D-02` if held out. This
+   selects an entire product configuration, including whether the `HIGH`
+   confidence band is reachable at all.
+3. `D-38` — the exactly-two-records-per-skill invariant, which throws at
+   module load.
+4. `D-52` and `D-60` — without them, cutover either strands 24 of 27 Grade 6
+   Math skills or silently permits the five still-unitless programs.
+5. `D-40` — the program registry the above read from.
+
+**New curriculum authoring is paused** until this architecture passes
+independent review and records human approval. Research continues. See
+`docs/curriculum-agents.md` for the pause boundary and reason.
+
 ## Phase 4 — Pilot and calibration (4–8 weeks)
 
 Run a small family pilot. Review sessions, calibrate workload/mastery, improve content, establish deletion/export/incident workflows, and measure independent delayed performance.
@@ -57,6 +103,10 @@ Each uses separate core-prep and contest tiers, separate source and review
 dossiers, and the standard research → human source approval → authoring →
 independent review → human content approval workflow. Research approval for
 one program does not approve or block another.
+
+**Authoring for this wave is paused** pending the Phase 3a progression
+architecture review, for the sequencing reason recorded in
+`docs/curriculum-agents.md`. Research and dossier review continue.
 
 ## Work breakdown rule
 

@@ -2,11 +2,15 @@
   "id": "amc8-graphs-and-tables-2",
   "version": "content-2",
   "title": "Table with a changing pattern",
-  "skillCode": "amc8-graphs-and-tables",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-graphs-and-tables",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-DATA-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Identifies a constant change in the first part of a table, recognizes where that pattern changes to a doubling increase, and extends the table correctly across both regimes in one multi-step solution."
   ],

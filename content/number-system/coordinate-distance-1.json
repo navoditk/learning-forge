@@ -2,11 +2,15 @@
   "id": "coordinate-distance-1",
   "version": "content-1",
   "title": "Horizontal distance across quadrants",
-  "skillCode": "coordinate-distance",
+  "role": "practice",
+  "skillRef": {
+    "code": "coordinate-distance",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.NS.C.8"],
-  "prerequisiteSkillCodes": ["coordinate-plane"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Finds the horizontal distance between points that share a y-coordinate using the absolute value of their x-coordinate difference."
   ],

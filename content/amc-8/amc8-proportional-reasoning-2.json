@@ -2,11 +2,15 @@
   "id": "amc8-proportional-reasoning-2",
   "version": "content-2",
   "title": "Combining two mixtures with different ratios",
-  "skillCode": "amc8-proportional-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-proportional-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-RATIO-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Applies two different part-to-whole ratios to two separate quantities, finds each part amount, and adds the two part amounts together in one multi-step solution."
   ],

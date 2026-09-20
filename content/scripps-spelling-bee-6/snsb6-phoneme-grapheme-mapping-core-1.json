@@ -2,11 +2,15 @@
   "id": "snsb6-phoneme-grapheme-mapping-core-1",
   "version": "content-1",
   "title": "Map syllables to letters",
-  "skillCode": "snsb6-phoneme-grapheme-mapping",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-phoneme-grapheme-mapping",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["SNSB6-PHON-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],

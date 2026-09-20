@@ -7,6 +7,9 @@ Implement the repository incrementally from the approved documents in `docs/`. O
 ## Required workflow
 
 1. Read `README.md`, all numbered docs relevant to the task, and `docs/PROGRESS.md`.
+   For course-progression work, start instead at
+   `docs/course-progression-handoff.md`, which is self-contained and names the
+   remaining files to read in order.
 2. Inspect the repository before proposing changes.
 3. State assumptions and produce a small implementation plan.
 4. Work on one issue-sized vertical increment.
@@ -14,6 +17,20 @@ Implement the repository incrementally from the approved documents in `docs/`. O
 6. Run formatting, type checks, unit tests, integration tests, and relevant evals.
 7. Summarize changed files and evidence. Update `docs/PROGRESS.md`.
 8. Do not commit or push unless the human explicitly requests it.
+
+## Capability playbooks
+
+Durable procedures live in `docs/`, not in any tool's configuration. Repository
+skills or agent profiles may wrap a playbook to select a model and tool set,
+but they are never the source of procedure, and a playbook governs wherever the
+two differ.
+
+| Work                       | Procedure                               | Entry point                          |
+| -------------------------- | --------------------------------------- | ------------------------------------ |
+| Curriculum source research | `docs/curriculum-research-playbook.md`  | —                                    |
+| Curriculum authoring       | `docs/curriculum-authoring-playbook.md` | —                                    |
+| Content drafting           | `docs/content-authoring-pipeline.md`    | —                                    |
+| Course progression         | `docs/course-progression-playbook.md`   | `docs/course-progression-handoff.md` |
 
 ## Hard constraints
 

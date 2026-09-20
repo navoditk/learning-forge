@@ -2,11 +2,15 @@
   "id": "snsb6-morphology-roots-core-1",
   "version": "content-1",
   "title": "Find the meaningful parts",
-  "skillCode": "snsb6-morphology-roots",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-morphology-roots",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["SNSB6-MORPH-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],

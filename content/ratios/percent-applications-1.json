@@ -2,11 +2,15 @@
   "id": "percent-applications-1",
   "version": "content-1",
   "title": "Library attendance",
-  "skillCode": "percent-applications",
+  "role": "practice",
+  "skillRef": {
+    "code": "percent-applications",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.RP.A.3"],
-  "prerequisiteSkillCodes": ["unit-rates"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Converts a percent to a decimal or fraction and applies it to a quantity."
   ],

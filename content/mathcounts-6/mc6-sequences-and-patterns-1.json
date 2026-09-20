@@ -2,11 +2,15 @@
   "id": "mc6-sequences-and-patterns-1",
   "version": "content-2",
   "title": "Tenth term of a pattern",
-  "skillCode": "mc6-sequences-and-patterns",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-sequences-and-patterns",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MC6-SSP-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Finds the common difference of an arithmetic pattern and uses it to reach a specified later term."
   ],

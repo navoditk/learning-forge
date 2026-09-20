@@ -2,11 +2,15 @@
   "id": "center-and-variability-1",
   "version": "content-1",
   "title": "Mean team score",
-  "skillCode": "center-and-variability",
+  "role": "practice",
+  "skillRef": {
+    "code": "center-and-variability",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.SP.A.3"],
-  "prerequisiteSkillCodes": ["distributions"],
+  "itemReadinessRefs": [],
   "observableEvidence": ["Computes the mean of a small data set."],
   "prompt": "A team's players scored the following points in a game: 8, 12, 10, 14, 6. What is the mean number of points scored?",
   "solutionRepresentation": "Add all the values and divide by how many there are: (8 + 12 + 10 + 14 + 6) / 5 = 50 / 5 = 10.",

@@ -126,8 +126,15 @@ import snsb6VariantDictionaryJudgment1 from '../../content/scripps-spelling-bee-
 import snsb6VariantDictionaryJudgment2 from '../../content/scripps-spelling-bee-6/snsb6-variant-dictionary-judgment-contest-2.json';
 import snsb6OralRoundProcedure1 from '../../content/scripps-spelling-bee-6/snsb6-oral-round-procedure-core-1.json';
 import snsb6OralRoundProcedure2 from '../../content/scripps-spelling-bee-6/snsb6-oral-round-procedure-contest-2.json';
-import { ContentItem, ContentItemSchema } from '../contracts/content';
+import {
+  ContentRecordSchema,
+  ContentRecord,
+  PublishedContentRecordSchema,
+  PublishedContentRecord,
+  PracticeContentItem,
+} from '../contracts/progression';
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
+import { programsByCode } from '../curriculum/program-registry';
 
 const rawContent = [
   ratioLanguage1,
@@ -260,18 +267,31 @@ const rawContent = [
   snsb6OralRoundProcedure2,
 ] as const;
 
-export function validateContentCatalog(items: readonly unknown[] = rawContent): ContentItem[] {
-  const parsed = items.map((item) => ContentItemSchema.parse(item));
-  const ids = new Set(parsed.map((item) => item.id));
+function validateParsedContentCatalog(
+  items: readonly unknown[],
+  allowLegacy: boolean,
+): ContentRecord[] {
+  const parser = allowLegacy ? ContentRecordSchema : PublishedContentRecordSchema;
+  const parsed = items.map((item) => parser.parse(item));
+  const ids = new Set(parsed.map((item) => `${item.id}@${item.version}`));
   if (ids.size !== parsed.length) {
-    throw new Error('Content IDs must be unique');
+    throw new Error('Content id@version references must be unique');
   }
 
   for (const item of parsed) {
-    const skill = skillsByCode.get(item.skillCode);
+    // New role-specific records are validated by their discriminated schema
+    // above. The legacy checks below remain active for the role-less catalog
+    // during the transition and must not assume fields that teaching and
+    // assessment records deliberately do not carry.
+    const skillCode = 'skillCode' in item ? item.skillCode : item.skillRef.code;
+    const skill = skillsByCode.get(skillCode);
     if (!skill) {
-      throw new Error(`${item.id} references unknown skill: ${item.skillCode}`);
+      throw new Error(`${item.id} references unknown skill: ${skillCode}`);
     }
+    // Teaching records deliberately omit attempt-only fields. Practice,
+    // assessment, and review records carry the deterministic validator and
+    // remain subject to the contest/content safety checks below.
+    if (!('deterministicValidator' in item)) continue;
     if (skill.program === 'math-kangaroo-6' && item.mode === 'contest') {
       if (!item.contestFormat) {
         throw new Error(`${item.id} requires Math Kangaroo contest-format metadata`);
@@ -409,22 +429,24 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
     ) {
       throw new Error(`${item.id} must list its canonical answer as an accepted answer`);
     }
-    const hintText = item.hintSteps.map((step) => `${step.prompt} ${step.question}`).join(' ');
-    for (const forbiddenPattern of item.forbiddenLeakagePatterns) {
-      if (hintText.toLocaleLowerCase().includes(forbiddenPattern.toLocaleLowerCase())) {
-        throw new Error(`${item.id} leaks forbidden answer content in its hint ladder`);
+    if ('hintSteps' in item && 'forbiddenLeakagePatterns' in item) {
+      const hintText = item.hintSteps.map((step) => `${step.prompt} ${step.question}`).join(' ');
+      for (const forbiddenPattern of item.forbiddenLeakagePatterns) {
+        if (hintText.toLocaleLowerCase().includes(forbiddenPattern.toLocaleLowerCase())) {
+          throw new Error(`${item.id} leaks forbidden answer content in its hint ladder`);
+        }
       }
     }
     if (!skill.difficultyBands.includes(item.difficulty)) {
       throw new Error(
-        `${item.id} has difficulty "${item.difficulty}" not declared in ${item.skillCode}'s difficultyBands`,
+        `${item.id} has difficulty "${item.difficulty}" not declared in ${skillCode}'s difficultyBands`,
       );
     }
     const declaredMisconceptions = new Set(skill.misconceptionCodes);
     for (const code of item.misconceptionCodes) {
       if (!declaredMisconceptions.has(code)) {
         throw new Error(
-          `${item.id} uses misconception code "${code}" not declared by skill ${item.skillCode}`,
+          `${item.id} uses misconception code "${code}" not declared by skill ${skillCode}`,
         );
       }
     }
@@ -432,7 +454,7 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
       if (!choice.misconceptionCode) continue;
       if (!declaredMisconceptions.has(choice.misconceptionCode)) {
         throw new Error(
-          `${item.id} choice ${choice.label} uses misconception code "${choice.misconceptionCode}" not declared by skill ${item.skillCode}`,
+          `${item.id} choice ${choice.label} uses misconception code "${choice.misconceptionCode}" not declared by skill ${skillCode}`,
         );
       }
       if (!item.misconceptionCodes.includes(choice.misconceptionCode)) {
@@ -443,24 +465,56 @@ export function validateContentCatalog(items: readonly unknown[] = rawContent): 
     }
   }
 
-  const countsBySkill = new Map<string, number>();
+  const recordsBySkill = new Map<string, typeof parsed>();
   for (const item of parsed) {
-    countsBySkill.set(item.skillCode, (countsBySkill.get(item.skillCode) ?? 0) + 1);
+    const skillCode = 'skillCode' in item ? item.skillCode : item.skillRef.code;
+    const records = recordsBySkill.get(skillCode) ?? [];
+    records.push(item);
+    recordsBySkill.set(skillCode, records);
   }
   const REQUIRED_RECORDS_PER_SKILL = 2;
   for (const skill of skillCatalog) {
-    const count = countsBySkill.get(skill.code) ?? 0;
-    if (count !== REQUIRED_RECORDS_PER_SKILL) {
+    const records = recordsBySkill.get(skill.code) ?? [];
+    const legacyRecords = records.filter((item) => 'skillCode' in item);
+    const roleSpecificRecords = records.filter((item) => 'role' in item);
+    const program = programsByCode.get(skill.program);
+    if (roleSpecificRecords.length === 0 && legacyRecords.length !== REQUIRED_RECORDS_PER_SKILL) {
       throw new Error(
-        `${skill.code} must have exactly ${REQUIRED_RECORDS_PER_SKILL} content records, found ${count}`,
+        `${skill.code} must have exactly ${REQUIRED_RECORDS_PER_SKILL} legacy content records, found ${legacyRecords.length}`,
       );
+    }
+    if (program?.progressionMode === 'skill-graph-only' && legacyRecords.length > 0) {
+      if (legacyRecords.length !== REQUIRED_RECORDS_PER_SKILL) {
+        throw new Error(
+          `${skill.code} must have exactly ${REQUIRED_RECORDS_PER_SKILL} legacy records in skill-graph-only mode, found ${legacyRecords.length}`,
+        );
+      }
     }
   }
 
-  return parsed;
+  return parsed as ContentRecord[];
+}
+
+export function validateContentCatalog(
+  items: readonly unknown[] = rawContent,
+): PracticeContentItem[] {
+  const parsed = validateParsedContentCatalog(items, false);
+  if ((parsed as PublishedContentRecord[]).some((item) => item.role !== 'practice')) {
+    throw new Error('The live content catalog may contain practice records only');
+  }
+  return parsed as PracticeContentItem[];
+}
+
+/** Migration-only parser retained for fixtures that exercise the A0/A1 boundary. */
+export function validateTransitionContentCatalog(items: readonly unknown[]): ContentRecord[] {
+  return validateParsedContentCatalog(items, true);
 }
 
 export const contentCatalog = validateContentCatalog();
+
+export function contentSkillCode(item: ContentRecord): string {
+  return 'skillCode' in item ? item.skillCode : item.skillRef.code;
+}
 
 /**
  * Content that has completed human review and is safe to serve to learners.

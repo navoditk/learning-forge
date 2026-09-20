@@ -2,11 +2,15 @@
   "id": "snsb6-homophones-homographs-core-1",
   "version": "content-1",
   "title": "Let context choose",
-  "skillCode": "snsb6-homophones-homographs",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-homophones-homographs",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["SNSB6-HOM-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],

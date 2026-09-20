@@ -63,6 +63,8 @@ import snsb6VocabularyContext from '../../content/skills/snsb6-vocabulary-contex
 import snsb6VariantDictionaryJudgment from '../../content/skills/snsb6-variant-dictionary-judgment.json';
 import snsb6OralRoundProcedure from '../../content/skills/snsb6-oral-round-procedure.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
+import { VersionedSkill, VersionedSkillSchema } from '../contracts/progression';
+import { validateProgramSkillInvariants } from './program-registry';
 import { topologicalOrder } from './topological-sort';
 
 const rawSkills = [
@@ -157,7 +159,39 @@ export function validateSkillCatalog(items: readonly unknown[] = rawSkills): Ski
   }
 
   topologicalSkillOrder(parsed);
+  validateProgramSkillInvariants(parsed);
 
+  return parsed;
+}
+
+/** Validates the version-pinned skill shape used by new curriculum records. */
+export function validateVersionedSkillCatalog(items: readonly unknown[]): VersionedSkill[] {
+  const parsed = items.map((item) => VersionedSkillSchema.parse(item));
+  const codes = new Set(parsed.map((skill) => skill.code));
+  if (codes.size !== parsed.length) throw new Error('Skill codes must be unique');
+
+  for (const skill of parsed) {
+    for (const prerequisite of skill.prerequisiteRefs) {
+      if (!codes.has(prerequisite.code)) {
+        throw new Error(
+          `${skill.code} references unknown prerequisite skill: ${prerequisite.code}`,
+        );
+      }
+    }
+  }
+
+  topologicalOrder(
+    parsed.map((skill) => skill.code),
+    (code) =>
+      parsed.find((skill) => skill.code === code)?.prerequisiteRefs.map((ref) => ref.code) ?? [],
+  );
+  validateProgramSkillInvariants(
+    parsed.map((skill) => ({
+      code: skill.code,
+      program: skill.program,
+      prerequisiteSkillCodes: skill.prerequisiteRefs.map((ref) => ref.code),
+    })),
+  );
   return parsed;
 }
 

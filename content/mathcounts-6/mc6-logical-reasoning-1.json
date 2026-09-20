@@ -2,11 +2,15 @@
   "id": "mc6-logical-reasoning-1",
   "version": "content-2",
   "title": "Who finished first",
-  "skillCode": "mc6-logical-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-logical-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MC6-LOG-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses ordering clues and elimination to deduce a unique first-place finisher."
   ],

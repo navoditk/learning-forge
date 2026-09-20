@@ -2,11 +2,15 @@
   "id": "whole-number-exponents-2",
   "version": "content-1",
   "title": "Order of operations with a power",
-  "skillCode": "whole-number-exponents",
+  "role": "practice",
+  "skillRef": {
+    "code": "whole-number-exponents",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "developing",
   "standards": ["6.EE.A.1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Evaluates a multi-step expression, applying the exponent before multiplication and addition."
   ],
@@ -37,7 +41,7 @@
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
       "prompt": "In a similar problem, 1 + 2^3 x 5 is evaluated by first finding 2^3 = 8, then 8 x 5 = 40, then 1 + 40 = 41.",
-      "question": "Using that same order \u2014 exponent, then multiplication, then addition \u2014 what do you get for this expression?"
+      "question": "Using that same order — exponent, then multiplication, then addition — what do you get for this expression?"
     }
   ],
   "forbiddenLeakagePatterns": ["38"],

@@ -1,6 +1,6 @@
 import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
-import { servableContentCatalog } from '../content/catalog';
+import { contentSkillCode, servableContentCatalog } from '../content/catalog';
 import {
   CurriculumProgram,
   PlannerContentItem,
@@ -44,7 +44,7 @@ function programCatalog(program: CurriculumProgram) {
   return {
     skills,
     skillCodes,
-    content: servableContentCatalog.filter((item) => skillCodes.has(item.skillCode)),
+    content: servableContentCatalog.filter((item) => skillCodes.has(contentSkillCode(item))),
   };
 }
 
@@ -137,7 +137,7 @@ export async function startSession(
     : program === DEFAULT_PROGRAM
       ? resolveContent()
       : (catalog.content.find((item) => item.mode === 'core') ?? catalog.content[0]);
-  if (!content || !catalog.skillCodes.has(content.skillCode)) {
+  if (!content || !catalog.skillCodes.has(contentSkillCode(content))) {
     throw new Error(`Unknown content for program: ${input.contentId ?? program}`);
   }
   // Resume an in-progress session for this content instead of creating a
@@ -170,7 +170,7 @@ export async function startSession(
       id: content.id,
       version: content.version,
       title: content.title,
-      skillCode: content.skillCode,
+      skillCode: contentSkillCode(content),
       prompt: content.prompt,
       accessibilityNotes: content.accessibilityNotes,
       figure: content.figure,
@@ -250,7 +250,7 @@ async function createAttempt(
     where: {
       learnerProfileId_skillCode_algorithmVersion: {
         learnerProfileId: identity.learnerProfileId,
-        skillCode: content.skillCode,
+        skillCode: contentSkillCode(content),
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
     },
@@ -260,7 +260,7 @@ async function createAttempt(
     {
       learnerProfileId_skillCode_algorithmVersion: {
         learnerProfileId: identity.learnerProfileId,
-        skillCode: content.skillCode,
+        skillCode: contentSkillCode(content),
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
     },
@@ -274,7 +274,7 @@ async function createAttempt(
     {
       householdId: identity.householdId,
       learnerProfileId: identity.learnerProfileId,
-      skillCode: content.skillCode,
+      skillCode: contentSkillCode(content),
       estimate: weight,
       confidenceBand: confidenceBand(weight),
       algorithmVersion: PHASE_1_MASTERY_VERSION,
@@ -326,9 +326,10 @@ export async function getDiagnosticPlan(
 
   const contentBySkill = new Map<string, (typeof servableContentCatalog)[number][]>();
   for (const item of catalog.content) {
-    const items = contentBySkill.get(item.skillCode) ?? [];
+    const skillCode = contentSkillCode(item);
+    const items = contentBySkill.get(skillCode) ?? [];
     items.push(item);
-    contentBySkill.set(item.skillCode, items);
+    contentBySkill.set(skillCode, items);
   }
 
   const items: {
@@ -377,7 +378,7 @@ export async function recordDiagnosticAttempt(
     where: {
       learnerProfileId_skillCode_algorithmVersion: {
         learnerProfileId: identity.learnerProfileId,
-        skillCode: content.skillCode,
+        skillCode: contentSkillCode(content),
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
     },
@@ -444,7 +445,7 @@ export async function getTutorContext(identity: HouseholdIdentity, attemptId: st
     content: {
       id: content.id,
       prompt: content.prompt,
-      skillCode: content.skillCode,
+      skillCode: contentSkillCode(content),
       canonicalAnswer: content.deterministicValidator.canonicalAnswer,
       forbiddenLeakagePatterns: content.forbiddenLeakagePatterns,
     },
@@ -511,9 +512,10 @@ export async function getReviewQueue(
 
   const contentBySkill = new Map<string, (typeof servableContentCatalog)[number][]>();
   for (const item of catalog.content) {
-    const items = contentBySkill.get(item.skillCode) ?? [];
+    const skillCode = contentSkillCode(item);
+    const items = contentBySkill.get(skillCode) ?? [];
     items.push(item);
-    contentBySkill.set(item.skillCode, items);
+    contentBySkill.set(skillCode, items);
   }
 
   const items: {
@@ -558,7 +560,7 @@ export async function recordReviewAttempt(
     where: {
       learnerProfileId_skillCode_algorithmVersion: {
         learnerProfileId: identity.learnerProfileId,
-        skillCode: content.skillCode,
+        skillCode: contentSkillCode(content),
         algorithmVersion: PHASE_1_MASTERY_VERSION,
       },
     },
@@ -699,7 +701,7 @@ export async function getWeeklyDigest(identity: HouseholdIdentity) {
 
   const attemptsBySkill = new Map<string, WeeklyDigestAttemptSummary[]>();
   for (const attempt of evidence.attempts) {
-    const skillCode = resolveContent(attempt.contentKey).skillCode;
+    const skillCode = contentSkillCode(resolveContent(attempt.contentKey));
     const list = attemptsBySkill.get(skillCode) ?? [];
     list.push({ correctness: attempt.correctness, highestAssistance: attempt.highestAssistance });
     attemptsBySkill.set(skillCode, list);
@@ -749,7 +751,7 @@ export async function getPlan(
 
   const content: PlannerContentItem[] = catalog.content.map((item) => ({
     id: item.id,
-    skillCode: item.skillCode,
+    skillCode: contentSkillCode(item),
     mode: item.mode,
     difficulty: item.difficulty,
     contestReadinessRequirement: item.contestFormat?.readinessRequirement,
@@ -846,7 +848,7 @@ export async function getLearnerProgress(
     achievedAt: Date;
   }[] = [];
   for (const attempt of confirmingAttempts) {
-    const skillCode = resolveContent(attempt.contentKey).skillCode;
+    const skillCode = contentSkillCode(resolveContent(attempt.contentKey));
     if (!catalog.skillCodes.has(skillCode)) continue;
     if (seenSkills.has(skillCode)) continue;
     seenSkills.add(skillCode);

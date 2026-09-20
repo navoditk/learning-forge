@@ -2,11 +2,15 @@
   "id": "coordinate-plane-2",
   "version": "content-1",
   "title": "Reflect across the x-axis",
-  "skillCode": "coordinate-plane",
+  "role": "practice",
+  "skillRef": {
+    "code": "coordinate-plane",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "developing",
   "standards": ["6.NS.C.6"],
-  "prerequisiteSkillCodes": ["negative-numbers-and-absolute-value"],
+  "itemReadinessRefs": [],
   "observableEvidence": ["Finds the coordinates of a point reflected across the x-axis."],
   "prompt": "Point B is at (3, -7). If point B is reflected across the x-axis, what are the coordinates of the reflected point?",
   "solutionRepresentation": "Reflecting across the x-axis keeps the x-coordinate the same and flips the sign of the y-coordinate: (3, 7).",

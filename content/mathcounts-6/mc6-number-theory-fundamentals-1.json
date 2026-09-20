@@ -2,11 +2,15 @@
   "id": "mc6-number-theory-fundamentals-1",
   "version": "content-2",
   "title": "Largest identical bouquets",
-  "skillCode": "mc6-number-theory-fundamentals",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-number-theory-fundamentals",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MC6-NT-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses the greatest common factor of two counts to find the largest number of identical, remainder-free groups."
   ],

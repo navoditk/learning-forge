@@ -85,6 +85,57 @@ yet done.
 - Whether a separate Contest Coach label improves behavior/understanding
 - Value of generated problems versus curated originals
 
+## Open course-progression decisions (2026-09-19)
+
+`docs/course-progression-architecture.md` is **proposed and pending
+independent review and human approval**
+(`docs/adr/0013-course-progression-structure.md`).
+
+**`docs/course-progression-decisions.md` is the single authoritative decision
+matrix** for this capability. It holds sixty-one entries, `D-01` … `D-61`,
+**all open**. No value in it is approved, and no other document — including
+this one — restates a normative default. Resolve decisions there, not here.
+
+Categories and what each blocks:
+
+| Category | Decisions | Blocks |
+|---|---|---|
+| Open-book versus held-out assessment, and the held-out store mechanism | D-01, D-02, D-03 | Any assessment authoring at all |
+| Replacing the exact-two-records-per-skill invariant; relabelling existing content with a role; the 18-record prerequisite remediation; adding a `Skill` version | D-37, D-38, D-56, D-57 | Stage A, and any teaching or assessment record for any skill |
+| Partial-program rollout mode and the legacy compatibility policy | D-52, D-53 | The entire pilot — without these, 24 of 27 Grade 6 Math skills are stranded |
+| Explicit access policy for **every** progression mode, including the five still-unitless programs | D-60 | Cutover for all enabled programs, not only the pilot |
+| Publication scope of the public curriculum site | D-58 | **Stage A0**, which runs before all other progression work |
+| Full gate set for resuming curriculum authoring | D-61 | Lifting the authoring pause |
+| Rollout flag default, bypass-closure acknowledgement, override re-auth and its lifetime | D-04, D-05, D-06, D-47 | The authorization increment |
+| Mastery aggregation weights, windows, bands, thresholds; difficulty weighting; `highestAssistance` correction; recalculation cutover | D-07 … D-20, D-51 | The mastery increment |
+| Delay window, placement probe count, lesson/unit/delayed-check/review items and pass bars and reuse, reassessment cooldown and cap, run expiry, feedback level, skip bars, duplicate-request behavior | D-21 … D-32, D-42 … D-46, D-54 | Assessment run behavior |
+| Lesson practice threshold and assistance allowance | D-42, D-59 | Lesson completion semantics |
+| Completion-versus-mastery wording, pilot lesson count, the `ratio-tables` prerequisite edge, content-volume inputs, elapsed-time scope | D-33 … D-36, D-39, D-48, D-49, D-50 | Pilot scope and ordering |
+| Versioned program registry | D-40 | Cross-program generality |
+| Human screen-reader review; child-safe phrase artifact | D-41, D-55 | Serving a learner |
+
+Four consequences need explicit acknowledgement rather than a parameter value:
+
+1. The repository is **public** and the curriculum site publishes every
+   record's prompt, so assessment content authored the way all 128 existing
+   records are authored is not held out in any sense (`D-01`). Separately, the
+   generator reads the raw catalog rather than a reviewed projection: all 128
+   records happen to be reviewed today, so **nothing unreviewed is currently
+   public**, but the next `pending_review` record merged would be published
+   automatically with no gate (`D-58`).
+2. The new mastery aggregation changes the meaning of every existing
+   `MasteryEstimate` row and requires a new `algorithmVersion` plus a
+   shadow-compute-and-cutover plan for the live household (`D-20`).
+3. Closing the `startSession` bypass makes content that is reachable today
+   unreachable until its gate opens (`D-05`).
+4. The pilot unitises 3 of 27 Grade 6 Math skills. Without an explicit legacy
+   compatibility policy, fail-closed enforcement would strand the other 24
+   (`D-52`, `D-53`).
+
+Until these are resolved and recorded, no progression runtime behavior may be
+implemented, and **new curriculum authoring is paused** (see
+`docs/curriculum-agents.md` and `docs/07-roadmap.md` Phase 3a).
+
 ## Deferred decisions
 
 - Native mobile versus responsive web

@@ -2,11 +2,15 @@
   "id": "amc8-elementary-geometry-1",
   "version": "content-2",
   "title": "Rectangle with a corner removed",
-  "skillCode": "amc8-elementary-geometry",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-elementary-geometry",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["AMC8-GEOM-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Subtracts the area of a right triangular cut-out from the area of a rectangle and reports square units."
   ],

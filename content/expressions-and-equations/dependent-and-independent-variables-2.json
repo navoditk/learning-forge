@@ -2,11 +2,20 @@
   "id": "dependent-and-independent-variables-2",
   "version": "content-1",
   "title": "When will the candle reach a height",
-  "skillCode": "dependent-and-independent-variables",
+  "role": "practice",
+  "skillRef": {
+    "code": "dependent-and-independent-variables",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "developing",
   "standards": ["6.EE.C.9"],
-  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "itemReadinessRefs": [
+    {
+      "code": "variables-and-expressions",
+      "version": "1.0.0"
+    }
+  ],
   "observableEvidence": [
     "Solves for the independent variable in a linear relationship given a target value of the dependent variable."
   ],

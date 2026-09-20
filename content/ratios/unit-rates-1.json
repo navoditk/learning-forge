@@ -2,11 +2,15 @@
   "id": "unit-rates-1",
   "version": "content-1",
   "title": "Bicycle pace",
-  "skillCode": "unit-rates",
+  "role": "practice",
+  "skillRef": {
+    "code": "unit-rates",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.RP.A.2"],
-  "prerequisiteSkillCodes": ["ratio-language"],
+  "itemReadinessRefs": [],
   "observableEvidence": ["Divides a quantity by the matching number of units."],
   "prompt": "A cyclist travels 45 miles in 3 hours at a steady pace. What is the unit rate in miles per hour?",
   "solutionRepresentation": "45 miles / 3 hours = 15 miles per hour.",

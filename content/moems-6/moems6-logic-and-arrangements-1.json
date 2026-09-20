@@ -2,11 +2,15 @@
   "id": "moems6-logic-and-arrangements-1",
   "version": "content-1",
   "title": "Two book blocks",
-  "skillCode": "moems6-logic-and-arrangements",
+  "role": "practice",
+  "skillRef": {
+    "code": "moems6-logic-and-arrangements",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["MOEMS-E-LOGIC-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Groups immediate-order clues into blocks and counts the possible complete arrangements."
   ],

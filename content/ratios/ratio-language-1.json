@@ -2,11 +2,11 @@
   "id": "ratio-language-1",
   "version": "content-1",
   "title": "Garden rows",
-  "skillCode": "ratio-language",
+  "role": "practice",
+  "skillRef": { "code": "ratio-language", "version": "1.0.0" },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.RP.A.1"],
-  "prerequisiteSkillCodes": [],
   "observableEvidence": ["States the ratio in the requested order."],
   "prompt": "A community garden has 8 tomato plants and 12 pepper plants. What is the ratio of tomato plants to pepper plants? Write the ratio in simplest form.",
   "solutionRepresentation": "8:12 simplifies by dividing both parts by 4, giving 2:3.",
@@ -50,5 +50,6 @@
     "reviewedAt": "2026-09-06"
   },
   "accessibilityNotes": "Present the quantities in text and a labeled table; do not rely on color or spatial position alone.",
-  "accessibleAlternative": "Read aloud or display: There are 8 tomato plants and 12 pepper plants in a community garden. State the ratio of tomato plants to pepper plants in simplest form."
+  "accessibleAlternative": "Read aloud or display: There are 8 tomato plants and 12 pepper plants in a community garden. State the ratio of tomato plants to pepper plants in simplest form.",
+  "itemReadinessRefs": []
 }

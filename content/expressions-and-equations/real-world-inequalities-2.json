@@ -2,11 +2,15 @@
   "id": "real-world-inequalities-2",
   "version": "content-1",
   "title": "Capacity inequality",
-  "skillCode": "real-world-inequalities",
+  "role": "practice",
+  "skillRef": {
+    "code": "real-world-inequalities",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.EE.B.8"],
-  "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "coordinate-plane"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Writes an inequality for a real-world constraint, tests candidate values, and describes the solution set on a number line."
   ],

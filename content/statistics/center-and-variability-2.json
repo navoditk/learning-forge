@@ -2,11 +2,15 @@
   "id": "center-and-variability-2",
   "version": "content-1",
   "title": "Median salary with an outlier",
-  "skillCode": "center-and-variability",
+  "role": "practice",
+  "skillRef": {
+    "code": "center-and-variability",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.SP.B.5"],
-  "prerequisiteSkillCodes": ["distributions"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Finds the median of an ordered data set that contains an outlier, and recognizes the median is less affected by it than the mean."
   ],

@@ -2,11 +2,15 @@
   "id": "amc8-estimation-number-sense-1",
   "version": "content-1",
   "title": "Compatible product estimate",
-  "skillCode": "amc8-estimation-number-sense",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-estimation-number-sense",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["AMC8-EST-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Rounds a near-200 by near-30 product to compatible factors and states a reasonable magnitude."
   ],

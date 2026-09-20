@@ -2,11 +2,15 @@
   "id": "mc6-number-theory-fundamentals-2",
   "version": "content-3",
   "title": "Same remainder from three divisors",
-  "skillCode": "mc6-number-theory-fundamentals",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-number-theory-fundamentals",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MC6-NT-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Combines a least-common-multiple computation with remainder reasoning to find the smallest qualifying number."
   ],

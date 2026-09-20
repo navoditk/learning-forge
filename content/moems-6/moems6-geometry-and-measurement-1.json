@@ -2,11 +2,15 @@
   "id": "moems6-geometry-and-measurement-1",
   "version": "content-2",
   "title": "A rectangle from its perimeter",
-  "skillCode": "moems6-geometry-and-measurement",
+  "role": "practice",
+  "skillRef": {
+    "code": "moems6-geometry-and-measurement",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["MOEMS-E-GEOM-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses a perimeter equation to recover a missing side and then computes area."
   ],

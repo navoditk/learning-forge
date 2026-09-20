@@ -2,11 +2,15 @@
   "id": "mc6-fraction-percent-fluency-1",
   "version": "content-1",
   "title": "Fraction of trail mix as a percent",
-  "skillCode": "mc6-fraction-percent-fluency",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-fraction-percent-fluency",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MC6-PF-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Converts a fraction to an exact percent by finding its decimal form and expressing it out of one hundred."
   ],

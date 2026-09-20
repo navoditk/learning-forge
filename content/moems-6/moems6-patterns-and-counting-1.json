@@ -2,11 +2,15 @@
   "id": "moems6-patterns-and-counting-1",
   "version": "content-2",
   "title": "Growing tile rows",
-  "skillCode": "moems6-patterns-and-counting",
+  "role": "practice",
+  "skillRef": {
+    "code": "moems6-patterns-and-counting",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["MOEMS-E-PATTERN-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Extends an additive pattern and states the rule used to reach a later term."
   ],

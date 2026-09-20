@@ -11,28 +11,8 @@ export type ProgramRosterEntry = {
   available: boolean;
 };
 
-export const PROGRAM_ROSTER: readonly ProgramRosterEntry[] = [
-  { code: 'grade-6-math', label: 'Grade 6 Math', available: true },
-  { code: 'math-kangaroo-6', label: 'Math Kangaroo (Grade 6)', available: true },
-  { code: 'moems-6', label: 'MOEMS Division E (Grade 6)', available: true },
-  { code: 'amc-8', label: 'AMC 8 (Grade 6 prep)', available: true },
-  { code: 'mathcounts-6', label: 'MATHCOUNTS (Grade 6)', available: true },
-  {
-    code: 'scripps-spelling-bee-6',
-    label: 'Scripps National Spelling Bee (Grade 6)',
-    available: true,
-  },
-  { code: 'grade-6-ela', label: 'Grade 6 ELA', available: false },
-  { code: 'grade-6-science', label: 'Grade 6 Science', available: false },
-  { code: 'grade-6-social-studies', label: 'Grade 6 Social Studies', available: false },
-  {
-    code: 'international-geography-bee-6',
-    label: 'International Geography Bee (Grade 6)',
-    available: false,
-  },
-  {
-    code: 'science-olympiad-division-b',
-    label: 'Science Olympiad Division B (Grade 6)',
-    available: false,
-  },
-];
+import { PROGRAM_REGISTRY } from './program-registry';
+
+export const PROGRAM_ROSTER: readonly ProgramRosterEntry[] = PROGRAM_REGISTRY.map(
+  ({ code, label, available }) => ({ code, label, available }),
+);

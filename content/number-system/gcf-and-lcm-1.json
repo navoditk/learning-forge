@@ -2,11 +2,15 @@
   "id": "gcf-and-lcm-1",
   "version": "content-1",
   "title": "Largest shared factor",
-  "skillCode": "gcf-and-lcm",
+  "role": "practice",
+  "skillRef": {
+    "code": "gcf-and-lcm",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.NS.B.4"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Lists the factors of two whole numbers and identifies the greatest one they share."
   ],
@@ -36,7 +40,7 @@
     {
       "order": 3,
       "assistanceLevel": "analogous_worked_example",
-      "prompt": "In a similar problem, the GCF of 20 and 25 is found by comparing 1, 2, 4, 5, 10, 20 with 1, 5, 25 \u2014 the largest number in both lists is 5.",
+      "prompt": "In a similar problem, the GCF of 20 and 25 is found by comparing 1, 2, 4, 5, 10, 20 with 1, 5, 25 — the largest number in both lists is 5.",
       "question": "Using that same comparison, what is the largest number that appears in both factor lists for 18 and 24?"
     }
   ],

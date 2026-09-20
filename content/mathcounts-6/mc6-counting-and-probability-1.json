@@ -2,11 +2,15 @@
   "id": "mc6-counting-and-probability-1",
   "version": "content-2",
   "title": "Lunch special combinations",
-  "skillCode": "mc6-counting-and-probability",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-counting-and-probability",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MC6-PCC-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses the multiplication principle to count outcomes across independent choice categories."
   ],

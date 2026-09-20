@@ -2,11 +2,15 @@
   "id": "prism-volume-1",
   "version": "content-1",
   "title": "Fractional-edge prism volume",
-  "skillCode": "prism-volume",
+  "role": "practice",
+  "skillRef": {
+    "code": "prism-volume",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.G.A.2"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Calculates the volume of a rectangular prism with fractional edge lengths and labels the result with cubic units."
   ],

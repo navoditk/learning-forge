@@ -2,11 +2,20 @@
   "id": "coordinate-geometry-2",
   "version": "content-1",
   "title": "Area of a plotted rectangle",
-  "skillCode": "coordinate-geometry",
+  "role": "practice",
+  "skillRef": {
+    "code": "coordinate-geometry",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.G.A.3"],
-  "prerequisiteSkillCodes": ["coordinate-plane"],
+  "itemReadinessRefs": [
+    {
+      "code": "coordinate-plane",
+      "version": "1.0.0"
+    }
+  ],
   "observableEvidence": [
     "Computes the area of a rectangle plotted on the coordinate plane from the coordinates of its vertices."
   ],

@@ -2,11 +2,15 @@
   "id": "moems6-geometry-and-measurement-2",
   "version": "content-2",
   "title": "A corner removed from a square",
-  "skillCode": "moems6-geometry-and-measurement",
+  "role": "practice",
+  "skillRef": {
+    "code": "moems6-geometry-and-measurement",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MOEMS-E-GEOM-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Decomposes a modified region and preserves the original unit relationship to calculate exact area."
   ],

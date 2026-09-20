@@ -2,11 +2,15 @@
   "id": "distributions-2",
   "version": "content-1",
   "title": "Shape of a quiz-score distribution",
-  "skillCode": "distributions",
+  "role": "practice",
+  "skillRef": {
+    "code": "distributions",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "developing",
   "standards": ["6.SP.A.2"],
-  "prerequisiteSkillCodes": ["statistical-questions"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Identifies whether a data distribution shown in a histogram is symmetric or skewed from its described shape."
   ],

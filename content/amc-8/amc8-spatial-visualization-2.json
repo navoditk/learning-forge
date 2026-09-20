@@ -2,11 +2,15 @@
   "id": "amc8-spatial-visualization-2",
   "version": "content-2",
   "title": "Cube net with opposite-face number sums",
-  "skillCode": "amc8-spatial-visualization",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-spatial-visualization",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-SPATIAL-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Folds a cube net mentally to identify which three pairs of squares become opposite faces, then uses a shared-sum condition across those pairs to solve for an unknown face value."
   ],

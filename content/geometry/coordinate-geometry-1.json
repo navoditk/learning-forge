@@ -2,11 +2,20 @@
   "id": "coordinate-geometry-1",
   "version": "content-1",
   "title": "Distance on a vertical line",
-  "skillCode": "coordinate-geometry",
+  "role": "practice",
+  "skillRef": {
+    "code": "coordinate-geometry",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.G.A.3"],
-  "prerequisiteSkillCodes": ["coordinate-plane"],
+  "itemReadinessRefs": [
+    {
+      "code": "coordinate-plane",
+      "version": "1.0.0"
+    }
+  ],
   "observableEvidence": [
     "Finds the distance between two points that share an x-coordinate using the absolute difference of their y-coordinates."
   ],

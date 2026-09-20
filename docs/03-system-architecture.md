@@ -108,6 +108,47 @@ it is not yet calibrated elapsed-time delayed-performance evidence.
 | Evaluation | Offline cases, regression runs, release gates |
 | Audit | Model/policy/content versions and privacy-filtered traces |
 
+### Proposed: course progression
+
+`docs/course-progression-architecture.md` proposes an additional
+**Progression** responsibility that is currently missing, and accompanying
+corrections to real defects. Its structural commitments are:
+
+- progression shape (`Program` registry, `Unit`, `Lesson`, `AssessmentBank`)
+  is authored, reviewed, versioned curriculum data, following the ADR-0006
+  precedent, not database rows and not policy code;
+- **pedagogical numbers live in versioned policy-profile artifacts**, which
+  curriculum references by code and version — correcting the existing pattern
+  where `ContestFormatSchema.readinessRequirement` embeds thresholds directly
+  in content JSON;
+- one pure authorization predicate, shared by the planner and by every
+  **mutation** endpoint, evaluated **fail-closed** and always on — feature
+  flags may control sequencing and UI only;
+- content carries an explicit `role` with role-specific schemas, and
+  assessment items are held out of every public artifact.
+
+Three verified gaps it closes:
+
+1. **Authorization.** Prerequisite and contest-readiness gating lives only
+   inside `planNextActivities`, which `startSession` never calls, so
+   `GET /api/phase1/session?contentId=…` currently starts a real session on
+   any reviewed item in the program regardless of the learner's evidence. The
+   planner is advice; it is not enforcement.
+2. **Session reinterpretation.** `Session` carries no activity kind, and
+   `createAttempt` never checks `endedAt`, so the practice, diagnostic, check,
+   and review endpoints each accept one another's sessions, and an ended
+   session still accepts attempts.
+3. **Publication.** The repository is public and
+   `scripts/generate-curriculum-site.ts` publishes every record's prompt —
+   including `pending_review` records — to GitHub Pages on every push to
+   `main`. `scripts/` is not in `tsconfig.json`'s `include`, so that generator
+   is the one module outside the type gate.
+
+This is **proposed and pending independent review and human approval**
+(`docs/adr/0013-course-progression-structure.md`); every parameter it needs is
+open in `docs/course-progression-decisions.md`. No progression runtime
+behavior, schema, or dependency exists yet.
+
 ## Tutor request flow
 
 1. Accept learner message and problem/attempt context.

@@ -2,11 +2,15 @@
   "id": "mk6-angle-and-shape-properties-1",
   "version": "content-3",
   "title": "Angle on a straight line",
-  "skillCode": "mk6-angle-and-shape-properties",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-angle-and-shape-properties",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["MK6-GEOM-2"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses the fact that angles on a straight line sum to 180 degrees to find an unknown angle."
   ],

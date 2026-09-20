@@ -2,11 +2,15 @@
   "id": "multi-digit-division-1",
   "version": "content-1",
   "title": "Even division",
-  "skillCode": "multi-digit-division",
+  "role": "practice",
+  "skillRef": {
+    "code": "multi-digit-division",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.NS.B.2"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses the standard algorithm to divide a four-digit number by a two-digit number with no remainder."
   ],

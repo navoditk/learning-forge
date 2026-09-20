@@ -2,11 +2,15 @@
   "id": "snsb6-vocabulary-context-core-1",
   "version": "content-1",
   "title": "Infer meaning and grammar",
-  "skillCode": "snsb6-vocabulary-context",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-vocabulary-context",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["SNSB6-VOCAB-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],

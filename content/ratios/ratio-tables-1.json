@@ -2,11 +2,15 @@
   "id": "ratio-tables-1",
   "version": "content-1",
   "title": "Paint mixtures",
-  "skillCode": "ratio-tables",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-tables",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.RP.A.3"],
-  "prerequisiteSkillCodes": ["ratio-language"],
+  "itemReadinessRefs": [],
   "observableEvidence": ["Extends a ratio table with a consistent multiplicative relationship."],
   "prompt": "A paint mixture uses 2 cups of blue paint for every 5 cups of white paint. Complete the table: blue cups 2, 4, 6; white cups 5, __, __.",
   "solutionRepresentation": "Multiplying the blue amount by 2 and 3 multiplies the white amount by 2 and 3: 10 and 15.",

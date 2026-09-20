@@ -2,11 +2,15 @@
   "id": "mk6-perimeter-and-area-reasoning-2",
   "version": "content-1",
   "title": "Perimeter after a corner cut",
-  "skillCode": "mk6-perimeter-and-area-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-perimeter-and-area-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-GEOM-1"],
-  "prerequisiteSkillCodes": ["mk6-perimeter-and-area-reasoning"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Determines how removing a rectangular corner changes a composite figure's perimeter by comparing removed and added boundary segments."
   ],
@@ -14,11 +18,26 @@
   "contestFormat": {
     "pointValue": 5,
     "answerChoices": [
-      { "label": "A", "text": "26 meters" },
-      { "label": "B", "text": "28 meters" },
-      { "label": "C", "text": "32 meters" },
-      { "label": "D", "text": "38 meters" },
-      { "label": "E", "text": "44 meters" }
+      {
+        "label": "A",
+        "text": "26 meters"
+      },
+      {
+        "label": "B",
+        "text": "28 meters"
+      },
+      {
+        "label": "C",
+        "text": "32 meters"
+      },
+      {
+        "label": "D",
+        "text": "38 meters"
+      },
+      {
+        "label": "E",
+        "text": "44 meters"
+      }
     ]
   },
   "solutionRepresentation": "The original perimeter is 2(10 + 6) = 32 meters. The cut removes boundary segments of 4 and 3 meters but creates new inner boundary segments of the same lengths, so the perimeter remains 32 meters.",

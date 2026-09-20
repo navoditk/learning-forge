@@ -2,11 +2,15 @@
   "id": "mk6-spatial-visualization-3d-2",
   "version": "content-2",
   "title": "Exposed faces after removing a corner cube",
-  "skillCode": "mk6-spatial-visualization-3d",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-spatial-visualization-3d",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-GEOM-3"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Compares removed and newly exposed unit-square faces when a corner cube is removed from a rectangular prism."
   ],
@@ -21,11 +25,26 @@
   "contestFormat": {
     "pointValue": 5,
     "answerChoices": [
-      { "label": "A", "text": "46" },
-      { "label": "B", "text": "49" },
-      { "label": "C", "text": "50" },
-      { "label": "D", "text": "52" },
-      { "label": "E", "text": "55" }
+      {
+        "label": "A",
+        "text": "46"
+      },
+      {
+        "label": "B",
+        "text": "49"
+      },
+      {
+        "label": "C",
+        "text": "50"
+      },
+      {
+        "label": "D",
+        "text": "52"
+      },
+      {
+        "label": "E",
+        "text": "55"
+      }
     ]
   },
   "solutionRepresentation": "The full block has surface area 2(4×3 + 4×2 + 3×2) = 52 unit-square faces. Removing a corner cube removes its 3 exterior faces but exposes the 3 faces of neighboring cubes that touched it, so the total remains 52.",

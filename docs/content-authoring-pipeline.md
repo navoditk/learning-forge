@@ -19,12 +19,14 @@ catalog until a human approves it.
 
 ## Workflow
 
-1. A human names the target skill, standard, difficulty band, and mode
-   (`core`, `depth`, or `contest`) from the skill graph.
-2. A model drafts a candidate JSON record shaped to the existing content
-   contract (for example `ContentItemSchema`): prompt, solution
-   representation/method, deterministic validator, misconception codes, hint
-   ladder, and accessibility notes. No learner data is involved in drafting.
+1. A human names the target skill, standard, difficulty band, **role**
+   (`teaching`, `practice`, `assessment`, or `review`), and mode (`core`,
+   `depth`, or `contest`) from the skill graph.
+2. A model drafts a candidate JSON record shaped to the content contract
+   **for that role**. Today every record is a `practice` record and the
+   contract is `ContentItemSchema`: prompt, solution representation/method,
+   deterministic validator, misconception codes, hint ladder, and
+   accessibility notes. No learner data is involved in drafting.
 3. The draft is saved with `provenance.origin: "llm_drafted"`,
    `licenseStatus: "owned"`, and `review.status: "pending_review"` — this
    keeps it distinct from `original` (hand-authored) and `licensed` content,
@@ -37,6 +39,42 @@ catalog until a human approves it.
    `docs/content-review.md` checklist, including the LLM-drafted-specific
    checks below, then sets `review.status: "reviewed"` with a reviewer name
    and date. No draft is imported into a catalog before this step.
+
+## Role-specific contracts (specification; pending approval)
+
+`docs/course-progression-architecture.md` §4.2 replaces the single
+`ContentItemSchema` with a role-discriminated union. **Nothing changes until
+that is approved and implemented**; until then every record is `practice` and
+step 2's contract applies uniformly. After it lands:
+
+- **`teaching`** records carry an explanation, optional worked example,
+  accessibility notes, and an accessible alternative. They have **no**
+  deterministic validator, **no** hint ladder, and **no** canonical answer,
+  because they are not attemptable and produce no mastery evidence. Step 4's
+  hint-ordering and leakage checks do not apply to them; an originality and
+  accuracy review still does.
+- **`practice`** records keep today's contract unchanged.
+- **`assessment`** and **`review`** records require a deterministic validator,
+  canonical and accepted answers, forbidden-leakage patterns, and an accessible
+  alternative, and are **forbidden** a hint ladder.
+
+**Where assessment records are drafted depends on `D-01`, which is open:**
+
+| `D-01` branch | Drafting and review location |
+|---|---|
+| A — open-book | `content/assessments/<program>/` in this repository, same pull-request review as practice |
+| B — held-out | The store chosen by `D-02`. The review **checklist** is unchanged; only the location differs |
+
+Do not begin assessment authoring before `D-01` is resolved — the two branches
+put the files in different repositories.
+
+`validateContentCatalog` currently requires **exactly two** content records per
+skill and throws at module load, so no teaching or assessment record can be
+added to an existing skill until that rule is replaced (`D-38`).
+
+The **canonical role contract table** is
+`docs/course-progression-architecture.md` §4.2. The summary above is a
+convenience restatement; if the two ever differ, §4.2 governs.
 
 ## Additional review checks for `llm_drafted` content
 

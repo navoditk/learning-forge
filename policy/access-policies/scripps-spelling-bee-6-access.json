@@ -1,0 +1,8 @@
+{
+  "code": "scripps-spelling-bee-6-access",
+  "version": "1.0.0",
+  "grantsActivityKinds": ["PRACTICE", "PLACEMENT", "REVIEW"],
+  "deniesActivityKinds": ["LESSON_ASSESSMENT", "UNIT_ASSESSMENT", "DELAYED_CHECK"],
+  "appliesToSkillsClaimedByNoUnit": true,
+  "respectsPrerequisiteGraph": true
+}

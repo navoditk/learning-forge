@@ -2,11 +2,15 @@
   "id": "distributions-1",
   "version": "content-1",
   "title": "Range of pets owned",
-  "skillCode": "distributions",
+  "role": "practice",
+  "skillRef": {
+    "code": "distributions",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.SP.B.4"],
-  "prerequisiteSkillCodes": ["statistical-questions"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Finds the range of a data distribution shown in a dot plot as a measure of spread."
   ],

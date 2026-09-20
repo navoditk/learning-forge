@@ -2,11 +2,15 @@
   "id": "mc6-linear-equation-reasoning-1",
   "version": "content-1",
   "title": "A number described two ways",
-  "skillCode": "mc6-linear-equation-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-linear-equation-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MC6-AEE-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Writes a one-variable equation with the variable on both sides and solves it, then checks the solution in context."
   ],

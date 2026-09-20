@@ -4,7 +4,7 @@
   "program": "grade-6-math",
   "domain": "ratios-and-proportional-reasoning",
   "standards": ["6.RP.A.3"],
-  "prerequisiteSkillCodes": ["unit-rates"],
+  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Extends a ratio table using a consistent scale factor to find a missing quantity."
   ],

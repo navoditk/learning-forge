@@ -2,11 +2,15 @@
   "id": "snsb6-vocabulary-context-contest-2",
   "version": "content-1",
   "title": "Write a precise context sentence",
-  "skillCode": "snsb6-vocabulary-context",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-vocabulary-context",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["SNSB6-VOCAB-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Provides a reasoned response using supplied linguistic, contextual, or procedural evidence."
   ],

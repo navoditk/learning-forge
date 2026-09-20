@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { PlannerContentItem, PlannerInput, PlannerSkill } from '../../src/contracts';
-import { contentCatalog } from '../../src/content/catalog';
+import { contentCatalog, contentSkillCode } from '../../src/content/catalog';
 import { skillCatalog } from '../../src/curriculum/catalog';
 import { planNextActivities } from '../../src/planner/plan-next-activities';
 
@@ -121,7 +121,7 @@ describe('planNextActivities', () => {
   it('plans against the real skill and content catalogs without inventing content', () => {
     const realContent: PlannerContentItem[] = contentCatalog.map((item) => ({
       id: item.id,
-      skillCode: item.skillCode,
+      skillCode: contentSkillCode(item),
       mode: item.mode,
       difficulty: item.difficulty,
     }));
@@ -161,10 +161,10 @@ describe('planNextActivities', () => {
         prerequisiteSkillCodes: skill.prerequisiteSkillCodes,
       }));
     const amc8Content: PlannerContentItem[] = contentCatalog
-      .filter((item) => amc8SkillCodes.has(item.skillCode))
+      .filter((item) => amc8SkillCodes.has(contentSkillCode(item)))
       .map((item) => ({
         id: item.id,
-        skillCode: item.skillCode,
+        skillCode: contentSkillCode(item),
         mode: item.mode,
         difficulty: item.difficulty,
         contestReadinessRequirement: item.contestFormat?.readinessRequirement,

@@ -2,11 +2,15 @@
   "id": "mc6-proportional-reasoning-rates-1",
   "version": "content-2",
   "title": "Cheaper pencil by unit price",
-  "skillCode": "mc6-proportional-reasoning-rates",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-proportional-reasoning-rates",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MC6-PR-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Computes each store's unit price and compares them to find how much cheaper one pencil is."
   ],

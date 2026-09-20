@@ -2,11 +2,15 @@
   "id": "mk6-angle-and-shape-properties-2",
   "version": "content-3",
   "title": "Triangle angle chain",
-  "skillCode": "mk6-angle-and-shape-properties",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-angle-and-shape-properties",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MK6-GEOM-2"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses the triangle angle sum together with a supplementary-angle relationship across two connected shapes to find an unknown angle."
   ],
@@ -21,11 +25,26 @@
   "contestFormat": {
     "pointValue": 4,
     "answerChoices": [
-      { "label": "A", "text": "50 degrees" },
-      { "label": "B", "text": "60 degrees" },
-      { "label": "C", "text": "70 degrees" },
-      { "label": "D", "text": "110 degrees" },
-      { "label": "E", "text": "120 degrees" }
+      {
+        "label": "A",
+        "text": "50 degrees"
+      },
+      {
+        "label": "B",
+        "text": "60 degrees"
+      },
+      {
+        "label": "C",
+        "text": "70 degrees"
+      },
+      {
+        "label": "D",
+        "text": "110 degrees"
+      },
+      {
+        "label": "E",
+        "text": "120 degrees"
+      }
     ]
   },
   "solutionRepresentation": "Third triangle angle = 180 − 50 − 70 = 60 degrees. Since x is supplementary to 60 degrees, x = 180 − 60 = 120 degrees.",

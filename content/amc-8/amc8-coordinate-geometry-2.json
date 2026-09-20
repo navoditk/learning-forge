@@ -2,11 +2,11 @@
   "id": "amc8-coordinate-geometry-2",
   "version": "content-3",
   "title": "Area of a rectangle with a rectangular region removed",
-  "skillCode": "amc8-coordinate-geometry",
+  "role": "practice",
+  "skillRef": { "code": "amc8-coordinate-geometry", "version": "1.0.0" },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-COORD-1"],
-  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Finds the area of an axis-aligned rectangle from opposite vertices, finds the area of a second axis-aligned rectangle removed from it, and subtracts to find the remaining area in one multi-step solution."
   ],
@@ -112,6 +112,7 @@
     "reviewedAt": "2026-09-18",
     "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
   },
+  "itemReadinessRefs": [],
   "accessibilityNotes": "Show the coordinate rectangle with the removed region outlined distinctly (dashed stroke, not color alone) and provide both sets of coordinate differences in text; do not rely on visual grid counting alone.",
   "accessibleAlternative": "Read aloud or display: A rectangle has opposite vertices at negative 1, 2 and 5, 6. A smaller rectangle with opposite vertices at 2, 2 and 5, 4 is removed from it. Find the area of the remaining region."
 }

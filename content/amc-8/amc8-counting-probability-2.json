@@ -2,11 +2,15 @@
   "id": "amc8-counting-probability-2",
   "version": "content-2",
   "title": "Lucky two-digit codes",
-  "skillCode": "amc8-counting-probability",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-counting-probability",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-COUNT-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Counts ordered two-digit codes by parity cases while enforcing the no-repeated-digit condition."
   ],

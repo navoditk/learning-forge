@@ -2,14 +2,15 @@
   "id": "one-variable-equations-1",
   "version": "content-1",
   "title": "Solve a one-step equation",
-  "skillCode": "one-variable-equations",
+  "role": "practice",
+  "skillRef": {
+    "code": "one-variable-equations",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["6.EE.B.7"],
-  "prerequisiteSkillCodes": [
-    "equation-and-inequality-meaning",
-    "negative-numbers-and-absolute-value"
-  ],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Solves a one-step addition equation by applying the inverse operation to both sides."
   ],

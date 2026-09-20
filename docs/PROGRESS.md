@@ -1,5 +1,173 @@
 # Progress
 
+## Resume here
+
+**Picking this repository up in a new session or a different CLI?** The active
+workstream is course progression, and its handoff is self-contained in
+`docs/course-progression-handoff.md`. It states the objective, current phase,
+artifact status, review chronology and remaining findings, the decisions
+required, the exact next task, stage dependencies, validation commands, the
+files to read in order, and the no-implementation / no-authoring gates.
+
+Nothing in this file, in chat history, or in any tool-specific configuration is
+required to resume. The procedure itself is
+`docs/course-progression-playbook.md`; the `.github/` skill and agent profiles
+are optional wrappers over it and are not the source of procedure.
+
+- **Phase:** architecture and specification only, fourth draft, **Proposed**.
+- **Next task:** independent review of the completed Stage A0 increment.
+- **Blocking decisions:** eleven entries are approved; fifty remain open in
+  `docs/course-progression-decisions.md`. The next unresolved decisions are
+  listed in handoff §5.
+- **Do not** implement runtime code, migrations, dependencies, tests, or
+  content, and **do not** resume curriculum authoring.
+
+## 2026-09-19 — Fourth-review remediation pass
+
+- Removed the stale `MODE_LABELS.review` entry so the planned A0 inclusion of
+  `scripts/**/*.ts` in the TypeScript gate will not introduce an existing
+  excess-property error.
+- Clarified that A0 treats current role-less records as practice only for the
+  public-site projection and that the sentinel publication test requires a
+  pure generator-input seam.
+- Narrowed the publication invariant to the public curriculum site, marked
+  held-out leakage tests branch-specific, and aligned the ADR with the fact
+  that the unreviewed-content issue is a latent code path with no current leak
+  evidenced.
+- Validation: `npm run verify` passed outside the sandbox restriction (89
+  tests and production build); Prettier and `git diff --check` passed. The
+  sandboxed run still cannot execute `tsx` child-process IPC pipes.
+- Remaining gate: independent review of Stage A0; fifty progression decisions
+  remain open, and no progression runtime beyond A0 has started.
+
+## 2026-09-19 — Stage A0 publication hotfix
+
+- Recorded product-owner approval of `D-01` Branch B, `D-02` Option A,
+  `D-03`, `D-38`, `D-40`, `D-52`, `D-53`, `D-56`, `D-57`, `D-58`, and `D-60`.
+- Implemented only Stage A0: added the reviewed teaching/practice publication
+  projection, legacy role-less compatibility for the public site, a pure
+  generator-input seam, the non-vacuous pending/assessment sentinel test, and
+  script inclusion in TypeScript checking.
+- Validation: `npm run verify` passed outside the sandbox restriction with 90
+  tests and a successful production build.
+- Next: independent review of Stage A0; do not begin A1 until that review is
+  complete.
+
+## 2026-09-19 — Remediation confirmation
+
+- A fresh read-only consistency pass found and corrected one residual phrase
+  in architecture §4.1 that still claimed pending content was public today;
+  it now accurately describes a latent publication path with no current
+  pending-record leak evidenced.
+- Formatting, lint, typecheck, and `git diff --check` passed. The prior full
+  verification pass remains green outside the sandbox `tsx` IPC restriction.
+- This confirmation was performed in the current session and does not replace
+  the required independent model-diverse review. No progression runtime,
+  migration, dependency, or content work has started.
+
+
+## 2026-09-19 — Course-progression architecture, fourth draft (final correction pass)
+
+- Remediated the third independent `gpt-5.6-sol` review. Still **specification
+  only**: no runtime code, schema, dependency, tests, or content. The goal of
+  this pass was to **reduce contradictions**, not add parallel descriptions.
+- **Blocker 1 — `D-01` made one discriminated union.** A single canonical table
+  in `docs/course-progression-decisions.md` now fixes both branches across
+  thirteen dimensions: storage, bank shape, publication, API and bundle
+  exposure, delayed-check and review semantics, `delayedCheckStatus` values
+  (`PERFORMED` vs `CONFIRMED`), whether `HIGH` is reachable, context weights,
+  parent and learner wording, feedback, branch-specific tests, and fixture
+  variants. Architecture §4.3 was cut down to mechanics and now **references**
+  that table instead of restating it. The direct contradiction was resolved:
+  decisions.md said Branch A publishes items "on the public site" while §4.3A
+  said it does not — the rule is now **never published in either branch**.
+  Downstream conditionalization added to the authoring pipeline, playbook,
+  authoring skill, cross-program fixtures (two variants each), and the roadmap.
+- **Blocker 2 — every mode needs an explicit access policy (`D-60`).**
+  `D-52`/`D-53` only covered the hybrid remainder; the five programs that stay
+  `skill-graph-only` at cutover (Math Kangaroo, MOEMS, AMC 8, MATHCOUNTS,
+  Scripps) would have been implicitly permitted. All three modes now require a
+  non-null `accessPolicyRef`; a missing or invalid policy grants nothing; I28
+  requires two cases per currently enabled program.
+- **Blocker 3 — canonical reference schema and a real uniqueness mechanism.**
+  New §3.0 defines `Ref = {code, version}` and `ItemRef = {id, version, hash}`
+  and tables every reference field across program, unit, lesson, skill
+  prerequisites, content, banks, policies, state, and evidence; U41 asserts no
+  bare reference string survives. The previous draft's partial unique index
+  spanned two tables, which no database supports; it is replaced by
+  `ActiveAssessmentLease`, a mutable single-table record owning uniqueness,
+  expiry, and transactional release, with the immutable `AssessmentAssignment`
+  left immutable.
+- **Majors.** Staging split into **A0** (the `D-58` hotfix), **A1** (schema and
+  accepting validators), **A2** (content transformation — the previous table
+  claimed "Content: No" while relabelling 128 records, which was false); C1
+  now defines `ShadowDecision`; C3 dual-writes the session bindings while
+  shadow-running; C4 is an explicit expand → drain → reject-residue → contract
+  → enforce → remove-bypass order; content stages are parameterized by `D-34`
+  rather than assuming three lessons. Policy mapping is now exhaustive with a
+  `D-id` per key, and optional features use an explicit
+  `{enabled: false} | {enabled: true, …}` discriminant instead of absence.
+  `TEACHING_COMPLETED` and `INDEPENDENT_PRACTICE_EXPOSURE` added to the
+  canonical `LearningEvent` kinds they were already referenced by;
+  `completionStatus` separated from `remediationStatus` so a lapsed review no
+  longer appears to un-finish a lesson; unit override revocation added.
+  Rollback reclassified by **reconstructability** — `OverrideRecord`,
+  `SkipRecord`, and `LearningEvent` are non-reconstructable audit and must be
+  retained or archive-then-dropped, never dropped. Terminal semantics defined
+  for `SCORED`/`EXPIRED`/`ABANDONED`/the new `INVALIDATED`, each writing a
+  result and releasing the lease; "never deleted" reconciled with household
+  erasure as application-immutability versus user deletion.
+- **Testing.** Added a **claim-to-test matrix** covering all 15 §16 claims, with
+  bold entries marking tests added specifically to close claims that had no
+  falsifier. New tests: U41–U48, L16 (S10 log/trace scan), L17 (injected
+  sentinel so the publication test is non-vacuous — zero records are pending
+  today, so the test would otherwise pass trivially), L18 (answer-equivalence
+  leakage rather than substring, catching `0.25` for `1/4`), I28–I32. Manual
+  gates moved out of the Playwright table into §13.7 with owners and artifacts.
+- **`D-58` restated precisely.** The earlier text claimed unreviewed content
+  "is already public"; that is wrong. All 128 records are reviewed, so nothing
+  unreviewed is public **now** — the defect is the code path
+  (`generate-curriculum-site.ts` reads `contentCatalog`, not a reviewed
+  projection), which would publish the next pending record automatically.
+  Mandatory pre-Stage-A hotfix as **Stage A0**, with the named projection
+  change, `tsconfig` inclusion, sentinel test, and an acknowledgement gate.
+- **Authoring resume gates reconciled (`D-61`).** Architecture approval alone
+  is explicitly insufficient; the gate set is now stated identically in
+  `docs/curriculum-agents.md`, the authoring playbook, and
+  `.github/skills/curriculum-authoring/SKILL.md`, all pointing at `D-61`, with
+  `docs/course-progression-architecture.md` §4.2 named as the one canonical
+  role contract.
+- **Drift corrected.** Draft number (second → fourth), inventory count
+  (twenty-two → twenty-seven, matching R1–R27), ADR date line, stage count in
+  the roadmap, decision count (59 → 61), `§6.4` → `§6.5` fixture citation, and
+  the stray `AssessmentRun` references.
+- **Made the work resumable in any tool.** The procedure was previously only in
+  a Copilot-specific skill file. Added `docs/course-progression-playbook.md` as
+  the tool-neutral source of procedure — following the existing
+  research/authoring playbook convention — and
+  `docs/course-progression-handoff.md` as a self-contained resumption entry
+  point covering objective, phase, artifact status, review chronology and
+  remaining findings, decisions required, the exact next-task prompt, stage
+  dependency graph, validation commands, reading order, and the
+  no-implementation / no-authoring gates. `AGENTS.md` gained a capability-
+  playbook table and a progression pointer with no vendor-specific
+  instructions; `README.md` and the architecture header point at the handoff;
+  this file opens with a "Resume here" block. The `.github/` skill and the
+  three agent profiles were rewritten as explicit **wrappers** that defer to
+  the playbook, which governs where they differ.
+- Also restored §13.8 "Release gates", which was dropped inadvertently during
+  the third pass.
+- Validation: `npm run format:check`, `npm run lint`, `npm run typecheck`,
+  `npm test` (89 passed), `git diff --check` including untracked files, and a
+  `D-01` … `D-61` cross-reference audit with zero dangling ids.
+- Unresolved risks: the fourth draft is unreviewed. `D-01` still selects two
+  materially different products. `D-60` adds five access policies to author
+  before cutover. The six substantive prerequisite disagreements remain
+  curriculum questions.
+- Next: fourth independent review, then resolve in order `D-58` (Stage A0),
+  `D-01`/`D-02`, `D-38`, `D-52`/`D-60`, `D-40`.
+
+
 ## 2026-09-19 — Operator-controlled parent password reset
 
 - Added an operator-only reset command for the single-household pilot that
@@ -1429,6 +1597,23 @@
 
 ## Current status
 
+- **Course progression: architecture phase, fourth draft, pending review
+  (2026-09-19).** `docs/course-progression-architecture.md`,
+  `docs/course-progression-decisions.md`, and
+  `docs/adr/0013-course-progression-structure.md` specify the
+  `Program → Unit → Lesson → Skill → Practice → Assessment → Review`
+  capability piloted on Grade 6 Math Ratios. Specification only — no runtime
+  behavior, schema, dependency, or content exists for it. Sixty-one decisions
+  (`D-01` … `D-61`) are open, and nothing is approved. Resolution order:
+  `D-58` first (the site generator reads the raw catalog rather than a reviewed
+  projection — nothing unreviewed is public today, but the next pending record
+  merged would be; **Stage A0** closes it before any other work), then `D-01`
+  (open-book versus held-out, which selects an entire product configuration),
+  `D-38` (throws at module load), `D-52`/`D-60` (without which cutover strands
+  24 Grade 6 Math skills or silently permits five unitless programs), and
+  `D-40`. **New
+  curriculum authoring is paused** until independent review and human approval;
+  research continues.
 - Phase: 1 — synthetic journeys across all 5 Grade 6 Math domains, skill graph, planner, an actionable planner UI, an on-demand parent weekly digest, and a basic accessible visual design (now automated-WCAG-AA-checked) covered; **Grade 6 Math curriculum v3 shipped 2026-09-18**: 27 skills, 54/54 content records fully human-reviewed (0 pending), merged from the v1 baseline plus the independently-researched/reviewed v2 candidate graph (see the 2026-09-16 through 2026-09-18 entries below for the full merge, safety-gate, and content-review trail); the pilot-readiness decisions (audience, identity/auth, hosting, consent/retention, provider, budget/latency, eval gate) are made for a single-household pilot (ADR-0008, ADR-0009, ADR-0005). **All three approved implementation tracks are now live**: Track 1, real authentication (ADR-0010). Track 2, real Claude adapter (ADR-0011), reviewed, approved, and enabled. Track 3, Render deployment (ADR-0012) — **confirmed genuinely live 2026-09-13**: a real account was provisioned, sign-in works at `https://learning-forge.onrender.com`, and a real hint request was confirmed hitting the real Anthropic API (visible ~1-2s latency, non-templated text), not the fake adapter. This is a real, live, single-household pilot now, not just a local demonstration
 - Branch: `main`
 - Repository state: PRs #13–#42 are merged to `main`; the deployed app is live and working. The web service is currently on the **Starter** plan by deliberate choice for this pilot. The original Free-plan decision is deferred for a later cost review, not an operational blocker.
@@ -1569,8 +1754,35 @@ schema state.
 | `LearningPlan`, `PlanItem` | Implemented as a pure function plus an actionable route/UI, not persisted | `planNextActivities` produces an in-memory plan; `getPlan` wires it to real mastery/content data, exposed via `GET /api/phase1/plan`. Selecting a recommended item on the learner page now starts a real session for it (ADR-0007). No scheduler or persisted `LearningPlan` row exists |
 | `Assessment`, `AssessmentResult` | Not implemented | Diagnostic/assessment concept not built; only `Attempt` with `context: DIAGNOSTIC | PRACTICE | MASTERY_CHECK` |
 | `MisconceptionEvidence` | Not implemented | |
-| `ReviewSchedule` | Not implemented | No spaced-review scheduling yet; the planner deliberately does not fabricate a review-due date without one |
+| `ReviewSchedule` | Not implemented | No spaced-review scheduling table yet. `getReviewQueue` derives due skills from a flat `MASTERY_REVIEW_INTERVAL_DAYS = 14` against `MasteryEstimate.updatedAt`, which ordinary practice resets. A real `ReviewSchedule` with expanding intervals is specified in `docs/course-progression-architecture.md` §3.7/§6.7, with intervals open as `D-18` |
 | `PolicyVersion`, `EvalRun` | Not implemented | Policy/prompt versions are recorded as strings on trace rows, not their own tables; eval runs are file-based (`evals/`, `reports/`), not persisted |
+| `Unit`, `Lesson`, `AssessmentBank`, content `role`, `Program` registry, `ProgressionPolicyProfile` | Not implemented — **specified 2026-09-19** | Proposed as versioned curriculum and policy artifacts in `docs/course-progression-architecture.md` §3–§5, following the ADR-0006 precedent. Not in `prisma/schema.prisma` and not in `content/`. Blocked by `D-38`: `validateContentCatalog` enforces exactly two records per skill and throws at module load |
+| `LearnerPlacement`, `LearnerUnitState`, `LearnerLessonState`, `UnlockGrant`, `SkipRecord`, `OverrideRecord`, `LearningEvent` | Not implemented — **specified 2026-09-19** | Proposed learner-state tables (`docs/course-progression-architecture.md` §3.7). Each would require a reviewed migration with a `down.sql`; none exists |
+| `AssessmentAssignment`, `AssessmentRunState`, `AssessmentResult` | Not implemented — **specified 2026-09-19** | `docs/course-progression-architecture.md` §6.3 splits these into immutable evidence, mutable state, and immutable outcome. Assignment and result are immutable evidence retained by the production rollback procedure (§10.4) |
+| `Skill.version` | Not implemented | `SkillSchema` has no `version` field, so a skill reference cannot be pinned and a skill's meaning can change under existing evidence (`D-57`) |
+
+Five entries above deserve a correction rather than a status line, because the
+implementation is narrower or more broken than its name implies (all
+documented in `docs/course-progression-architecture.md` §1.2):
+
+- `MasteryEstimate.estimate` is **overwritten by the most recent attempt**, not
+  aggregated over `MasteryContribution` rows; `ConfidenceBand.HIGH` is
+  unreachable in code; and `recordTutorResponse` retroactively rewrites the
+  whole estimate from one attempt whenever a hint is recorded.
+- `Attempt.highestAssistance` is **hardcoded `INDEPENDENT` and never updated**,
+  and `exportHouseholdData` selects that column, so the parent data export
+  currently asserts every attempt was independent.
+- `LearningPlan`/`PlanItem` gating is **advisory only**. `startSession` does
+  not call `planNextActivities`, so a client-supplied `contentId` starts a
+  session on any reviewed item in the program regardless of evidence.
+- `Session` has **no activity kind** and `createAttempt` never checks
+  `endedAt`, so four endpoints reinterpret one another's sessions and ended
+  sessions still accept attempts. Session creation is also a **write behind
+  `GET`**.
+- Content records carry their own `prerequisiteSkillCodes`, unchecked against
+  the skill graph and not even guarded against self-reference: **18 records
+  disagree with their skill and 10 name their own skill**, including
+  `ratio-tables-2`.
 
 ## Proposal analysis (2026-09-04)
 
@@ -2394,3 +2606,154 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   the full repository gate then passed 76 tests and the production build.
   No blocker, major, or minor finding remains, so the advisory recommendation
   is **ready for human review**.
+
+## 2026-09-19 — Course progression Stage A1 transition contracts
+
+- Added version-pinned `Ref` and `ItemRef` schemas, versioned Program/Unit/Lesson/
+  AssessmentBank schemas, role-specific transition content schemas, and a
+  versioned skill contract in `src/contracts/progression.ts`.
+- Added the versioned program registry with explicit access/default policy
+  references and hybrid compatibility policy validation; the existing program
+  roster is now derived from it.
+- Added program/skill prefix and same-program prerequisite validation.
+- Updated content catalog validation to accept legacy role-less records and new
+  role-specific records during transition. Existing legacy count checks remain
+  for the current seed; new records are not forced through the old exactly-two
+  invariant.
+- Updated the progression handoff and decision-matrix status to reflect the
+  eleven approved decisions, completed A0, and the A1 increment.
+- Added four focused contract/registry tests.
+- Validation: `npm run verify` passed: formatting, lint, typecheck, migration
+  down-file check, 94 tests, and production build. Unprivileged `tsx` runs can
+  fail because the sandbox blocks its temporary IPC pipe; the elevated verify
+  run passed.
+- Next: independent review of A0/A1, then resolve only the remaining decisions
+  required by the next planned stage before beginning A2 content transformation.
+
+## 2026-09-19 — A0/A1 review follow-up
+
+- Reviewed the A0/A1 implementation against the handoff acceptance criteria.
+- Fixed two transition-validation gaps: content uniqueness is now keyed by
+  `id@version`, and role-specific records must resolve their referenced skill.
+- Added regression tests for both cases.
+- Validation: `npm run verify` passed again with 96 tests and a production
+  build.
+- Remaining gate: a separate human/agent independent review is still required
+  before A2 content transformation; no unresolved A1 blocker was found in this
+  pass.
+
+## 2026-09-19 — A0/A1 remediation increment
+
+- Integrated strict transition support for versioned skills and role-specific
+  content, including structured validators, required assessment-bank refs for
+  review records, and forbidden review/assessment hint ladders.
+- Updated public-site rendering and publication typing to handle legacy,
+  teaching, and practice records without exposing assessment/review records.
+- Added ordered Program → Unit → Lesson validation, assessment-bank coverage
+  checks, item-readiness closure validation, and per-skill transition-aware
+  record-count validation.
+- Corrected canonical reference wording in the architecture and updated the
+  handoff to point to the independent-review gate followed by A2.
+- Validation: `npm run verify` passed with 100 tests and a production build.
+- Next: human/agent independent review of this remediation, then approval of
+  the remaining content decisions required by `D-61` before A2.
+- Final follow-up: progression catalog validation also rejects orphan Units or
+  Lessons and duplicate ownership across Programs/Units; the final verify gate
+  remained green after that addition.
+
+## 2026-09-19 — D-37 role-labeling approval recorded
+
+- Recorded the explicit approval to mechanically relabel the 128 existing
+  reviewed records as `role: "practice"` without re-review.
+- Twelve of the 61 progression decisions are now approved; 49 remain open.
+- Full A2 transformation remains gated by the six substantive prerequisite
+  edge decisions and the remaining `D-61` authoring gate. No content files
+  were changed in this approval-only increment.
+
+## 2026-09-19 — A2 first reviewed practice batch
+
+- Transformed `content/ratios/ratio-language-1.json` to the approved new
+  practice shape: explicit `role`, canonical `skillRef`, and empty
+  `itemReadinessRefs`; its empty legacy prerequisite list was removed.
+- Updated catalog tests to exercise the mixed legacy/new transition state and
+  confirmed the public projection and legacy count behavior remain safe.
+- Validation: `npm run verify` passed with 100 tests and a production build.
+- Remaining A2 gate: resolve the prerequisite-edge decisions before converting
+  records whose item-level prerequisite lists carry disputed meaning.
+
+## 2026-09-19 — A2 second reviewed practice batch
+
+- Transformed `content/amc-8/amc8-coordinate-geometry-1.json` and
+  `content/amc-8/amc8-coordinate-geometry-2.json` to the approved new practice
+  shape. Both records had empty legacy prerequisite lists, so no prerequisite
+  semantics were inferred or discarded.
+- Added a focused regression test for the transformed AMC 8 batch and updated
+  the AMC 8 prerequisite audit to support mixed legacy/new records.
+- Targeted catalog tests passed: 22 tests. Full verification remains the next
+  gate before expanding the batch.
+- Added the transition-safe `contentSkillCode()` adapter and updated Phase 1
+  service/planner consumers so canonical role-specific records remain
+  discoverable without restoring legacy fields.
+
+## 2026-09-19 — Prerequisite-edge recommendations adopted
+
+- Adopted the documented D-35/D-56 recommendations with explicit
+  product/content-owner authorization.
+- Removed the `unit-rates` prerequisite from `ratio-tables`; the skill graph is
+  now authoritative for all content records.
+- Converted the remaining 125 legacy records to role-specific practice
+  records, removed every legacy `prerequisiteSkillCodes` list, and preserved
+  only narrower in-closure readiness refs for dependent variables, equivalent
+  expressions, and coordinate geometry.
+- Updated catalog validation and tests for role-specific contest/content
+  safety checks and the role-aware count invariant.
+
+## 2026-09-19 — Stage A2 closed
+
+- Tightened the live content catalog to accept canonical role-specific practice
+  records only; the legacy union remains available through an explicitly named
+  migration-only validator.
+- Confirmed the final A2 inventory: 128 role-specific records, zero legacy
+  `skillCode`/`prerequisiteSkillCodes` records, and six narrower readiness-ref
+  records within approved prerequisite closures.
+- Validation: `npm run verify` passed with 102 tests and a production build;
+  `git diff --check` passed.
+- Stage B entry is blocked until its concrete policy values are approved. The
+  pure modules may be implemented only against versioned, approved profiles;
+  recommendations must not be embedded as defaults.
+
+## 2026-09-19 — Stage B policy foundation
+
+- Adopted the authorized Stage B recommendation bundle for the initial pure
+  policy layer.
+- Added versioned `ProgressionPolicyProfile` and `AccessPolicy` schemas,
+  fail-closed `authorizeActivity`, deterministic policy hashing, and
+  server-derived `skillExposureAt`.
+- Added two focused progression tests and wired `tests/progression` into the
+  standard test command.
+- Validation: `npm run verify` passed with 104 tests and a production build.
+- Remaining B work: implement mastery aggregation and policy-profile
+  composition/artifacts for each program before calling Stage B complete.
+
+## 2026-09-19 — Stage B policy computation increment
+
+- Added pure policy-profile inheritance resolution with cycle and missing-parent
+  rejection.
+- Added parameterized mastery aggregation with assistance, context, repeat,
+  recency, evidence-mass, confidence-band, and independent-observation rules.
+- Added focused tests for deterministic policy behavior and HIGH-confidence
+  gating.
+- Targeted Stage B tests pass: 3 tests. Concrete per-program policy artifacts
+  and live wiring remain before Stage B can be declared complete.
+
+## 2026-09-19 — Stage B completed
+
+- Added validated, versioned progression profiles and access policies for all
+  registered programs, including the Grade 6 Math legacy compatibility policy.
+- Added artifact loading, profile inheritance resolution, deterministic policy
+  hashing, fail-closed authorization, mastery aggregation, and exposure-clock
+  computation.
+- Added focused policy, mastery, and artifact coverage tests.
+- Validation: `npm run verify` passed with 106 tests and a production build;
+  `git diff --check` passed.
+- Stage B remains pure and unwired by design; C1 is the next stage.

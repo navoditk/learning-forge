@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
 import { getTutorContext, phase1Content, recordTutorResponse } from '../../../../phase1/service';
+import { contentSkillCode } from '../../../../content/catalog';
 import { requireHouseholdContext } from '../../../../server/household-context';
 import { createTutorModel, TutorHarness } from '../../../../tutor';
 import { TutorState } from '../../../../tutor/policy';
@@ -33,7 +34,7 @@ const defaultContext: TutorContext = {
   content: {
     id: phase1Content.id,
     prompt: phase1Content.prompt,
-    skillCode: phase1Content.skillCode,
+    skillCode: contentSkillCode(phase1Content),
     canonicalAnswer: phase1Content.deterministicValidator.canonicalAnswer,
     forbiddenLeakagePatterns: phase1Content.forbiddenLeakagePatterns,
   },

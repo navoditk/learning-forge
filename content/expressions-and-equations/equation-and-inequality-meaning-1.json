@@ -2,11 +2,15 @@
   "id": "equation-and-inequality-meaning-1",
   "version": "content-1",
   "title": "Testing a statement",
-  "skillCode": "equation-and-inequality-meaning",
+  "role": "practice",
+  "skillRef": {
+    "code": "equation-and-inequality-meaning",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.EE.B.5"],
-  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Determines whether a value makes an equation true by substituting and evaluating the statement."
   ],

@@ -2,11 +2,15 @@
   "id": "prism-volume-2",
   "version": "content-1",
   "title": "Packing a fractional-edge box",
-  "skillCode": "prism-volume",
+  "role": "practice",
+  "skillRef": {
+    "code": "prism-volume",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["6.G.A.2"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Calculates a fractional-edge rectangular-prism volume and interprets the result in a context with cubic units."
   ],

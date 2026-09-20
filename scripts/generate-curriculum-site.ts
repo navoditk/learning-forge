@@ -14,11 +14,17 @@
  * (see `.github/workflows/curriculum-site.yml`).
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 
 import type { ContentItem } from '../src/contracts/content';
+import type { ContentRecord } from '../src/contracts/progression';
 import type { CurriculumDomain, Skill } from '../src/contracts/curriculum';
 import { contentCatalog } from '../src/content/catalog';
 import { svgDataUri } from '../src/content/figure';
+import {
+  publishableContentProjection,
+  type CurriculumSiteContentItem,
+} from '../src/content/publication';
 import { skillCatalog } from '../src/curriculum/catalog';
 import { PROGRAM_ROSTER } from '../src/curriculum/program-roster';
 
@@ -57,7 +63,6 @@ const MODE_LABELS: Record<ContentItem['mode'], string> = {
   core: 'Core',
   depth: 'Depth',
   contest: 'Contest',
-  review: 'Review',
 };
 
 function escapeHtml(value: string): string {
@@ -80,21 +85,23 @@ function pillList(values: readonly string[], className: string): string {
     .join('')}</ul>`;
 }
 
-function renderContentItem(item: ContentItem): string {
+function renderContentItem(item: ContentRecord): string {
   const reviewed = item.review.status === 'reviewed';
+  const modeLabel = 'mode' in item ? MODE_LABELS[item.mode] : 'Teaching';
+  const prompt = 'prompt' in item ? item.prompt : item.explanation;
   return `
     <li class="content-item">
       <div class="content-item-meta">
-        <span class="badge badge-mode">${escapeHtml(MODE_LABELS[item.mode])}</span>
+        <span class="badge badge-mode">${escapeHtml(modeLabel)}</span>
         <span class="badge badge-difficulty">${escapeHtml(item.difficulty)}</span>
         <span class="badge ${reviewed ? 'badge-reviewed' : 'badge-pending'}">${
           reviewed ? 'Reviewed' : 'Pending review'
         }</span>
       </div>
       <p class="content-item-title">${escapeHtml(item.title)}</p>
-      <p class="content-item-prompt">${escapeHtml(item.prompt)}</p>
+      <p class="content-item-prompt">${escapeHtml(prompt)}</p>
       ${
-        item.figure
+        'figure' in item && item.figure
           ? `<figure class="content-figure">
               <img src="${svgDataUri(item.figure.svgMarkup)}" alt="${escapeHtml(item.figure.altText)}" width="${item.figure.width}" height="${item.figure.height}" />
               <figcaption>${escapeHtml(item.figure.caption)}</figcaption>
@@ -104,7 +111,7 @@ function renderContentItem(item: ContentItem): string {
     </li>`;
 }
 
-function renderSkill(skill: Skill, items: readonly ContentItem[]): string {
+function renderSkill(skill: Skill, items: readonly ContentRecord[]): string {
   const anchor = slugify(skill.code);
   const prerequisites =
     skill.prerequisiteSkillCodes.length > 0
@@ -155,7 +162,12 @@ function renderSkill(skill: Skill, items: readonly ContentItem[]): string {
     </article>`;
 }
 
-function buildBody(): { title: string; stats: string; body: string } {
+export function buildBody(content: readonly CurriculumSiteContentItem[] = contentCatalog): {
+  title: string;
+  stats: string;
+  body: string;
+} {
+  const publishableContent = publishableContentProjection(content);
   const byProgram = new Map<string, Skill[]>();
   for (const skill of skillCatalog) {
     const bucket = byProgram.get(skill.program) ?? [];
@@ -163,21 +175,24 @@ function buildBody(): { title: string; stats: string; body: string } {
     byProgram.set(skill.program, bucket);
   }
 
-  const contentBySkill = new Map<string, ContentItem[]>();
-  for (const item of contentCatalog) {
-    const bucket = contentBySkill.get(item.skillCode) ?? [];
+  const contentBySkill = new Map<string, ContentRecord[]>();
+  for (const item of publishableContent) {
+    const skillCode = 'skillCode' in item ? item.skillCode : item.skillRef.code;
+    const bucket = contentBySkill.get(skillCode) ?? [];
     bucket.push(item);
-    contentBySkill.set(item.skillCode, bucket);
+    contentBySkill.set(skillCode, bucket);
   }
 
-  const reviewedCount = contentCatalog.filter((item) => item.review.status === 'reviewed').length;
+  const reviewedCount = publishableContent.filter(
+    (item) => item.review.status === 'reviewed',
+  ).length;
   const standardsCovered = new Set(skillCatalog.flatMap((skill) => skill.standards));
 
   const statsHtml = `
     <div class="stat"><span class="stat-value">${skillCatalog.length}</span><span class="stat-label">Skills</span></div>
-    <div class="stat"><span class="stat-value">${contentCatalog.length}</span><span class="stat-label">Problems</span></div>
+    <div class="stat"><span class="stat-value">${publishableContent.length}</span><span class="stat-label">Problems</span></div>
     <div class="stat"><span class="stat-value">${standardsCovered.size}</span><span class="stat-label">Standards covered</span></div>
-    <div class="stat"><span class="stat-value">${reviewedCount}/${contentCatalog.length}</span><span class="stat-label">Human-reviewed</span></div>`;
+    <div class="stat"><span class="stat-value">${reviewedCount}/${publishableContent.length}</span><span class="stat-label">Human-reviewed</span></div>`;
 
   const navSections: string[] = [];
   const programSections: string[] = [];
@@ -413,8 +428,10 @@ const CSS = `
   }
 `;
 
-function buildFullDocument(): string {
-  const { title, body } = buildBody();
+export function buildFullDocument(
+  content: readonly CurriculumSiteContentItem[] = contentCatalog,
+): string {
+  const { title, body } = buildBody(content);
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -453,10 +470,12 @@ ${body}
 </html>`;
 }
 
-const outDir = new URL('../dist/curriculum-site/', import.meta.url);
-mkdirSync(outDir, { recursive: true });
-writeFileSync(new URL('index.html', outDir), buildFullDocument(), 'utf8');
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
+  const outDir = new URL('../dist/curriculum-site/', import.meta.url);
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(new URL('index.html', outDir), buildFullDocument(), 'utf8');
 
-console.log(
-  `Wrote curriculum site (${skillCatalog.length} skills, ${contentCatalog.length} problems) to dist/curriculum-site/index.html`,
-);
+  console.log(
+    `Wrote curriculum site (${skillCatalog.length} skills, ${publishableContentProjection(contentCatalog).length} problems) to dist/curriculum-site/index.html`,
+  );
+}

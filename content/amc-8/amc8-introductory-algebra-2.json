@@ -2,11 +2,15 @@
   "id": "amc8-introductory-algebra-2",
   "version": "content-2",
   "title": "Rectangle width from a quadratic area relationship",
-  "skillCode": "amc8-introductory-algebra",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-introductory-algebra",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["AMC8-ALG-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Translates a word relationship into a quadratic equation, solves it by factoring, and applies a positive-quantity condition to choose the correct root."
   ],

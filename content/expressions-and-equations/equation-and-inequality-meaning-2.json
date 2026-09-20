@@ -2,11 +2,15 @@
   "id": "equation-and-inequality-meaning-2",
   "version": "content-1",
   "title": "Describing an inequality solution",
-  "skillCode": "equation-and-inequality-meaning",
+  "role": "practice",
+  "skillRef": {
+    "code": "equation-and-inequality-meaning",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "developing",
   "standards": ["6.EE.B.5"],
-  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Determines which values make an inequality true and explains that the solution is a set of values satisfying the statement."
   ],

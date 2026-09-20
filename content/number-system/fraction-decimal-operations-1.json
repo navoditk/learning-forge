@@ -2,11 +2,15 @@
   "id": "fraction-decimal-operations-1",
   "version": "content-1",
   "title": "Recipe amounts",
-  "skillCode": "fraction-decimal-operations",
+  "role": "practice",
+  "skillRef": {
+    "code": "fraction-decimal-operations",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.NS.A.1", "6.NS.B.3"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Adds decimals with correct place value, including amounts with a different number of decimal digits."
   ],

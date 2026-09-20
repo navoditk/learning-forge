@@ -2,11 +2,15 @@
   "id": "whole-number-exponents-1",
   "version": "content-1",
   "title": "Cube of five",
-  "skillCode": "whole-number-exponents",
+  "role": "practice",
+  "skillRef": {
+    "code": "whole-number-exponents",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.EE.A.1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Expands an exponent as repeated multiplication and evaluates the result."
   ],

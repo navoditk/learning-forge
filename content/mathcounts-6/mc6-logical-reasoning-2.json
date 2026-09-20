@@ -2,11 +2,15 @@
   "id": "mc6-logical-reasoning-2",
   "version": "content-3",
   "title": "Knights and knaves count",
-  "skillCode": "mc6-logical-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-logical-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MC6-LOG-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Tests each possible type assignment against truth-teller and liar rules to force a unique count of knights."
   ],

@@ -2,11 +2,15 @@
   "id": "mk6-number-patterns-and-magic-squares-1",
   "version": "content-1",
   "title": "Fill the magic square",
-  "skillCode": "mk6-number-patterns-and-magic-squares",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-number-patterns-and-magic-squares",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MK6-ARITH-2"],
-  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Fills a partially completed 3x3 magic square so every row, column, and diagonal sums to the required target."
   ],

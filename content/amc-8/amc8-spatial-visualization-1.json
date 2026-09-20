@@ -2,11 +2,15 @@
   "id": "amc8-spatial-visualization-1",
   "version": "content-1",
   "title": "Painted corner cubes",
-  "skillCode": "amc8-spatial-visualization",
+  "role": "practice",
+  "skillRef": {
+    "code": "amc8-spatial-visualization",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["AMC8-SPATIAL-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Identifies that every small cube in a 2-by-2-by-2 cube is a corner cube with three painted faces after exterior painting."
   ],

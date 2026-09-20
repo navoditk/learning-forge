@@ -2,11 +2,15 @@
   "id": "moems6-cryptarithm-reasoning-2",
   "version": "content-1",
   "title": "Carry in a letter equation",
-  "skillCode": "moems6-cryptarithm-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "moems6-cryptarithm-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MOEMS-E-CRYPT-1"],
-  "prerequisiteSkillCodes": ["moems6-number-and-place-value"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Tracks a carry and distinct digit restrictions through a column addition to determine a letter digit."
   ],

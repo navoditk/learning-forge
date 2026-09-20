@@ -2,11 +2,15 @@
   "id": "mc6-linear-equation-reasoning-2",
   "version": "content-3",
   "title": "Quarters and dimes",
-  "skillCode": "mc6-linear-equation-reasoning",
+  "role": "practice",
+  "skillRef": {
+    "code": "mc6-linear-equation-reasoning",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MC6-AEE-01"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Sets up a one-variable equation from a coin-value context with a comparison clue, distributes correctly, and solves it."
   ],

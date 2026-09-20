@@ -41,8 +41,8 @@ The CLI agent must also read `AGENTS.md` before changing code.
 
 ## Curriculum agents
 
-Three repository-scoped custom agents support controlled curriculum
-expansion:
+Repository-scoped custom agents support controlled curriculum expansion and
+course-progression design:
 
 - `curriculum-researcher` researches authoritative sources and prepares a
   dossier for human approval.
@@ -50,9 +50,19 @@ expansion:
   increment and leaves its content pending review.
 - `curriculum-reviewer` independently reviews the result without editing or
   approving it.
+- `course-progression-architect` specifies a course-progression capability for
+  an approved program, without implementing it.
+- `course-progression-reviewer` independently and read-only reviews that
+  specification.
+- `course-progression-implementer` implements one approved increment of a
+  reviewed progression architecture.
 
 Select them with `/agent`; see `docs/curriculum-agents.md` for models, skills,
 workflow, and approval boundaries.
+
+**New curriculum authoring is currently paused** pending independent review
+and human approval of `docs/course-progression-architecture.md`. Research
+continues; the reason is recorded in `docs/curriculum-agents.md`.
 
 Supporting reference docs, consulted as needed rather than read end to end:
 
@@ -60,6 +70,21 @@ Supporting reference docs, consulted as needed rather than read end to end:
 - `docs/content-review.md`, `docs/content-authoring-pipeline.md` — how problems are authored and approved.
 - `docs/curriculum-sources.md`, `docs/curriculum-agents.md` — curriculum
   attribution and the research → author → independent-review agent workflow.
+- `docs/course-progression-handoff.md` — **start here for course-progression
+  work in any tool.** Self-contained: objective, phase, artifact status, review
+  chronology, decisions required, the exact next task, stage dependencies,
+  validation commands, reading order, and the no-implementation/no-authoring
+  gates.
+- `docs/course-progression-playbook.md` — the tool-neutral procedure the
+  repository skills and agent profiles wrap.
+- `docs/course-progression-architecture.md` — the proposed
+  `Program → Unit → Lesson → Skill → Practice → Assessment → Review`
+  capability, its Grade 6 Math ratios pilot, and the current-behavior
+  inventory it replaces. Proposed; not implemented.
+- `docs/course-progression-decisions.md` — the authoritative decision matrix
+  for every human-gated progression parameter, `D-01` … `D-59`. All entries are
+  open; nothing there is approved, and no other document restates a normative
+  default.
 - `docs/local-development.md` — local PostgreSQL setup and migration rollback.
 - `docs/adr/` — architecture decision records for consequential choices.
 - `docs/PROGRESS.md` — the append-only build log: current branch, verification history, decisions, risks, and the exact next task. Not a summary — check the `Current status` and `Domain model coverage` sections at the top rather than reading the full history.

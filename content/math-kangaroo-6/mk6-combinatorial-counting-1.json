@@ -2,11 +2,15 @@
   "id": "mk6-combinatorial-counting-1",
   "version": "content-1",
   "title": "Outfit combinations",
-  "skillCode": "mk6-combinatorial-counting",
+  "role": "practice",
+  "skillRef": {
+    "code": "mk6-combinatorial-counting",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["MK6-COMB-1"],
-  "prerequisiteSkillCodes": ["mk6-multi-step-arithmetic-reasoning"],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Uses the multiplication counting principle to count the number of ways to combine one item from each of several independent groups."
   ],

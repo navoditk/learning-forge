@@ -2,11 +2,11 @@
   "id": "amc8-coordinate-geometry-1",
   "version": "content-1",
   "title": "Horizontal distance on a coordinate grid",
-  "skillCode": "amc8-coordinate-geometry",
+  "role": "practice",
+  "skillRef": { "code": "amc8-coordinate-geometry", "version": "1.0.0" },
   "mode": "core",
   "difficulty": "developing",
   "standards": ["AMC8-COORD-1"],
-  "prerequisiteSkillCodes": [],
   "observableEvidence": [
     "Recognizes a horizontal segment from equal y-coordinates and finds its length using absolute difference of x-coordinates."
   ],
@@ -62,6 +62,7 @@
     "reviewedAt": "2026-09-18",
     "originalityStatement": "Original AMC 8-style draft written for this repository from the approved dossier's topic family and format constraints; no AMC 8 or AJHSME problem, wording, answer-choice set, diagram, or solution is reproduced."
   },
+  "itemReadinessRefs": [],
   "accessibilityNotes": "Provide the grid and a complete text alternative with both coordinates; the same y-coordinate relationship must be stated in text.",
   "accessibleAlternative": "Read aloud or display: Point A has coordinates negative 2, 3. Point B has coordinates 4, 3. They have the same y-coordinate, so find the horizontal distance between x equals negative 2 and x equals 4."
 }

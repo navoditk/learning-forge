@@ -2,11 +2,15 @@
   "id": "moems6-logic-and-arrangements-2",
   "version": "content-1",
   "title": "Four remaining cards",
-  "skillCode": "moems6-logic-and-arrangements",
+  "role": "practice",
+  "skillRef": {
+    "code": "moems6-logic-and-arrangements",
+    "version": "1.0.0"
+  },
   "mode": "contest",
   "difficulty": "challenging",
   "standards": ["MOEMS-E-LOGIC-1"],
-  "prerequisiteSkillCodes": [],
+  "itemReadinessRefs": [],
   "observableEvidence": [
     "Counts arrangements by combining an order constraint with an adjacency exclusion and checking cases systematically."
   ],

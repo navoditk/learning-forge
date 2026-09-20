@@ -2,11 +2,20 @@
   "id": "dependent-and-independent-variables-1",
   "version": "content-1",
   "title": "Candle height after burning",
-  "skillCode": "dependent-and-independent-variables",
+  "role": "practice",
+  "skillRef": {
+    "code": "dependent-and-independent-variables",
+    "version": "1.0.0"
+  },
   "mode": "core",
   "difficulty": "foundational",
   "standards": ["6.EE.C.9"],
-  "prerequisiteSkillCodes": ["variables-and-expressions"],
+  "itemReadinessRefs": [
+    {
+      "code": "variables-and-expressions",
+      "version": "1.0.0"
+    }
+  ],
   "observableEvidence": [
     "Evaluates a dependent variable from an equation given a value of the independent variable."
   ],
