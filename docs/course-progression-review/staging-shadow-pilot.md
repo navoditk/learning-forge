@@ -23,10 +23,15 @@ or C4 authorization.
 - Actual behavior: `ALLOWED`
 - Current disposition: unresolved
 
-The divergence is retained as review evidence. It may represent an intentional
-legacy-vs-progression-policy difference, but that cannot be assumed by the
-implementing team. An independent reviewer and product/engineering owner must
-explain it or authorize the smallest remediation before C4 review can proceed.
+The current code explains the mechanical source of the difference but does not
+resolve its product meaning: `content/skills/unit-rates.json` declares
+`ratio-language` as a prerequisite, `policy/access-policies/grade-6-math-access.json`
+sets `respectsPrerequisiteGraph` to `true`, and the legacy `startSession` path
+still allows the request. This may be the intended legacy-vs-progression-policy
+delta that C4 is meant to cut over, but the implementing team cannot approve
+that interpretation. An independent reviewer and product/engineering owner
+must explain it or authorize the smallest remediation before C4 review can
+proceed.
 
 No production database, learner record, or production authorization was
 changed by this run.
