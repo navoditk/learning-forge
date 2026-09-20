@@ -15,10 +15,10 @@ independent review or C4 authorization.
 
 ## Repository evidence
 
-At the verified rollout checkpoint before this evidence-document-only update:
+At the current verified rollout checkpoint (`2f34c7f`):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  159 unit/contract/progression tests, and production build.
+  164 unit/contract/progression tests, and production build.
 - `npm run test:integration` passed: 39 persistence, Phase 1, and auth tests
   against the disposable local PostgreSQL database.
 - `npm run test:e2e` passed: 22 Playwright tests covering authentication,
@@ -36,6 +36,8 @@ At the verified rollout checkpoint before this evidence-document-only update:
   forward/down/forward schema-equivalence check across all 10 migrations.
 - The test commands now provide a local PostgreSQL fallback while honoring an
   explicitly supplied `DATABASE_URL`; production configuration is unchanged.
+- After the package-boundary changes, integration remained green at 39 tests
+  and Playwright remained green at 22 passed with one intentional skip.
 
 ## Deployed evidence
 

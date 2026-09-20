@@ -76,6 +76,15 @@
 - Added coverage for an invalid mounted path. Full DB-free verification passes
   with 164 tests; integration and browser suites also remain green.
 
+## 2026-09-20 — Post-boundary end-to-end verification
+
+- Re-ran `npm run test:integration`: 39 tests passed against disposable local
+  PostgreSQL.
+- Re-ran `npm run test:e2e`: 22 passed with one intentional private-package
+  smoke skip because no reviewed package is installed.
+- Production smoke checks remain HTTP 200 for the review page and fail-closed
+  with `RELEASE_GATE_CLOSED` for assessment assignment creation.
+
 ## 2026-09-20 — Draft private assessment package generated
 
 - Generated a local, non-production draft at
