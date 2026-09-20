@@ -2913,6 +2913,16 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   release gates.
 - Validation: `npm run verify` passed with 127 tests and a production build.
 
+## 2026-09-19 — Override and revocation state rules
+
+- Added pure override transitions for beginning work, revocation, and
+  re-evaluation. Revocation retains historically completed work and only
+  clears the override after the entry requirement is satisfied again.
+- Added table-driven state coverage; no role, step-up, or authorization path
+  is wired by this increment.
+- Validation: `npm run verify` passed with 133 tests and a production build.
+  Endpoint wiring remains gated on independent review and manual approvals.
+
 ## 2026-09-19 — Default-off progression release gate
 
 - Added a server-side default-closed release gate around the pilot progression
