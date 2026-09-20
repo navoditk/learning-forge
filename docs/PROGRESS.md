@@ -2903,6 +2903,16 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   The rule is not yet wired to a learner-serving endpoint pending the
   independent C1–C3 review and release approvals.
 
+## 2026-09-19 — Placement probe state rule
+
+- Added pure placement semantics: a passing probe sets starting position only;
+  both pass and fail remain `LOW` confidence and leave delayed confirmation
+  untouched, while a failed probe does not move position.
+- Added focused placement tests and exported the rule through the progression
+  module. It remains unwired to an endpoint pending the independent review and
+  release gates.
+- Validation: `npm run verify` passed with 127 tests and a production build.
+
 ## 2026-09-19 — Default-off progression release gate
 
 - Added a server-side default-closed release gate around the pilot progression

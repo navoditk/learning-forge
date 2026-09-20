@@ -1,5 +1,6 @@
 export * from './exposure';
 export * from './delay-window';
+export * from './placement';
 export * from './policy';
 export * from './mastery';
 export * from './artifacts';
