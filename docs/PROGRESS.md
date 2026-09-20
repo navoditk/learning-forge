@@ -14,13 +14,20 @@ required to resume. The procedure itself is
 `docs/course-progression-playbook.md`; the `.github/` skill and agent profiles
 are optional wrappers over it and are not the source of procedure.
 
-- **Phase:** architecture and specification only, fourth draft, **Proposed**.
-- **Next task:** independent review of the completed Stage A0 increment.
-- **Blocking decisions:** eleven entries are approved; fifty remain open in
-  `docs/course-progression-decisions.md`. The next unresolved decisions are
-  listed in handoff §5.
-- **Do not** implement runtime code, migrations, dependencies, tests, or
-  content, and **do not** resume curriculum authoring.
+- **Phase:** staged course-progression implementation. A0/A1/A2 and Stage B
+  are complete; C1–C3 foundations, the default-off release gate, pilot
+  assessment flow, learner/parent surfaces, and mastery evidence seams are
+  implemented. C4 authorization and C5 serving remain gated.
+- **Next task:** complete the independent fourth-draft architecture/C1–C3
+  review and representative shadow-divergence review, then obtain the human
+  approvals required before C4.
+- **Blocking decisions:** 59 entries are approved; only the non-critical
+  content-volume pointer D-36 and elapsed-time capture scope D-39 remain open
+  in `docs/course-progression-decisions.md`.
+- **Do not** perform the C4 authorization cutover, serve progression UI, or
+  resume curriculum authoring until the handoff’s independent/manual gates are
+  recorded. The existing progression UI and endpoints remain closed by
+  default.
 
 ## 2026-09-19 — Fourth-review remediation pass
 
