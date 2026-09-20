@@ -148,7 +148,7 @@ export async function submitAssessmentItem(
     );
   }
 
-  return database.$transaction(
+  const submissionResult = await database.$transaction(
     async (transaction) => {
       const assignment = await transaction.assessmentAssignment.findFirst({
         where: {
@@ -190,10 +190,7 @@ export async function submitAssessmentItem(
       const now = new Date();
       if (now >= run.expiresAt) {
         await expireAssessment(transaction, assignment.id, run.id, assignment.lease?.id, now);
-        throw new AssessmentSubmissionError(
-          'ASSESSMENT_EXPIRED',
-          'The assessment run has expired.',
-        );
+        return { expired: true as const };
       }
       const submitted = Array.isArray(run.submittedOrdinals)
         ? run.submittedOrdinals.filter((value): value is number => typeof value === 'number')
@@ -240,6 +237,7 @@ export async function submitAssessmentItem(
           },
         });
         return {
+          expired: false as const,
           assignmentId: assignment.id,
           sessionId: session.id,
           attemptId: attempt.id,
@@ -346,6 +344,7 @@ export async function submitAssessmentItem(
         });
       }
       return {
+        expired: false as const,
         assignmentId: assignment.id,
         sessionId: session.id,
         attemptId: attempt.id,
@@ -355,6 +354,10 @@ export async function submitAssessmentItem(
     },
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
   );
+  if (submissionResult.expired) {
+    throw new AssessmentSubmissionError('ASSESSMENT_EXPIRED', 'The assessment run has expired.');
+  }
+  return submissionResult;
 }
 
 export type AbandonAssessmentInput = {
@@ -465,10 +468,30 @@ async function expireAssessment(
       algorithmVersion: true,
       policyProfileHash: true,
       requiredCount: true,
+      sessions: { select: { id: true } },
     },
   });
   if (!assignment)
     throw new AssessmentSubmissionError('ASSESSMENT_NOT_FOUND', 'Assessment assignment not found.');
+  const attempts = await transaction.attempt.findMany({
+    where: { sessionId: { in: assignment.sessions.map((session) => session.id) } },
+    orderBy: { createdAt: 'asc' },
+    select: {
+      id: true,
+      contentKey: true,
+      contentVersion: true,
+      correctness: true,
+      highestAssistance: true,
+    },
+  });
+  const itemResults = attempts.map((attempt) => ({
+    attemptId: attempt.id,
+    contentId: attempt.contentKey,
+    contentVersion: attempt.contentVersion,
+    correctness: attempt.correctness,
+    maxAssistance: attempt.highestAssistance,
+    superseded: false,
+  }));
   await transaction.assessmentRunState.update({
     where: { id: runId },
     data: { status: 'EXPIRED', submittedAt: now, lastActivityAt: now },
@@ -479,8 +502,8 @@ async function expireAssessment(
       learnerProfileId: assignment.learnerProfileId,
       assignmentId,
       outcome: 'INCONCLUSIVE',
-      itemResults: [],
-      correctCount: 0,
+      itemResults,
+      correctCount: attempts.filter((attempt) => attempt.correctness === 'CORRECT').length,
       requiredCount: requiredCount(assignment.requiredCount),
       algorithmVersion: assignment.algorithmVersion,
       policyProfileHash: assignment.policyProfileHash,
@@ -491,4 +514,8 @@ async function expireAssessment(
       where: { id: leaseId },
       data: { releasedAt: now },
     });
+  await transaction.session.updateMany({
+    where: { id: { in: assignment.sessions.map((session) => session.id) }, endedAt: null },
+    data: { endedAt: now },
+  });
 }

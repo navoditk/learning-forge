@@ -3045,6 +3045,16 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   or reassessment policy; integration coverage remains the next validation
   increment for the new endpoint.
 
+## 2026-09-19 — Preserve submitted evidence on expiry
+
+- Fixed the expiry submission path so the terminal `EXPIRED` run and
+  `INCONCLUSIVE` result commit before the API reports `ASSESSMENT_EXPIRED`.
+- Expiry now retains submitted immutable attempt references, correctness, and
+  assistance evidence, ends bound sessions, and releases the active lease.
+- Added database coverage for the previously lossy expiry boundary. All
+  repository verification and integration gates pass; progression serving and
+  C4/C5 remain behind the existing release and independent-review gates.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

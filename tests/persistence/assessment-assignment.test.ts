@@ -219,6 +219,80 @@ describe('assessment assignment persistence', () => {
     ).toEqual({ outcome: 'INCONCLUSIVE' });
   });
 
+  it('preserves submitted attempts when an assessment expires', async () => {
+    const store = createInMemoryAssessmentStore([
+      {
+        code: 'ratio-language-lesson-bank',
+        version: '1.0.0',
+        contentHash: 'sha256:bank',
+        items: [assessmentItem],
+      },
+    ]);
+    const assignment = await createAssessmentAssignment(
+      {
+        householdId,
+        learnerProfileId,
+        kind: AssessmentKind.LESSON_ASSESSMENT,
+        targetKind: ProgressionTargetKind.LESSON,
+        targetRef: { code: 'ratio-language-lesson', version: '1.0.0' },
+        bankRef: { code: 'ratio-language-lesson-bank', version: '1.0.0' },
+        policyProfileRef: { code: 'grade-6-math-default', version: '1.0.0' },
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        curriculumSnapshotHash: 'sha256:bank',
+        itemsPerAttempt: 1,
+        requiredCount: 1,
+        expiresAt: new Date(Date.now() + 60_000),
+        idempotencyKey: 'assignment-key-expired',
+      },
+      store,
+    );
+    const session = assignment.assignment.sessions[0];
+    if (!session) throw new Error('Assessment session was not created');
+    await prisma.attempt.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        sessionId: session.id,
+        contentKey: assessmentItem.id,
+        contentVersion: assessmentItem.version,
+        learnerResponse: '2:3',
+        normalizedResponse: '2:3',
+        correctness: 'CORRECT',
+        scoringMethod: 'DETERMINISTIC',
+        attemptNumber: 1,
+        elapsedSeconds: 0,
+        highestAssistance: 'INDEPENDENT',
+        context: 'LESSON_ASSESSMENT',
+        policyVersion: '1.0.0',
+      },
+    });
+    await prisma.assessmentRunState.update({
+      where: { assignmentId: assignment.assignment.id },
+      data: { expiresAt: new Date(Date.now() - 1_000) },
+    });
+    await expect(
+      submitAssessmentItem(
+        {
+          householdId,
+          learnerProfileId,
+          assignmentId: assignment.assignment.id,
+          sessionId: session.id,
+          ordinal: 1,
+          learnerResponse: '2:3',
+        },
+        store,
+      ),
+    ).rejects.toMatchObject({ code: 'ASSESSMENT_EXPIRED' });
+    const result = await prisma.assessmentResult.findUnique({
+      where: { assignmentId: assignment.assignment.id },
+      select: { outcome: true, correctCount: true, itemResults: true },
+    });
+    expect(result?.outcome).toBe('INCONCLUSIVE');
+    expect(result?.correctCount).toBe(1);
+    expect(result?.itemResults).toHaveLength(1);
+  });
+
   it('projects a passed unit assessment into unit completion state', async () => {
     const practiceSession = await prisma.session.create({
       data: {
