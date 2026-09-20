@@ -120,6 +120,16 @@ describe('private held-out assessment package store', () => {
     );
   });
 
+  it('rejects duplicate item identities across private banks', async () => {
+    const first = packageDocument({ code: 'private-bank', version: '1.0.0' });
+    const second = packageDocument({ code: 'other-bank', version: '1.0.0' });
+    const path = await writePackage({ banks: [...first.banks, ...second.banks] });
+
+    expect(() => new PrivateAssessmentPackageStore(path)).toThrow(
+      'Duplicate private assessment item: assessment-one@1.0.0',
+    );
+  });
+
   it('rejects tampered item and bank hashes', async () => {
     const path = await writePackage(packageDocument());
     const document = JSON.parse(await readFile(path, 'utf8'));

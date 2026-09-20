@@ -85,6 +85,14 @@
 - Production smoke checks remain HTTP 200 for the review page and fail-closed
   with `RELEASE_GATE_CLOSED` for assessment assignment creation.
 
+## 2026-09-20 — Private item-identity uniqueness
+
+- Added package-level rejection for duplicate private assessment `item
+  id@version` identities across banks, protecting no-reuse selection from
+  ambiguous or duplicated records.
+- Added regression coverage. Full DB-free verification passes with 165 tests;
+  the package remains unavailable until its review status is approved.
+
 ## 2026-09-20 — Draft private assessment package generated
 
 - Generated a local, non-production draft at

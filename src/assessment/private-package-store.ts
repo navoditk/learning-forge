@@ -64,12 +64,18 @@ function itemWithoutHash(item: AssessmentContentItem & { hash: string }): Assess
 
 function validatePackageIntegrity(banks: readonly z.infer<typeof PackageBankSchema>[]): void {
   const seenBanks = new Set<string>();
+  const seenItems = new Set<string>();
   for (const bank of banks) {
     const bankRef = `${bank.code}@${bank.version}`;
     if (seenBanks.has(bankRef)) throw new Error(`Duplicate private assessment bank: ${bankRef}`);
     seenBanks.add(bankRef);
 
     for (const item of bank.items) {
+      const itemRef = `${item.id}@${item.version}`;
+      if (seenItems.has(itemRef)) {
+        throw new Error(`Duplicate private assessment item: ${itemRef}`);
+      }
+      seenItems.add(itemRef);
       if (item.hash !== sha256(itemWithoutHash(item))) {
         throw new Error(`Private assessment item hash mismatch: ${item.id}`);
       }
