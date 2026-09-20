@@ -116,6 +116,14 @@ describe('course progression contracts', () => {
     ).toThrow('cannot depend on a skill from');
   });
 
+  it('rejects a skill that does not use its program prefix', () => {
+    expect(() =>
+      validateProgramSkillInvariants([
+        { code: 'wrong-prefix', program: 'math-kangaroo-6', prerequisiteSkillCodes: [] },
+      ]),
+    ).toThrow("does not use math-kangaroo-6's skill code prefix");
+  });
+
   it('rejects an item readiness ref outside the prerequisite closure', () => {
     expect(() =>
       validateItemReadinessRefs(
@@ -259,5 +267,23 @@ describe('course progression contracts', () => {
     expect(() =>
       validateProgressionCatalog([program], [unit], [lesson], [{ ...bank, coveredSkillRefs: [] }]),
     ).toThrow('does not cover lesson skill');
+
+    const secondUnit = UnitSchema.parse({
+      ...unit,
+      code: 'unit-2',
+      lessonRefs: [lessonRef],
+    });
+    const programWithDuplicateLesson = ProgramSchema.parse({
+      ...program,
+      unitRefs: [unitRef, { code: 'unit-2', version: '1.0.0' }],
+    });
+    expect(() =>
+      validateProgressionCatalog(
+        [programWithDuplicateLesson],
+        [unit, secondUnit],
+        [lesson],
+        [bank],
+      ),
+    ).toThrow('is listed by multiple units');
   });
 });

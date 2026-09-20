@@ -1964,10 +1964,10 @@ A test that is not wired into a script is not a gate.
 
 | # | Criterion | File | Assertion |
 |---|---|---|---|
-| U1 | Program registry validates; `skillCodePrefix` mismatch rejected | `tests/curriculum/program-registry.test.ts` | Specific error |
-| U2 | Cross-program prerequisite rejected at **catalog validation**, not at planner runtime | `tests/curriculum/program-registry.test.ts` | Throws during validation |
-| U3 | Unit/lesson ordering has one source: a `Lesson` carrying a `sequence` field is rejected; a lesson listed by two units is rejected | `tests/curriculum/unit-catalog.test.ts` | Specific errors |
-| U4 | Role union: teaching record with a validator or hints rejected; assessment record with `hintSteps` rejected | `tests/curriculum/content-roles.test.ts` | Specific errors |
+| U1 | Program registry validates; `skillCodePrefix` mismatch rejected | `tests/curriculum/progression-schema.test.ts` | Specific error |
+| U2 | Cross-program prerequisite rejected at **catalog validation**, not at planner runtime | `tests/curriculum/progression-schema.test.ts` | Throws during validation |
+| U3 | Unit/lesson ordering has one source: a `Lesson` carrying a `sequence` field is rejected; a lesson listed by two units is rejected | `tests/curriculum/progression-schema.test.ts`, `tests/curriculum/pilot-catalog.test.ts` | Specific errors |
+| U4 | Role union: teaching record with a validator or hints rejected; assessment record with `hintSteps` rejected | `tests/curriculum/progression-schema.test.ts` | Specific errors |
 | U5 | Role/program-aware record-count validation replaces exact-two; a `skill-graph-only` program still enforces its legacy count | `tests/content/catalog.test.ts` | Both paths |
 | U6 | Item distinctness asserted by `id@version`, not prompt text | `tests/content/catalog.test.ts` | Replaces the three `new Set(prompt)` assertions |
 | U7 | `authorizeActivity` denies on unmet structural requirement, returning `LOCKED_PREREQUISITE` | `tests/progression/authorize-activity.test.ts` | Exact `reasonCode` and `missing` |
@@ -1991,10 +1991,10 @@ A test that is not wired into a script is not a gate.
 | U25 | Both cross-program fixtures validate and evaluate with no new policy code | `tests/progression/cross-program-fixtures.test.ts` | Both fixtures |
 | U26 | Policy profile composition: `extends` merge, cycle rejection, hash stability | `tests/progression/policy-profile.test.ts` | |
 | U27 | Completion and mastery are independent: a fixture completes a lesson with assistance while mastery stays below the gate, and another masters a skill with the lesson never completed | `tests/progression/completion-vs-mastery.test.ts` | Both directions |
-| U28 | `itemReadinessRefs` validation: a ref outside the owning skill's prerequisite closure, a self-reference, and a cross-program ref are each rejected | `tests/curriculum/item-readiness.test.ts` | Three specific errors |
+| U28 | `itemReadinessRefs` validation: a ref outside the owning skill's prerequisite closure, a self-reference, and a cross-program ref are each rejected | `tests/curriculum/progression-schema.test.ts` | Three specific errors |
 | U29 | No content record carries `prerequisiteSkillCodes`; the catalog-wide item/skill consistency assertion covers **every** program, not only MOEMS/AMC 8/MATHCOUNTS | `tests/content/catalog.test.ts` | Catalog-wide |
-| U30 | A `hybrid` program without a `legacyCompatibilityPolicyCode` is rejected; a non-hybrid program carrying one is rejected | `tests/curriculum/program-registry.test.ts` | Both directions |
-| U31 | Bank coverage invariant: a lesson bank missing an item for one of its lesson's skills is rejected | `tests/curriculum/unit-catalog.test.ts` | Specific error |
+| U30 | A `hybrid` program without a `legacyCompatibilityPolicyCode` is rejected; a non-hybrid program carrying one is rejected | `tests/curriculum/progression-schema.test.ts` | Both directions |
+| U31 | Bank coverage invariant: a lesson bank missing an item for one of its lesson's skills is rejected | `tests/curriculum/progression-schema.test.ts`, `tests/curriculum/pilot-catalog.test.ts` | Specific error |
 | U32 | Multi-skill lesson: the pass bar alone is insufficient without at least one correct item per covered skill | `tests/progression/lesson-state.test.ts` | Fixture with all items from one skill |
 | U33 | `skillExposureAt` is undefined for an untouched skill and a `DELAYED_CHECK` is refused with `NO_PRIOR_EXPOSURE` | `tests/progression/delay-window.test.ts` | Empty-set case |
 | U34 | An independent practice attempt resets the delay window, not only assistance | `tests/progression/delay-window.test.ts` | Reset case |

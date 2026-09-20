@@ -40,6 +40,15 @@
   changed. C4 remains unauthorized until representative non-enforcing traffic
   and an independent disposition are completed.
 
+## 2026-09-20 — Acceptance-matrix coverage correction
+
+- Added explicit regression coverage for U1's program skill-prefix invariant
+  and U3's duplicate lesson ownership invariant.
+- Corrected the architecture acceptance matrix to reference the actual
+  consolidated curriculum test files rather than nonexistent split files.
+- The full DB-free verification suite passes with 160 tests; no progression
+  authorization behavior changed.
+
 ## 2026-09-20 — Draft private assessment package generated
 
 - Generated a local, non-production draft at
