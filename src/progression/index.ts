@@ -4,6 +4,7 @@ export * from './placement';
 export * from './skip-override';
 export * from './policy';
 export * from './mastery';
+export * from './mastery-recalculation';
 export * from './artifacts';
 export * from './shadow';
 export * from './assessment-assignment';

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { ProgressionPolicyProfileSchema } from '../../src/contracts/policy';
-import { aggregateMastery } from '../../src/progression';
+import { aggregateMastery, applyMasteryStaleness, recalculateMastery } from '../../src/progression';
 
 const profile = ProgressionPolicyProfileSchema.parse({
   code: 'test',
@@ -121,5 +121,84 @@ describe('mastery aggregation', () => {
     );
     expect(result.estimate).toBeGreaterThan(0);
     expect(result.estimate).toBeLessThan(1);
+  });
+
+  it('degrades confidence for staleness without changing the estimate', () => {
+    const now = new Date('2026-01-10T00:00:00Z');
+    const result = aggregateMastery(
+      [
+        {
+          itemId: 'a',
+          correctness: true,
+          assistanceOrdinal: 0,
+          context: 'practice',
+          occurredAt: new Date('2025-10-01T00:00:00Z'),
+          exposureCountBefore: 0,
+          independent: true,
+        },
+        {
+          itemId: 'b',
+          correctness: true,
+          assistanceOrdinal: 0,
+          context: 'practice',
+          occurredAt: new Date('2025-10-01T00:00:00Z'),
+          exposureCountBefore: 0,
+          independent: true,
+        },
+      ],
+      profile,
+      now,
+      'CONFIRMED',
+    );
+    const stale = applyMasteryStaleness(
+      result,
+      new Date('2025-10-01T00:00:00Z'),
+      now,
+      profile.stalenessDays,
+    );
+    expect(stale.estimate).toBe(result.estimate);
+    expect(result.confidenceBand).toBe('HIGH');
+    expect(stale.confidenceBand).toBe('MEDIUM');
+    expect(stale.confidenceDegradedForStaleness).toBe(true);
+  });
+
+  it('recalculates a new provenance-pinned snapshot without mutating prior data', () => {
+    const now = new Date('2026-01-10T00:00:00Z');
+    const prior = Object.freeze({
+      algorithmVersion: 'mastery-1',
+      estimate: 0.8,
+      confidenceBand: 'MEDIUM' as const,
+    });
+    const snapshot = recalculateMastery({
+      learnerProfileId: 'learner-1',
+      skillCode: 'ratio-language',
+      algorithmVersion: 'mastery-2',
+      policyProfile: profile,
+      policyProfileRef: { code: profile.code, version: profile.version },
+      policyProfileHash: 'sha256:policy',
+      curriculumSnapshotHash: 'sha256:curriculum',
+      observations: [
+        {
+          itemId: 'a',
+          correctness: true,
+          assistanceOrdinal: 0,
+          context: 'practice',
+          occurredAt: now,
+          exposureCountBefore: 0,
+          independent: true,
+        },
+      ],
+      latestObservationAt: now,
+      now,
+    });
+    expect(prior).toEqual({
+      algorithmVersion: 'mastery-1',
+      estimate: 0.8,
+      confidenceBand: 'MEDIUM',
+    });
+    expect(snapshot.algorithmVersion).toBe('mastery-2');
+    expect(snapshot.policyProfileHash).toBe('sha256:policy');
+    expect(snapshot.curriculumSnapshotHash).toBe('sha256:curriculum');
+    expect(snapshot.estimate).toBe(1);
   });
 });

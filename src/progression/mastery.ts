@@ -18,9 +18,10 @@ export type MasteryResult = {
   evidenceMass: number;
   independentObservations: number;
   confidenceBand: 'LOW' | 'MEDIUM' | 'HIGH';
+  confidenceDegradedForStaleness: boolean;
 };
 
-type DelayedCheckStatus = 'NOT_ATTEMPTED' | 'CONFIRMED' | 'LAPSED';
+export type DelayedCheckStatus = 'NOT_ATTEMPTED' | 'CONFIRMED' | 'LAPSED';
 
 function normalizeObservations(observations: readonly MasteryObservation[]): MasteryObservation[] {
   const eligible = observations.filter((observation) => !observation.superseded);
@@ -94,5 +95,27 @@ export function aggregateMastery(
     evidenceMass,
     independentObservations,
     confidenceBand: high ? 'HIGH' : medium ? 'MEDIUM' : 'LOW',
+    confidenceDegradedForStaleness: false,
   };
+}
+
+export function applyMasteryStaleness(
+  result: MasteryResult,
+  latestObservationAt: Date | undefined,
+  now: Date,
+  stalenessDays: number,
+): MasteryResult {
+  if (
+    !latestObservationAt ||
+    now.getTime() - latestObservationAt.getTime() < stalenessDays * 86_400_000
+  ) {
+    return result;
+  }
+  const confidenceBand =
+    result.confidenceBand === 'HIGH'
+      ? 'MEDIUM'
+      : result.confidenceBand === 'MEDIUM'
+        ? 'LOW'
+        : 'LOW';
+  return { ...result, confidenceBand, confidenceDegradedForStaleness: true };
 }

@@ -2949,3 +2949,16 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   build.
 - Persistence/recalculation, delayed-check endpoint wiring, and the required
   independent C1–C3/manual release approvals remain outstanding.
+
+## 2026-09-19 — Mastery staleness and recalculation seam
+
+- Added a pure staleness transition that degrades confidence by one band after
+  the approved profile interval while preserving the mastery estimate and
+  recording the degradation flag.
+- Added a provenance-pinned recalculation seam that computes a new algorithm
+  version from immutable observations and requires policy-profile and
+  curriculum snapshot hashes. It intentionally does not write or overwrite
+  database rows until the reviewed persistence migration is approved.
+- Added U16/U17-focused regression coverage. The release gate remains closed;
+  endpoint wiring, persistence columns, and independent/manual approvals are
+  still outstanding.
