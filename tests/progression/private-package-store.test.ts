@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -42,15 +43,33 @@ const item = (bank = { code: 'private-bank', version: '1.0.0' }) => ({
   itemReadinessRefs: [],
 });
 
-const packageDocument = (itemBank = { code: 'private-bank', version: '1.0.0' }) => ({
-  banks: [
-    {
-      ...itemBank,
-      contentHash: 'sha256:bank',
-      items: [{ ...item(itemBank), hash: 'sha256:item' }],
-    },
-  ],
-});
+const canonicalJson = (value: unknown): string => {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.entries(value as Record<string, unknown>)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, entry]) => `${JSON.stringify(key)}:${canonicalJson(entry)}`)
+      .join(',')}}`;
+  }
+  return JSON.stringify(value);
+};
+
+const sha256 = (value: unknown) =>
+  `sha256:${createHash('sha256').update(canonicalJson(value)).digest('hex')}`;
+
+const packageDocument = (itemBank = { code: 'private-bank', version: '1.0.0' }) => {
+  const content = item(itemBank);
+  const itemWithHash = { ...content, hash: sha256(content) };
+  return {
+    banks: [
+      {
+        ...itemBank,
+        contentHash: sha256([itemWithHash]),
+        items: [itemWithHash],
+      },
+    ],
+  };
+};
 
 async function writePackage(document: unknown) {
   const directory = await mkdtemp(join(tmpdir(), 'learning-forge-package-'));
@@ -69,7 +88,7 @@ describe('private held-out assessment package store', () => {
     const store = new PrivateAssessmentPackageStore(await writePackage(packageDocument()));
 
     await expect(store.getBank({ code: 'private-bank', version: '1.0.0' })).resolves.toEqual(
-      expect.objectContaining({ contentHash: 'sha256:bank' }),
+      expect.objectContaining({ contentHash: expect.stringMatching(/^sha256:[a-f0-9]{64}$/) }),
     );
     await expect(store.getBank({ code: 'missing-bank', version: '1.0.0' })).rejects.toThrow(
       'Held-out assessment bank is unavailable',
@@ -84,6 +103,24 @@ describe('private held-out assessment package store', () => {
 
     expect(() => new PrivateAssessmentPackageStore(path)).toThrow(
       'Assessment item must reference its containing private bank',
+    );
+  });
+
+  it('rejects tampered item and bank hashes', async () => {
+    const path = await writePackage(packageDocument());
+    const document = JSON.parse(await readFile(path, 'utf8'));
+    document.banks[0].items[0].prompt = 'Tampered prompt';
+    await writeFile(path, JSON.stringify(document), 'utf8');
+    expect(() => new PrivateAssessmentPackageStore(path)).toThrow(
+      'Private assessment item hash mismatch',
+    );
+
+    const bankPath = await writePackage(packageDocument());
+    const bankDocument = JSON.parse(await readFile(bankPath, 'utf8'));
+    bankDocument.banks[0].contentHash = 'sha256:tampered';
+    await writeFile(bankPath, JSON.stringify(bankDocument), 'utf8');
+    expect(() => new PrivateAssessmentPackageStore(bankPath)).toThrow(
+      'Private assessment bank hash mismatch',
     );
   });
 });

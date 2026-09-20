@@ -35,10 +35,18 @@
   `llm_drafted` and `pending_review`; none is approved or enabled.
 - Validated all four banks through `PrivateAssessmentPackageStore`; all bank
   references match. Draft SHA-256:
-  `719e479bdeaa6881b6f5b756df7ca4362e69e9e5f4549cb8c8733789670e8039`.
+  `5c356576c7ee5a91aa2e4c1882425601e46238290a47ef8ba47716267b4634c8`.
 - The draft is intentionally outside Git and must receive independent
   mathematics/content, originality, accessibility, and child-safety review
   before it can be installed as the private package.
+
+## 2026-09-20 — Held-out package integrity enforcement
+
+- Private package loading now verifies canonical SHA-256 hashes for every item
+  and every bank, rejects duplicate bank references, and rejects empty banks.
+- Added tamper-detection tests for item and bank hashes. The production
+  assessment boundary remains fail-closed when the package is absent or
+  invalid.
 
 ## 2026-09-20 — C4 unblock artifact bundle
 
