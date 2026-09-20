@@ -26,6 +26,20 @@
   the exact four-bank, no-reuse package requirements without fabricating or
   exposing held-out items. The package itself remains an external dependency.
 
+## 2026-09-20 — Draft private assessment package generated
+
+- Generated a local, non-production draft at
+  `/Users/navoditkaushik/private-learning-forge/grade-6-math-assessments-draft.json`.
+- The draft contains 45 original model-assisted candidate items: 9 each for
+  the three lesson banks and 18 for the unit bank. Every item is marked
+  `llm_drafted` and `pending_review`; none is approved or enabled.
+- Validated all four banks through `PrivateAssessmentPackageStore`; all bank
+  references match. Draft SHA-256:
+  `719e479bdeaa6881b6f5b756df7ca4362e69e9e5f4549cb8c8733789670e8039`.
+- The draft is intentionally outside Git and must receive independent
+  mathematics/content, originality, accessibility, and child-safety review
+  before it can be installed as the private package.
+
 ## 2026-09-20 — C4 unblock artifact bundle
 
 - Added `docs/course-progression-review/` with an independent fourth-draft/C1–C3
