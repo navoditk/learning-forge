@@ -35,6 +35,9 @@ At the verified rollout checkpoint before this evidence-document-only update:
 - The deployed read-only shadow-review job succeeded.
 - Direct redacted database evidence showed 11 unbound open sessions, 0 shadow
   decisions, and 0 divergent shadow decisions.
+- Dependency audit after the PostCSS override reports 3 remaining high
+  findings in the Prisma CLI/config dependency chain; resolving those requires
+  a separate Prisma compatibility upgrade and remains an open security item.
 
 ## Not proven by automation
 

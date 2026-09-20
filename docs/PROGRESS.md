@@ -64,6 +64,15 @@
   lesson-assignment endpoint returned HTTP 201 with three hashed selected
   items; the normal no-package environment continues to assert fail-closed
   behavior.
+
+## 2026-09-20 — PostCSS security remediation
+
+- Added a package-manager override for PostCSS `8.5.28`, replacing the
+  vulnerable `8.4.31` transitively pinned by Next 15.5.25. The audit reduced
+  from 7 findings (4 high) to 3 high Prisma/deepmerge findings.
+- `npm run verify` and `npm run test:integration` pass after the override.
+- Prisma major/compatibility remediation remains separate and is not being
+  forced into this verified checkpoint.
 - Render deployment for `c0e42e3` is live. The deployed review page returns
   HTTP 200, while the assessment endpoint still returns the intentional
   `RELEASE_GATE_CLOSED` response.
