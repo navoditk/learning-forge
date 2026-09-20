@@ -130,6 +130,23 @@ describe('private held-out assessment package store', () => {
     );
   });
 
+  it('enforces the required bank shape when configured', async () => {
+    const path = await writePackage(packageDocument());
+
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 1 },
+        ]),
+    ).not.toThrow();
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 2 },
+        ]),
+    ).toThrow('requires at least 2 items');
+  });
+
   it('rejects tampered item and bank hashes', async () => {
     const path = await writePackage(packageDocument());
     const document = JSON.parse(await readFile(path, 'utf8'));

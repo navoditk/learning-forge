@@ -93,6 +93,15 @@
 - Added regression coverage. Full DB-free verification passes with 165 tests;
   the package remains unavailable until its review status is approved.
 
+## 2026-09-20 — Grade 6 package-shape enforcement
+
+- Production package loading now requires exactly the four approved Grade 6
+  Math assessment banks with minimum no-reuse pools of 9, 9, 9, and 18 items.
+- Added configurable shape-validation coverage while preserving generic test
+  stores for other programs. Full DB-free verification passes with 166 tests.
+- The generated draft still fails closed because all items remain pending
+  review; no package was installed or served.
+
 ## 2026-09-20 — Draft private assessment package generated
 
 - Generated a local, non-production draft at

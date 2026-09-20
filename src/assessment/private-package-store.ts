@@ -7,6 +7,19 @@ import { AssessmentContentItemSchema, RefSchema } from '../contracts/progression
 import type { AssessmentContentItem, Ref } from '../contracts/progression';
 import type { AssessmentStore, HeldOutAssessmentBank } from './store';
 
+type RequiredBank = { code: string; version: string; minimumItems: number };
+
+const GRADE_6_MATH_REQUIRED_BANKS: readonly RequiredBank[] = [
+  { code: 'ratio-language-lesson-bank', version: '1.0.0', minimumItems: 9 },
+  { code: 'unit-rates-lesson-bank', version: '1.0.0', minimumItems: 9 },
+  { code: 'ratio-tables-lesson-bank', version: '1.0.0', minimumItems: 9 },
+  {
+    code: 'ratios-proportional-reasoning-unit-bank',
+    version: '1.0.0',
+    minimumItems: 18,
+  },
+];
+
 const PackageBankSchema = z
   .object({
     code: z.string().trim().min(1),
@@ -62,7 +75,10 @@ function itemWithoutHash(item: AssessmentContentItem & { hash: string }): Assess
   return content as AssessmentContentItem;
 }
 
-function validatePackageIntegrity(banks: readonly z.infer<typeof PackageBankSchema>[]): void {
+function validatePackageIntegrity(
+  banks: readonly z.infer<typeof PackageBankSchema>[],
+  requiredBanks: readonly RequiredBank[] = [],
+): void {
   const seenBanks = new Set<string>();
   const seenItems = new Set<string>();
   for (const bank of banks) {
@@ -84,6 +100,27 @@ function validatePackageIntegrity(banks: readonly z.infer<typeof PackageBankSche
       throw new Error(`Private assessment bank hash mismatch: ${bankRef}`);
     }
   }
+
+  if (requiredBanks.length > 0) {
+    if (banks.length !== requiredBanks.length) {
+      throw new Error(`Private assessment package requires ${requiredBanks.length} banks`);
+    }
+    for (const required of requiredBanks) {
+      const bank = banks.find(
+        (candidate) => candidate.code === required.code && candidate.version === required.version,
+      );
+      if (!bank) {
+        throw new Error(
+          `Private assessment package is missing bank: ${required.code}@${required.version}`,
+        );
+      }
+      if (bank.items.length < required.minimumItems) {
+        throw new Error(
+          `Private assessment bank ${required.code}@${required.version} requires at least ${required.minimumItems} items`,
+        );
+      }
+    }
+  }
 }
 
 /**
@@ -94,9 +131,9 @@ function validatePackageIntegrity(banks: readonly z.infer<typeof PackageBankSche
 export class PrivateAssessmentPackageStore implements AssessmentStore {
   private readonly banks: Map<string, HeldOutAssessmentBank>;
 
-  constructor(packagePath: string) {
+  constructor(packagePath: string, requiredBanks: readonly RequiredBank[] = []) {
     const parsed = PackageSchema.parse(JSON.parse(readFileSync(packagePath, 'utf8')));
-    validatePackageIntegrity(parsed.banks);
+    validatePackageIntegrity(parsed.banks, requiredBanks);
     this.banks = new Map(
       parsed.banks.map((bank) => [
         `${bank.code}@${bank.version}`,
@@ -115,7 +152,9 @@ export class PrivateAssessmentPackageStore implements AssessmentStore {
 
 export function createPrivateAssessmentPackageStoreFromEnvironment(): AssessmentStore | undefined {
   const packagePath = process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH;
-  return packagePath ? new PrivateAssessmentPackageStore(packagePath) : undefined;
+  return packagePath
+    ? new PrivateAssessmentPackageStore(packagePath, GRADE_6_MATH_REQUIRED_BANKS)
+    : undefined;
 }
 
 export function validateAssessmentPackageBankRef(ref: unknown): Ref {
