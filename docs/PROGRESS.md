@@ -2806,3 +2806,12 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   environment setup failure, not a test failure.
 - C4 authorization cutover, independent review, shadow-divergence sign-off,
   and the progression learner/parent UI remain pending.
+
+## 2026-09-19 — Handoff reconciled
+
+- Corrected the resumption handoff's stale pre-C1 decision counts and
+  implementation gate language. It now reflects 59 approved decisions, the
+  two non-critical open entries (`D-36`, `D-39`), and the actual remaining
+  prerequisite: independent C1–C3/shadow review before C4 or C5.
+- No runtime authorization or progression UI was enabled by this documentation
+  correction.

@@ -81,15 +81,16 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-Twelve entries in `docs/course-progression-decisions.md` are approved and
-forty-nine remain open. The approved set is `D-01`, `D-02`, `D-03`, `D-37`, `D-38`,
-`D-40`, `D-52`, `D-53`, `D-56`, `D-57`, `D-58`, and `D-60`. The remaining
-decisions are not prerequisites for A1; each later stage must resolve every
-decision it touches before implementation.
+Fifty-nine entries in `docs/course-progression-decisions.md` are approved and
+two remain open: the non-critical content-volume pointer `D-36` and the
+elapsed-time capture scope `D-39`. Each later stage must resolve every
+decision it touches before implementation; neither open entry is required for
+the C4 authorization mechanics, but `D-39` is required before treating
+elapsed-time evidence as production mastery evidence.
 
 | Order | Decision | Why first |
 |---|---|---|
-| 1 | Independent review of Stage A0/A1 | Confirms the publication boundary and transition schemas before later stages depend on them |
+| 1 | Independent review of C1–C3 and representative shadow divergences | Confirms the persistence, dual-write, privacy coverage, and shadow evidence before authorization changes |
 | 2 | Remaining open decisions required by the next planned stage | Prevents implementing unresolved policy or product parameters |
 
 `D-61` defines the full gate set for resuming curriculum authoring.
@@ -176,10 +177,13 @@ to it.
 
 ## 10. Hard gates — do not cross these
 
-**No implementation.** Until the architecture passes independent review, the
-human records approval, and the decisions in §5 are resolved, do not write
-runtime code, migrations, tests, or dependencies for progression. Stage A0 is
-the first implementable task and is itself gated on `D-58`.
+**No further authorization or learner-facing progression rollout.** The
+architecture and C1–C3 foundation have been implemented, but until the
+fourth-draft architecture/C1–C3 review is independently completed, the human
+records approval, and the C4 manual gates are recorded, do not change runtime
+authorization or serve progression UI. Stage C4 is the only implementation
+increment allowed to change authorization, and it must follow §11.4a's
+expand/contract order.
 
 **No authoring.** New curriculum authoring is paused. Architecture approval
 alone does **not** lift it; the full gate set is `D-61`. Research and dossier
