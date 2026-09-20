@@ -12,6 +12,7 @@
     "db:validate": "prisma validate",
     "db:rollback": "bash scripts/db-rollback.sh",
     "db:check-down-migrations": "bash scripts/check-migration-down.sh",
+    "test:migrations": "bash scripts/test-migrations.sh",
     "create-parent-account": "tsx scripts/create-parent-account.ts",
     "reset-parent-password": "tsx scripts/reset-parent-password.ts",
     "report:tutor-usage": "tsx scripts/report-tutor-usage.ts",

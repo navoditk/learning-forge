@@ -3077,6 +3077,15 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   substitute for independent or manual approval.
 - Added pure coverage for the two-gate invariant and privacy redaction.
 
+## 2026-09-19 — Executable migration round-trip gate
+
+- Added `npm run test:migrations`, which creates a disposable PostgreSQL
+  database, applies all migrations, executes every reviewed `down.sql` in
+  reverse order, reapplies all migrations, and compares normalized schema
+  dumps.
+- The complete 10-migration forward/down/forward round trip passed locally;
+  the development database and learner evidence were not used for rollback.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

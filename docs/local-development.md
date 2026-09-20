@@ -47,3 +47,16 @@ Run them after starting and migrating the local database:
 ```bash
 npm run test:integration
 ```
+
+To exercise every reviewed down migration without touching the development
+database, run the scratch-database round trip. It creates and removes a
+temporary database using the same PostgreSQL server, applies all migrations,
+applies each `down.sql` in reverse order, reapplies all migrations, and
+compares the resulting schema:
+
+```bash
+npm run test:migrations
+```
+
+Use only a disposable local PostgreSQL connection for this command. It must
+never be pointed at production or a database containing learner evidence.
