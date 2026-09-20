@@ -2892,6 +2892,17 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   replace the independent C1–C3 review, private bank review, or C4/manual
   release approvals.
 
+## 2026-09-19 — Delayed-check eligibility state rule
+
+- Added pure delayed-check eligibility based on the latest persisted skill
+  exposure and the versioned policy delay value.
+- Empty exposure sets return `NO_PRIOR_EXPOSURE`; one millisecond before the
+  boundary is denied; the exact boundary is allowed; later teaching,
+  assistance, or independent-practice exposure resets the clock.
+- Validation: `npm run verify` passed with 125 tests and a production build.
+  The rule is not yet wired to a learner-serving endpoint pending the
+  independent C1–C3 review and release approvals.
+
 ## 2026-09-19 — Default-off progression release gate
 
 - Added a server-side default-closed release gate around the pilot progression
