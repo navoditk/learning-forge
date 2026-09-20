@@ -3036,6 +3036,15 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
   shadow row without learner content. Independent divergence review and C4
   authorization remain outstanding.
 
+## 2026-09-19 — Assessment abandonment terminal path
+
+- Added an authenticated, release-gated abandonment endpoint. It records an
+  `INCONCLUSIVE` result with submitted attempt evidence, transitions the run to
+  `ABANDONED`, ends bound sessions, and releases the active lease atomically.
+- This closes the missing terminal-result path without changing authorization
+  or reassessment policy; integration coverage remains the next validation
+  increment for the new endpoint.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version

@@ -357,6 +357,99 @@ export async function submitAssessmentItem(
   );
 }
 
+export type AbandonAssessmentInput = {
+  householdId: string;
+  learnerProfileId: string;
+  assignmentId: string;
+};
+
+/** Abandonment is terminal, auditable, and never silently drops submitted attempts. */
+export async function abandonAssessmentRun(
+  input: AbandonAssessmentInput,
+  database: PrismaClient = prisma,
+) {
+  return database.$transaction(
+    async (transaction) => {
+      const assignment = await transaction.assessmentAssignment.findFirst({
+        where: {
+          id: input.assignmentId,
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+        },
+        include: { runState: true, lease: true, sessions: true },
+      });
+      if (!assignment || !assignment.runState) {
+        throw new AssessmentSubmissionError(
+          'ASSESSMENT_NOT_FOUND',
+          'Assessment assignment not found.',
+        );
+      }
+      if (isTerminalAssessmentStatus(assignment.runState.status)) {
+        throw new AssessmentSubmissionError(
+          'RUN_NOT_ACTIVE',
+          'The assessment run is already terminal.',
+        );
+      }
+      const now = new Date();
+      const sessionIds = assignment.sessions.map((session) => session.id);
+      const attempts = await transaction.attempt.findMany({
+        where: { sessionId: { in: sessionIds } },
+        orderBy: { createdAt: 'asc' },
+        select: {
+          id: true,
+          contentKey: true,
+          contentVersion: true,
+          correctness: true,
+          highestAssistance: true,
+        },
+      });
+      const itemResults = attempts.map((attempt) => ({
+        attemptId: attempt.id,
+        contentId: attempt.contentKey,
+        contentVersion: attempt.contentVersion,
+        correctness: attempt.correctness,
+        maxAssistance: attempt.highestAssistance,
+        superseded: false,
+      }));
+      const result = await transaction.assessmentResult.create({
+        data: {
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+          assignmentId: assignment.id,
+          outcome: 'INCONCLUSIVE',
+          itemResults,
+          correctCount: attempts.filter((attempt) => attempt.correctness === 'CORRECT').length,
+          requiredCount: requiredCount(assignment.requiredCount),
+          algorithmVersion: assignment.algorithmVersion,
+          policyProfileHash: assignment.policyProfileHash,
+        },
+      });
+      const run = await transaction.assessmentRunState.update({
+        where: { id: assignment.runState.id },
+        data: {
+          status: transitionAssessmentRun(assignment.runState.status, 'ABANDON'),
+          submittedAt: now,
+          lastActivityAt: now,
+        },
+      });
+      if (assignment.lease) {
+        await transaction.activeAssessmentLease.update({
+          where: { id: assignment.lease.id },
+          data: { releasedAt: now },
+        });
+      }
+      if (sessionIds.length > 0) {
+        await transaction.session.updateMany({
+          where: { id: { in: sessionIds }, endedAt: null },
+          data: { endedAt: now },
+        });
+      }
+      return { assignmentId: assignment.id, status: run.status, result };
+    },
+    { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+  );
+}
+
 async function expireAssessment(
   transaction: Prisma.TransactionClient,
   assignmentId: string,

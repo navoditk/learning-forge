@@ -6,7 +6,10 @@ import { createInMemoryAssessmentStore } from '../../src/assessment/store';
 import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
 import { loadPolicyArtifacts } from '../../src/progression/artifacts';
 import { resolvePolicyProfile } from '../../src/progression/policy';
-import { submitAssessmentItem } from '../../src/progression/assessment-submission';
+import {
+  abandonAssessmentRun,
+  submitAssessmentItem,
+} from '../../src/progression/assessment-submission';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
 
@@ -190,12 +193,30 @@ describe('assessment assignment persistence', () => {
     ).rejects.toMatchObject({
       code: 'IDEMPOTENCY_KEY_CONFLICT',
     });
-    await expect(
-      createAssessmentAssignment({ ...base, idempotencyKey: 'assignment-key-2' }, store),
-    ).resolves.toMatchObject({ replayed: false });
+    const second = await createAssessmentAssignment(
+      { ...base, idempotencyKey: 'assignment-key-2' },
+      store,
+    );
+    expect(second.replayed).toBe(false);
     await expect(
       createAssessmentAssignment({ ...base, idempotencyKey: 'assignment-key-3' }, store),
     ).rejects.toMatchObject({ code: 'ACTIVE_ASSIGNMENT_EXISTS' });
+    const abandoned = await abandonAssessmentRun({
+      householdId,
+      learnerProfileId,
+      assignmentId: second.assignment.id,
+    });
+    expect(abandoned).toMatchObject({
+      status: 'ABANDONED',
+      result: { outcome: 'INCONCLUSIVE', correctCount: 0, requiredCount: 1 },
+    });
+    expect(await prisma.activeAssessmentLease.count({ where: { releasedAt: null } })).toBe(0);
+    expect(
+      await prisma.assessmentResult.findUnique({
+        where: { assignmentId: second.assignment.id },
+        select: { outcome: true },
+      }),
+    ).toEqual({ outcome: 'INCONCLUSIVE' });
   });
 
   it('projects a passed unit assessment into unit completion state', async () => {
