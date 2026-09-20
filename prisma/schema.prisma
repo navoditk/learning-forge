@@ -78,18 +78,137 @@ enum ConfidenceBand {
   HIGH
 }
 
+enum ProgressionActivityKind {
+  TEACHING
+  PRACTICE
+  PLACEMENT
+  LESSON_ASSESSMENT
+  UNIT_ASSESSMENT
+  DELAYED_CHECK
+  REVIEW
+  REMEDIATION_PRACTICE
+}
+
+enum AssessmentKind {
+  PLACEMENT
+  LESSON_ASSESSMENT
+  UNIT_ASSESSMENT
+  DELAYED_CHECK
+  REVIEW
+}
+
+enum ProgressionTargetKind {
+  PROGRAM
+  UNIT
+  LESSON
+  SKILL
+}
+
+enum AssessmentRunStatus {
+  PENDING
+  IN_PROGRESS
+  SUBMITTED
+  SCORED
+  EXPIRED
+  ABANDONED
+}
+
+enum AssessmentOutcome {
+  PASS
+  FAIL
+  INCONCLUSIVE
+  INVALIDATED
+}
+
+enum LessonCompletionStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETE
+  COMPLETE_BY_SKIP
+  SKIPPED_BY_PLACEMENT
+}
+
+enum RemediationStatus {
+  NONE
+  ACTIVE
+  NEEDS_HELP
+}
+
+enum UnitCompletionStatus {
+  LOCKED
+  AVAILABLE
+  IN_PROGRESS
+  ASSESSMENT_PENDING
+  COMPLETE
+  COMPLETE_BY_SKIP
+}
+
+enum OverrideStatus {
+  NONE
+  UNLOCKED_BY_OVERRIDE
+  OVERRIDE_REVOKED
+}
+
+enum LearningEventKind {
+  TEACHING_VIEWED
+  TEACHING_COMPLETED
+  ASSISTANCE_GIVEN
+  REMEDIATION_DELIVERED
+  INDEPENDENT_PRACTICE_EXPOSURE
+}
+
+enum PlacementMethod {
+  INITIAL_DEFAULT
+  PLACEMENT_PROBE
+  SKIP
+  OVERRIDE
+  LEGACY_BACKFILL
+}
+
+enum SkipMethod {
+  LESSON_ASSESSMENT
+  UNIT_ASSESSMENT
+}
+
+enum OverrideActorRole {
+  PARENT
+  OPERATOR
+}
+
+enum ShadowDecisionValue {
+  ALLOW
+  DENY
+}
+
+enum ShadowActualBehavior {
+  ALLOWED
+  DENIED
+}
+
 model Household {
-  id                String             @id @default(uuid())
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  users             User[]
-  learners          LearnerProfile[]
-  consentRecords    ConsentRecord[]
-  sessions          Session[]
-  attempts          Attempt[]
-  tutorInteractions TutorInteraction[]
-  traces            TutorTrace[]
-  masteryEstimates  MasteryEstimate[]
+  id                     String                  @id @default(uuid())
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
+  users                  User[]
+  learners               LearnerProfile[]
+  consentRecords         ConsentRecord[]
+  sessions               Session[]
+  attempts               Attempt[]
+  tutorInteractions      TutorInteraction[]
+  traces                 TutorTrace[]
+  masteryEstimates       MasteryEstimate[]
+  assessmentAssignments  AssessmentAssignment[]
+  assessmentResults      AssessmentResult[]
+  activeAssessmentLeases ActiveAssessmentLease[]
+  learnerPlacements      LearnerPlacement[]
+  learnerUnitStates      LearnerUnitState[]
+  learnerLessonStates    LearnerLessonState[]
+  unlockGrants           UnlockGrant[]
+  skipRecords            SkipRecord[]
+  overrideRecords        OverrideRecord[]
+  reviewSchedules        ReviewSchedule[]
+  learningEvents         LearningEvent[]
+  shadowDecisions        ShadowDecision[]
 }
 
 model User {
@@ -109,20 +228,32 @@ model User {
 }
 
 model LearnerProfile {
-  id                String             @id @default(uuid())
-  userId            String             @unique
-  householdId       String
-  gradeLevel        Int
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  household         Household          @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  consentRecords    ConsentRecord[]
-  sessions          Session[]
-  attempts          Attempt[]
-  tutorInteractions TutorInteraction[]
-  traces            TutorTrace[]
-  masteryEstimates  MasteryEstimate[]
+  id                     String                  @id @default(uuid())
+  userId                 String                  @unique
+  householdId            String
+  gradeLevel             Int
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
+  user                   User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  household              Household               @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  consentRecords         ConsentRecord[]
+  sessions               Session[]
+  attempts               Attempt[]
+  tutorInteractions      TutorInteraction[]
+  traces                 TutorTrace[]
+  masteryEstimates       MasteryEstimate[]
+  assessmentAssignments  AssessmentAssignment[]
+  assessmentResults      AssessmentResult[]
+  activeAssessmentLeases ActiveAssessmentLease[]
+  learnerPlacements      LearnerPlacement[]
+  learnerUnitStates      LearnerUnitState[]
+  learnerLessonStates    LearnerLessonState[]
+  unlockGrants           UnlockGrant[]
+  skipRecords            SkipRecord[]
+  overrideRecords        OverrideRecord[]
+  reviewSchedules        ReviewSchedule[]
+  learningEvents         LearningEvent[]
+  shadowDecisions        ShadowDecision[]
 }
 
 model ConsentRecord {
@@ -142,17 +273,24 @@ model ConsentRecord {
 }
 
 model Session {
-  id               String         @id @default(uuid())
-  householdId      String
-  learnerProfileId String
-  contentKey       String
-  startedAt        DateTime       @default(now())
-  endedAt          DateTime?
-  household        Household      @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile   LearnerProfile @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
-  attempts         Attempt[]
+  id                   String                   @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  contentKey           String
+  activityKind         ProgressionActivityKind?
+  targetCode           String?
+  targetVersion        String?
+  assignmentId         String?
+  policyProfileVersion String?
+  startedAt            DateTime                 @default(now())
+  endedAt              DateTime?
+  household            Household                @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile           @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  attempts             Attempt[]
+  assignment           AssessmentAssignment?    @relation(fields: [assignmentId], references: [id], onDelete: SetNull)
 
   @@index([learnerProfileId, startedAt])
+  @@index([assignmentId])
 }
 
 model Attempt {
@@ -263,4 +401,268 @@ model MasteryContribution {
   attempt           Attempt         @relation(fields: [attemptId], references: [id], onDelete: Restrict)
 
   @@unique([masteryEstimateId, attemptId])
+}
+
+// Stage C1 progression persistence. These tables are additive and intentionally
+// unused by authorization until the C4 cutover.
+model AssessmentAssignment {
+  id                     String                 @id @default(uuid())
+  householdId            String
+  learnerProfileId       String
+  kind                   AssessmentKind
+  targetKind             ProgressionTargetKind
+  targetCode             String
+  targetVersion          String
+  bankCode               String
+  bankVersion            String
+  policyProfileCode      String
+  policyProfileVersion   String
+  policyProfileHash      String
+  algorithmVersion       String
+  curriculumSnapshotHash String
+  selectedItems          Json
+  excludedItems          Json
+  attemptOrdinal         Int
+  idempotencyKey         String
+  createdAt              DateTime               @default(now())
+  household              Household              @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile         LearnerProfile         @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  runState               AssessmentRunState?
+  result                 AssessmentResult?
+  lease                  ActiveAssessmentLease?
+  sessions               Session[]
+
+  @@unique([learnerProfileId, idempotencyKey])
+  @@index([householdId, createdAt])
+  @@index([learnerProfileId, targetCode, targetVersion])
+}
+
+model AssessmentRunState {
+  id                String               @id @default(uuid())
+  assignmentId      String               @unique
+  status            AssessmentRunStatus
+  currentOrdinal    Int
+  submittedOrdinals Json
+  startedAt         DateTime?
+  expiresAt         DateTime
+  lastActivityAt    DateTime
+  submittedAt       DateTime?
+  assignment        AssessmentAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+}
+
+model AssessmentResult {
+  id                  String               @id @default(uuid())
+  householdId         String
+  learnerProfileId    String
+  assignmentId        String               @unique
+  outcome             AssessmentOutcome
+  itemResults         Json
+  correctCount        Int
+  requiredCount       Int
+  algorithmVersion    String
+  policyProfileHash   String
+  invalidationReason  String?
+  invalidatedByUserId String?
+  scoredAt            DateTime             @default(now())
+  household           Household            @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile      LearnerProfile       @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  assignment          AssessmentAssignment @relation(fields: [assignmentId], references: [id], onDelete: Restrict)
+
+  @@index([householdId, scoredAt])
+  @@index([learnerProfileId, scoredAt])
+}
+
+model ActiveAssessmentLease {
+  id               String               @id @default(uuid())
+  householdId      String
+  learnerProfileId String
+  kind             AssessmentKind
+  targetCode       String
+  targetVersion    String
+  bankVersion      String
+  assignmentId     String               @unique
+  acquiredAt       DateTime             @default(now())
+  expiresAt        DateTime
+  releasedAt       DateTime?
+  household        Household            @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile   LearnerProfile       @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  assignment       AssessmentAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  @@index([learnerProfileId, kind, targetCode, targetVersion, bankVersion])
+}
+
+model LearnerPlacement {
+  id                   String          @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  programCode          String
+  programVersion       String
+  unitCode             String
+  unitVersion          String
+  lessonCode           String
+  lessonVersion        String
+  method               PlacementMethod
+  policyProfileCode    String
+  policyProfileVersion String
+  evidenceRefs         Json
+  createdAt            DateTime        @default(now())
+  household            Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([learnerProfileId, programCode, createdAt])
+}
+
+model LearnerUnitState {
+  id                   String               @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  unitCode             String
+  unitVersion          String
+  completionStatus     UnitCompletionStatus
+  overrideStatus       OverrideStatus
+  policyProfileVersion String
+  enteredAt            DateTime?
+  completedAt          DateTime?
+  household            Household            @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile       @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([learnerProfileId, unitCode, unitVersion])
+}
+
+model LearnerLessonState {
+  id                   String                 @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  lessonCode           String
+  lessonVersion        String
+  completionStatus     LessonCompletionStatus
+  remediationStatus    RemediationStatus
+  policyProfileVersion String
+  teachingViewedAt     DateTime?
+  practiceCount        Int                    @default(0)
+  assessmentPassedAt   DateTime?
+  household            Household              @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile         @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([learnerProfileId, lessonCode, lessonVersion])
+}
+
+model UnlockGrant {
+  id                   String                @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  targetKind           ProgressionTargetKind
+  targetCode           String
+  targetVersion        String
+  requirementVersion   String
+  policyProfileCode    String
+  policyProfileVersion String
+  algorithmVersion     String
+  evidenceRefs         Json
+  grantedAt            DateTime              @default(now())
+  revokedAt            DateTime?
+  household            Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([learnerProfileId, targetKind, targetCode, targetVersion])
+}
+
+model SkipRecord {
+  id                   String                @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  targetKind           ProgressionTargetKind
+  targetCode           String
+  targetVersion        String
+  runId                String
+  method               SkipMethod
+  evidenceRefs         Json
+  requirementVersion   String
+  policyProfileCode    String
+  policyProfileVersion String
+  createdAt            DateTime              @default(now())
+  revokedAt            DateTime?
+  household            Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([learnerProfileId, targetCode, targetVersion])
+}
+
+model OverrideRecord {
+  id                   String                @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  targetKind           ProgressionTargetKind
+  targetCode           String
+  targetVersion        String
+  actorUserId          String
+  actorRole            OverrideActorRole
+  reason               String
+  reauthAt             DateTime
+  createdAt            DateTime              @default(now())
+  revokedAt            DateTime?
+  policyProfileCode    String
+  policyProfileVersion String
+  household            Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([learnerProfileId, targetCode, targetVersion])
+}
+
+model ReviewSchedule {
+  id                   String         @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  skillCode            String
+  skillVersion         String
+  dueAt                DateTime
+  intervalIndex        Int
+  lastOutcome          String
+  policyProfileCode    String
+  policyProfileVersion String
+  scheduleVersion      String
+  household            Household      @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([learnerProfileId, skillCode, skillVersion])
+}
+
+model LearningEvent {
+  id               String            @id @default(uuid())
+  householdId      String
+  learnerProfileId String
+  skillCode        String
+  skillVersion     String
+  contentId        String?
+  contentVersion   String?
+  kind             LearningEventKind
+  occurredAt       DateTime          @default(now())
+  household        Household         @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile   LearnerProfile    @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([learnerProfileId, skillCode, occurredAt])
+}
+
+model ShadowDecision {
+  id                   String                  @id @default(uuid())
+  householdId          String
+  learnerProfileId     String
+  requestKind          String
+  targetCode           String
+  targetVersion        String
+  activityKind         ProgressionActivityKind
+  shadowDecision       ShadowDecisionValue
+  shadowReasonCode     String
+  actualBehavior       ShadowActualBehavior
+  divergent            Boolean
+  policyProfileCode    String
+  policyProfileVersion String
+  policyProfileHash    String
+  algorithmVersion     String
+  occurredAt           DateTime                @default(now())
+  household            Household               @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile       LearnerProfile          @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([householdId, occurredAt])
+  @@index([learnerProfileId, divergent, occurredAt])
 }

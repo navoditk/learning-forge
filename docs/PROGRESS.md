@@ -2757,3 +2757,25 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Validation: `npm run verify` passed with 106 tests and a production build;
   `git diff --check` passed.
 - Stage B remains pure and unwired by design; C1 is the next stage.
+
+## 2026-09-19 — Stage C1–C3 foundation increment
+
+- Added the additive Stage C progression schema: assessment assignments/run
+  state/results, active leases, learner placement/unit/lesson state, unlocks,
+  skips, overrides, review schedules, learning events, and shadow decisions.
+- Added nullable progression bindings to `Session`; new legacy practice
+  sessions now dual-write their activity, target, and policy-profile binding.
+- Added C3 shadow-only evaluation at the session boundary. The policy result is
+  recorded with the actual legacy behavior and divergence, but it cannot deny
+  or permit a request yet.
+- Extended household export and deletion coverage to every new progression
+  table and documented the data/backup inventory before any shadow rows are
+  written.
+- Added a reviewed reversible migration and regression coverage for shadow
+  divergence and progression export/deletion coverage.
+- Validation so far: Prisma schema validation/generation, typecheck, and the
+  focused progression tests pass. Full verification and database-backed
+  integration tests remain the next gate.
+- C4 authorization cutover and C5 learner/parent UI remain intentionally
+  pending; they require the remaining approved policy decisions, shadow
+  divergence review, and the C4 expand/contract gate.

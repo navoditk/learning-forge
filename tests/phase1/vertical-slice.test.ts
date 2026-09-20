@@ -282,6 +282,27 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       expect(first.completed).toBe(false);
       expect(first.hintCount).toBe(0);
       expect(first.latestAttempt).toBeUndefined();
+      expect(
+        await prisma.session.findUnique({
+          where: { id: first.sessionId },
+          select: {
+            activityKind: true,
+            targetCode: true,
+            targetVersion: true,
+            policyProfileVersion: true,
+          },
+        }),
+      ).toMatchObject({
+        activityKind: 'PRACTICE',
+        targetCode: 'unit-rates-1',
+        targetVersion: 'content-1',
+        policyProfileVersion: '1.0.0',
+      });
+      expect(
+        await prisma.shadowDecision.count({
+          where: { learnerProfileId: identity.learnerProfileId },
+        }),
+      ).toBe(1);
 
       const attempt = await recordAttempt(identity, {
         sessionId: first.sessionId,

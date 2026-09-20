@@ -10,8 +10,12 @@ import {
   WeeklyDigestSkillInput,
 } from '../contracts';
 import { skillCatalog, skillsByCode, topologicalSkillOrder } from '../curriculum';
+import { programsByCode } from '../curriculum/program-registry';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
+import { loadPolicyArtifacts } from '../progression/artifacts';
+import { buildShadowDecision } from '../progression/shadow';
+import { policyHash, resolvePolicyProfile } from '../progression/policy';
 import { prisma } from '../server/prisma';
 import { isUniqueConstraintViolation } from '../server/prisma-errors';
 import { TutorResponse } from '../tutor';
@@ -159,8 +163,14 @@ export async function startSession(
         householdId: identity.householdId,
         learnerProfileId: identity.learnerProfileId,
         contentKey: content.id,
+        activityKind: 'PRACTICE',
+        targetCode: content.id,
+        targetVersion: content.version,
+        policyProfileVersion: '1.0.0',
       },
     }));
+  if (!existing)
+    await writeShadowDecision(identity, program, content.id, content.version, 'PRACTICE');
   const state = await getSessionState(identity, session.id);
   return {
     sessionId: session.id,
@@ -177,6 +187,65 @@ export async function startSession(
     },
     ...state,
   };
+}
+
+async function writeShadowDecision(
+  identity: HouseholdIdentity,
+  programCode: CurriculumProgram,
+  targetCode: string,
+  targetVersion: string,
+  activityKind: 'PRACTICE' | 'PLACEMENT' | 'DELAYED_CHECK' | 'REVIEW',
+): Promise<void> {
+  const program = programsByCode.get(programCode);
+  const skill = skillsByCode.get(contentSkillCode(resolveContent(targetCode)));
+  if (!program || !skill) return;
+  const artifacts = loadPolicyArtifacts();
+  const profile = artifacts.profiles.find(
+    (candidate) =>
+      candidate.code === program.defaultPolicyProfileRef.code &&
+      candidate.version === program.defaultPolicyProfileRef.version,
+  );
+  if (!profile) return;
+  const resolvedProfile = resolvePolicyProfile(
+    profile,
+    new Map(
+      artifacts.profiles.map((candidate) => [`${candidate.code}@${candidate.version}`, candidate]),
+    ),
+  );
+  const accessPolicy = artifacts.accessPolicies.find(
+    (candidate) =>
+      candidate.code === program.accessPolicyRef.code &&
+      candidate.version === program.accessPolicyRef.version,
+  );
+  const prerequisiteCodes = skill.prerequisiteSkillCodes;
+  const priorMastery = await prisma.masteryEstimate.findMany({
+    where: {
+      learnerProfileId: identity.learnerProfileId,
+      skillCode: { in: prerequisiteCodes },
+      estimate: { gte: resolvedProfile.minEstimateGate },
+    },
+    select: { skillCode: true },
+  });
+  const shadow = buildShadowDecision({
+    requestKind: 'start-session',
+    targetCode,
+    targetVersion,
+    activityKind,
+    prerequisiteSkillCodes: prerequisiteCodes,
+    masteredSkillCodes: new Set(priorMastery.map((record) => record.skillCode)),
+    accessPolicy,
+    policyProfile: resolvedProfile,
+    actualBehavior: 'ALLOWED',
+    algorithmVersion: PHASE_1_MASTERY_VERSION,
+  });
+  await prisma.shadowDecision.create({
+    data: {
+      householdId: identity.householdId,
+      learnerProfileId: identity.learnerProfileId,
+      ...shadow,
+      policyProfileHash: policyHash(resolvedProfile),
+    },
+  });
 }
 
 const MAX_ATTEMPT_NUMBER_RETRIES = 10;
@@ -244,6 +313,35 @@ async function createAttempt(
   }
   if (independentCheckPassed) {
     await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
+  }
+  const activityKind =
+    input.context === 'DIAGNOSTIC'
+      ? 'PLACEMENT'
+      : input.reviewDecay
+        ? 'REVIEW'
+        : input.independentDelayedCheck
+          ? 'DELAYED_CHECK'
+          : 'PRACTICE';
+  await writeShadowDecision(
+    identity,
+    skillsByCode.get(contentSkillCode(content))?.program ?? DEFAULT_PROGRAM,
+    content.id,
+    content.version,
+    activityKind,
+  );
+  if (input.context === 'PRACTICE') {
+    await prisma.learningEvent.create({
+      data: {
+        householdId: identity.householdId,
+        learnerProfileId: identity.learnerProfileId,
+        skillCode: contentSkillCode(content),
+        skillVersion: '1.0.0',
+        contentId: content.id,
+        contentVersion: content.version,
+        kind: 'INDEPENDENT_PRACTICE_EXPOSURE',
+        occurredAt: new Date(),
+      },
+    });
   }
   const weight = evidenceWeight(correctness, 'INDEPENDENT');
   const existingMastery = await prisma.masteryEstimate.findUnique({

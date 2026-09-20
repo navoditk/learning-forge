@@ -119,6 +119,18 @@ export async function exportHouseholdData(prisma: DatabaseClient, householdId: s
           },
         },
       },
+      assessmentAssignments: { include: { runState: true } },
+      assessmentResults: true,
+      activeAssessmentLeases: true,
+      learnerPlacements: true,
+      learnerUnitStates: true,
+      learnerLessonStates: true,
+      unlockGrants: true,
+      skipRecords: true,
+      overrideRecords: true,
+      reviewSchedules: true,
+      learningEvents: true,
+      shadowDecisions: true,
     },
   });
   if (!household) throw new Error('Household not found');
@@ -135,6 +147,19 @@ export async function deleteHouseholdData(prisma: PrismaClient, householdId: str
 
     await transaction.masteryContribution.deleteMany({ where: { attempt: { householdId } } });
     await transaction.masteryEstimate.deleteMany({ where: { householdId } });
+    await transaction.assessmentResult.deleteMany({ where: { householdId } });
+    await transaction.assessmentRunState.deleteMany({ where: { assignment: { householdId } } });
+    await transaction.activeAssessmentLease.deleteMany({ where: { householdId } });
+    await transaction.assessmentAssignment.deleteMany({ where: { householdId } });
+    await transaction.shadowDecision.deleteMany({ where: { householdId } });
+    await transaction.learningEvent.deleteMany({ where: { householdId } });
+    await transaction.reviewSchedule.deleteMany({ where: { householdId } });
+    await transaction.overrideRecord.deleteMany({ where: { householdId } });
+    await transaction.skipRecord.deleteMany({ where: { householdId } });
+    await transaction.unlockGrant.deleteMany({ where: { householdId } });
+    await transaction.learnerLessonState.deleteMany({ where: { householdId } });
+    await transaction.learnerUnitState.deleteMany({ where: { householdId } });
+    await transaction.learnerPlacement.deleteMany({ where: { householdId } });
     await transaction.assistanceEvent.deleteMany({ where: { attempt: { householdId } } });
     await transaction.tutorInteraction.deleteMany({ where: { householdId } });
     await transaction.attempt.deleteMany({ where: { householdId } });

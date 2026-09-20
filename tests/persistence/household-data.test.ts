@@ -95,6 +95,20 @@ describe('household export and deletion', () => {
     expect(exported.users[0]).not.toHaveProperty('passwordHash');
     expect(JSON.stringify(exported)).not.toContain('must-not-export');
     expect(exported.attempts[0].id).toBe(attemptId);
+    expect(exported).toMatchObject({
+      assessmentAssignments: [],
+      assessmentResults: [],
+      activeAssessmentLeases: [],
+      learnerPlacements: [],
+      learnerUnitStates: [],
+      learnerLessonStates: [],
+      unlockGrants: [],
+      skipRecords: [],
+      overrideRecords: [],
+      reviewSchedules: [],
+      learningEvents: [],
+      shadowDecisions: [],
+    });
   });
 
   it('deletes the household and all dependent evidence atomically', async () => {
@@ -102,6 +116,9 @@ describe('household export and deletion', () => {
     expect(await prisma.household.findUnique({ where: { id: householdId } })).toBeNull();
     expect(await prisma.attempt.findUnique({ where: { id: attemptId } })).toBeNull();
     expect(await prisma.tutorTrace.count({ where: { householdId } })).toBe(0);
+    expect(await prisma.shadowDecision.count({ where: { householdId } })).toBe(0);
+    expect(await prisma.learningEvent.count({ where: { householdId } })).toBe(0);
+    expect(await prisma.assessmentAssignment.count({ where: { householdId } })).toBe(0);
     expect(await prisma.learnerProfile.count({ where: { id: learnerProfileId } })).toBe(0);
     expect(await deleteHouseholdData(prisma, householdId)).toBe(false);
   });

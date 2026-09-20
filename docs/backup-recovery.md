@@ -51,8 +51,9 @@ with synthetic data:
    ```
 
 5. Confirm the restored data preserves household ownership, immutable attempt
-   behavior, tutor trace metadata, mastery contributions, and the
-   `TutorTrace.sessionId` relationship.
+   behavior, tutor trace metadata, mastery contributions, the
+   `TutorTrace.sessionId` relationship, and the Stage C progression tables
+   including assessment evidence, learning events, and shadow decisions.
 6. Record elapsed restore and verification time, the latest recoverable
    timestamp, row-count/check results, and any discrepancies.
 7. Delete the restored test database through the provider workflow after the
