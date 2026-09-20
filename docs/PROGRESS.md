@@ -3067,6 +3067,16 @@ Grade 6 research dossier, via the `curriculum-researcher` agent).
 - Added state-machine and database coverage. Authorization cutover, learner
   serving, and independent/manual release gates remain unchanged.
 
+## 2026-09-19 — C4 cutover-readiness report
+
+- Added a read-only readiness seam that checks the stronger C4 drain condition
+  (no open session with any missing progression binding) and summarizes
+  reason-coded shadow divergences without household or learner identifiers.
+- The report marks readiness only when both the session drain and all shadow
+  divergences are dispositioned; it cannot mutate state, enable enforcement, or
+  substitute for independent or manual approval.
+- Added pure coverage for the two-gate invariant and privacy redaction.
+
 ## 2026-09-19 — Pinned mastery snapshot persistence
 
 - Added persistence for recalculated mastery snapshots as new algorithm-version
