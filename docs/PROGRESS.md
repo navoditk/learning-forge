@@ -18,10 +18,9 @@
 - C4 remains unauthorized. Independent review, representative shadow
   evidence/dispositions, named manual gate records, selected-session drain,
   and installation of the reviewed private package remain release actions.
-- A read-only Render job was attempted for the new shadow-review exporter; it
-  failed because the deployed service still precedes these uncommitted script
-  changes. The earlier deployed readiness job succeeded. No database or
-  learner state was changed by either job.
+- The deployed read-only Render readiness job for the current checkpoint
+  (`job-dao77l3m8hqs73di1vig`) succeeded. It made no database or learner-state
+  changes. The production gate remains closed.
 - Added `private-assessment-package-handoff.md`, which gives the content owner
   the exact four-bank, no-reuse package requirements without fabricating or
   exposing held-out items. The package itself remains an external dependency.

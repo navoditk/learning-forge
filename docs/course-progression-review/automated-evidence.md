@@ -15,10 +15,10 @@ independent review or C4 authorization.
 
 ## Repository evidence
 
-At the current verified rollout checkpoint (`2f34c7f`):
+At the current verified rollout checkpoint (`b3a73ce`):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  164 unit/contract/progression tests, and production build.
+  166 unit/contract/progression tests, and production build.
 - `npm run test:integration` passed: 39 persistence, Phase 1, and auth tests
   against the disposable local PostgreSQL database.
 - `npm run test:e2e` passed: 22 Playwright tests covering authentication,
@@ -45,7 +45,7 @@ At the current verified rollout checkpoint (`2f34c7f`):
 - `/review/course-progression` returned HTTP 200.
 - The assessment-assignment endpoint returned `404` with
   `reasonCode: RELEASE_GATE_CLOSED` while C4 remained unauthorized.
-- The deployed read-only shadow-review job succeeded.
+- The deployed read-only readiness job (`job-dao77l3m8hqs73di1vig`) succeeded.
 - Direct redacted database evidence showed 11 unbound open sessions, 0 shadow
   decisions, and 0 divergent shadow decisions.
 - Dependency audit after the PostCSS and `deepmerge-ts` overrides reports zero
