@@ -25,9 +25,12 @@
   transitions, policy inheritance, review schedules, and lesson ordering.
 - Added held-out-store fail-closed and public-catalog role-separation tests;
   private assessment items remain external and no package was mounted.
+- Added named lesson-state and mastery-aggregation acceptance suites covering
+  historical completion, unit readiness, maximum assistance, and non-zero
+  degradation after an incorrect observation.
 - Fixed the `npm test` wiring so `tests/progression/*.test.ts` is actually
   expanded and executed; the prior quoted glob silently skipped that entire
-  directory. The DB-free suite now runs 195 tests across 39 files.
+  directory. The DB-free suite now runs 200 tests across 41 files.
 - Validation before this follow-up: `npm run test:integration` passed (41
   tests), and `npm run test:e2e` passed (22 tests, 1 intentional
   private-package skip). The full `npm run verify` is being rerun after the
