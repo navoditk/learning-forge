@@ -47,7 +47,14 @@
   catches literal answers, fraction/decimal equivalents, scaled ratios, and
   embedded numeric answers instead of relying only on substring matching.
 - Added falsifying tests for equivalent leakage and unrelated text. The
-  database-free suite now passes 207 tests; C4 remains closed.
+  database-free suite now passes 208 tests; C4 remains closed.
+
+## 2026-09-21 — Client bundle held-out boundary
+
+- Added a static import-graph acceptance test that walks every `'use client'`
+  entry and rejects transitive imports of the public content catalog or either
+  held-out assessment store. The test passes against the current application
+  graph; C4 remains closed.
 
 ## 2026-09-21 — Assessment feedback-safety integration coverage
 

@@ -19,7 +19,7 @@ At the current verified rollout checkpoint (the commit containing this
 evidence refresh):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  207 database-free unit/contract/progression tests, and production build.
+  208 database-free unit/contract/progression tests, and production build.
 - `npm run test:integration` passed: 43 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
@@ -55,6 +55,8 @@ evidence refresh):
   both in-progress and scored JSON responses remain answer-safe.
 - The tutor leakage guard has equivalence-aware tests for fractions, decimals,
   scaled ratios, and embedded numeric answers.
+- The client-bundle boundary test walks every `'use client'` entry and finds no
+  transitive import of the public content catalog or held-out assessment store.
 
 ## Deployed evidence
 
