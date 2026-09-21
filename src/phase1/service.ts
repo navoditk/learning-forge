@@ -448,7 +448,6 @@ export async function getDiagnosticPlan(
     skillCode: string;
     title: string;
     skillTitle: string;
-    prompt: string;
   }[] = [];
   for (const skillCode of topologicalSkillOrder(catalog.skills)) {
     if (items.length >= maxItems) break;
@@ -466,7 +465,6 @@ export async function getDiagnosticPlan(
       skillCode,
       title: pick.title,
       skillTitle: skill.title,
-      prompt: pick.prompt,
     });
   }
   return { items };
@@ -634,7 +632,6 @@ export async function getReviewQueue(
     skillCode: string;
     title: string;
     skillTitle: string;
-    prompt: string;
     dueSince: Date;
   }[] = [];
   for (const row of dueMastery) {
@@ -647,7 +644,6 @@ export async function getReviewQueue(
       skillCode: row.skillCode,
       title: pick.title,
       skillTitle: skill.title,
-      prompt: pick.prompt,
       dueSince: row.updatedAt,
     });
   }

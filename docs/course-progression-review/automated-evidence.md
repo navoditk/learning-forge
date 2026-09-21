@@ -59,6 +59,8 @@ evidence refresh):
   transitive import of the public content catalog or held-out assessment store.
 - A database-backed no-tutor test confirms held-out assessment attempts cannot
   resolve a public tutor context or create a tutor interaction.
+- Diagnostic-plan and review-queue projections now omit item prompts; the
+  learner receives content only after starting the selected activity.
 
 ## Deployed evidence
 

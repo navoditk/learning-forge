@@ -65,6 +65,7 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     const plan = await getPlan(SYNTHETIC_IDENTITY);
 
     expect(plan.items.length).toBeGreaterThan(0);
+    expect(plan.items[0]).not.toHaveProperty('prompt');
     expect(plan.items.some((item) => item.skillCode === 'ratio-language')).toBe(true);
     for (const item of plan.items) {
       expect(item.title.length).toBeGreaterThan(0);
@@ -503,6 +504,7 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
 
       const queue = await getReviewQueue(identity);
       expect(queue.items.some((item) => item.skillCode === 'ratio-language')).toBe(true);
+      expect(queue.items[0]).not.toHaveProperty('prompt');
       expect(queue.items.some((item) => item.skillCode === 'variables-and-expressions')).toBe(
         false,
       );

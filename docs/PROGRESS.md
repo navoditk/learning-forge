@@ -63,6 +63,14 @@
 - The full serial PostgreSQL integration suite now passes 44 tests. This is
   evidence only; C4 and learner-facing progression serving remain closed.
 
+## 2026-09-21 — Preview response redaction
+
+- Removed practice-item prompts from diagnostic plans and review queues. These
+  preview endpoints now return target identifiers and titles only; the actual
+  prompt is delivered only after the learner starts the activity.
+- Added regression assertions for plan and review response shapes. C4 remains
+  closed.
+
 ## 2026-09-21 — Assessment feedback-safety integration coverage
 
 - Added a real PostgreSQL integration test for the held-out assessment feedback

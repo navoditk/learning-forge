@@ -38,7 +38,6 @@ type DiagnosticItem = {
   skillCode: string;
   title: string;
   skillTitle: string;
-  prompt: string;
 };
 type DiagnosticPlan = { items: DiagnosticItem[] };
 
@@ -47,7 +46,6 @@ type ReviewItem = {
   skillCode: string;
   title: string;
   skillTitle: string;
-  prompt: string;
   dueSince: string;
 };
 type ReviewQueue = { items: ReviewItem[] };
