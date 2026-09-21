@@ -20,7 +20,7 @@ evidence refresh):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
   208 database-free unit/contract/progression tests, and production build.
-- `npm run test:integration` passed: 43 persistence, Phase 1, auth, and
+- `npm run test:integration` passed: 44 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
 - `npm run test:e2e` passed: 22 Playwright tests covering authentication,
@@ -57,6 +57,8 @@ evidence refresh):
   scaled ratios, and embedded numeric answers.
 - The client-bundle boundary test walks every `'use client'` entry and finds no
   transitive import of the public content catalog or held-out assessment store.
+- A database-backed no-tutor test confirms held-out assessment attempts cannot
+  resolve a public tutor context or create a tutor interaction.
 
 ## Deployed evidence
 

@@ -56,6 +56,13 @@
   held-out assessment store. The test passes against the current application
   graph; C4 remains closed.
 
+## 2026-09-21 — Held-out no-tutor boundary
+
+- Added database-backed coverage proving a held-out assessment attempt cannot
+  resolve a public tutor context and creates no `TutorInteraction` row.
+- The full serial PostgreSQL integration suite now passes 44 tests. This is
+  evidence only; C4 and learner-facing progression serving remain closed.
+
 ## 2026-09-21 — Assessment feedback-safety integration coverage
 
 - Added a real PostgreSQL integration test for the held-out assessment feedback

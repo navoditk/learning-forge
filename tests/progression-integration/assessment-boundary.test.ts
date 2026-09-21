@@ -9,6 +9,7 @@ import {
   abandonAssessmentRun,
   submitAssessmentItem,
 } from '../../src/progression/assessment-submission';
+import { getTutorContext } from '../../src/phase1/service';
 import { resolvePolicyProfile } from '../../src/progression/policy';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
@@ -211,5 +212,34 @@ describe('course progression assessment boundary', () => {
       learnerProfileId,
       assignmentId: mismatched.assignment.id,
     });
+  });
+
+  it('does not resolve a tutor context for a held-out assessment attempt', async () => {
+    const result = await createAssignment('integration-no-tutor-key');
+    const session = result.assignment.sessions[0];
+    if (!session) throw new Error('Assessment session was not created');
+    await submitAssessmentItem(
+      {
+        householdId,
+        learnerProfileId,
+        assignmentId: result.assignment.id,
+        sessionId: session.id,
+        ordinal: 1,
+        learnerResponse: '2:3',
+      },
+      createInMemoryAssessmentStore([
+        {
+          code: 'integration-heldout-bank',
+          version: '1.0.0',
+          contentHash: 'sha256:integration-bank',
+          items: [item],
+        },
+      ]),
+    );
+    const attempt = await prisma.attempt.findFirstOrThrow({ where: { sessionId: session.id } });
+    await expect(getTutorContext({ householdId, learnerProfileId }, attempt.id)).rejects.toThrow(
+      'Unknown content',
+    );
+    expect(await prisma.tutorInteraction.count({ where: { attemptId: attempt.id } })).toBe(0);
   });
 });
