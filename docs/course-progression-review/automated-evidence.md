@@ -15,11 +15,12 @@ independent review or C4 authorization.
 
 ## Repository evidence
 
-At the current verified rollout checkpoint (`4091fd0`):
+At the current verified rollout checkpoint (`227e532`):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  166 unit/contract/progression tests, and production build.
-- `npm run test:integration` passed: 39 persistence, Phase 1, and auth tests
+  110 database-free unit/contract/progression tests, and production build.
+- `npm run test:integration` passed: 41 persistence, Phase 1, auth, and
+  progression-boundary tests
   against the disposable local PostgreSQL database.
 - `npm run test:e2e` passed: 22 Playwright tests covering authentication,
   learner/parent journeys, keyboard operation, automated WCAG checks, and
@@ -36,8 +37,9 @@ At the current verified rollout checkpoint (`4091fd0`):
   forward/down/forward schema-equivalence check across all 10 migrations.
 - The test commands now provide a local PostgreSQL fallback while honoring an
   explicitly supplied `DATABASE_URL`; production configuration is unchanged.
-- After the package-boundary changes, integration remained green at 39 tests
-  and Playwright remained green at 22 passed with one intentional skip.
+- After the package-boundary changes, integration remained green at 41 tests.
+  The last Playwright run passed 22 tests with one intentional skip; this
+  documentation-only checkpoint did not change browser behavior.
 
 ## Deployed evidence
 
@@ -46,7 +48,7 @@ At the current verified rollout checkpoint (`4091fd0`):
 - The assessment-assignment endpoint returned `404` with
   `reasonCode: RELEASE_GATE_CLOSED` while C4 remained unauthorized.
 - The deployed read-only readiness job (`job-dao77l3m8hqs73di1vig`) succeeded;
-  the current deployment (`dep-dao78lqjnfac739eo9g0`) is live.
+  the current deployment (`dep-dao8eo4s728c73beppe0`) is live.
 - Direct redacted database evidence showed 11 unbound open sessions, 0 shadow
   decisions, and 0 divergent shadow decisions.
 - Dependency audit after the PostCSS and `deepmerge-ts` overrides reports zero

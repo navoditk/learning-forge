@@ -7,8 +7,7 @@ a review result or authorization.
 ## Review target
 
 - Repository: `navoditk/learning-forge`
-- Commit: `4091fd0` (current pushed checkpoint; the changes after the
-  implementation commits are documentation-only)
+- Commit: `227e532` (current pushed checkpoint)
 - Browser review surface: `https://learning-forge.onrender.com/review/course-progression`
 - Production progression gate: closed
 - Private package: supplied separately through the approved secure channel
@@ -17,8 +16,8 @@ a review result or authorization.
 
 ## Evidence available
 
-- `npm run verify`: passed, 166 tests plus production build.
-- `npm run test:integration`: 39 tests passed against disposable local
+- `npm run verify`: passed, 110 tests plus production build.
+- `npm run test:integration`: 41 tests passed against disposable local
   PostgreSQL.
 - `npm run test:e2e`: 22 passed, 1 intentional private-package skip.
 - `npm run test:migrations`: 10-migration forward/down/forward round trip
