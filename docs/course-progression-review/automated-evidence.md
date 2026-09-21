@@ -61,6 +61,8 @@ evidence refresh):
   resolve a public tutor context or create a tutor interaction.
 - Diagnostic-plan and review-queue projections now omit item prompts; the
   learner receives content only after starting the selected activity.
+- The held-out route journey also scans persisted result, shadow, trace, and
+  tutor-interaction records for answer/prompt/solution/hint leakage.
 
 ## Deployed evidence
 

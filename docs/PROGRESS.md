@@ -56,6 +56,13 @@
   held-out assessment store. The test passes against the current application
   graph; C4 remains closed.
 
+## 2026-09-21 — Persisted log-safety coverage
+
+- Extended the full route-level held-out feedback journey to scan persisted
+  assessment results, shadow decisions, tutor traces, and tutor interactions
+  for answer, prompt, solution, hint, and learner-text sentinels. The test
+  remains disposable and does not open the production gate.
+
 ## 2026-09-21 — Held-out no-tutor boundary
 
 - Added database-backed coverage proving a held-out assessment attempt cannot

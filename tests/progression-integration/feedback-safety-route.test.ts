@@ -199,5 +199,15 @@ describe('assessment feedback route safety', () => {
     expect(JSON.stringify(scored.body.result)).not.toMatch(
       /2:3|3:4|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
     );
+
+    const [results, shadowDecisions, traces, interactions] = await Promise.all([
+      prisma.assessmentResult.findMany({ where: { householdId } }),
+      prisma.shadowDecision.findMany({ where: { householdId } }),
+      prisma.tutorTrace.findMany({ where: { householdId } }),
+      prisma.tutorInteraction.findMany({ where: { householdId } }),
+    ]);
+    expect(JSON.stringify({ results, shadowDecisions, traces, interactions })).not.toMatch(
+      /2:3|3:4|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
+    );
   });
 });
