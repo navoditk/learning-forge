@@ -33,7 +33,7 @@
     "curriculum:validate": "vitest run tests/curriculum",
     "eval:run": "vitest run tests/evals",
     "test:e2e": "bash scripts/run-e2e-tests.sh",
-    "test": "vitest run tests/foundation.test.ts tests/contracts tests/content tests/evals tests/tutor tests/notification tests/curriculum tests/planner 'tests/progression/*.test.ts'",
+    "test": "vitest run tests/foundation.test.ts tests/contracts tests/content tests/evals tests/tutor tests/notification tests/curriculum tests/planner tests/progression/*.test.ts",
     "test:integration": "bash scripts/run-integration-tests.sh",
     "typecheck": "tsc --noEmit",
     "verify": "npm run format:check && npm run lint && npm run typecheck && npm run db:check-down-migrations && npm test && npm run build"

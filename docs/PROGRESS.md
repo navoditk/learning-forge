@@ -21,9 +21,15 @@
   decision index. C4 remains closed: representative shadow traffic,
   disposition, the private reviewed package, and manual approvals are still
   outstanding.
-- Validation: `npm run verify` passed (110 DB-free tests and production build),
-  `npm run test:integration` passed (41 tests), and `npm run test:e2e` passed
-  (22 tests, 1 intentional private-package skip).
+- Added explicit falsifying unit suites for authorization, assessment-run
+  transitions, policy inheritance, review schedules, and lesson ordering.
+- Fixed the `npm test` wiring so `tests/progression/*.test.ts` is actually
+  expanded and executed; the prior quoted glob silently skipped that entire
+  directory. The DB-free suite now runs 192 tests across 37 files.
+- Validation before this follow-up: `npm run test:integration` passed (41
+  tests), and `npm run test:e2e` passed (22 tests, 1 intentional
+  private-package skip). The full `npm run verify` is being rerun after the
+  test-wiring change.
 
 ## 2026-09-20 — Progression integration-gate remediation
 
