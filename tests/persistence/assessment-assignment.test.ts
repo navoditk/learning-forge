@@ -162,9 +162,7 @@ describe('assessment assignment persistence', () => {
       { ...input, idempotencyKey: 'assignment-shadow-failure' },
       store,
       prisma,
-      async () => {
-        throw new Error('shadow store unavailable');
-      },
+      () => new Promise<never>(() => undefined),
     );
     expect(assignmentWithShadowFailure.replayed).toBe(false);
     expect(

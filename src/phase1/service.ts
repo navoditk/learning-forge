@@ -14,6 +14,7 @@ import { programsByCode } from '../curriculum/program-registry';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
 import { loadPolicyArtifacts } from '../progression/artifacts';
+import { deriveHighestAssistance } from '../progression/assistance';
 import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
 import { policyHash, resolvePolicyProfile } from '../progression/policy';
 import type { ActivityKind } from '../contracts/policy';
@@ -779,7 +780,7 @@ export async function getParentEvidence(identity: HouseholdIdentity) {
         contentKey: true,
         correctness: true,
         createdAt: true,
-        assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'desc' }, take: 1 },
+        assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'asc' } },
       },
     }),
     prisma.masteryEstimate.findMany({
@@ -800,7 +801,7 @@ export async function getParentEvidence(identity: HouseholdIdentity) {
     learnerName: 'Learner',
     attempts: attempts.map(({ assistanceEvents, ...attempt }) => ({
       ...attempt,
-      highestAssistance: assistanceEvents[0]?.level ?? 'INDEPENDENT',
+      highestAssistance: deriveHighestAssistance(assistanceEvents),
     })),
     mastery,
   };

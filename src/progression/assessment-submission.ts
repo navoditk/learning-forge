@@ -16,6 +16,7 @@ import {
   applyPilotUnitAssessmentOutcome,
 } from './learner-state';
 import { assessmentPasses } from './assessment-scoring';
+import { deriveHighestAssistance } from './assistance';
 import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
 
 type SelectedItem = { id: string; version: string; hash: string; ordinal: number };
@@ -406,6 +407,7 @@ export async function abandonAssessmentRun(
           contentVersion: true,
           correctness: true,
           highestAssistance: true,
+          assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'asc' } },
         },
       });
       const itemResults = attempts.map((attempt) => ({
@@ -413,7 +415,7 @@ export async function abandonAssessmentRun(
         contentId: attempt.contentKey,
         contentVersion: attempt.contentVersion,
         correctness: attempt.correctness,
-        maxAssistance: attempt.highestAssistance,
+        maxAssistance: deriveHighestAssistance(attempt.assistanceEvents, attempt.highestAssistance),
         superseded: false,
       }));
       const result = await transaction.assessmentResult.create({
@@ -510,6 +512,7 @@ export async function invalidateAssessmentRun(
           contentVersion: true,
           correctness: true,
           highestAssistance: true,
+          assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'asc' } },
         },
       });
       const result = await transaction.assessmentResult.create({
@@ -523,7 +526,10 @@ export async function invalidateAssessmentRun(
             contentId: attempt.contentKey,
             contentVersion: attempt.contentVersion,
             correctness: attempt.correctness,
-            maxAssistance: attempt.highestAssistance,
+            maxAssistance: deriveHighestAssistance(
+              attempt.assistanceEvents,
+              attempt.highestAssistance,
+            ),
             superseded: true,
           })),
           correctCount: 0,
@@ -587,6 +593,7 @@ export async function expireAssessment(
       contentVersion: true,
       correctness: true,
       highestAssistance: true,
+      assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'asc' } },
     },
   });
   const itemResults = attempts.map((attempt) => ({
@@ -594,7 +601,7 @@ export async function expireAssessment(
     contentId: attempt.contentKey,
     contentVersion: attempt.contentVersion,
     correctness: attempt.correctness,
-    maxAssistance: attempt.highestAssistance,
+    maxAssistance: deriveHighestAssistance(attempt.assistanceEvents, attempt.highestAssistance),
     superseded: false,
   }));
   await transaction.assessmentRunState.update({

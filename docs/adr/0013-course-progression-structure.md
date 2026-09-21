@@ -147,7 +147,8 @@ Introduce course progression built from six commitments.
   lesson and unit assessment pass bars (`D-24`, `D-26`), skip bars, cooldowns,
   the pilot lesson count, content volumes, relabelling, rollout, and the
   program registry — live in `docs/course-progression-decisions.md` and are all
-  `OPEN`. Nothing there is approved.
+  `OPEN` was the status when this ADR was drafted. The current decision matrix
+  records the approved pilot parameters; this ADR does not authorize release.
 - It does not decide whether the `ratio-tables → unit-rates` prerequisite edge
   is genuine (`D-35`); re-auditing from content shows the core ratio-tables
   record needs no unit rate, so the pilot must not assume a linear chain.

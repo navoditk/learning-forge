@@ -14,13 +14,22 @@ export async function persistShadowNonEnforcing<T>(
       errorType: error instanceof Error ? error.name : 'UnknownError',
     });
   },
+  timeoutMs = 250,
 ): Promise<boolean> {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
   try {
-    await write();
+    await Promise.race([
+      write(),
+      new Promise<never>((_, reject) => {
+        timeout = setTimeout(() => reject(new Error('SHADOW_PERSISTENCE_TIMEOUT')), timeoutMs);
+      }),
+    ]);
     return true;
   } catch (error) {
     onFailure(error);
     return false;
+  } finally {
+    if (timeout) clearTimeout(timeout);
   }
 }
 

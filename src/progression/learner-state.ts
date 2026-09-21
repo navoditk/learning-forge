@@ -219,6 +219,7 @@ export async function applyPilotUnitAssessmentOutcome(
     where: { id: current.id },
     data: {
       completionStatus,
+      policyProfileCode: input.policyProfileCode,
       policyProfileVersion: input.policyProfileVersion,
       completedAt:
         completionStatus === 'COMPLETE' || completionStatus === 'COMPLETE_BY_SKIP'

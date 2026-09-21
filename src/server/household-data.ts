@@ -1,5 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
+import { deriveHighestAssistance } from '../progression/assistance';
+
 type DatabaseClient = PrismaClient | Prisma.TransactionClient;
 
 /**
@@ -73,27 +75,6 @@ export const HOUSEHOLD_DATA_MODEL_COVERAGE = {
 
 export function isHouseholdDeletionConfirmed(confirmation: unknown): boolean {
   return confirmation === HOUSEHOLD_DELETION_CONFIRMATION_PHRASE;
-}
-
-const ASSISTANCE_ORDINAL: Record<string, number> = {
-  INDEPENDENT: 0,
-  CLARIFYING_QUESTION: 1,
-  SMALL_STRATEGIC_HINT: 2,
-  MULTIPLE_HINTS_REPRESENTATION: 3,
-  ANALOGOUS_WORKED_EXAMPLE: 4,
-  GUIDED_FULL_SOLUTION: 5,
-};
-
-function deriveHighestAssistance(attempt: {
-  highestAssistance: string;
-  assistanceEvents: Array<{ level: string }>;
-}) {
-  if (attempt.assistanceEvents.length === 0) return attempt.highestAssistance;
-  return attempt.assistanceEvents.reduce(
-    (highest, event) =>
-      ASSISTANCE_ORDINAL[event.level] > ASSISTANCE_ORDINAL[highest] ? event.level : highest,
-    attempt.assistanceEvents[0].level,
-  );
 }
 
 export async function exportHouseholdData(prisma: DatabaseClient, householdId: string) {
@@ -224,7 +205,10 @@ export async function exportHouseholdData(prisma: DatabaseClient, householdId: s
     ...household,
     attempts: household.attempts.map((attempt) => ({
       ...attempt,
-      highestAssistance: deriveHighestAssistance(attempt),
+      highestAssistance: deriveHighestAssistance(
+        attempt.assistanceEvents,
+        attempt.highestAssistance,
+      ),
     })),
   };
 }

@@ -15,10 +15,11 @@ independent review or C4 authorization.
 
 ## Repository evidence
 
-At the current verified rollout checkpoint (`3623232`):
+At the current verified rollout checkpoint (the commit containing this
+evidence refresh):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  200 database-free unit/contract/progression tests, and production build.
+  203 database-free unit/contract/progression tests, and production build.
 - `npm run test:integration` passed: 42 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
@@ -43,6 +44,12 @@ At the current verified rollout checkpoint (`3623232`):
   actually executed rather than silently skipped. The new feedback-safety
   integration test also verifies that in-progress assessments do not return
   correctness and scored assessments do not return answer-bearing fields.
+- Shadow persistence is bounded by a 250 ms diagnostic timeout, with unit and
+  assignment-path coverage for a never-resolving writer; the learner operation
+  remains non-enforcing.
+- Parent evidence, exports, and assessment-result projections derive maximum
+  assistance from immutable assistance events, and existing learner-unit
+  updates persist policy profile code and version together.
 
 ## Deployed evidence
 

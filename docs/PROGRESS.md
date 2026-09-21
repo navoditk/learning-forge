@@ -1,5 +1,21 @@
 # Progress
 
+## 2026-09-21 — Independent review remediation follow-up
+
+- Bounded non-enforcing shadow persistence with a 250 ms timeout and added
+  never-resolving failure coverage for the unit helper and assignment path.
+- Added a shared maximum-assistance derivation from immutable assistance events;
+  parent evidence, exports, and assessment-result projections now use it.
+- Fixed existing learner-unit updates to persist the policy profile code and
+  version together.
+- Strengthened assessment feedback-safety assertions with actual answer and
+  prompt sentinels, including an explicit no-correctness assertion for an
+  in-progress response.
+- Added assistance derivation tests. `npm run verify` passed with 203
+  database-free tests and a production build; `npm run test:integration`
+  passed with 42 tests. The timeout and event-derivation changes are still
+  implementation evidence, not independent approval or C4 authorization.
+
 ## 2026-09-21 — Assessment feedback-safety integration coverage
 
 - Added a real PostgreSQL integration test for the held-out assessment feedback

@@ -22,6 +22,21 @@ describe('progression shadow decisions', () => {
     expect(diagnostics).toHaveLength(1);
   });
 
+  it('bounds a shadow persistence stall without blocking learner behavior', async () => {
+    const started = Date.now();
+    const diagnostics: unknown[] = [];
+    await expect(
+      persistShadowNonEnforcing(
+        () => new Promise<never>(() => undefined),
+        (error) => diagnostics.push(error),
+        10,
+      ),
+    ).resolves.toBe(false);
+    expect(Date.now() - started).toBeLessThan(250);
+    expect(diagnostics).toHaveLength(1);
+    expect(diagnostics[0]).toMatchObject({ message: 'SHADOW_PERSISTENCE_TIMEOUT' });
+  });
+
   it('records divergence without changing the actual legacy behavior', () => {
     const { profiles, accessPolicies } = loadPolicyArtifacts();
     const profile = profiles.find((candidate) => candidate.code === 'grade-6-math-default');

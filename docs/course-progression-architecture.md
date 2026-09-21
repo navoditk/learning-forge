@@ -2282,9 +2282,7 @@ names the branch for future compatibility and auditability.
   repository; whether `ProgressionRequirement` plus a composed policy profile is
   genuinely sufficient for the two §12.2 fixtures without new policy code;
   whether §13 actually falsifies §16.
-- **Not done:** no runtime code, no schema, no lesson or assessment content, no
-  dependency change, no decision approved.
-- **Next step:** independent review, then the product owner resolves
-  `docs/course-progression-decisions.md`. `D-01`, `D-02`, and `D-38` block the
-  most work and should be resolved first. Only then does
-  `course-progression-implementer` take Stage A.
+- **Historical draft note:** the initial architecture draft did not include
+  runtime code, schema, content, API, or UI. Those components now exist for the
+  Grade 6 Math pilot; release remains gated by independent review, manual
+  content/accessibility/child-safety decisions, and the production gate.
