@@ -1760,7 +1760,9 @@ with `itemsPerAttempt` from `D-23` (lesson), `D-25` (unit), `D-43`
 relaxed reuse rule (`D-44`, `D-46`) the multiplier changes accordingly. This is
 not a preference and does not need its own decision.
 
-**Decisions (independent inputs, none approved).**
+**Decision inputs (historical draft wording).** The authoritative decision
+matrix records the current pilot values and approval status; this section does
+not authorize release.
 
 | Input | Decision |
 |---|---|

@@ -2,6 +2,11 @@
 
 **Status:** Findings received; **not an approval for C4**.
 
+The fresh independent re-review of pushed checkpoint `37b239f` likewise found
+the implementation **not ready for human approval**. Its actionable findings
+are recorded in the latest `docs/PROGRESS.md` entry; the code fixes in this
+follow-up do not change the release authorization state.
+
 The independent read-only reviewer examined commit `b370049` and returned the
 following findings. The implementation remediation is recorded in
 `docs/PROGRESS.md`; the external evidence and manual gates remain separate.

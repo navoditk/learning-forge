@@ -1,5 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { AssessmentKind, ProgressionTargetKind } from '@prisma/client';
+
 import { prisma } from '../../src/server/prisma';
 import {
   deleteHouseholdData,
@@ -96,6 +98,37 @@ describe('household export and deletion', () => {
   });
 
   it('exports evidence while excluding password hashes', async () => {
+    const assignment = await prisma.assessmentAssignment.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        kind: AssessmentKind.LESSON_ASSESSMENT,
+        targetKind: ProgressionTargetKind.LESSON,
+        targetCode: 'ratio-language-lesson',
+        targetVersion: '1.0.0',
+        bankCode: 'private-bank',
+        bankVersion: '1.0.0',
+        policyProfileCode: 'grade-6-math-default',
+        policyProfileVersion: '1.0.0',
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        curriculumSnapshotHash: 'sha256:curriculum',
+        selectedItems: [{ id: 'unattempted-private-item', version: '1.0.0' }],
+        excludedItems: [{ id: 'excluded-private-item', version: '1.0.0' }],
+        attemptOrdinal: 1,
+        requiredCount: 1,
+        idempotencyKey: 'export-assignment',
+        runState: {
+          create: {
+            status: 'IN_PROGRESS',
+            currentOrdinal: 1,
+            submittedOrdinals: [],
+            expiresAt: new Date(Date.now() + 60_000),
+            lastActivityAt: new Date(),
+          },
+        },
+      },
+    });
     const exported = await exportHouseholdData(prisma, householdId);
     expect(exported.attempts).toHaveLength(1);
     expect(exported.traces).toHaveLength(1);
@@ -104,7 +137,9 @@ describe('household export and deletion', () => {
     expect(exported.attempts[0].id).toBe(attemptId);
     expect(exported.attempts[0].highestAssistance).toBe('GUIDED_FULL_SOLUTION');
     expect(exported).toMatchObject({
-      assessmentAssignments: [],
+      assessmentAssignments: [
+        expect.objectContaining({ id: assignment.id, targetCode: 'ratio-language-lesson' }),
+      ],
       assessmentResults: [],
       activeAssessmentLeases: [],
       learnerPlacements: [],
@@ -117,6 +152,12 @@ describe('household export and deletion', () => {
       learningEvents: [],
       shadowDecisions: [],
     });
+    expect(JSON.stringify(exported.assessmentAssignments)).not.toContain(
+      'unattempted-private-item',
+    );
+    expect(JSON.stringify(exported.assessmentAssignments)).not.toContain('excluded-private-item');
+    expect(exported.assessmentAssignments[0]).not.toHaveProperty('selectedItems');
+    expect(exported.assessmentAssignments[0]).not.toHaveProperty('excludedItems');
   });
 
   it('deletes the household and all dependent evidence atomically', async () => {

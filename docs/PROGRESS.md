@@ -16,6 +16,22 @@
   passed with 42 tests. The timeout and event-derivation changes are still
   implementation evidence, not independent approval or C4 authorization.
 
+## 2026-09-21 — Fresh independent review remediation
+
+- The independent read-only review of `37b239f` completed with no approval for
+  C4. It confirmed the shadow timeout/non-enforcement fix and identified three
+  implementation gaps addressed here.
+- Household export now returns a redacted assessment-assignment projection;
+  selected and excluded held-out item identities are not exported.
+- D-19 read paths now ignore the mutable `Attempt.highestAssistance` summary
+  entirely and derive from immutable assistance events, with no-event attempts
+  resolving to the explicit independent baseline.
+- The private package loader now verifies required Grade 6 Math bank coverage
+  against the pilot lesson skills, with a negative synthetic-package test.
+- The reviewer’s remaining findings are still open: route-level feedback
+  serialization coverage, the broader missing acceptance-matrix suites, and
+  external representative shadow/manual/package gates. C4 remains closed.
+
 ## 2026-09-21 — Assessment feedback-safety integration coverage
 
 - Added a real PostgreSQL integration test for the held-out assessment feedback

@@ -127,7 +127,6 @@ export async function exportHouseholdData(prisma: DatabaseClient, householdId: s
           scoringMethod: true,
           attemptNumber: true,
           elapsedSeconds: true,
-          highestAssistance: true,
           context: true,
           policyVersion: true,
           createdAt: true,
@@ -186,7 +185,33 @@ export async function exportHouseholdData(prisma: DatabaseClient, householdId: s
           },
         },
       },
-      assessmentAssignments: { include: { runState: true } },
+      assessmentAssignments: {
+        select: {
+          id: true,
+          learnerProfileId: true,
+          kind: true,
+          targetKind: true,
+          targetCode: true,
+          targetVersion: true,
+          policyProfileCode: true,
+          policyProfileVersion: true,
+          policyProfileHash: true,
+          algorithmVersion: true,
+          curriculumSnapshotHash: true,
+          attemptOrdinal: true,
+          requiredCount: true,
+          createdAt: true,
+          runState: {
+            select: {
+              status: true,
+              currentOrdinal: true,
+              expiresAt: true,
+              lastActivityAt: true,
+              submittedAt: true,
+            },
+          },
+        },
+      },
       assessmentResults: true,
       activeAssessmentLeases: true,
       learnerPlacements: true,
@@ -205,10 +230,7 @@ export async function exportHouseholdData(prisma: DatabaseClient, householdId: s
     ...household,
     attempts: household.attempts.map((attempt) => ({
       ...attempt,
-      highestAssistance: deriveHighestAssistance(
-        attempt.assistanceEvents,
-        attempt.highestAssistance,
-      ),
+      highestAssistance: deriveHighestAssistance(attempt.assistanceEvents),
     })),
   };
 }

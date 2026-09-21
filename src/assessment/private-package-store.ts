@@ -5,18 +5,45 @@ import { z } from 'zod';
 
 import { AssessmentContentItemSchema, RefSchema } from '../contracts/progression';
 import type { AssessmentContentItem, Ref } from '../contracts/progression';
+import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
 import type { AssessmentStore, HeldOutAssessmentBank } from './store';
 
-type RequiredBank = { code: string; version: string; minimumItems: number };
+type RequiredBank = {
+  code: string;
+  version: string;
+  minimumItems: number;
+  requiredSkillRefs?: readonly Ref[];
+};
+
+const pilotSkillRefs = (codes: readonly string[]): readonly Ref[] =>
+  codes.map((code) => ({ code, version: '1.0.0' }));
 
 const GRADE_6_MATH_REQUIRED_BANKS: readonly RequiredBank[] = [
-  { code: 'ratio-language-lesson-bank', version: '1.0.0', minimumItems: 9 },
-  { code: 'unit-rates-lesson-bank', version: '1.0.0', minimumItems: 9 },
-  { code: 'ratio-tables-lesson-bank', version: '1.0.0', minimumItems: 9 },
+  {
+    code: 'ratio-language-lesson-bank',
+    version: '1.0.0',
+    minimumItems: 9,
+    requiredSkillRefs: pilotSkillRefs(PILOT_LESSONS[0]!.skillRefs.map((ref) => ref.code)),
+  },
+  {
+    code: 'unit-rates-lesson-bank',
+    version: '1.0.0',
+    minimumItems: 9,
+    requiredSkillRefs: pilotSkillRefs(PILOT_LESSONS[1]!.skillRefs.map((ref) => ref.code)),
+  },
+  {
+    code: 'ratio-tables-lesson-bank',
+    version: '1.0.0',
+    minimumItems: 9,
+    requiredSkillRefs: pilotSkillRefs(PILOT_LESSONS[2]!.skillRefs.map((ref) => ref.code)),
+  },
   {
     code: 'ratios-proportional-reasoning-unit-bank',
     version: '1.0.0',
     minimumItems: 18,
+    requiredSkillRefs: pilotSkillRefs(
+      PILOT_LESSONS.flatMap((lesson) => lesson.skillRefs.map((ref) => ref.code)),
+    ),
   },
 ];
 
@@ -118,6 +145,18 @@ function validatePackageIntegrity(
         throw new Error(
           `Private assessment bank ${required.code}@${required.version} requires at least ${required.minimumItems} items`,
         );
+      }
+      for (const skillRef of required.requiredSkillRefs ?? []) {
+        if (
+          !bank.items.some(
+            (item) =>
+              item.skillRef.code === skillRef.code && item.skillRef.version === skillRef.version,
+          )
+        ) {
+          throw new Error(
+            `Private assessment bank ${required.code}@${required.version} is missing coverage for skill ${skillRef.code}@${skillRef.version}`,
+          );
+        }
       }
     }
   }

@@ -406,7 +406,6 @@ export async function abandonAssessmentRun(
           contentKey: true,
           contentVersion: true,
           correctness: true,
-          highestAssistance: true,
           assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'asc' } },
         },
       });
@@ -415,7 +414,7 @@ export async function abandonAssessmentRun(
         contentId: attempt.contentKey,
         contentVersion: attempt.contentVersion,
         correctness: attempt.correctness,
-        maxAssistance: deriveHighestAssistance(attempt.assistanceEvents, attempt.highestAssistance),
+        maxAssistance: deriveHighestAssistance(attempt.assistanceEvents),
         superseded: false,
       }));
       const result = await transaction.assessmentResult.create({
@@ -511,7 +510,6 @@ export async function invalidateAssessmentRun(
           contentKey: true,
           contentVersion: true,
           correctness: true,
-          highestAssistance: true,
           assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'asc' } },
         },
       });
@@ -526,10 +524,7 @@ export async function invalidateAssessmentRun(
             contentId: attempt.contentKey,
             contentVersion: attempt.contentVersion,
             correctness: attempt.correctness,
-            maxAssistance: deriveHighestAssistance(
-              attempt.assistanceEvents,
-              attempt.highestAssistance,
-            ),
+            maxAssistance: deriveHighestAssistance(attempt.assistanceEvents),
             superseded: true,
           })),
           correctCount: 0,
@@ -592,7 +587,6 @@ export async function expireAssessment(
       contentKey: true,
       contentVersion: true,
       correctness: true,
-      highestAssistance: true,
       assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'asc' } },
     },
   });
@@ -601,7 +595,7 @@ export async function expireAssessment(
     contentId: attempt.contentKey,
     contentVersion: attempt.contentVersion,
     correctness: attempt.correctness,
-    maxAssistance: deriveHighestAssistance(attempt.assistanceEvents, attempt.highestAssistance),
+    maxAssistance: deriveHighestAssistance(attempt.assistanceEvents),
     superseded: false,
   }));
   await transaction.assessmentRunState.update({

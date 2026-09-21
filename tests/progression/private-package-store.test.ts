@@ -147,6 +147,25 @@ describe('private held-out assessment package store', () => {
     ).toThrow('requires at least 2 items');
   });
 
+  it('rejects a required bank that does not cover every required skill', async () => {
+    const path = await writePackage(packageDocument());
+
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          {
+            code: 'private-bank',
+            version: '1.0.0',
+            minimumItems: 1,
+            requiredSkillRefs: [
+              { code: 'ratio-language', version: '1.0.0' },
+              { code: 'unit-rates', version: '1.0.0' },
+            ],
+          },
+        ]),
+    ).toThrow('missing coverage for skill unit-rates@1.0.0');
+  });
+
   it('rejects tampered item and bank hashes', async () => {
     const path = await writePackage(packageDocument());
     const document = JSON.parse(await readFile(path, 'utf8'));
