@@ -15,11 +15,11 @@ independent review or C4 authorization.
 
 ## Repository evidence
 
-At the current verified rollout checkpoint (`9d3fb7c`):
+At the current verified rollout checkpoint (`3623232`):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  192 database-free unit/contract/progression tests, and production build.
-- `npm run test:integration` passed: 41 persistence, Phase 1, auth, and
+  200 database-free unit/contract/progression tests, and production build.
+- `npm run test:integration` passed: 42 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
 - `npm run test:e2e` passed: 22 Playwright tests covering authentication,
@@ -40,7 +40,9 @@ At the current verified rollout checkpoint (`9d3fb7c`):
 - After the package-boundary changes, integration remained green at 41 tests.
   The latest Playwright run passed 22 tests with one intentional skip. The
   progression test glob is now unquoted so all progression unit suites are
-  actually executed rather than silently skipped.
+  actually executed rather than silently skipped. The new feedback-safety
+  integration test also verifies that in-progress assessments do not return
+  correctness and scored assessments do not return answer-bearing fields.
 
 ## Deployed evidence
 
