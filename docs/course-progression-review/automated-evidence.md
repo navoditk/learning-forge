@@ -15,10 +15,10 @@ independent review or C4 authorization.
 
 ## Repository evidence
 
-At the current verified rollout checkpoint (`227e532`):
+At the current verified rollout checkpoint (`9d3fb7c`):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  110 database-free unit/contract/progression tests, and production build.
+  192 database-free unit/contract/progression tests, and production build.
 - `npm run test:integration` passed: 41 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
@@ -34,12 +34,13 @@ At the current verified rollout checkpoint (`227e532`):
   fail closed. A reviewed package must be mounted separately for a fresh HTTP
   201 smoke test.
 - `DATABASE_URL=postgresql://... npm run test:migrations` passed the complete
-  forward/down/forward schema-equivalence check across all 10 migrations.
+  forward/down/forward schema-equivalence check across all 11 migrations.
 - The test commands now provide a local PostgreSQL fallback while honoring an
   explicitly supplied `DATABASE_URL`; production configuration is unchanged.
 - After the package-boundary changes, integration remained green at 41 tests.
-  The last Playwright run passed 22 tests with one intentional skip; this
-  documentation-only checkpoint did not change browser behavior.
+  The latest Playwright run passed 22 tests with one intentional skip. The
+  progression test glob is now unquoted so all progression unit suites are
+  actually executed rather than silently skipped.
 
 ## Deployed evidence
 
