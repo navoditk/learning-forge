@@ -7,7 +7,8 @@ a review result or authorization.
 ## Review target
 
 - Repository: `navoditk/learning-forge`
-- Commit: `b046ce3`
+- Commit: `4091fd0` (current pushed checkpoint; the changes after the
+  implementation commits are documentation-only)
 - Browser review surface: `https://learning-forge.onrender.com/review/course-progression`
 - Production progression gate: closed
 - Private package: supplied separately through the approved secure channel
