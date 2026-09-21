@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { AssistanceLevel, AssistanceLevelSchema, VersionSchema } from './common';
+import { containsProtectedAnswer } from './answer-leakage';
 
 export const TutorMoveTypeSchema = z.enum([
   'clarify_problem',
@@ -101,12 +102,8 @@ export function validateTutorMove(
     reasons.push('safety_review_required');
   }
 
-  const responseText = `${move.learnerMessage} ${move.question}`.toLocaleLowerCase();
-  if (
-    protectedTokens.some(
-      (token) => token.trim() && responseText.includes(token.toLocaleLowerCase()),
-    )
-  ) {
+  const responseText = `${move.learnerMessage} ${move.question}`;
+  if (containsProtectedAnswer(responseText, protectedTokens)) {
     reasons.push('answer_leak_detected');
   }
 

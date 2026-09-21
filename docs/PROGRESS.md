@@ -41,6 +41,14 @@
 - The full serial PostgreSQL integration suite now passes 43 tests. This test
   evidence does not open the production release gate.
 
+## 2026-09-21 — Semantic leakage guard
+
+- Added equivalence-aware protected-answer detection for tutor output. It now
+  catches literal answers, fraction/decimal equivalents, scaled ratios, and
+  embedded numeric answers instead of relying only on substring matching.
+- Added falsifying tests for equivalent leakage and unrelated text. The
+  database-free suite now passes 207 tests; C4 remains closed.
+
 ## 2026-09-21 — Assessment feedback-safety integration coverage
 
 - Added a real PostgreSQL integration test for the held-out assessment feedback
