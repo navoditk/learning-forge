@@ -20,7 +20,7 @@ evidence refresh):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
   204 database-free unit/contract/progression tests, and production build.
-- `npm run test:integration` passed: 42 persistence, Phase 1, auth, and
+- `npm run test:integration` passed: 43 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
 - `npm run test:e2e` passed: 22 Playwright tests covering authentication,
@@ -50,6 +50,9 @@ evidence refresh):
 - Parent evidence, exports, and assessment-result projections derive maximum
   assistance from immutable assistance events, and existing learner-unit
   updates persist policy profile code and version together.
+- The route-boundary feedback test exercises the actual assessment submission
+  handler with the release flag enabled only in a disposable integration test;
+  both in-progress and scored JSON responses remain answer-safe.
 
 ## Deployed evidence
 

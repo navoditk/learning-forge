@@ -32,6 +32,15 @@
   serialization coverage, the broader missing acceptance-matrix suites, and
   external representative shadow/manual/package gates. C4 remains closed.
 
+## 2026-09-21 — Route-boundary feedback safety
+
+- Added a real Next route integration test with a temporary four-bank reviewed
+  package and release flag enabled only inside the disposable test. It checks
+  both in-progress and scored JSON responses for correctness, answer, prompt,
+  solution, and hint leakage.
+- The full serial PostgreSQL integration suite now passes 43 tests. This test
+  evidence does not open the production release gate.
+
 ## 2026-09-21 — Assessment feedback-safety integration coverage
 
 - Added a real PostgreSQL integration test for the held-out assessment feedback
