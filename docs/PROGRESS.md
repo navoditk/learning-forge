@@ -1,5 +1,13 @@
 # Progress
 
+## 2026-09-21 — Assessment feedback-safety integration coverage
+
+- Added a real PostgreSQL integration test for the held-out assessment feedback
+  boundary: in-progress runs expose no per-item correctness, while scored runs
+  expose correctness only and never canonical answers, accepted answers,
+  solution text, or hints.
+- The full serial integration suite passes 42 tests. C4 remains closed.
+
 ## 2026-09-21 — Independent C1–C3 review remediation
 
 - The independent fourth-draft review returned findings without approving C4.
