@@ -1937,7 +1937,9 @@ requirement model is insufficient and must be revised rather than forked.
 
 # 13. Acceptance tests
 
-None of these exist. They are the implementation phase's definition of done.
+These are the implementation phase's definition of done. The repository
+must keep the named test suites wired into the validation commands; a green
+unrelated suite is not evidence for a progression claim.
 
 ## 13.1 Test wiring is part of the work (fixing R20 and R21)
 

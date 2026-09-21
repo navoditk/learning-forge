@@ -69,8 +69,11 @@ Introduce course progression built from six commitments.
    policy artifact. The existing inline `readinessRequirement` numbers migrate;
    the typed per-item contract pattern is preserved.
 
-3. **Instruction and assessment are structurally separate. Whether assessment
-   is *held out* is deliberately not decided here.** Content carries an
+3. **Instruction and assessment are structurally separate.** At the time this
+   ADR was drafted, whether assessment is *held out* was deliberately left to
+   the decision matrix. The current authoritative matrix resolves `D-01` to
+   Branch B (held-out); this ADR remains proposed pending the independent and
+   manual release review. Content carries an
    explicit `role`, enforced by role-specific schemas: teaching records have no
    validator and no hint ladder; practice keeps both; assessment and review
    require a validator and are **forbidden** a hint ladder and never tutored.

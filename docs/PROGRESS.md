@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-09-20 — Progression integration-gate remediation
+
+- Added `tests/progression-integration/assessment-boundary.test.ts` covering
+  assignment/session binding, redacted shadow evidence, ended-session refusal,
+  and activity-kind mismatch refusal.
+- Wired the new database-backed suite into `npm run test:integration` and kept
+  it out of the database-free `npm test`/`verify` suite with an explicit
+  progression test glob.
+- Serialized database-backed integration files to avoid cross-file deadlocks
+  against the shared disposable PostgreSQL database.
+- Reconciled the ADR's historical D-01 wording with the authoritative
+  held-out decision matrix and corrected the acceptance-test section's stale
+  statement that no acceptance tests existed.
+- `npm test` passed with 110 tests; `npm run test:integration` passed with 41
+  tests; `npm run verify` passed with the production build. C4 and the manual
+  independent/content gates remain closed.
+
 ## 2026-09-20 — C3/C4 operational unblock bundle (items 1–4)
 
 - Added an exact-ID legacy-session drain service and operator command. It only
