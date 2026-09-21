@@ -12,7 +12,7 @@ import { prisma } from '../server/prisma';
 import type { AssessmentStore, HeldOutAssessmentBank } from '../assessment/store';
 import { createAssessmentStore } from '../assessment/store';
 import { reassessmentEligibility, type ReassessmentRun } from './reassessment';
-import { buildShadowDecision } from './shadow';
+import { buildShadowDecision, persistShadowNonEnforcing } from './shadow';
 import { expireAssessment } from './assessment-submission';
 import { isTerminalAssessmentStatus } from './assessment-state';
 
@@ -131,10 +131,13 @@ export async function createAssessmentAssignment(
   input: CreateAssessmentAssignmentInput,
   store: AssessmentStore = createAssessmentStore(),
   database: PrismaClient = prisma,
+  persistShadow: (rows: readonly Prisma.ShadowDecisionCreateManyInput[]) => Promise<unknown> = (
+    rows,
+  ) => database.shadowDecision.createMany({ data: [...rows] }),
 ) {
   const bank = await store.getBank(input.bankRef);
 
-  return database.$transaction(
+  const result = await database.$transaction(
     async (transaction) => {
       const replay = await transaction.assessmentAssignment.findUnique({
         where: {
@@ -309,52 +312,55 @@ export async function createAssessmentAssignment(
               activityKind: sessionActivityKind(input.kind),
               targetCode: input.targetRef.code,
               targetVersion: input.targetRef.version,
+              policyProfileCode: input.policyProfileRef.code,
               policyProfileVersion: input.policyProfileRef.version,
             },
           },
         },
         include: { runState: true, lease: true, sessions: true },
       });
-      if (input.shadow) {
-        const prerequisiteCodes = [
-          ...new Set(
-            input.shadow.skillCodes.flatMap(
-              (skillCode) => input.shadow?.prerequisiteSkillCodes[skillCode] ?? [],
-            ),
-          ),
-        ];
-        const priorMastery = await transaction.masteryEstimate.findMany({
-          where: {
-            learnerProfileId: input.learnerProfileId,
-            algorithmVersion: input.algorithmVersion,
-            skillCode: { in: prerequisiteCodes },
-            estimate: { gte: input.shadow.policyProfile.minEstimateGate },
-          },
-          select: { skillCode: true },
-        });
-        const masteredSkillCodes = new Set(priorMastery.map((record) => record.skillCode));
-        await transaction.shadowDecision.createMany({
-          data: input.shadow.skillCodes.map((skillCode) => ({
-            householdId: input.householdId,
-            learnerProfileId: input.learnerProfileId,
-            ...buildShadowDecision({
-              requestKind: input.shadow!.requestKind,
-              targetCode: input.targetRef.code,
-              targetVersion: input.targetRef.version,
-              skillCode,
-              activityKind: input.shadow!.activityKind,
-              prerequisiteSkillCodes: input.shadow!.prerequisiteSkillCodes[skillCode] ?? [],
-              masteredSkillCodes,
-              accessPolicy: input.shadow!.accessPolicy,
-              policyProfile: input.shadow!.policyProfile,
-              actualBehavior: 'ALLOWED',
-              algorithmVersion: input.algorithmVersion,
-            }),
-          })),
-        });
-      }
       return { assignment, replayed: false };
     },
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
   );
+
+  if (!result.replayed && input.shadow) {
+    await persistShadowNonEnforcing(async () => {
+      const shadow = input.shadow!;
+      const prerequisiteCodes = [
+        ...new Set(
+          shadow.skillCodes.flatMap((skillCode) => shadow.prerequisiteSkillCodes[skillCode] ?? []),
+        ),
+      ];
+      const priorMastery = await database.masteryEstimate.findMany({
+        where: {
+          learnerProfileId: input.learnerProfileId,
+          algorithmVersion: input.algorithmVersion,
+          skillCode: { in: prerequisiteCodes },
+          estimate: { gte: shadow.policyProfile.minEstimateGate },
+        },
+        select: { skillCode: true },
+      });
+      const masteredSkillCodes = new Set(priorMastery.map((record) => record.skillCode));
+      const shadowRows = shadow.skillCodes.map((skillCode) => ({
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        ...buildShadowDecision({
+          requestKind: shadow.requestKind,
+          targetCode: input.targetRef.code,
+          targetVersion: input.targetRef.version,
+          skillCode,
+          activityKind: shadow.activityKind,
+          prerequisiteSkillCodes: shadow.prerequisiteSkillCodes[skillCode] ?? [],
+          masteredSkillCodes,
+          accessPolicy: shadow.accessPolicy,
+          policyProfile: shadow.policyProfile,
+          actualBehavior: 'ALLOWED',
+          algorithmVersion: input.algorithmVersion,
+        }),
+      }));
+      if (shadowRows.length > 0) await persistShadow(shadowRows);
+    });
+  }
+  return { assignment: result.assignment, replayed: result.replayed };
 }

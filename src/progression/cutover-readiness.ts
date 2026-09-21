@@ -41,8 +41,9 @@ export function summarizeCutoverReadiness(input: {
 /**
  * Reads the expand/drain and shadow-review evidence without returning
  * household or learner identifiers. An open session is unbound when any
- * nullable progression binding is missing; this intentionally uses the
- * stronger all-bindings-present condition and invents no activity timeout.
+ * nullable progression binding is missing. Assessment activities require an
+ * assignment; ordinary practice/teaching sessions do not. This invents no
+ * activity timeout.
  */
 export async function readCutoverReadiness(
   database: PrismaClient = prisma,
@@ -56,7 +57,23 @@ export async function readCutoverReadiness(
           { activityKind: null },
           { targetCode: null },
           { targetVersion: null },
-          { assignmentId: null },
+          {
+            AND: [
+              {
+                activityKind: {
+                  in: [
+                    'PLACEMENT',
+                    'LESSON_ASSESSMENT',
+                    'UNIT_ASSESSMENT',
+                    'DELAYED_CHECK',
+                    'REVIEW',
+                  ],
+                },
+              },
+              { assignmentId: null },
+            ],
+          },
+          { policyProfileCode: null },
           { policyProfileVersion: null },
         ],
       },

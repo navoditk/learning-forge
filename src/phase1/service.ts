@@ -14,7 +14,7 @@ import { programsByCode } from '../curriculum/program-registry';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
 import { loadPolicyArtifacts } from '../progression/artifacts';
-import { buildShadowDecision } from '../progression/shadow';
+import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
 import { policyHash, resolvePolicyProfile } from '../progression/policy';
 import type { ActivityKind } from '../contracts/policy';
 import { prisma } from '../server/prisma';
@@ -174,11 +174,15 @@ export async function startSession(
         activityKind,
         targetCode: content.id,
         targetVersion: content.version,
+        policyProfileCode: programsByCode.get(program)?.defaultPolicyProfileRef.code,
         policyProfileVersion: '1.0.0',
       },
     }));
-  if (!existing)
-    await writeShadowDecision(identity, program, content.id, content.version, activityKind);
+  if (!existing) {
+    await persistShadowNonEnforcing(() =>
+      writeShadowDecision(identity, program, content.id, content.version, activityKind),
+    );
+  }
   const state = await getSessionState(identity, session.id);
   return {
     sessionId: session.id,

@@ -61,6 +61,13 @@ describe('household export and deletion', () => {
       },
     });
     attemptId = attempt.id;
+    await prisma.assistanceEvent.create({
+      data: {
+        attemptId: attempt.id,
+        level: 'GUIDED_FULL_SOLUTION',
+        interactionType: 'SOLUTION',
+      },
+    });
     await prisma.tutorTrace.create({
       data: {
         householdId,
@@ -95,6 +102,7 @@ describe('household export and deletion', () => {
     expect(exported.users[0]).not.toHaveProperty('passwordHash');
     expect(JSON.stringify(exported)).not.toContain('must-not-export');
     expect(exported.attempts[0].id).toBe(attemptId);
+    expect(exported.attempts[0].highestAssistance).toBe('GUIDED_FULL_SOLUTION');
     expect(exported).toMatchObject({
       assessmentAssignments: [],
       assessmentResults: [],

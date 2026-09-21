@@ -319,6 +319,7 @@ export async function submitAssessmentItem(
           learnerProfileId: input.learnerProfileId,
           lessonCode: assignment.targetCode,
           lessonVersion: assignment.targetVersion,
+          policyProfileCode: assignment.policyProfileCode,
           policyProfileVersion: assignment.policyProfileVersion,
           outcome,
           firstRun: assignment.attemptOrdinal === 1,

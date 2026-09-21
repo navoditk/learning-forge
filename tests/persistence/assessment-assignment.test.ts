@@ -128,6 +128,7 @@ describe('assessment assignment persistence', () => {
 
     const session = first.assignment.sessions[0];
     if (!session) throw new Error('Assessment session was not created');
+    expect(session.policyProfileCode).toBe('grade-6-math-default');
     const submitted = await submitAssessmentItem(
       {
         householdId,
@@ -156,6 +157,31 @@ describe('assessment assignment persistence', () => {
     expect(
       await prisma.activeAssessmentLease.count({ where: { householdId, releasedAt: null } }),
     ).toBe(0);
+
+    const assignmentWithShadowFailure = await createAssessmentAssignment(
+      { ...input, idempotencyKey: 'assignment-shadow-failure' },
+      store,
+      prisma,
+      async () => {
+        throw new Error('shadow store unavailable');
+      },
+    );
+    expect(assignmentWithShadowFailure.replayed).toBe(false);
+    expect(
+      await prisma.assessmentAssignment.findUnique({
+        where: { id: assignmentWithShadowFailure.assignment.id },
+      }),
+    ).not.toBeNull();
+    expect(
+      await prisma.shadowDecision.count({
+        where: { householdId, requestKind: 'test-assessment-assignment' },
+      }),
+    ).toBe(1);
+    await abandonAssessmentRun({
+      householdId,
+      learnerProfileId,
+      assignmentId: assignmentWithShadowFailure.assignment.id,
+    });
   });
 
   it('rejects conflicting idempotency and a second active target', async () => {

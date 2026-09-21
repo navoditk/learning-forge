@@ -64,6 +64,7 @@ export async function applyPilotLessonAssessmentOutcome(
     learnerProfileId: string;
     lessonCode: string;
     lessonVersion: string;
+    policyProfileCode: string;
     policyProfileVersion: string;
     outcome: AssessmentOutcome;
     firstRun: boolean;
@@ -109,6 +110,7 @@ export async function applyPilotLessonAssessmentOutcome(
     update: {
       completionStatus: next.completionStatus,
       remediationStatus: next.remediationStatus,
+      policyProfileCode: input.policyProfileCode,
       policyProfileVersion: input.policyProfileVersion,
       assessmentPassedAt: input.outcome === 'PASS' ? input.now : current?.assessmentPassedAt,
     },
@@ -119,6 +121,7 @@ export async function applyPilotLessonAssessmentOutcome(
       lessonVersion: input.lessonVersion,
       completionStatus: next.completionStatus,
       remediationStatus: next.remediationStatus,
+      policyProfileCode: input.policyProfileCode,
       policyProfileVersion: input.policyProfileVersion,
       assessmentPassedAt: input.outcome === 'PASS' ? input.now : null,
     },
@@ -146,7 +149,11 @@ export async function applyPilotLessonAssessmentOutcome(
         unitVersion: unit.version,
       },
     },
-    update: { completionStatus: unitStatus, policyProfileVersion: input.policyProfileVersion },
+    update: {
+      completionStatus: unitStatus,
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
+    },
     create: {
       householdId: input.householdId,
       learnerProfileId: input.learnerProfileId,
@@ -154,6 +161,7 @@ export async function applyPilotLessonAssessmentOutcome(
       unitVersion: unit.version,
       completionStatus: unitStatus,
       overrideStatus: 'NONE',
+      policyProfileCode: input.policyProfileCode,
       policyProfileVersion: input.policyProfileVersion,
       enteredAt: input.now,
     },
@@ -241,6 +249,7 @@ export async function applyPilotUnitAssessmentOutcome(
       update: {
         completionStatus: 'COMPLETE_BY_SKIP',
         remediationStatus: 'NONE',
+        policyProfileCode: input.policyProfileCode,
         policyProfileVersion: input.policyProfileVersion,
         assessmentPassedAt: input.now,
       },
@@ -251,6 +260,7 @@ export async function applyPilotUnitAssessmentOutcome(
         lessonVersion: lesson.version,
         completionStatus: 'COMPLETE_BY_SKIP',
         remediationStatus: 'NONE',
+        policyProfileCode: input.policyProfileCode,
         policyProfileVersion: input.policyProfileVersion,
         assessmentPassedAt: input.now,
       },

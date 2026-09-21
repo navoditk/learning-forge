@@ -20,6 +20,7 @@ import {
   validateProgressionCatalog,
 } from '../../src/curriculum/progression-catalog';
 import { PROGRAM_CODES } from '../../src/contracts/program-codes';
+import { PILOT_LESSONS } from '../../src/curriculum/pilot-catalog';
 
 const review = {
   status: 'reviewed' as const,
@@ -63,6 +64,10 @@ describe('course progression contracts', () => {
 
   it('keeps the registry and curriculum program vocabulary in one source', () => {
     expect(new Set(PROGRAM_REGISTRY.map(({ code }) => code))).toEqual(new Set(PROGRAM_CODES));
+  });
+
+  it('rejects a lesson-level sequence because ordering belongs to the unit spine', () => {
+    expect(LessonSchema.safeParse({ ...PILOT_LESSONS[0], sequence: 1 }).success).toBe(false);
   });
 
   it('accepts teaching records and rejects assessment records without a bank reference', () => {

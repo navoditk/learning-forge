@@ -1,5 +1,30 @@
 # Progress
 
+## 2026-09-21 — Independent C1–C3 review remediation
+
+- The independent fourth-draft review returned findings without approving C4.
+- Made C3 shadow persistence genuinely non-enforcing: shadow computation and
+  writes now occur after the learner/assignment transaction and failures are
+  recorded only through structured, redacted diagnostics. Added failure-
+  injection coverage proving an assessment assignment still commits when its
+  shadow writer fails.
+- Added policy-profile code pins to sessions and learner unit/lesson state via
+  additive migration `0011_add_policy_profile_code_pins`; new progression
+  writers populate code and version together.
+- Corrected C4 readiness/drain classification so assignment IDs are required
+  for assessment activities but not ordinary practice sessions. Added boundary
+  tests for both cases.
+- Household export now derives maximum assistance from assistance-event
+  ordinals instead of trusting the persisted summary column, with a regression
+  fixture where the stored summary is stale.
+- Reconciled stale D-01/open-decision wording in the architecture, ADR, and
+  decision index. C4 remains closed: representative shadow traffic,
+  disposition, the private reviewed package, and manual approvals are still
+  outstanding.
+- Validation: `npm run verify` passed (110 DB-free tests and production build),
+  `npm run test:integration` passed (41 tests), and `npm run test:e2e` passed
+  (22 tests, 1 intentional private-package skip).
+
 ## 2026-09-20 — Progression integration-gate remediation
 
 - Added `tests/progression-integration/assessment-boundary.test.ts` covering

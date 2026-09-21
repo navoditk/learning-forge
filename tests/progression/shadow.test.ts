@@ -1,10 +1,27 @@
 import { describe, expect, it } from 'vitest';
 
 import { loadPolicyArtifacts } from '../../src/progression/artifacts';
-import { buildShadowDecision, buildShadowReviewPacket } from '../../src/progression/shadow';
+import {
+  buildShadowDecision,
+  buildShadowReviewPacket,
+  persistShadowNonEnforcing,
+} from '../../src/progression/shadow';
 import { policyHash } from '../../src/progression/policy';
 
 describe('progression shadow decisions', () => {
+  it('does not propagate persistence failures into learner behavior', async () => {
+    const diagnostics: unknown[] = [];
+    await expect(
+      persistShadowNonEnforcing(
+        async () => {
+          throw new Error('database unavailable');
+        },
+        (error) => diagnostics.push(error),
+      ),
+    ).resolves.toBe(false);
+    expect(diagnostics).toHaveLength(1);
+  });
+
   it('records divergence without changing the actual legacy behavior', () => {
     const { profiles, accessPolicies } = loadPolicyArtifacts();
     const profile = profiles.find((candidate) => candidate.code === 'grade-6-math-default');

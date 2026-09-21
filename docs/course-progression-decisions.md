@@ -695,8 +695,9 @@ rather than assumed.
 
 ## I. Index of open decisions
 
-Sixty-one decisions total; twelve are approved and forty-nine remain open. Grouped
-by what they block:
+Sixty-one decisions total; all sixty-one are approved. The grouping below is a
+historical map of which implementation gates each decision originally blocked;
+it is not an open-decision list.
 
 | Blocks | Decisions |
 |---|---|

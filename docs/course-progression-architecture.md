@@ -565,8 +565,10 @@ Existing records migrate to `role: "practice"` as a mechanical relabelling
 
 ## 4.3 Assessment exposure
 
-`D-01` is **open** and is a **discriminated union**: choosing it selects an
-entire coherent configuration, not one setting.
+`D-01` is a **discriminated union**: choosing it selects an entire coherent
+configuration, not one setting. The authoritative decision matrix has resolved
+the pilot to Branch B (held-out); the table below remains branch-aware so a
+future program cannot silently inherit the pilot's storage choice.
 
 **The canonical definition of both branches is the table in
 `docs/course-progression-decisions.md` under "D-01 is a discriminated union".**
@@ -2255,8 +2257,8 @@ served. A green command output is not a substitute for any of them.
 **Not decided here.** Every numeric threshold, pass bar, window, interval,
 weight, volume, rollout choice, and content-policy question is in
 `docs/course-progression-decisions.md` as `D-01` … `D-61`; approved values are
-read from that matrix and the remaining entries stay open. This document must
-not be read as approving any still-open value.
+  read from that matrix. This document must not be read as independently
+  approving a value or as authorization to cross the release gates.
 
 In particular **`D-01` is approved as Branch B — held-out**. Its store is
 approved as `D-02` Option A, and the six existing ratios records remain public

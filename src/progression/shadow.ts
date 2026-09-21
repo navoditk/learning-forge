@@ -2,6 +2,28 @@ import { AccessPolicy, ActivityKind, ProgressionPolicyProfile } from '../contrac
 import { authorizeActivity } from './policy';
 import { policyHash } from './policy';
 
+/**
+ * Shadow mode is diagnostic only. A persistence failure must never change the
+ * outcome of the learner operation that produced the observation.
+ */
+export async function persistShadowNonEnforcing<T>(
+  write: () => Promise<T>,
+  onFailure: (error: unknown) => void = (error) => {
+    // Keep diagnostics structured and free of request text or learner data.
+    console.error('Progression shadow persistence failed', {
+      errorType: error instanceof Error ? error.name : 'UnknownError',
+    });
+  },
+): Promise<boolean> {
+  try {
+    await write();
+    return true;
+  } catch (error) {
+    onFailure(error);
+    return false;
+  }
+}
+
 export type ShadowDecisionInput = {
   requestKind: string;
   targetCode: string;

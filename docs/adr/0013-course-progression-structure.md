@@ -83,12 +83,12 @@ Introduce course progression built from six commitments.
    assessment or review item is ever published** on the public site.
 
    Whether assessment items additionally live outside the public repository is
-   `D-01`, which remains **open**. The architecture specifies two complete,
+   `D-01`, which the authoritative decision matrix has resolved to Branch B
+   (held-out) for the pilot. The architecture specifies two complete,
    parallel branches — open-book (§4.3A) and held-out (§4.3B) — including their
    different mastery claims, whether the `HIGH` confidence band is reachable at
    all, the different context weighting, and two different leakage test sets.
-   Held-out is **recommended**, not chosen; this ADR does not commit to it and
-   nothing downstream assumes it.
+   This ADR remains proposed pending the independent and manual release review.
 
 4. **Authorization is always on and fail-closed for every mutation endpoint**,
    including programs with no units. It is evaluated against an explicit tuple
@@ -138,8 +138,9 @@ Introduce course progression built from six commitments.
 
 - This ADR implements nothing. No runtime code, schema migration, dependency,
   or lesson/assessment content is introduced by the architecture phase.
-- **It does not decide `D-01`.** Open-book and held-out are both fully
-  specified; neither is assumed anywhere in the architecture.
+- **The historical draft did not decide `D-01`.** The current authoritative
+  matrix now resolves the pilot to Branch B (held-out); open-book and held-out
+  remain fully specified for future compatibility.
 - **It chooses no parameter value.** All sixty-one human-gated decisions —
   including open-book versus held-out (`D-01`), the held-out store mechanism
   (`D-02`), every mastery weight and threshold (`D-07` … `D-20`), the ordinary
@@ -248,7 +249,8 @@ Reversal signals:
   twenty-seven-item current-behavior inventory, the staged pilot, and the
   acceptance tests.
 - `docs/course-progression-decisions.md` — the authoritative decision matrix,
-  `D-01` … `D-61`, all open.
+  `D-01` … `D-61`, all approved in the authoritative matrix. This ADR does not
+  independently authorize the release gate.
 - `.github/skills/course-progression-design/SKILL.md` — the durable procedure.
 - ADR-0006 (skill graph as versioned code), ADR-0007 (sessions generalized to
   any content item), ADR-0009/0011 (provider boundary).

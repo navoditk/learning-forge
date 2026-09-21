@@ -7,13 +7,22 @@ export function isUnboundSession(session: {
   targetCode: string | null;
   targetVersion: string | null;
   assignmentId: string | null;
+  policyProfileCode?: string | null;
   policyProfileVersion: string | null;
 }) {
+  const requiresAssignment = [
+    'PLACEMENT',
+    'LESSON_ASSESSMENT',
+    'UNIT_ASSESSMENT',
+    'DELAYED_CHECK',
+    'REVIEW',
+  ].includes(String(session.activityKind));
   return (
     session.activityKind === null ||
     session.targetCode === null ||
     session.targetVersion === null ||
-    session.assignmentId === null ||
+    (requiresAssignment && session.assignmentId === null) ||
+    session.policyProfileCode == null ||
     session.policyProfileVersion === null
   );
 }
@@ -42,6 +51,7 @@ export async function drainUnboundLegacySessions(
         targetCode: true,
         targetVersion: true,
         assignmentId: true,
+        policyProfileCode: true,
         policyProfileVersion: true,
       },
     });
