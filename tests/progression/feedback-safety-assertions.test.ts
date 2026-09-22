@@ -10,4 +10,8 @@ describe('feedback safety assertions', () => {
   it('does not treat ISO timestamps as answer leakage', () => {
     expect(containsSensitiveFeedback({ scoredAt: '2026-09-22T01:03:44.000Z' })).toBe(false);
   });
+
+  it('still scans non-timestamp values under temporal-looking keys', () => {
+    expect(containsSensitiveFeedback({ scoredAt: 'The answer is 2:3.' })).toBe(true);
+  });
 });
