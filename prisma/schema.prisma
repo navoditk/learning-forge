@@ -329,6 +329,18 @@ model Attempt {
   @@index([householdId, createdAt])
 }
 
+/// Immutable content snapshots retained for version-pinned evidence and tutor reads.
+model ContentArchive {
+  id             String   @id @default(uuid())
+  contentKey     String
+  contentVersion String
+  content        Json
+  archivedAt     DateTime @default(now())
+
+  @@unique([contentKey, contentVersion])
+  @@index([contentKey])
+}
+
 model AssistanceEvent {
   id              String               @id @default(uuid())
   attemptId       String

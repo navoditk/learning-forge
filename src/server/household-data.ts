@@ -71,6 +71,9 @@ export const HOUSEHOLD_DATA_MODEL_COVERAGE = {
     'LearningEvent',
     'ShadowDecision',
   ],
+  // Global, immutable curriculum snapshots are intentionally not exported or
+  // deleted with a household. They contain no learner or household data.
+  global: ['ContentArchive'],
 } as const;
 
 export function isHouseholdDeletionConfirmed(confirmation: unknown): boolean {

@@ -14,6 +14,7 @@
     "db:generate": "prisma generate",
     "db:seed": "docker compose exec -T db psql -U learning_forge -d learning_forge -v ON_ERROR_STOP=1 -f - < prisma/seed.sql",
     "db:validate": "prisma validate",
+    "content:archive": "tsx scripts/archive-content-catalog.ts",
     "db:rollback": "bash scripts/db-rollback.sh",
     "db:check-down-migrations": "bash scripts/check-migration-down.sh",
     "test:migrations": "bash scripts/test-migrations.sh",

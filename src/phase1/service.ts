@@ -1,12 +1,8 @@
 import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
-import {
-  contentCatalog,
-  contentSkillCode,
-  historicalContentCatalog,
-  servableContentCatalog,
-} from '../content/catalog';
-import { resolveActive, resolveHistorical } from '../content/resolvers';
+import { contentCatalog, contentSkillCode, servableContentCatalog } from '../content/catalog';
+import { resolveArchivedContent } from '../content/archive';
+import { resolveActive } from '../content/resolvers';
 import {
   CurriculumProgram,
   PlannerContentItem,
@@ -16,13 +12,12 @@ import {
   WeeklyDigestSkillInput,
 } from '../contracts';
 import { skillCatalog, skillsByCode, topologicalSkillOrder } from '../curriculum';
-import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
 import { programsByCode } from '../curriculum/program-registry';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
 import { loadPolicyArtifacts } from '../progression/artifacts';
 import { deriveHighestAssistance } from '../progression/assistance';
-import { lessonStateAfterReviewLapse } from '../progression/learner-state';
+import { applyReviewLapse } from '../progression/learner-state';
 import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
 import { policyHash, resolvePolicyProfile } from '../progression/policy';
 import type { ActivityKind } from '../contracts/policy';
@@ -54,13 +49,16 @@ function resolveContent(contentId?: string) {
   }
 }
 
-function resolveHistoricalContent(contentId: string, contentVersion?: string | null) {
+async function resolveHistoricalContent(contentId: string, contentVersion?: string | null) {
   if (!contentVersion) return resolveContent(contentId);
-  return resolveHistorical(historicalContentCatalog, contentId, contentVersion);
+  const local = contentCatalog.find(
+    (item) => item.id === contentId && item.version === contentVersion,
+  );
+  return local ?? (await resolveArchivedContent(prisma, contentId, contentVersion));
 }
 
-function requireHistoricalContent(contentId: string, contentVersion?: string | null) {
-  const item = resolveHistoricalContent(contentId, contentVersion);
+async function requireHistoricalContent(contentId: string, contentVersion?: string | null) {
+  const item = await resolveHistoricalContent(contentId, contentVersion);
   if (!item) throw new Error(`Unknown content: ${contentId}@${contentVersion}`);
   return item;
 }
@@ -558,7 +556,7 @@ async function findAttempt(identity: HouseholdIdentity, attemptId: string) {
 
 export async function getTutorContext(identity: HouseholdIdentity, attemptId: string) {
   const attempt = await findAttempt(identity, attemptId);
-  const content = requireHistoricalContent(attempt.contentKey, attempt.contentVersion);
+  const content = await requireHistoricalContent(attempt.contentKey, attempt.contentVersion);
   const interactions = await prisma.tutorInteraction.findMany({
     where: {
       attemptId: attempt.id,
@@ -703,6 +701,8 @@ export async function recordReviewAttempt(
     },
   });
   if (!session) throw new Error('Session not found');
+  if (session.endedAt) throw new Error('Review session ended');
+  if (session.activityKind !== 'REVIEW') throw new Error('Review session kind mismatch');
   const content = resolveContent(session.contentKey);
   const mastery = await prisma.masteryEstimate.findUnique({
     where: {
@@ -733,28 +733,16 @@ export async function recordReviewAttempt(
   // unlike recordIndependentCheck's session, which only ends on success.
   await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
   if (result.correctness !== 'CORRECT') {
-    const lessonCodes = PILOT_LESSONS.filter((lesson) =>
-      lesson.skillRefs.some((skillRef) => skillRef.code === contentSkillCode(content)),
-    ).map((lesson) => lesson.code);
-    if (lessonCodes.length > 0) {
-      const lessonStates = await prisma.learnerLessonState.findMany({
-        where: {
-          learnerProfileId: identity.learnerProfileId,
-          lessonCode: { in: lessonCodes },
-        },
-        select: { id: true, completionStatus: true, remediationStatus: true },
-      });
-      for (const state of lessonStates) {
-        const next = lessonStateAfterReviewLapse(state);
-        await prisma.learnerLessonState.update({
-          where: { id: state.id },
-          data: {
-            completionStatus: next.completionStatus,
-            remediationStatus: next.remediationStatus,
-          },
-        });
-      }
-    }
+    await prisma.$transaction((transaction) =>
+      applyReviewLapse(transaction, {
+        householdId: identity.householdId,
+        learnerProfileId: identity.learnerProfileId,
+        skillRefs: [content.skillRef],
+        policyProfileCode: session.policyProfileCode ?? 'grade-6-math-default',
+        policyProfileVersion: session.policyProfileVersion ?? '1.0.0',
+        now: new Date(),
+      }),
+    );
   }
   return result;
 }
@@ -882,13 +870,15 @@ export async function getParentEvidence(identity: HouseholdIdentity) {
   ]);
   return {
     learnerName: 'Learner',
-    attempts: attempts.map(({ assistanceEvents, ...attempt }) => ({
-      ...attempt,
-      contentLabel:
-        resolveHistoricalContent(attempt.contentKey, attempt.contentVersion)?.title ??
-        'Retired item',
-      highestAssistance: deriveHighestAssistance(assistanceEvents),
-    })),
+    attempts: await Promise.all(
+      attempts.map(async ({ assistanceEvents, ...attempt }) => ({
+        ...attempt,
+        contentLabel:
+          (await resolveHistoricalContent(attempt.contentKey, attempt.contentVersion))?.title ??
+          'Retired item',
+        highestAssistance: deriveHighestAssistance(assistanceEvents),
+      })),
+    ),
     mastery,
   };
 }
@@ -898,7 +888,7 @@ export async function getWeeklyDigest(identity: HouseholdIdentity) {
 
   const attemptsBySkill = new Map<string, WeeklyDigestAttemptSummary[]>();
   for (const attempt of evidence.attempts) {
-    const content = resolveHistoricalContent(attempt.contentKey, attempt.contentVersion);
+    const content = await resolveHistoricalContent(attempt.contentKey, attempt.contentVersion);
     if (!content) continue;
     const skillCode = contentSkillCode(content);
     const list = attemptsBySkill.get(skillCode) ?? [];
@@ -1054,7 +1044,7 @@ export async function getLearnerProgress(
     achievedAt: Date;
   }[] = [];
   for (const attempt of confirmingAttempts) {
-    const content = resolveHistoricalContent(attempt.contentKey, attempt.contentVersion);
+    const content = await resolveHistoricalContent(attempt.contentKey, attempt.contentVersion);
     if (!content) continue;
     const skillCode = contentSkillCode(content);
     if (!catalog.skillCodes.has(skillCode)) continue;

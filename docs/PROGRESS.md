@@ -2,11 +2,16 @@
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 
-- An incorrect spaced review now activates remediation for matching pilot
-  lessons without erasing the learner's historical completion status.
+- An incorrect, correctly bound spaced review now activates remediation for
+  matching pilot lessons without erasing the learner's historical completion
+  status; practice and ended sessions cannot be reinterpreted as reviews.
 - Added pure state-machine and database-backed vertical-slice coverage for
-  both `COMPLETE` and `COMPLETE_BY_SKIP` states. `npm run verify` passes 230
-  tests and a production build; integration passes 46 tests; browser tests
+  `COMPLETE` (with `COMPLETE_BY_SKIP` covered by the pure transition test).
+  Assignment-backed review lapses now update the exact skill/version schedule
+  and lesson state in the same transaction. A reversible `ContentArchive`
+  table and `npm run content:archive` provide durable version-pinned reads.
+  `npm run verify` passes 230 tests and a production build; integration passes
+  51 tests; browser tests
   pass 24 with one intentional skip. C4 remains closed.
 
 ## 2026-09-21 — Active and historical content resolution

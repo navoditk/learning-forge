@@ -611,7 +611,10 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
           policyProfileVersion: '1.0.0',
         },
       });
-      const session = await startSession(identity, { contentId: 'ratio-language-1' });
+      const session = await startSession(identity, {
+        contentId: 'ratio-language-1',
+        activityKind: 'REVIEW',
+      });
       const passed = await recordReviewAttempt(identity, {
         sessionId: session.sessionId,
         learnerResponse: '2:3',
@@ -645,7 +648,10 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
           ),
         },
       });
-      const secondSession = await startSession(identity, { contentId: 'ratio-language-2' });
+      const secondSession = await startSession(identity, {
+        contentId: 'ratio-language-2',
+        activityKind: 'REVIEW',
+      });
       const failed = await recordReviewAttempt(identity, {
         sessionId: secondSession.sessionId,
         learnerResponse: 'not a ratio',
@@ -682,10 +688,38 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     });
 
     it('rejects a review for a skill whose mastery has never been independently confirmed', async () => {
-      const session = await startSession(identity, { contentId: 'unit-rates-1' });
+      const session = await startSession(identity, {
+        contentId: 'unit-rates-1',
+        activityKind: 'REVIEW',
+      });
       await expect(
         recordReviewAttempt(identity, { sessionId: session.sessionId, learnerResponse: '15' }),
       ).rejects.toThrow('Review is not available for this skill');
+    });
+
+    it('does not reinterpret practice or ended sessions as reviews', async () => {
+      const practiceSession = await startSession(identity, { contentId: 'ratio-language-1' });
+      await expect(
+        recordReviewAttempt(identity, {
+          sessionId: practiceSession.sessionId,
+          learnerResponse: '2:3',
+        }),
+      ).rejects.toThrow('Review session kind mismatch');
+
+      const endedReview = await startSession(identity, {
+        contentId: 'ratio-language-1',
+        activityKind: 'REVIEW',
+      });
+      await prisma.session.update({
+        where: { id: endedReview.sessionId },
+        data: { endedAt: new Date() },
+      });
+      await expect(
+        recordReviewAttempt(identity, {
+          sessionId: endedReview.sessionId,
+          learnerResponse: '2:3',
+        }),
+      ).rejects.toThrow('Review session ended');
     });
   });
 

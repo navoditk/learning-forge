@@ -14,6 +14,7 @@ import { isTerminalAssessmentStatus, transitionAssessmentRun } from './assessmen
 import {
   applyPilotLessonAssessmentOutcome,
   applyPilotUnitAssessmentOutcome,
+  applyReviewLapse,
 } from './learner-state';
 import { assessmentPasses } from './assessment-scoring';
 import { deriveHighestAssistance } from './assistance';
@@ -314,6 +315,25 @@ export async function submitAssessmentItem(
           policyProfileHash: assignment.policyProfileHash,
         },
       });
+      if (assignment.kind === 'REVIEW' && outcome === 'FAIL') {
+        const lapsedSkillRefs = itemResults.flatMap((itemResult) => {
+          if (itemResult.correctness === 'CORRECT') return [];
+          const bankItem = bank.items.find(
+            (candidate) =>
+              candidate.id === itemResult.contentId &&
+              candidate.version === itemResult.contentVersion,
+          );
+          return bankItem ? [bankItem.skillRef] : [];
+        });
+        await applyReviewLapse(transaction, {
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+          skillRefs: lapsedSkillRefs,
+          policyProfileCode: assignment.policyProfileCode,
+          policyProfileVersion: assignment.policyProfileVersion,
+          now,
+        });
+      }
       if (assignment.kind === 'LESSON_ASSESSMENT') {
         await applyPilotLessonAssessmentOutcome(transaction, {
           householdId: input.householdId,

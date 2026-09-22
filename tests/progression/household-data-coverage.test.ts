@@ -8,8 +8,11 @@ describe('household data privacy coverage', () => {
     const prismaModels = new Set(Prisma.dmmf.datamodel.models.map((model) => model.name));
     const exportModels = new Set(HOUSEHOLD_DATA_MODEL_COVERAGE.export);
     const deleteModels = new Set(HOUSEHOLD_DATA_MODEL_COVERAGE.delete);
+    const globalModels = new Set<string>(HOUSEHOLD_DATA_MODEL_COVERAGE.global);
 
-    expect(exportModels).toEqual(prismaModels);
-    expect(deleteModels).toEqual(prismaModels);
+    expect(new Set([...exportModels, ...globalModels])).toEqual(prismaModels);
+    expect(new Set([...deleteModels, ...globalModels])).toEqual(prismaModels);
+    expect([...exportModels].some((model) => globalModels.has(model))).toBe(false);
+    expect([...deleteModels].some((model) => globalModels.has(model))).toBe(false);
   });
 });

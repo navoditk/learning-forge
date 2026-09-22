@@ -1,5 +1,24 @@
 # Independent fourth-draft / C1–C3 review result
 
+## Fresh read-only review of `5020ea2`
+
+The independent reviewer completed a read-only review of the exact pushed
+checkpoint. Automated checks covering U1–U6, U28–U31, and the named U41–U48
+suites passed, but the implementation was **not ready for human approval**.
+C4 remains closed.
+
+Findings requiring remediation were:
+
+- Review attempts must require an open `REVIEW` session; practice and ended
+  sessions must not be reinterpreted as reviews.
+- Assignment-backed review submissions did not update
+  `ReviewSchedule.lastOutcome` or scoped lesson remediation.
+- Lapse remediation needed exact skill/version scoping and stronger
+  persistence evidence; the archived-content fallback was still process-local.
+- Prior selective U41–U48 evidence gaps remain open.
+
+No independent reviewer or manual-gate approval was granted.
+
 ## Fresh read-only review of `6783333`
 
 The independent reviewer re-checked the pushed checkpoint and returned

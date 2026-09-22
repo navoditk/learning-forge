@@ -244,6 +244,117 @@ describe('assessment assignment persistence', () => {
     ).toEqual({ outcome: 'INCONCLUSIVE' });
   });
 
+  it('scopes a failed assignment-backed review lapse to the tested skill version', async () => {
+    await prisma.reviewSchedule.upsert({
+      where: {
+        learnerProfileId_skillCode_skillVersion: {
+          learnerProfileId,
+          skillCode: 'ratio-language',
+          skillVersion: '1.0.0',
+        },
+      },
+      update: { dueAt: new Date(Date.now() - 1_000), lastOutcome: 'PASSED' },
+      create: {
+        householdId,
+        learnerProfileId,
+        skillCode: 'ratio-language',
+        skillVersion: '1.0.0',
+        dueAt: new Date(Date.now() - 1_000),
+        intervalIndex: 0,
+        lastOutcome: 'PASSED',
+        policyProfileCode: 'grade-6-math-default',
+        policyProfileVersion: '1.0.0',
+        scheduleVersion: '1.0.0',
+      },
+    });
+    await prisma.learnerLessonState.upsert({
+      where: {
+        learnerProfileId_lessonCode_lessonVersion: {
+          learnerProfileId,
+          lessonCode: 'ratio-language-lesson',
+          lessonVersion: '1.0.0',
+        },
+      },
+      update: { completionStatus: 'COMPLETE_BY_SKIP', remediationStatus: 'NONE' },
+      create: {
+        householdId,
+        learnerProfileId,
+        lessonCode: 'ratio-language-lesson',
+        lessonVersion: '1.0.0',
+        completionStatus: 'COMPLETE_BY_SKIP',
+        remediationStatus: 'NONE',
+        policyProfileVersion: '1.0.0',
+      },
+    });
+
+    const store = createInMemoryAssessmentStore([
+      {
+        code: 'ratio-review-bank',
+        version: '1.0.0',
+        contentHash: 'sha256:review-bank',
+        items: [assessmentItem],
+      },
+    ]);
+    const assignment = await createAssessmentAssignment(
+      {
+        householdId,
+        learnerProfileId,
+        kind: AssessmentKind.REVIEW,
+        targetKind: ProgressionTargetKind.SKILL,
+        targetRef: { code: 'ratio-language', version: '1.0.0' },
+        bankRef: { code: 'ratio-review-bank', version: '1.0.0' },
+        policyProfileRef: { code: 'grade-6-math-default', version: '1.0.0' },
+        policyProfileHash: 'sha256:policy',
+        algorithmVersion: 'mastery-1',
+        curriculumSnapshotHash: 'sha256:review-bank',
+        itemsPerAttempt: 1,
+        requiredCount: 1,
+        requiredSkillCodes: ['ratio-language'],
+        expiresAt: new Date(Date.now() + 60_000),
+        idempotencyKey: 'review-lapse-assignment',
+      },
+      store,
+    );
+    const session = assignment.assignment.sessions[0];
+    if (!session) throw new Error('Review assessment session was not created');
+    await submitAssessmentItem(
+      {
+        householdId,
+        learnerProfileId,
+        assignmentId: assignment.assignment.id,
+        sessionId: session.id,
+        ordinal: 1,
+        learnerResponse: 'wrong',
+      },
+      store,
+    );
+
+    await expect(
+      prisma.reviewSchedule.findUnique({
+        where: {
+          learnerProfileId_skillCode_skillVersion: {
+            learnerProfileId,
+            skillCode: 'ratio-language',
+            skillVersion: '1.0.0',
+          },
+        },
+        select: { lastOutcome: true, dueAt: true },
+      }),
+    ).resolves.toMatchObject({ lastOutcome: 'LAPSED' });
+    await expect(
+      prisma.learnerLessonState.findUnique({
+        where: {
+          learnerProfileId_lessonCode_lessonVersion: {
+            learnerProfileId,
+            lessonCode: 'ratio-language-lesson',
+            lessonVersion: '1.0.0',
+          },
+        },
+        select: { completionStatus: true, remediationStatus: true },
+      }),
+    ).resolves.toEqual({ completionStatus: 'COMPLETE_BY_SKIP', remediationStatus: 'ACTIVE' });
+  });
+
   it('preserves submitted attempts when an assessment expires', async () => {
     const store = createInMemoryAssessmentStore([
       {

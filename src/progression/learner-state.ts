@@ -39,6 +39,65 @@ export function lessonStateAfterReviewLapse(input: {
   return { completionStatus: input.completionStatus, remediationStatus: 'ACTIVE' };
 }
 
+/** Applies a failed review only to the exact skill/version that was tested. */
+export async function applyReviewLapse(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    skillRefs: readonly { code: string; version: string }[];
+    policyProfileCode: string;
+    policyProfileVersion: string;
+    now: Date;
+  },
+): Promise<void> {
+  for (const skillRef of input.skillRefs) {
+    const schedule = await transaction.reviewSchedule.findUnique({
+      where: {
+        learnerProfileId_skillCode_skillVersion: {
+          learnerProfileId: input.learnerProfileId,
+          skillCode: skillRef.code,
+          skillVersion: skillRef.version,
+        },
+      },
+    });
+    if (schedule) {
+      await transaction.reviewSchedule.update({
+        where: { id: schedule.id },
+        data: { dueAt: input.now, lastOutcome: 'LAPSED' },
+      });
+    }
+
+    for (const lesson of PILOT_LESSONS.filter((candidate) =>
+      candidate.skillRefs.some(
+        (candidateSkill) =>
+          candidateSkill.code === skillRef.code && candidateSkill.version === skillRef.version,
+      ),
+    )) {
+      const state = await transaction.learnerLessonState.findUnique({
+        where: {
+          learnerProfileId_lessonCode_lessonVersion: {
+            learnerProfileId: input.learnerProfileId,
+            lessonCode: lesson.code,
+            lessonVersion: lesson.version,
+          },
+        },
+      });
+      if (!state) continue;
+      const next = lessonStateAfterReviewLapse(state);
+      await transaction.learnerLessonState.update({
+        where: { id: state.id },
+        data: {
+          completionStatus: next.completionStatus,
+          remediationStatus: next.remediationStatus,
+          policyProfileCode: input.policyProfileCode,
+          policyProfileVersion: input.policyProfileVersion,
+        },
+      });
+    }
+  }
+}
+
 export function unitStatusAfterLessonUpdate(
   statuses: readonly LessonCompletionStatus[],
 ): UnitCompletionStatus {
