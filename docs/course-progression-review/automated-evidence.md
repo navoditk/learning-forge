@@ -19,7 +19,7 @@ At the current verified rollout checkpoint (the commit containing this
 evidence refresh):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  209 database-free unit/contract/progression tests, and production build.
+  210 database-free unit/contract/progression tests, and production build.
 - `npm run test:integration` passed: 44 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
@@ -69,6 +69,14 @@ evidence refresh):
   coverage verifies the resumed/replay behavior and the timeout/failure paths.
 - U2 now has a falsifying cross-program prerequisite test through the
   production `validateSkillCatalog` entry point.
+- U28 is enforced at production content-catalog loading, with falsifiers for
+  self, out-of-closure, and cross-program item-readiness references.
+- Phase 1 attempt-path integration coverage injects a failing shadow writer
+  across practice, diagnostic, delayed-check, and review attempts and confirms
+  learner work still completes.
+- The authenticated API journey exercises successful diagnostic,
+  diagnostic-attempt, check, review-attempt, and household-export routes in
+  addition to the existing learner/parent routes.
 - The authenticated browser API suite also scans learner and parent API
   responses for answer-bearing field names across session, attempt, hint,
   progression, plan, review, and digest routes.

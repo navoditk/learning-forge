@@ -18,14 +18,15 @@ a review result or authorization.
 
 ## Evidence available
 
-- `npm run verify`: passed, 209 tests plus production build.
+- `npm run verify`: passed, 210 tests plus production build.
 - `npm run test:integration`: 44 tests passed against disposable local
   PostgreSQL.
 - `npm run test:e2e`: 23 passed, 1 intentional private-package skip.
 - Latest remediation scope: all Phase 1 shadow writes are bounded and
   non-enforcing; resumed sessions and idempotent assignment replays emit
   diagnostic observations; API leakage coverage scans known answer and
-  solution sentinels; U2 is exercised through production catalog validation.
+  solution sentinels; U2 and U28 are exercised through production catalog
+  validation; all Phase 1 success routes are covered by the API journey.
 - `npm run test:migrations`: 11-migration forward/down/forward round trip
   passed.
 - Production review page: HTTP 200.

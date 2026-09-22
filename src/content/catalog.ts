@@ -134,6 +134,7 @@ import {
   PracticeContentItem,
 } from '../contracts/progression';
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
+import { validateItemReadinessRefs } from '../curriculum/progression-catalog';
 import { programsByCode } from '../curriculum/program-registry';
 
 const rawContent = [
@@ -277,6 +278,20 @@ function validateParsedContentCatalog(
   if (ids.size !== parsed.length) {
     throw new Error('Content id@version references must be unique');
   }
+
+  // Validate readiness references at the production content boundary. The
+  // helper is intentionally separate so it can be tested in isolation, but a
+  // malformed authored record must never pass catalog loading.
+  validateItemReadinessRefs(
+    parsed
+      .filter((item): item is Extract<ContentRecord, { skillRef: unknown }> => 'skillRef' in item)
+      .map((item) => ({
+        id: item.id,
+        skillRef: item.skillRef,
+        itemReadinessRefs: item.itemReadinessRefs,
+      })),
+    skillCatalog,
+  );
 
   for (const item of parsed) {
     // New role-specific records are validated by their discriminated schema

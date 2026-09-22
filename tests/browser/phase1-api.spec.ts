@@ -180,6 +180,18 @@ test.describe('Phase 1 API route validation and error paths', () => {
     await collect(await request.get('/api/phase1/progress?program=grade-6-math'));
     await collect(await request.get('/api/phase1/digest'));
     await collect(await request.get('/api/progression/pilot'));
+    await collect(await request.get('/api/phase1/diagnostic?program=grade-6-math'));
+
+    const diagnosticSessionResponse = await request.get(
+      '/api/phase1/session?contentId=gcf-and-lcm-1&activityKind=PLACEMENT',
+    );
+    expect(diagnosticSessionResponse.status()).toBe(200);
+    const diagnosticSession = await diagnosticSessionResponse.json();
+    const diagnosticAttemptResponse = await request.post('/api/phase1/diagnostic-attempt', {
+      data: { sessionId: diagnosticSession.sessionId, learnerResponse: '6' },
+    });
+    expect(diagnosticAttemptResponse.status()).toBe(200);
+    responses.push(await diagnosticAttemptResponse.json());
 
     const sessionResponse = await request.get('/api/phase1/session?contentId=ratio-language-1');
     expect(sessionResponse.status()).toBe(200);
@@ -196,6 +208,45 @@ test.describe('Phase 1 API route validation and error paths', () => {
     });
     expect(hintResponse.status()).toBe(200);
     responses.push(await hintResponse.json());
+
+    const reviewableSessionResponse = await request.get(
+      '/api/phase1/session?contentId=ratio-tables-1',
+    );
+    expect(reviewableSessionResponse.status()).toBe(200);
+    const reviewableSession = await reviewableSessionResponse.json();
+    const reviewableAttemptResponse = await request.post('/api/phase1/attempt', {
+      data: { sessionId: reviewableSession.sessionId, learnerResponse: '10 and 15' },
+    });
+    expect(reviewableAttemptResponse.status()).toBe(200);
+    const reviewableAttempt = await reviewableAttemptResponse.json();
+    responses.push(reviewableAttempt);
+    const reviewableHintResponse = await request.post('/api/phase1/hint', {
+      data: { attemptId: reviewableAttempt.attemptId, learnerMessage: 'I compared the values.' },
+    });
+    expect(reviewableHintResponse.status()).toBe(200);
+    responses.push(await reviewableHintResponse.json());
+    const checkResponse = await request.post('/api/phase1/check', {
+      data: { sessionId: reviewableSession.sessionId, learnerResponse: '10 and 15' },
+    });
+    expect(checkResponse.status()).toBe(200);
+    responses.push(await checkResponse.json());
+    const reviewSessionResponse = await request.get(
+      '/api/phase1/session?contentId=ratio-tables-1&activityKind=REVIEW',
+    );
+    expect(reviewSessionResponse.status()).toBe(200);
+    const reviewSession = await reviewSessionResponse.json();
+    const reviewAttemptResponse = await request.post('/api/phase1/review-attempt', {
+      data: { sessionId: reviewSession.sessionId, learnerResponse: '10 and 15' },
+    });
+    expect(reviewAttemptResponse.status()).toBe(200);
+    responses.push(await reviewAttemptResponse.json());
+
+    const exportResponse = await request.get('/api/phase1/household/export');
+    expect(exportResponse.status()).toBe(200);
+    const exportBody = await exportResponse.text();
+    expect(exportBody).not.toMatch(
+      /canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps|deterministicValidator/,
+    );
 
     const serialized = JSON.stringify(responses);
     expect(serialized).not.toMatch(

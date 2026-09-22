@@ -102,6 +102,29 @@ describe('ratios content seed', () => {
     expect(readinessByItem.get('percent-applications-2')).toEqual([]);
   });
 
+  it('rejects invalid readiness refs through the production catalog validator', () => {
+    const source = contentCatalog.find(
+      (item) => item.id === 'dependent-and-independent-variables-1',
+    );
+    if (!source || !('skillRef' in source)) throw new Error('Readiness fixture is missing');
+    const replaceReadiness = (refs: { code: string; version: string }[]) =>
+      contentCatalog.map((item) =>
+        item.id === source.id ? { ...item, itemReadinessRefs: refs } : item,
+      );
+
+    expect(() =>
+      validateContentCatalog(replaceReadiness([{ code: source.skillRef.code, version: '1.0.0' }])),
+    ).toThrow('cannot declare its owning skill');
+    expect(() =>
+      validateContentCatalog(replaceReadiness([{ code: 'ratio-language', version: '1.0.0' }])),
+    ).toThrow('item readiness is outside the owning skill prerequisite closure');
+    expect(() =>
+      validateContentCatalog(
+        replaceReadiness([{ code: 'mk6-multi-step-arithmetic-reasoning', version: '1.0.0' }]),
+      ),
+    ).toThrow('another program');
+  });
+
   it('rejects legacy prerequisiteSkillCodes from the live catalog', () => {
     const candidate = contentCatalog.map((item, index) => {
       if (index !== 0) return item;
@@ -790,7 +813,7 @@ describe('ratios content seed', () => {
           itemReadinessRefs: [],
         },
       ]),
-    ).toThrow('references unknown skill');
+    ).toThrow('references unknown owning skill');
   });
 
   it('excludes pending_review content from the servable catalog so it is never shown to a learner', () => {

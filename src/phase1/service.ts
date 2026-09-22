@@ -35,6 +35,7 @@ export const PHASE_1_MASTERY_VERSION = 'mastery-phase-1-1';
  */
 export type HouseholdIdentity = { householdId: string; learnerProfileId: string };
 export type SessionActivityKind = Extract<ActivityKind, 'PRACTICE' | 'PLACEMENT' | 'REVIEW'>;
+export type Phase1ShadowPersistence = (write: () => Promise<unknown>) => Promise<boolean>;
 
 function resolveContent(contentId?: string) {
   const id = contentId ?? PHASE_1_CONTENT_ID;
@@ -176,7 +177,7 @@ export async function startSession(
         targetCode: content.id,
         targetVersion: content.version,
         policyProfileCode: programsByCode.get(program)?.defaultPolicyProfileRef.code,
-        policyProfileVersion: '1.0.0',
+        policyProfileVersion: programsByCode.get(program)?.defaultPolicyProfileRef.version,
       },
     }));
   // Record every authorization-relevant request, including a resumed session.
@@ -278,6 +279,7 @@ async function createAttempt(
     // assistance slip, so this defaults to false everywhere else.
     reviewDecay?: boolean;
   },
+  persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
   const session = await prisma.session.findFirst({
     where: {
@@ -335,7 +337,7 @@ async function createAttempt(
         : input.independentDelayedCheck
           ? 'DELAYED_CHECK'
           : 'PRACTICE';
-  await persistShadowNonEnforcing(() =>
+  await persistShadow(() =>
     writeShadowDecision(
       identity,
       skillsByCode.get(contentSkillCode(content))?.program ?? DEFAULT_PROGRAM,
@@ -407,8 +409,13 @@ async function createAttempt(
 export async function recordAttempt(
   identity: HouseholdIdentity,
   input: { sessionId: string; learnerResponse: string },
+  persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
-  return createAttempt(identity, { ...input, context: 'PRACTICE', independentDelayedCheck: false });
+  return createAttempt(
+    identity,
+    { ...input, context: 'PRACTICE', independentDelayedCheck: false },
+    persistShadow,
+  );
 }
 
 const DEFAULT_DIAGNOSTIC_MAX_ITEMS = 5;
@@ -475,6 +482,7 @@ export async function getDiagnosticPlan(
 export async function recordDiagnosticAttempt(
   identity: HouseholdIdentity,
   input: { sessionId: string; learnerResponse: string },
+  persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
   const session = await prisma.session.findFirst({
     where: {
@@ -500,11 +508,15 @@ export async function recordDiagnosticAttempt(
   // no longer "unassessed" and must go through ordinary practice/independent
   // checks rather than being re-probed.
   if (existingMastery) throw new Error('Diagnostic already completed for this skill');
-  const result = await createAttempt(identity, {
-    ...input,
-    context: 'DIAGNOSTIC',
-    independentDelayedCheck: false,
-  });
+  const result = await createAttempt(
+    identity,
+    {
+      ...input,
+      context: 'DIAGNOSTIC',
+      independentDelayedCheck: false,
+    },
+    persistShadow,
+  );
   // A diagnostic session is a single independent attempt with no tutoring
   // loop, so it ends as soon as it is answered.
   await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
@@ -566,6 +578,7 @@ export async function getTutorContext(identity: HouseholdIdentity, attemptId: st
 export async function recordIndependentCheck(
   identity: HouseholdIdentity,
   input: { sessionId: string; learnerResponse: string },
+  persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
   const session = await prisma.session.findFirst({
     where: {
@@ -584,11 +597,15 @@ export async function recordIndependentCheck(
     select: { id: true },
   });
   if (!hasTutorInteraction) throw new Error('Independent check requires tutoring');
-  return createAttempt(identity, {
-    ...input,
-    context: 'MASTERY_CHECK',
-    independentDelayedCheck: true,
-  });
+  return createAttempt(
+    identity,
+    {
+      ...input,
+      context: 'MASTERY_CHECK',
+      independentDelayedCheck: true,
+    },
+    persistShadow,
+  );
 }
 
 export const MASTERY_REVIEW_INTERVAL_DAYS = 14;
@@ -655,6 +672,7 @@ export async function getReviewQueue(
 export async function recordReviewAttempt(
   identity: HouseholdIdentity,
   input: { sessionId: string; learnerResponse: string },
+  persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
   const session = await prisma.session.findFirst({
     where: {
@@ -679,12 +697,16 @@ export async function recordReviewAttempt(
   // confirmed - anything else belongs to ordinary practice or the initial
   // independent check, not a review.
   if (!mastery?.independentDelayedCheck) throw new Error('Review is not available for this skill');
-  const result = await createAttempt(identity, {
-    ...input,
-    context: 'MASTERY_CHECK',
-    independentDelayedCheck: true,
-    reviewDecay: true,
-  });
+  const result = await createAttempt(
+    identity,
+    {
+      ...input,
+      context: 'MASTERY_CHECK',
+      independentDelayedCheck: true,
+      reviewDecay: true,
+    },
+    persistShadow,
+  );
   // A review is a single one-shot probe with no tutoring loop, so it ends
   // the session whether or not the learner still remembers the skill -
   // unlike recordIndependentCheck's session, which only ends on success.

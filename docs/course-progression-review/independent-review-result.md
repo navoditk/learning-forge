@@ -1,5 +1,21 @@
 # Independent fourth-draft / C1–C3 review result
 
+## Fresh read-only review of `967dec8`
+
+The fresh independent review completed on the pushed remediation checkpoint.
+It confirmed the prior shadow, replay, API-sentinel, and U2 changes, but found
+the implementation **not ready for human approval**. C4 remains closed.
+
+Remaining implementation findings were U28 production-path enforcement,
+attempt-path shadow failure falsification, incomplete successful Phase 1 API
+route coverage, and the architecture claim-to-test matrix. The first three
+were addressed in the current follow-up; the claim-to-test matrix and the
+policy-layer separation for AMC 8 readiness remain open implementation work.
+
+External blockers remain unchanged: the manual gate record is unsigned, the
+staging shadow pilot has one unresolved `DENY → ALLOW` divergence, and the
+private held-out package has not been independently approved or installed.
+
 **Status:** Findings received; **not an approval for C4**.
 
 The fresh independent re-review of pushed checkpoint `37b239f` likewise found

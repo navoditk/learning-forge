@@ -1,5 +1,26 @@
 # Progress
 
+## 2026-09-21 — Fresh review remediation: U28, shadow seams, and API routes
+
+- The fresh independent review of `967dec8` confirmed the prior shadow fixes
+  structurally, but identified U28 production-path coverage, missing attempt-
+  path failure injection, incomplete successful API-route coverage, and a
+  registry-pinning defect.
+- Production content loading now validates every versioned record's
+  `itemReadinessRefs` against the owning skill's prerequisite closure, with
+  self, out-of-closure, and cross-program falsifiers.
+- Phase 1 attempt variants now accept a narrow test-only shadow-persistence
+  seam; integration coverage proves practice, diagnostic, delayed-check, and
+  review attempts still complete when shadow persistence fails.
+- The authenticated API leakage journey now covers diagnostic,
+  diagnostic-attempt, check, review-attempt, and household export success
+  paths, with status and answer-bearing-field assertions.
+- Session policy-profile versions now come from the program registry. `npm run
+  verify` passes 210 database-free tests and a production build; integration
+  passes 45 tests; browser tests pass 23 with one intentional skip. C4 remains
+  closed and the architecture claim-to-test matrix plus manual gates remain
+  outstanding.
+
 ## 2026-09-21 — API response leakage coverage
 
 - Added an authenticated browser regression covering the learner and parent

@@ -25,6 +25,7 @@ import {
   recordAttempt,
   recordReviewAttempt,
   recordTutorResponse,
+  Phase1ShadowPersistence,
 } from '../../src/phase1/service';
 import { deleteHouseholdEvidence } from '../../src/server/delete-household-evidence';
 import { FakeTutorModel, TutorHarness } from '../../src/tutor';
@@ -199,6 +200,81 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     });
     expect(trace?.redactedExcerpt).toBe('[redacted learner text]');
     expect(trace?.modelIdentifier).toBe('fake-tutor');
+  });
+
+  it('keeps every Phase 1 attempt variant successful when shadow persistence fails', async () => {
+    const household = await prisma.household.create({ data: {} });
+    const user = await prisma.user.create({ data: { householdId: household.id, role: 'LEARNER' } });
+    const profile = await prisma.learnerProfile.create({
+      data: { householdId: household.id, userId: user.id, gradeLevel: 6 },
+    });
+    const identity: HouseholdIdentity = {
+      householdId: household.id,
+      learnerProfileId: profile.id,
+    };
+    const failingShadow: Phase1ShadowPersistence = async () => false;
+
+    try {
+      const practiceSession = await startSession(identity, { contentId: 'unit-rates-1' });
+      await expect(
+        recordAttempt(
+          identity,
+          { sessionId: practiceSession.sessionId, learnerResponse: '15 miles per hour' },
+          failingShadow,
+        ),
+      ).resolves.toMatchObject({ correctness: 'CORRECT' });
+
+      const diagnosticSession = await startSession(identity, {
+        contentId: 'ratio-language-1',
+        activityKind: 'PLACEMENT',
+      });
+      await expect(
+        recordDiagnosticAttempt(
+          identity,
+          { sessionId: diagnosticSession.sessionId, learnerResponse: '2:3' },
+          failingShadow,
+        ),
+      ).resolves.toMatchObject({ correctness: 'CORRECT' });
+
+      const reviewableSession = await startSession(identity, { contentId: 'ratio-tables-1' });
+      const attempt = await recordAttempt(identity, {
+        sessionId: reviewableSession.sessionId,
+        learnerResponse: '10 and 15',
+      });
+      const context = await getTutorContext(identity, attempt.attemptId);
+      const response = await new TutorHarness(new FakeTutorModel()).respond({
+        prompt: context.content.prompt,
+        learnerMessage: 'I compared the table values.',
+        redactedSkillContext: `content:${context.content.id}`,
+        state: context.state,
+        mode: 'math_tutor',
+        genuineAttempt: true,
+        priorHintCount: context.priorHintCount,
+        attemptNumber: context.attemptNumber,
+      });
+      await recordTutorResponse(identity, { attemptId: attempt.attemptId, response });
+      await expect(
+        recordIndependentCheck(
+          identity,
+          { sessionId: reviewableSession.sessionId, learnerResponse: '10 and 15' },
+          failingShadow,
+        ),
+      ).resolves.toMatchObject({ correctness: 'CORRECT' });
+
+      const reviewSession = await startSession(identity, {
+        contentId: 'ratio-tables-1',
+        activityKind: 'REVIEW',
+      });
+      await expect(
+        recordReviewAttempt(
+          identity,
+          { sessionId: reviewSession.sessionId, learnerResponse: '10 and 15' },
+          failingShadow,
+        ),
+      ).resolves.toMatchObject({ correctness: 'CORRECT' });
+    } finally {
+      await deleteHouseholdEvidence(prisma, household.id);
+    }
   });
 
   it('summarizes recorded evidence into a weekly digest', async () => {
