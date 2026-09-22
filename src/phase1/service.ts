@@ -1,6 +1,7 @@
 import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
-import { contentSkillCode, servableContentCatalog } from '../content/catalog';
+import { contentCatalog, contentSkillCode, servableContentCatalog } from '../content/catalog';
+import { resolveActive } from '../content/resolvers';
 import {
   CurriculumProgram,
   PlannerContentItem,
@@ -39,9 +40,11 @@ export type Phase1ShadowPersistence = (write: () => Promise<unknown>) => Promise
 
 function resolveContent(contentId?: string) {
   const id = contentId ?? PHASE_1_CONTENT_ID;
-  const item = servableContentCatalog.find((candidate) => candidate.id === id);
-  if (!item) throw new Error(`Unknown content: ${id}`);
-  return item;
+  try {
+    return resolveActive(contentCatalog, id);
+  } catch {
+    throw new Error(`Unknown content: ${id}`);
+  }
 }
 
 const DEFAULT_PROGRAM: CurriculumProgram = 'grade-6-math';

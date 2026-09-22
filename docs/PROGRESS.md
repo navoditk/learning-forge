@@ -1,5 +1,17 @@
 # Progress
 
+## 2026-09-21 — Active and historical content resolution
+
+- Added separate `resolveActive` and `resolveHistorical` content resolvers.
+  New work now resolves only the newest reviewed, servable version, while
+  historical lookup can retrieve an exact retired or pending version without
+  treating it as active. Phase 1 serving is wired through `resolveActive` and
+  preserves the existing service error contract.
+- Added falsifying resolver coverage and hardened feedback-safety sentinels
+  against ISO timestamp collisions. `npm run verify` passes 215 tests and a
+  production build; integration passes 45 tests; browser tests pass 23 with
+  one intentional skip. C4 remains closed.
+
 ## 2026-09-21 — Policy-layer separation for contest readiness
 
 - Moved AMC 8 contest readiness thresholds out of content JSON and into the

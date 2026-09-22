@@ -116,7 +116,7 @@ describe('assessment feedback safety', () => {
     expect(inProgress).not.toHaveProperty('result');
     expect(inProgress).not.toHaveProperty('correctness');
     expect(JSON.stringify(inProgress)).not.toMatch(
-      /2:3|3:4|Private prompt|canonicalAnswer|acceptedAnswers|solutionMethod/,
+      /"(?:2:3|3:4)"|Private prompt|canonicalAnswer|acceptedAnswers|solutionMethod/,
     );
 
     const scored = await submitAssessmentItem(
@@ -133,7 +133,7 @@ describe('assessment feedback safety', () => {
     expect(scored.status).toBe('SCORED');
     expect(scored.result).toMatchObject({ outcome: 'FAIL', correctCount: 1, requiredCount: 2 });
     expect(JSON.stringify(scored.result)).not.toMatch(
-      /2:3|3:4|Private prompt|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
+      /"(?:2:3|3:4)"|Private prompt|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
     );
   });
 });

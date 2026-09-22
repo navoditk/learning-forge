@@ -8,8 +8,8 @@ a review result or authorization.
 
 - Repository: `navoditk/learning-forge`
 - Commit: current pushed checkpoint containing the bounded shadow persistence,
-  shared assistance derivation, policy-pin, and feedback-safety remediation
-  changes
+  shared assistance derivation, policy-pin, feedback-safety, layer-separation,
+  and active/historical resolver remediation changes
 - Browser review surface: `https://learning-forge.onrender.com/review/course-progression`
 - Production progression gate: closed
 - Private package: supplied separately through the approved secure channel
@@ -18,7 +18,7 @@ a review result or authorization.
 
 ## Evidence available
 
-- `npm run verify`: passed, 213 tests plus production build.
+- `npm run verify`: passed, 215 tests plus production build.
 - `npm run test:integration`: 45 tests passed against disposable local
   PostgreSQL.
 - `npm run test:e2e`: 23 passed, 1 intentional private-package skip.

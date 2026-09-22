@@ -190,14 +190,14 @@ describe('assessment feedback route safety', () => {
     expect(inProgress.body).not.toHaveProperty('result');
     expect(inProgress.body).not.toHaveProperty('correctness');
     expect(JSON.stringify(inProgress.body)).not.toMatch(
-      /2:3|3:4|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod/,
+      /"(?:2:3|3:4)"|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod/,
     );
 
     const scored = await submit(2, 'wrong');
     expect(scored.status).toBe(200);
     expect(scored.body.status).toBe('SCORED');
     expect(JSON.stringify(scored.body.result)).not.toMatch(
-      /2:3|3:4|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
+      /"(?:2:3|3:4)"|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
     );
 
     const [results, shadowDecisions, traces, interactions] = await Promise.all([
@@ -207,7 +207,7 @@ describe('assessment feedback route safety', () => {
       prisma.tutorInteraction.findMany({ where: { householdId } }),
     ]);
     expect(JSON.stringify({ results, shadowDecisions, traces, interactions })).not.toMatch(
-      /2:3|3:4|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
+      /"(?:2:3|3:4)"|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
     );
   });
 });
