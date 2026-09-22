@@ -19,7 +19,7 @@ At the current verified rollout checkpoint (the commit containing this
 evidence refresh):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  208 database-free unit/contract/progression tests, and production build.
+  209 database-free unit/contract/progression tests, and production build.
 - `npm run test:integration` passed: 44 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
@@ -63,6 +63,12 @@ evidence refresh):
   learner receives content only after starting the selected activity.
 - The held-out route journey also scans persisted result, shadow, trace, and
   tutor-interaction records for answer/prompt/solution/hint leakage.
+- Phase 1 shadow persistence is non-enforcing for practice, diagnostic,
+  delayed-check, and review attempts; resumed sessions and idempotent
+  assessment replays also emit bounded diagnostic observations. Integration
+  coverage verifies the resumed/replay behavior and the timeout/failure paths.
+- U2 now has a falsifying cross-program prerequisite test through the
+  production `validateSkillCatalog` entry point.
 - The authenticated browser API suite also scans learner and parent API
   responses for answer-bearing field names across session, attempt, hint,
   progression, plan, review, and digest routes.

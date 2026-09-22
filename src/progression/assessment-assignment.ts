@@ -324,7 +324,9 @@ export async function createAssessmentAssignment(
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
   );
 
-  if (!result.replayed && input.shadow) {
+  // Replays are still authorization-relevant requests. Recompute and record
+  // their diagnostic observation, while keeping persistence non-enforcing.
+  if (input.shadow) {
     await persistShadowNonEnforcing(async () => {
       const shadow = input.shadow!;
       const prerequisiteCodes = [

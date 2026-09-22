@@ -355,6 +355,11 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
         correctness: 'CORRECT',
       });
       expect(resumed.hintCount).toBe(1);
+      expect(
+        await prisma.shadowDecision.count({
+          where: { learnerProfileId: identity.learnerProfileId, activityKind: 'PRACTICE' },
+        }),
+      ).toBe(3);
 
       await recordIndependentCheck(identity, {
         sessionId: first.sessionId,

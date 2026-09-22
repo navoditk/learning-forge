@@ -169,7 +169,8 @@ test.describe('Phase 1 API route validation and error paths', () => {
 
   test('API responses never expose answer-bearing content fields', async ({ request }) => {
     const responses: unknown[] = [];
-    const collect = async (response: { json: () => Promise<unknown> }) => {
+    const collect = async (response: { status: () => number; json: () => Promise<unknown> }) => {
+      expect(response.status()).toBe(200);
       responses.push(await response.json());
     };
 
@@ -196,8 +197,14 @@ test.describe('Phase 1 API route validation and error paths', () => {
     expect(hintResponse.status()).toBe(200);
     responses.push(await hintResponse.json());
 
-    expect(JSON.stringify(responses)).not.toMatch(
+    const serialized = JSON.stringify(responses);
+    expect(serialized).not.toMatch(
       /canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps|deterministicValidator/,
     );
+    expect(serialized).not.toContain('2:3');
+    expect(serialized).not.toContain('2 to 3');
+    expect(serialized).not.toContain('2/3');
+    expect(serialized).not.toContain('Equivalent ratio notation');
+    expect(serialized).not.toContain('greatest common factor');
   });
 });

@@ -179,11 +179,11 @@ export async function startSession(
         policyProfileVersion: '1.0.0',
       },
     }));
-  if (!existing) {
-    await persistShadowNonEnforcing(() =>
-      writeShadowDecision(identity, program, content.id, content.version, activityKind),
-    );
-  }
+  // Record every authorization-relevant request, including a resumed session.
+  // Shadow mode is diagnostic only and must never affect the learner response.
+  await persistShadowNonEnforcing(() =>
+    writeShadowDecision(identity, program, content.id, content.version, activityKind),
+  );
   const state = await getSessionState(identity, session.id);
   return {
     sessionId: session.id,
@@ -335,12 +335,14 @@ async function createAttempt(
         : input.independentDelayedCheck
           ? 'DELAYED_CHECK'
           : 'PRACTICE';
-  await writeShadowDecision(
-    identity,
-    skillsByCode.get(contentSkillCode(content))?.program ?? DEFAULT_PROGRAM,
-    content.id,
-    content.version,
-    activityKind,
+  await persistShadowNonEnforcing(() =>
+    writeShadowDecision(
+      identity,
+      skillsByCode.get(contentSkillCode(content))?.program ?? DEFAULT_PROGRAM,
+      content.id,
+      content.version,
+      activityKind,
+    ),
   );
   if (input.context === 'PRACTICE') {
     await prisma.learningEvent.create({

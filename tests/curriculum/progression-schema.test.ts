@@ -19,6 +19,7 @@ import {
   validateItemReadinessRefs,
   validateProgressionCatalog,
 } from '../../src/curriculum/progression-catalog';
+import { skillCatalog, validateSkillCatalog } from '../../src/curriculum/catalog';
 import { PROGRAM_CODES } from '../../src/contracts/program-codes';
 import { PILOT_LESSONS } from '../../src/curriculum/pilot-catalog';
 
@@ -153,6 +154,15 @@ describe('course progression contracts', () => {
         { code: 'ratio-language', program: 'grade-6-math', prerequisiteSkillCodes: [] },
       ]),
     ).toThrow('cannot depend on a skill from');
+  });
+
+  it('rejects cross-program prerequisites through the production catalog validator', () => {
+    const invalidCatalog = skillCatalog.map((skill) =>
+      skill.code === 'ratio-language'
+        ? { ...skill, prerequisiteSkillCodes: ['mk6-multi-step-arithmetic-reasoning'] }
+        : skill,
+    );
+    expect(() => validateSkillCatalog(invalidCatalog)).toThrow('cannot depend on a skill from');
   });
 
   it('rejects a skill that does not use its program prefix', () => {

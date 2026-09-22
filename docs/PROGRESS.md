@@ -9,6 +9,22 @@
 - `npm run test:e2e` now passes 23 tests with one intentional private-package
   skip. This is automated evidence only; C4 remains closed.
 
+## 2026-09-21 — C3/API/U2 review remediation
+
+- Made all Phase 1 shadow writes non-enforcing, including practice,
+  diagnostic, delayed-check, and review attempts. Resumed sessions and
+  idempotent assessment replays now record fresh diagnostic observations while
+  remaining bounded by the existing 250 ms timeout.
+- Added regression coverage for resumed-session and replay shadow observations.
+  The database-backed integration suite passes 44 tests.
+- Strengthened the authenticated API leakage test with successful-status
+  assertions and known canonical-answer, equivalent-answer, and solution-term
+  sentinels. Added a U2 test through the production `validateSkillCatalog`
+  path rather than only the lower-level invariant helper.
+- `npm run verify` passes with 209 database-free tests and a production build;
+  `npm run test:e2e` passes 23 tests with one intentional private-package
+  skip. C4 remains closed pending independent re-review and manual evidence.
+
 ## 2026-09-21 — Independent review remediation follow-up
 
 - Bounded non-enforcing shadow persistence with a 250 ms timeout and added

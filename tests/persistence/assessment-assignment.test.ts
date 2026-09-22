@@ -124,7 +124,7 @@ describe('assessment assignment persistence', () => {
       await prisma.shadowDecision.count({
         where: { householdId, requestKind: 'test-assessment-assignment' },
       }),
-    ).toBe(1);
+    ).toBe(2);
 
     const session = first.assignment.sessions[0];
     if (!session) throw new Error('Assessment session was not created');
@@ -174,7 +174,7 @@ describe('assessment assignment persistence', () => {
       await prisma.shadowDecision.count({
         where: { householdId, requestKind: 'test-assessment-assignment' },
       }),
-    ).toBe(1);
+    ).toBe(2);
     await abandonAssessmentRun({
       householdId,
       learnerProfileId,
