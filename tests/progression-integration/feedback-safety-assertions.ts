@@ -9,7 +9,7 @@ const SENSITIVE_MARKERS = [
 ] as const;
 
 const TEMPORAL_FIELDS = new Set(['createdAt', 'occurredAt', 'scoredAt', 'startedAt', 'endedAt']);
-const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/u;
+const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?(?:Z|[+-]\d{2}:\d{2})$/u;
 
 export function containsSensitiveFeedback(value: unknown, key?: string): boolean {
   if (key && TEMPORAL_FIELDS.has(key) && typeof value === 'string' && ISO_TIMESTAMP.test(value)) {
