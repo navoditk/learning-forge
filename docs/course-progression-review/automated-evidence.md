@@ -23,7 +23,7 @@ evidence refresh):
 - `npm run test:integration` passed: 44 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
-- `npm run test:e2e` passed: 22 Playwright tests covering authentication,
+- `npm run test:e2e` passed: 23 Playwright tests covering authentication,
   learner/parent journeys, keyboard operation, automated WCAG checks, and
   fail-closed progression API behavior.
 - Before the package review gate was enforced, a focused local smoke test
@@ -39,7 +39,7 @@ evidence refresh):
 - The test commands now provide a local PostgreSQL fallback while honoring an
   explicitly supplied `DATABASE_URL`; production configuration is unchanged.
 - After the package-boundary changes, integration remained green at 41 tests.
-  The latest Playwright run passed 22 tests with one intentional skip. The
+  The latest Playwright run passed 23 tests with one intentional skip. The
   progression test glob is now unquoted so all progression unit suites are
   actually executed rather than silently skipped. The new feedback-safety
   integration test also verifies that in-progress assessments do not return
@@ -63,6 +63,9 @@ evidence refresh):
   learner receives content only after starting the selected activity.
 - The held-out route journey also scans persisted result, shadow, trace, and
   tutor-interaction records for answer/prompt/solution/hint leakage.
+- The authenticated browser API suite also scans learner and parent API
+  responses for answer-bearing field names across session, attempt, hint,
+  progression, plan, review, and digest routes.
 
 ## Deployed evidence
 

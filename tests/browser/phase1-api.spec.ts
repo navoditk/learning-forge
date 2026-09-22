@@ -166,4 +166,38 @@ test.describe('Phase 1 API route validation and error paths', () => {
       ),
     ).toBe(true);
   });
+
+  test('API responses never expose answer-bearing content fields', async ({ request }) => {
+    const responses: unknown[] = [];
+    const collect = async (response: { json: () => Promise<unknown> }) => {
+      responses.push(await response.json());
+    };
+
+    await collect(await request.get('/api/phase1/parent'));
+    await collect(await request.get('/api/phase1/plan?program=grade-6-math'));
+    await collect(await request.get('/api/phase1/review?program=grade-6-math'));
+    await collect(await request.get('/api/phase1/progress?program=grade-6-math'));
+    await collect(await request.get('/api/phase1/digest'));
+    await collect(await request.get('/api/progression/pilot'));
+
+    const sessionResponse = await request.get('/api/phase1/session?contentId=ratio-language-1');
+    expect(sessionResponse.status()).toBe(200);
+    const session = await sessionResponse.json();
+    responses.push(session);
+    const attemptResponse = await request.post('/api/phase1/attempt', {
+      data: { sessionId: session.sessionId, learnerResponse: '2:3' },
+    });
+    expect(attemptResponse.status()).toBe(200);
+    const attempt = await attemptResponse.json();
+    responses.push(attempt);
+    const hintResponse = await request.post('/api/phase1/hint', {
+      data: { attemptId: attempt.attemptId, learnerMessage: 'I compared the quantities.' },
+    });
+    expect(hintResponse.status()).toBe(200);
+    responses.push(await hintResponse.json());
+
+    expect(JSON.stringify(responses)).not.toMatch(
+      /canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps|deterministicValidator/,
+    );
+  });
 });

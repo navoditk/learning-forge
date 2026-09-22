@@ -1,5 +1,14 @@
 # Progress
 
+## 2026-09-21 — API response leakage coverage
+
+- Added an authenticated browser regression covering the learner and parent
+  API response surface. It scans session, attempt, hint, plan, review,
+  progress, digest, and progression responses for canonical answers, accepted
+  answers, solution methods, hint steps, and validator internals.
+- `npm run test:e2e` now passes 23 tests with one intentional private-package
+  skip. This is automated evidence only; C4 remains closed.
+
 ## 2026-09-21 — Independent review remediation follow-up
 
 - Bounded non-enforcing shadow persistence with a 250 ms timeout and added
@@ -118,7 +127,7 @@
   expanded and executed; the prior quoted glob silently skipped that entire
   directory. The DB-free suite now runs 200 tests across 41 files.
 - Validation before this follow-up: `npm run test:integration` passed (41
-  tests), and `npm run test:e2e` passed (22 tests, 1 intentional
+  tests), and `npm run test:e2e` passed (23 tests, 1 intentional
   private-package skip). The full `npm run verify` is being rerun after the
   test-wiring change.
 
