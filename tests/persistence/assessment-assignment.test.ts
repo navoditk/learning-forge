@@ -267,6 +267,25 @@ describe('assessment assignment persistence', () => {
         scheduleVersion: '1.0.0',
       },
     });
+    await prisma.masteryEstimate.upsert({
+      where: {
+        learnerProfileId_skillCode_algorithmVersion: {
+          learnerProfileId,
+          skillCode: 'ratio-language',
+          algorithmVersion: 'mastery-1',
+        },
+      },
+      update: { independentDelayedCheck: true },
+      create: {
+        householdId,
+        learnerProfileId,
+        skillCode: 'ratio-language',
+        estimate: 1,
+        confidenceBand: 'MEDIUM',
+        algorithmVersion: 'mastery-1',
+        independentDelayedCheck: true,
+      },
+    });
     await prisma.learnerLessonState.upsert({
       where: {
         learnerProfileId_lessonCode_lessonVersion: {
@@ -353,6 +372,18 @@ describe('assessment assignment persistence', () => {
         select: { completionStatus: true, remediationStatus: true },
       }),
     ).resolves.toEqual({ completionStatus: 'COMPLETE_BY_SKIP', remediationStatus: 'ACTIVE' });
+    await expect(
+      prisma.masteryEstimate.findUnique({
+        where: {
+          learnerProfileId_skillCode_algorithmVersion: {
+            learnerProfileId,
+            skillCode: 'ratio-language',
+            algorithmVersion: 'mastery-1',
+          },
+        },
+        select: { independentDelayedCheck: true },
+      }),
+    ).resolves.toEqual({ independentDelayedCheck: false });
   });
 
   it('preserves submitted attempts when an assessment expires', async () => {

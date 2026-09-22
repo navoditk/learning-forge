@@ -54,5 +54,11 @@ describe('lesson and unit progression state machines', () => {
         remediationStatus: 'NONE',
       }),
     ).toEqual({ completionStatus: 'COMPLETE_BY_SKIP', remediationStatus: 'ACTIVE' });
+    expect(
+      lessonStateAfterReviewLapse({
+        completionStatus: 'SKIPPED_BY_PLACEMENT',
+        remediationStatus: 'NONE',
+      }),
+    ).toEqual({ completionStatus: 'AVAILABLE', remediationStatus: 'ACTIVE' });
   });
 });

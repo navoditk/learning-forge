@@ -14,5 +14,17 @@ describe('household data privacy coverage', () => {
     expect(new Set([...deleteModels, ...globalModels])).toEqual(prismaModels);
     expect([...exportModels].some((model) => globalModels.has(model))).toBe(false);
     expect([...deleteModels].some((model) => globalModels.has(model))).toBe(false);
+    for (const model of Prisma.dmmf.datamodel.models) {
+      if (!globalModels.has(model.name)) continue;
+      expect(
+        model.fields.some(
+          (field) =>
+            field.name === 'householdId' ||
+            field.name === 'learnerProfileId' ||
+            field.name === 'household' ||
+            field.name === 'learnerProfile',
+        ),
+      ).toBe(false);
+    }
   });
 });

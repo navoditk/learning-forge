@@ -66,4 +66,16 @@ describe('durable content archive', () => {
       where: { contentKey_contentVersion: { contentKey: malformedKey, contentVersion: '1.0.0' } },
     });
   });
+
+  it('fails closed when the row key and archived snapshot identity disagree', async () => {
+    const mismatchKey = `${retiredKey}-mismatch`;
+    await prisma.contentArchive.create({
+      data: { contentKey: mismatchKey, contentVersion: '1.0.0', content: source },
+    });
+
+    await expect(resolveArchivedContent(prisma, mismatchKey, '1.0.0')).resolves.toBeUndefined();
+    await prisma.contentArchive.delete({
+      where: { contentKey_contentVersion: { contentKey: mismatchKey, contentVersion: '1.0.0' } },
+    });
+  });
 });

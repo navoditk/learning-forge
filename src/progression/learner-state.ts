@@ -36,7 +36,11 @@ export function lessonStateAfterReviewLapse(input: {
   completionStatus: LessonCompletionStatus;
   remediationStatus: RemediationStatus;
 }): { completionStatus: LessonCompletionStatus; remediationStatus: RemediationStatus } {
-  return { completionStatus: input.completionStatus, remediationStatus: 'ACTIVE' };
+  return {
+    completionStatus:
+      input.completionStatus === 'SKIPPED_BY_PLACEMENT' ? 'AVAILABLE' : input.completionStatus,
+    remediationStatus: 'ACTIVE',
+  };
 }
 
 /** Applies a failed review only to the exact skill/version that was tested. */
@@ -67,6 +71,15 @@ export async function applyReviewLapse(
         data: { dueAt: input.now, lastOutcome: 'LAPSED' },
       });
     }
+
+    await transaction.masteryEstimate.updateMany({
+      where: {
+        learnerProfileId: input.learnerProfileId,
+        skillCode: skillRef.code,
+        independentDelayedCheck: true,
+      },
+      data: { independentDelayedCheck: false },
+    });
 
     for (const lesson of PILOT_LESSONS.filter((candidate) =>
       candidate.skillRefs.some(

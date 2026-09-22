@@ -8,10 +8,12 @@
 - Added pure state-machine and database-backed vertical-slice coverage for
   `COMPLETE` (with `COMPLETE_BY_SKIP` covered by the pure transition test).
   Assignment-backed review lapses now update the exact skill/version schedule
-  and lesson state in the same transaction. A reversible `ContentArchive`
-  table and `npm run content:archive` provide durable version-pinned reads.
+  and lesson state in the same transaction, clear confirmed delayed-check
+  mastery, and return placement-skipped lessons to `AVAILABLE`. A reversible
+  `ContentArchive` table and `npm run content:archive` provide durable
+  version-pinned reads.
   `npm run verify` passes 230 tests and a production build; integration passes
-  51 tests; browser tests
+  52 tests; browser tests
   pass 24 with one intentional skip. C4 remains closed.
 
 ## 2026-09-21 — Active and historical content resolution

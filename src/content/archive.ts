@@ -33,6 +33,7 @@ export async function resolveArchivedContent(
     const item = ContentRecordSchema.parse(row.content);
     if ('role' in item && item.role !== 'practice') return undefined;
     if (!('deterministicValidator' in item)) return undefined;
+    if (item.id !== contentKey || item.version !== contentVersion) return undefined;
     return item as PracticeContentItem;
   } catch {
     // A corrupted archive row must never become learner- or tutor-visible.

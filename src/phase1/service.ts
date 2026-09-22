@@ -308,7 +308,12 @@ async function createAttempt(
     },
   });
   if (!session) throw new Error('Session not found');
-  const content = resolveContent(session.contentKey);
+  const content = input.reviewDecay
+    ? await requireHistoricalContent(
+        session.targetCode ?? session.contentKey,
+        session.targetVersion,
+      )
+    : resolveContent(session.contentKey);
   const correctness = scoreAnswer(content, input.learnerResponse);
   const independentCheckPassed = input.independentDelayedCheck && correctness === 'CORRECT';
   // attemptNumber is derived from a count-then-create, which races under
@@ -511,7 +516,10 @@ export async function recordDiagnosticAttempt(
     },
   });
   if (!session) throw new Error('Session not found');
-  const content = resolveContent(session.contentKey);
+  const content = await requireHistoricalContent(
+    session.targetCode ?? session.contentKey,
+    session.targetVersion,
+  );
   const existingMastery = await prisma.masteryEstimate.findUnique({
     where: {
       learnerProfileId_skillCode_algorithmVersion: {
@@ -703,7 +711,10 @@ export async function recordReviewAttempt(
   if (!session) throw new Error('Session not found');
   if (session.endedAt) throw new Error('Review session ended');
   if (session.activityKind !== 'REVIEW') throw new Error('Review session kind mismatch');
-  const content = resolveContent(session.contentKey);
+  const content = await requireHistoricalContent(
+    session.targetCode ?? session.contentKey,
+    session.targetVersion,
+  );
   const mastery = await prisma.masteryEstimate.findUnique({
     where: {
       learnerProfileId_skillCode_algorithmVersion: {

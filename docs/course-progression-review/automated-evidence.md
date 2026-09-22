@@ -20,7 +20,7 @@ evidence refresh):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
   230 database-free unit/contract/progression tests, and production build.
-- `npm run test:integration` passed: 51 persistence, Phase 1, auth, and
+- `npm run test:integration` passed: 52 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
 - `npm run test:e2e` passed: 24 Playwright tests covering authentication,
@@ -35,7 +35,7 @@ evidence refresh):
   fail closed. A reviewed package must be mounted separately for a fresh HTTP
   201 smoke test.
 - `DATABASE_URL=postgresql://... npm run test:migrations` passed the complete
-  forward/down/forward schema-equivalence check across all 12 migrations.
+  forward/down/forward schema-equivalence check across all 13 migrations.
 - The test commands now provide a local PostgreSQL fallback while honoring an
   explicitly supplied `DATABASE_URL`; production configuration is unchanged.
 - After the package-boundary changes, integration remained green at 41 tests.
