@@ -40,9 +40,10 @@ The five that drive this decision:
    no activity kind and `createAttempt` never checks `endedAt`, so four
    endpoints reinterpret one another's sessions and ended sessions still accept
    attempts.
-5. **Pedagogical numbers live in curriculum data.**
-   `ContestFormatSchema.readinessRequirement` embeds `minEstimate` and
-   confidence rules directly in content JSON.
+5. **Pedagogical numbers previously lived in curriculum data.**
+   `ContestFormatSchema.readinessRequirement` embedded `minEstimate` and
+   confidence rules directly in content JSON; the current implementation has
+   migrated those values to the AMC 8 policy profile.
 
 Compounding defects: the mastery estimate is overwritten by the latest attempt
 rather than aggregated; `ConfidenceBand.HIGH` is unreachable;
@@ -66,8 +67,8 @@ Introduce course progression built from six commitments.
    Curriculum expresses *structure* (which prior units, lessons, and skills are
    required) and *references* a `ProgressionPolicyProfile` by code and version.
    Thresholds, delays, spacing, weights, pass bars, and cooldowns live in the
-   policy artifact. The existing inline `readinessRequirement` numbers migrate;
-   the typed per-item contract pattern is preserved.
+   policy artifact. The existing inline `readinessRequirement` numbers have
+   migrated; the typed planner contract pattern is preserved.
 
 3. **Instruction and assessment are structurally separate.** At the time this
    ADR was drafted, whether assessment is *held out* was deliberately left to

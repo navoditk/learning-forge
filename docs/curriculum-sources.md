@@ -585,8 +585,8 @@ estimate, `LOW` confidence, and no independent delayed check, and a fully
 "secure" skill was skipped from the plan entirely (no core **and** no contest
 follow-up). This has been remediated in the planner/content contracts:
 
-- AMC 8 contest records now declare a structured
-  `contestFormat.readinessRequirement` (`minEstimate: 0.8`,
+- The AMC 8 policy profile now declares a structured
+  `contestReadinessRequirement` (`minEstimate: 0.8`,
   `disallowLowConfidence: true`, `requireIndependentDelayedCheck: true`),
   passed through to the planner as `PlannerContentItem.contestReadinessRequirement`.
 - The planner only recommends a skill's contest-tier item once its mastery
@@ -598,8 +598,8 @@ follow-up). This has been remediated in the planner/content contracts:
   `docs/02-curriculum-and-pedagogy.md`, reflecting the product owner's
   stricter, explicitly approved bar for AMC 8 contest-tier access versus the
   default cross-skill security bar.
-- Content without a declared `readinessRequirement` (Grade 6 Math, Math
-  Kangaroo, MOEMS) is unaffected and keeps its existing legacy planner
+- Programs without a contest-readiness policy (Grade 6 Math, Math Kangaroo,
+  MOEMS) are unaffected and keep their existing legacy planner
   behavior unchanged.
 
 ### Research handoff for authoring

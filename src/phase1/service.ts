@@ -858,6 +858,12 @@ export async function getPlan(
   input: { timeBudgetMinutes?: number; program?: CurriculumProgram } = {},
 ) {
   const catalog = programCatalog(input.program ?? DEFAULT_PROGRAM);
+  const program = programsByCode.get(input.program ?? DEFAULT_PROGRAM);
+  const profile = loadPolicyArtifacts().profiles.find(
+    (candidate) =>
+      candidate.code === program?.defaultPolicyProfileRef.code &&
+      candidate.version === program?.defaultPolicyProfileRef.version,
+  );
   const masteryRows = await prisma.masteryEstimate.findMany({
     where: {
       householdId: identity.householdId,
@@ -885,7 +891,8 @@ export async function getPlan(
     skillCode: contentSkillCode(item),
     mode: item.mode,
     difficulty: item.difficulty,
-    contestReadinessRequirement: item.contestFormat?.readinessRequirement,
+    contestReadinessRequirement:
+      item.mode !== 'core' ? profile?.contestReadinessRequirement : undefined,
   }));
   const skills: PlannerSkill[] = catalog.skills.map((skill) => ({
     code: skill.code,

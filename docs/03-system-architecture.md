@@ -119,8 +119,8 @@ corrections to real defects. Its structural commitments are:
   precedent, not database rows and not policy code;
 - **pedagogical numbers live in versioned policy-profile artifacts**, which
   curriculum references by code and version — correcting the existing pattern
-  where `ContestFormatSchema.readinessRequirement` embeds thresholds directly
-  in content JSON;
+  where `ContestFormatSchema.readinessRequirement` embedded thresholds
+  directly in content JSON; the current policy profile owns those values;
 - one pure authorization predicate, shared by the planner and by every
   **mutation** endpoint, evaluated **fail-closed** and always on — feature
   flags may control sequencing and UI only;

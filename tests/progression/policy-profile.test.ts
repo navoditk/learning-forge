@@ -59,4 +59,13 @@ describe('policy profile composition', () => {
     if (!parent) throw new Error('Grade 6 Math profile is missing');
     expect(policyHash(parent)).toBe(policyHash({ ...parent }));
   });
+
+  it('keeps AMC 8 contest readiness in the versioned policy profile', () => {
+    const amc8 = loadPolicyArtifacts().profiles.find((profile) => profile.code === 'amc-8-default');
+    expect(amc8?.contestReadinessRequirement).toEqual({
+      minEstimate: 0.8,
+      disallowLowConfidence: true,
+      requireIndependentDelayedCheck: true,
+    });
+  });
 });

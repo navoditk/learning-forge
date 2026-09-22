@@ -27,11 +27,6 @@
       "blankPoints": 0
     },
     "eligibility": "Grade 8 or below and age 15.5 years or younger on the official contest date.",
-    "readinessRequirement": {
-      "minEstimate": 0.8,
-      "disallowLowConfidence": true,
-      "requireIndependentDelayedCheck": true
-    },
     "answerChoices": [
       {
         "label": "A",

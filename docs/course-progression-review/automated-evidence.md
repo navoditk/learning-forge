@@ -77,6 +77,9 @@ evidence refresh):
 - The authenticated API journey exercises successful diagnostic,
   diagnostic-attempt, check, review-attempt, and household-export routes in
   addition to the existing learner/parent routes.
+- AMC 8 contest readiness thresholds are stored in the versioned
+  `amc-8-default` policy profile; content validation no longer accepts or
+  enforces numeric readiness thresholds in contest metadata.
 - The authenticated browser API suite also scans learner and parent API
   responses for answer-bearing field names across session, attempt, hint,
   progression, plan, review, and digest routes.

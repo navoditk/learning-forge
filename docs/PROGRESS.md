@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-09-21 — Policy-layer separation for contest readiness
+
+- Moved AMC 8 contest readiness thresholds out of content JSON and into the
+  versioned `amc-8-default` progression policy profile. Content now carries
+  only contest structure; the planner receives readiness bars from the selected
+  policy artifact.
+- Added policy-profile coverage and updated curriculum/architecture records to
+  reflect the completed migration. `npm run verify` passes 210 tests and the
+  integration suite passes 45 tests. C4 remains closed.
+
 ## 2026-09-21 — Fresh review remediation: U28, shadow seams, and API routes
 
 - The fresh independent review of `967dec8` confirmed the prior shadow fixes

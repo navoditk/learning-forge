@@ -24,6 +24,14 @@ const ReuseSchema = z.discriminatedUnion('enabled', [
     .strict(),
 ]);
 
+const ContestReadinessRequirementSchema = z
+  .object({
+    minEstimate: z.number().min(0).max(1),
+    disallowLowConfidence: z.boolean(),
+    requireIndependentDelayedCheck: z.boolean(),
+  })
+  .strict();
+
 export const ProgressionPolicyProfileSchema = z
   .object({
     code: z.string().regex(/^[a-z0-9-]+$/),
@@ -67,6 +75,7 @@ export const ProgressionPolicyProfileSchema = z
     duplicateRequestBehavior: z.literal('IDEMPOTENT_REPLAY'),
     placementProbeMaxItems: z.number().int().positive(),
     stepUpReauthLifetimeMinutes: z.number().positive(),
+    contestReadinessRequirement: ContestReadinessRequirementSchema.optional(),
   })
   .strict();
 export type ProgressionPolicyProfile = z.infer<typeof ProgressionPolicyProfileSchema>;

@@ -235,11 +235,7 @@ describe('ratios content seed', () => {
         incorrectPoints: 0,
         blankPoints: 0,
       });
-      expect(item.contestFormat?.readinessRequirement).toEqual({
-        minEstimate: 0.8,
-        disallowLowConfidence: true,
-        requireIndependentDelayedCheck: true,
-      });
+      expect(item.contestFormat).not.toHaveProperty('readinessRequirement');
       expect(item.contestFormat?.answerChoices).toHaveLength(5);
       expect(item.contestFormat?.answerChoices?.map((choice) => choice.label)).toEqual([
         'A',
@@ -273,19 +269,6 @@ describe('ratios content seed', () => {
         ),
       ),
     ).toThrow('must use AMC 8 +1 scoring');
-
-    expect(() =>
-      validateContentCatalog(
-        contentCatalog.map((item) =>
-          item.id === withMathKangarooTier.id
-            ? {
-                ...item,
-                contestFormat: { ...item.contestFormat, readinessRequirement: undefined },
-              }
-            : item,
-        ),
-      ),
-    ).toThrow('must encode the approved AMC 8 readiness gate');
 
     expect(
       ContentItemSchema.safeParse({
@@ -398,7 +381,7 @@ describe('ratios content seed', () => {
       // Sprint/Target are short-answer rounds, never multiple choice.
       expect(item.contestFormat?.answerChoices).toBeUndefined();
       expect(['numeric', 'text', 'ratio', 'percent']).toContain(item.deterministicValidator.type);
-      expect(item.contestFormat?.readinessRequirement).toBeUndefined();
+      expect(item.contestFormat).not.toHaveProperty('readinessRequirement');
       if (item.contestFormat?.format === 'mathcounts-sprint') {
         expect(item.contestFormat?.pointValue).toBe(1);
         expect(item.contestFormat?.calculatorPolicy).toBe('no_calculators');

@@ -64,7 +64,7 @@ as evidence of implementation.
 | Household and learner scoping on every read and write | `requireHouseholdContext`; every `where` clause in `src/phase1/service.ts` | Cross-household disclosure is release-blocking |
 | Program isolation at query time | `programCatalog`, `src/phase1/service.ts` | Prevents one program's evidence unlocking another's |
 | Deterministic tutor policy; the model never authorizes, scores, or establishes mastery | `src/tutor/policy.ts`, `src/tutor/harness.ts` | `AGENTS.md` hard constraint |
-| Typed, authored, per-item gating contract fields rather than skill-code heuristics | `ContestFormatSchema.readinessRequirement`, `PlannerContestReadinessRequirement` | The correct **structural** precedent — see §1.2 R11 for the layer defect in it |
+| Typed contest structure plus policy-profile gating rather than skill-code heuristics | `ContestFormatSchema`, `ProgressionPolicyProfile.contestReadinessRequirement`, `PlannerContestReadinessRequirement` | Structure stays with content; numeric readiness bars stay in policy |
 | `planNextActivities` as a pure function | `src/planner/plan-next-activities.ts` | Testable without a database |
 | Review decay: a failed spaced review can revoke prior confirmation | `createAttempt(reviewDecay)` | Mastery is revisited, not permanent |
 | Diagnostic attempts never set `independentDelayedCheck` | `recordDiagnosticAttempt` | A placement guess must never masquerade as confirmed mastery |
@@ -173,13 +173,10 @@ starts a real session on a contest item whose declared
 `readinessRequirement` (`minEstimate: 0.8`, `disallowLowConfidence: true`,
 `requireIndependentDelayedCheck: true`) the learner has not met.
 
-**R11. Pedagogical thresholds are stored inside curriculum JSON.**
-`ContestFormatSchema.readinessRequirement` puts `minEstimate`,
-`disallowLowConfidence`, and `requireIndependentDelayedCheck` directly into
-content records, and five AMC 8 records carry `"minEstimate": 0.8`. The typed
-per-item contract is the right pattern; the numbers being in the curriculum
-layer is a layer violation that this capability must not repeat and should
-migrate. See §5 (policy profiles).
+**R11. Pedagogical thresholds were stored inside curriculum JSON.**
+This is now migrated: AMC 8 content retains contest structure only, while
+`ProgressionPolicyProfile.contestReadinessRequirement` stores the versioned
+numeric readiness bars in `policy/progression-profiles/amc-8-default.json`.
 
 **R12. `Attempt.highestAssistance` is never correct, and the export ships the
 wrong value.** `src/phase1/service.ts:234` hardcodes
@@ -711,10 +708,9 @@ shallow override of named keys only, computed at load, and the resolved profile
 is content-hashed so a run can pin exactly what it was evaluated under. Cycles
 are rejected.
 
-**Migration of R11.** The five AMC 8 records carrying inline
-`readinessRequirement` numbers should move to a named profile
-(`amc8-contest-readiness`) referenced by code and version. The typed per-item
-contract is preserved; only the numbers relocate.
+**Migration of R11.** Complete. The typed planner contract remains the
+runtime projection, but its values now come from the selected versioned policy
+profile rather than authored content JSON.
 
 ---
 

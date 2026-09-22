@@ -58,5 +58,10 @@
   "feedbackLevel": "PER_ITEM_CORRECTNESS",
   "duplicateRequestBehavior": "IDEMPOTENT_REPLAY",
   "placementProbeMaxItems": 5,
-  "stepUpReauthLifetimeMinutes": 10
+  "stepUpReauthLifetimeMinutes": 10,
+  "contestReadinessRequirement": {
+    "minEstimate": 0.8,
+    "disallowLowConfidence": true,
+    "requireIndependentDelayedCheck": true
+  }
 }

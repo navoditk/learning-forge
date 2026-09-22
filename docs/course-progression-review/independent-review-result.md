@@ -9,8 +9,8 @@ the implementation **not ready for human approval**. C4 remains closed.
 Remaining implementation findings were U28 production-path enforcement,
 attempt-path shadow failure falsification, incomplete successful Phase 1 API
 route coverage, and the architecture claim-to-test matrix. The first three
-were addressed in the current follow-up; the claim-to-test matrix and the
-policy-layer separation for AMC 8 readiness remain open implementation work.
+were addressed in the current follow-up, and AMC 8 readiness was moved into
+the versioned policy profile. The claim-to-test matrix remains open.
 
 External blockers remain unchanged: the manual gate record is unsigned, the
 staging shadow pilot has one unresolved `DENY → ALLOW` divergence, and the

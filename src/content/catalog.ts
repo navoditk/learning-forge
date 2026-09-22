@@ -351,14 +351,6 @@ function validateParsedContentCatalog(
       ) {
         throw new Error(`${item.id} must encode the official AMC 8 format`);
       }
-      const readiness = item.contestFormat.readinessRequirement;
-      if (
-        readiness?.minEstimate !== 0.8 ||
-        readiness.disallowLowConfidence !== true ||
-        readiness.requireIndependentDelayedCheck !== true
-      ) {
-        throw new Error(`${item.id} must encode the approved AMC 8 readiness gate`);
-      }
       if (item.deterministicValidator.type !== 'multiple_choice') {
         throw new Error(`${item.id} must use a multiple-choice validator in contest mode`);
       }
@@ -399,11 +391,6 @@ function validateParsedContentCatalog(
       }
       if (!['numeric', 'text', 'ratio', 'percent'].includes(item.deterministicValidator.type)) {
         throw new Error(`${item.id} must use a free-response validator in MATHCOUNTS contest mode`);
-      }
-      if (format.readinessRequirement) {
-        throw new Error(
-          `${item.id} must not gate MATHCOUNTS core mastery with a contest readiness requirement`,
-        );
       }
       if (format.format === 'mathcounts-sprint') {
         if (

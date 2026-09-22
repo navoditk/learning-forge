@@ -4,6 +4,7 @@ import { PlannerContentItem, PlannerInput, PlannerSkill } from '../../src/contra
 import { contentCatalog, contentSkillCode } from '../../src/content/catalog';
 import { skillCatalog } from '../../src/curriculum/catalog';
 import { planNextActivities } from '../../src/planner/plan-next-activities';
+import { loadPolicyArtifacts } from '../../src/progression/artifacts';
 
 const chainSkills: PlannerSkill[] = [
   { code: 'a', prerequisiteSkillCodes: [] },
@@ -160,6 +161,12 @@ describe('planNextActivities', () => {
         code: skill.code,
         prerequisiteSkillCodes: skill.prerequisiteSkillCodes,
       }));
+    const amc8Profile = loadPolicyArtifacts().profiles.find(
+      (profile) => profile.code === 'amc-8-default',
+    );
+    if (!amc8Profile?.contestReadinessRequirement) {
+      throw new Error('AMC 8 readiness policy missing');
+    }
     const amc8Content: PlannerContentItem[] = contentCatalog
       .filter((item) => amc8SkillCodes.has(contentSkillCode(item)))
       .map((item) => ({
@@ -167,7 +174,8 @@ describe('planNextActivities', () => {
         skillCode: contentSkillCode(item),
         mode: item.mode,
         difficulty: item.difficulty,
-        contestReadinessRequirement: item.contestFormat?.readinessRequirement,
+        contestReadinessRequirement:
+          item.mode !== 'core' ? amc8Profile.contestReadinessRequirement : undefined,
       }));
 
     function planWithMastery(masteryBySkillCode: PlannerInput['masteryBySkillCode']) {
