@@ -11,7 +11,7 @@
   discriminant/D-id checks, and recursive feedback-safety assertions that catch
   embedded answers without ISO timestamp collisions. `npm run verify` passes
   218 tests and a production build; integration passes 45 tests; browser tests
-  pass 23 with one intentional skip. C4 remains closed.
+  pass 24 with one intentional skip. C4 remains closed.
 
 ## 2026-09-21 — Policy-layer separation for contest readiness
 

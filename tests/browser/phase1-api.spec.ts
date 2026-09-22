@@ -78,6 +78,19 @@ test.describe('Phase 1 API route validation and error paths', () => {
     expect(Array.isArray(body.mastery)).toBe(true);
   });
 
+  test('household deletion route refuses an unconfirmed request without exposing data', async ({
+    request,
+  }) => {
+    const response = await request.post('/api/phase1/household/delete', {
+      data: { confirmation: 'not-confirmed' },
+    });
+    expect(response.status()).toBe(400);
+    const body = await response.json();
+    expect(JSON.stringify(body)).not.toMatch(
+      /canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps|learnerResponse/,
+    );
+  });
+
   test('pilot progression route is readable and held-out assignment creation fails closed', async ({
     request,
   }) => {

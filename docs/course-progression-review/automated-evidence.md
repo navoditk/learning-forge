@@ -23,7 +23,7 @@ evidence refresh):
 - `npm run test:integration` passed: 45 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
-- `npm run test:e2e` passed: 23 Playwright tests covering authentication,
+- `npm run test:e2e` passed: 24 Playwright tests covering authentication,
   learner/parent journeys, keyboard operation, automated WCAG checks, and
   fail-closed progression API behavior.
 - Before the package review gate was enforced, a focused local smoke test
