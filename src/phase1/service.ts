@@ -16,11 +16,13 @@ import {
   WeeklyDigestSkillInput,
 } from '../contracts';
 import { skillCatalog, skillsByCode, topologicalSkillOrder } from '../curriculum';
+import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
 import { programsByCode } from '../curriculum/program-registry';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
 import { loadPolicyArtifacts } from '../progression/artifacts';
 import { deriveHighestAssistance } from '../progression/assistance';
+import { lessonStateAfterReviewLapse } from '../progression/learner-state';
 import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
 import { policyHash, resolvePolicyProfile } from '../progression/policy';
 import type { ActivityKind } from '../contracts/policy';
@@ -730,6 +732,30 @@ export async function recordReviewAttempt(
   // the session whether or not the learner still remembers the skill -
   // unlike recordIndependentCheck's session, which only ends on success.
   await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
+  if (result.correctness !== 'CORRECT') {
+    const lessonCodes = PILOT_LESSONS.filter((lesson) =>
+      lesson.skillRefs.some((skillRef) => skillRef.code === contentSkillCode(content)),
+    ).map((lesson) => lesson.code);
+    if (lessonCodes.length > 0) {
+      const lessonStates = await prisma.learnerLessonState.findMany({
+        where: {
+          learnerProfileId: identity.learnerProfileId,
+          lessonCode: { in: lessonCodes },
+        },
+        select: { id: true, completionStatus: true, remediationStatus: true },
+      });
+      for (const state of lessonStates) {
+        const next = lessonStateAfterReviewLapse(state);
+        await prisma.learnerLessonState.update({
+          where: { id: state.id },
+          data: {
+            completionStatus: next.completionStatus,
+            remediationStatus: next.remediationStatus,
+          },
+        });
+      }
+    }
+  }
   return result;
 }
 

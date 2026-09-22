@@ -31,6 +31,14 @@ export function lessonStatusAfterAssessment(input: {
   };
 }
 
+/** A lapsed review changes current remediation, never historical completion. */
+export function lessonStateAfterReviewLapse(input: {
+  completionStatus: LessonCompletionStatus;
+  remediationStatus: RemediationStatus;
+}): { completionStatus: LessonCompletionStatus; remediationStatus: RemediationStatus } {
+  return { completionStatus: input.completionStatus, remediationStatus: 'ACTIVE' };
+}
+
 export function unitStatusAfterLessonUpdate(
   statuses: readonly LessonCompletionStatus[],
 ): UnitCompletionStatus {

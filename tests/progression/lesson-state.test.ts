@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   lessonStatusAfterAssessment,
+  lessonStateAfterReviewLapse,
   unitStatusAfterAssessment,
   unitStatusAfterLessonUpdate,
 } from '../../src/progression/learner-state';
@@ -41,5 +42,17 @@ describe('lesson and unit progression state machines', () => {
         hadPriorLessonWork: true,
       }),
     ).toBe('COMPLETE');
+  });
+
+  it('activates remediation after a lapsed review without changing completion', () => {
+    expect(
+      lessonStateAfterReviewLapse({ completionStatus: 'COMPLETE', remediationStatus: 'NONE' }),
+    ).toEqual({ completionStatus: 'COMPLETE', remediationStatus: 'ACTIVE' });
+    expect(
+      lessonStateAfterReviewLapse({
+        completionStatus: 'COMPLETE_BY_SKIP',
+        remediationStatus: 'NONE',
+      }),
+    ).toEqual({ completionStatus: 'COMPLETE_BY_SKIP', remediationStatus: 'ACTIVE' });
   });
 });

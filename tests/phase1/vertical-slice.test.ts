@@ -592,6 +592,25 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
     });
 
     it('keeps confirmed mastery on a correct review and revokes it on an incorrect one, sending the skill back to practice', async () => {
+      await prisma.learnerLessonState.upsert({
+        where: {
+          learnerProfileId_lessonCode_lessonVersion: {
+            learnerProfileId: identity.learnerProfileId,
+            lessonCode: 'ratio-language-lesson',
+            lessonVersion: '1.0.0',
+          },
+        },
+        update: { completionStatus: 'COMPLETE', remediationStatus: 'NONE' },
+        create: {
+          householdId: identity.householdId,
+          learnerProfileId: identity.learnerProfileId,
+          lessonCode: 'ratio-language-lesson',
+          lessonVersion: '1.0.0',
+          completionStatus: 'COMPLETE',
+          remediationStatus: 'NONE',
+          policyProfileVersion: '1.0.0',
+        },
+      });
       const session = await startSession(identity, { contentId: 'ratio-language-1' });
       const passed = await recordReviewAttempt(identity, {
         sessionId: session.sessionId,
@@ -644,6 +663,19 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
           select: { independentDelayedCheck: true },
         }),
       ).toMatchObject({ independentDelayedCheck: false });
+
+      await expect(
+        prisma.learnerLessonState.findUnique({
+          where: {
+            learnerProfileId_lessonCode_lessonVersion: {
+              learnerProfileId: identity.learnerProfileId,
+              lessonCode: 'ratio-language-lesson',
+              lessonVersion: '1.0.0',
+            },
+          },
+          select: { completionStatus: true, remediationStatus: true },
+        }),
+      ).resolves.toEqual({ completionStatus: 'COMPLETE', remediationStatus: 'ACTIVE' });
 
       const queueAfterDecay = await getReviewQueue(identity);
       expect(queueAfterDecay.items.some((item) => item.skillCode === 'ratio-language')).toBe(false);
