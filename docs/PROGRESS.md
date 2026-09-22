@@ -6,9 +6,10 @@
   versioned `amc-8-default` progression policy profile. Content now carries
   only contest structure; the planner receives readiness bars from the selected
   policy artifact.
-- Added policy-profile coverage and updated curriculum/architecture records to
-  reflect the completed migration. `npm run verify` passes 210 tests and the
-  integration suite passes 45 tests. C4 remains closed.
+- Added policy-profile coverage and an explicit layer-separation regression
+  suite, and updated curriculum/architecture records to reflect the completed
+  migration. `npm run verify` passes 213 tests and the integration suite passes
+  45 tests. C4 remains closed.
 
 ## 2026-09-21 — Fresh review remediation: U28, shadow seams, and API routes
 
@@ -26,7 +27,7 @@
   diagnostic-attempt, check, review-attempt, and household export success
   paths, with status and answer-bearing-field assertions.
 - Session policy-profile versions now come from the program registry. `npm run
-  verify` passes 210 database-free tests and a production build; integration
+  verify` passes 213 database-free tests and a production build; integration
   passes 45 tests; browser tests pass 23 with one intentional skip. C4 remains
   closed and the architecture claim-to-test matrix plus manual gates remain
   outstanding.

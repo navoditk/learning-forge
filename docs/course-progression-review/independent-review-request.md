@@ -18,8 +18,8 @@ a review result or authorization.
 
 ## Evidence available
 
-- `npm run verify`: passed, 210 tests plus production build.
-- `npm run test:integration`: 44 tests passed against disposable local
+- `npm run verify`: passed, 213 tests plus production build.
+- `npm run test:integration`: 45 tests passed against disposable local
   PostgreSQL.
 - `npm run test:e2e`: 23 passed, 1 intentional private-package skip.
 - Latest remediation scope: all Phase 1 shadow writes are bounded and

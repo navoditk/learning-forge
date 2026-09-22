@@ -19,8 +19,8 @@ At the current verified rollout checkpoint (the commit containing this
 evidence refresh):
 
 - `npm run verify` passed: formatting, lint, typecheck, migration down checks,
-  210 database-free unit/contract/progression tests, and production build.
-- `npm run test:integration` passed: 44 persistence, Phase 1, auth, and
+  213 database-free unit/contract/progression tests, and production build.
+- `npm run test:integration` passed: 45 persistence, Phase 1, auth, and
   progression-boundary tests
   against the disposable local PostgreSQL database.
 - `npm run test:e2e` passed: 23 Playwright tests covering authentication,
