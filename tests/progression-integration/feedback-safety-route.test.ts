@@ -12,6 +12,7 @@ import { createInMemoryAssessmentStore } from '../../src/assessment/store';
 import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
+import { containsSensitiveFeedback } from './feedback-safety-assertions';
 
 vi.mock('../../src/server/household-context', () => ({
   requireHouseholdContext: vi.fn(),
@@ -189,16 +190,12 @@ describe('assessment feedback route safety', () => {
     expect(inProgress.body.status).toBe('IN_PROGRESS');
     expect(inProgress.body).not.toHaveProperty('result');
     expect(inProgress.body).not.toHaveProperty('correctness');
-    expect(JSON.stringify(inProgress.body)).not.toMatch(
-      /"(?:2:3|3:4)"|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod/,
-    );
+    expect(containsSensitiveFeedback(inProgress.body)).toBe(false);
 
     const scored = await submit(2, 'wrong');
     expect(scored.status).toBe(200);
     expect(scored.body.status).toBe('SCORED');
-    expect(JSON.stringify(scored.body.result)).not.toMatch(
-      /"(?:2:3|3:4)"|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
-    );
+    expect(containsSensitiveFeedback(scored.body.result)).toBe(false);
 
     const [results, shadowDecisions, traces, interactions] = await Promise.all([
       prisma.assessmentResult.findMany({ where: { householdId } }),
@@ -206,8 +203,8 @@ describe('assessment feedback route safety', () => {
       prisma.tutorTrace.findMany({ where: { householdId } }),
       prisma.tutorInteraction.findMany({ where: { householdId } }),
     ]);
-    expect(JSON.stringify({ results, shadowDecisions, traces, interactions })).not.toMatch(
-      /"(?:2:3|3:4)"|Private prompt sentinel|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
+    expect(containsSensitiveFeedback({ results, shadowDecisions, traces, interactions })).toBe(
+      false,
     );
   });
 });

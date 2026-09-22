@@ -6,6 +6,8 @@ const records = [
   { id: 'ratio-language', version: '1.0.0', review: { status: 'reviewed' as const } },
   { id: 'ratio-language', version: '2.0.0', review: { status: 'reviewed' as const } },
   { id: 'ratio-language', version: '3.0.0', review: { status: 'pending_review' as const } },
+  { id: 'date-version', version: '2026-09', review: { status: 'reviewed' as const } },
+  { id: 'date-version', version: '2026-10', review: { status: 'reviewed' as const } },
   {
     id: 'retired-item',
     version: '1.0.0',
@@ -17,6 +19,7 @@ const records = [
 describe('active and historical content resolution', () => {
   it('serves the newest reviewed version and excludes retired or pending versions', () => {
     expect(resolveActive(records, 'ratio-language').version).toBe('2.0.0');
+    expect(resolveActive(records, 'date-version').version).toBe('2026-10');
     expect(() => resolveActive(records, 'retired-item')).toThrow('Active content unavailable');
     expect(() => resolveActive(records, 'missing-item')).toThrow('Active content unavailable');
   });

@@ -7,6 +7,7 @@ import { createAssessmentAssignment } from '../../src/progression/assessment-ass
 import { submitAssessmentItem } from '../../src/progression/assessment-submission';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
+import { containsSensitiveFeedback } from './feedback-safety-assertions';
 
 const bankRef = { code: 'feedback-safety-bank', version: '1.0.0' } as const;
 
@@ -115,9 +116,7 @@ describe('assessment feedback safety', () => {
     expect(inProgress.status).toBe('IN_PROGRESS');
     expect(inProgress).not.toHaveProperty('result');
     expect(inProgress).not.toHaveProperty('correctness');
-    expect(JSON.stringify(inProgress)).not.toMatch(
-      /"(?:2:3|3:4)"|Private prompt|canonicalAnswer|acceptedAnswers|solutionMethod/,
-    );
+    expect(containsSensitiveFeedback(inProgress)).toBe(false);
 
     const scored = await submitAssessmentItem(
       {
@@ -132,8 +131,6 @@ describe('assessment feedback safety', () => {
     );
     expect(scored.status).toBe('SCORED');
     expect(scored.result).toMatchObject({ outcome: 'FAIL', correctCount: 1, requiredCount: 2 });
-    expect(JSON.stringify(scored.result)).not.toMatch(
-      /"(?:2:3|3:4)"|Private prompt|canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps/,
-    );
+    expect(containsSensitiveFeedback(scored.result)).toBe(false);
   });
 });

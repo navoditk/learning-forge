@@ -18,7 +18,7 @@ a review result or authorization.
 
 ## Evidence available
 
-- `npm run verify`: passed, 215 tests plus production build.
+- `npm run verify`: passed, 218 tests plus production build.
 - `npm run test:integration`: 45 tests passed against disposable local
   PostgreSQL.
 - `npm run test:e2e`: 23 passed, 1 intentional private-package skip.

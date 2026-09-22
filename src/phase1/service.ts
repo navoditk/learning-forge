@@ -1,7 +1,7 @@
 import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
 import { contentCatalog, contentSkillCode, servableContentCatalog } from '../content/catalog';
-import { resolveActive } from '../content/resolvers';
+import { resolveActive, resolveHistorical } from '../content/resolvers';
 import {
   CurriculumProgram,
   PlannerContentItem,
@@ -45,6 +45,13 @@ function resolveContent(contentId?: string) {
   } catch {
     throw new Error(`Unknown content: ${id}`);
   }
+}
+
+function resolveHistoricalContent(contentId: string, contentVersion?: string | null) {
+  if (!contentVersion) return resolveContent(contentId);
+  const item = resolveHistorical(contentCatalog, contentId, contentVersion);
+  if (!item) throw new Error(`Unknown content: ${contentId}@${contentVersion}`);
+  return item;
 }
 
 const DEFAULT_PROGRAM: CurriculumProgram = 'grade-6-math';
@@ -540,7 +547,7 @@ async function findAttempt(identity: HouseholdIdentity, attemptId: string) {
 
 export async function getTutorContext(identity: HouseholdIdentity, attemptId: string) {
   const attempt = await findAttempt(identity, attemptId);
-  const content = resolveContent(attempt.contentKey);
+  const content = resolveHistoricalContent(attempt.contentKey, attempt.contentVersion);
   const interactions = await prisma.tutorInteraction.findMany({
     where: {
       attemptId: attempt.id,
@@ -801,6 +808,7 @@ export async function getParentEvidence(identity: HouseholdIdentity) {
       select: {
         id: true,
         contentKey: true,
+        contentVersion: true,
         correctness: true,
         createdAt: true,
         assistanceEvents: { select: { level: true }, orderBy: { occurredAt: 'asc' } },
@@ -835,7 +843,9 @@ export async function getWeeklyDigest(identity: HouseholdIdentity) {
 
   const attemptsBySkill = new Map<string, WeeklyDigestAttemptSummary[]>();
   for (const attempt of evidence.attempts) {
-    const skillCode = contentSkillCode(resolveContent(attempt.contentKey));
+    const skillCode = contentSkillCode(
+      resolveHistoricalContent(attempt.contentKey, attempt.contentVersion),
+    );
     const list = attemptsBySkill.get(skillCode) ?? [];
     list.push({ correctness: attempt.correctness, highestAssistance: attempt.highestAssistance });
     attemptsBySkill.set(skillCode, list);
@@ -979,7 +989,7 @@ export async function getLearnerProgress(
     },
     orderBy: { createdAt: 'desc' },
     take: 20,
-    select: { id: true, contentKey: true, createdAt: true },
+    select: { id: true, contentKey: true, contentVersion: true, createdAt: true },
   });
   const seenSkills = new Set<string>();
   const recentStrengths: {
@@ -989,7 +999,9 @@ export async function getLearnerProgress(
     achievedAt: Date;
   }[] = [];
   for (const attempt of confirmingAttempts) {
-    const skillCode = contentSkillCode(resolveContent(attempt.contentKey));
+    const skillCode = contentSkillCode(
+      resolveHistoricalContent(attempt.contentKey, attempt.contentVersion),
+    );
     if (!catalog.skillCodes.has(skillCode)) continue;
     if (seenSkills.has(skillCode)) continue;
     seenSkills.add(skillCode);
