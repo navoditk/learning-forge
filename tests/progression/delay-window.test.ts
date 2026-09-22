@@ -64,4 +64,24 @@ describe('delayed-check eligibility', () => {
       ),
     ).toMatchObject({ eligible: false, reasonCode: 'DELAY_NOT_MET', exposureAt: laterPractice });
   });
+
+  it('treats every persisted exposure event kind as an exposure', () => {
+    const kinds = [
+      'TEACHING_VIEWED',
+      'TEACHING_COMPLETED',
+      'ASSISTANCE_GIVEN',
+      'REMEDIATION_DELIVERED',
+      'INDEPENDENT_PRACTICE_EXPOSURE',
+    ] as const;
+    const events = kinds.map((kind, index) => ({
+      skillCode: 'ratio-language',
+      kind,
+      occurredAt: new Date(`2026-09-19T${String(12 + index).padStart(2, '0')}:00:00.000Z`),
+    }));
+    expect(delayedCheckEligibility(events, 'ratio-language', now, 20)).toMatchObject({
+      eligible: true,
+      reasonCode: 'ELIGIBLE',
+      exposureAt: events.at(-1)?.occurredAt,
+    });
+  });
 });

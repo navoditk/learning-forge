@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
@@ -6,9 +6,15 @@ import { describe, expect, it } from 'vitest';
 import { ProgressionPolicyProfileSchema } from '../../src/contracts/policy';
 
 function jsonFiles(directory: string): string[] {
-  return readdirSync(path.join(process.cwd(), directory))
-    .filter((file) => file.endsWith('.json'))
-    .map((file) => path.join(directory, file));
+  const root = path.join(process.cwd(), directory);
+  return readdirSync(root).flatMap((file) => {
+    const relative = path.join(directory, file);
+    return statSync(path.join(process.cwd(), relative)).isDirectory()
+      ? jsonFiles(relative)
+      : file.endsWith('.json')
+        ? [relative]
+        : [];
+  });
 }
 
 describe('curriculum and policy layer separation', () => {
@@ -26,10 +32,12 @@ describe('curriculum and policy layer separation', () => {
       ...jsonFiles('content/scripps-spelling-bee-6'),
     ];
     expect(contentFiles).not.toHaveLength(0);
+    const numericPolicyKey =
+      /(?:readinessRequirement|minEstimate|relockEstimate|stalenessDays|minDelayHours|passBar|itemsPerAttempt|spacingInterval|assistanceWeight|repeatDiscount)/u;
     for (const file of contentFiles) {
-      expect(readFileSync(path.join(process.cwd(), file), 'utf8')).not.toContain(
-        'readinessRequirement',
-      );
+      const record = JSON.parse(readFileSync(path.join(process.cwd(), file), 'utf8')) as unknown;
+      const keys = JSON.stringify(record);
+      expect(keys).not.toMatch(numericPolicyKey);
     }
   });
 
@@ -46,5 +54,10 @@ describe('curriculum and policy layer separation', () => {
       disallowLowConfidence: true,
       requireIndependentDelayedCheck: true,
     });
+
+    for (const file of jsonFiles('policy')) {
+      const policyText = readFileSync(path.join(process.cwd(), file), 'utf8');
+      expect(policyText).not.toMatch(/(?:prompt|explanation|solution|hintSteps|workedExample)/u);
+    }
   });
 });

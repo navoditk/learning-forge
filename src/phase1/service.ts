@@ -1,6 +1,11 @@
 import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
-import { contentCatalog, contentSkillCode, servableContentCatalog } from '../content/catalog';
+import {
+  contentCatalog,
+  contentSkillCode,
+  historicalContentCatalog,
+  servableContentCatalog,
+} from '../content/catalog';
 import { resolveActive, resolveHistorical } from '../content/resolvers';
 import {
   CurriculumProgram,
@@ -49,7 +54,11 @@ function resolveContent(contentId?: string) {
 
 function resolveHistoricalContent(contentId: string, contentVersion?: string | null) {
   if (!contentVersion) return resolveContent(contentId);
-  const item = resolveHistorical(contentCatalog, contentId, contentVersion);
+  return resolveHistorical(historicalContentCatalog, contentId, contentVersion);
+}
+
+function requireHistoricalContent(contentId: string, contentVersion?: string | null) {
+  const item = resolveHistoricalContent(contentId, contentVersion);
   if (!item) throw new Error(`Unknown content: ${contentId}@${contentVersion}`);
   return item;
 }
@@ -547,7 +556,7 @@ async function findAttempt(identity: HouseholdIdentity, attemptId: string) {
 
 export async function getTutorContext(identity: HouseholdIdentity, attemptId: string) {
   const attempt = await findAttempt(identity, attemptId);
-  const content = resolveHistoricalContent(attempt.contentKey, attempt.contentVersion);
+  const content = requireHistoricalContent(attempt.contentKey, attempt.contentVersion);
   const interactions = await prisma.tutorInteraction.findMany({
     where: {
       attemptId: attempt.id,
@@ -728,11 +737,28 @@ export async function recordTutorResponse(
   identity: HouseholdIdentity,
   input: { attemptId?: string; sessionId?: string; response: TutorResponse },
 ) {
+  if (!input.attemptId && !input.sessionId) {
+    throw new Error('TUTOR_BINDING_REQUIRED');
+  }
   let sessionId = input.sessionId;
   if (input.attemptId) {
     const attempt = await findAttempt(identity, input.attemptId);
+    if (input.sessionId && attempt.sessionId !== input.sessionId) {
+      throw new Error('TUTOR_BINDING_MISMATCH');
+    }
     sessionId ??= attempt.sessionId ?? undefined;
+  } else {
+    const session = await prisma.session.findFirst({
+      where: {
+        id: input.sessionId,
+        householdId: identity.householdId,
+        learnerProfileId: identity.learnerProfileId,
+      },
+      select: { id: true },
+    });
+    if (!session) throw new Error('Session not found');
   }
+  if (!sessionId) throw new Error('TUTOR_BINDING_REQUIRED');
   const metadata = input.response.trace.metadata;
   const trace = await prisma.tutorTrace.create({
     data: {
@@ -832,6 +858,9 @@ export async function getParentEvidence(identity: HouseholdIdentity) {
     learnerName: 'Learner',
     attempts: attempts.map(({ assistanceEvents, ...attempt }) => ({
       ...attempt,
+      contentLabel:
+        resolveHistoricalContent(attempt.contentKey, attempt.contentVersion)?.title ??
+        'Retired item',
       highestAssistance: deriveHighestAssistance(assistanceEvents),
     })),
     mastery,
@@ -843,9 +872,9 @@ export async function getWeeklyDigest(identity: HouseholdIdentity) {
 
   const attemptsBySkill = new Map<string, WeeklyDigestAttemptSummary[]>();
   for (const attempt of evidence.attempts) {
-    const skillCode = contentSkillCode(
-      resolveHistoricalContent(attempt.contentKey, attempt.contentVersion),
-    );
+    const content = resolveHistoricalContent(attempt.contentKey, attempt.contentVersion);
+    if (!content) continue;
+    const skillCode = contentSkillCode(content);
     const list = attemptsBySkill.get(skillCode) ?? [];
     list.push({ correctness: attempt.correctness, highestAssistance: attempt.highestAssistance });
     attemptsBySkill.set(skillCode, list);
@@ -999,9 +1028,9 @@ export async function getLearnerProgress(
     achievedAt: Date;
   }[] = [];
   for (const attempt of confirmingAttempts) {
-    const skillCode = contentSkillCode(
-      resolveHistoricalContent(attempt.contentKey, attempt.contentVersion),
-    );
+    const content = resolveHistoricalContent(attempt.contentKey, attempt.contentVersion);
+    if (!content) continue;
+    const skillCode = contentSkillCode(content);
     if (!catalog.skillCodes.has(skillCode)) continue;
     if (seenSkills.has(skillCode)) continue;
     seenSkills.add(skillCode);

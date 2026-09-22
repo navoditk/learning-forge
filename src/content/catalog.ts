@@ -514,6 +514,11 @@ export function validateTransitionContentCatalog(items: readonly unknown[]): Con
 
 export const contentCatalog = validateContentCatalog();
 
+// Immutable in-process archive for version-pinned evidence reads. New
+// deployments append reviewed records here; they never mutate an existing
+// `{id, version}` entry in place.
+export const historicalContentCatalog = Object.freeze([...contentCatalog]);
+
 export function contentSkillCode(item: ContentRecord): string {
   return 'skillCode' in item ? item.skillCode : item.skillRef.code;
 }

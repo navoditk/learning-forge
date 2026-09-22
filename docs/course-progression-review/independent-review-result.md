@@ -1,5 +1,24 @@
 # Independent fourth-draft / C1–C3 review result
 
+## Fresh read-only review of `6783333`
+
+The independent reviewer re-checked the pushed checkpoint and returned
+**not ready for human review**; C4 remains closed. The deletion-route gap,
+version comparator, embedded-answer sentinel, and initial historical resolver
+findings were addressed in that checkpoint or its immediate follow-up.
+Remaining findings were the external/manual C4 gates, durable historical-archive
+fallback semantics, broader U41–U48 evidence, and policy-layer exhaustiveness.
+Subsequent local remediation added historical projection fallbacks, reflective
+reference/layer tests, named recalculation/completion/relock/cross-program
+suites, exposure-kind coverage, and tutor-binding validation. These changes
+are automated evidence only and do not constitute independent approval.
+
+External blockers remain unchanged: the manual gate record is unsigned, the
+staging shadow pilot has one unresolved `DENY → ALLOW` divergence, and the
+private held-out package has not been independently approved or installed.
+
+**Status:** Findings received; **not an approval for C4**.
+
 ## Fresh read-only review of `967dec8`
 
 The fresh independent review completed on the pushed remediation checkpoint.
