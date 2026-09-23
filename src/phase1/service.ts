@@ -41,7 +41,12 @@ export const PHASE_1_MASTERY_VERSION = 'mastery-phase-1-1';
  * ADR-0010) or, in tests, from the synthetic fixture (`SYNTHETIC_IDENTITY`,
  * ADR-0003). This module has no knowledge of which one it's talking to.
  */
-export type HouseholdIdentity = { householdId: string; learnerProfileId: string };
+export type HouseholdIdentity = {
+  householdId: string;
+  learnerProfileId: string;
+  actorUserId?: string;
+  actorRole?: 'PARENT' | 'OPERATOR';
+};
 export type SessionActivityKind = Extract<ActivityKind, 'PRACTICE' | 'PLACEMENT' | 'REVIEW'>;
 export type Phase1ShadowPersistence = (write: () => Promise<unknown>) => Promise<boolean>;
 
@@ -204,7 +209,7 @@ export async function startSession(
   // Record every authorization-relevant request, including a resumed session.
   // Shadow mode is diagnostic only and must never affect the learner response.
   await persistShadowNonEnforcing(() =>
-    writeShadowDecision(identity, program, content.id, content.version, activityKind),
+    writeShadowDecision(identity, program, content.id, content.version, activityKind, session.id),
   );
   const state = await getSessionState(identity, session.id);
   return {
@@ -230,6 +235,7 @@ async function writeShadowDecision(
   targetCode: string,
   targetVersion: string,
   activityKind: 'PRACTICE' | 'PLACEMENT' | 'DELAYED_CHECK' | 'REVIEW',
+  activeRunOrSessionId?: string,
 ): Promise<void> {
   const program = programsByCode.get(programCode);
   const skill = skillsByCode.get(contentSkillCode(resolveContent(targetCode)));
@@ -287,6 +293,9 @@ async function writeShadowDecision(
     select: { skillCode: true },
   });
   const shadow = buildShadowDecision({
+    actorUserId: identity.actorUserId,
+    actorRole: identity.actorRole,
+    activeRunOrSessionId,
     requestKind: 'start-session',
     targetCode,
     targetVersion,
@@ -395,6 +404,7 @@ async function createAttempt(
       content.id,
       content.version,
       activityKind,
+      session.id,
     ),
   );
   if (input.context === 'PRACTICE') {

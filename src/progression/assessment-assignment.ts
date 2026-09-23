@@ -101,6 +101,8 @@ export function selectAssessmentItems(
 export type CreateAssessmentAssignmentInput = {
   householdId: string;
   learnerProfileId: string;
+  actorUserId?: string;
+  actorRole?: 'PARENT' | 'OPERATOR';
   kind: AssessmentKind;
   targetKind: ProgressionTargetKind;
   targetRef: Ref;
@@ -392,6 +394,9 @@ export async function createAssessmentAssignment(
         householdId: input.householdId,
         learnerProfileId: input.learnerProfileId,
         ...buildShadowDecision({
+          actorUserId: input.actorUserId,
+          actorRole: input.actorRole,
+          activeRunOrSessionId: result.assignment.id,
           requestKind: shadow.requestKind,
           targetCode: input.targetRef.code,
           targetVersion: input.targetRef.version,

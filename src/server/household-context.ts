@@ -1,7 +1,12 @@
 import { auth } from '../auth';
 import { prisma } from './prisma';
 
-export type HouseholdContext = { householdId: string; learnerProfileId: string };
+export type HouseholdContext = {
+  householdId: string;
+  learnerProfileId: string;
+  actorUserId?: string;
+  actorRole?: 'PARENT' | 'OPERATOR';
+};
 
 /**
  * Resolves the calling parent's real household/learner from the session
@@ -13,10 +18,12 @@ export type HouseholdContext = { householdId: string; learnerProfileId: string }
 export async function requireHouseholdContext(): Promise<HouseholdContext> {
   const session = await auth();
   const householdId = session?.user?.householdId;
+  const actorUserId = session?.user?.id;
   if (!householdId) throw new Error('Unauthorized');
+  if (!actorUserId) throw new Error('Unauthorized');
 
   const learnerProfile = await prisma.learnerProfile.findFirst({ where: { householdId } });
   if (!learnerProfile) throw new Error('No learner profile for this household');
 
-  return { householdId, learnerProfileId: learnerProfile.id };
+  return { householdId, learnerProfileId: learnerProfile.id, actorUserId, actorRole: 'PARENT' };
 }

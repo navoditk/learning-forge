@@ -28,6 +28,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     session({ session, token }) {
       if (session.user) {
+        session.user.id = token.sub as string;
         session.user.householdId = token.householdId as string;
       }
       return session;

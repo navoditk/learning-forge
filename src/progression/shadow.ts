@@ -34,6 +34,9 @@ export async function persistShadowNonEnforcing<T>(
 }
 
 export type ShadowDecisionInput = {
+  actorUserId?: string;
+  actorRole?: 'PARENT' | 'OPERATOR';
+  activeRunOrSessionId?: string;
   requestKind: string;
   targetCode: string;
   targetVersion: string;
@@ -60,6 +63,9 @@ export function buildShadowDecision(input: ShadowDecisionInput) {
     legacyCompatibilityPolicy: input.legacyCompatibilityPolicy,
   });
   return {
+    actorUserId: input.actorUserId,
+    actorRole: input.actorRole,
+    activeRunOrSessionId: input.activeRunOrSessionId,
     requestKind: input.requestKind,
     targetCode: input.targetCode,
     targetVersion: input.targetVersion,
@@ -77,6 +83,9 @@ export function buildShadowDecision(input: ShadowDecisionInput) {
 
 export type ShadowDecisionForReview = {
   id: string;
+  actorUserId?: string | null;
+  actorRole?: 'PARENT' | 'OPERATOR' | null;
+  activeRunOrSessionId?: string | null;
   requestKind: string;
   targetCode: string;
   targetVersion: string;
@@ -148,6 +157,9 @@ export function buildShadowReviewPacket(
       dispositionById.get(decision.id) ?? 'UNREVIEWED';
     return {
       id: decision.id,
+      actorUserId: decision.actorUserId,
+      actorRole: decision.actorRole,
+      activeRunOrSessionId: decision.activeRunOrSessionId,
       requestKind: decision.requestKind,
       targetCode: decision.targetCode,
       targetVersion: decision.targetVersion,

@@ -22,6 +22,8 @@ async function upsertIdempotently(operation: () => Promise<unknown>): Promise<vo
 export const SYNTHETIC_IDENTITY = {
   householdId: SYNTHETIC_IDS.household,
   learnerProfileId: SYNTHETIC_IDS.learnerProfile,
+  actorUserId: SYNTHETIC_IDS.parent,
+  actorRole: 'PARENT' as const,
 } as const;
 
 export async function ensureSyntheticIdentity() {

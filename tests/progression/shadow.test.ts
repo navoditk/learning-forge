@@ -66,6 +66,37 @@ describe('progression shadow decisions', () => {
     expect(decision.policyProfileHash).not.toContain('grade-6-math-default');
   });
 
+  it('carries the actor and active run tuple into new shadow evidence', () => {
+    const { profiles, accessPolicies } = loadPolicyArtifacts();
+    const profile = profiles.find((candidate) => candidate.code === 'grade-6-math-default');
+    const accessPolicy = accessPolicies.find(
+      (candidate) => candidate.code === 'grade-6-math-access',
+    );
+    if (!profile || !accessPolicy) throw new Error('Grade 6 Math policy artifacts are missing');
+
+    expect(
+      buildShadowDecision({
+        actorUserId: 'parent-1',
+        actorRole: 'PARENT',
+        activeRunOrSessionId: 'session-1',
+        requestKind: 'start-session',
+        targetCode: 'ratio-language-1',
+        targetVersion: '1.0.0',
+        activityKind: 'PRACTICE',
+        prerequisiteSkillCodes: [],
+        masteredSkillCodes: new Set(),
+        accessPolicy,
+        policyProfile: profile,
+        actualBehavior: 'ALLOWED',
+        algorithmVersion: 'mastery-test-1',
+      }),
+    ).toMatchObject({
+      actorUserId: 'parent-1',
+      actorRole: 'PARENT',
+      activeRunOrSessionId: 'session-1',
+    });
+  });
+
   it('summarizes only divergent, non-sensitive evidence for independent review', () => {
     const decisions = [
       {

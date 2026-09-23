@@ -674,6 +674,9 @@ model ShadowDecision {
   id                   String                  @id @default(uuid())
   householdId          String
   learnerProfileId     String
+  actorUserId          String?
+  actorRole            OverrideActorRole?
+  activeRunOrSessionId String?
   requestKind          String
   targetCode           String
   targetVersion        String

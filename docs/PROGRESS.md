@@ -1,5 +1,17 @@
 # Progress
 
+## 2026-09-22 — Shadow request-context tuple
+
+- Added additive shadow metadata for `actorUserId`, `actorRole`, and
+  `activeRunOrSessionId`, populated from authenticated parent context,
+  synthetic test identity, learner sessions, and assessment assignments.
+- Added reversible migration `0007_add_shadow_request_context` and a contract
+  test for the tuple. Existing shadow rows remain nullable historical evidence;
+  they are not treated as complete C3 evidence, and C4 remains closed until
+  representative traffic and the required independent/manual reviews are
+  complete.
+- Static checks and targeted shadow/assignment/readiness tests pass.
+
 ## 2026-09-22 — Fresh verification checkpoint
 
 - Re-ran `npm run verify` after the review-packet correction: formatting, lint,

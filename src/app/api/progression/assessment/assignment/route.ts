@@ -203,6 +203,8 @@ export async function POST(request: NextRequest) {
       {
         householdId: identity.householdId,
         learnerProfileId: identity.learnerProfileId,
+        actorUserId: identity.actorUserId,
+        actorRole: identity.actorRole,
         kind: body.kind,
         targetKind: body.targetKind,
         targetRef: { code: target.code, version: target.version },
