@@ -1,5 +1,10 @@
 # Progress
 
+## 2026-09-22 — Review packet retarget after fail-closed readiness
+
+- Retargeted the independent-review packet to code checkpoint `b7934bc` and
+  refreshed the automated evidence count to 243 tests. C4 remains closed.
+
 ## 2026-09-22 — Fail-closed shadow-context readiness
 
 - Cutover readiness now reports incomplete shadow request-context rows and

@@ -7,7 +7,7 @@ a review result or authorization.
 ## Review target
 
 - Repository: `navoditk/learning-forge`
-- Commit: `819256f` (`feat: capture shadow request context`), the
+- Commit: `b7934bc` (`fix: fail closed on incomplete shadow context`), the
   current pushed checkpoint containing the bounded shadow persistence,
   redacted scored assessment responses, household-scoped current-item
   delivery, historical skip-side-effect protection, and archive-drift guard
@@ -20,7 +20,7 @@ a review result or authorization.
 
 ## Evidence available
 
-- `npm run verify`: passed, 242 tests plus production build.
+- `npm run verify`: passed, 243 tests plus production build.
 - `npm run test:integration`: 53 tests passed against disposable local
   PostgreSQL.
 - `npm run test:e2e`: 24 passed, 1 intentional private-package skip.
