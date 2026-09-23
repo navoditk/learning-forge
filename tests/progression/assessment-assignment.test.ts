@@ -48,6 +48,8 @@ describe('assessment assignment selection', () => {
     expect(assessmentKindMatchesTarget('UNIT_ASSESSMENT', 'LESSON')).toBe(false);
     expect(assessmentKindMatchesTarget('LESSON_ASSESSMENT', 'LESSON')).toBe(true);
     expect(assessmentKindMatchesTarget('UNIT_ASSESSMENT', 'UNIT')).toBe(true);
+    expect(assessmentKindMatchesTarget('REVIEW', 'LESSON')).toBe(false);
+    expect(assessmentKindMatchesTarget('DELAYED_CHECK', 'LESSON')).toBe(false);
   });
   it('selects server-owned items in stable order and excludes prior items', () => {
     const selected = selectAssessmentItems(

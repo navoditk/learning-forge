@@ -42,10 +42,13 @@ export function assessmentKindMatchesTarget(
   kind: AssessmentKind,
   targetKind: ProgressionTargetKind,
 ): boolean {
-  return (
-    (kind !== AssessmentKind.LESSON_ASSESSMENT || targetKind === ProgressionTargetKind.LESSON) &&
-    (kind !== AssessmentKind.UNIT_ASSESSMENT || targetKind === ProgressionTargetKind.UNIT)
-  );
+  if (kind === AssessmentKind.LESSON_ASSESSMENT) {
+    return targetKind === ProgressionTargetKind.LESSON;
+  }
+  if (kind === AssessmentKind.UNIT_ASSESSMENT) {
+    return targetKind === ProgressionTargetKind.UNIT;
+  }
+  return false;
 }
 
 export function selectAssessmentItems(

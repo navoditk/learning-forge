@@ -56,6 +56,9 @@
 - Assessment assignment routes now reject lesson/unit kind-target mismatches,
   and authored bank item counts and skill coverage are checked alongside the
   authored bank hash before a run is persisted.
+- The pilot assignment route now fails closed for unsupported review and
+  delayed-check kinds; the metadata validation suite also covers a skill-set
+  mismatch.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 

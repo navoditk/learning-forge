@@ -240,6 +240,16 @@ describe('assessment assignment persistence', () => {
         store,
       ),
     ).rejects.toMatchObject({ code: 'ASSESSMENT_BANK_METADATA_MISMATCH' });
+    await expect(
+      createAssessmentAssignment(
+        {
+          ...input,
+          idempotencyKey: 'assignment-skill-mismatch',
+          authoredBankSkillCodes: ['unit-rates'],
+        },
+        store,
+      ),
+    ).rejects.toMatchObject({ code: 'ASSESSMENT_BANK_METADATA_MISMATCH' });
     await abandonAssessmentRun({
       householdId,
       learnerProfileId,
