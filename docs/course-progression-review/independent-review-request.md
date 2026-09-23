@@ -7,7 +7,7 @@ a review result or authorization.
 ## Review target
 
 - Repository: `navoditk/learning-forge`
-- Commit: `149ab4f` (`fix: serve held-out assessment items safely`), the
+- Commit: `1f579ce` (`test: cover held-out item ordering`), the
   current pushed checkpoint containing the bounded shadow persistence,
   redacted scored assessment responses, household-scoped current-item
   delivery, historical skip-side-effect protection, and archive-drift guard
@@ -31,7 +31,9 @@ a review result or authorization.
   prompt without answer-bearing fields; later failed unit runs do not recreate
   historical skip records; API leakage coverage scans known answer and
   solution sentinels; U2 and U28 are exercised through production catalog
-  validation; all Phase 1 success routes are covered by the API journey.
+  validation; all Phase 1 success routes are covered by the API journey; the
+  persistence suite covers out-of-order submissions and lowest-unanswered
+  current-item delivery.
 - `npm run test:migrations`: 11-migration forward/down/forward round trip
   passed.
 - Production review page: HTTP 200.
