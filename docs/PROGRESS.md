@@ -11,9 +11,10 @@
   and lesson state in the same transaction, clear confirmed delayed-check
   mastery, and return placement-skipped lessons to `AVAILABLE`. A reversible
   `ContentArchive` table and `npm run content:archive` provide durable
-  version-pinned reads.
+  version-pinned reads; `db:deploy` now archives the active catalog as part of
+  deployment and archive rollback refuses to drop non-empty evidence.
   `npm run verify` passes 230 tests and a production build; integration passes
-  52 tests; browser tests
+  53 tests; browser tests
   pass 24 with one intentional skip. C4 remains closed.
 
 ## 2026-09-21 — Active and historical content resolution

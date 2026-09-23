@@ -37,6 +37,29 @@ describe('durable content archive', () => {
     });
   });
 
+  it('does not replace an existing snapshot when archiving the active catalog again', async () => {
+    const original = await prisma.contentArchive.findUniqueOrThrow({
+      where: {
+        contentKey_contentVersion: { contentKey: source.id, contentVersion: source.version },
+      },
+    });
+    await prisma.contentArchive.update({
+      where: { id: original.id },
+      data: { content: { ...source, title: 'Historical title' } },
+    });
+
+    await archiveCurrentContentCatalog(prisma);
+
+    await expect(
+      prisma.contentArchive.findUnique({
+        where: {
+          contentKey_contentVersion: { contentKey: source.id, contentVersion: source.version },
+        },
+        select: { content: true },
+      }),
+    ).resolves.toMatchObject({ content: { title: 'Historical title' } });
+  });
+
   it('retains a retired version that no longer exists in the active catalog', async () => {
     const retired = { ...source, id: retiredKey, version: '0.9.0' };
     await prisma.contentArchive.create({
