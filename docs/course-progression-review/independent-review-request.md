@@ -7,24 +7,29 @@ a review result or authorization.
 ## Review target
 
 - Repository: `navoditk/learning-forge`
-- Commit: current pushed checkpoint containing the bounded shadow persistence,
-  shared assistance derivation, policy-pin, feedback-safety, layer-separation,
-  and active/historical resolver remediation changes
+- Commit: `149ab4f` (`fix: serve held-out assessment items safely`), the
+  current pushed checkpoint containing the bounded shadow persistence,
+  redacted scored assessment responses, household-scoped current-item
+  delivery, historical skip-side-effect protection, and archive-drift guard
 - Browser review surface: `https://learning-forge.onrender.com/review/course-progression`
 - Production progression gate: closed
-- Private package: supplied separately through the approved secure channel
+- Private package: not mounted in this repository; it must be supplied and
+  reviewed separately through the approved secure channel
 - Current private draft digest:
   `3081c4108e464d24306722df0abb72f25ee4edc3e2666c961ddbc766ee81a9d7`
 
 ## Evidence available
 
-- `npm run verify`: passed, 230 tests plus production build.
+- `npm run verify`: passed, 239 tests plus production build.
 - `npm run test:integration`: 53 tests passed against disposable local
   PostgreSQL.
 - `npm run test:e2e`: 24 passed, 1 intentional private-package skip.
 - Latest remediation scope: all Phase 1 shadow writes are bounded and
   non-enforcing; resumed sessions and idempotent assignment replays emit
-  diagnostic observations; API leakage coverage scans known answer and
+  diagnostic observations; assignment and scored assessment responses redact
+  held-out item identities; the current-item endpoint serves one authorized
+  prompt without answer-bearing fields; later failed unit runs do not recreate
+  historical skip records; API leakage coverage scans known answer and
   solution sentinels; U2 and U28 are exercised through production catalog
   validation; all Phase 1 success routes are covered by the API journey.
 - `npm run test:migrations`: 11-migration forward/down/forward round trip
