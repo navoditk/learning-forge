@@ -7,7 +7,7 @@ a review result or authorization.
 ## Review target
 
 - Repository: `navoditk/learning-forge`
-- Commit: `901395a` (`fix: fail closed for unsupported assessment kinds`), the
+- Commit: `2516547` (`docs: retarget review after final kind guard`), the
   current pushed checkpoint containing the bounded shadow persistence,
   redacted scored assessment responses, household-scoped current-item
   delivery, historical skip-side-effect protection, and archive-drift guard
@@ -36,7 +36,8 @@ a review result or authorization.
   current-item delivery; unit assessment selection requires coverage for each
   pilot skill before filling remaining slots; assignment creation validates
   authored bank count and skill coverage as well as the bank hash; unsupported
-  review and delayed-check pilot assignment kinds fail closed.
+  review and delayed-check pilot assignment kinds fail closed. The code
+  remediation parent is `901395a`.
 - `npm run test:migrations`: 11-migration forward/down/forward round trip
   passed.
 - Production review page: HTTP 200.
