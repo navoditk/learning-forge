@@ -43,7 +43,16 @@ describe('household export and deletion', () => {
     });
     learnerProfileId = profile.id;
     const session = await prisma.session.create({
-      data: { householdId, learnerProfileId, contentKey: 'unit-rates-1' },
+      data: {
+        householdId,
+        learnerProfileId,
+        contentKey: 'unit-rates-1',
+        activityKind: 'PRACTICE',
+        targetCode: 'unit-rates-1',
+        targetVersion: 'content-1',
+        policyProfileCode: 'grade-6-math-default',
+        policyProfileVersion: '1.0.0',
+      },
     });
     const attempt = await prisma.attempt.create({
       data: {
@@ -136,6 +145,16 @@ describe('household export and deletion', () => {
     expect(JSON.stringify(exported)).not.toContain('must-not-export');
     expect(exported.attempts[0].id).toBe(attemptId);
     expect(exported.attempts[0].highestAssistance).toBe('GUIDED_FULL_SOLUTION');
+    expect(exported.sessions).toEqual([
+      expect.objectContaining({
+        activityKind: 'PRACTICE',
+        targetCode: 'unit-rates-1',
+        targetVersion: 'content-1',
+        assignmentId: null,
+        policyProfileCode: 'grade-6-math-default',
+        policyProfileVersion: '1.0.0',
+      }),
+    ]);
     expect(exported).toMatchObject({
       assessmentAssignments: [
         expect.objectContaining({ id: assignment.id, targetCode: 'ratio-language-lesson' }),

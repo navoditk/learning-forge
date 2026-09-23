@@ -22,6 +22,8 @@
 - Historical content reads now prefer the durable archive before falling back
   to the active catalog, with a regression proving an archived same-version
   snapshot is the source of truth.
+- Household exports now include non-secret session binding fields (activity,
+  target, assignment, and policy pins), with field-level persistence coverage.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 
