@@ -1,5 +1,13 @@
 # Progress
 
+## 2026-09-22 — Fresh verification checkpoint
+
+- Re-ran `npm run verify` after the review-packet correction: formatting, lint,
+  typecheck, migration down-file checks, 53 test files / 241 tests, and the
+  production Next.js build all passed. This confirms the pushed implementation
+  remains buildable; it does not replace the pending independent review,
+  shadow disposition, private-package review, or C4 authorization.
+
 ## 2026-09-22 — Retargeted independent-review packet
 
 - Updated `docs/course-progression-review/independent-review-request.md` to
