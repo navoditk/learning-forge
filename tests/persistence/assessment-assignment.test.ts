@@ -100,6 +100,8 @@ describe('assessment assignment persistence', () => {
       curriculumSnapshotHash: 'sha256:bank',
       itemsPerAttempt: 2,
       requiredCount: 2,
+      authoredBankItemCount: 2,
+      authoredBankSkillCodes: ['ratio-language'],
       expiresAt: new Date(Date.now() + 60_000),
       idempotencyKey: 'assignment-key-1',
       maxReassessments: profile.maxReassessments,
@@ -229,6 +231,12 @@ describe('assessment assignment persistence', () => {
           idempotencyKey: 'assignment-hash-mismatch',
           curriculumSnapshotHash: 'sha256:wrong',
         },
+        store,
+      ),
+    ).rejects.toMatchObject({ code: 'ASSESSMENT_BANK_METADATA_MISMATCH' });
+    await expect(
+      createAssessmentAssignment(
+        { ...input, idempotencyKey: 'assignment-count-mismatch', authoredBankItemCount: 1 },
         store,
       ),
     ).rejects.toMatchObject({ code: 'ASSESSMENT_BANK_METADATA_MISMATCH' });
