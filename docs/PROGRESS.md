@@ -1,5 +1,12 @@
 # Progress
 
+## 2026-09-22 — Final integration rerun for readiness guard
+
+- Re-ran `npm run test:integration` against the migrated disposable database
+  after `b7934bc`: 12 files / 53 tests passed. The logged shadow-failure and
+  concurrent-attempt diagnostics are expected test coverage and did not fail
+  the suite.
+
 ## 2026-09-22 — Review packet retarget after fail-closed readiness
 
 - Retargeted the independent-review packet to code checkpoint `b7934bc` and
