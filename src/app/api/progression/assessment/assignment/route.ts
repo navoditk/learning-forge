@@ -139,9 +139,22 @@ export async function POST(request: NextRequest) {
         ? PILOT_UNITS.find((unit) => unit.code === target.code && unit.version === target.version)
         : undefined;
     const requiredSkillCodes =
-      body.kind === 'LESSON_ASSESSMENT' && body.targetKind === 'LESSON'
+      body.targetKind === 'LESSON'
         ? (targetLesson?.skillRefs.map((skill) => skill.code) ?? [])
-        : [];
+        : body.targetKind === 'UNIT'
+          ? targetUnit
+            ? [
+                ...new Set(
+                  PILOT_LESSONS.filter((lesson) =>
+                    targetUnit.lessonRefs.some(
+                      (lessonRef) =>
+                        lessonRef.code === lesson.code && lessonRef.version === lesson.version,
+                    ),
+                  ).flatMap((lesson) => lesson.skillRefs.map((skill) => skill.code)),
+                ),
+              ]
+            : []
+          : [];
     const artifacts = loadPolicyArtifacts();
     const profileRecord = artifacts.profiles.find(
       (profile) =>

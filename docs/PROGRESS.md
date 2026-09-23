@@ -50,6 +50,9 @@
 - Reconciled approved D-36 held-out bank volumes (9 items per lesson bank,
   18 for the unit bank) and made assignment creation fail closed when the
   mounted bank hash differs from the authored curriculum snapshot.
+- Unit assessment assignment selection now requires coverage for every unit
+  skill before filling remaining assessment slots, with a falsifying selector
+  test.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 

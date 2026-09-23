@@ -6,13 +6,13 @@ import {
   selectAssessmentItems,
 } from '../../src/progression/assessment-assignment';
 
-const item = (id: string) =>
+const item = (id: string, skillCode = 'ratio-language') =>
   AssessmentContentItemSchema.parse({
     id,
     version: '1.0.0',
     title: id,
     role: 'assessment',
-    skillRef: { code: 'ratio-language', version: '1.0.0' },
+    skillRef: { code: skillCode, version: '1.0.0' },
     mode: 'core',
     difficulty: 'foundational',
     standards: ['6.RP.A.1'],
@@ -69,5 +69,25 @@ describe('assessment assignment selection', () => {
         1,
       ),
     ).toThrowError(AssessmentAssignmentError);
+  });
+
+  it('selects coverage for every required unit skill before filling remaining slots', () => {
+    const selected = selectAssessmentItems(
+      {
+        code: 'bank',
+        version: '1.0.0',
+        contentHash: 'sha256:bank',
+        items: [
+          item('ratio-a'),
+          item('ratio-b'),
+          item('unit-rate-a', 'unit-rates'),
+          item('ratio-tables-a', 'ratio-tables'),
+        ].map((candidate) => ({ ...candidate, hash: `sha256:${candidate.id}` })),
+      },
+      3,
+      new Set(),
+      ['ratio-language', 'unit-rates', 'ratio-tables'],
+    );
+    expect(selected.map(({ id }) => id)).toEqual(['ratio-a', 'unit-rate-a', 'ratio-tables-a']);
   });
 });
