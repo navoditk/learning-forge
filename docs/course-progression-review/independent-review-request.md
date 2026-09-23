@@ -7,7 +7,7 @@ a review result or authorization.
 ## Review target
 
 - Repository: `navoditk/learning-forge`
-- Commit: `64fb7ab` (`fix: bind assessment banks to approved metadata`), the
+- Commit: `74db5fe` (`fix: require unit assessment skill coverage`), the
   current pushed checkpoint containing the bounded shadow persistence,
   redacted scored assessment responses, household-scoped current-item
   delivery, historical skip-side-effect protection, and archive-drift guard
@@ -33,7 +33,8 @@ a review result or authorization.
   solution sentinels; U2 and U28 are exercised through production catalog
   validation; all Phase 1 success routes are covered by the API journey; the
   persistence suite covers out-of-order submissions and lowest-unanswered
-  current-item delivery.
+  current-item delivery; unit assessment selection requires coverage for each
+  pilot skill before filling remaining slots.
 - `npm run test:migrations`: 11-migration forward/down/forward round trip
   passed.
 - Production review page: HTTP 200.
