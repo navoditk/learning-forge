@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import {
   AssessmentAssignmentError,
+  assessmentKindMatchesTarget,
   createAssessmentAssignment,
 } from '../../../../../progression/assessment-assignment';
 import { loadPolicyArtifacts } from '../../../../../progression/artifacts';
@@ -117,6 +118,12 @@ export async function POST(request: NextRequest) {
         { status: 409 },
       );
     }
+    if (!assessmentKindMatchesTarget(body.kind, body.targetKind)) {
+      return NextResponse.json(
+        { error: 'Assessment kind does not match target kind', reasonCode: 'KIND_TARGET_MISMATCH' },
+        { status: 409 },
+      );
+    }
     const bankRef = target.assessmentBankRef;
     if (!bankRef) {
       return NextResponse.json(
@@ -207,6 +214,8 @@ export async function POST(request: NextRequest) {
         itemsPerAttempt: itemsPerAttempt(body.kind, profile),
         requiredCount: required,
         requiredSkillCodes,
+        authoredBankItemCount: bank.itemCount,
+        authoredBankSkillCodes: bank.coveredSkillRefs.map((skill) => skill.code),
         maxReassessments: profile.maxReassessments,
         reassessmentCooldownHours: profile.reassessmentCooldownHours,
         shadow: {

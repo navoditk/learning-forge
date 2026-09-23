@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { AssessmentContentItemSchema } from '../../src/contracts/progression';
 import {
   AssessmentAssignmentError,
+  assessmentKindMatchesTarget,
   selectAssessmentItems,
 } from '../../src/progression/assessment-assignment';
 
@@ -42,6 +43,12 @@ const item = (id: string, skillCode = 'ratio-language') =>
   });
 
 describe('assessment assignment selection', () => {
+  it('rejects lesson and unit assessment target mismatches', () => {
+    expect(assessmentKindMatchesTarget('LESSON_ASSESSMENT', 'UNIT')).toBe(false);
+    expect(assessmentKindMatchesTarget('UNIT_ASSESSMENT', 'LESSON')).toBe(false);
+    expect(assessmentKindMatchesTarget('LESSON_ASSESSMENT', 'LESSON')).toBe(true);
+    expect(assessmentKindMatchesTarget('UNIT_ASSESSMENT', 'UNIT')).toBe(true);
+  });
   it('selects server-owned items in stable order and excludes prior items', () => {
     const selected = selectAssessmentItems(
       {

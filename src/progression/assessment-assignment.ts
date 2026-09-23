@@ -38,6 +38,16 @@ export class AssessmentAssignmentError extends Error {
   }
 }
 
+export function assessmentKindMatchesTarget(
+  kind: AssessmentKind,
+  targetKind: ProgressionTargetKind,
+): boolean {
+  return (
+    (kind !== AssessmentKind.LESSON_ASSESSMENT || targetKind === ProgressionTargetKind.LESSON) &&
+    (kind !== AssessmentKind.UNIT_ASSESSMENT || targetKind === ProgressionTargetKind.UNIT)
+  );
+}
+
 export function selectAssessmentItems(
   bank: HeldOutAssessmentBank,
   itemsPerAttempt: number,
@@ -98,6 +108,8 @@ export type CreateAssessmentAssignmentInput = {
   curriculumSnapshotHash: string;
   itemsPerAttempt: number;
   requiredCount: number;
+  authoredBankItemCount?: number;
+  authoredBankSkillCodes?: readonly string[];
   requiredSkillCodes?: readonly string[];
   maxReassessments?: number;
   reassessmentCooldownHours?: number;
@@ -142,6 +154,28 @@ export async function createAssessmentAssignment(
       'ASSESSMENT_BANK_METADATA_MISMATCH',
       `Assessment bank ${input.bankRef.code}@${input.bankRef.version} does not match the authored curriculum snapshot.`,
     );
+  }
+  if (
+    input.authoredBankItemCount !== undefined &&
+    bank.items.length !== input.authoredBankItemCount
+  ) {
+    throw new AssessmentAssignmentError(
+      'ASSESSMENT_BANK_METADATA_MISMATCH',
+      `Assessment bank ${input.bankRef.code}@${input.bankRef.version} has an unexpected item count.`,
+    );
+  }
+  if (input.authoredBankSkillCodes !== undefined) {
+    const actualSkills = [...new Set(bank.items.map((item) => item.skillRef.code))].sort();
+    const authoredSkills = [...new Set(input.authoredBankSkillCodes)].sort();
+    if (
+      actualSkills.length !== authoredSkills.length ||
+      actualSkills.some((skillCode, index) => skillCode !== authoredSkills[index])
+    ) {
+      throw new AssessmentAssignmentError(
+        'ASSESSMENT_BANK_METADATA_MISMATCH',
+        `Assessment bank ${input.bankRef.code}@${input.bankRef.version} has unexpected skill coverage.`,
+      );
+    }
   }
 
   const result = await database.$transaction(

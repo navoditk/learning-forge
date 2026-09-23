@@ -53,6 +53,9 @@
 - Unit assessment assignment selection now requires coverage for every unit
   skill before filling remaining assessment slots, with a falsifying selector
   test.
+- Assessment assignment routes now reject lesson/unit kind-target mismatches,
+  and authored bank item counts and skill coverage are checked alongside the
+  authored bank hash before a run is persisted.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 
