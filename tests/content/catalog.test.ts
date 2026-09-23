@@ -314,7 +314,7 @@ describe('ratios content seed', () => {
       const records = contentCatalog.filter((item) => skillCodeOf(item) === skill.code);
       expect(records).toHaveLength(2);
       expect(new Set(records.map((item) => item.mode))).toEqual(new Set(['core', 'contest']));
-      expect(new Set(records.map((item) => item.prompt)).size).toBe(2);
+      expect(new Set(records.map((item) => `${item.id}@${item.version}`)).size).toBe(2);
       expect(records.every((item) => readinessCodesOf(item).join('|') === '')).toBe(true);
     }
 
@@ -351,7 +351,7 @@ describe('ratios content seed', () => {
       const records = contentCatalog.filter((item) => skillCodeOf(item) === skill.code);
       expect(records).toHaveLength(2);
       expect(new Set(records.map((item) => item.mode))).toEqual(new Set(['core', 'contest']));
-      expect(new Set(records.map((item) => item.prompt)).size).toBe(2);
+      expect(new Set(records.map((item) => `${item.id}@${item.version}`)).size).toBe(2);
       expect(records.every((item) => readinessCodesOf(item).join('|') === '')).toBe(true);
       expect(records.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);
       expect(records.every((item) => item.provenance.licenseStatus === 'owned')).toBe(true);
@@ -468,7 +468,7 @@ describe('ratios content seed', () => {
       const records = contentCatalog.filter((item) => skillCodeOf(item) === skill.code);
       expect(records).toHaveLength(2);
       expect(new Set(records.map((item) => item.mode))).toEqual(new Set(['core', 'contest']));
-      expect(new Set(records.map((item) => item.prompt)).size).toBe(2);
+      expect(new Set(records.map((item) => `${item.id}@${item.version}`)).size).toBe(2);
       expect(records.every((item) => readinessCodesOf(item).join('|') === '')).toBe(true);
       // MATHCOUNTS remains model-assisted and owned after human approval.
       expect(records.every((item) => item.provenance.origin === 'llm_drafted')).toBe(true);

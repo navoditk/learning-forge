@@ -12,6 +12,8 @@
 - Added falsifying state-machine coverage. Targeted progression tests and
   typecheck pass; C4 remains closed pending the remaining independent-review
   remediations and manual gates.
+- Replaced legacy content self-audits that inferred identity from prompt text
+  with explicit `id@version` identity assertions.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 
