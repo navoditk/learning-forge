@@ -1,7 +1,7 @@
 import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 
 import { contentCatalog, contentSkillCode, servableContentCatalog } from '../content/catalog';
-import { resolveArchivedContent } from '../content/archive';
+import { resolveHistoricalContent as resolveArchivedHistoricalContent } from '../content/archive';
 import { resolveActive } from '../content/resolvers';
 import {
   CurriculumProgram,
@@ -52,10 +52,7 @@ function resolveContent(contentId?: string) {
 
 async function resolveHistoricalContent(contentId: string, contentVersion?: string | null) {
   if (!contentVersion) return resolveContent(contentId);
-  const local = contentCatalog.find(
-    (item) => item.id === contentId && item.version === contentVersion,
-  );
-  return local ?? (await resolveArchivedContent(prisma, contentId, contentVersion));
+  return resolveArchivedHistoricalContent(prisma, contentCatalog, contentId, contentVersion);
 }
 
 async function requireHistoricalContent(contentId: string, contentVersion?: string | null) {

@@ -1,6 +1,10 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { archiveCurrentContentCatalog, resolveArchivedContent } from '../../src/content/archive';
+import {
+  archiveCurrentContentCatalog,
+  resolveArchivedContent,
+  resolveHistoricalContent,
+} from '../../src/content/archive';
 import { contentCatalog } from '../../src/content/catalog';
 import { prisma } from '../../src/server/prisma';
 
@@ -58,6 +62,9 @@ describe('durable content archive', () => {
         select: { content: true },
       }),
     ).resolves.toMatchObject({ content: { title: 'Historical title' } });
+    await expect(
+      resolveHistoricalContent(prisma, contentCatalog, source.id, source.version),
+    ).resolves.toMatchObject({ title: 'Historical title' });
   });
 
   it('retains a retired version that no longer exists in the active catalog', async () => {

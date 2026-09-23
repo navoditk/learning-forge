@@ -3,6 +3,8 @@ import type { Prisma, PrismaClient } from '@prisma/client';
 import { contentCatalog } from './catalog';
 import { ContentRecordSchema, type PracticeContentItem } from '../contracts/progression';
 
+export type HistoricalContentCatalog = readonly PracticeContentItem[];
+
 /**
  * Archives the current catalog without replacing an existing `{key, version}`.
  * Deployments should run this before removing a version from the active catalog.
@@ -39,4 +41,20 @@ export async function resolveArchivedContent(
     // A corrupted archive row must never become learner- or tutor-visible.
     return undefined;
   }
+}
+
+/**
+ * Historical evidence is pinned to the durable snapshot when one exists.
+ * The active catalog is only a fallback for a not-yet-archived current item.
+ */
+export async function resolveHistoricalContent(
+  database: PrismaClient,
+  catalog: HistoricalContentCatalog,
+  contentKey: string,
+  contentVersion: string,
+): Promise<PracticeContentItem | undefined> {
+  return (
+    (await resolveArchivedContent(database, contentKey, contentVersion)) ??
+    catalog.find((item) => item.id === contentKey && item.version === contentVersion)
+  );
 }

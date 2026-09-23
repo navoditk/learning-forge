@@ -19,6 +19,9 @@
   unclaimed skills require the named legacy compatibility policy. Added
   pilot/legacy boundary tests; this remains non-enforcing shadow evidence and
   does not resolve the required representative shadow disposition or open C4.
+- Historical content reads now prefer the durable archive before falling back
+  to the active catalog, with a regression proving an archived same-version
+  snapshot is the source of truth.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 
