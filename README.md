@@ -77,14 +77,15 @@ Supporting reference docs, consulted as needed rather than read end to end:
   gates.
 - `docs/course-progression-playbook.md` — the tool-neutral procedure the
   repository skills and agent profiles wrap.
-- `docs/course-progression-architecture.md` — the proposed
-  `Program → Unit → Lesson → Skill → Practice → Assessment → Review`
-  capability, its Grade 6 Math ratios pilot, and the current-behavior
-  inventory it replaces. Proposed; not implemented.
+- `docs/course-progression-architecture.md` — the fourth-draft specification
+  for the staged `Program → Unit → Lesson → Skill → Practice → Assessment →
+Review` capability and its Grade 6 Math ratios pilot. A0–A2 and B are
+  implemented; C1–C3 are shipped in non-enforcing mode, while C4/C5 remain
+  gated.
 - `docs/course-progression-decisions.md` — the authoritative decision matrix
-  for every human-gated progression parameter, `D-01` … `D-59`. All entries are
-  open; nothing there is approved, and no other document restates a normative
-  default.
+  for every human-gated progression parameter, `D-01` … `D-61`. All 61
+  decisions are approved; D-36 and D-39 are explicitly revisitable pilot
+  choices.
 - `docs/local-development.md` — local PostgreSQL setup and migration rollback.
 - `docs/adr/` — architecture decision records for consequential choices.
 - `docs/PROGRESS.md` — the append-only build log: current branch, verification history, decisions, risks, and the exact next task. Not a summary — check the `Current status` and `Domain model coverage` sections at the top rather than reading the full history.

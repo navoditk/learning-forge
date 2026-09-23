@@ -7,10 +7,12 @@ a review result or authorization.
 ## Review target
 
 - Repository: `navoditk/learning-forge`
-- Commit: `b7934bc` (`fix: fail closed on incomplete shadow context`), the
-  current pushed checkpoint containing the bounded shadow persistence,
+- Implementation review target: `b7934bc` (`fix: fail closed on incomplete
+  shadow context`), the pushed code checkpoint containing the bounded shadow persistence,
   redacted scored assessment responses, household-scoped current-item
   delivery, historical skip-side-effect protection, and archive-drift guard
+- Repository `HEAD`: `45f5dbf`; commits after `b7934bc` are documentation-only
+  evidence updates and do not change the implementation under review.
 - Browser review surface: `https://learning-forge.onrender.com/review/course-progression`
 - Production progression gate: closed
 - Private package: not mounted in this repository; it must be supplied and

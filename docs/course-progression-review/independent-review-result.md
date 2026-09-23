@@ -1,5 +1,13 @@
 # Independent fourth-draft / C1–C3 review result
 
+## Current status — 2026-09-23
+
+No independent review has been completed for the current implementation target
+`b7934bc`. The entries below are historical reviews of earlier checkpoints and
+must not be interpreted as approval of the current code or authorization for
+C4. The authoritative current gate status is in `README.md` and
+`manual-gate-record.md`.
+
 ## Fresh read-only review of `5020ea2`
 
 The independent reviewer completed a read-only review of the exact pushed

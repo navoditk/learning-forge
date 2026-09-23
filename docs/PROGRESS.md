@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-09-23 — Cross-tool handoff consistency
+
+- Reconciled `README.md` with the course-progression handoff: A0–A2 and B are
+  implemented, C1–C3 are non-enforcing, all D-01–D-61 decisions are approved,
+  and C4/C5 remain gated.
+- Updated the current-status checkpoint and clarified that `b7934bc` is the
+  implementation review target while `45f5dbf` contains documentation-only
+  descendants. Historical independent-review results are now explicitly
+  labeled as historical and non-approving.
+
 ## 2026-09-23 — Readiness report exposes context completeness
 
 - The readiness CLI now reports `incompleteShadowContextDecisions` so operators
@@ -2206,7 +2216,7 @@ are optional wrappers over it and are not the source of procedure.
 
 ## Current status
 
-- **Course progression: staged implementation checkpoint (2026-09-20).** A0,
+- **Course progression: staged implementation checkpoint (2026-09-23).** A0,
   A1, A2, and Stage B are complete. C1–C3 persistence, export/deletion
   coverage, dual-write/shadow mode, progression endpoints, held-out package
   validation, review UI, and fail-closed release gates are implemented and
@@ -2215,11 +2225,16 @@ are optional wrappers over it and are not the source of procedure.
   authoritative matrix; D-36 and D-39 remain explicitly revisitable pilot
   choices. C4 authorization and C5 learner serving remain closed pending the
   independent fourth-draft/C1–C3 review, representative shadow disposition,
-  reviewed private assessment package, and manual gate record.
+  reviewed private assessment package, and manual gate record. Independent
+  reviewer attempts in the current Codex account are presently blocked by its
+  usage limit; this is an external review-capacity issue, not an implementation
+  approval.
 - Phase: 1 — synthetic journeys across all 5 Grade 6 Math domains, skill graph, planner, an actionable planner UI, an on-demand parent weekly digest, and a basic accessible visual design (now automated-WCAG-AA-checked) covered; **Grade 6 Math curriculum v3 shipped 2026-09-18**: 27 skills, 54/54 content records fully human-reviewed (0 pending), merged from the v1 baseline plus the independently-researched/reviewed v2 candidate graph (see the 2026-09-16 through 2026-09-18 entries below for the full merge, safety-gate, and content-review trail); the pilot-readiness decisions (audience, identity/auth, hosting, consent/retention, provider, budget/latency, eval gate) are made for a single-household pilot (ADR-0008, ADR-0009, ADR-0005). **All three approved implementation tracks are now live**: Track 1, real authentication (ADR-0010). Track 2, real Claude adapter (ADR-0011), reviewed, approved, and enabled. Track 3, Render deployment (ADR-0012) — **confirmed genuinely live 2026-09-13**: a real account was provisioned, sign-in works at `https://learning-forge.onrender.com`, and a real hint request was confirmed hitting the real Anthropic API (visible ~1-2s latency, non-templated text), not the fake adapter. This is a real, live, single-household pilot now, not just a local demonstration
 - Branch: `main`
 - Repository state: PRs #13–#42 are merged to `main`; the deployed app is live and working. The web service is currently on the **Starter** plan by deliberate choice for this pilot. The original Free-plan decision is deferred for a later cost review, not an operational blocker.
-- Last verified course-progression checkpoint: `8d637ca fix: enforce grade 6 assessment package shape`
+- Last verified course-progression implementation checkpoint: `b7934bc fix:
+  fail closed on incomplete shadow context`. Current `HEAD` is `45f5dbf`, whose
+  descendants are documentation-only evidence updates.
 - Operational cleanup in progress: tutor traces now retain an optional session
   reference, and the live hint route enforces configurable household-daily and
   session hint limits before calling the model. The current defaults are 100
