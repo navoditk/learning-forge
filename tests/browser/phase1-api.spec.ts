@@ -136,12 +136,16 @@ test.describe('Phase 1 API route validation and error paths', () => {
     });
     expect(assignment.status()).toBe(201);
     const body = await assignment.json();
-    expect(body.assignment.selectedItems).toHaveLength(3);
-    expect(
-      body.assignment.selectedItems.every((item: { hash: string }) =>
-        item.hash.startsWith('sha256:'),
-      ),
-    ).toBe(true);
+    expect(body.assignment).not.toHaveProperty('selectedItems');
+    expect(body.assignment).not.toHaveProperty('excludedItems');
+    const current = await request.get(
+      `/api/progression/assessment/submission?assignmentId=${body.assignment.id}&sessionId=${body.assignment.session.id}`,
+    );
+    expect(current.status()).toBe(200);
+    const currentBody = await current.json();
+    expect(currentBody.item.prompt).toBeTruthy();
+    expect(currentBody.item).not.toHaveProperty('solutionRepresentation');
+    expect(currentBody.item).not.toHaveProperty('deterministicValidator');
   });
 
   test('program-scoped routes reject unavailable and mismatched curricula', async ({ request }) => {

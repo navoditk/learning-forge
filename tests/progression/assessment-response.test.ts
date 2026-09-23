@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
-import { projectAssessmentAssignmentResponse } from '../../src/progression/assessment-response';
+import {
+  projectAssessmentAssignmentResponse,
+  projectAssessmentSubmissionResponse,
+} from '../../src/progression/assessment-response';
 
 describe('assessment assignment response projection', () => {
   it('does not expose held-out item identities or selection metadata', () => {
@@ -44,5 +47,34 @@ describe('assessment assignment response projection', () => {
     expect(JSON.stringify(response)).not.toContain('private-excluded-item');
     expect(response.assignment).not.toHaveProperty('selectedItems');
     expect(response.assignment).not.toHaveProperty('excludedItems');
+  });
+
+  it('returns correctness feedback without held-out item identities', () => {
+    const response = projectAssessmentSubmissionResponse({
+      expired: false,
+      assignmentId: 'assignment-1',
+      sessionId: 'session-1',
+      attemptId: 'attempt-1',
+      status: 'SCORED',
+      result: {
+        id: 'result-1',
+        outcome: 'PASS',
+        correctCount: 1,
+        requiredCount: 1,
+        itemResults: [
+          {
+            ordinal: 1,
+            contentId: 'private-item-sentinel',
+            contentVersion: '1.0.0',
+            correctness: 'CORRECT',
+            maxAssistance: 'INDEPENDENT',
+          },
+        ],
+      },
+    });
+    expect(response.result?.itemResults).toEqual([
+      { ordinal: 1, correctness: 'CORRECT', maxAssistance: 'INDEPENDENT' },
+    ]);
+    expect(JSON.stringify(response)).not.toContain('private-item-sentinel');
   });
 });

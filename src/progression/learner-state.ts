@@ -377,7 +377,9 @@ export async function applyPilotUnitAssessmentOutcome(
     },
   });
 
-  if (completionStatus !== 'COMPLETE_BY_SKIP') return;
+  if (completionStatus !== 'COMPLETE_BY_SKIP' || current.completionStatus === 'COMPLETE_BY_SKIP') {
+    return;
+  }
 
   const evidenceRefs = {
     assessmentRunId: input.assessmentRunId,

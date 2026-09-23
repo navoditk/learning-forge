@@ -8,6 +8,7 @@ import { loadPolicyArtifacts } from '../../src/progression/artifacts';
 import { resolvePolicyProfile } from '../../src/progression/policy';
 import {
   abandonAssessmentRun,
+  getCurrentAssessmentItem,
   invalidateAssessmentRun,
   submitAssessmentItem,
 } from '../../src/progression/assessment-submission';
@@ -129,6 +130,21 @@ describe('assessment assignment persistence', () => {
     const session = first.assignment.sessions[0];
     if (!session) throw new Error('Assessment session was not created');
     expect(session.policyProfileCode).toBe('grade-6-math-default');
+    const currentItem = await getCurrentAssessmentItem(
+      {
+        householdId,
+        learnerProfileId,
+        assignmentId: first.assignment.id,
+        sessionId: session.id,
+      },
+      store,
+    );
+    expect(currentItem.item).toMatchObject({
+      title: 'Held-out ratio item',
+      prompt: 'State the ratio.',
+    });
+    expect(currentItem.item).not.toHaveProperty('solutionRepresentation');
+    expect(currentItem.item).not.toHaveProperty('deterministicValidator');
     const submitted = await submitAssessmentItem(
       {
         householdId,

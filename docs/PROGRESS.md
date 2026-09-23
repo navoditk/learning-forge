@@ -38,6 +38,12 @@
 - Content deployment archiving now fails closed when an existing same-version
   snapshot differs from the active catalog, rather than silently accepting
   archive drift.
+- Scored assessment responses now redact held-out item identities, and a
+  household-scoped current-item endpoint delivers only the active prompt and
+  accessibility fields. Later failed unit runs no longer recreate historical
+  skip records.
+- Updated the mounted-package browser journey to assert the redacted
+  assignment response and current-item delivery contract.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 

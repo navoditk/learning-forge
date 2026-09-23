@@ -81,6 +81,13 @@ describe('progression learner-state rules', () => {
         hadPriorLessonWork: true,
       }),
     ).toBe('COMPLETE');
+    expect(
+      unitStatusAfterAssessment({
+        current: 'COMPLETE_BY_SKIP',
+        outcome: 'FAIL',
+        hadPriorLessonWork: false,
+      }),
+    ).toBe('COMPLETE_BY_SKIP');
   });
 
   it('does not reset review scheduling on ordinary practice and expands intervals on review pass', () => {

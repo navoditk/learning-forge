@@ -49,3 +49,34 @@ export function projectAssessmentAssignmentResponse(input: {
     },
   };
 }
+
+export function projectAssessmentSubmissionResponse(input: Record<string, unknown>) {
+  const result = input.result as Record<string, unknown> | undefined;
+  const rawItemResults = result?.itemResults;
+  const itemResults = Array.isArray(rawItemResults)
+    ? (rawItemResults as Record<string, unknown>[])
+    : undefined;
+  return {
+    expired: input.expired,
+    assignmentId: input.assignmentId,
+    sessionId: input.sessionId,
+    attemptId: input.attemptId,
+    status: input.status,
+    result: result
+      ? {
+          id: result.id,
+          outcome: result.outcome,
+          correctCount: result.correctCount,
+          requiredCount: result.requiredCount,
+          itemResults: itemResults?.map((item) => {
+            const row = item as Record<string, unknown>;
+            return {
+              ordinal: row.ordinal,
+              correctness: row.correctness,
+              maxAssistance: row.maxAssistance,
+            };
+          }),
+        }
+      : undefined,
+  };
+}

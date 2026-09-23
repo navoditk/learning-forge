@@ -109,6 +109,92 @@ export type SubmitAssessmentItemInput = {
   learnerResponse: string;
 };
 
+export type CurrentAssessmentItemInput = {
+  householdId: string;
+  learnerProfileId: string;
+  assignmentId: string;
+  sessionId: string;
+};
+
+export async function getCurrentAssessmentItem(
+  input: CurrentAssessmentItemInput,
+  store: AssessmentStore = createAssessmentStore(),
+  database: PrismaClient = prisma,
+) {
+  const assignment = await database.assessmentAssignment.findFirst({
+    where: {
+      id: input.assignmentId,
+      householdId: input.householdId,
+      learnerProfileId: input.learnerProfileId,
+    },
+    include: { runState: true, sessions: true },
+  });
+  if (!assignment || !assignment.runState) {
+    throw new AssessmentSubmissionError('ASSESSMENT_NOT_FOUND', 'Assessment assignment not found.');
+  }
+  const session = assignment.sessions.find((candidate) => candidate.id === input.sessionId);
+  if (!session) {
+    throw new AssessmentSubmissionError('ASSESSMENT_NOT_FOUND', 'Assessment session not found.');
+  }
+  if (session.endedAt) {
+    throw new AssessmentSubmissionError('SESSION_ENDED', 'The assessment session has ended.');
+  }
+  if (session.activityKind !== sessionKindForAssessment(assignment.kind)) {
+    throw new AssessmentSubmissionError(
+      'SESSION_KIND_MISMATCH',
+      'Assessment session kind does not match.',
+    );
+  }
+  if (isTerminalAssessmentStatus(assignment.runState.status)) {
+    throw new AssessmentSubmissionError(
+      'RUN_NOT_ACTIVE',
+      'The assessment run is already terminal.',
+    );
+  }
+  if (new Date() >= assignment.runState.expiresAt) {
+    throw new AssessmentSubmissionError('ASSESSMENT_EXPIRED', 'The assessment run has expired.');
+  }
+  const submittedOrdinals = new Set(
+    Array.isArray(assignment.runState.submittedOrdinals)
+      ? assignment.runState.submittedOrdinals.filter(
+          (value): value is number => typeof value === 'number',
+        )
+      : [],
+  );
+  const selected = selectedItems(assignment.selectedItems).find(
+    (candidate) => !submittedOrdinals.has(candidate.ordinal),
+  );
+  if (!selected) {
+    throw new AssessmentSubmissionError('VERSION_MISMATCH', 'Assessment item is not available.');
+  }
+  const bank = await store.getBank({ code: assignment.bankCode, version: assignment.bankVersion });
+  const item = bank.items.find(
+    (candidate) =>
+      candidate.id === selected.id &&
+      candidate.version === selected.version &&
+      candidate.hash === selected.hash,
+  );
+  if (!item) {
+    throw new AssessmentSubmissionError(
+      'VERSION_MISMATCH',
+      'Assessment item version does not match the assignment.',
+    );
+  }
+  return {
+    assignmentId: assignment.id,
+    sessionId: session.id,
+    ordinal: selected.ordinal,
+    totalItems: selectedItems(assignment.selectedItems).length,
+    item: {
+      title: item.title,
+      prompt: item.prompt,
+      accessibilityNotes: item.accessibilityNotes,
+      accessibleAlternative: item.accessibleAlternative,
+      figure: item.figure,
+    },
+  };
+}
+
 export async function submitAssessmentItem(
   input: SubmitAssessmentItemInput,
   store: AssessmentStore = createAssessmentStore(),
