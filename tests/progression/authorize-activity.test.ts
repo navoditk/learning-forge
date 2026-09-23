@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { AccessPolicySchema } from '../../src/contracts/policy';
-import { authorizeActivity } from '../../src/progression/policy';
+import { authorizeActivity, authorizeProgramActivity } from '../../src/progression/policy';
 
 const policy = AccessPolicySchema.parse({
   code: 'grade-6-math-access',
@@ -60,5 +60,44 @@ describe('authorizeActivity', () => {
         policy,
       }),
     ).toMatchObject({ allowed: false, reasonCode: 'ACTIVITY_NOT_GRANTED' });
+  });
+
+  it('denies a pilot skill under the legacy policy boundary', () => {
+    expect(
+      authorizeProgramActivity({
+        activityKind: 'PRACTICE',
+        skillCode: 'unit-rates',
+        prerequisiteSkillCodes: [],
+        masteredSkillCodes: new Set(),
+        skillClaimedByUnit: true,
+        accessPolicy: undefined,
+        legacyCompatibilityPolicy: policy,
+      }),
+    ).toEqual({ allowed: false, reasonCode: 'POLICY_UNRESOLVABLE', missing: [] });
+  });
+
+  it('requires an applicable authored legacy policy for an unclaimed skill', () => {
+    expect(
+      authorizeProgramActivity({
+        activityKind: 'PRACTICE',
+        skillCode: 'fraction-decimal-operations',
+        prerequisiteSkillCodes: [],
+        masteredSkillCodes: new Set(),
+        skillClaimedByUnit: false,
+        accessPolicy: policy,
+        legacyCompatibilityPolicy: undefined,
+      }),
+    ).toEqual({ allowed: false, reasonCode: 'LEGACY_POLICY_NOT_APPLICABLE', missing: [] });
+    expect(
+      authorizeProgramActivity({
+        activityKind: 'PRACTICE',
+        skillCode: 'fraction-decimal-operations',
+        prerequisiteSkillCodes: [],
+        masteredSkillCodes: new Set(),
+        skillClaimedByUnit: false,
+        accessPolicy: policy,
+        legacyCompatibilityPolicy: policy,
+      }).allowed,
+    ).toBe(true);
   });
 });

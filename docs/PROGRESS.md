@@ -14,6 +14,11 @@
   remediations and manual gates.
 - Replaced legacy content self-audits that inferred identity from prompt text
   with explicit `id@version` identity assertions.
+- Added an explicit hybrid authorization predicate and shadow-policy
+  selection: unit-claimed skills use the progression access policy, while
+  unclaimed skills require the named legacy compatibility policy. Added
+  pilot/legacy boundary tests; this remains non-enforcing shadow evidence and
+  does not resolve the required representative shadow disposition or open C4.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 

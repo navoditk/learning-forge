@@ -12,6 +12,7 @@ import {
   WeeklyDigestSkillInput,
 } from '../contracts';
 import { skillCatalog, skillsByCode, topologicalSkillOrder } from '../curriculum';
+import { PILOT_LESSONS, PILOT_UNITS } from '../curriculum/pilot-catalog';
 import { programsByCode } from '../curriculum/program-registry';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
@@ -250,6 +251,28 @@ async function writeShadowDecision(
       candidate.code === program.accessPolicyRef.code &&
       candidate.version === program.accessPolicyRef.version,
   );
+  const legacyCompatibilityPolicy = program.legacyCompatibilityPolicyRef
+    ? artifacts.accessPolicies.find(
+        (candidate) =>
+          candidate.code === program.legacyCompatibilityPolicyRef?.code &&
+          candidate.version === program.legacyCompatibilityPolicyRef.version,
+      )
+    : undefined;
+  const skillClaimedByUnit = program.unitRefs.some((unitRef) =>
+    PILOT_UNITS.some(
+      (unit) =>
+        unit.code === unitRef.code &&
+        unit.version === unitRef.version &&
+        unit.lessonRefs.some((lessonRef) =>
+          PILOT_LESSONS.some(
+            (lesson) =>
+              lesson.code === lessonRef.code &&
+              lesson.version === lessonRef.version &&
+              lesson.skillRefs.some((ref) => ref.code === skill.code),
+          ),
+        ),
+    ),
+  );
   const prerequisiteCodes = skill.prerequisiteSkillCodes;
   const priorMastery = await prisma.masteryEstimate.findMany({
     where: {
@@ -267,6 +290,8 @@ async function writeShadowDecision(
     prerequisiteSkillCodes: prerequisiteCodes,
     masteredSkillCodes: new Set(priorMastery.map((record) => record.skillCode)),
     accessPolicy,
+    legacyCompatibilityPolicy,
+    skillClaimedByUnit,
     policyProfile: resolvedProfile,
     actualBehavior: 'ALLOWED',
     algorithmVersion: PHASE_1_MASTERY_VERSION,

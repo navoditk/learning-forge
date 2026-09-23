@@ -10,6 +10,12 @@ export type AuthorizationInput = {
 };
 export type AuthorizationResult = { allowed: boolean; reasonCode: string; missing: string[] };
 
+export type ProgramAuthorizationInput = Omit<AuthorizationInput, 'policy'> & {
+  skillClaimedByUnit: boolean;
+  accessPolicy: AccessPolicy | undefined;
+  legacyCompatibilityPolicy: AccessPolicy | undefined;
+};
+
 export function authorizeActivity(input: AuthorizationInput): AuthorizationResult {
   if (!input.policy) return { allowed: false, reasonCode: 'POLICY_UNRESOLVABLE', missing: [] };
   if (
@@ -23,6 +29,19 @@ export function authorizeActivity(input: AuthorizationInput): AuthorizationResul
   return missing.length
     ? { allowed: false, reasonCode: 'LOCKED_PREREQUISITE', missing }
     : { allowed: true, reasonCode: 'ALLOW', missing: [] };
+}
+
+/**
+ * Selects the authored policy for a hybrid program before applying the common
+ * activity/prerequisite predicate. A missing or inapplicable legacy policy is
+ * never treated as permission.
+ */
+export function authorizeProgramActivity(input: ProgramAuthorizationInput): AuthorizationResult {
+  const policy = input.skillClaimedByUnit ? input.accessPolicy : input.legacyCompatibilityPolicy;
+  if (!input.skillClaimedByUnit && !policy?.appliesToSkillsClaimedByNoUnit) {
+    return { allowed: false, reasonCode: 'LEGACY_POLICY_NOT_APPLICABLE', missing: [] };
+  }
+  return authorizeActivity({ ...input, policy });
 }
 
 export function policyHash(profile: ProgressionPolicyProfile): string {

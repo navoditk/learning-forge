@@ -1,5 +1,5 @@
 import { AccessPolicy, ActivityKind, ProgressionPolicyProfile } from '../contracts/policy';
-import { authorizeActivity } from './policy';
+import { authorizeProgramActivity } from './policy';
 import { policyHash } from './policy';
 
 /**
@@ -42,18 +42,22 @@ export type ShadowDecisionInput = {
   prerequisiteSkillCodes: readonly string[];
   masteredSkillCodes: ReadonlySet<string>;
   accessPolicy: AccessPolicy | undefined;
+  legacyCompatibilityPolicy?: AccessPolicy;
+  skillClaimedByUnit?: boolean;
   policyProfile: ProgressionPolicyProfile;
   actualBehavior: 'ALLOWED' | 'DENIED';
   algorithmVersion: string;
 };
 
 export function buildShadowDecision(input: ShadowDecisionInput) {
-  const decision = authorizeActivity({
+  const decision = authorizeProgramActivity({
     activityKind: input.activityKind,
     skillCode: input.skillCode ?? input.targetCode,
     prerequisiteSkillCodes: [...input.prerequisiteSkillCodes],
     masteredSkillCodes: input.masteredSkillCodes,
-    policy: input.accessPolicy,
+    skillClaimedByUnit: input.skillClaimedByUnit ?? true,
+    accessPolicy: input.accessPolicy,
+    legacyCompatibilityPolicy: input.legacyCompatibilityPolicy,
   });
   return {
     requestKind: input.requestKind,
