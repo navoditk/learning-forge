@@ -1,5 +1,19 @@
 # Progress
 
+## 2026-09-22 — Browser verification after shadow-context increment
+
+- `npm run test:e2e` passed: 24 Playwright tests passed and the single private
+  assessment-package test was intentionally skipped because the package is not
+  mounted. Accessibility, keyboard, authentication, household controls, API
+  boundaries, and synthetic learner journeys all passed.
+
+## 2026-09-22 — Integration verification after migration
+
+- Applied reversible migration `0007_add_shadow_request_context` to the local
+  disposable PostgreSQL database and reran `npm run test:integration`: 12 test
+  files / 53 tests passed. Expected stderr from shadow-failure injection and
+  concurrent-attempt retry coverage remains non-fatal.
+
 ## 2026-09-22 — Verification after shadow-context increment
 
 - `npm run verify` passed against the shadow-context checkpoint: formatting,
