@@ -101,6 +101,9 @@ describe('progression shadow decisions', () => {
     const decisions = [
       {
         id: 'shadow-1',
+        actorUserId: 'parent-1',
+        actorRole: 'PARENT' as const,
+        activeRunOrSessionId: 'session-1',
         requestKind: 'practice',
         targetCode: 'unit-rates',
         targetVersion: '1.0.0',
@@ -117,6 +120,9 @@ describe('progression shadow decisions', () => {
       },
       {
         id: 'shadow-2',
+        actorUserId: 'parent-1',
+        actorRole: 'PARENT' as const,
+        activeRunOrSessionId: 'session-2',
         requestKind: 'practice',
         targetCode: 'ratio-language',
         targetVersion: '1.0.0',
@@ -142,12 +148,17 @@ describe('progression shadow decisions', () => {
     expect(packet.byReasonCode).toEqual({ LOCKED_PREREQUISITE: 1 });
     expect(packet.reviewComplete).toBe(true);
     expect(packet.divergences[0]).not.toHaveProperty('learnerProfileId');
+    expect(packet.divergences[0]).not.toHaveProperty('actorUserId');
+    expect(packet.divergences[0].requestContextComplete).toBe(true);
     expect(packet.divergences[0]).not.toHaveProperty('prompt');
   });
 
   it('does not report review completion with unresolved or remediation divergences', () => {
     const decision = {
       id: 'shadow-1',
+      actorUserId: 'parent-1',
+      actorRole: 'PARENT' as const,
+      activeRunOrSessionId: 'session-1',
       requestKind: 'practice',
       targetCode: 'unit-rates',
       targetVersion: '1.0.0',

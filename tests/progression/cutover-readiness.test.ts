@@ -4,6 +4,9 @@ import { summarizeCutoverReadiness } from '../../src/progression/cutover-readine
 
 const divergent = {
   id: 'shadow-1',
+  actorUserId: 'parent-1',
+  actorRole: 'PARENT' as const,
+  activeRunOrSessionId: 'session-1',
   requestKind: 'practice',
   targetCode: 'unit-rates',
   targetVersion: '1.0.0',
@@ -67,6 +70,23 @@ describe('cutover readiness', () => {
       drainComplete: true,
       shadowReview: { totalDecisions: 0, reviewComplete: true },
       readyForIndependentReview: false,
+    });
+  });
+
+  it('blocks review readiness when historical shadow rows lack request context', () => {
+    expect(
+      summarizeCutoverReadiness({
+        unboundOpenSessionCount: 0,
+        shadowDecisions: [{ ...divergent, actorUserId: undefined }],
+        dispositions: [{ decisionId: divergent.id, status: 'EXPLAINED' }],
+      }),
+    ).toMatchObject({
+      readyForIndependentReview: false,
+      shadowReview: {
+        incompleteContextCount: 1,
+        incompleteContextDecisionIds: [divergent.id],
+        reviewComplete: false,
+      },
     });
   });
 });

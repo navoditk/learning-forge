@@ -1,5 +1,14 @@
 # Progress
 
+## 2026-09-22 — Fail-closed shadow-context readiness
+
+- Cutover readiness now reports incomplete shadow request-context rows and
+  refuses `readyForIndependentReview` until every observed row has actor,
+  role, and active run/session context. Review output exposes only a
+  completeness boolean, not actor identifiers.
+- Added regression coverage for incomplete historical rows; targeted shadow
+  and readiness tests pass. C4 remains closed.
+
 ## 2026-09-22 — Browser verification after shadow-context increment
 
 - `npm run test:e2e` passed: 24 Playwright tests passed and the single private

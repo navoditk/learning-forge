@@ -109,6 +109,8 @@ export type ShadowReviewDisposition = {
 export type ShadowReviewPacket = {
   totalDecisions: number;
   divergentDecisions: number;
+  incompleteContextCount: number;
+  incompleteContextDecisionIds: string[];
   allowToDeny: number;
   denyToAllow: number;
   byReasonCode: Record<string, number>;
@@ -129,6 +131,7 @@ export type ShadowReviewPacket = {
     policyProfileHash: string;
     algorithmVersion: string;
     occurredAt: Date;
+    requestContextComplete: boolean;
     reviewStatus: ShadowReviewDisposition['status'] | 'UNREVIEWED';
   }>;
 };
@@ -143,6 +146,11 @@ export function buildShadowReviewPacket(
   dispositions: readonly ShadowReviewDisposition[] = [],
 ): ShadowReviewPacket {
   const divergent = decisions.filter((decision) => decision.divergent);
+  const incompleteContextDecisionIds = decisions
+    .filter(
+      (decision) => !decision.actorUserId || !decision.actorRole || !decision.activeRunOrSessionId,
+    )
+    .map(({ id }) => id);
   const dispositionById = new Map(
     dispositions.map((disposition) => [disposition.decisionId, disposition.status]),
   );
@@ -157,9 +165,6 @@ export function buildShadowReviewPacket(
       dispositionById.get(decision.id) ?? 'UNREVIEWED';
     return {
       id: decision.id,
-      actorUserId: decision.actorUserId,
-      actorRole: decision.actorRole,
-      activeRunOrSessionId: decision.activeRunOrSessionId,
       requestKind: decision.requestKind,
       targetCode: decision.targetCode,
       targetVersion: decision.targetVersion,
@@ -172,6 +177,7 @@ export function buildShadowReviewPacket(
       policyProfileHash: decision.policyProfileHash,
       algorithmVersion: decision.algorithmVersion,
       occurredAt: decision.occurredAt,
+      requestContextComplete: !incompleteContextDecisionIds.includes(decision.id),
       reviewStatus,
     };
   });
@@ -184,12 +190,17 @@ export function buildShadowReviewPacket(
   return {
     totalDecisions: decisions.length,
     divergentDecisions: divergent.length,
+    incompleteContextCount: incompleteContextDecisionIds.length,
+    incompleteContextDecisionIds,
     allowToDeny,
     denyToAllow,
     byReasonCode,
     unresolvedDecisionIds,
     remediationDecisionIds,
-    reviewComplete: unresolvedDecisionIds.length === 0 && remediationDecisionIds.length === 0,
+    reviewComplete:
+      incompleteContextDecisionIds.length === 0 &&
+      unresolvedDecisionIds.length === 0 &&
+      remediationDecisionIds.length === 0,
     divergences: packet,
   };
 }

@@ -82,6 +82,9 @@ export async function readCutoverReadiness(
       orderBy: { occurredAt: 'asc' },
       select: {
         id: true,
+        actorUserId: true,
+        actorRole: true,
+        activeRunOrSessionId: true,
         requestKind: true,
         targetCode: true,
         targetVersion: true,
