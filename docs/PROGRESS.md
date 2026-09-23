@@ -24,6 +24,17 @@
   snapshot is the source of truth.
 - Household exports now include non-secret session binding fields (activity,
   target, assignment, and policy pins), with field-level persistence coverage.
+- Assessment assignment responses now use an explicit redacted projection;
+  selected and excluded held-out item identities never cross that route
+  boundary, with a regression sentinel test.
+- Corrected shadow policy selection so enabled `skill-graph-only` programs use
+  their authored access policy; only unclaimed hybrid skills use the named
+  legacy compatibility policy. Added mode-boundary coverage.
+- Review-lapse updates are now scoped to the active mastery algorithm version,
+  and revoked overrides preserve historical completion.
+- Lesson assessment skips now write a `SkipRecord`; unit assessment skips
+  require a first run without prior teaching/practice exposure, and later
+  lesson updates preserve an already completed unit.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 

@@ -44,4 +44,13 @@ describe('override state transitions', () => {
       ),
     ).toEqual({ completionStatus: 'AVAILABLE', overrideStatus: 'NONE' });
   });
+
+  it.each(['COMPLETE', 'COMPLETE_BY_SKIP', 'SKIPPED_BY_PLACEMENT'] as const)(
+    'preserves historical completion when a revoked override is reevaluated (%s)',
+    (completionStatus) => {
+      expect(
+        reevaluateRevokedOverride({ completionStatus, overrideStatus: 'OVERRIDE_REVOKED' }, false),
+      ).toEqual({ completionStatus, overrideStatus: 'NONE' });
+    },
+  );
 });

@@ -38,6 +38,7 @@ describe('progression learner-state rules', () => {
     );
     expect(unitStatusAfterLessonUpdate(['COMPLETE', 'IN_PROGRESS'])).toBe('IN_PROGRESS');
     expect(unitStatusAfterLessonUpdate(['COMPLETE', 'NOT_STARTED'])).toBe('IN_PROGRESS');
+    expect(unitStatusAfterLessonUpdate(['COMPLETE', 'IN_PROGRESS'], 'COMPLETE')).toBe('COMPLETE');
   });
 
   it('does not turn a first-run assessment into a skip after teaching or practice exposure', () => {

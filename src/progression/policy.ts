@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { ActivityKind, AccessPolicy, ProgressionPolicyProfile } from '../contracts/policy';
+import type { ProgressionMode } from '../contracts/progression';
 
 export type AuthorizationInput = {
   activityKind: ActivityKind;
@@ -15,6 +16,13 @@ export type ProgramAuthorizationInput = Omit<AuthorizationInput, 'policy'> & {
   accessPolicy: AccessPolicy | undefined;
   legacyCompatibilityPolicy: AccessPolicy | undefined;
 };
+
+export function usesProgressionAccessPolicy(
+  progressionMode: ProgressionMode,
+  skillClaimedByUnit: boolean,
+): boolean {
+  return progressionMode === 'skill-graph-only' || skillClaimedByUnit;
+}
 
 export function authorizeActivity(input: AuthorizationInput): AuthorizationResult {
   if (!input.policy) return { allowed: false, reasonCode: 'POLICY_UNRESOLVABLE', missing: [] };

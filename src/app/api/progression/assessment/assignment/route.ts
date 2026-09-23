@@ -17,6 +17,7 @@ import {
 import { programsByCode } from '../../../../../curriculum/program-registry';
 import { requireHouseholdContext } from '../../../../../server/household-context';
 import { isProgressionReleaseGateOpen } from '../../../../../progression/release-gates';
+import { projectAssessmentAssignmentResponse } from '../../../../../progression/assessment-response';
 import {
   AssessmentStoreUnavailableError,
   createAssessmentStore,
@@ -213,7 +214,9 @@ export async function POST(request: NextRequest) {
       },
       createAssessmentStore(),
     );
-    return NextResponse.json(assignment, { status: assignment.replayed ? 200 : 201 });
+    return NextResponse.json(projectAssessmentAssignmentResponse(assignment), {
+      status: assignment.replayed ? 200 : 201,
+    });
   } catch (error) {
     if (error instanceof AssessmentAssignmentError) {
       return NextResponse.json({ error: error.message, reasonCode: error.code }, { status: 409 });

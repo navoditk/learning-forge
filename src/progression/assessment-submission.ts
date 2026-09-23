@@ -331,6 +331,7 @@ export async function submitAssessmentItem(
           skillRefs: lapsedSkillRefs,
           policyProfileCode: assignment.policyProfileCode,
           policyProfileVersion: assignment.policyProfileVersion,
+          algorithmVersion: assignment.algorithmVersion,
           now,
         });
       }
@@ -340,6 +341,7 @@ export async function submitAssessmentItem(
           learnerProfileId: input.learnerProfileId,
           lessonCode: assignment.targetCode,
           lessonVersion: assignment.targetVersion,
+          assessmentRunId: run.id,
           policyProfileCode: assignment.policyProfileCode,
           policyProfileVersion: assignment.policyProfileVersion,
           outcome,
@@ -354,6 +356,7 @@ export async function submitAssessmentItem(
           unitCode: assignment.targetCode,
           unitVersion: assignment.targetVersion,
           assessmentRunId: run.id,
+          firstRun: assignment.attemptOrdinal === 1,
           policyProfileCode: assignment.policyProfileCode,
           policyProfileVersion: assignment.policyProfileVersion,
           outcome,

@@ -20,7 +20,11 @@ import { loadPolicyArtifacts } from '../progression/artifacts';
 import { deriveHighestAssistance } from '../progression/assistance';
 import { applyReviewLapse } from '../progression/learner-state';
 import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
-import { policyHash, resolvePolicyProfile } from '../progression/policy';
+import {
+  policyHash,
+  resolvePolicyProfile,
+  usesProgressionAccessPolicy,
+} from '../progression/policy';
 import type { ActivityKind } from '../contracts/policy';
 import { prisma } from '../server/prisma';
 import { isUniqueConstraintViolation } from '../server/prisma-errors';
@@ -255,19 +259,22 @@ async function writeShadowDecision(
           candidate.version === program.legacyCompatibilityPolicyRef.version,
       )
     : undefined;
-  const skillClaimedByUnit = program.unitRefs.some((unitRef) =>
-    PILOT_UNITS.some(
-      (unit) =>
-        unit.code === unitRef.code &&
-        unit.version === unitRef.version &&
-        unit.lessonRefs.some((lessonRef) =>
-          PILOT_LESSONS.some(
-            (lesson) =>
-              lesson.code === lessonRef.code &&
-              lesson.version === lessonRef.version &&
-              lesson.skillRefs.some((ref) => ref.code === skill.code),
+  const skillClaimedByUnit = usesProgressionAccessPolicy(
+    program.progressionMode,
+    program.unitRefs.some((unitRef) =>
+      PILOT_UNITS.some(
+        (unit) =>
+          unit.code === unitRef.code &&
+          unit.version === unitRef.version &&
+          unit.lessonRefs.some((lessonRef) =>
+            PILOT_LESSONS.some(
+              (lesson) =>
+                lesson.code === lessonRef.code &&
+                lesson.version === lessonRef.version &&
+                lesson.skillRefs.some((ref) => ref.code === skill.code),
+            ),
           ),
-        ),
+      ),
     ),
   );
   const prerequisiteCodes = skill.prerequisiteSkillCodes;
@@ -330,12 +337,10 @@ async function createAttempt(
     },
   });
   if (!session) throw new Error('Session not found');
-  const content = input.reviewDecay
-    ? await requireHistoricalContent(
-        session.targetCode ?? session.contentKey,
-        session.targetVersion,
-      )
-    : resolveContent(session.contentKey);
+  const content = await requireHistoricalContent(
+    session.targetCode ?? session.contentKey,
+    session.targetVersion,
+  );
   const correctness = scoreAnswer(content, input.learnerResponse);
   const independentCheckPassed = input.independentDelayedCheck && correctness === 'CORRECT';
   // attemptNumber is derived from a count-then-create, which races under
@@ -773,6 +778,7 @@ export async function recordReviewAttempt(
         skillRefs: [content.skillRef],
         policyProfileCode: session.policyProfileCode ?? 'grade-6-math-default',
         policyProfileVersion: session.policyProfileVersion ?? '1.0.0',
+        algorithmVersion: PHASE_1_MASTERY_VERSION,
         now: new Date(),
       }),
     );

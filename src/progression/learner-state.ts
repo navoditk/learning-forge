@@ -50,6 +50,7 @@ export async function applyReviewLapse(
     householdId: string;
     learnerProfileId: string;
     skillRefs: readonly { code: string; version: string }[];
+    algorithmVersion: string;
     policyProfileCode: string;
     policyProfileVersion: string;
     now: Date;
@@ -76,6 +77,7 @@ export async function applyReviewLapse(
       where: {
         learnerProfileId: input.learnerProfileId,
         skillCode: skillRef.code,
+        algorithmVersion: input.algorithmVersion,
         independentDelayedCheck: true,
       },
       data: { independentDelayedCheck: false },
@@ -113,7 +115,9 @@ export async function applyReviewLapse(
 
 export function unitStatusAfterLessonUpdate(
   statuses: readonly LessonCompletionStatus[],
+  current?: UnitCompletionStatus,
 ): UnitCompletionStatus {
+  if (current === 'COMPLETE' || current === 'COMPLETE_BY_SKIP') return current;
   return statuses.length > 0 &&
     statuses.every((status) => ['COMPLETE', 'COMPLETE_BY_SKIP'].includes(status))
     ? 'ASSESSMENT_PENDING'
@@ -124,12 +128,13 @@ export function unitStatusAfterAssessment(input: {
   current: UnitCompletionStatus;
   outcome: AssessmentOutcome;
   hadPriorLessonWork: boolean;
+  firstRun?: boolean;
 }): UnitCompletionStatus {
   if (input.outcome === 'PASS') {
     if (input.current === 'COMPLETE' || input.current === 'COMPLETE_BY_SKIP') {
       return input.current;
     }
-    return input.hadPriorLessonWork ? 'COMPLETE' : 'COMPLETE_BY_SKIP';
+    return input.firstRun !== false && !input.hadPriorLessonWork ? 'COMPLETE_BY_SKIP' : 'COMPLETE';
   }
   if (input.outcome === 'FAIL' && input.current === 'ASSESSMENT_PENDING') {
     return 'IN_PROGRESS';
@@ -148,6 +153,7 @@ export async function applyPilotLessonAssessmentOutcome(
     policyProfileVersion: string;
     outcome: AssessmentOutcome;
     firstRun: boolean;
+    assessmentRunId: string;
     now: Date;
   },
 ): Promise<void> {
@@ -216,11 +222,41 @@ export async function applyPilotLessonAssessmentOutcome(
       assessmentPassedAt: input.outcome === 'PASS' ? input.now : null,
     },
   });
+  if (
+    next.completionStatus === 'COMPLETE_BY_SKIP' &&
+    current?.completionStatus !== 'COMPLETE_BY_SKIP'
+  ) {
+    await transaction.skipRecord.create({
+      data: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        targetKind: 'LESSON',
+        targetCode: lesson.code,
+        targetVersion: lesson.version,
+        runId: input.assessmentRunId,
+        method: 'LESSON_ASSESSMENT',
+        evidenceRefs: { assessmentRunId: input.assessmentRunId, outcome: input.outcome },
+        requirementVersion: input.policyProfileVersion,
+        policyProfileCode: input.policyProfileCode,
+        policyProfileVersion: input.policyProfileVersion,
+      },
+    });
+  }
 
   const unit = PILOT_UNITS.find((candidate) =>
     candidate.lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
   );
   if (!unit) return;
+  const currentUnit = await transaction.learnerUnitState.findUnique({
+    where: {
+      learnerProfileId_unitCode_unitVersion: {
+        learnerProfileId: input.learnerProfileId,
+        unitCode: unit.code,
+        unitVersion: unit.version,
+      },
+    },
+    select: { completionStatus: true },
+  });
   const lessonStates = await transaction.learnerLessonState.findMany({
     where: {
       learnerProfileId: input.learnerProfileId,
@@ -237,6 +273,7 @@ export async function applyPilotLessonAssessmentOutcome(
         stateByLesson.get(`${lessonRef.code}@${lessonRef.version}`)?.completionStatus ??
         'NOT_STARTED',
     ),
+    currentUnit?.completionStatus,
   );
   await transaction.learnerUnitState.upsert({
     where: {
@@ -273,6 +310,7 @@ export async function applyPilotUnitAssessmentOutcome(
     unitCode: string;
     unitVersion: string;
     assessmentRunId: string;
+    firstRun: boolean;
     policyProfileCode: string;
     policyProfileVersion: string;
     outcome: AssessmentOutcome;
@@ -298,18 +336,32 @@ export async function applyPilotUnitAssessmentOutcome(
   const practiceContentIds = PILOT_LESSONS.filter((lesson) =>
     unit.lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
   ).flatMap((lesson) => lesson.practiceContentRefs.map((ref) => ref.id));
-  const hadPriorLessonWork =
-    (await transaction.attempt.count({
+  const unitSkillCodes = PILOT_LESSONS.filter((lesson) =>
+    unit.lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
+  ).flatMap((lesson) => lesson.skillRefs.map((ref) => ref.code));
+  const [priorPracticeAttempts, priorTeachingOrPracticeEvents] = await Promise.all([
+    transaction.attempt.count({
       where: {
         householdId: input.householdId,
         learnerProfileId: input.learnerProfileId,
         contentKey: { in: practiceContentIds },
       },
-    })) > 0;
+    }),
+    transaction.learningEvent.count({
+      where: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        skillCode: { in: unitSkillCodes },
+        kind: { in: ['TEACHING_VIEWED', 'TEACHING_COMPLETED', 'INDEPENDENT_PRACTICE_EXPOSURE'] },
+      },
+    }),
+  ]);
+  const hadPriorLessonWork = priorPracticeAttempts > 0 || priorTeachingOrPracticeEvents > 0;
   const completionStatus = unitStatusAfterAssessment({
     current: current.completionStatus,
     outcome: input.outcome,
     hadPriorLessonWork,
+    firstRun: input.firstRun,
   });
 
   await transaction.learnerUnitState.update({

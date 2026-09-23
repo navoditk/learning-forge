@@ -43,6 +43,13 @@ export function reevaluateRevokedOverride(
   entryRequirementSatisfied: boolean,
 ): OverrideState {
   if (state.overrideStatus !== 'OVERRIDE_REVOKED') return state;
+  const completionWasRecorded =
+    state.completionStatus === 'COMPLETE' ||
+    state.completionStatus === 'COMPLETE_BY_SKIP' ||
+    state.completionStatus === 'SKIPPED_BY_PLACEMENT';
+  if (completionWasRecorded) {
+    return { completionStatus: state.completionStatus, overrideStatus: 'NONE' };
+  }
   return entryRequirementSatisfied
     ? { completionStatus: 'AVAILABLE', overrideStatus: 'NONE' }
     : { completionStatus: 'LOCKED', overrideStatus: 'OVERRIDE_REVOKED' };

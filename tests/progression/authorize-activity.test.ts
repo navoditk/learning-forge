@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
 import { AccessPolicySchema } from '../../src/contracts/policy';
-import { authorizeActivity, authorizeProgramActivity } from '../../src/progression/policy';
+import {
+  authorizeActivity,
+  authorizeProgramActivity,
+  usesProgressionAccessPolicy,
+} from '../../src/progression/policy';
 
 const policy = AccessPolicySchema.parse({
   code: 'grade-6-math-access',
@@ -99,5 +103,11 @@ describe('authorizeActivity', () => {
         legacyCompatibilityPolicy: policy,
       }).allowed,
     ).toBe(true);
+  });
+
+  it('uses the access policy for skill-graph-only programs', () => {
+    expect(usesProgressionAccessPolicy('skill-graph-only', false)).toBe(true);
+    expect(usesProgressionAccessPolicy('hybrid', true)).toBe(true);
+    expect(usesProgressionAccessPolicy('hybrid', false)).toBe(false);
   });
 });
