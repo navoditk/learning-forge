@@ -41,7 +41,7 @@ describe('durable content archive', () => {
     });
   });
 
-  it('does not replace an existing snapshot when archiving the active catalog again', async () => {
+  it('rejects same-version archive drift instead of replacing the snapshot', async () => {
     const original = await prisma.contentArchive.findUniqueOrThrow({
       where: {
         contentKey_contentVersion: { contentKey: source.id, contentVersion: source.version },
@@ -52,7 +52,9 @@ describe('durable content archive', () => {
       data: { content: { ...source, title: 'Historical title' } },
     });
 
-    await archiveCurrentContentCatalog(prisma);
+    await expect(archiveCurrentContentCatalog(prisma)).rejects.toThrow(
+      `Content archive drift detected for ${source.id}@${source.version}`,
+    );
 
     await expect(
       prisma.contentArchive.findUnique({

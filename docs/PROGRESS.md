@@ -35,6 +35,9 @@
 - Lesson assessment skips now write a `SkipRecord`; unit assessment skips
   require a first run without prior teaching/practice exposure, and later
   lesson updates preserve an already completed unit.
+- Content deployment archiving now fails closed when an existing same-version
+  snapshot differs from the active catalog, rather than silently accepting
+  archive drift.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 

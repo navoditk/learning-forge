@@ -5,11 +5,36 @@ import { ContentRecordSchema, type PracticeContentItem } from '../contracts/prog
 
 export type HistoricalContentCatalog = readonly PracticeContentItem[];
 
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.entries(value as Record<string, unknown>)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, entry]) => `${JSON.stringify(key)}:${canonicalJson(entry)}`)
+      .join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
 /**
  * Archives the current catalog without replacing an existing `{key, version}`.
  * Deployments should run this before removing a version from the active catalog.
  */
 export async function archiveCurrentContentCatalog(database: PrismaClient): Promise<void> {
+  const existing = await database.contentArchive.findMany({
+    where: { contentKey: { in: contentCatalog.map((item) => item.id) } },
+    select: { contentKey: true, contentVersion: true, content: true },
+  });
+  const existingByKey = new Map(
+    existing.map((row) => [`${row.contentKey}@${row.contentVersion}`, row.content]),
+  );
+  for (const item of contentCatalog) {
+    const key = `${item.id}@${item.version}`;
+    const snapshot = existingByKey.get(key);
+    if (snapshot !== undefined && canonicalJson(snapshot) !== canonicalJson(item)) {
+      throw new Error(`Content archive drift detected for ${key}`);
+    }
+  }
   await database.contentArchive.createMany({
     data: contentCatalog.map((item) => ({
       contentKey: item.id,
