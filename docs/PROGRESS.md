@@ -1,5 +1,18 @@
 # Progress
 
+## 2026-09-22 — Independent review remediation: authored-lesson completion guards
+
+- The independent review of `a2f22ad` found that a unit could become
+  `ASSESSMENT_PENDING` when only the learner-state rows that happened to exist
+  were queried, and that a first-run lesson pass could be marked
+  `COMPLETE_BY_SKIP` after teaching exposure. Unit completion now evaluates
+  every authored lesson reference, treating missing state as `NOT_STARTED`,
+  and lesson skip eligibility now includes prior teaching and independent
+  practice learning events in addition to attempts.
+- Added falsifying state-machine coverage. Targeted progression tests and
+  typecheck pass; C4 remains closed pending the remaining independent-review
+  remediations and manual gates.
+
 ## 2026-09-21 — Review-lapse remediation preserves completion
 
 - An incorrect, correctly bound spaced review now activates remediation for

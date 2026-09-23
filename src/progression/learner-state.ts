@@ -165,14 +165,24 @@ export async function applyPilotLessonAssessmentOutcome(
     },
   });
   const practiceContentIds = lesson.practiceContentRefs.map((ref) => ref.id);
-  const priorWork =
-    (await transaction.attempt.count({
+  const [priorPracticeAttempts, priorTeachingOrPracticeEvents] = await Promise.all([
+    transaction.attempt.count({
       where: {
         householdId: input.householdId,
         learnerProfileId: input.learnerProfileId,
         contentKey: { in: practiceContentIds },
       },
-    })) > 0;
+    }),
+    transaction.learningEvent.count({
+      where: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        skillCode: { in: lesson.skillRefs.map((ref) => ref.code) },
+        kind: { in: ['TEACHING_VIEWED', 'TEACHING_COMPLETED', 'INDEPENDENT_PRACTICE_EXPOSURE'] },
+      },
+    }),
+  ]);
+  const priorWork = priorPracticeAttempts > 0 || priorTeachingOrPracticeEvents > 0;
   const next = lessonStatusAfterAssessment({
     current: current?.completionStatus,
     outcome: input.outcome,
@@ -216,10 +226,17 @@ export async function applyPilotLessonAssessmentOutcome(
       learnerProfileId: input.learnerProfileId,
       lessonCode: { in: unit.lessonRefs.map((ref) => ref.code) },
     },
-    select: { completionStatus: true },
+    select: { lessonCode: true, lessonVersion: true, completionStatus: true },
   });
+  const stateByLesson = new Map(
+    lessonStates.map((state) => [`${state.lessonCode}@${state.lessonVersion}`, state]),
+  );
   const unitStatus = unitStatusAfterLessonUpdate(
-    lessonStates.map((state) => state.completionStatus),
+    unit.lessonRefs.map(
+      (lessonRef) =>
+        stateByLesson.get(`${lessonRef.code}@${lessonRef.version}`)?.completionStatus ??
+        'NOT_STARTED',
+    ),
   );
   await transaction.learnerUnitState.upsert({
     where: {

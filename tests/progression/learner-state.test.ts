@@ -37,6 +37,18 @@ describe('progression learner-state rules', () => {
       'ASSESSMENT_PENDING',
     );
     expect(unitStatusAfterLessonUpdate(['COMPLETE', 'IN_PROGRESS'])).toBe('IN_PROGRESS');
+    expect(unitStatusAfterLessonUpdate(['COMPLETE', 'NOT_STARTED'])).toBe('IN_PROGRESS');
+  });
+
+  it('does not turn a first-run assessment into a skip after teaching or practice exposure', () => {
+    expect(
+      lessonStatusAfterAssessment({
+        current: undefined,
+        outcome: 'PASS',
+        firstRun: true,
+        hadPriorWork: true,
+      }),
+    ).toEqual({ completionStatus: 'COMPLETE', remediationStatus: 'NONE' });
   });
 
   it('distinguishes a unit skip pass and keeps completed units historical', () => {
