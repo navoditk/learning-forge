@@ -1,5 +1,12 @@
 # Progress
 
+## 2026-09-22 — Retargeted independent-review packet
+
+- Updated `docs/course-progression-review/independent-review-request.md` to
+  pin the exact pushed review checkpoint `5e29f18` instead of its prior parent
+  commit. Formatting and whitespace checks pass; independent review, shadow
+  disposition, private-package review, and C4 authorization remain open.
+
 ## 2026-09-22 — Independent review remediation: authored-lesson completion guards
 
 - The independent review of `a2f22ad` found that a unit could become
