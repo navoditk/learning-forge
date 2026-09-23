@@ -1,5 +1,12 @@
 # Progress
 
+## 2026-09-22 — Verification after shadow-context increment
+
+- `npm run verify` passed against the shadow-context checkpoint: formatting,
+  lint, typecheck, migration down-file checks, 53 test files / 242 tests, and
+  the production build.
+- The independent-review packet now targets code checkpoint `819256f`.
+
 ## 2026-09-22 — Shadow request-context tuple
 
 - Added additive shadow metadata for `actorUserId`, `actorRole`, and
