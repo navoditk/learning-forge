@@ -44,6 +44,9 @@
   skip records.
 - Updated the mounted-package browser journey to assert the redacted
   assignment response and current-item delivery contract.
+- Added persistence coverage for out-of-order held-out submissions: the
+  current-item endpoint returns the lowest unanswered ordinal rather than
+  skipping ahead from a stale run pointer.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 

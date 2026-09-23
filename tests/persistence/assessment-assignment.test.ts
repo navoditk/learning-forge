@@ -50,6 +50,14 @@ const assessmentItem = {
   itemReadinessRefs: [],
 } satisfies AssessmentContentItem & { hash: string };
 
+const assessmentItemTwo = {
+  ...assessmentItem,
+  id: 'heldout-ratio-language-2',
+  hash: 'sha256:heldout-item-2',
+  title: 'Held-out ratio item two',
+  prompt: 'State the second ratio.',
+} satisfies AssessmentContentItem & { hash: string };
+
 describe('assessment assignment persistence', () => {
   let householdId: string;
   let learnerProfileId: string;
@@ -90,8 +98,8 @@ describe('assessment assignment persistence', () => {
       policyProfileHash: 'sha256:policy',
       algorithmVersion: 'mastery-1',
       curriculumSnapshotHash: 'sha256:bank',
-      itemsPerAttempt: 1,
-      requiredCount: 1,
+      itemsPerAttempt: 2,
+      requiredCount: 2,
       expiresAt: new Date(Date.now() + 60_000),
       idempotencyKey: 'assignment-key-1',
       maxReassessments: profile.maxReassessments,
@@ -110,7 +118,7 @@ describe('assessment assignment persistence', () => {
         code: 'ratio-language-lesson-bank',
         version: '1.0.0',
         contentHash: 'sha256:bank',
-        items: [assessmentItem],
+        items: [assessmentItem, assessmentItemTwo],
       },
     ]);
     const first = await createAssessmentAssignment(input, store);
@@ -145,6 +153,29 @@ describe('assessment assignment persistence', () => {
     });
     expect(currentItem.item).not.toHaveProperty('solutionRepresentation');
     expect(currentItem.item).not.toHaveProperty('deterministicValidator');
+    const outOfOrder = await submitAssessmentItem(
+      {
+        householdId,
+        learnerProfileId,
+        assignmentId: first.assignment.id,
+        sessionId: session.id,
+        ordinal: 2,
+        learnerResponse: '2:3',
+      },
+      store,
+    );
+    expect(outOfOrder.status).toBe('IN_PROGRESS');
+    const remainingItem = await getCurrentAssessmentItem(
+      {
+        householdId,
+        learnerProfileId,
+        assignmentId: first.assignment.id,
+        sessionId: session.id,
+      },
+      store,
+    );
+    expect(remainingItem.ordinal).toBe(1);
+    expect(remainingItem.item.prompt).toBe('State the ratio.');
     const submitted = await submitAssessmentItem(
       {
         householdId,
@@ -157,7 +188,7 @@ describe('assessment assignment persistence', () => {
       store,
     );
     expect(submitted.status).toBe('SCORED');
-    expect(submitted.result).toMatchObject({ outcome: 'PASS', correctCount: 1, requiredCount: 1 });
+    expect(submitted.result).toMatchObject({ outcome: 'PASS', correctCount: 2, requiredCount: 2 });
     expect(
       await prisma.learnerLessonState.findUnique({
         where: {
