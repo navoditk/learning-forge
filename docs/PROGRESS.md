@@ -1,5 +1,12 @@
 # Progress
 
+## 2026-09-23 — Readiness report exposes context completeness
+
+- The readiness CLI now reports `incompleteShadowContextDecisions` so operators
+  can distinguish an empty evidence set from historical rows that lack the
+  actor/run tuple. Against the local disposable database, readiness remains
+  correctly false with zero shadow decisions.
+
 ## 2026-09-22 — Final integration rerun for readiness guard
 
 - Re-ran `npm run test:integration` against the migrated disposable database

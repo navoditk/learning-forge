@@ -11,6 +11,7 @@ async function main() {
         drainComplete: report.drainComplete,
         totalShadowDecisions: report.shadowReview.totalDecisions,
         divergentShadowDecisions: report.shadowReview.divergentDecisions,
+        incompleteShadowContextDecisions: report.shadowReview.incompleteContextCount,
         shadowReviewComplete: report.shadowReview.reviewComplete,
         readyForIndependentReview: report.readyForIndependentReview,
       }),
