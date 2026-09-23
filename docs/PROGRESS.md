@@ -47,6 +47,9 @@
 - Added persistence coverage for out-of-order held-out submissions: the
   current-item endpoint returns the lowest unanswered ordinal rather than
   skipping ahead from a stale run pointer.
+- Reconciled approved D-36 held-out bank volumes (9 items per lesson bank,
+  18 for the unit bank) and made assignment creation fail closed when the
+  mounted bank hash differs from the authored curriculum snapshot.
 
 ## 2026-09-21 — Review-lapse remediation preserves completion
 

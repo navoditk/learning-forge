@@ -119,6 +119,7 @@ describe('assessment feedback route safety', () => {
       { ...ratioTablesBank, items: ratioTablesItems },
       { ...unitBank, items: unitItems },
     ];
+    const ratioLanguageContentHash = sha256(items);
     packageDirectory = await mkdtemp(join(tmpdir(), 'learning-forge-route-feedback-'));
     const packagePath = join(packageDirectory, 'assessment-package.json');
     await writeFile(
@@ -151,13 +152,13 @@ describe('assessment feedback route safety', () => {
         policyProfileRef: { code: 'grade-6-math-default', version: '1.0.0' },
         policyProfileHash: 'sha256:route-feedback-policy',
         algorithmVersion: 'route-feedback-1',
-        curriculumSnapshotHash: 'sha256:route-feedback-bank',
+        curriculumSnapshotHash: ratioLanguageContentHash,
         itemsPerAttempt: 2,
         requiredCount: 2,
         expiresAt: new Date(Date.now() + 60_000),
         idempotencyKey: 'route-feedback-safety',
       },
-      createInMemoryAssessmentStore([{ ...bankRef, contentHash: sha256(items), items }]),
+      createInMemoryAssessmentStore([{ ...bankRef, contentHash: ratioLanguageContentHash, items }]),
     );
     assignmentId = assignment.assignment.id;
     const session = assignment.assignment.sessions[0];

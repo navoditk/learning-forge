@@ -18,8 +18,8 @@ describe('Grade 6 Math pilot progression catalog', () => {
       { code: 'ratios-and-proportional-reasoning', version: '1.0.0' },
     ]);
     expect(PILOT_LESSONS).toHaveLength(3);
-    expect(PILOT_ASSESSMENT_BANKS.filter((bank) => bank.itemCount === 3)).toHaveLength(3);
-    expect(PILOT_ASSESSMENT_BANKS.find((bank) => bank.itemCount === 6)?.code).toBe(
+    expect(PILOT_ASSESSMENT_BANKS.filter((bank) => bank.itemCount === 9)).toHaveLength(3);
+    expect(PILOT_ASSESSMENT_BANKS.find((bank) => bank.itemCount === 18)?.code).toBe(
       'ratios-proportional-reasoning-unit-bank',
     );
   });

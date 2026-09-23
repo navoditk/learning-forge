@@ -27,6 +27,7 @@ export class AssessmentAssignmentError extends Error {
   constructor(
     readonly code:
       | 'ASSESSMENT_BANK_INSUFFICIENT'
+      | 'ASSESSMENT_BANK_METADATA_MISMATCH'
       | 'ACTIVE_ASSIGNMENT_EXISTS'
       | 'IDEMPOTENCY_KEY_CONFLICT'
       | 'MAX_REASSESSMENTS_REACHED'
@@ -136,6 +137,12 @@ export async function createAssessmentAssignment(
   ) => database.shadowDecision.createMany({ data: [...rows] }),
 ) {
   const bank = await store.getBank(input.bankRef);
+  if (bank.contentHash !== input.curriculumSnapshotHash) {
+    throw new AssessmentAssignmentError(
+      'ASSESSMENT_BANK_METADATA_MISMATCH',
+      `Assessment bank ${input.bankRef.code}@${input.bankRef.version} does not match the authored curriculum snapshot.`,
+    );
+  }
 
   const result = await database.$transaction(
     async (transaction) => {

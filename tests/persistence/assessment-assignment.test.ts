@@ -222,6 +222,16 @@ describe('assessment assignment persistence', () => {
         where: { householdId, requestKind: 'test-assessment-assignment' },
       }),
     ).toBe(2);
+    await expect(
+      createAssessmentAssignment(
+        {
+          ...input,
+          idempotencyKey: 'assignment-hash-mismatch',
+          curriculumSnapshotHash: 'sha256:wrong',
+        },
+        store,
+      ),
+    ).rejects.toMatchObject({ code: 'ASSESSMENT_BANK_METADATA_MISMATCH' });
     await abandonAssessmentRun({
       householdId,
       learnerProfileId,
