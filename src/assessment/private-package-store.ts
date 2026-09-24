@@ -3,8 +3,12 @@ import { readFileSync } from 'node:fs';
 
 import { z } from 'zod';
 
-import { AssessmentContentItemSchema, RefSchema } from '../contracts/progression';
-import type { AssessmentContentItem, Ref } from '../contracts/progression';
+import {
+  AssessmentContentItemSchema,
+  RefSchema,
+  ReviewContentItemSchema,
+} from '../contracts/progression';
+import type { Ref } from '../contracts/progression';
 import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
 import type { AssessmentStore, HeldOutAssessmentBank } from './store';
 
@@ -13,6 +17,10 @@ type RequiredBank = {
   version: string;
   minimumItems: number;
   requiredSkillRefs?: readonly Ref[];
+  /** Validated when present; its assessment kind fails closed when absent. */
+  optional?: boolean;
+  /** Role every item in the bank must carry; defaults to `assessment`. */
+  itemRole?: 'assessment' | 'review';
 };
 
 const pilotSkillRefs = (codes: readonly string[]): readonly Ref[] =>
@@ -47,13 +55,45 @@ const GRADE_6_MATH_REQUIRED_BANKS: readonly RequiredBank[] = [
   },
 ];
 
+const PILOT_SKILL_CODES = [
+  ...new Set(PILOT_LESSONS.flatMap((lesson) => lesson.skillRefs.map((ref) => ref.code))),
+];
+
+/**
+ * Skill-targeted banks: two review items per skill (D-50) and a dedicated
+ * delayed-check bank of delayedCheckItemsPerAttempt × (1 + maxReassessments)
+ * items per skill (D-63, D-43, D-27).
+ */
+const GRADE_6_MATH_SKILL_BANKS: readonly RequiredBank[] = PILOT_SKILL_CODES.flatMap((code) => [
+  {
+    code: `${code}-review-bank`,
+    version: '1.0.0',
+    minimumItems: 2,
+    requiredSkillRefs: pilotSkillRefs([code]),
+    optional: true,
+    itemRole: 'review' as const,
+  },
+  {
+    code: `${code}-delayed-check-bank`,
+    version: '1.0.0',
+    minimumItems: 6,
+    requiredSkillRefs: pilotSkillRefs([code]),
+    optional: true,
+  },
+]);
+
 const PackageBankSchema = z
   .object({
     code: z.string().trim().min(1),
     version: z.string().trim().min(1),
     contentHash: z.string().trim().min(1),
     items: z
-      .array(AssessmentContentItemSchema.extend({ hash: z.string().trim().min(1).max(128) }))
+      .array(
+        z.discriminatedUnion('role', [
+          AssessmentContentItemSchema.extend({ hash: z.string().trim().min(1).max(128) }),
+          ReviewContentItemSchema.extend({ hash: z.string().trim().min(1).max(128) }),
+        ]),
+      )
       .min(1),
   })
   .strict()
@@ -96,10 +136,10 @@ function sha256(value: unknown): string {
   return `sha256:${createHash('sha256').update(canonicalJson(value)).digest('hex')}`;
 }
 
-function itemWithoutHash(item: AssessmentContentItem & { hash: string }): AssessmentContentItem {
+function itemWithoutHash<T extends { hash: string }>(item: T): Omit<T, 'hash'> {
   const content = { ...item };
   Reflect.deleteProperty(content, 'hash');
-  return content as AssessmentContentItem;
+  return content as Omit<T, 'hash'>;
 }
 
 function validatePackageIntegrity(
@@ -129,16 +169,31 @@ function validatePackageIntegrity(
   }
 
   if (requiredBanks.length > 0) {
-    if (banks.length !== requiredBanks.length) {
-      throw new Error(`Private assessment package requires ${requiredBanks.length} banks`);
+    for (const bank of banks) {
+      if (
+        !requiredBanks.some(
+          (required) => required.code === bank.code && required.version === bank.version,
+        )
+      ) {
+        throw new Error(
+          `Private assessment package has an unknown bank: ${bank.code}@${bank.version}`,
+        );
+      }
     }
     for (const required of requiredBanks) {
       const bank = banks.find(
         (candidate) => candidate.code === required.code && candidate.version === required.version,
       );
+      if (!bank && required.optional) continue;
       if (!bank) {
         throw new Error(
           `Private assessment package is missing bank: ${required.code}@${required.version}`,
+        );
+      }
+      const role = required.itemRole ?? 'assessment';
+      if (bank.items.some((item) => item.role !== role)) {
+        throw new Error(
+          `Private assessment bank ${required.code}@${required.version} must contain only ${role} items`,
         );
       }
       if (bank.items.length < required.minimumItems) {
@@ -192,7 +247,10 @@ export class PrivateAssessmentPackageStore implements AssessmentStore {
 export function createPrivateAssessmentPackageStoreFromEnvironment(): AssessmentStore | undefined {
   const packagePath = process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH;
   return packagePath
-    ? new PrivateAssessmentPackageStore(packagePath, GRADE_6_MATH_REQUIRED_BANKS)
+    ? new PrivateAssessmentPackageStore(packagePath, [
+        ...GRADE_6_MATH_REQUIRED_BANKS,
+        ...GRADE_6_MATH_SKILL_BANKS,
+      ])
     : undefined;
 }
 

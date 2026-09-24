@@ -203,6 +203,8 @@ export const ReviewContentItemSchema = TransitionContentBaseSchema.extend({
   forbiddenLeakagePatterns: z.array(z.string().trim().min(1).max(200)).max(20),
 }).strict();
 
+export type ReviewContentItem = z.infer<typeof ReviewContentItemSchema>;
+
 export const VersionedContentItemSchema = z.discriminatedUnion('role', [
   TeachingContentItemSchema,
   PracticeContentItemSchema,

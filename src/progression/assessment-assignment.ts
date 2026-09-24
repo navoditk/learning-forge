@@ -48,6 +48,9 @@ export function assessmentKindMatchesTarget(
   if (kind === AssessmentKind.UNIT_ASSESSMENT) {
     return targetKind === ProgressionTargetKind.UNIT;
   }
+  if (kind === AssessmentKind.DELAYED_CHECK || kind === AssessmentKind.REVIEW) {
+    return targetKind === ProgressionTargetKind.SKILL;
+  }
   return false;
 }
 
@@ -116,6 +119,8 @@ export type CreateAssessmentAssignmentInput = {
   authoredBankItemCount?: number;
   authoredBankSkillCodes?: readonly string[];
   requiredSkillCodes?: readonly string[];
+  /** Items excluded under a no-reuse rule (D-44, the profile's review reuse). */
+  previouslySeenItemKeys?: ReadonlySet<string>;
   maxReassessments?: number;
   reassessmentCooldownHours?: number;
   shadow?: {
@@ -288,22 +293,28 @@ export async function createAssessmentAssignment(
             : 'The maximum number of reassessments has been reached.',
         );
       }
+      const previouslySeen = input.previouslySeenItemKeys ?? new Set<string>();
       const selectedItems = selectAssessmentItems(
         bank,
         input.itemsPerAttempt,
-        eligibility.excludedItemKeys,
+        new Set([...eligibility.excludedItemKeys, ...previouslySeen]),
         input.requiredSkillCodes,
       );
       const selectedKeys = new Set(selectedItems.map((item) => `${item.id}@${item.version}`));
       const excludedItems = bank.items
         .filter((item) => !selectedKeys.has(`${item.id}@${item.version}`))
-        .map((item) => ({
-          id: item.id,
-          version: item.version,
-          reason: eligibility.excludedItemKeys.has(`${item.id}@${item.version}`)
-            ? 'FAILED_RUN'
-            : 'NOT_SELECTED',
-        }));
+        .map((item) => {
+          const key = `${item.id}@${item.version}`;
+          return {
+            id: item.id,
+            version: item.version,
+            reason: eligibility.excludedItemKeys.has(key)
+              ? 'FAILED_RUN'
+              : previouslySeen.has(key)
+                ? 'PREVIOUSLY_SEEN'
+                : 'NOT_SELECTED',
+          };
+        });
 
       const attemptOrdinal =
         previousAssignments.filter(

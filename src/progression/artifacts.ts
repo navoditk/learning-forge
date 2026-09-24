@@ -6,6 +6,7 @@ import {
   ProgressionPolicyProfile,
   ProgressionPolicyProfileSchema,
 } from '../contracts/policy';
+import { resolvePolicyProfile } from './policy';
 
 function readDirectory<T>(directory: string, schema: { parse(value: unknown): T }): T[] {
   const root = path.join(process.cwd(), directory);
@@ -13,6 +14,22 @@ function readDirectory<T>(directory: string, schema: { parse(value: unknown): T 
     .filter((file) => file.endsWith('.json'))
     .sort()
     .map((file) => schema.parse(JSON.parse(readFileSync(path.join(root, file), 'utf8'))));
+}
+
+/** Resolves a pinned profile reference, failing closed when it is absent. */
+export function resolvePinnedPolicyProfile(ref: {
+  code: string;
+  version: string;
+}): ProgressionPolicyProfile {
+  const { profiles } = loadPolicyArtifacts();
+  const profile = profiles.find(
+    (candidate) => candidate.code === ref.code && candidate.version === ref.version,
+  );
+  if (!profile) throw new Error('POLICY_PROFILE_UNRESOLVABLE');
+  return resolvePolicyProfile(
+    profile,
+    new Map(profiles.map((candidate) => [`${candidate.code}@${candidate.version}`, candidate])),
+  );
 }
 
 export function loadPolicyArtifacts(): {

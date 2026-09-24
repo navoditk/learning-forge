@@ -147,6 +147,41 @@ describe('private held-out assessment package store', () => {
     ).toThrow('requires at least 2 items');
   });
 
+  it('accepts an absent optional bank but still validates one that is present', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 1 },
+          { code: 'optional-bank', version: '1.0.0', minimumItems: 6, optional: true },
+        ]),
+    ).not.toThrow();
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 6, optional: true },
+        ]),
+    ).toThrow('requires at least 6 items');
+  });
+
+  it('rejects a bank the configured shape does not name', async () => {
+    const first = packageDocument({ code: 'private-bank', version: '1.0.0' });
+    const second = packageDocument({ code: 'other-bank', version: '1.0.0' });
+    second.banks[0]!.items[0]!.id = 'assessment-two';
+    const secondItem = { ...second.banks[0]!.items[0]! };
+    Reflect.deleteProperty(secondItem, 'hash');
+    second.banks[0]!.items[0]!.hash = sha256(secondItem);
+    second.banks[0]!.contentHash = sha256(second.banks[0]!.items);
+    const path = await writePackage({ banks: [...first.banks, ...second.banks] });
+
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 1 },
+        ]),
+    ).toThrow('unknown bank: other-bank@1.0.0');
+  });
+
   it('rejects a required bank that does not cover every required skill', async () => {
     const path = await writePackage(packageDocument());
 

@@ -242,7 +242,7 @@ async function writeShadowDecision(
   programCode: CurriculumProgram,
   targetCode: string,
   targetVersion: string,
-  activityKind: 'PRACTICE' | 'PLACEMENT' | 'DELAYED_CHECK' | 'REVIEW',
+  activityKind: 'PRACTICE' | 'PLACEMENT' | 'REVIEW',
   activeRunOrSessionId: string,
   assignmentBound: boolean,
 ): Promise<void> {
@@ -388,14 +388,10 @@ async function createAttempt(
   if (independentCheckPassed) {
     await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
   }
+  // D-65: the same-sitting independent check is not a delayed check (no
+  // elapsed-time separation), so it is authorized as independent practice.
   const activityKind =
-    input.context === 'DIAGNOSTIC'
-      ? 'PLACEMENT'
-      : input.reviewDecay
-        ? 'REVIEW'
-        : input.independentDelayedCheck
-          ? 'DELAYED_CHECK'
-          : 'PRACTICE';
+    input.context === 'DIAGNOSTIC' ? 'PLACEMENT' : input.reviewDecay ? 'REVIEW' : 'PRACTICE';
   await persistShadow(() =>
     writeShadowDecision(
       identity,

@@ -91,6 +91,19 @@ const BANK_HASHES: Record<string, string> = {
     'sha256:d19ca5d1ad0d22f41cd2c5a2ac92bdd289b1153015ead2e0fe8f710be2218721',
   'ratios-proportional-reasoning-unit-bank':
     'sha256:dabfd7ba2400abe338c01d38bbe5636707ce5f902a7714e84df3d433ea0a4b72',
+  // Skill banks (D-50 review, D-63 delayed check); drafts pending review.
+  'ratio-language-review-bank':
+    'sha256:be2228f0f02b6564db79897f2bca5cc81296b82533cbe9b45067099b2043b969',
+  'ratio-language-delayed-check-bank':
+    'sha256:a9c703a33d2d8c4348e2e837078ab9b0ec2f24e8801e482918ee75ef793a8d75',
+  'unit-rates-review-bank':
+    'sha256:0e8b29b966d6ec24449047f487a3c9787f6b370599d47fb031b2cb0f57593af0',
+  'unit-rates-delayed-check-bank':
+    'sha256:6a656f3d19aac83345c48d25516b9304e4dee521a0e62fbfcfdeaccb113150e6',
+  'ratio-tables-review-bank':
+    'sha256:7e3fa68c6e587b4dd28966cd15a1ba2f4819493c1a2d6afe57852f460ca04d87',
+  'ratio-tables-delayed-check-bank':
+    'sha256:63a93af6d94222a0cf89897e1d65a5fd1a6340d856aec40a2c209f5f08deaf0b',
 };
 
 function bankHash(code: string): string {
@@ -148,6 +161,26 @@ export const PILOT_ASSESSMENT_BANKS: readonly AssessmentBank[] = [
     provenance,
     review,
   }),
+  ...PILOT_LESSONS.flatMap(({ skillRefs }) => skillRefs).flatMap((skill) =>
+    (
+      [
+        ['review-bank', 2],
+        ['delayed-check-bank', 6],
+      ] as const
+    ).map(([suffix, itemCount]) =>
+      AssessmentBankSchema.parse({
+        code: `${skill.code}-${suffix}`,
+        version,
+        targetRef: skill,
+        policyProfileRef,
+        coveredSkillRefs: [skill],
+        itemCount,
+        contentHash: bankHash(`${skill.code}-${suffix}`),
+        provenance,
+        review,
+      }),
+    ),
+  ),
 ];
 
 export const PILOT_PROGRAM_UNIT_REFS: readonly Ref[] = [PILOT_UNIT_REF];

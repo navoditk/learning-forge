@@ -12,10 +12,13 @@ import { createAssessmentStore, type AssessmentStore } from '../assessment/store
 import { prisma } from '../server/prisma';
 import { isTerminalAssessmentStatus, transitionAssessmentRun } from './assessment-state';
 import {
+  applyDelayedCheckOutcome,
   applyPilotLessonAssessmentOutcome,
   applyPilotUnitAssessmentOutcome,
   applyReviewLapse,
+  applyReviewPass,
 } from './learner-state';
+import { resolvePinnedPolicyProfile } from './artifacts';
 import { assessmentPasses } from './assessment-scoring';
 import { deriveHighestAssistance } from './assistance';
 import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
@@ -62,7 +65,10 @@ function normalize(answer: string): string {
   return answer.trim().toLocaleLowerCase().replace(/\s+/gu, ' ');
 }
 
-function score(item: AssessmentContentItem, response: string): Correctness {
+function score(
+  item: Pick<AssessmentContentItem, 'deterministicValidator'>,
+  response: string,
+): Correctness {
   return item.deterministicValidator.acceptedAnswers.some(
     (accepted) => normalize(accepted) === normalize(response),
   )
@@ -420,6 +426,30 @@ export async function submitAssessmentItem(
           algorithmVersion: assignment.algorithmVersion,
           now,
         });
+      }
+      if (
+        assignment.kind === 'DELAYED_CHECK' ||
+        (assignment.kind === 'REVIEW' && outcome === 'PASS')
+      ) {
+        const profile = resolvePinnedPolicyProfile({
+          code: assignment.policyProfileCode,
+          version: assignment.policyProfileVersion,
+        });
+        const skillOutcome = {
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+          skillRef: { code: assignment.targetCode, version: assignment.targetVersion },
+          algorithmVersion: assignment.algorithmVersion,
+          policyProfileCode: assignment.policyProfileCode,
+          policyProfileVersion: assignment.policyProfileVersion,
+          spacingIntervalDays: profile.spacingIntervalDays,
+          now,
+        };
+        if (assignment.kind === 'DELAYED_CHECK') {
+          await applyDelayedCheckOutcome(transaction, { ...skillOutcome, outcome });
+        } else {
+          await applyReviewPass(transaction, skillOutcome);
+        }
       }
       if (assignment.kind === 'LESSON_ASSESSMENT') {
         await applyPilotLessonAssessmentOutcome(transaction, {

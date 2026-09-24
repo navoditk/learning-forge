@@ -1,11 +1,12 @@
 import type { AssessmentContentItem, Ref } from '../contracts';
+import type { ReviewContentItem } from '../contracts/progression';
 import { createPrivateAssessmentPackageStoreFromEnvironment } from './private-package-store';
 
 export type HeldOutAssessmentBank = {
   code: string;
   version: string;
   contentHash: string;
-  items: readonly (AssessmentContentItem & { hash: string })[];
+  items: readonly ((AssessmentContentItem | ReviewContentItem) & { hash: string })[];
 };
 
 export interface AssessmentStore {

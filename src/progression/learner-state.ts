@@ -7,6 +7,7 @@ import {
 } from '@prisma/client';
 
 import { PILOT_LESSONS, PILOT_UNITS } from '../curriculum/pilot-catalog';
+import { advanceReviewSchedule } from './review-schedule';
 
 export function lessonStatusAfterAssessment(input: {
   current: LessonCompletionStatus | undefined;
@@ -111,6 +112,99 @@ export async function applyReviewLapse(
       });
     }
   }
+}
+
+type SkillOutcomeInput = {
+  householdId: string;
+  learnerProfileId: string;
+  skillRef: { code: string; version: string };
+  algorithmVersion: string;
+  policyProfileCode: string;
+  policyProfileVersion: string;
+  spacingIntervalDays: readonly number[];
+  now: Date;
+};
+
+function firstReviewDueAt(now: Date, spacingIntervalDays: readonly number[]): Date {
+  const firstInterval = spacingIntervalDays[0];
+  if (firstInterval === undefined) throw new Error('REVIEW_INTERVALS_REQUIRED');
+  return new Date(now.getTime() + firstInterval * 86_400_000);
+}
+
+/**
+ * A passed delayed check confirms the skill (§9.2) and starts spaced review
+ * at the first approved interval (D-18). A failed one lapses the skill and
+ * routes to remediation exactly as a failed review does.
+ */
+export async function applyDelayedCheckOutcome(
+  transaction: Prisma.TransactionClient,
+  input: SkillOutcomeInput & { outcome: AssessmentOutcome },
+): Promise<void> {
+  if (input.outcome !== 'PASS') {
+    await applyReviewLapse(transaction, { ...input, skillRefs: [input.skillRef] });
+    return;
+  }
+  await transaction.masteryEstimate.updateMany({
+    where: {
+      learnerProfileId: input.learnerProfileId,
+      skillCode: input.skillRef.code,
+      algorithmVersion: input.algorithmVersion,
+    },
+    data: { independentDelayedCheck: true },
+  });
+  const schedule = {
+    dueAt: firstReviewDueAt(input.now, input.spacingIntervalDays),
+    intervalIndex: 0,
+    lastOutcome: 'CONFIRMED',
+    policyProfileCode: input.policyProfileCode,
+    policyProfileVersion: input.policyProfileVersion,
+    scheduleVersion: `${input.policyProfileCode}@${input.policyProfileVersion}`,
+  };
+  await transaction.reviewSchedule.upsert({
+    where: {
+      learnerProfileId_skillCode_skillVersion: {
+        learnerProfileId: input.learnerProfileId,
+        skillCode: input.skillRef.code,
+        skillVersion: input.skillRef.version,
+      },
+    },
+    create: {
+      householdId: input.householdId,
+      learnerProfileId: input.learnerProfileId,
+      skillCode: input.skillRef.code,
+      skillVersion: input.skillRef.version,
+      ...schedule,
+    },
+    update: schedule,
+  });
+}
+
+/** A passed review advances the schedule one approved interval (D-18). */
+export async function applyReviewPass(
+  transaction: Prisma.TransactionClient,
+  input: SkillOutcomeInput,
+): Promise<void> {
+  const schedule = await transaction.reviewSchedule.findUnique({
+    where: {
+      learnerProfileId_skillCode_skillVersion: {
+        learnerProfileId: input.learnerProfileId,
+        skillCode: input.skillRef.code,
+        skillVersion: input.skillRef.version,
+      },
+    },
+  });
+  if (!schedule) throw new Error('REVIEW_SCHEDULE_MISSING');
+  const next = advanceReviewSchedule(schedule, input.now, input.spacingIntervalDays);
+  await transaction.reviewSchedule.update({
+    where: { id: schedule.id },
+    data: {
+      dueAt: next.dueAt,
+      intervalIndex: next.intervalIndex,
+      lastOutcome: next.lastOutcome,
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
+    },
+  });
 }
 
 export function unitStatusAfterLessonUpdate(
