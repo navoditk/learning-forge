@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **62 approved; 0 open.** Approved entries are explicitly marked in
+- Status: **66 approved; 2 open (D-67, D-68).** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -723,9 +723,94 @@ assignment-free placement or review on pilot skills an observable
 implemented once, in `requiresAssessmentAssignment`, and consumed by both the
 shadow predicate and the cutover readiness report.
 
+### D-63 — Delayed-check item source
+
+| Field | Value |
+|---|---|
+| Kind | content + policy |
+| Status | **APPROVED 2026-09-23** |
+| Recommendation | A dedicated held-out delayed-check bank per pilot skill, sized `delayedCheckItemsPerAttempt × (1 + maxReassessments)` = 2 × 3 = **6 items** per skill (arithmetic from `D-43`/`D-27`), so the lesson banks' no-reuse pools stay intact |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Serving `DELAYED_CHECK` assignments |
+
+### D-64 — Placement probe item source
+
+| Field | Value |
+|---|---|
+| Kind | content + policy |
+| Status | **APPROVED 2026-09-23** |
+| Recommendation | Placement assignments select from reviewed public **practice** items (up to `D-22`), as today's diagnostic does. The evidence is weak by design (`contextWeight[placement]`, `D-08`), so open-book is acceptable. Probed items count as exposure |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Serving `PLACEMENT` assignments |
+
+### D-65 — Same-sitting independent check
+
+| Field | Value |
+|---|---|
+| Kind | product + security |
+| Status | **APPROVED 2026-09-23** |
+| Recommendation | Authorize today's same-sitting "independent check" as independent `PRACTICE`, not `DELAYED_CHECK`, because it has no elapsed-time separation. It then survives C4 for legacy and skill-graph-only skills, while pilot skills rely on the genuine delayed-check assignment |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Stage C4 cutover |
+
+### D-66 — Authoring exception for held-out review and delayed-check drafts
+
+| Field | Value |
+|---|---|
+| Kind | content |
+| Status | **APPROVED 2026-09-23** |
+| Recommendation | A narrow exception to the `D-61` authoring pause: model-assisted drafts of the pilot's held-out review (`D-50`) and delayed-check (`D-63`) items, written only to the private package outside this repository and marked `pending_review`. Serving still requires the full content, originality, accessibility, and child-safety review |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | — (the `D-61` pause otherwise remains in force) |
+
+### D-67 — Review reuse versus review volume
+
+| Field | Value |
+|---|---|
+| Kind | policy + content |
+| Status | **OPEN** |
+| Recommendation | Pending product-owner decision; see the conflict below |
+| Approved value | — |
+| Approver | Product/pedagogy owner |
+| Blocks | Serving more than two reviews per skill |
+
+**Conflict found during implementation (2026-09-23).** Three sources disagree:
+
+1. `D-46` permits reuse of items not seen within the last two spacing intervals.
+2. The `grade-6-math-default@1.0.0` profile encodes `reviewReuse: { enabled: false }`, meaning never reuse.
+3. `D-50` authors 2 review items per skill.
+
+At 1 item per review (`D-45`), the profile as written supports exactly **two** reviews per skill before the bank is exhausted. Implementation follows the profile artifact and fails closed with `ASSESSMENT_BANK_INSUFFICIENT`. Enabling `D-46` as approved (`minIntervalsSinceSeen: 2`) with 2 items still exhausts the bank on the third review. The arithmetic minimum under `D-46` is **3** review items per skill.
+
+Options:
+
+- (a) Amend `D-50` to 3 items per skill and publish a profile version that enables reuse with `minIntervalsSinceSeen: 2`.
+- (b) Keep 2 items and allow reuse after 1 interval.
+- (c) Accept two reviews per skill for the pilot.
+
+### D-68 — Placement position rule
+
+| Field | Value |
+|---|---|
+| Kind | policy |
+| Status | **OPEN** |
+| Recommendation | Pending product-owner decision |
+| Approved value | — |
+| Approver | Product/pedagogy owner |
+| Blocks | Serving `PLACEMENT` assignments |
+
+No decision states how a scored placement probe maps to a starting lesson.
+
+Candidate rule: probe one item per unit skill in lesson order, and place the learner at the first lesson whose probe item is incorrect. Earlier lessons become `SKIPPED_BY_PLACEMENT` (§6.6). If every item is correct, the learner is placed at the unit assessment.
+
 ## I. Index of open decisions
 
-Sixty-two decisions total; all sixty-two are approved. The grouping below is a
+Sixty-eight decisions total; sixty-six are approved and two (`D-67`, `D-68`)
+are open. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 

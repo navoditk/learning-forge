@@ -26,8 +26,9 @@ complete. C1–C3 are shipped as a non-enforcing persistence,
 export/deletion, dual-write, and shadow-mode foundation. The product owner
 approved the remaining policy recommendations on 2026-09-19 and approved the
 revisitable D-36 pilot-volume and D-39 elapsed-time decisions on 2026-09-20.
-No course-progression decision entries remain open. Independent and manual
-release gates still remain required.
+Two decision entries are open (D-67 review reuse versus volume, D-68
+placement position rule). Independent and manual release gates still remain
+required.
 
 No authorization cutover has been performed. Teaching, assessment, and review
 content remain untouched, and C4/C5 still require their independent and manual
@@ -39,7 +40,7 @@ release gates.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-62` | **62 approved; 0 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-68` | **66 approved; 2 open (D-67, D-68)** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -82,7 +83,7 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-All sixty-two entries in `docs/course-progression-decisions.md` are approved.
+Sixty-six of the sixty-eight entries in `docs/course-progression-decisions.md` are approved; D-67 and D-68 are open.
 D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
 before treating elapsed-time evidence as production mastery evidence. Each
 later stage must still use the approved value for every decision it touches.
@@ -97,10 +98,11 @@ later stage must still use the approved value for every decision it touches.
 ## 6. The exact next task
 
 > The independent C1–C3 review (2026-09-22) and its M1–M3 remediation
-> re-review are recorded in `docs/course-progression-review/`. Before C4:
-> (1) implement pilot `PLACEMENT`, `REVIEW`, and `DELAYED_CHECK` assessment
-> assignments, so D-62 does not remove the pilot's diagnostic, review, and
-> mastery-check flows (re-review findings N3 and N7); (2) deploy, then collect
+> re-review are recorded in `docs/course-progression-review/`. Pilot
+> `DELAYED_CHECK` and `REVIEW` assignments are implemented (D-63, D-65, D-66)
+> with draft held-out items pending review; D-67 limits review volume. Before
+> C4: (1) resolve D-68 and implement pilot `PLACEMENT` assignments (D-64), so
+> D-62 does not remove the pilot's diagnostic flow; (2) deploy, then collect
 > representative non-enforcing shadow traffic from the remediation deploy
 > onward and disposition every divergence; (3) complete the private-package
 > review and the manual gate record. Only then implement the approved C4

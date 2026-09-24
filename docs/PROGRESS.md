@@ -1,5 +1,39 @@
 # Progress
 
+## 2026-09-23 — Pilot delayed-check and review assignments (D-63–D-66)
+
+- The product owner approved D-63 (dedicated 6-item delayed-check bank per
+  pilot skill), D-64 (placement probes use reviewed practice items), D-65
+  (today's same-sitting independent check is authorized as `PRACTICE`), and
+  D-66 (a narrow D-61 exception for private held-out drafts).
+- `DELAYED_CHECK` and `REVIEW` assignments now target a pilot `SKILL`
+  (`src/progression/skill-assessment.ts`, assignment route):
+  - **Delayed-check eligibility:** requires a server-derived exposure at least
+    `minDelayHours` old. Exposure comes from learning events, non-independent
+    assistance events, and tutor traces on the skill's sessions, so any hint
+    resets the window. No prior exposure is refused with `NO_PRIOR_EXPOSURE`.
+  - **Review eligibility:** requires a due `ReviewSchedule`.
+  - **Reuse:** follows the profile's reuse artifacts.
+- Outcomes:
+  - A passed delayed check sets `independentDelayedCheck` and creates the first
+    review at `spacingIntervalDays[0]`. Previously nothing created review
+    schedules.
+  - A failed delayed check lapses the skill into remediation.
+  - A passed review advances the schedule.
+- The private-package loader accepts the six skill banks as optional,
+  validates role and coverage when they are present, and rejects unknown
+  banks. Bank metadata is pinned by hash.
+- 24 original skill-bank items are drafted `pending_review` in private
+  draft v2. The pre-existing v1 draft has two issues: its unit bank is tagged
+  only `ratio-language`, and the pinned lesson-bank hashes have drifted. Both
+  are recorded in the package handoff.
+- D-65: the Phase 1 shadow writer can no longer emit `DELAYED_CHECK`.
+- New open decisions:
+  - **D-67:** review reuse and volume conflict. The profile allows no reuse and
+    there are 2 items per skill, so each skill supports only two reviews.
+  - **D-68:** the placement position rule, which blocks the placement increment.
+- C4 remains closed.
+
 ## 2026-09-22 — Independent re-review of M1–M3 and follow-up
 
 - Claude Fable 5.1 re-reviewed the remediation read-only and returned

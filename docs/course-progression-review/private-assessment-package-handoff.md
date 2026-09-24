@@ -14,7 +14,7 @@ Mount the reviewed JSON package outside the repository and set:
 LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH=/secure/private/grade-6-math-assessments.json
 ```
 
-The package must contain four banks, all at version `1.0.0`:
+The package must contain these four banks, all at version `1.0.0`:
 
 | Bank | Target | Items per attempt | Required no-reuse pool |
 |---|---|---:|---:|
@@ -22,6 +22,30 @@ The package must contain four banks, all at version `1.0.0`:
 | `unit-rates-lesson-bank` | `unit-rates-lesson` | 3 | 9 |
 | `ratio-tables-lesson-bank` | `ratio-tables-lesson` | 3 | 9 |
 | `ratios-proportional-reasoning-unit-bank` | `ratios-and-proportional-reasoning` | 6 | 18 |
+
+The package may also contain six skill banks. The loader validates them when
+present; when absent, the corresponding assessment kind fails closed. Their
+contents are pinned by hash in `src/curriculum/pilot-catalog.ts`.
+
+| Bank | Target skill | Item role | Items per attempt | Required pool |
+|---|---|---|---:|---:|
+| `<skill>-review-bank` (×3) | `ratio-language`, `unit-rates`, `ratio-tables` | `review` | 1 | 2 (D-50; see open D-67) |
+| `<skill>-delayed-check-bank` (×3) | `ratio-language`, `unit-rates`, `ratio-tables` | `assessment` | 2 | 6 (D-63) |
+
+**Draft status (2026-09-23).** Model-assisted drafts of all 24 skill-bank
+items (D-66) are in the private draft package v2, outside the repository. They
+are `pending_review`. The v2 file adds the six skill banks and leaves the
+original four banks byte-identical to the v1 draft.
+
+Two issues found in the pre-existing v1 draft must be resolved during content
+review:
+
+- **Unit bank coverage.** All 18 unit-bank items are tagged
+  `ratio-language`, so the loader's per-skill coverage rule rejects the unit
+  bank.
+- **Hash drift.** The repository's pinned hashes for the four lesson and unit
+  banks do not match the current v1 draft. They must be re-pinned from the
+  reviewed package.
 
 The pool sizes follow the approved pilot volume and no-reuse reassessment
 policy. Every item must reference its containing bank and include its own
