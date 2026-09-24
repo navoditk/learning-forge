@@ -6,7 +6,15 @@ import {
   createInMemoryAssessmentStore,
   type HeldOutAssessmentBank,
 } from '../../src/assessment/store';
-import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
+import {
+  createAssessmentAssignment,
+  settleAssessmentLease,
+} from '../../src/progression/assessment-assignment';
+import {
+  applyDelayedCheckOutcome,
+  applyPilotLessonAssessmentOutcome,
+} from '../../src/progression/learner-state';
+import { recordReviewAttempt, startSession } from '../../src/phase1/service';
 import {
   abandonAssessmentRun,
   submitAssessmentItem,
@@ -14,6 +22,7 @@ import {
 import { resolvePinnedPolicyProfile } from '../../src/progression/artifacts';
 import { policyHash } from '../../src/progression/policy';
 import {
+  isSkillStranded,
   reassessmentLimitsFor,
   skillAssessmentEligibility,
 } from '../../src/progression/skill-assessment';
@@ -99,6 +108,9 @@ describe('skill-targeted delayed checks and reviews', () => {
     await prisma.activeAssessmentLease.deleteMany({ where: { householdId } });
     await prisma.tutorInteraction.deleteMany({ where: { householdId } });
     await prisma.tutorTrace.deleteMany({ where: { householdId } });
+    await prisma.masteryContribution.deleteMany({ where: { attempt: { householdId } } });
+    await prisma.assistanceEvent.deleteMany({ where: { attempt: { householdId } } });
+    await prisma.shadowDecision.deleteMany({ where: { householdId } });
     await prisma.attempt.deleteMany({ where: { householdId } });
     await prisma.session.deleteMany({ where: { householdId } });
     await prisma.assessmentRunState.deleteMany({
@@ -202,6 +214,7 @@ describe('skill-targeted delayed checks and reviews', () => {
       contentKey?: string;
       passed?: boolean;
       ended?: boolean;
+      context?: 'MASTERY_CHECK' | 'REVIEW';
     } = {},
   ) => {
     const session = await prisma.session.create({
@@ -228,7 +241,7 @@ describe('skill-targeted delayed checks and reviews', () => {
         attemptNumber: 1,
         elapsedSeconds: 0,
         highestAssistance: 'INDEPENDENT',
-        context: 'MASTERY_CHECK',
+        context: options.context ?? 'MASTERY_CHECK',
         policyVersion: 'fixture',
         createdAt: endedAt,
       },
@@ -241,18 +254,26 @@ describe('skill-targeted delayed checks and reviews', () => {
     return prisma.learnerProfile.create({ data: { householdId, userId: user.id, gradeLevel: 6 } });
   };
 
-  /** A scored delayed-check result recorded directly, to vary lookup filters. */
+  /**
+   * A skill-targeted assignment (and, with an outcome, its scored result)
+   * recorded directly, to vary lookup filters and consume bank items.
+   */
   const recordDelayedCheckResult = async (
-    outcome: 'PASS' | 'FAIL',
+    outcome: 'PASS' | 'FAIL' | 'INCONCLUSIVE' | null,
     scoredAt: Date,
-    options: { learner?: string; skillVersion?: string } = {},
+    options: {
+      learner?: string;
+      skillVersion?: string;
+      kind?: 'DELAYED_CHECK' | 'REVIEW';
+      itemIndexes?: readonly number[];
+    } = {},
   ) => {
     const learner = options.learner ?? learnerProfileId;
     const assignment = await prisma.assessmentAssignment.create({
       data: {
         householdId,
         learnerProfileId: learner,
-        kind: 'DELAYED_CHECK',
+        kind: options.kind ?? 'DELAYED_CHECK',
         targetKind: 'SKILL',
         targetCode: skillRef.code,
         targetVersion: options.skillVersion ?? skillRef.version,
@@ -263,26 +284,34 @@ describe('skill-targeted delayed checks and reviews', () => {
         policyProfileHash: 'sha256:fixture',
         algorithmVersion: 'mastery-phase-1-1',
         curriculumSnapshotHash: delayedBank.contentHash,
-        selectedItems: [],
+        selectedItems: (options.itemIndexes ?? []).map((index, ordinal) => ({
+          id: delayedBank.items[index]!.id,
+          version: delayedBank.items[index]!.version,
+          hash: delayedBank.items[index]!.hash,
+          ordinal: ordinal + 1,
+        })),
         excludedItems: [],
         attemptOrdinal: 1,
         idempotencyKey: randomUUID(),
       },
     });
-    await prisma.assessmentResult.create({
-      data: {
-        householdId,
-        learnerProfileId: learner,
-        assignmentId: assignment.id,
-        outcome,
-        itemResults: [],
-        correctCount: 0,
-        requiredCount: 2,
-        algorithmVersion: 'mastery-phase-1-1',
-        policyProfileHash: 'sha256:fixture',
-        scoredAt,
-      },
-    });
+    if (outcome) {
+      await prisma.assessmentResult.create({
+        data: {
+          householdId,
+          learnerProfileId: learner,
+          assignmentId: assignment.id,
+          outcome,
+          itemResults: [],
+          correctCount: 0,
+          requiredCount: 2,
+          algorithmVersion: 'mastery-phase-1-1',
+          policyProfileHash: 'sha256:fixture',
+          scoredAt,
+        },
+      });
+    }
+    return assignment;
   };
 
   /** Moves any lapse and failure back past the cooldown. */
@@ -635,14 +664,16 @@ describe('skill-targeted delayed checks and reviews', () => {
   });
 
   describe('D-28 re-entry gate and D-69 stranding filters', () => {
-    const LAPSED_AT_AGO = 2 * DAY;
-    const lapsedAt = () => new Date(Date.now() - LAPSED_AT_AGO);
+    // One fixed lapse time per test, so "exactly at the lapse" is exact.
+    let lapseTime: Date;
+    const lapsedAt = () => lapseTime;
     const eligibleLater = () => eligibility('DELAYED_CHECK', new Date(), reuseProfileRef);
 
     beforeEach(async () => {
       await createMastery(false);
       await exposeAt(new Date(Date.now() - 3 * DAY));
-      await scheduleReview(lapsedAt(), 'LAPSED', 1);
+      lapseTime = new Date(Date.now() - 2 * DAY);
+      await scheduleReview(lapseTime, 'LAPSED', 1);
     });
 
     it('requires a practice session after remediation began', async () => {
@@ -813,6 +844,245 @@ describe('skill-targeted delayed checks and reviews', () => {
       }
       expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('NEEDS_HELP');
       expect(await eligibleLater()).toEqual({ eligible: false, reasonCode: 'NEEDS_HELP' });
+    });
+  });
+
+  describe('D-69 stranding predicate and records', () => {
+    const profile11 = () => resolvePinnedPolicyProfile(reuseProfileRef);
+    const stranded = (profile = profile11(), learner = learnerProfileId) =>
+      isSkillStranded(prisma, { learnerProfileId: learner, skillRef, profile });
+    const needsHelpRows = () =>
+      prisma.learnerLessonState.count({
+        where: { learnerProfileId, remediationStatus: 'NEEDS_HELP' },
+      });
+
+    beforeEach(async () => {
+      await createMastery(false);
+      await exposeAt(new Date(Date.now() - 3 * DAY));
+    });
+
+    it('refuses a stranded skill before any record exists', async () => {
+      await recordDelayedCheckResult('FAIL', new Date(Date.now() - 2 * DAY), {
+        itemIndexes: [0, 1],
+      });
+      await recordDelayedCheckResult(null, new Date(), { itemIndexes: [2, 3, 4, 5] });
+      expect(await needsHelpRows()).toBe(0);
+      expect(await eligibility('DELAYED_CHECK', new Date(), reuseProfileRef)).toEqual({
+        eligible: false,
+        reasonCode: 'NEEDS_HELP',
+      });
+    });
+
+    it('is never stranded by exhaustion when delayed-check reuse is enabled', async () => {
+      await recordDelayedCheckResult('FAIL', new Date(Date.now() - 2 * DAY), {
+        itemIndexes: [0, 1, 2, 3, 4, 5],
+      });
+      const reuse = {
+        ...profile11(),
+        delayedCheckReuse: { enabled: true as const, minIntervalsSinceSeen: 2 },
+      };
+      expect(await stranded(reuse)).toBe(false);
+      expect(await stranded()).toBe(true);
+    });
+
+    it('counts only consecutive FAILs for this learner since the latest pass', async () => {
+      const at = (hoursAgo: number) => new Date(Date.now() - hoursAgo * HOUR);
+      for (const hoursAgo of [60, 50, 40]) await recordDelayedCheckResult('FAIL', at(hoursAgo));
+      await recordDelayedCheckResult('PASS', at(30));
+      expect(await stranded()).toBe(false);
+      await recordDelayedCheckResult('FAIL', at(20));
+      await recordDelayedCheckResult('INCONCLUSIVE', at(15));
+      await recordDelayedCheckResult('INCONCLUSIVE', at(14));
+      await recordDelayedCheckResult('FAIL', at(10));
+      expect(await stranded()).toBe(false);
+      const other = await otherLearner();
+      for (const hoursAgo of [9, 8, 7]) {
+        await recordDelayedCheckResult('FAIL', at(hoursAgo), { learner: other.id });
+      }
+      expect(await stranded()).toBe(false);
+      await recordDelayedCheckResult('FAIL', at(5));
+      expect(await stranded()).toBe(true);
+    });
+
+    it('records NEEDS_HELP when a stale run is expired before eligibility', async () => {
+      await recordDelayedCheckResult('FAIL', new Date(Date.now() - 2 * DAY), {
+        itemIndexes: [0, 1],
+      });
+      await recordDelayedCheckResult('INCONCLUSIVE', new Date(Date.now() - DAY), {
+        itemIndexes: [2, 3],
+      });
+      const profile = profile11();
+      const stale = await createAssessmentAssignment(
+        {
+          householdId,
+          learnerProfileId,
+          kind: 'DELAYED_CHECK',
+          targetKind: 'SKILL',
+          targetRef: skillRef,
+          bankRef: { code: delayedBank.code, version: delayedBank.version },
+          policyProfileRef: reuseProfileRef,
+          policyProfileHash: policyHash(profile),
+          algorithmVersion: 'mastery-phase-1-1',
+          curriculumSnapshotHash: delayedBank.contentHash,
+          itemsPerAttempt: profile.delayedCheckItemsPerAttempt,
+          requiredCount: profile.delayedCheckPassBar.correct,
+          requiredSkillCodes: [skillRef.code],
+          previouslySeenItemKeys: new Set(
+            [0, 1, 2, 3].map(
+              (index) => `${delayedBank.items[index]!.id}@${delayedBank.items[index]!.version}`,
+            ),
+          ),
+          expiresAt: new Date(Date.now() + HOUR),
+          idempotencyKey: 'stale-run',
+        },
+        store,
+      );
+      expect(
+        await settleAssessmentLease(prisma, {
+          learnerProfileId,
+          kind: 'DELAYED_CHECK',
+          targetRef: skillRef,
+          now: new Date(),
+        }),
+      ).toEqual({ active: true });
+      expect(
+        await settleAssessmentLease(prisma, {
+          learnerProfileId,
+          kind: 'DELAYED_CHECK',
+          targetRef: skillRef,
+          now: new Date(Date.now() + 2 * HOUR),
+        }),
+      ).toEqual({ active: false });
+      expect(
+        (
+          await prisma.assessmentRunState.findFirstOrThrow({
+            where: { assignmentId: stale.assignment.id },
+          })
+        ).status,
+      ).toBe('EXPIRED');
+      expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('NEEDS_HELP');
+    });
+
+    it('does not mark NEEDS_HELP when the last check passes', async () => {
+      const fail = await assignAndAnswer('DELAYED_CHECK', 'p19-fail', 'wrong', reuseProfileRef);
+      expect(fail.outcome).toBe('FAIL');
+      await recordDelayedCheckResult('INCONCLUSIVE', new Date(Date.now() - DAY), {
+        itemIndexes: delayedBank.items
+          .map((_, index) => index)
+          .filter(
+            (index) =>
+              !itemKeys(fail.assignment.selectedItems).includes(
+                `${delayedBank.items[index]!.id}@${delayedBank.items[index]!.version}`,
+              ),
+          )
+          .slice(0, 2),
+      });
+      await passCooldown();
+      await completePractice(new Date(Date.now() - DAY));
+      const pass = await assignAndAnswer(
+        'DELAYED_CHECK',
+        'p19-pass',
+        'fixture-answer',
+        reuseProfileRef,
+      );
+      expect(pass.outcome).toBe('PASS');
+      expect(await needsHelpRows()).toBe(0);
+    });
+
+    it('keeps NEEDS_HELP through a lesson pass and a delayed-check pass', async () => {
+      await lessonState('ratio-language-lesson', 'COMPLETE', 'NONE');
+      await prisma.learnerLessonState.updateMany({
+        where: { learnerProfileId },
+        data: { remediationStatus: 'NEEDS_HELP' },
+      });
+      await prisma.$transaction(async (transaction) => {
+        await applyPilotLessonAssessmentOutcome(transaction, {
+          householdId,
+          learnerProfileId,
+          lessonCode: 'ratio-language-lesson',
+          lessonVersion: '1.0.0',
+          policyProfileCode: reuseProfileRef.code,
+          policyProfileVersion: reuseProfileRef.version,
+          outcome: 'PASS',
+          firstRun: false,
+          assessmentRunId: randomUUID(),
+          now: new Date(),
+        });
+        await applyDelayedCheckOutcome(transaction, {
+          householdId,
+          learnerProfileId,
+          skillRef,
+          algorithmVersion: 'mastery-phase-1-1',
+          policyProfileCode: reuseProfileRef.code,
+          policyProfileVersion: reuseProfileRef.version,
+          spacingIntervalDays: [3],
+          now: new Date(),
+          outcome: 'PASS',
+        });
+      });
+      expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('NEEDS_HELP');
+    });
+
+    it('does not count practice whose passed attempt was not a same-sitting check', async () => {
+      await scheduleReview(new Date(Date.now() - 2 * DAY), 'LAPSED', 1);
+      await completePractice(new Date(Date.now() - DAY), { context: 'REVIEW' });
+      expect(await eligibility('DELAYED_CHECK', new Date(), reuseProfileRef)).toMatchObject({
+        reasonCode: 'REMEDIATION_PRACTICE_REQUIRED',
+      });
+    });
+
+    it('ignores a failed review result when finding remediation start', async () => {
+      await scheduleReview(new Date(Date.now() - 2 * DAY), 'LAPSED', 1);
+      await completePractice(new Date(Date.now() - DAY));
+      await recordDelayedCheckResult('FAIL', new Date(Date.now() - HOUR), { kind: 'REVIEW' });
+      expect((await eligibility('DELAYED_CHECK', new Date(), reuseProfileRef)).eligible).toBe(true);
+    });
+
+    it("ignores another learner's tutor traces on the skill", async () => {
+      const other = await otherLearner();
+      const session = await prisma.session.create({
+        data: { householdId, learnerProfileId: other.id, contentKey: 'ratio-language-1' },
+      });
+      await prisma.tutorTrace.create({
+        data: {
+          householdId,
+          learnerProfileId: other.id,
+          sessionId: session.id,
+          policyVersion: 'fixture',
+          promptTemplateVersion: 'fixture',
+          modelIdentifier: 'fixture',
+          latencyMs: 1,
+          inputTokens: 1,
+          outputTokens: 1,
+          totalTokens: 2,
+          validationResult: 'VALIDATED',
+          outcome: 'MOVE_RETURNED',
+        },
+      });
+      expect((await eligibility('DELAYED_CHECK', new Date(), reuseProfileRef)).eligible).toBe(true);
+    });
+
+    it('records NEEDS_HELP when a Phase 1 review lapse strands a pilot skill', async () => {
+      await prisma.masteryEstimate.updateMany({
+        where: { learnerProfileId },
+        data: { independentDelayedCheck: true },
+      });
+      await scheduleReview(new Date(Date.now() - HOUR), 'CONFIRMED', 1);
+      await recordDelayedCheckResult('FAIL', new Date(Date.now() - 3 * DAY), {
+        itemIndexes: [0, 1],
+      });
+      await recordDelayedCheckResult('PASS', new Date(Date.now() - 2 * DAY), {
+        itemIndexes: [2, 3, 4, 5],
+      });
+      const session = await startSession(
+        { householdId, learnerProfileId },
+        { contentId: 'ratio-language-1', activityKind: 'REVIEW' },
+      );
+      await recordReviewAttempt(
+        { householdId, learnerProfileId },
+        { sessionId: session.sessionId, learnerResponse: 'not the answer' },
+      );
+      expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('NEEDS_HELP');
     });
   });
 

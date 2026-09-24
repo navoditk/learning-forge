@@ -109,7 +109,7 @@ function requiredCount(value: number | null): number {
 }
 
 /** D-69: records NEEDS_HELP when a lapse or failure leaves the skill stranded. */
-async function recordStrandedSkill(
+export async function recordStrandedSkill(
   transaction: Prisma.TransactionClient,
   input: {
     householdId: string;
@@ -128,7 +128,7 @@ async function recordStrandedSkill(
   }
 }
 
-/** Abandoned and expired delayed checks also consume items (D-69). */
+/** Abandoned, expired, and invalidated delayed checks also consume items (D-69). */
 async function recordStrandingAfterUnscoredRun(
   transaction: Prisma.TransactionClient,
   assignmentId: string,
@@ -749,6 +749,7 @@ export async function invalidateAssessmentRun(
         where: { id: { in: assignment.sessions.map((session) => session.id) }, endedAt: null },
         data: { endedAt: new Date() },
       });
+      await recordStrandingAfterUnscoredRun(transaction, assignment.id);
       return { assignmentId: assignment.id, status: run.status, result };
     },
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },

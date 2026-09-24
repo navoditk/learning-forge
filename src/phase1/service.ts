@@ -19,6 +19,8 @@ import { planNextActivities } from '../planner';
 import { loadPolicyArtifacts } from '../progression/artifacts';
 import { deriveHighestAssistance } from '../progression/assistance';
 import { applyReviewLapse } from '../progression/learner-state';
+import { recordStrandedSkill } from '../progression/assessment-submission';
+import { pilotSkillRef } from '../progression/skill-assessment';
 import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
 import {
   policyHash,
@@ -777,17 +779,30 @@ export async function recordReviewAttempt(
   // unlike recordIndependentCheck's session, which only ends on success.
   await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
   if (result.correctness !== 'CORRECT') {
-    await prisma.$transaction((transaction) =>
-      applyReviewLapse(transaction, {
+    const policyProfileCode = session.policyProfileCode ?? 'grade-6-math-default';
+    const policyProfileVersion = session.policyProfileVersion ?? '1.0.0';
+    await prisma.$transaction(async (transaction) => {
+      await applyReviewLapse(transaction, {
         householdId: identity.householdId,
         learnerProfileId: identity.learnerProfileId,
         skillRefs: [content.skillRef],
-        policyProfileCode: session.policyProfileCode ?? 'grade-6-math-default',
-        policyProfileVersion: session.policyProfileVersion ?? '1.0.0',
+        policyProfileCode,
+        policyProfileVersion,
         algorithmVersion: PHASE_1_MASTERY_VERSION,
         now: new Date(),
-      }),
-    );
+      });
+      // D-69 applies to pilot skills only, whose profile always resolves; a
+      // lapse elsewhere is unchanged.
+      if (pilotSkillRef(content.skillRef.code, content.skillRef.version)) {
+        await recordStrandedSkill(transaction, {
+          householdId: identity.householdId,
+          learnerProfileId: identity.learnerProfileId,
+          policyProfileCode,
+          policyProfileVersion,
+          skillRef: content.skillRef,
+        });
+      }
+    });
   }
   return result;
 }

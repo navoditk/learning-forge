@@ -514,17 +514,20 @@ export async function applyPilotUnitAssessmentOutcome(
       (candidate) => candidate.code === lessonRef.code && candidate.version === lessonRef.version,
     );
     if (!lesson) continue;
-    await transaction.learnerLessonState.upsert({
-      where: {
-        learnerProfileId_lessonCode_lessonVersion: {
-          learnerProfileId: input.learnerProfileId,
-          lessonCode: lesson.code,
-          lessonVersion: lesson.version,
-        },
+    const key = {
+      learnerProfileId_lessonCode_lessonVersion: {
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
       },
+    };
+    const existing = await transaction.learnerLessonState.findUnique({ where: key });
+    await transaction.learnerLessonState.upsert({
+      where: key,
       update: {
         completionStatus: 'COMPLETE_BY_SKIP',
-        remediationStatus: 'NONE',
+        // D-69: a unit skip never clears the terminal NEEDS_HELP state.
+        remediationStatus: existing?.remediationStatus === 'NEEDS_HELP' ? 'NEEDS_HELP' : 'NONE',
         policyProfileCode: input.policyProfileCode,
         policyProfileVersion: input.policyProfileVersion,
         assessmentPassedAt: input.now,

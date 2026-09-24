@@ -150,6 +150,46 @@ function sessionActivityKind(kind: AssessmentKind): ProgressionActivityKind {
   }
 }
 
+/**
+ * Settles any lease for this learner, kind, and target before eligibility is
+ * judged: a live run is reported as active, and a stale one is expired
+ * through the normal terminal path, so its record and any D-69 stranding
+ * check happen before a refusal.
+ */
+export async function settleAssessmentLease(
+  database: PrismaClient,
+  input: { learnerProfileId: string; kind: AssessmentKind; targetRef: Ref; now: Date },
+): Promise<{ active: boolean }> {
+  return database.$transaction(
+    async (transaction) => {
+      const lease = await transaction.activeAssessmentLease.findFirst({
+        where: {
+          learnerProfileId: input.learnerProfileId,
+          kind: input.kind,
+          targetCode: input.targetRef.code,
+          targetVersion: input.targetRef.version,
+          releasedAt: null,
+        },
+        include: { assignment: { include: { runState: true, result: true } } },
+      });
+      if (!lease) return { active: false };
+      const run = lease.assignment.runState;
+      const expired = lease.expiresAt <= input.now || (run ? run.expiresAt <= input.now : false);
+      if (!expired) return { active: true };
+      if (run && !isTerminalAssessmentStatus(run.status) && !lease.assignment.result) {
+        await expireAssessment(transaction, lease.assignment.id, run.id, lease.id, input.now);
+      } else {
+        await transaction.activeAssessmentLease.update({
+          where: { id: lease.id },
+          data: { releasedAt: input.now },
+        });
+      }
+      return { active: false };
+    },
+    { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+  );
+}
+
 export async function createAssessmentAssignment(
   input: CreateAssessmentAssignmentInput,
   store: AssessmentStore = createAssessmentStore(),

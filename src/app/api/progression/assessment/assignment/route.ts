@@ -6,7 +6,9 @@ import {
   AssessmentAssignmentError,
   assessmentKindMatchesTarget,
   createAssessmentAssignment,
+  settleAssessmentLease,
 } from '../../../../../progression/assessment-assignment';
+import { recordStrandedSkill } from '../../../../../progression/assessment-submission';
 import {
   loadPolicyArtifacts,
   resolvePinnedPolicyProfile,
@@ -120,9 +122,11 @@ function lessonSkillCodes(lessonRefs: readonly { code: string; version: string }
  */
 async function resolvePlan(
   body: z.infer<typeof RequestSchema>,
-  learnerProfileId: string,
+  identity: { householdId: string; learnerProfileId: string },
   profile: ProgressionPolicyProfile,
+  policyProfileRef: { code: string; version: string },
 ): Promise<AssessmentPlan | { response: NextResponse }> {
+  const { householdId, learnerProfileId } = identity;
   if (body.targetKind === 'SKILL') {
     const kind = body.kind === 'DELAYED_CHECK' ? 'DELAYED_CHECK' : 'REVIEW';
     const skillRef = pilotSkillRef(body.targetCode, body.targetVersion);
@@ -140,14 +144,36 @@ async function resolvePlan(
       select: { id: true },
     });
     if (replay) return { targetRef: skillRef, bank, skillCodes: [skillRef.code] };
+    const now = new Date();
+    const lease = await settleAssessmentLease(prisma, {
+      learnerProfileId,
+      kind,
+      targetRef: skillRef,
+      now,
+    });
+    if (lease.active) {
+      return conflict('An assessment run is already active', 'ACTIVE_ASSIGNMENT_EXISTS');
+    }
     const eligibility = await skillAssessmentEligibility(prisma, {
       learnerProfileId,
       kind,
       skillRef,
       profile,
-      now: new Date(),
+      now,
     });
     if (!eligibility.eligible) {
+      if (eligibility.reasonCode === 'NEEDS_HELP') {
+        // D-69: a terminal refusal always has a record.
+        await prisma.$transaction((transaction) =>
+          recordStrandedSkill(transaction, {
+            householdId,
+            learnerProfileId,
+            policyProfileCode: policyProfileRef.code,
+            policyProfileVersion: policyProfileRef.version,
+            skillRef,
+          }),
+        );
+      }
       return conflict('The assessment is not available yet', eligibility.reasonCode);
     }
     return {
@@ -231,7 +257,7 @@ export async function POST(request: NextRequest) {
         { status: 409 },
       );
     }
-    const plan = await resolvePlan(body, identity.learnerProfileId, profile);
+    const plan = await resolvePlan(body, identity, profile, program.defaultPolicyProfileRef);
     if ('response' in plan) return plan.response;
     const assignment = await createAssessmentAssignment(
       {

@@ -120,4 +120,97 @@ describe('skill-targeted assessment assignment route', () => {
       }),
     ).toMatchObject({ status: 503, body: { reasonCode: 'ASSESSMENT_STORE_UNAVAILABLE' } });
   });
+
+  const delayedAssignment = (skillCode: string, itemIds: readonly string[], key: string) =>
+    prisma.assessmentAssignment.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        kind: 'DELAYED_CHECK',
+        targetKind: 'SKILL',
+        targetCode: skillCode,
+        targetVersion: '1.0.0',
+        bankCode: `${skillCode}-delayed-check-bank`,
+        bankVersion: '1.0.0',
+        policyProfileCode: 'grade-6-math-default',
+        policyProfileVersion: '1.1.0',
+        policyProfileHash: 'sha256:fixture',
+        algorithmVersion: 'mastery-phase-1-1',
+        curriculumSnapshotHash: 'sha256:fixture',
+        selectedItems: itemIds.map((id, index) => ({
+          id,
+          version: '1.0.0',
+          hash: `sha256:${id}`,
+          ordinal: index + 1,
+        })),
+        excludedItems: [],
+        attemptOrdinal: 1,
+        idempotencyKey: key,
+      },
+    });
+
+  it('reports a live run for the target as ACTIVE_ASSIGNMENT_EXISTS', async () => {
+    await prisma.learningEvent.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        skillCode: 'ratio-tables',
+        skillVersion: '1.0.0',
+        kind: 'INDEPENDENT_PRACTICE_EXPOSURE',
+        occurredAt: new Date(Date.now() - 3 * 24 * 3_600_000),
+      },
+    });
+    const assignment = await delayedAssignment('ratio-tables', ['live-a', 'live-b'], 'live-run');
+    await prisma.activeAssessmentLease.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        kind: 'DELAYED_CHECK',
+        targetCode: 'ratio-tables',
+        targetVersion: '1.0.0',
+        bankVersion: '1.0.0',
+        assignmentId: assignment.id,
+        expiresAt: new Date(Date.now() + 3_600_000),
+      },
+    });
+    expect(
+      await post({
+        kind: 'DELAYED_CHECK',
+        targetKind: 'SKILL',
+        targetCode: 'ratio-tables',
+        idempotencyKey: 'route-live-0001',
+      }),
+    ).toMatchObject({ status: 409, body: { reasonCode: 'ACTIVE_ASSIGNMENT_EXISTS' } });
+  });
+
+  it('records NEEDS_HELP when it refuses a stranded skill (D-69)', async () => {
+    const failed = await delayedAssignment('ratio-language', ['seen-a', 'seen-b'], 'strand-1');
+    await prisma.assessmentResult.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        assignmentId: failed.id,
+        outcome: 'FAIL',
+        itemResults: [],
+        correctCount: 0,
+        requiredCount: 2,
+        algorithmVersion: 'mastery-phase-1-1',
+        policyProfileHash: 'sha256:fixture',
+        scoredAt: new Date(Date.now() - 2 * 24 * 3_600_000),
+      },
+    });
+    await delayedAssignment('ratio-language', ['seen-c', 'seen-d', 'seen-e', 'seen-f'], 'strand-2');
+    expect(
+      await post({
+        kind: 'DELAYED_CHECK',
+        targetKind: 'SKILL',
+        targetCode: 'ratio-language',
+        idempotencyKey: 'route-strand-0001',
+      }),
+    ).toMatchObject({ status: 409, body: { reasonCode: 'NEEDS_HELP' } });
+    const lesson = await prisma.learnerLessonState.findFirstOrThrow({
+      where: { learnerProfileId, lessonCode: 'ratio-language-lesson' },
+    });
+    expect(lesson.remediationStatus).toBe('NEEDS_HELP');
+  });
 });
