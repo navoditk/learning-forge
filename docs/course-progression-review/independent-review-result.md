@@ -2,6 +2,18 @@
 
 ## Current status — 2026-09-22
 
+**Reviewer-model caveat (2026-09-24).** Each review below was requested from a
+separate read-only agent configured for Claude Fable 5.1, a different model
+from the implementer (Claude Opus 5.5). The identity recorded for each review
+is the agent's own self-report. Two of these agents failed on rate limits, and
+their error messages named `claude-opus-5-5` as the model sent to the API.
+That may be the parent session's model, or it may mean the requested model
+was not applied. Which model actually ran these reviews is therefore
+**unverified**. All of them are also the same model family as the
+implementer. The playbook's preference for a different reasoning
+configuration may not have been met. Treat these reviews as separate
+read-only passes, not as proven model-independent reviews.
+
 The independent review of implementation target `b7934bc` is recorded in
 `independent-review.md`, with recommendation **do not approve**. Major
 findings: M1 (Phase 1 shadow predicate ignores `algorithmVersion`) and M2
@@ -71,8 +83,8 @@ These remediations need another independent re-review.
 
 ## Independent re-review of the delayed-check and review remediation — 2026-09-24
 
-Reviewer: Claude Fable 5.1 (a fresh agent, confirmed; an earlier resumed
-attempt had silently run on the implementer's model and was discarded).
+Reviewer: a fresh read-only agent requested as Claude Fable 5.1. An earlier
+resumed attempt was discarded.
 Scope: `5eff07e..8293201`. Verdict: **not ready for human review**. F1–F3,
 F7, F9, and F10 were confirmed closed; 24 of 31 mutants were killed. C3 was
 confirmed non-enforcing and the route still gated. Remediation made after this

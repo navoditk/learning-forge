@@ -2,7 +2,7 @@
 
 ## 2026-09-24 — Stranding, sticky NEEDS_HELP, and D-70
 
-- A third independent re-review (Claude Fable 5.1) returned **not ready for
+- A third independent re-review (requested as Claude Fable 5.1; model unverified) returned **not ready for
   human review**. Remediation:
   - abandoned and expired runs now run the D-69 check;
   - eligibility refuses a stranded skill with `NEEDS_HELP`;
@@ -17,7 +17,7 @@
 
 ## 2026-09-24 — D-28 re-entry gate and D-69 needs-help terminal state
 
-- A fresh independent re-review (Claude Fable 5.1) returned **not ready for
+- A fresh independent re-review (requested as Claude Fable 5.1; model unverified) returned **not ready for
   human review**. It found two major issues:
   - a lapsed skill could be re-confirmed immediately (N1);
   - repeated lapses could exhaust the delayed-check bank, leaving the skill
@@ -40,7 +40,7 @@
 
 ## 2026-09-24 — Independent review of delayed checks and reviews; D-67/D-68
 
-- An independent review of the D-63–D-66 increment (Claude Fable 5.1)
+- An independent review of the D-63–D-66 increment (requested as Claude Fable 5.1; model unverified)
   returned **not ready for human review**. Its findings and remediation are
   recorded in `docs/course-progression-review/independent-review-result.md`.
 - The product owner approved:
@@ -103,7 +103,7 @@
 
 ## 2026-09-22 — Independent re-review of M1–M3 and follow-up
 
-- Claude Fable 5.1 re-reviewed the remediation read-only and returned
+- A read-only reviewer (requested as Claude Fable 5.1; model unverified) re-reviewed the remediation and returned
   **ready for human review with noted risks** (see
   `docs/course-progression-review/independent-review-result.md`).
 - The product owner confirmed the D-60 clarification (hybrid unit-covered
