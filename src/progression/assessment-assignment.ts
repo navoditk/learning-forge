@@ -123,6 +123,8 @@ export type CreateAssessmentAssignmentInput = {
   previouslySeenItemKeys?: ReadonlySet<string>;
   maxReassessments?: number;
   reassessmentCooldownHours?: number;
+  /** Latest human override on the target (D-70); restarts the D-27 count. */
+  reassessmentCountSince?: Date;
   shadow?: {
     requestKind: string;
     activityKind: ActivityKind;
@@ -323,6 +325,7 @@ export async function createAssessmentAssignment(
               now: new Date(),
               maxReassessments: input.maxReassessments,
               cooldownHours: input.reassessmentCooldownHours,
+              countSince: input.reassessmentCountSince,
             })
           : { eligible: true as const, excludedItemKeys: new Set<string>() };
       if (!eligibility.eligible) {

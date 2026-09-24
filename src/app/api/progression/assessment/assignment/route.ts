@@ -15,6 +15,7 @@ import {
 } from '../../../../../progression/artifacts';
 import { policyHash } from '../../../../../progression/policy';
 import {
+  latestSkillOverrideAt,
   pilotSkillRef,
   reassessmentLimitsFor,
   skillAssessmentBank,
@@ -100,6 +101,7 @@ type AssessmentPlan = {
   bank: AssessmentBank;
   skillCodes: string[];
   previouslySeenItemKeys?: ReadonlySet<string>;
+  reassessmentCountSince?: Date;
 };
 
 function conflict(error: string, reasonCode: string, status = 409) {
@@ -181,6 +183,7 @@ async function resolvePlan(
       bank,
       skillCodes: [skillRef.code],
       previouslySeenItemKeys: eligibility.excludedItemKeys,
+      reassessmentCountSince: await latestSkillOverrideAt(prisma, learnerProfileId, skillRef),
     };
   }
   const lesson =
@@ -277,6 +280,7 @@ export async function POST(request: NextRequest) {
         requiredCount: required,
         requiredSkillCodes: plan.skillCodes,
         previouslySeenItemKeys: plan.previouslySeenItemKeys,
+        reassessmentCountSince: plan.reassessmentCountSince,
         authoredBankItemCount: plan.bank.itemCount,
         authoredBankSkillCodes: plan.bank.coveredSkillRefs.map((skill) => skill.code),
         ...reassessmentLimitsFor(body.kind, profile),

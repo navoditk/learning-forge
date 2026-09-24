@@ -17,6 +17,8 @@ export function reassessmentEligibility(input: {
   now: Date;
   maxReassessments: number;
   cooldownHours: number;
+  /** A human override (D-70) restarts the consecutive count from this time. */
+  countSince?: Date;
 }): ReassessmentEligibility {
   const failedRuns = input.priorRuns.filter((run) => run.outcome === 'FAIL');
   const excludedItemKeys = new Set(failedRuns.flatMap((run) => run.selectedItemKeys));
@@ -29,7 +31,9 @@ export function reassessmentEligibility(input: {
       undefined,
     );
   const consecutiveFailures = failedRuns.filter(
-    (run) => !latestPass || run.scoredAt > latestPass,
+    (run) =>
+      (!latestPass || run.scoredAt > latestPass) &&
+      (!input.countSince || run.scoredAt > input.countSince),
   ).length;
   if (consecutiveFailures > input.maxReassessments) {
     return {

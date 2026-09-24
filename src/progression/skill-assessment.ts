@@ -111,6 +111,7 @@ async function previouslySelectedItemKeys(
   kind: SkillAssessmentKind,
   skillRef: Ref,
   mostRecent?: number,
+  bankVersion?: string,
 ): Promise<Set<string>> {
   const previous = await database.assessmentAssignment.findMany({
     where: {
@@ -119,6 +120,7 @@ async function previouslySelectedItemKeys(
       targetKind: 'SKILL',
       targetCode: skillRef.code,
       targetVersion: skillRef.version,
+      ...(bankVersion ? { bankVersion } : {}),
     },
     orderBy: { createdAt: 'desc' },
     take: mostRecent,
@@ -147,6 +149,7 @@ export type SkillAssessmentEligibility =
         | 'LOCKED_DELAY_WINDOW'
         | 'ALREADY_CONFIRMED'
         | 'NEEDS_HELP'
+        | 'NEW_BANK_VERSION_REQUIRED'
         | 'REASSESSMENT_COOLDOWN'
         | 'REMEDIATION_PRACTICE_REQUIRED'
         | 'REVIEW_NOT_DUE'
@@ -187,12 +190,11 @@ export async function skillAssessmentEligibility(
     if (schedule && schedule.lastOutcome !== 'LAPSED') {
       return { eligible: false, reasonCode: 'ALREADY_CONFIRMED' };
     }
-    if (
-      (await skillNeedsHelp(database, input.learnerProfileId, input.skillRef)) ||
-      (await isSkillStranded(database, input))
-    ) {
+    if (await skillNeedsHelp(database, input.learnerProfileId, input.skillRef)) {
       return { eligible: false, reasonCode: 'NEEDS_HELP' };
     }
+    const stranding = await skillStrandingState(database, input);
+    if (stranding !== 'NONE') return { eligible: false, reasonCode: stranding };
     // D-28: after a lapse or a failed delayed check, the reassessment needs the
     // cooldown and one completed practice session on the skill since then.
     const remediationStartedAt = await delayedCheckRemediationStart(
@@ -333,17 +335,42 @@ async function skillNeedsHelp(
   return count > 0;
 }
 
+/** The latest unrevoked human override on the skill (D-70), if any. */
+export async function latestSkillOverrideAt(
+  database: Database,
+  learnerProfileId: string,
+  skillRef: Ref,
+): Promise<Date | undefined> {
+  const override = await database.overrideRecord.findFirst({
+    where: {
+      learnerProfileId,
+      targetKind: 'SKILL',
+      targetCode: skillRef.code,
+      targetVersion: skillRef.version,
+      revokedAt: null,
+    },
+    orderBy: { createdAt: 'desc' },
+    select: { createdAt: true },
+  });
+  return override?.createdAt;
+}
+
+export type SkillStrandingState = 'NONE' | 'NEEDS_HELP' | 'NEW_BANK_VERSION_REQUIRED';
+
 /**
- * D-69 predicate, read-only: after a lapse or a failed delayed check, a skill
- * is stranded when it can no longer be served an unseen delayed check
- * (abandoned and expired runs count) or its consecutive delayed-check
- * failures exceed `maxReassessments` (D-27). Stranding with no prior lapse or
- * failure is outside D-69 and is not reported here.
+ * D-69/D-70 predicate, read-only. After a lapse or a failed delayed check, a
+ * skill is stranded when the current bank version has no unseen delayed-check
+ * items left (abandoned and expired runs count), or when consecutive
+ * delayed-check failures since the latest pass or override exceed
+ * `maxReassessments` (D-27). An override after the lapse or failure turns
+ * exhaustion into NEW_BANK_VERSION_REQUIRED: the skill is back in remediation
+ * but cannot be checked until a reviewed bank version adds unseen items.
+ * Stranding with no prior lapse or failure is outside D-69 and returns NONE.
  */
-export async function isSkillStranded(
+export async function skillStrandingState(
   database: Database,
   input: { learnerProfileId: string; skillRef: Ref; profile: ProgressionPolicyProfile },
-): Promise<boolean> {
+): Promise<SkillStrandingState> {
   const schedule = await database.reviewSchedule.findUnique({
     where: {
       learnerProfileId_skillCode_skillVersion: {
@@ -360,22 +387,27 @@ export async function isSkillStranded(
     input.skillRef,
     schedule?.lastOutcome === 'LAPSED' ? schedule.dueAt : undefined,
   );
-  if (!remediationStartedAt) return false;
+  if (!remediationStartedAt) return 'NONE';
+  const overrideAt = await latestSkillOverrideAt(database, input.learnerProfileId, input.skillRef);
+  const overriddenSinceRemediation = !!overrideAt && overrideAt >= remediationStartedAt;
   const bank = skillAssessmentBank('DELAYED_CHECK', input.skillRef);
   const seen = await previouslySelectedItemKeys(
     database,
     input.learnerProfileId,
     'DELAYED_CHECK',
     input.skillRef,
+    undefined,
+    bank?.version,
   );
   const exhausted =
     !input.profile.delayedCheckReuse.enabled &&
     (!bank || bank.itemCount - seen.size < input.profile.delayedCheckItemsPerAttempt);
-  if (exhausted) return true;
+  if (exhausted) return overriddenSinceRemediation ? 'NEW_BANK_VERSION_REQUIRED' : 'NEEDS_HELP';
   const results = await database.assessmentResult.findMany({
     where: {
       learnerProfileId: input.learnerProfileId,
       outcome: { in: ['PASS', 'FAIL'] },
+      ...(overrideAt ? { scoredAt: { gt: overrideAt } } : {}),
       assignment: {
         kind: 'DELAYED_CHECK',
         targetKind: 'SKILL',
@@ -388,5 +420,13 @@ export async function isSkillStranded(
   });
   const latestPass = results.findIndex(({ outcome }) => outcome === 'PASS');
   const consecutiveFailures = latestPass === -1 ? results.length : latestPass;
-  return consecutiveFailures > input.profile.maxReassessments;
+  return consecutiveFailures > input.profile.maxReassessments ? 'NEEDS_HELP' : 'NONE';
+}
+
+/** Whether D-69 requires NEEDS_HELP for this skill now. */
+export async function isSkillStranded(
+  database: Database,
+  input: { learnerProfileId: string; skillRef: Ref; profile: ProgressionPolicyProfile },
+): Promise<boolean> {
+  return (await skillStrandingState(database, input)) === 'NEEDS_HELP';
 }

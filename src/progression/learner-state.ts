@@ -622,3 +622,89 @@ export async function markSkillNeedsHelp(
     });
   }
 }
+
+export type NeedsHelpOverrideResult =
+  | { applied: true; overrideId: string }
+  | {
+      applied: false;
+      reasonCode:
+        'OVERRIDE_REASON_REQUIRED' | 'REAUTH_EXPIRED' | 'REAUTH_ALREADY_USED' | 'NOT_NEEDS_HELP';
+    };
+
+/**
+ * D-70: a parent or operator override moves a NEEDS_HELP skill's lessons back
+ * to ACTIVE remediation and restarts the consecutive-failure count from the
+ * override (read by the stranding predicate and reassessment limits). It
+ * requires a D-06 step-up re-authentication within the D-47 lifetime, used at
+ * most once, and writes an OverrideRecord. It does not create delayed-check
+ * items: without unseen items the skill is refused NEW_BANK_VERSION_REQUIRED.
+ */
+export async function applyNeedsHelpOverride(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    skillRef: { code: string; version: string };
+    actorUserId: string;
+    actorRole: 'PARENT' | 'OPERATOR';
+    reason: string;
+    reauthAt: Date;
+    stepUpReauthLifetimeMinutes: number;
+    policyProfileCode: string;
+    policyProfileVersion: string;
+    now: Date;
+  },
+): Promise<NeedsHelpOverrideResult> {
+  const reason = input.reason.trim();
+  if (!reason) return { applied: false, reasonCode: 'OVERRIDE_REASON_REQUIRED' };
+  const age = input.now.getTime() - input.reauthAt.getTime();
+  if (age < 0 || age > input.stepUpReauthLifetimeMinutes * 60_000) {
+    return { applied: false, reasonCode: 'REAUTH_EXPIRED' };
+  }
+  const reused = await transaction.overrideRecord.count({
+    where: { actorUserId: input.actorUserId, reauthAt: input.reauthAt },
+  });
+  if (reused > 0) return { applied: false, reasonCode: 'REAUTH_ALREADY_USED' };
+  const lessons = PILOT_LESSONS.filter((candidate) =>
+    candidate.skillRefs.some(
+      (skill) => skill.code === input.skillRef.code && skill.version === input.skillRef.version,
+    ),
+  );
+  const needsHelp = await transaction.learnerLessonState.count({
+    where: {
+      learnerProfileId: input.learnerProfileId,
+      remediationStatus: 'NEEDS_HELP',
+      OR: lessons.map((lesson) => ({ lessonCode: lesson.code, lessonVersion: lesson.version })),
+    },
+  });
+  if (needsHelp === 0) return { applied: false, reasonCode: 'NOT_NEEDS_HELP' };
+  const record = await transaction.overrideRecord.create({
+    data: {
+      householdId: input.householdId,
+      learnerProfileId: input.learnerProfileId,
+      targetKind: 'SKILL',
+      targetCode: input.skillRef.code,
+      targetVersion: input.skillRef.version,
+      actorUserId: input.actorUserId,
+      actorRole: input.actorRole,
+      reason,
+      reauthAt: input.reauthAt,
+      createdAt: input.now,
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
+    },
+  });
+  await transaction.learnerLessonState.updateMany({
+    where: {
+      learnerProfileId: input.learnerProfileId,
+      remediationStatus: 'NEEDS_HELP',
+      OR: lessons.map((lesson) => ({ lessonCode: lesson.code, lessonVersion: lesson.version })),
+    },
+    data: {
+      remediationStatus: 'ACTIVE',
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
+    },
+  });
+  return { applied: true, overrideId: record.id };
+}

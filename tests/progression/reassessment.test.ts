@@ -77,4 +77,22 @@ describe('reassessment eligibility', () => {
       }),
     ).toEqual({ eligible: true, excludedItemKeys: new Set() });
   });
+
+  it('restarts the consecutive count at a human override (D-70)', () => {
+    const at = (iso: string) => new Date(iso);
+    const runs = ['2026-01-01', '2026-01-02', '2026-01-03'].map((day) => ({
+      ...failure,
+      scoredAt: at(`${day}T00:00:00Z`),
+    }));
+    const base = {
+      priorRuns: runs,
+      now: at('2026-02-01T00:00:00Z'),
+      maxReassessments: 2,
+      cooldownHours: 12,
+    };
+    expect(reassessmentEligibility(base).eligible).toBe(false);
+    expect(
+      reassessmentEligibility({ ...base, countSince: at('2026-01-02T12:00:00Z') }).eligible,
+    ).toBe(true);
+  });
 });

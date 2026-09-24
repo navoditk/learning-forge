@@ -12,6 +12,7 @@ import {
 } from '../../src/progression/assessment-assignment';
 import {
   applyDelayedCheckOutcome,
+  applyNeedsHelpOverride,
   applyPilotLessonAssessmentOutcome,
 } from '../../src/progression/learner-state';
 import { recordReviewAttempt, startSession } from '../../src/phase1/service';
@@ -25,6 +26,7 @@ import {
   isSkillStranded,
   reassessmentLimitsFor,
   skillAssessmentEligibility,
+  skillStrandingState,
 } from '../../src/progression/skill-assessment';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
@@ -121,6 +123,7 @@ describe('skill-targeted delayed checks and reviews', () => {
     await prisma.reviewSchedule.deleteMany({ where: { householdId } });
     await prisma.masteryEstimate.deleteMany({ where: { householdId } });
     await prisma.learnerLessonState.deleteMany({ where: { householdId } });
+    await prisma.overrideRecord.deleteMany({ where: { householdId } });
   });
 
   afterAll(async () => {
@@ -266,6 +269,7 @@ describe('skill-targeted delayed checks and reviews', () => {
       skillVersion?: string;
       kind?: 'DELAYED_CHECK' | 'REVIEW';
       itemIndexes?: readonly number[];
+      bankVersion?: string;
     } = {},
   ) => {
     const learner = options.learner ?? learnerProfileId;
@@ -278,7 +282,7 @@ describe('skill-targeted delayed checks and reviews', () => {
         targetCode: skillRef.code,
         targetVersion: options.skillVersion ?? skillRef.version,
         bankCode: delayedBank.code,
-        bankVersion: delayedBank.version,
+        bankVersion: options.bankVersion ?? delayedBank.version,
         policyProfileCode: reuseProfileRef.code,
         policyProfileVersion: reuseProfileRef.version,
         policyProfileHash: 'sha256:fixture',
@@ -1083,6 +1087,141 @@ describe('skill-targeted delayed checks and reviews', () => {
         { sessionId: session.sessionId, learnerResponse: 'not the answer' },
       );
       expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('NEEDS_HELP');
+    });
+  });
+
+  describe('D-70 human override', () => {
+    const profile11 = () => resolvePinnedPolicyProfile(reuseProfileRef);
+    let actorUserId: string;
+
+    beforeEach(async () => {
+      await createMastery(false);
+      await exposeAt(new Date(Date.now() - 3 * DAY));
+      const parent = await prisma.user.create({ data: { householdId, role: 'PARENT' } });
+      actorUserId = parent.id;
+    });
+
+    /** A NEEDS_HELP skill whose current delayed-check bank is exhausted. */
+    const strandSkill = async () => {
+      await recordDelayedCheckResult('FAIL', new Date(Date.now() - 2 * DAY), {
+        itemIndexes: [0, 1],
+      });
+      await recordDelayedCheckResult(null, new Date(), { itemIndexes: [2, 3, 4, 5] });
+      await lessonState('ratio-language-lesson', 'COMPLETE', 'NONE');
+      await prisma.learnerLessonState.updateMany({
+        where: { learnerProfileId },
+        data: { remediationStatus: 'NEEDS_HELP' },
+      });
+    };
+
+    const override = (
+      options: { reason?: string; reauthAt?: Date; now?: Date; actor?: string } = {},
+    ) =>
+      prisma.$transaction((transaction) =>
+        applyNeedsHelpOverride(transaction, {
+          householdId,
+          learnerProfileId,
+          skillRef,
+          actorUserId: options.actor ?? actorUserId,
+          actorRole: 'PARENT',
+          reason: options.reason ?? 'Worked through the skill together.',
+          reauthAt: options.reauthAt ?? new Date(Date.now() - 60_000),
+          stepUpReauthLifetimeMinutes: profile11().stepUpReauthLifetimeMinutes,
+          policyProfileCode: reuseProfileRef.code,
+          policyProfileVersion: reuseProfileRef.version,
+          now: options.now ?? new Date(),
+        }),
+      );
+
+    it('refuses without a reason, a fresh step-up, or a NEEDS_HELP skill', async () => {
+      expect(await override()).toEqual({ applied: false, reasonCode: 'NOT_NEEDS_HELP' });
+      await strandSkill();
+      const lifetime = profile11().stepUpReauthLifetimeMinutes * 60_000;
+      expect(await override({ reason: '  ' })).toEqual({
+        applied: false,
+        reasonCode: 'OVERRIDE_REASON_REQUIRED',
+      });
+      expect(await override({ reauthAt: new Date(Date.now() - lifetime - 1000) })).toEqual({
+        applied: false,
+        reasonCode: 'REAUTH_EXPIRED',
+      });
+      expect(await override({ reauthAt: new Date(Date.now() + 60_000) })).toEqual({
+        applied: false,
+        reasonCode: 'REAUTH_EXPIRED',
+      });
+      expect(await prisma.overrideRecord.count({ where: { learnerProfileId } })).toBe(0);
+    });
+
+    it('reopens to ACTIVE remediation once per step-up and requires a new bank version', async () => {
+      await strandSkill();
+      const reauthAt = new Date(Date.now() - 60_000);
+      const applied = await override({ reauthAt });
+      expect(applied).toMatchObject({ applied: true });
+      expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('ACTIVE');
+      expect(await prisma.overrideRecord.count({ where: { learnerProfileId } })).toBe(1);
+      await prisma.learnerLessonState.updateMany({
+        where: { learnerProfileId },
+        data: { remediationStatus: 'NEEDS_HELP' },
+      });
+      expect(await override({ reauthAt })).toEqual({
+        applied: false,
+        reasonCode: 'REAUTH_ALREADY_USED',
+      });
+      await prisma.learnerLessonState.updateMany({
+        where: { learnerProfileId },
+        data: { remediationStatus: 'ACTIVE' },
+      });
+      expect(await eligibility('DELAYED_CHECK', new Date(), reuseProfileRef)).toEqual({
+        eligible: false,
+        reasonCode: 'NEW_BANK_VERSION_REQUIRED',
+      });
+      expect(
+        await isSkillStranded(prisma, { learnerProfileId, skillRef, profile: profile11() }),
+      ).toBe(false);
+    });
+
+    it('counts exhaustion only against the current bank version', async () => {
+      await recordDelayedCheckResult('FAIL', new Date(Date.now() - 2 * DAY), {
+        itemIndexes: [0, 1, 2, 3, 4, 5],
+        bankVersion: '0.9.0',
+      });
+      expect(
+        await skillStrandingState(prisma, { learnerProfileId, skillRef, profile: profile11() }),
+      ).toBe('NONE');
+    });
+
+    it('restarts the consecutive-failure count at the override', async () => {
+      const reuse = {
+        ...profile11(),
+        delayedCheckReuse: { enabled: true as const, minIntervalsSinceSeen: 2 },
+      };
+      const at = (hoursAgo: number) => new Date(Date.now() - hoursAgo * HOUR);
+      for (const hoursAgo of [60, 50, 40]) await recordDelayedCheckResult('FAIL', at(hoursAgo));
+      expect(
+        await skillStrandingState(prisma, { learnerProfileId, skillRef, profile: reuse }),
+      ).toBe('NEEDS_HELP');
+      await lessonState('ratio-language-lesson', 'COMPLETE', 'NONE');
+      await prisma.learnerLessonState.updateMany({
+        where: { learnerProfileId },
+        data: { remediationStatus: 'NEEDS_HELP' },
+      });
+      expect(await override({ now: at(30), reauthAt: at(30.01) })).toMatchObject({ applied: true });
+      expect(
+        await skillStrandingState(prisma, { learnerProfileId, skillRef, profile: reuse }),
+      ).toBe('NONE');
+      await recordDelayedCheckResult('FAIL', at(20));
+      expect(
+        await skillStrandingState(prisma, { learnerProfileId, skillRef, profile: reuse }),
+      ).toBe('NONE');
+    });
+
+    it('marks NEEDS_HELP again when a new lapse follows the override', async () => {
+      await strandSkill();
+      expect(await override()).toMatchObject({ applied: true });
+      await scheduleReview(new Date(Date.now() + 1000), 'LAPSED', 1);
+      expect(
+        await skillStrandingState(prisma, { learnerProfileId, skillRef, profile: profile11() }),
+      ).toBe('NEEDS_HELP');
     });
   });
 
