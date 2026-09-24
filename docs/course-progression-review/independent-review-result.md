@@ -22,7 +22,7 @@ requirement). C4 remains closed.
 
 ## Independent re-review of the M1–M3 remediation — 2026-09-22
 
-Reviewer: Claude Fable 5.1, working read-only on the uncommitted remediation
+Reviewer: requested as Claude Fable 5.1 (model unverified), working read-only on the uncommitted remediation
 over `14e8be4`. Verdict: **ready for human review with noted risks**. This is
 not an approval, and C4 remains closed.
 
@@ -48,9 +48,41 @@ not an approval, and C4 remains closed.
   would refuse today's mastery-check flow); the rest of N8 (assignment-required
   kind sets are code constants); and the remaining N9 doc ordering.
 
-## Independent re-review of the D-28 and D-69 remediation — 2026-09-24 (latest)
+## Independent re-review of the stranding and NEEDS_HELP fixes — 2026-09-24 (latest)
 
-Reviewer: Claude Fable 5.1 (a fresh agent). Scope: `8293201..c499084`.
+Reviewer: requested as Claude Fable 5.1; model unverified. The agent
+self-reported Fable and noted it could not confirm this. Scope:
+`c499084..c0292fa`. Verdict: **not ready for human review**. 28 of 45 mutants
+were killed; F5, F6, and the draft fix were closed. Remediation made after this
+re-review:
+
+- **R1 (major):** three terminal refusals had no record:
+  - Phase 1 review lapses now run the D-69 check (pilot skills only);
+  - invalidation now runs it too;
+  - the route settles a stale run through normal expiry before eligibility,
+    reports a live run as `ACTIVE_ASSIGNMENT_EXISTS`, and records every
+    `NEEDS_HELP` refusal.
+- **R2:** the flaky "exactly at the lapse" test now uses one fixed lapse time.
+- **R3:** new falsifiers cover:
+  - refusal before marking;
+  - the reuse short-circuit;
+  - consecutive counting (latest pass, INCONCLUSIVE, other learners);
+  - the expire hook;
+  - the database-level NEEDS_HELP writers;
+  - no clearing by a delayed-check pass;
+  - the passed-check context;
+  - the failure-kind filter;
+  - other learners' traces;
+  - the Phase 1 lapse;
+  - no marking after a passing check.
+  The guard mutants N16, N17, and N26 are equivalent: a non-skill target never
+  resolves as stranded.
+- **R4:** the unit-skip path now preserves NEEDS_HELP.
+- **R5:** doc overclaims corrected, and the handoff lists D-70 for C4.
+
+## Independent re-review of the D-28 and D-69 remediation — 2026-09-24
+
+Reviewer: requested as Claude Fable 5.1; model unverified. Scope: `8293201..c499084`.
 Verdict: **not ready for human review**. N1 closed, N5 deferral accepted,
 13 of 39 mutants killed. Remediation made after this re-review:
 
@@ -83,7 +115,7 @@ These remediations need another independent re-review.
 
 ## Independent re-review of the delayed-check and review remediation — 2026-09-24
 
-Reviewer: a fresh read-only agent requested as Claude Fable 5.1. An earlier
+Reviewer: a fresh read-only agent requested as Claude Fable 5.1 (model unverified). An earlier
 resumed attempt was discarded.
 Scope: `5eff07e..8293201`. Verdict: **not ready for human review**. F1–F3,
 F7, F9, and F10 were confirmed closed; 24 of 31 mutants were killed. C3 was
@@ -120,7 +152,7 @@ These remediations need another independent re-review.
 
 ## Independent review of pilot delayed-check and review assignments — 2026-09-24
 
-Reviewer: Claude Fable 5.1, read-only, reviewing `ad74b09..5eff07e`.
+Reviewer: requested as Claude Fable 5.1 (model unverified), read-only, reviewing `ad74b09..5eff07e`.
 Verdict: **not ready for human review**. Nothing was approved, and C4
 remains closed. Remediation made after the review:
 

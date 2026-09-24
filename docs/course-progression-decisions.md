@@ -827,8 +827,10 @@ the parent-visible `NEEDS_HELP` remediation state when either of these holds:
 - consecutive delayed-check failures exceed `maxReassessments` (`D-27`).
 
 `NEEDS_HELP` refuses further delayed checks. A missing lesson row is recorded
-as `NOT_STARTED` + `NEEDS_HELP`. Abandoned and expired runs after a lapse or
-failure are checked too. `NEEDS_HELP` is terminal: lesson-assessment outcomes
+as `NOT_STARTED` + `NEEDS_HELP`. The check runs on failed delayed checks,
+progression and Phase 1 review lapses, and abandoned, expired, and invalidated
+runs. A stale run is expired before eligibility is judged, and any
+`NEEDS_HELP` refusal writes the record. `NEEDS_HELP` is terminal: lesson-assessment outcomes
 and later lapses never clear it. How a human override reopens the skill is not
 yet decided (`D-70`), and no code clears `NEEDS_HELP` until it is. Items are
 never reused, so every delayed check stays on unseen items.

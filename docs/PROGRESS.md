@@ -1,5 +1,24 @@
 # Progress
 
+## 2026-09-24 — Every NEEDS_HELP refusal is recorded
+
+- A fourth re-review (requested as Claude Fable 5.1; model unverified) returned
+  **not ready for human review**. Fixes:
+  - the D-69 check now also runs on Phase 1 review lapses (pilot skills only)
+    and on invalidation;
+  - the route settles a stale run through normal expiry before eligibility,
+    and reports a live run as `ACTIVE_ASSIGNMENT_EXISTS`;
+  - any `NEEDS_HELP` refusal writes the record;
+  - a unit skip no longer clears `NEEDS_HELP`;
+  - a flaky lapse-time test is fixed;
+  - new falsifiers cover the remaining non-equivalent survivors. The kind and
+    target guard mutants are equivalent, because non-skill targets never
+    resolve as stranded.
+- The product owner approved D-70: a parent override resets to active
+  remediation and resets the consecutive count. A new delayed check still
+  needs a new bank version. It is implemented next as a domain service; the
+  step-up endpoint and parent UI belong with C5.
+
 ## 2026-09-24 — Stranding, sticky NEEDS_HELP, and D-70
 
 - A third independent re-review (requested as Claude Fable 5.1; model unverified) returned **not ready for
@@ -9,7 +28,8 @@
   - `NEEDS_HELP` is terminal through lesson outcomes and lapses;
   - `NEEDS_HELP` writes moved to `learner-state.ts`;
   - a completed practice session must end on a passed check;
-  - falsifying tests cover every previously surviving filter mutant.
+  - falsifying tests cover the previously surviving filter mutants (a later
+    re-review found two still surviving; since addressed).
 - **D-70 is open:** how a human override reopens a `NEEDS_HELP` skill. Also
   open: first-time exhaustion outside D-69, and `NEEDS_HELP` for the lesson
   and unit reassessment cap.
