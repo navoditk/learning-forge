@@ -160,6 +160,8 @@ export async function applyDelayedCheckOutcome(
     policyProfileVersion: input.policyProfileVersion,
     scheduleVersion: `${input.policyProfileCode}@${input.policyProfileVersion}`,
   };
+  // Eligibility admits a delayed check only before first confirmation or after
+  // a lapse, so this either creates the schedule or restarts a lapsed one.
   await transaction.reviewSchedule.upsert({
     where: {
       learnerProfileId_skillCode_skillVersion: {
@@ -177,6 +179,29 @@ export async function applyDelayedCheckOutcome(
     },
     update: schedule,
   });
+  // The passing delayed check is the reassessment that clears lapse
+  // remediation (§6.8). Remediation on a lesson that is not yet complete comes
+  // from its own lesson assessment and is left for that reassessment.
+  for (const lesson of PILOT_LESSONS.filter((candidate) =>
+    candidate.skillRefs.some(
+      (skill) => skill.code === input.skillRef.code && skill.version === input.skillRef.version,
+    ),
+  )) {
+    await transaction.learnerLessonState.updateMany({
+      where: {
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+        remediationStatus: 'ACTIVE',
+        completionStatus: { in: ['COMPLETE', 'COMPLETE_BY_SKIP'] },
+      },
+      data: {
+        remediationStatus: 'NONE',
+        policyProfileCode: input.policyProfileCode,
+        policyProfileVersion: input.policyProfileVersion,
+      },
+    });
+  }
 }
 
 /** A passed review advances the schedule one approved interval (D-18). */

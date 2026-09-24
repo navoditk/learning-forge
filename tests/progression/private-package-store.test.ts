@@ -164,6 +164,43 @@ describe('private held-out assessment package store', () => {
     ).toThrow('requires at least 6 items');
   });
 
+  it('rejects a package missing a required bank', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 1 },
+          { code: 'required-bank', version: '1.0.0', minimumItems: 1 },
+        ]),
+    ).toThrow('missing bank: required-bank@1.0.0');
+  });
+
+  it('rejects items whose role does not match the bank', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 1, itemRole: 'review' },
+        ]),
+    ).toThrow('must contain only review items');
+  });
+
+  it('rejects an item for another skill in an exclusive skill bank', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          {
+            code: 'private-bank',
+            version: '1.0.0',
+            minimumItems: 1,
+            requiredSkillRefs: [{ code: 'unit-rates', version: '1.0.0' }],
+            exclusiveSkills: true,
+          },
+        ]),
+    ).toThrow('contains an item for another skill');
+  });
+
   it('rejects a bank the configured shape does not name', async () => {
     const first = packageDocument({ code: 'private-bank', version: '1.0.0' });
     const second = packageDocument({ code: 'other-bank', version: '1.0.0' });

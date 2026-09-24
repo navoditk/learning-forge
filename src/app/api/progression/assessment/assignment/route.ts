@@ -14,6 +14,7 @@ import {
 import { policyHash } from '../../../../../progression/policy';
 import {
   pilotSkillRef,
+  reassessmentLimitsFor,
   skillAssessmentBank,
   skillAssessmentEligibility,
 } from '../../../../../progression/skill-assessment';
@@ -130,6 +131,15 @@ async function resolvePlan(
     if (!bank) {
       return conflict('Assessment bank is not configured', 'ASSESSMENT_STORE_UNAVAILABLE', 503);
     }
+    // D-54: a retried request replays its assignment even after the run has
+    // changed eligibility; createAssessmentAssignment rejects a mismatch.
+    const replay = await prisma.assessmentAssignment.findUnique({
+      where: {
+        learnerProfileId_idempotencyKey: { learnerProfileId, idempotencyKey: body.idempotencyKey },
+      },
+      select: { id: true },
+    });
+    if (replay) return { targetRef: skillRef, bank, skillCodes: [skillRef.code] };
     const eligibility = await skillAssessmentEligibility(prisma, {
       learnerProfileId,
       kind,
@@ -243,13 +253,7 @@ export async function POST(request: NextRequest) {
         previouslySeenItemKeys: plan.previouslySeenItemKeys,
         authoredBankItemCount: plan.bank.itemCount,
         authoredBankSkillCodes: plan.bank.coveredSkillRefs.map((skill) => skill.code),
-        // Reviews are governed by their schedule, not by reassessment limits.
-        ...(body.kind === 'REVIEW'
-          ? {}
-          : {
-              maxReassessments: profile.maxReassessments,
-              reassessmentCooldownHours: profile.reassessmentCooldownHours,
-            }),
+        ...reassessmentLimitsFor(body.kind, profile),
         shadow: {
           requestKind: 'assessment-assignment',
           activityKind: body.kind,

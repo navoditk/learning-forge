@@ -6,7 +6,7 @@ import { policyHash, resolvePolicyProfile } from '../../src/progression/policy';
 
 describe('policy profile composition', () => {
   const parent = loadPolicyArtifacts().profiles.find(
-    (profile) => profile.code === 'grade-6-math-default',
+    (profile) => profile.code === 'grade-6-math-default' && profile.version === '1.0.0',
   );
 
   it('merges a child override while retaining inherited policy values', () => {

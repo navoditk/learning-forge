@@ -3,7 +3,7 @@ import { AssessmentBankSchema, LessonSchema, UnitSchema } from '../contracts/pro
 
 const version = '1.0.0';
 const programRef = { code: 'grade-6-math', version } satisfies Ref;
-const policyProfileRef = { code: 'grade-6-math-default', version } satisfies Ref;
+const policyProfileRef = { code: 'grade-6-math-default', version: '1.1.0' } satisfies Ref;
 
 const skillRef = (code: string): Ref => ({ code, version });
 const itemRef = (id: string, hash: string) => ({
@@ -91,19 +91,20 @@ const BANK_HASHES: Record<string, string> = {
     'sha256:d19ca5d1ad0d22f41cd2c5a2ac92bdd289b1153015ead2e0fe8f710be2218721',
   'ratios-proportional-reasoning-unit-bank':
     'sha256:dabfd7ba2400abe338c01d38bbe5636707ce5f902a7714e84df3d433ea0a4b72',
-  // Skill banks (D-50 review, D-63 delayed check); drafts pending review.
+  // Skill banks (D-50 as amended by D-67, D-63). These pin pending-review drafts
+  // and must be re-pinned from the reviewed package before serving.
   'ratio-language-review-bank':
-    'sha256:be2228f0f02b6564db79897f2bca5cc81296b82533cbe9b45067099b2043b969',
+    'sha256:010e01969d886d8612f9accf2cff3cab1b6fe15a4bd4db0c4f28df3937f883c3',
   'ratio-language-delayed-check-bank':
-    'sha256:a9c703a33d2d8c4348e2e837078ab9b0ec2f24e8801e482918ee75ef793a8d75',
+    'sha256:3e36c8bfac768001f73556f62e144cd6c0e004ddbebe96bfd78125cddee5c0d2',
   'unit-rates-review-bank':
-    'sha256:0e8b29b966d6ec24449047f487a3c9787f6b370599d47fb031b2cb0f57593af0',
+    'sha256:6bb0c046e6728d3d315915567c50f5cc221ad8d85db2d86b0536ce2ff8d1614d',
   'unit-rates-delayed-check-bank':
-    'sha256:6a656f3d19aac83345c48d25516b9304e4dee521a0e62fbfcfdeaccb113150e6',
+    'sha256:fd303beff49c6a97c11201396fc8c0277d269c7138431a1d38d348de0a9afad3',
   'ratio-tables-review-bank':
-    'sha256:7e3fa68c6e587b4dd28966cd15a1ba2f4819493c1a2d6afe57852f460ca04d87',
+    'sha256:a8c8d79c3a5ef2642fe6a97af6a5f27a09361cebbbb9ff9f3f4438c6f61a13fa',
   'ratio-tables-delayed-check-bank':
-    'sha256:63a93af6d94222a0cf89897e1d65a5fd1a6340d856aec40a2c209f5f08deaf0b',
+    'sha256:7a796dc00e8355f48994f6655b34ac90ec1e8b19f911f75dc1cafca5ec68eff6',
 };
 
 function bankHash(code: string): string {
@@ -164,7 +165,7 @@ export const PILOT_ASSESSMENT_BANKS: readonly AssessmentBank[] = [
   ...PILOT_LESSONS.flatMap(({ skillRefs }) => skillRefs).flatMap((skill) =>
     (
       [
-        ['review-bank', 2],
+        ['review-bank', 3],
         ['delayed-check-bank', 6],
       ] as const
     ).map(([suffix, itemCount]) =>

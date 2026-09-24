@@ -40,9 +40,11 @@ function contentIdsForSkill(skillCode: string): string[] {
 
 /**
  * Exposure events for one learner and skill, derived only from persisted
- * server events (§9.1). Learning events, non-independent assistance on the
- * skill's attempts, and tutor traces on the skill's sessions all count; the
- * over-inclusive reading only ever delays eligibility.
+ * server events (§9.1): learning events, every attempt on the skill's content
+ * in any context (practice, same-sitting check, diagnostic, review, or
+ * assessment), non-independent assistance, and tutor moves and traces on the
+ * skill's attempts and sessions. Any of these resets the delay window; a
+ * source missing here would make a learner eligible too early.
  */
 export async function loadSkillExposureEvents(
   database: Database,
@@ -50,10 +52,14 @@ export async function loadSkillExposureEvents(
   skillCode: string,
 ): Promise<ExposureEvent[]> {
   const contentIds = contentIdsForSkill(skillCode);
-  const [learningEvents, assistanceEvents, sessions] = await Promise.all([
+  const [learningEvents, attempts, assistanceEvents, tutorMoves, sessions] = await Promise.all([
     database.learningEvent.findMany({
       where: { learnerProfileId, skillCode },
       select: { kind: true, occurredAt: true },
+    }),
+    database.attempt.findMany({
+      where: { learnerProfileId, contentKey: { in: contentIds } },
+      select: { createdAt: true },
     }),
     database.assistanceEvent.findMany({
       where: {
@@ -61,6 +67,10 @@ export async function loadSkillExposureEvents(
         attempt: { learnerProfileId, contentKey: { in: contentIds } },
       },
       select: { occurredAt: true },
+    }),
+    database.tutorInteraction.findMany({
+      where: { learnerProfileId, attempt: { contentKey: { in: contentIds } } },
+      select: { createdAt: true },
     }),
     database.session.findMany({
       where: { learnerProfileId, contentKey: { in: contentIds } },
@@ -73,18 +83,21 @@ export async function loadSkillExposureEvents(
         select: { createdAt: true },
       })
     : [];
+  const assisted = (occurredAt: Date) => ({
+    skillCode,
+    kind: 'ASSISTANCE_GIVEN' as const,
+    occurredAt,
+  });
   return [
     ...learningEvents.map(({ kind, occurredAt }) => ({ skillCode, kind, occurredAt })),
-    ...assistanceEvents.map(({ occurredAt }) => ({
+    ...attempts.map(({ createdAt }) => ({
       skillCode,
-      kind: 'ASSISTANCE_GIVEN' as const,
-      occurredAt,
-    })),
-    ...traces.map(({ createdAt }) => ({
-      skillCode,
-      kind: 'ASSISTANCE_GIVEN' as const,
+      kind: 'INDEPENDENT_PRACTICE_EXPOSURE' as const,
       occurredAt: createdAt,
     })),
+    ...assistanceEvents.map(({ occurredAt }) => assisted(occurredAt)),
+    ...tutorMoves.map(({ createdAt }) => assisted(createdAt)),
+    ...traces.map(({ createdAt }) => assisted(createdAt)),
   ];
 }
 
@@ -129,16 +142,21 @@ export type SkillAssessmentEligibility =
   | { eligible: true; excludedItemKeys: Set<string> }
   | {
       eligible: false;
-      reasonCode: 'NO_PRIOR_EXPOSURE' | 'LOCKED_DELAY_WINDOW' | 'REVIEW_NOT_DUE';
+      reasonCode:
+        | 'NO_PRIOR_EXPOSURE'
+        | 'LOCKED_DELAY_WINDOW'
+        | 'ALREADY_CONFIRMED'
+        | 'REVIEW_NOT_DUE'
+        | 'REVIEW_LAPSED_REMEDIATION';
     };
 
 /**
  * Server-side eligibility for a skill-targeted assessment. A delayed check
- * needs a defined exposure at least `minDelayHours` old (D-21, §9.2); a review
- * needs a due review schedule. With reuse disabled (D-44, the profile's
- * `reviewReuse`), every item previously assigned for this skill and kind is
- * excluded; with reuse enabled, items from the last `minIntervalsSinceSeen`
- * runs are.
+ * needs a defined exposure at least `minDelayHours` old (D-21, §9.2) and is
+ * refused once the skill is confirmed and not lapsed. A review needs a due,
+ * non-lapsed schedule. With reuse disabled (D-44) every item previously
+ * assigned for this skill and kind is excluded; with reuse enabled, items from
+ * the last `minIntervalsSinceSeen` runs are (D-46 as specified by D-67).
  */
 export async function skillAssessmentEligibility(
   database: Database,
@@ -150,7 +168,22 @@ export async function skillAssessmentEligibility(
     now: Date;
   },
 ): Promise<SkillAssessmentEligibility> {
+  const schedule = await database.reviewSchedule.findUnique({
+    where: {
+      learnerProfileId_skillCode_skillVersion: {
+        learnerProfileId: input.learnerProfileId,
+        skillCode: input.skillRef.code,
+        skillVersion: input.skillRef.version,
+      },
+    },
+    select: { dueAt: true, lastOutcome: true },
+  });
   if (input.kind === 'DELAYED_CHECK') {
+    // A confirmed skill is maintained by review; only a lapse reopens the
+    // delayed check, which is then the reassessment that clears remediation.
+    if (schedule && schedule.lastOutcome !== 'LAPSED') {
+      return { eligible: false, reasonCode: 'ALREADY_CONFIRMED' };
+    }
     const events = await loadSkillExposureEvents(
       database,
       input.learnerProfileId,
@@ -172,16 +205,11 @@ export async function skillAssessmentEligibility(
       };
     }
   } else {
-    const schedule = await database.reviewSchedule.findUnique({
-      where: {
-        learnerProfileId_skillCode_skillVersion: {
-          learnerProfileId: input.learnerProfileId,
-          skillCode: input.skillRef.code,
-          skillVersion: input.skillRef.version,
-        },
-      },
-      select: { dueAt: true },
-    });
+    // A lapsed skill routes to remediation (§6.8); review resumes only after a
+    // passing delayed check re-confirms it.
+    if (schedule?.lastOutcome === 'LAPSED') {
+      return { eligible: false, reasonCode: 'REVIEW_LAPSED_REMEDIATION' };
+    }
     if (!schedule || schedule.dueAt > input.now) {
       return { eligible: false, reasonCode: 'REVIEW_NOT_DUE' };
     }
@@ -198,4 +226,20 @@ export async function skillAssessmentEligibility(
       reuse.enabled ? reuse.minIntervalsSinceSeen : undefined,
     ),
   };
+}
+
+/**
+ * Reassessment limits (D-27, D-28) for an assignment kind. A review is governed
+ * by its schedule and lapse routing instead, so it carries none.
+ */
+export function reassessmentLimitsFor(
+  kind: 'PLACEMENT' | 'LESSON_ASSESSMENT' | 'UNIT_ASSESSMENT' | 'DELAYED_CHECK' | 'REVIEW',
+  profile: Pick<ProgressionPolicyProfile, 'maxReassessments' | 'reassessmentCooldownHours'>,
+): { maxReassessments?: number; reassessmentCooldownHours?: number } {
+  return kind === 'REVIEW'
+    ? {}
+    : {
+        maxReassessments: profile.maxReassessments,
+        reassessmentCooldownHours: profile.reassessmentCooldownHours,
+      };
 }

@@ -21,6 +21,8 @@ type RequiredBank = {
   optional?: boolean;
   /** Role every item in the bank must carry; defaults to `assessment`. */
   itemRole?: 'assessment' | 'review';
+  /** Every item must belong to one of `requiredSkillRefs` (skill banks). */
+  exclusiveSkills?: boolean;
 };
 
 const pilotSkillRefs = (codes: readonly string[]): readonly Ref[] =>
@@ -60,17 +62,19 @@ const PILOT_SKILL_CODES = [
 ];
 
 /**
- * Skill-targeted banks: two review items per skill (D-50) and a dedicated
- * delayed-check bank of delayedCheckItemsPerAttempt × (1 + maxReassessments)
- * items per skill (D-63, D-43, D-27).
+ * Skill-targeted banks: three review items per skill (D-50 as amended by D-67)
+ * and a dedicated delayed-check bank of
+ * delayedCheckItemsPerAttempt × (1 + maxReassessments) items per skill (D-63,
+ * D-43, D-27).
  */
 const GRADE_6_MATH_SKILL_BANKS: readonly RequiredBank[] = PILOT_SKILL_CODES.flatMap((code) => [
   {
     code: `${code}-review-bank`,
     version: '1.0.0',
-    minimumItems: 2,
+    minimumItems: 3,
     requiredSkillRefs: pilotSkillRefs([code]),
     optional: true,
+    exclusiveSkills: true,
     itemRole: 'review' as const,
   },
   {
@@ -79,6 +83,7 @@ const GRADE_6_MATH_SKILL_BANKS: readonly RequiredBank[] = PILOT_SKILL_CODES.flat
     minimumItems: 6,
     requiredSkillRefs: pilotSkillRefs([code]),
     optional: true,
+    exclusiveSkills: true,
   },
 ]);
 
@@ -199,6 +204,19 @@ function validatePackageIntegrity(
       if (bank.items.length < required.minimumItems) {
         throw new Error(
           `Private assessment bank ${required.code}@${required.version} requires at least ${required.minimumItems} items`,
+        );
+      }
+      if (
+        required.exclusiveSkills &&
+        bank.items.some(
+          (item) =>
+            !(required.requiredSkillRefs ?? []).some(
+              (ref) => ref.code === item.skillRef.code && ref.version === item.skillRef.version,
+            ),
+        )
+      ) {
+        throw new Error(
+          `Private assessment bank ${required.code}@${required.version} contains an item for another skill`,
         );
       }
       for (const skillRef of required.requiredSkillRefs ?? []) {

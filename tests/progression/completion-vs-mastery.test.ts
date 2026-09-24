@@ -7,7 +7,7 @@ import { aggregateMastery } from '../../src/progression/mastery';
 describe('completion and mastery remain independent', () => {
   it('allows assisted lesson completion while mastery remains below the gate', () => {
     const profile = loadPolicyArtifacts().profiles.find(
-      (item) => item.code === 'grade-6-math-default',
+      (item) => item.code === 'grade-6-math-default' && item.version === '1.0.0',
     );
     if (!profile) throw new Error('Grade 6 Math profile is missing');
     const now = new Date('2026-09-22T00:00:00Z');
@@ -38,7 +38,7 @@ describe('completion and mastery remain independent', () => {
 
   it('allows mastery evidence without asserting lesson completion', () => {
     const profile = loadPolicyArtifacts().profiles.find(
-      (item) => item.code === 'grade-6-math-default',
+      (item) => item.code === 'grade-6-math-default' && item.version === '1.0.0',
     );
     if (!profile) throw new Error('Grade 6 Math profile is missing');
     const now = new Date('2026-09-22T00:00:00Z');

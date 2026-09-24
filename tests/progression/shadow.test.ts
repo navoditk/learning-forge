@@ -39,7 +39,9 @@ describe('progression shadow decisions', () => {
 
   it('records divergence without changing the actual legacy behavior', () => {
     const { profiles, accessPolicies } = loadPolicyArtifacts();
-    const profile = profiles.find((candidate) => candidate.code === 'grade-6-math-default');
+    const profile = profiles.find(
+      (candidate) => candidate.code === 'grade-6-math-default' && candidate.version === '1.0.0',
+    );
     const accessPolicy = accessPolicies.find(
       (candidate) => candidate.code === 'grade-6-math-access' && candidate.version === '1.1.0',
     );
@@ -70,7 +72,9 @@ describe('progression shadow decisions', () => {
 
   it('carries the actor and active run tuple into new shadow evidence', () => {
     const { profiles, accessPolicies } = loadPolicyArtifacts();
-    const profile = profiles.find((candidate) => candidate.code === 'grade-6-math-default');
+    const profile = profiles.find(
+      (candidate) => candidate.code === 'grade-6-math-default' && candidate.version === '1.0.0',
+    );
     const accessPolicy = accessPolicies.find(
       (candidate) => candidate.code === 'grade-6-math-access' && candidate.version === '1.1.0',
     );

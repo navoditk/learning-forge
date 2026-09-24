@@ -2,7 +2,11 @@ import { describe, expect, it } from 'vitest';
 
 import { assessmentKindMatchesTarget } from '../../src/progression/assessment-assignment';
 import { resolvePinnedPolicyProfile } from '../../src/progression/artifacts';
-import { pilotSkillRef, skillAssessmentBank } from '../../src/progression/skill-assessment';
+import {
+  pilotSkillRef,
+  reassessmentLimitsFor,
+  skillAssessmentBank,
+} from '../../src/progression/skill-assessment';
 
 describe('skill-targeted assessment metadata', () => {
   const profile = resolvePinnedPolicyProfile({ code: 'grade-6-math-default', version: '1.0.0' });
@@ -26,8 +30,8 @@ describe('skill-targeted assessment metadata', () => {
       const skillRef = { code, version: '1.0.0' };
       const review = skillAssessmentBank('REVIEW', skillRef);
       const delayed = skillAssessmentBank('DELAYED_CHECK', skillRef);
-      // D-50: review records per skill.
-      expect(review).toMatchObject({ code: `${code}-review-bank`, itemCount: 2 });
+      // D-50 as amended by D-67: review records per skill.
+      expect(review).toMatchObject({ code: `${code}-review-bank`, itemCount: 3 });
       // D-63: itemsPerAttempt × (1 + maxReassessments), arithmetic from D-43/D-27.
       expect(delayed).toMatchObject({
         code: `${code}-delayed-check-bank`,
@@ -35,6 +39,16 @@ describe('skill-targeted assessment metadata', () => {
       });
       expect(review?.coveredSkillRefs).toEqual([skillRef]);
       expect(delayed?.targetRef).toEqual(skillRef);
+    }
+  });
+
+  it('applies reassessment limits to every kind except review', () => {
+    expect(reassessmentLimitsFor('REVIEW', profile)).toEqual({});
+    for (const kind of ['DELAYED_CHECK', 'LESSON_ASSESSMENT', 'UNIT_ASSESSMENT'] as const) {
+      expect(reassessmentLimitsFor(kind, profile)).toEqual({
+        maxReassessments: profile.maxReassessments,
+        reassessmentCooldownHours: profile.reassessmentCooldownHours,
+      });
     }
   });
 });
