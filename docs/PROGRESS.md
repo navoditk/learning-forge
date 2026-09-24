@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-09-24 — D-70 override service
+
+- `applyNeedsHelpOverride` (`src/progression/learner-state.ts`) implements the
+  approved D-70:
+  - it requires a parent or operator actor, a reason, and a D-06 step-up
+    re-authentication within the D-47 lifetime, used once;
+  - it writes an `OverrideRecord` and moves NEEDS_HELP lessons to ACTIVE.
+- The stranding predicate (`skillStrandingState`) and the reassessment limits
+  restart the consecutive-failure count at the latest unrevoked override.
+- Exhaustion now counts only items seen from the current delayed-check bank
+  version. An override after the lapse or failure turns exhaustion into
+  `NEW_BANK_VERSION_REQUIRED` (not re-marked), until a reviewed bank version
+  adds unseen items. A new lapse after the override marks NEEDS_HELP again.
+- Not yet built:
+  - the password re-entry (step-up) endpoint and the parent UI, both with C5;
+  - the service has no HTTP caller.
+
 ## 2026-09-24 — Every NEEDS_HELP refusal is recorded
 
 - A fourth re-review (requested as Claude Fable 5.1; model unverified) returned

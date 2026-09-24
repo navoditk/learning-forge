@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **69 approved; 1 open (D-70).** Approved entries are explicitly marked in
+- Status: **70 approved; 0 open.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -844,10 +844,10 @@ playbook dimensions 7 and 9.
 | Field | Value |
 |---|---|
 | Kind | policy + product |
-| Status | **OPEN** |
-| Recommendation | Pending product-owner decision |
-| Approved value | — |
-| Approver | Product owner |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | A parent or operator override moves the skill's lessons from `NEEDS_HELP` back to `ACTIVE` remediation and resets the consecutive-failure count |
+| Approved value | As recommended. The override requires a `D-06` step-up re-authentication within `D-47`'s single-use lifetime and writes an `OverrideRecord`. A new delayed check still requires unseen items, so it is refused with `NEW_BANK_VERSION_REQUIRED` until a reviewed bank version with unseen items exists. No item is reused |
+| Approver | Product owner (in chat) |
 | Blocks | Reopening any `NEEDS_HELP` skill; Stage C4 |
 
 **The gap (found by independent re-review, 2026-09-24).** `D-69` makes
@@ -872,7 +872,7 @@ Two related gaps are also open:
 
 ## I. Index of open decisions
 
-Seventy decisions total; sixty-nine are approved and `D-70` is open. The grouping below is a
+Seventy decisions total; all seventy are approved. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 
