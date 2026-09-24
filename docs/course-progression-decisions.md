@@ -830,9 +830,8 @@ the parent-visible `NEEDS_HELP` remediation state when either of these holds:
 as `NOT_STARTED` + `NEEDS_HELP`. The check runs on failed delayed checks,
 progression and Phase 1 review lapses, and abandoned, expired, and invalidated
 runs. A stale run is expired before eligibility is judged, and any
-`NEEDS_HELP` refusal writes the record. `NEEDS_HELP` is terminal: lesson-assessment outcomes
-and later lapses never clear it. How a human override reopens the skill is not
-yet decided (`D-70`), and no code clears `NEEDS_HELP` until it is. Items are
+`NEEDS_HELP` refusal writes the record. `NEEDS_HELP` is terminal: lesson and unit outcomes and
+later lapses never clear it. Only the `D-70` human override does. Items are
 never reused, so every delayed check stays on unseen items.
 
 **Why.** Each lapse cycle consumes two of the six items, so repeated lapses
@@ -850,17 +849,31 @@ playbook dimensions 7 and 9.
 | Approver | Product owner (in chat) |
 | Blocks | Reopening any `NEEDS_HELP` skill; Stage C4 |
 
-**The gap (found by independent re-review, 2026-09-24).** `D-69` makes
-`NEEDS_HELP` terminal and says only a human override can reopen it, but the
-architecture's override (§9.3, `D-06`) sets `UNLOCKED_BY_OVERRIDE` and has no
-remediation or mastery effect. No code creates an override record. Even after
-an override, the delayed-check bank has no unseen items (`D-44`) and the
-consecutive-failure cap still applies (`D-27`). Reopening therefore needs
+**Why it was needed (found by independent re-review, 2026-09-24).** `D-69`
+made `NEEDS_HELP` terminal, but the architecture's override (§9.3, `D-06`) sets
+`UNLOCKED_BY_OVERRIDE` and has no remediation or mastery effect. Even after an
+override, the delayed-check bank has no unseen items (`D-44`) and the
+consecutive-failure cap still applies (`D-27`). Reopening therefore needed
 decided semantics, for example:
 
 - whether an override resets the consecutive-failure count;
 - whether it requires a new delayed-check bank version with unseen items;
 - whether it returns the lesson to `ACTIVE` remediation or to `NONE`.
+
+**Implementation status.** `applyNeedsHelpOverride` implements this decision.
+It has no HTTP caller yet. Before any caller exists:
+
+- The caller must look up the actor's user, household, and role server-side.
+- It must read `D-47`'s lifetime from the pinned profile.
+- It must make step-up use atomic, with a unique constraint or consumed token
+  and serializable isolation.
+- Tests must cover cross-learner scoping, revocation, and latest-override
+  ordering.
+
+**Assumption to confirm.** A new delayed-check bank version is assumed to use
+only item identities never used in earlier versions. Exhaustion is judged per
+version, but item selection excludes every earlier item. The loader does not
+yet enforce this assumption.
 
 Two related gaps are also open:
 

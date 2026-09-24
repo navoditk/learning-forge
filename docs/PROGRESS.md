@@ -1,5 +1,18 @@
 # Progress
 
+## 2026-09-24 — Fifth re-review: ready for human review with noted risks
+
+- The fifth read-only re-review (requested as Claude Fable 5.1; model
+  unverified) found no blocker and no major issue. Verdict: **ready for human
+  review with noted risks**.
+- Follow-up fixes:
+  - tests for invalidation stranding, the unit-skip NEEDS_HELP guard, and the
+    D-70 reassessment-count restart;
+  - the Phase 1 stranding check moved out of the learner's lapse transaction
+    and made best-effort, with a failure-injection test;
+  - stale D-69/D-70 wording corrected, and D-70's pre-caller requirements and
+    bank-version assumption recorded.
+
 ## 2026-09-24 — D-70 override service
 
 - `applyNeedsHelpOverride` (`src/progression/learner-state.ts`) implements the

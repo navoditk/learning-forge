@@ -104,8 +104,9 @@ later stage must still use the approved value for every decision it touches.
 > are remediated and await re-review.
 > Before C4: (1) implement pilot `PLACEMENT` assignments (D-64, D-68), so D-62
 > does not remove the pilot's diagnostic flow; resolve the legacy
-> `independentDelayedCheck` flag (re-review F6), expose D-70's override service
-> (the step-up endpoint and parent UI come with C5), and reconcile `attemptOrdinal`
+> `independentDelayedCheck` flag (re-review F6), build the D-06 step-up endpoint
+> and the parent override surface for D-70's service (D-70 blocks C4, so this
+> precedes C4 even though the wider parent UI is C5), and reconcile `attemptOrdinal`
 > with the D-27 consecutive count (N5) at the latest in C4; (2) deploy,
 > then collect
 > representative non-enforcing shadow traffic from the remediation deploy

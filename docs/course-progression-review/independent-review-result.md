@@ -48,7 +48,29 @@ not an approval, and C4 remains closed.
   would refuse today's mastery-check flow); the rest of N8 (assignment-required
   kind sets are code constants); and the remaining N9 doc ordering.
 
-## Independent re-review of the stranding and NEEDS_HELP fixes — 2026-09-24 (latest)
+## Independent re-review of the R1–R5 fixes and D-70 — 2026-09-24 (latest)
+
+Reviewer: requested as Claude Fable 5.1; model unverified (self-reported).
+Scope: `c0292fa..8b28727`. Verdict: **ready for human review with noted
+risks**. No blocker and no major finding. Of 45 mutants, 29 were killed and 7
+survivors were judged equivalent. Nothing was found invented beyond D-70.
+Follow-up after the review:
+
+- **Findings 2 and 3:** falsifiers added for the reassessment-count restart,
+  invalidation stranding, and the unit-skip guard.
+- **Finding 5:** the Phase 1 stranding check is now best-effort, outside the
+  learner's transaction, with a failure-injection test.
+- **Findings 1, 4, 6, and 7:** documented in D-70 and the handoff:
+  - the assumption that a new bank version uses only new item identities;
+  - the override's pre-caller requirements (server-side actor lookup, D-47
+    lifetime from the profile, atomic single use, and tests for scoping,
+    revocation, and ordering);
+  - stale wording fixed;
+  - the step-up endpoint ordered before C4.
+
+This is not an approval. C4 remains closed pending the human gates.
+
+## Independent re-review of the stranding and NEEDS_HELP fixes — 2026-09-24
 
 Reviewer: requested as Claude Fable 5.1; model unverified. The agent
 self-reported Fable and noted it could not confirm this. Scope:
