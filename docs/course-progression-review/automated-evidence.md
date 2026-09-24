@@ -35,7 +35,7 @@ evidence refresh):
   fail closed. A reviewed package must be mounted separately for a fresh HTTP
   201 smoke test.
 - `DATABASE_URL=postgresql://... npm run test:migrations` passed the complete
-  forward/down/forward schema-equivalence check across all 13 migrations.
+  forward/down/forward schema-equivalence check across all 14 migrations.
 - The test commands now provide a local PostgreSQL fallback while honoring an
   explicitly supplied `DATABASE_URL`; production configuration is unchanged.
 - After the package-boundary changes, integration remained green at 41 tests.
