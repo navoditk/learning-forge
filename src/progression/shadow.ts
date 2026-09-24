@@ -47,6 +47,8 @@ export type ShadowDecisionInput = {
   accessPolicy: AccessPolicy | undefined;
   legacyCompatibilityPolicy?: AccessPolicy;
   skillClaimedByUnit?: boolean;
+  claimedByAuthoredUnit: boolean;
+  assignmentBound: boolean;
   policyProfile: ProgressionPolicyProfile;
   actualBehavior: 'ALLOWED' | 'DENIED';
   algorithmVersion: string;
@@ -59,6 +61,8 @@ export function buildShadowDecision(input: ShadowDecisionInput) {
     prerequisiteSkillCodes: [...input.prerequisiteSkillCodes],
     masteredSkillCodes: input.masteredSkillCodes,
     skillClaimedByUnit: input.skillClaimedByUnit ?? true,
+    claimedByAuthoredUnit: input.claimedByAuthoredUnit,
+    assignmentBound: input.assignmentBound,
     accessPolicy: input.accessPolicy,
     legacyCompatibilityPolicy: input.legacyCompatibilityPolicy,
   });

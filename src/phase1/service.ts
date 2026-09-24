@@ -12,7 +12,7 @@ import {
   WeeklyDigestSkillInput,
 } from '../contracts';
 import { skillCatalog, skillsByCode, topologicalSkillOrder } from '../curriculum';
-import { PILOT_LESSONS, PILOT_UNITS } from '../curriculum/pilot-catalog';
+import { isSkillClaimedByAuthoredUnit } from '../curriculum/unit-claims';
 import { programsByCode } from '../curriculum/program-registry';
 import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
 import { planNextActivities } from '../planner';
@@ -209,7 +209,15 @@ export async function startSession(
   // Record every authorization-relevant request, including a resumed session.
   // Shadow mode is diagnostic only and must never affect the learner response.
   await persistShadowNonEnforcing(() =>
-    writeShadowDecision(identity, program, content.id, content.version, activityKind, session.id),
+    writeShadowDecision(
+      identity,
+      program,
+      content.id,
+      content.version,
+      activityKind,
+      session.id,
+      Boolean(session.assignmentId),
+    ),
   );
   const state = await getSessionState(identity, session.id);
   return {
@@ -235,7 +243,8 @@ async function writeShadowDecision(
   targetCode: string,
   targetVersion: string,
   activityKind: 'PRACTICE' | 'PLACEMENT' | 'DELAYED_CHECK' | 'REVIEW',
-  activeRunOrSessionId?: string,
+  activeRunOrSessionId: string,
+  assignmentBound: boolean,
 ): Promise<void> {
   const program = programsByCode.get(programCode);
   const skill = skillsByCode.get(contentSkillCode(resolveContent(targetCode)));
@@ -265,28 +274,16 @@ async function writeShadowDecision(
           candidate.version === program.legacyCompatibilityPolicyRef.version,
       )
     : undefined;
+  const claimedByAuthoredUnit = isSkillClaimedByAuthoredUnit(program.code, skill.code);
   const skillClaimedByUnit = usesProgressionAccessPolicy(
     program.progressionMode,
-    program.unitRefs.some((unitRef) =>
-      PILOT_UNITS.some(
-        (unit) =>
-          unit.code === unitRef.code &&
-          unit.version === unitRef.version &&
-          unit.lessonRefs.some((lessonRef) =>
-            PILOT_LESSONS.some(
-              (lesson) =>
-                lesson.code === lessonRef.code &&
-                lesson.version === lessonRef.version &&
-                lesson.skillRefs.some((ref) => ref.code === skill.code),
-            ),
-          ),
-      ),
-    ),
+    claimedByAuthoredUnit,
   );
   const prerequisiteCodes = skill.prerequisiteSkillCodes;
   const priorMastery = await prisma.masteryEstimate.findMany({
     where: {
       learnerProfileId: identity.learnerProfileId,
+      algorithmVersion: PHASE_1_MASTERY_VERSION,
       skillCode: { in: prerequisiteCodes },
       estimate: { gte: resolvedProfile.minEstimateGate },
     },
@@ -305,6 +302,8 @@ async function writeShadowDecision(
     accessPolicy,
     legacyCompatibilityPolicy,
     skillClaimedByUnit,
+    claimedByAuthoredUnit,
+    assignmentBound,
     policyProfile: resolvedProfile,
     actualBehavior: 'ALLOWED',
     algorithmVersion: PHASE_1_MASTERY_VERSION,
@@ -405,6 +404,7 @@ async function createAttempt(
       content.version,
       activityKind,
       session.id,
+      Boolean(session.assignmentId),
     ),
   );
   if (input.context === 'PRACTICE') {

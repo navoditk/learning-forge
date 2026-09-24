@@ -41,7 +41,7 @@ describe('progression shadow decisions', () => {
     const { profiles, accessPolicies } = loadPolicyArtifacts();
     const profile = profiles.find((candidate) => candidate.code === 'grade-6-math-default');
     const accessPolicy = accessPolicies.find(
-      (candidate) => candidate.code === 'grade-6-math-access',
+      (candidate) => candidate.code === 'grade-6-math-access' && candidate.version === '1.1.0',
     );
     if (!profile || !accessPolicy) throw new Error('Grade 6 Math policy artifacts are missing');
 
@@ -53,6 +53,8 @@ describe('progression shadow decisions', () => {
       prerequisiteSkillCodes: ['ratio-language'],
       masteredSkillCodes: new Set(),
       accessPolicy,
+      claimedByAuthoredUnit: true,
+      assignmentBound: false,
       policyProfile: profile,
       actualBehavior: 'ALLOWED',
       algorithmVersion: 'mastery-test-1',
@@ -70,7 +72,7 @@ describe('progression shadow decisions', () => {
     const { profiles, accessPolicies } = loadPolicyArtifacts();
     const profile = profiles.find((candidate) => candidate.code === 'grade-6-math-default');
     const accessPolicy = accessPolicies.find(
-      (candidate) => candidate.code === 'grade-6-math-access',
+      (candidate) => candidate.code === 'grade-6-math-access' && candidate.version === '1.1.0',
     );
     if (!profile || !accessPolicy) throw new Error('Grade 6 Math policy artifacts are missing');
 
@@ -86,6 +88,8 @@ describe('progression shadow decisions', () => {
         prerequisiteSkillCodes: [],
         masteredSkillCodes: new Set(),
         accessPolicy,
+        claimedByAuthoredUnit: true,
+        assignmentBound: false,
         policyProfile: profile,
         actualBehavior: 'ALLOWED',
         algorithmVersion: 'mastery-test-1',

@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { AssessmentKind, ProgressionTargetKind } from '@prisma/client';
+import { AssessmentKind, Prisma, ProgressionTargetKind } from '@prisma/client';
 
 import { prisma } from '../../src/server/prisma';
 import {
@@ -188,6 +188,21 @@ describe('household export and deletion', () => {
     expect(await prisma.learningEvent.count({ where: { householdId } })).toBe(0);
     expect(await prisma.assessmentAssignment.count({ where: { householdId } })).toBe(0);
     expect(await prisma.learnerProfile.count({ where: { id: learnerProfileId } })).toBe(0);
+    // Enumerate the data model rather than a hand-kept list: every model that
+    // carries a householdId must be empty for the deleted household.
+    const householdScopedModels = Prisma.dmmf.datamodel.models.filter((model) =>
+      model.fields.some((field) => field.name === 'householdId'),
+    );
+    expect(householdScopedModels.length).toBeGreaterThan(10);
+    for (const model of householdScopedModels) {
+      const delegate = (
+        prisma as unknown as Record<
+          string,
+          { count(args: { where: { householdId: string } }): Promise<number> }
+        >
+      )[model.name.charAt(0).toLowerCase() + model.name.slice(1)];
+      expect(await delegate.count({ where: { householdId } }), model.name).toBe(0);
+    }
     expect(await deleteHouseholdData(prisma, householdId)).toBe(false);
   });
 });

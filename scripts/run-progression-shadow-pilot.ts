@@ -21,6 +21,10 @@ async function main() {
       { contentId: 'ratio-tables-1', activityKind: 'PRACTICE' as const },
       { contentId: 'ratio-language-1', activityKind: 'PLACEMENT' as const },
       { contentId: 'ratio-language-1', activityKind: 'REVIEW' as const },
+      // Non-pilot skills exercise the legacy compatibility policy (D-53, D-62).
+      { contentId: 'gcf-and-lcm-1', activityKind: 'PRACTICE' as const },
+      { contentId: 'gcf-and-lcm-1', activityKind: 'REVIEW' as const },
+      { contentId: 'division-of-fractions-1', activityKind: 'PRACTICE' as const },
     ];
     const sessionIds: string[] = [];
     for (const request of requests) {

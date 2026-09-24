@@ -85,7 +85,7 @@ describe('assessment assignment persistence', () => {
     if (!profileRecord) throw new Error('Grade 6 Math policy profile is missing');
     const profile = resolvePolicyProfile(profileRecord);
     const accessPolicy = artifacts.accessPolicies.find(
-      (policy) => policy.code === 'grade-6-math-access',
+      (policy) => policy.code === 'grade-6-math-access' && policy.version === '1.1.0',
     );
     const input = {
       householdId,
