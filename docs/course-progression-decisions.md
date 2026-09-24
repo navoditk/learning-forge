@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **69 approved; 0 open.** Approved entries are explicitly marked in
+- Status: **69 approved; 1 open (D-70).** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -281,6 +281,14 @@ row for the live household.
 | D-30 | `feedbackLevel` after a scored run | `PER_ITEM_CORRECTNESS` without revealing correct answers | **APPROVED 2026-09-19** | Product/pedagogy owner |
 | D-31 | Skip bar — evidence required to mark a lesson `COMPLETE_BY_SKIP` | Pass the lesson assessment bank at `D-24` on the **first** run, with no prior teaching or practice event for that skill | **APPROVED 2026-09-19** | Product/pedagogy owner |
 | D-32 | Unit skip bar | Pass the unit assessment at `D-26` on the first run | **APPROVED 2026-09-19** | Product/pedagogy owner |
+
+**`D-28` implementation note (2026-09-24).** For a delayed check after a lapse
+or failed delayed check, "one completed practice session" is read as a
+`PRACTICE` session on the skill's public content, by the same learner. It must
+have ended after remediation began, on a passed same-sitting check. A session
+ended by the operator drain does not count. The practice attempt is itself
+exposure, so the `D-21` delay window restarts from it. The lesson and unit
+reassessment path does not yet enforce this condition.
 
 `D-24` and `D-26` are the "ordinary lesson/unit assessment pass bars" and are
 deliberately listed here rather than in the architecture document, which
@@ -819,17 +827,50 @@ the parent-visible `NEEDS_HELP` remediation state when either of these holds:
 - consecutive delayed-check failures exceed `maxReassessments` (`D-27`).
 
 `NEEDS_HELP` refuses further delayed checks. A missing lesson row is recorded
-as `NOT_STARTED` + `NEEDS_HELP`, so the terminal state always has a record.
-Only a parent or operator override (`D-06`) reopens the skill. Items are never
-reused, so every delayed check stays on unseen items.
+as `NOT_STARTED` + `NEEDS_HELP`. Abandoned and expired runs after a lapse or
+failure are checked too. `NEEDS_HELP` is terminal: lesson-assessment outcomes
+and later lapses never clear it. How a human override reopens the skill is not
+yet decided (`D-70`), and no code clears `NEEDS_HELP` until it is. Items are
+never reused, so every delayed check stays on unseen items.
 
 **Why.** Each lapse cycle consumes two of the six items, so repeated lapses
 exhausted the bank and left the skill stranded with no record. That broke
 playbook dimensions 7 and 9.
 
+### D-70 — What a human override reopens after `NEEDS_HELP`
+
+| Field | Value |
+|---|---|
+| Kind | policy + product |
+| Status | **OPEN** |
+| Recommendation | Pending product-owner decision |
+| Approved value | — |
+| Approver | Product owner |
+| Blocks | Reopening any `NEEDS_HELP` skill; Stage C4 |
+
+**The gap (found by independent re-review, 2026-09-24).** `D-69` makes
+`NEEDS_HELP` terminal and says only a human override can reopen it, but the
+architecture's override (§9.3, `D-06`) sets `UNLOCKED_BY_OVERRIDE` and has no
+remediation or mastery effect. No code creates an override record. Even after
+an override, the delayed-check bank has no unseen items (`D-44`) and the
+consecutive-failure cap still applies (`D-27`). Reopening therefore needs
+decided semantics, for example:
+
+- whether an override resets the consecutive-failure count;
+- whether it requires a new delayed-check bank version with unseen items;
+- whether it returns the lesson to `ACTIVE` remediation or to `NONE`.
+
+Two related gaps are also open:
+
+- Stranding with no prior lapse or failure (first-time runs abandoned until
+  the bank is exhausted) is outside `D-69`. It fails closed with
+  `ASSESSMENT_BANK_INSUFFICIENT` and leaves no record.
+- The lesson and unit reassessment cap (`D-27`) still produces no `NEEDS_HELP`
+  record.
+
 ## I. Index of open decisions
 
-Sixty-nine decisions total; all sixty-nine are approved. The grouping below is a
+Seventy decisions total; sixty-nine are approved and `D-70` is open. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 

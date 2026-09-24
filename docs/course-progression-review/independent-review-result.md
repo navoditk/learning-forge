@@ -36,7 +36,40 @@ not an approval, and C4 remains closed.
   would refuse today's mastery-check flow); the rest of N8 (assignment-required
   kind sets are code constants); and the remaining N9 doc ordering.
 
-## Independent re-review of the delayed-check and review remediation — 2026-09-24 (latest)
+## Independent re-review of the D-28 and D-69 remediation — 2026-09-24 (latest)
+
+Reviewer: Claude Fable 5.1 (a fresh agent). Scope: `8293201..c499084`.
+Verdict: **not ready for human review**. N1 closed, N5 deferral accepted,
+13 of 39 mutants killed. Remediation made after this re-review:
+
+- **F1 (major):** abandoned or expired delayed-check runs after a lapse or
+  failure could still strand a skill with no record. Abandon and expiry now
+  run the D-69 check, and eligibility refuses a stranded skill with
+  `NEEDS_HELP` even before it is marked.
+- **F2 (major):** a lesson-assessment outcome or later lapse could clear
+  `NEEDS_HELP`. It is now terminal in both transitions. Because no override
+  can reopen it, the override semantics are recorded as open decision D-70
+  instead of being invented.
+- **F3:** new falsifying cases cover the practice-session filters (learner,
+  kind, skill, ended, after remediation began, passed check), the exact
+  cooldown boundary, remediation start (max, failure-only, learner, version,
+  outcome), other learners' `NEEDS_HELP`, assistance, and tutor moves,
+  first-time exhaustion under the production profile, abandoned-run
+  stranding, and no `NEEDS_HELP` after passing checks. The implementer
+  confirmed eleven of the previously surviving mutants are now killed.
+- **F4:** documentation claims corrected (the cross-learner scope, D-69
+  wording, and the handoff's stale "Review 4 has not been performed").
+- **F5:** a completed practice session must now end on a passed same-sitting
+  check, which excludes operator-drained sessions. This is documented in the
+  D-28 implementation note.
+- **F6:** the `NEEDS_HELP` write moved to `learner-state.ts`; eligibility is
+  read-only again.
+- **Draft:** `unit-rates-review-c` was replaced because it overlapped a public
+  practice item. The bank hash is re-pinned.
+
+These remediations need another independent re-review.
+
+## Independent re-review of the delayed-check and review remediation — 2026-09-24
 
 Reviewer: Claude Fable 5.1 (a fresh agent, confirmed; an earlier resumed
 attempt had silently run on the implementer's model and was discarded).
@@ -56,7 +89,8 @@ re-review:
 - **N3:** tests now cover:
   - delayed-check no-reuse under profile `1.1.0`;
   - remediation staying `ACTIVE` on an incomplete lesson;
-  - cross-learner exposure isolation;
+  - cross-learner isolation of attempt exposure (other exposure sources
+    were covered later);
   - version-aware exclusivity;
   - the skill-bank configuration.
 - **N4:** the F3 overclaim is corrected, and the D-67 follow-up is folded into

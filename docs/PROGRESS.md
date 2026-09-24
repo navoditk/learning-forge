@@ -1,5 +1,20 @@
 # Progress
 
+## 2026-09-24 — Stranding, sticky NEEDS_HELP, and D-70
+
+- A third independent re-review (Claude Fable 5.1) returned **not ready for
+  human review**. Remediation:
+  - abandoned and expired runs now run the D-69 check;
+  - eligibility refuses a stranded skill with `NEEDS_HELP`;
+  - `NEEDS_HELP` is terminal through lesson outcomes and lapses;
+  - `NEEDS_HELP` writes moved to `learner-state.ts`;
+  - a completed practice session must end on a passed check;
+  - falsifying tests cover every previously surviving filter mutant.
+- **D-70 is open:** how a human override reopens a `NEEDS_HELP` skill. Also
+  open: first-time exhaustion outside D-69, and `NEEDS_HELP` for the lesson
+  and unit reassessment cap.
+- Private draft v2: `unit-rates-review-c` replaced; hash re-pinned.
+
 ## 2026-09-24 — D-28 re-entry gate and D-69 needs-help terminal state
 
 - A fresh independent re-review (Claude Fable 5.1) returned **not ready for

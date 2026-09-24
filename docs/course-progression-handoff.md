@@ -26,8 +26,8 @@ complete. C1–C3 are shipped as a non-enforcing persistence,
 export/deletion, dual-write, and shadow-mode foundation. The product owner
 approved the remaining policy recommendations on 2026-09-19 and approved the
 revisitable D-36 pilot-volume and D-39 elapsed-time decisions on 2026-09-20.
-No course-progression decision entries remain open. Independent and manual
-release gates still remain required.
+One decision entry is open (D-70, override reopening after NEEDS_HELP).
+Independent and manual release gates still remain required.
 
 No authorization cutover has been performed. Teaching, assessment, and review
 content remain untouched, and C4/C5 still require their independent and manual
@@ -39,7 +39,7 @@ release gates.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-69` | **69 approved; 0 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-70` | **69 approved; 1 open (D-70)** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -63,9 +63,10 @@ detail.
 
 ### Remaining open findings
 
-None from reviews 1–3 are known to be outstanding. **Review 4 has not been
-performed.** The fourth draft has not been independently checked, and its
-self-assessment should not be trusted.
+None from reviews 1–3 are known to be outstanding. The fourth-draft and C1–C3
+review was performed on 2026-09-22 (recommendation: do not approve). Later
+independent reviews and remediation are recorded in
+`docs/course-progression-review/independent-review-result.md`.
 
 Specific things a fourth reviewer should challenge first:
 
@@ -82,7 +83,7 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-All sixty-nine entries in `docs/course-progression-decisions.md` are approved.
+Sixty-nine of the seventy entries in `docs/course-progression-decisions.md` are approved; D-70 is open.
 D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
 before treating elapsed-time evidence as production mastery evidence. Each
 later stage must still use the approved value for every decision it touches.
