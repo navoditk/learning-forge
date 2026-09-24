@@ -185,6 +185,56 @@ describe('skill-targeted delayed checks and reviews', () => {
       data: { scoredAt: new Date(Date.now() - 2 * DAY) },
     });
 
+  /** A completed practice session on the skill, ending at `endedAt` (D-28). */
+  const completePractice = (endedAt: Date) =>
+    prisma.session.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        contentKey: 'ratio-language-1',
+        activityKind: 'PRACTICE',
+        startedAt: new Date(endedAt.getTime() - HOUR),
+        endedAt,
+      },
+    });
+
+  /** Moves any lapse and failure back past the cooldown. */
+  const backdateLapse = async () => {
+    await prisma.reviewSchedule.updateMany({
+      where: { learnerProfileId, lastOutcome: 'LAPSED' },
+      data: { dueAt: new Date(Date.now() - 2 * DAY) },
+    });
+    await passCooldown();
+  };
+
+  /** A lapse whose D-28 remediation (cooldown and a practice session) is done. */
+  const lapseRemediated = async () => {
+    await scheduleReview(new Date(Date.now() - 2 * DAY), 'LAPSED', 1);
+    await passCooldown();
+    await completePractice(new Date(Date.now() - DAY));
+  };
+
+  const lessonState = (
+    lessonCode: string,
+    completionStatus: 'COMPLETE' | 'IN_PROGRESS',
+    remediationStatus: 'ACTIVE' | 'NONE',
+  ) =>
+    prisma.learnerLessonState.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        lessonCode,
+        lessonVersion: '1.0.0',
+        completionStatus,
+        remediationStatus,
+        policyProfileCode: reuseProfileRef.code,
+        policyProfileVersion: reuseProfileRef.version,
+      },
+    });
+
+  const lessonRow = (lessonCode: string) =>
+    prisma.learnerLessonState.findFirstOrThrow({ where: { learnerProfileId, lessonCode } });
+
   async function assignAndAnswer(
     kind: 'DELAYED_CHECK' | 'REVIEW',
     idempotencyKey: string,
@@ -348,49 +398,98 @@ describe('skill-targeted delayed checks and reviews', () => {
       });
     });
 
-    it('re-confirms after a lapse, restarts the schedule, and clears lapse remediation', async () => {
+    it('re-confirms after remediation, restarts the schedule, and clears lapse remediation', async () => {
       await createMastery(false);
-      await exposeAt(new Date(Date.now() - 2 * DAY));
-      await scheduleReview(new Date(), 'LAPSED', 2);
-      await prisma.learnerLessonState.create({
-        data: {
-          householdId,
-          learnerProfileId,
-          lessonCode: 'ratio-language-lesson',
-          lessonVersion: '1.0.0',
-          completionStatus: 'COMPLETE',
-          remediationStatus: 'ACTIVE',
-          policyProfileCode: reuseProfileRef.code,
-          policyProfileVersion: reuseProfileRef.version,
-        },
-      });
+      await exposeAt(new Date(Date.now() - 3 * DAY));
+      await lapseRemediated();
+      await lessonState('ratio-language-lesson', 'COMPLETE', 'ACTIVE');
       const { outcome } = await assignAndAnswer('DELAYED_CHECK', 'reconfirm', 'fixture-answer');
       expect(outcome).toBe('PASS');
       expect(await reviewSchedule()).toMatchObject({ intervalIndex: 0, lastOutcome: 'CONFIRMED' });
-      const lesson = await prisma.learnerLessonState.findFirstOrThrow({
-        where: { learnerProfileId, lessonCode: 'ratio-language-lesson' },
-      });
-      expect(lesson.remediationStatus).toBe('NONE');
+      expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('NONE');
     });
 
-    it('never reuses an item from a passed run after a lapse (D-44)', async () => {
+    it('leaves remediation from an incomplete lesson for its own reassessment', async () => {
       await createMastery(false);
-      await exposeAt(new Date(Date.now() - 2 * DAY));
-      const first = await assignAndAnswer('DELAYED_CHECK', 'reuse-pass', 'fixture-answer');
-      expect(first.outcome).toBe('PASS');
-      await scheduleReview(new Date(), 'LAPSED', 1);
-      const second = await assignAndAnswer('DELAYED_CHECK', 'reuse-after-lapse', 'fixture-answer');
-      const firstKeys = new Set(itemKeys(first.assignment.selectedItems));
-      expect(itemKeys(second.assignment.selectedItems).some((key) => firstKeys.has(key))).toBe(
-        false,
+      await exposeAt(new Date(Date.now() - 3 * DAY));
+      await lapseRemediated();
+      await lessonState('ratio-language-lesson', 'IN_PROGRESS', 'ACTIVE');
+      await assignAndAnswer('DELAYED_CHECK', 'reconfirm-incomplete', 'fixture-answer');
+      expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('ACTIVE');
+    });
+
+    it('gates re-confirmation after a lapse on the D-28 cooldown and a practice session', async () => {
+      const profile = resolvePinnedPolicyProfile(reuseProfileRef);
+      await createMastery(true);
+      await exposeAt(new Date(Date.now() - 3 * DAY));
+      await scheduleReview(new Date(Date.now() - HOUR), 'CONFIRMED', 1);
+      expect(
+        (await assignAndAnswer('REVIEW', 'lapse-review', 'wrong', reuseProfileRef)).outcome,
+      ).toBe('FAIL');
+      expect(await eligibility('DELAYED_CHECK', new Date(), reuseProfileRef)).toEqual({
+        eligible: false,
+        reasonCode: 'REASSESSMENT_COOLDOWN',
+      });
+      const afterCooldown = new Date(Date.now() + profile.reassessmentCooldownHours * HOUR + 1000);
+      expect(await eligibility('DELAYED_CHECK', afterCooldown, reuseProfileRef)).toEqual({
+        eligible: false,
+        reasonCode: 'REMEDIATION_PRACTICE_REQUIRED',
+      });
+      await completePractice(new Date(Date.now() + 1000));
+      expect((await eligibility('DELAYED_CHECK', afterCooldown, reuseProfileRef)).eligible).toBe(
+        true,
       );
     });
 
-    it('never reuses an item (D-44), lapses on failure, and caps reassessment (D-27)', async () => {
-      await createMastery(true);
-      await exposeAt(new Date(Date.now() - 2 * DAY));
+    it('never reuses a delayed-check item under the production profile (D-44)', async () => {
+      await createMastery(false);
+      await exposeAt(new Date(Date.now() - 3 * DAY));
       const seen = new Set<string>();
       for (const run of [1, 2, 3]) {
+        if (run > 1) await lapseRemediated();
+        const { assignment, outcome } = await assignAndAnswer(
+          'DELAYED_CHECK',
+          `reuse-pass-${run}`,
+          'fixture-answer',
+          reuseProfileRef,
+        );
+        expect(outcome).toBe('PASS');
+        for (const key of itemKeys(assignment.selectedItems)) {
+          expect(seen.has(key)).toBe(false);
+          seen.add(key);
+        }
+      }
+    });
+
+    it('records NEEDS_HELP once lapses exhaust the delayed-check bank (D-69)', async () => {
+      await createMastery(false);
+      await exposeAt(new Date(Date.now() - 3 * DAY));
+      for (const run of [1, 2, 3]) {
+        if (run > 1) await lapseRemediated();
+        await assignAndAnswer('DELAYED_CHECK', `exhaust-${run}`, 'fixture-answer', reuseProfileRef);
+      }
+      await scheduleReview(new Date(Date.now() - HOUR), 'PASSED', 1);
+      await assignAndAnswer('REVIEW', 'exhaust-review', 'wrong', reuseProfileRef);
+      for (const lesson of ['ratio-language-lesson']) {
+        expect((await lessonRow(lesson)).remediationStatus).toBe('NEEDS_HELP');
+      }
+      await backdateLapse();
+      await completePractice(new Date());
+      expect(await eligibility('DELAYED_CHECK', new Date(), reuseProfileRef)).toEqual({
+        eligible: false,
+        reasonCode: 'NEEDS_HELP',
+      });
+    });
+
+    it('never reuses an item (D-44), lapses on failure, and caps reassessment (D-27, D-69)', async () => {
+      await createMastery(true);
+      await exposeAt(new Date(Date.now() - 3 * DAY));
+      const seen = new Set<string>();
+      for (const run of [1, 2, 3]) {
+        if (run > 1) {
+          await passCooldown();
+          await completePractice(new Date());
+        }
         const { assignment, outcome } = await assignAndAnswer(
           'DELAYED_CHECK',
           `delayed-fail-${run}`,
@@ -401,15 +500,42 @@ describe('skill-targeted delayed checks and reviews', () => {
           expect(seen.has(key)).toBe(false);
           seen.add(key);
         }
-        await passCooldown();
       }
       const mastery = await prisma.masteryEstimate.findFirstOrThrow({
         where: { learnerProfileId, skillCode: skillRef.code },
       });
       expect(mastery.independentDelayedCheck).toBe(false);
-      await expect(
-        assignAndAnswer('DELAYED_CHECK', 'delayed-fail-4', 'wrong'),
-      ).rejects.toMatchObject({ code: 'MAX_REASSESSMENTS_REACHED' });
+      expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('NEEDS_HELP');
+      expect(await eligibility('DELAYED_CHECK')).toEqual({
+        eligible: false,
+        reasonCode: 'NEEDS_HELP',
+      });
+    });
+
+    it("ignores another learner's attempts on the same skill", async () => {
+      await exposeAt(new Date(Date.now() - 3 * DAY));
+      const otherUser = await prisma.user.create({ data: { householdId, role: 'LEARNER' } });
+      const other = await prisma.learnerProfile.create({
+        data: { householdId, userId: otherUser.id, gradeLevel: 6 },
+      });
+      await prisma.attempt.create({
+        data: {
+          householdId,
+          learnerProfileId: other.id,
+          contentKey: 'ratio-language-1',
+          contentVersion: '1.0.0',
+          learnerResponse: 'fixture',
+          normalizedResponse: 'fixture',
+          correctness: 'CORRECT',
+          scoringMethod: 'DETERMINISTIC',
+          attemptNumber: 1,
+          elapsedSeconds: 0,
+          highestAssistance: 'INDEPENDENT',
+          context: 'PRACTICE',
+          policyVersion: 'fixture',
+        },
+      });
+      expect((await eligibility('DELAYED_CHECK')).eligible).toBe(true);
     });
   });
 

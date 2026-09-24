@@ -5,7 +5,10 @@ import { join } from 'node:path';
 
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { PrivateAssessmentPackageStore } from '../../src/assessment/private-package-store';
+import {
+  GRADE_6_MATH_PACKAGE_BANKS,
+  PrivateAssessmentPackageStore,
+} from '../../src/assessment/private-package-store';
 
 const temporaryPaths: string[] = [];
 
@@ -199,6 +202,35 @@ describe('private held-out assessment package store', () => {
           },
         ]),
     ).toThrow('contains an item for another skill');
+  });
+
+  it('rejects an exclusive-bank item pinned to a different skill version', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          {
+            code: 'private-bank',
+            version: '1.0.0',
+            minimumItems: 1,
+            requiredSkillRefs: [{ code: 'ratio-language', version: '2.0.0' }],
+            exclusiveSkills: true,
+          },
+        ]),
+    ).toThrow('contains an item for another skill');
+  });
+
+  it('configures every Grade 6 Math skill bank as optional, exclusive, and role-typed', () => {
+    const skillBanks = GRADE_6_MATH_PACKAGE_BANKS.filter((bank) => bank.optional);
+    expect(skillBanks).toHaveLength(6);
+    for (const bank of skillBanks) {
+      expect(bank.exclusiveSkills).toBe(true);
+      expect(bank.requiredSkillRefs).toHaveLength(1);
+      expect(bank.itemRole ?? 'assessment').toBe(
+        bank.code.endsWith('-review-bank') ? 'review' : 'assessment',
+      );
+    }
+    expect(GRADE_6_MATH_PACKAGE_BANKS.filter((bank) => !bank.optional)).toHaveLength(4);
   });
 
   it('rejects a bank the configured shape does not name', async () => {

@@ -12,7 +12,7 @@ import type { Ref } from '../contracts/progression';
 import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
 import type { AssessmentStore, HeldOutAssessmentBank } from './store';
 
-type RequiredBank = {
+export type RequiredBank = {
   code: string;
   version: string;
   minimumItems: number;
@@ -86,6 +86,12 @@ const GRADE_6_MATH_SKILL_BANKS: readonly RequiredBank[] = PILOT_SKILL_CODES.flat
     exclusiveSkills: true,
   },
 ]);
+
+/** Every bank the Grade 6 Math package may contain, with its constraints. */
+export const GRADE_6_MATH_PACKAGE_BANKS: readonly RequiredBank[] = [
+  ...GRADE_6_MATH_REQUIRED_BANKS,
+  ...GRADE_6_MATH_SKILL_BANKS,
+];
 
 const PackageBankSchema = z
   .object({
@@ -265,10 +271,7 @@ export class PrivateAssessmentPackageStore implements AssessmentStore {
 export function createPrivateAssessmentPackageStoreFromEnvironment(): AssessmentStore | undefined {
   const packagePath = process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH;
   return packagePath
-    ? new PrivateAssessmentPackageStore(packagePath, [
-        ...GRADE_6_MATH_REQUIRED_BANKS,
-        ...GRADE_6_MATH_SKILL_BANKS,
-      ])
+    ? new PrivateAssessmentPackageStore(packagePath, GRADE_6_MATH_PACKAGE_BANKS)
     : undefined;
 }
 

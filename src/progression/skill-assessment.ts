@@ -40,11 +40,11 @@ function contentIdsForSkill(skillCode: string): string[] {
 
 /**
  * Exposure events for one learner and skill, derived only from persisted
- * server events (§9.1): learning events, every attempt on the skill's content
- * in any context (practice, same-sitting check, diagnostic, review, or
- * assessment), non-independent assistance, and tutor moves and traces on the
- * skill's attempts and sessions. Any of these resets the delay window; a
- * source missing here would make a learner eligible too early.
+ * server events (§9.1): learning events, every attempt on the skill's public
+ * catalog content in any Phase 1 context (practice, same-sitting check,
+ * diagnostic, or review), non-independent assistance, and tutor moves and
+ * traces on the skill's attempts and sessions. Held-out assessment attempts
+ * are not exposure; lapse re-entry is gated separately by D-28.
  */
 export async function loadSkillExposureEvents(
   database: Database,
@@ -146,6 +146,9 @@ export type SkillAssessmentEligibility =
         | 'NO_PRIOR_EXPOSURE'
         | 'LOCKED_DELAY_WINDOW'
         | 'ALREADY_CONFIRMED'
+        | 'NEEDS_HELP'
+        | 'REASSESSMENT_COOLDOWN'
+        | 'REMEDIATION_PRACTICE_REQUIRED'
         | 'REVIEW_NOT_DUE'
         | 'REVIEW_LAPSED_REMEDIATION';
     };
@@ -183,6 +186,35 @@ export async function skillAssessmentEligibility(
     // delayed check, which is then the reassessment that clears remediation.
     if (schedule && schedule.lastOutcome !== 'LAPSED') {
       return { eligible: false, reasonCode: 'ALREADY_CONFIRMED' };
+    }
+    if (await skillNeedsHelp(database, input.learnerProfileId, input.skillRef)) {
+      return { eligible: false, reasonCode: 'NEEDS_HELP' };
+    }
+    // D-28: after a lapse or a failed delayed check, the reassessment needs the
+    // cooldown and one completed practice session on the skill since then.
+    const remediationStartedAt = await delayedCheckRemediationStart(
+      database,
+      input.learnerProfileId,
+      input.skillRef,
+      schedule?.lastOutcome === 'LAPSED' ? schedule.dueAt : undefined,
+    );
+    if (remediationStartedAt) {
+      const cooldownEndsAt =
+        remediationStartedAt.getTime() + input.profile.reassessmentCooldownHours * 3_600_000;
+      if (input.now.getTime() < cooldownEndsAt) {
+        return { eligible: false, reasonCode: 'REASSESSMENT_COOLDOWN' };
+      }
+      const practiced = await database.session.count({
+        where: {
+          learnerProfileId: input.learnerProfileId,
+          activityKind: 'PRACTICE',
+          contentKey: { in: contentIdsForSkill(input.skillRef.code) },
+          endedAt: { gt: remediationStartedAt },
+        },
+      });
+      if (practiced === 0) {
+        return { eligible: false, reasonCode: 'REMEDIATION_PRACTICE_REQUIRED' };
+      }
     }
     const events = await loadSkillExposureEvents(
       database,
@@ -242,4 +274,127 @@ export function reassessmentLimitsFor(
         maxReassessments: profile.maxReassessments,
         reassessmentCooldownHours: profile.reassessmentCooldownHours,
       };
+}
+
+/** The latest lapse or failed delayed check on the skill, if any. */
+async function delayedCheckRemediationStart(
+  database: Database,
+  learnerProfileId: string,
+  skillRef: Ref,
+  lapsedAt: Date | undefined,
+): Promise<Date | undefined> {
+  const failure = await database.assessmentResult.findFirst({
+    where: {
+      learnerProfileId,
+      outcome: 'FAIL',
+      assignment: {
+        kind: 'DELAYED_CHECK',
+        targetKind: 'SKILL',
+        targetCode: skillRef.code,
+        targetVersion: skillRef.version,
+      },
+    },
+    orderBy: { scoredAt: 'desc' },
+    select: { scoredAt: true },
+  });
+  const candidates = [lapsedAt, failure?.scoredAt].filter((date): date is Date => !!date);
+  return candidates.length
+    ? new Date(Math.max(...candidates.map((date) => date.getTime())))
+    : undefined;
+}
+
+function lessonsClaimingSkill(skillRef: Ref) {
+  return PILOT_LESSONS.filter((lesson) =>
+    lesson.skillRefs.some((ref) => ref.code === skillRef.code && ref.version === skillRef.version),
+  );
+}
+
+async function skillNeedsHelp(
+  database: Database,
+  learnerProfileId: string,
+  skillRef: Ref,
+): Promise<boolean> {
+  const count = await database.learnerLessonState.count({
+    where: {
+      learnerProfileId,
+      remediationStatus: 'NEEDS_HELP',
+      OR: lessonsClaimingSkill(skillRef).map((lesson) => ({
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+      })),
+    },
+  });
+  return count > 0;
+}
+
+/**
+ * D-69: after a lapse or a failed delayed check, a skill that can no longer be
+ * served an unseen delayed check, or has exceeded the consecutive
+ * reassessment cap (D-27), moves its lessons to the parent-visible
+ * `NEEDS_HELP` remediation state. A human override is the only way back.
+ */
+export async function markSkillNeedsHelpIfStranded(
+  database: Database,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    skillRef: Ref;
+    profile: ProgressionPolicyProfile;
+    policyProfileRef: Ref;
+  },
+): Promise<boolean> {
+  const bank = skillAssessmentBank('DELAYED_CHECK', input.skillRef);
+  const seen = await previouslySelectedItemKeys(
+    database,
+    input.learnerProfileId,
+    'DELAYED_CHECK',
+    input.skillRef,
+  );
+  const exhausted =
+    !input.profile.delayedCheckReuse.enabled &&
+    (!bank || bank.itemCount - seen.size < input.profile.delayedCheckItemsPerAttempt);
+  const results = await database.assessmentResult.findMany({
+    where: {
+      learnerProfileId: input.learnerProfileId,
+      outcome: { in: ['PASS', 'FAIL'] },
+      assignment: {
+        kind: 'DELAYED_CHECK',
+        targetKind: 'SKILL',
+        targetCode: input.skillRef.code,
+        targetVersion: input.skillRef.version,
+      },
+    },
+    orderBy: { scoredAt: 'desc' },
+    select: { outcome: true },
+  });
+  const latestPass = results.findIndex(({ outcome }) => outcome === 'PASS');
+  const consecutiveFailures = latestPass === -1 ? results.length : latestPass;
+  if (!exhausted && consecutiveFailures <= input.profile.maxReassessments) return false;
+  const needsHelp = {
+    remediationStatus: 'NEEDS_HELP' as const,
+    policyProfileCode: input.policyProfileRef.code,
+    policyProfileVersion: input.policyProfileRef.version,
+  };
+  // A missing lesson row means NOT_STARTED; the terminal state is still recorded.
+  for (const lesson of lessonsClaimingSkill(input.skillRef)) {
+    await database.learnerLessonState.upsert({
+      where: {
+        learnerProfileId_lessonCode_lessonVersion: {
+          learnerProfileId: input.learnerProfileId,
+          lessonCode: lesson.code,
+          lessonVersion: lesson.version,
+        },
+      },
+      create: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+        completionStatus: 'NOT_STARTED',
+        ...needsHelp,
+      },
+      update: needsHelp,
+    });
+  }
+  return true;
 }

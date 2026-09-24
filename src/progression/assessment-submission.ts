@@ -19,6 +19,7 @@ import {
   applyReviewPass,
 } from './learner-state';
 import { resolvePinnedPolicyProfile } from './artifacts';
+import { markSkillNeedsHelpIfStranded } from './skill-assessment';
 import { assessmentPasses } from './assessment-scoring';
 import { deriveHighestAssistance } from './assistance';
 import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
@@ -426,6 +427,20 @@ export async function submitAssessmentItem(
           algorithmVersion: assignment.algorithmVersion,
           now,
         });
+        const policyProfileRef = {
+          code: assignment.policyProfileCode,
+          version: assignment.policyProfileVersion,
+        };
+        const profile = resolvePinnedPolicyProfile(policyProfileRef);
+        for (const skillRef of lapsedSkillRefs) {
+          await markSkillNeedsHelpIfStranded(transaction, {
+            householdId: input.householdId,
+            learnerProfileId: input.learnerProfileId,
+            skillRef,
+            profile,
+            policyProfileRef,
+          });
+        }
       }
       if (
         assignment.kind === 'DELAYED_CHECK' ||
@@ -447,6 +462,18 @@ export async function submitAssessmentItem(
         };
         if (assignment.kind === 'DELAYED_CHECK') {
           await applyDelayedCheckOutcome(transaction, { ...skillOutcome, outcome });
+          if (outcome !== 'PASS') {
+            await markSkillNeedsHelpIfStranded(transaction, {
+              householdId: input.householdId,
+              learnerProfileId: input.learnerProfileId,
+              skillRef: skillOutcome.skillRef,
+              profile,
+              policyProfileRef: {
+                code: assignment.policyProfileCode,
+                version: assignment.policyProfileVersion,
+              },
+            });
+          }
         } else {
           await applyReviewPass(transaction, skillOutcome);
         }

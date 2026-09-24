@@ -94,17 +94,17 @@ const BANK_HASHES: Record<string, string> = {
   // Skill banks (D-50 as amended by D-67, D-63). These pin pending-review drafts
   // and must be re-pinned from the reviewed package before serving.
   'ratio-language-review-bank':
-    'sha256:010e01969d886d8612f9accf2cff3cab1b6fe15a4bd4db0c4f28df3937f883c3',
+    'sha256:98402776e74888eb725e84508217656cd0154e79342dc5e1b734b4371a1ff5c7',
   'ratio-language-delayed-check-bank':
-    'sha256:3e36c8bfac768001f73556f62e144cd6c0e004ddbebe96bfd78125cddee5c0d2',
+    'sha256:4fe8216c2343285f476e5ca9a155b713a984d1d6f0135a1fc75178df9b54c99b',
   'unit-rates-review-bank':
-    'sha256:6bb0c046e6728d3d315915567c50f5cc221ad8d85db2d86b0536ce2ff8d1614d',
+    'sha256:0475e83e2e53da9e2ccaafb07da593ba460bc31a63ed456a53a8eda84e3b7497',
   'unit-rates-delayed-check-bank':
-    'sha256:fd303beff49c6a97c11201396fc8c0277d269c7138431a1d38d348de0a9afad3',
+    'sha256:4468c27ddfa853fb9fa6a329dd929073236b7bbc04cb64af1a67e24b00ff7d1b',
   'ratio-tables-review-bank':
-    'sha256:a8c8d79c3a5ef2642fe6a97af6a5f27a09361cebbbb9ff9f3f4438c6f61a13fa',
+    'sha256:5603bc5a23fa9631248ef70e7b81e9e2acc0b7f0b246572345438ad36b089dde',
   'ratio-tables-delayed-check-bank':
-    'sha256:7a796dc00e8355f48994f6655b34ac90ec1e8b19f911f75dc1cafca5ec68eff6',
+    'sha256:f92a339f442addfb0001d2da4e6bc0ece0c3ccfe02d8fcedf2c97555457c03ab',
 };
 
 function bankHash(code: string): string {
