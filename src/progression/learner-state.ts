@@ -11,11 +11,15 @@ import { advanceReviewSchedule } from './review-schedule';
 
 export function lessonStatusAfterAssessment(input: {
   current: LessonCompletionStatus | undefined;
+  currentRemediation?: RemediationStatus;
   outcome: AssessmentOutcome;
   firstRun: boolean;
   hadPriorWork: boolean;
 }): { completionStatus: LessonCompletionStatus; remediationStatus: RemediationStatus } {
   const historicallyComplete = input.current === 'COMPLETE' || input.current === 'COMPLETE_BY_SKIP';
+  // D-69: NEEDS_HELP is terminal until a human override; outcomes never clear it.
+  const keepNeedsHelp = (status: RemediationStatus): RemediationStatus =>
+    input.currentRemediation === 'NEEDS_HELP' ? 'NEEDS_HELP' : status;
   if (input.outcome === 'PASS') {
     return {
       completionStatus: historicallyComplete
@@ -23,12 +27,12 @@ export function lessonStatusAfterAssessment(input: {
         : input.firstRun && !input.hadPriorWork
           ? 'COMPLETE_BY_SKIP'
           : 'COMPLETE',
-      remediationStatus: 'NONE',
+      remediationStatus: keepNeedsHelp('NONE'),
     };
   }
   return {
     completionStatus: historicallyComplete ? input.current! : 'IN_PROGRESS',
-    remediationStatus: input.outcome === 'FAIL' ? 'ACTIVE' : 'NONE',
+    remediationStatus: keepNeedsHelp(input.outcome === 'FAIL' ? 'ACTIVE' : 'NONE'),
   };
 }
 
@@ -40,7 +44,7 @@ export function lessonStateAfterReviewLapse(input: {
   return {
     completionStatus:
       input.completionStatus === 'SKIPPED_BY_PLACEMENT' ? 'AVAILABLE' : input.completionStatus,
-    remediationStatus: 'ACTIVE',
+    remediationStatus: input.remediationStatus === 'NEEDS_HELP' ? 'NEEDS_HELP' : 'ACTIVE',
   };
 }
 
@@ -310,6 +314,7 @@ export async function applyPilotLessonAssessmentOutcome(
   const priorWork = priorPracticeAttempts > 0 || priorTeachingOrPracticeEvents > 0;
   const next = lessonStatusAfterAssessment({
     current: current?.completionStatus,
+    currentRemediation: current?.remediationStatus,
     outcome: input.outcome,
     firstRun: input.firstRun,
     hadPriorWork: priorWork,
@@ -567,4 +572,50 @@ export async function applyPilotUnitAssessmentOutcome(
       policyProfileVersion: input.policyProfileVersion,
     },
   });
+}
+
+/**
+ * D-69: records the parent-visible NEEDS_HELP state on every lesson claiming
+ * the skill. A missing lesson row means NOT_STARTED, so the terminal state is
+ * still recorded.
+ */
+export async function markSkillNeedsHelp(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    skillRef: { code: string; version: string };
+    policyProfileCode: string;
+    policyProfileVersion: string;
+  },
+): Promise<void> {
+  const needsHelp = {
+    remediationStatus: 'NEEDS_HELP' as const,
+    policyProfileCode: input.policyProfileCode,
+    policyProfileVersion: input.policyProfileVersion,
+  };
+  for (const lesson of PILOT_LESSONS.filter((candidate) =>
+    candidate.skillRefs.some(
+      (skill) => skill.code === input.skillRef.code && skill.version === input.skillRef.version,
+    ),
+  )) {
+    await transaction.learnerLessonState.upsert({
+      where: {
+        learnerProfileId_lessonCode_lessonVersion: {
+          learnerProfileId: input.learnerProfileId,
+          lessonCode: lesson.code,
+          lessonVersion: lesson.version,
+        },
+      },
+      create: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+        completionStatus: 'NOT_STARTED',
+        ...needsHelp,
+      },
+      update: needsHelp,
+    });
+  }
 }

@@ -17,9 +17,10 @@ import {
   applyPilotUnitAssessmentOutcome,
   applyReviewLapse,
   applyReviewPass,
+  markSkillNeedsHelp,
 } from './learner-state';
 import { resolvePinnedPolicyProfile } from './artifacts';
-import { markSkillNeedsHelpIfStranded } from './skill-assessment';
+import { isSkillStranded } from './skill-assessment';
 import { assessmentPasses } from './assessment-scoring';
 import { deriveHighestAssistance } from './assistance';
 import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
@@ -105,6 +106,51 @@ function selectedItems(value: Prisma.JsonValue): SelectedItem[] {
 function requiredCount(value: number | null): number {
   if (value === null || value < 0) throw new Error('Assessment required count is missing');
   return value;
+}
+
+/** D-69: records NEEDS_HELP when a lapse or failure leaves the skill stranded. */
+async function recordStrandedSkill(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    policyProfileCode: string;
+    policyProfileVersion: string;
+    skillRef: { code: string; version: string };
+  },
+): Promise<void> {
+  const profile = resolvePinnedPolicyProfile({
+    code: input.policyProfileCode,
+    version: input.policyProfileVersion,
+  });
+  if (await isSkillStranded(transaction, { ...input, profile })) {
+    await markSkillNeedsHelp(transaction, input);
+  }
+}
+
+/** Abandoned and expired delayed checks also consume items (D-69). */
+async function recordStrandingAfterUnscoredRun(
+  transaction: Prisma.TransactionClient,
+  assignmentId: string,
+): Promise<void> {
+  const assignment = await transaction.assessmentAssignment.findUnique({
+    where: { id: assignmentId },
+    select: {
+      kind: true,
+      targetKind: true,
+      targetCode: true,
+      targetVersion: true,
+      householdId: true,
+      learnerProfileId: true,
+      policyProfileCode: true,
+      policyProfileVersion: true,
+    },
+  });
+  if (assignment?.kind !== 'DELAYED_CHECK' || assignment.targetKind !== 'SKILL') return;
+  await recordStrandedSkill(transaction, {
+    ...assignment,
+    skillRef: { code: assignment.targetCode, version: assignment.targetVersion },
+  });
 }
 
 export type SubmitAssessmentItemInput = {
@@ -427,19 +473,8 @@ export async function submitAssessmentItem(
           algorithmVersion: assignment.algorithmVersion,
           now,
         });
-        const policyProfileRef = {
-          code: assignment.policyProfileCode,
-          version: assignment.policyProfileVersion,
-        };
-        const profile = resolvePinnedPolicyProfile(policyProfileRef);
         for (const skillRef of lapsedSkillRefs) {
-          await markSkillNeedsHelpIfStranded(transaction, {
-            householdId: input.householdId,
-            learnerProfileId: input.learnerProfileId,
-            skillRef,
-            profile,
-            policyProfileRef,
-          });
+          await recordStrandedSkill(transaction, { ...assignment, skillRef });
         }
       }
       if (
@@ -463,15 +498,9 @@ export async function submitAssessmentItem(
         if (assignment.kind === 'DELAYED_CHECK') {
           await applyDelayedCheckOutcome(transaction, { ...skillOutcome, outcome });
           if (outcome !== 'PASS') {
-            await markSkillNeedsHelpIfStranded(transaction, {
-              householdId: input.householdId,
-              learnerProfileId: input.learnerProfileId,
+            await recordStrandedSkill(transaction, {
+              ...assignment,
               skillRef: skillOutcome.skillRef,
-              profile,
-              policyProfileRef: {
-                code: assignment.policyProfileCode,
-                version: assignment.policyProfileVersion,
-              },
             });
           }
         } else {
@@ -616,6 +645,7 @@ export async function abandonAssessmentRun(
           data: { endedAt: now },
         });
       }
+      await recordStrandingAfterUnscoredRun(transaction, assignment.id);
       return { assignmentId: assignment.id, status: run.status, result };
     },
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
@@ -790,4 +820,5 @@ export async function expireAssessment(
     where: { id: { in: assignment.sessions.map((session) => session.id) }, endedAt: null },
     data: { endedAt: now },
   });
+  await recordStrandingAfterUnscoredRun(transaction, assignmentId);
 }

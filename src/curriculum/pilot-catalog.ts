@@ -98,7 +98,7 @@ const BANK_HASHES: Record<string, string> = {
   'ratio-language-delayed-check-bank':
     'sha256:4fe8216c2343285f476e5ca9a155b713a984d1d6f0135a1fc75178df9b54c99b',
   'unit-rates-review-bank':
-    'sha256:0475e83e2e53da9e2ccaafb07da593ba460bc31a63ed456a53a8eda84e3b7497',
+    'sha256:a34d506685f2cad965c0482935fe693a621dd119248f6254119cb1a740d506b6',
   'unit-rates-delayed-check-bank':
     'sha256:4468c27ddfa853fb9fa6a329dd929073236b7bbc04cb64af1a67e24b00ff7d1b',
   'ratio-tables-review-bank':

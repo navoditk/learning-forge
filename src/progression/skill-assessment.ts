@@ -187,7 +187,10 @@ export async function skillAssessmentEligibility(
     if (schedule && schedule.lastOutcome !== 'LAPSED') {
       return { eligible: false, reasonCode: 'ALREADY_CONFIRMED' };
     }
-    if (await skillNeedsHelp(database, input.learnerProfileId, input.skillRef)) {
+    if (
+      (await skillNeedsHelp(database, input.learnerProfileId, input.skillRef)) ||
+      (await isSkillStranded(database, input))
+    ) {
       return { eligible: false, reasonCode: 'NEEDS_HELP' };
     }
     // D-28: after a lapse or a failed delayed check, the reassessment needs the
@@ -210,6 +213,9 @@ export async function skillAssessmentEligibility(
           activityKind: 'PRACTICE',
           contentKey: { in: contentIdsForSkill(input.skillRef.code) },
           endedAt: { gt: remediationStartedAt },
+          // "Completed" means the session ended on a passed same-sitting
+          // check, never an operator drain (D-28).
+          attempts: { some: { context: 'MASTERY_CHECK', correctness: 'CORRECT' } },
         },
       });
       if (practiced === 0) {
@@ -328,21 +334,33 @@ async function skillNeedsHelp(
 }
 
 /**
- * D-69: after a lapse or a failed delayed check, a skill that can no longer be
- * served an unseen delayed check, or has exceeded the consecutive
- * reassessment cap (D-27), moves its lessons to the parent-visible
- * `NEEDS_HELP` remediation state. A human override is the only way back.
+ * D-69 predicate, read-only: after a lapse or a failed delayed check, a skill
+ * is stranded when it can no longer be served an unseen delayed check
+ * (abandoned and expired runs count) or its consecutive delayed-check
+ * failures exceed `maxReassessments` (D-27). Stranding with no prior lapse or
+ * failure is outside D-69 and is not reported here.
  */
-export async function markSkillNeedsHelpIfStranded(
+export async function isSkillStranded(
   database: Database,
-  input: {
-    householdId: string;
-    learnerProfileId: string;
-    skillRef: Ref;
-    profile: ProgressionPolicyProfile;
-    policyProfileRef: Ref;
-  },
+  input: { learnerProfileId: string; skillRef: Ref; profile: ProgressionPolicyProfile },
 ): Promise<boolean> {
+  const schedule = await database.reviewSchedule.findUnique({
+    where: {
+      learnerProfileId_skillCode_skillVersion: {
+        learnerProfileId: input.learnerProfileId,
+        skillCode: input.skillRef.code,
+        skillVersion: input.skillRef.version,
+      },
+    },
+    select: { dueAt: true, lastOutcome: true },
+  });
+  const remediationStartedAt = await delayedCheckRemediationStart(
+    database,
+    input.learnerProfileId,
+    input.skillRef,
+    schedule?.lastOutcome === 'LAPSED' ? schedule.dueAt : undefined,
+  );
+  if (!remediationStartedAt) return false;
   const bank = skillAssessmentBank('DELAYED_CHECK', input.skillRef);
   const seen = await previouslySelectedItemKeys(
     database,
@@ -353,6 +371,7 @@ export async function markSkillNeedsHelpIfStranded(
   const exhausted =
     !input.profile.delayedCheckReuse.enabled &&
     (!bank || bank.itemCount - seen.size < input.profile.delayedCheckItemsPerAttempt);
+  if (exhausted) return true;
   const results = await database.assessmentResult.findMany({
     where: {
       learnerProfileId: input.learnerProfileId,
@@ -369,32 +388,5 @@ export async function markSkillNeedsHelpIfStranded(
   });
   const latestPass = results.findIndex(({ outcome }) => outcome === 'PASS');
   const consecutiveFailures = latestPass === -1 ? results.length : latestPass;
-  if (!exhausted && consecutiveFailures <= input.profile.maxReassessments) return false;
-  const needsHelp = {
-    remediationStatus: 'NEEDS_HELP' as const,
-    policyProfileCode: input.policyProfileRef.code,
-    policyProfileVersion: input.policyProfileRef.version,
-  };
-  // A missing lesson row means NOT_STARTED; the terminal state is still recorded.
-  for (const lesson of lessonsClaimingSkill(input.skillRef)) {
-    await database.learnerLessonState.upsert({
-      where: {
-        learnerProfileId_lessonCode_lessonVersion: {
-          learnerProfileId: input.learnerProfileId,
-          lessonCode: lesson.code,
-          lessonVersion: lesson.version,
-        },
-      },
-      create: {
-        householdId: input.householdId,
-        learnerProfileId: input.learnerProfileId,
-        lessonCode: lesson.code,
-        lessonVersion: lesson.version,
-        completionStatus: 'NOT_STARTED',
-        ...needsHelp,
-      },
-      update: needsHelp,
-    });
-  }
-  return true;
+  return consecutiveFailures > input.profile.maxReassessments;
 }
