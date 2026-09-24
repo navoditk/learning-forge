@@ -1,5 +1,33 @@
 # Progress
 
+## 2026-09-24 — Independent review of delayed checks and reviews; D-67/D-68
+
+- An independent review of the D-63–D-66 increment (Claude Fable 5.1)
+  returned **not ready for human review**. Its findings and remediation are
+  recorded in `docs/course-progression-review/independent-review-result.md`.
+- The product owner approved:
+  - **D-67:** three review items per skill, amending D-50; profile
+    `grade-6-math-default@1.1.0` reuses a review item only after two
+    intervening runs.
+  - **D-68:** placement puts the learner at the first lesson whose probe item
+    is missed.
+- Remediation:
+  - Lapsed skills refuse review, and confirmed skills refuse delayed checks.
+  - Re-confirmation after a lapse clears lapse remediation.
+  - Exposure covers every attempt context and all tutor moves.
+  - Reassessment counts consecutive failures and allows the initial run plus
+    D-27 reassessments.
+  - Skill banks require exclusive skill membership.
+  - Idempotent replay is honored before eligibility.
+  - New unit, integration, route, and loader tests close the surviving mutants.
+- Private draft v2 now holds 27 skill-bank items: 3 review and 6
+  delayed-check items per skill. The six skill-bank hashes are re-pinned; all
+  banks must be re-pinned again from the reviewed package.
+- Open:
+  - bank exhaustion by abandoned runs, and its terminal state;
+  - D-28's practice-session condition;
+  - the legacy `independentDelayedCheck` flag, to resolve at the latest in C4.
+
 ## 2026-09-23 — Pilot delayed-check and review assignments (D-63–D-66)
 
 - The product owner approved D-63 (dedicated 6-item delayed-check bank per

@@ -36,6 +36,44 @@ not an approval, and C4 remains closed.
   would refuse today's mastery-check flow); the rest of N8 (assignment-required
   kind sets are code constants); and the remaining N9 doc ordering.
 
+## Independent review of pilot delayed-check and review assignments — 2026-09-24
+
+Reviewer: Claude Fable 5.1, read-only, reviewing `ad74b09..5eff07e`.
+Verdict: **not ready for human review**. Nothing was approved, and C4
+remains closed. Remediation made after the review:
+
+- **F1:** a lapsed skill now refuses review (`REVIEW_LAPSED_REMEDIATION`).
+- **F2:** a confirmed skill refuses a new delayed check (`ALREADY_CONFIRMED`).
+  A passing re-confirmation after a lapse restarts the schedule and clears lapse
+  remediation on completed lessons.
+- **F3:** exposure now includes every attempt on the skill in any context, and
+  tutor interactions.
+- **F4 and F7:** new tests cover:
+  - disjoint no-reuse selection, including items from a passed run;
+  - the reassessment cap and review-pool exhaustion;
+  - review rotation (D-67);
+  - the due-date boundary and other-skill isolation;
+  - loader role, missing-bank, and exclusive-skill checks;
+  - route refusals and replay;
+  - the review reassessment-limit rule, now a pure helper.
+- **F5:**
+  - reassessment now counts consecutive failures since the latest pass and
+    allows the initial run plus `maxReassessments`, correcting an off-by-one
+    against D-27;
+  - bank exhaustion by abandoned runs is recorded as an open follow-up
+    under D-67;
+  - D-28's practice-session condition is still not enforced.
+- **F6:** the legacy same-sitting check still writes `independentDelayedCheck`.
+  It must be resolved at the latest in C4 (tracked in the handoff).
+- **F8:** the skill banks now require exclusive skill membership. Re-pinning
+  every bank from the reviewed package is documented.
+- **F9:** superseded. D-67 now specifies reuse semantics, via profile `1.1.0`.
+- **F10:** a replayed idempotency key is honored before eligibility.
+- **Draft items:** near-duplicates were replaced, and accepted answers and
+  leakage patterns broadened.
+
+These remediations need their own independent re-review.
+
 The entries below are historical reviews of earlier checkpoints and
 must not be interpreted as approval of the current code or authorization for
 C4. The authoritative current gate status is in `README.md` and

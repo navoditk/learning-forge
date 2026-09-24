@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **66 approved; 2 open (D-67, D-68).** Approved entries are explicitly marked in
+- Status: **68 approved; 0 open.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -458,7 +458,7 @@ architecture referenced or implied without a decision entry.
 | D-47 | `stepUpReauthLifetimeMinutes` | How long a step-up re-authentication remains valid for writing overrides | `10` minutes, single-use per override | **APPROVED 2026-09-19** | Product owner + privacy/safety owner |
 | D-48 | `teachingRecordsPerLesson` | Teaching records authored per lesson | `1`, with a second alternative representation optional | **APPROVED 2026-09-19** | Product/pedagogy owner |
 | D-49 | `practiceRecordsPerLesson` | Practice records authored per lesson | At least `D-42` plus headroom for remediation on unseen items | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-50 | `reviewRecordsPerSkill` | Review-role records authored per skill | `2`, so a review need not repeat the item that confirmed the skill | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-50 | `reviewRecordsPerSkill` | Review-role records authored per skill | `2`, so a review need not repeat the item that confirmed the skill. **Amended to `3` by `D-67` (2026-09-24)** | **APPROVED 2026-09-19** | Product/pedagogy owner |
 | D-51 | `difficultyWeight[]` | Whether item difficulty modifies evidence weight, and if so how | **Do not weight by difficulty in the first version.** Keep `difficultyWeight` absent rather than set to 1.0, so its absence is a recorded choice rather than a silent default | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
 | D-59 | `allowAssistanceInPractice` | Whether assistance-supported practice counts toward a lesson's practice threshold | `true` — completion may be earned with help; mastery is what assistance discounts | **APPROVED 2026-09-19** | Product/pedagogy owner |
@@ -772,45 +772,36 @@ shadow predicate and the cutover readiness report.
 | Field | Value |
 |---|---|
 | Kind | policy + content |
-| Status | **OPEN** |
-| Recommendation | Pending product-owner decision; see the conflict below |
-| Approved value | — |
-| Approver | Product/pedagogy owner |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | Amend `D-50` to **3** review items per skill and publish `grade-6-math-default@1.1.0` with `reviewReuse: { enabled: true, minIntervalsSinceSeen: 2 }` |
+| Approved value | As recommended. "Not seen within the last two spacing intervals" (`D-46`) is implemented as: an item assigned in either of the skill's two most recent review runs is excluded. A run counts whether or not it was scored |
+| Approver | Product owner (in chat) |
 | Blocks | Serving more than two reviews per skill |
 
-**Conflict found during implementation (2026-09-23).** Three sources disagree:
+**Why.** Three sources disagreed:
 
-1. `D-46` permits reuse of items not seen within the last two spacing intervals.
-2. The `grade-6-math-default@1.0.0` profile encodes `reviewReuse: { enabled: false }`, meaning never reuse.
-3. `D-50` authors 2 review items per skill.
+- `D-46` permits reuse of items not seen within the last two spacing intervals.
+- The `grade-6-math-default@1.0.0` profile disables review reuse entirely.
+- `D-50` authors only 2 review items per skill.
 
-At 1 item per review (`D-45`), the profile as written supports exactly **two** reviews per skill before the bank is exhausted. Implementation follows the profile artifact and fails closed with `ASSESSMENT_BANK_INSUFFICIENT`. Enabling `D-46` as approved (`minIntervalsSinceSeen: 2`) with 2 items still exhausts the bank on the third review. The arithmetic minimum under `D-46` is **3** review items per skill.
+At 1 item per review (`D-45`), that supported only two reviews per skill. Three items with reuse after two runs let reviews rotate indefinitely without repeating a recent item. `1.0.0` remains for historical resolution.
 
-Options:
-
-- (a) Amend `D-50` to 3 items per skill and publish a profile version that enables reuse with `minIntervalsSinceSeen: 2`.
-- (b) Keep 2 items and allow reuse after 1 interval.
-- (c) Accept two reviews per skill for the pilot.
+**Open follow-up (not decided here).** Under strict no-reuse (`D-44`), abandoned or expired runs also consume items. As a result, a delayed-check bank can be exhausted without any scored failure. The exhausted terminal state and its parent-facing record are not yet specified.
 
 ### D-68 — Placement position rule
 
 | Field | Value |
 |---|---|
 | Kind | policy |
-| Status | **OPEN** |
-| Recommendation | Pending product-owner decision |
-| Approved value | — |
-| Approver | Product/pedagogy owner |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | Probe one item per unit skill, in lesson order. Place the learner at the first lesson whose probe item is incorrect; earlier lessons become `SKIPPED_BY_PLACEMENT` (weak evidence, never mastery; §9.3). If every item is correct, place the learner at the unit assessment |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
 | Blocks | Serving `PLACEMENT` assignments |
-
-No decision states how a scored placement probe maps to a starting lesson.
-
-Candidate rule: probe one item per unit skill in lesson order, and place the learner at the first lesson whose probe item is incorrect. Earlier lessons become `SKIPPED_BY_PLACEMENT` (§6.6). If every item is correct, the learner is placed at the unit assessment.
 
 ## I. Index of open decisions
 
-Sixty-eight decisions total; sixty-six are approved and two (`D-67`, `D-68`)
-are open. The grouping below is a
+Sixty-eight decisions total; all sixty-eight are approved. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 

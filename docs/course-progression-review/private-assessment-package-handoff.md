@@ -29,10 +29,10 @@ contents are pinned by hash in `src/curriculum/pilot-catalog.ts`.
 
 | Bank | Target skill | Item role | Items per attempt | Required pool |
 |---|---|---|---:|---:|
-| `<skill>-review-bank` (×3) | `ratio-language`, `unit-rates`, `ratio-tables` | `review` | 1 | 2 (D-50; see open D-67) |
+| `<skill>-review-bank` (×3) | `ratio-language`, `unit-rates`, `ratio-tables` | `review` | 1 | 3 (D-50 as amended by D-67; reuse after two runs) |
 | `<skill>-delayed-check-bank` (×3) | `ratio-language`, `unit-rates`, `ratio-tables` | `assessment` | 2 | 6 (D-63) |
 
-**Draft status (2026-09-23).** Model-assisted drafts of all 24 skill-bank
+**Draft status (2026-09-24).** Model-assisted drafts of all 27 skill-bank
 items (D-66) are in the private draft package v2, outside the repository. They
 are `pending_review`. The v2 file adds the six skill banks and leaves the
 original four banks byte-identical to the v1 draft.
@@ -46,6 +46,20 @@ review:
 - **Hash drift.** The repository's pinned hashes for the four lesson and unit
   banks do not match the current v1 draft. They must be re-pinned from the
   reviewed package.
+
+The six skill-bank hashes pin the `pending_review` drafts. `review.status` is
+part of each hashed item, so **every** bank, including the skill banks, must be
+re-pinned from the reviewed package before any of it can serve.
+
+Draft-quality notes from the independent re-review, already applied in v2:
+
+- Two near-duplicate delayed-check items were replaced.
+- Accepted answers were broadened for exact-match scoring (cents, leading
+  decimals, word and fraction forms, spaced ratios).
+- Leakage patterns now list every accepted form.
+
+Content reviewers should still add any other equivalent answer form they
+expect learners to use.
 
 The pool sizes follow the approved pilot volume and no-reuse reassessment
 policy. Every item must reference its containing bank and include its own
