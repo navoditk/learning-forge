@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **68 approved; 0 open.** Approved entries are explicitly marked in
+- Status: **69 approved; 0 open.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -786,7 +786,8 @@ shadow predicate and the cutover readiness report.
 
 At 1 item per review (`D-45`), that supported only two reviews per skill. Three items with reuse after two runs let reviews rotate indefinitely without repeating a recent item. `1.0.0` remains for historical resolution.
 
-**Open follow-up (not decided here).** Under strict no-reuse (`D-44`), abandoned or expired runs also consume items. As a result, a delayed-check bank can be exhausted without any scored failure. The exhausted terminal state and its parent-facing record are not yet specified.
+Delayed-check exhaustion, including by abandoned or expired runs, is decided
+in `D-69`.
 
 ### D-68 — Placement position rule
 
@@ -799,9 +800,36 @@ At 1 item per review (`D-45`), that supported only two reviews per skill. Three 
 | Approver | Product owner (in chat) |
 | Blocks | Serving `PLACEMENT` assignments |
 
+### D-69 — Exhausted or capped delayed checks
+
+| Field | Value |
+|---|---|
+| Kind | policy + product |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | See the rule below |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Stage C4 cutover |
+
+**Rule.** After a lapse or a failed delayed check, the skill's lessons move to
+the parent-visible `NEEDS_HELP` remediation state when either of these holds:
+
+- the skill can no longer be served an unseen delayed check (`D-44`), counting
+  abandoned and expired runs;
+- consecutive delayed-check failures exceed `maxReassessments` (`D-27`).
+
+`NEEDS_HELP` refuses further delayed checks. A missing lesson row is recorded
+as `NOT_STARTED` + `NEEDS_HELP`, so the terminal state always has a record.
+Only a parent or operator override (`D-06`) reopens the skill. Items are never
+reused, so every delayed check stays on unseen items.
+
+**Why.** Each lapse cycle consumes two of the six items, so repeated lapses
+exhausted the bank and left the skill stranded with no record. That broke
+playbook dimensions 7 and 9.
+
 ## I. Index of open decisions
 
-Sixty-eight decisions total; all sixty-eight are approved. The grouping below is a
+Sixty-nine decisions total; all sixty-nine are approved. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 

@@ -1,5 +1,28 @@
 # Progress
 
+## 2026-09-24 — D-28 re-entry gate and D-69 needs-help terminal state
+
+- A fresh independent re-review (Claude Fable 5.1) returned **not ready for
+  human review**. It found two major issues:
+  - a lapsed skill could be re-confirmed immediately (N1);
+  - repeated lapses could exhaust the delayed-check bank, leaving the skill
+    stranded without a record (N2).
+- The product owner approved **D-69**: an exhausted or capped skill moves to a
+  parent-visible `NEEDS_HELP` state, and only an override reopens it.
+- Implemented:
+  - D-28 gating of delayed checks after a lapse or failure (cooldown plus a
+    completed practice session);
+  - D-69 marking on failed delayed checks and review lapses;
+  - `NEEDS_HELP` refusal;
+  - new falsifying tests;
+  - an exported loader configuration with exclusivity assertions.
+- Private draft v2: three items replaced, answers broadened, and skill-bank
+  hashes re-pinned.
+- Open before C4:
+  - the legacy `independentDelayedCheck` flag (F6);
+  - reconciling `attemptOrdinal` with the D-27 consecutive count (N5);
+  - D-28's practice-session condition for lesson and unit reassessments.
+
 ## 2026-09-24 — Independent review of delayed checks and reviews; D-67/D-68
 
 - An independent review of the D-63–D-66 increment (Claude Fable 5.1)
@@ -19,7 +42,8 @@
     D-27 reassessments.
   - Skill banks require exclusive skill membership.
   - Idempotent replay is honored before eligibility.
-  - New unit, integration, route, and loader tests close the surviving mutants.
+  - New unit, integration, route, and loader tests kill the prior surviving
+    mutants; a later re-review found new survivors, since addressed.
 - Private draft v2 now holds 27 skill-bank items: 3 review and 6
   delayed-check items per skill. The six skill-bank hashes are re-pinned; all
   banks must be re-pinned again from the reviewed package.

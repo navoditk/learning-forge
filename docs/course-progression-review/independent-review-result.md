@@ -36,6 +36,42 @@ not an approval, and C4 remains closed.
   would refuse today's mastery-check flow); the rest of N8 (assignment-required
   kind sets are code constants); and the remaining N9 doc ordering.
 
+## Independent re-review of the delayed-check and review remediation — 2026-09-24 (latest)
+
+Reviewer: Claude Fable 5.1 (a fresh agent, confirmed; an earlier resumed
+attempt had silently run on the implementer's model and was discarded).
+Scope: `5eff07e..8293201`. Verdict: **not ready for human review**. F1–F3,
+F7, F9, and F10 were confirmed closed; 24 of 31 mutants were killed. C3 was
+confirmed non-enforcing and the route still gated. Remediation made after this
+re-review:
+
+- **N1 (major):** a lapsed skill could be re-confirmed within seconds. A
+  delayed check after a lapse or a failed delayed check now requires the D-28
+  cooldown (`REASSESSMENT_COOLDOWN`). It also requires a completed practice
+  session on the skill since then (`REMEDIATION_PRACTICE_REQUIRED`).
+- **N2 (major):** repeated lapses stranded a skill with no record. D-69 is now
+  approved and implemented: an exhausted or capped skill gets a `NEEDS_HELP`
+  lesson record (created if missing), and further delayed checks are refused
+  with `NEEDS_HELP`.
+- **N3:** tests now cover:
+  - delayed-check no-reuse under profile `1.1.0`;
+  - remediation staying `ACTIVE` on an incomplete lesson;
+  - cross-learner exposure isolation;
+  - version-aware exclusivity;
+  - the skill-bank configuration.
+- **N4:** the F3 overclaim is corrected, and the D-67 follow-up is folded into
+  D-69.
+- **N5:** `attemptOrdinal` counts every scored run while the D-27 count resets
+  on a pass. Both must be reconciled before C4.
+- **Draft items (by id):**
+  - replaced `unit-rates-delayed-check-b` (answer visible in the prompt),
+    `unit-rates-delayed-check-e` (skill fit), and `ratio-language-review-c`
+    (reused a lesson item's quantities);
+  - broadened accepted answers;
+  - dropped bare-number leakage patterns.
+
+These remediations need another independent re-review.
+
 ## Independent review of pilot delayed-check and review assignments — 2026-09-24
 
 Reviewer: Claude Fable 5.1, read-only, reviewing `ad74b09..5eff07e`.
@@ -46,8 +82,9 @@ remains closed. Remediation made after the review:
 - **F2:** a confirmed skill refuses a new delayed check (`ALREADY_CONFIRMED`).
   A passing re-confirmation after a lapse restarts the schedule and clears lapse
   remediation on completed lessons.
-- **F3:** exposure now includes every attempt on the skill in any context, and
-  tutor interactions.
+- **F3:** exposure now includes every Phase 1 attempt on the skill's public
+  content in any context, and tutor interactions. Held-out assessment attempts
+  are not exposure.
 - **F4 and F7:** new tests cover:
   - disjoint no-reuse selection, including items from a passed run;
   - the reassessment cap and review-pool exhaustion;

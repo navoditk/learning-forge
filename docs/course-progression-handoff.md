@@ -39,7 +39,7 @@ release gates.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-68` | **68 approved; 0 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-69` | **69 approved; 0 open** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -82,7 +82,7 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-All sixty-eight entries in `docs/course-progression-decisions.md` are approved.
+All sixty-nine entries in `docs/course-progression-decisions.md` are approved.
 D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
 before treating elapsed-time evidence as production mastery evidence. Each
 later stage must still use the approved value for every decision it touches.
@@ -103,7 +103,8 @@ later stage must still use the approved value for every decision it touches.
 > are remediated and await re-review.
 > Before C4: (1) implement pilot `PLACEMENT` assignments (D-64, D-68), so D-62
 > does not remove the pilot's diagnostic flow; resolve the legacy
-> `independentDelayedCheck` flag (re-review F6) at the latest in C4; (2) deploy,
+> `independentDelayedCheck` flag (re-review F6) and reconcile `attemptOrdinal`
+> with the D-27 consecutive count (N5) at the latest in C4; (2) deploy,
 > then collect
 > representative non-enforcing shadow traffic from the remediation deploy
 > onward and disposition every divergence; (3) complete the private-package
