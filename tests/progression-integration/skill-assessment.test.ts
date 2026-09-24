@@ -14,10 +14,12 @@ import {
   applyDelayedCheckOutcome,
   applyNeedsHelpOverride,
   applyPilotLessonAssessmentOutcome,
+  applyPilotUnitAssessmentOutcome,
 } from '../../src/progression/learner-state';
 import { recordReviewAttempt, startSession } from '../../src/phase1/service';
 import {
   abandonAssessmentRun,
+  invalidateAssessmentRun,
   submitAssessmentItem,
 } from '../../src/progression/assessment-submission';
 import { resolvePinnedPolicyProfile } from '../../src/progression/artifacts';
@@ -124,6 +126,8 @@ describe('skill-targeted delayed checks and reviews', () => {
     await prisma.masteryEstimate.deleteMany({ where: { householdId } });
     await prisma.learnerLessonState.deleteMany({ where: { householdId } });
     await prisma.overrideRecord.deleteMany({ where: { householdId } });
+    await prisma.skipRecord.deleteMany({ where: { householdId } });
+    await prisma.learnerUnitState.deleteMany({ where: { householdId } });
   });
 
   afterAll(async () => {
@@ -1066,6 +1070,29 @@ describe('skill-targeted delayed checks and reviews', () => {
       expect((await eligibility('DELAYED_CHECK', new Date(), reuseProfileRef)).eligible).toBe(true);
     });
 
+    it('never lets a failing stranding check change the Phase 1 review response', async () => {
+      await prisma.masteryEstimate.updateMany({
+        where: { learnerProfileId },
+        data: { independentDelayedCheck: true },
+      });
+      await scheduleReview(new Date(Date.now() - HOUR), 'CONFIRMED', 1);
+      const session = await startSession(
+        { householdId, learnerProfileId },
+        { contentId: 'ratio-language-1', activityKind: 'REVIEW' },
+      );
+      // An unresolvable pin makes the stranding check throw.
+      await prisma.session.update({
+        where: { id: session.sessionId },
+        data: { policyProfileVersion: '9.9.9' },
+      });
+      const result = await recordReviewAttempt(
+        { householdId, learnerProfileId },
+        { sessionId: session.sessionId, learnerResponse: 'not the answer' },
+      );
+      expect(result.correctness).toBe('INCORRECT');
+      expect((await reviewSchedule()).lastOutcome).toBe('LAPSED');
+    });
+
     it('records NEEDS_HELP when a Phase 1 review lapse strands a pilot skill', async () => {
       await prisma.masteryEstimate.updateMany({
         where: { learnerProfileId },
@@ -1222,6 +1249,113 @@ describe('skill-targeted delayed checks and reviews', () => {
       expect(
         await skillStrandingState(prisma, { learnerProfileId, skillRef, profile: profile11() }),
       ).toBe('NEEDS_HELP');
+    });
+  });
+
+  describe('remaining D-69 and D-70 falsifiers', () => {
+    const profile11 = () => resolvePinnedPolicyProfile(reuseProfileRef);
+    const createRun = async (
+      idempotencyKey: string,
+      seenIndexes: readonly number[],
+      extra = {},
+    ) => {
+      const profile = profile11();
+      return createAssessmentAssignment(
+        {
+          householdId,
+          learnerProfileId,
+          kind: 'DELAYED_CHECK',
+          targetKind: 'SKILL',
+          targetRef: skillRef,
+          bankRef: { code: delayedBank.code, version: delayedBank.version },
+          policyProfileRef: reuseProfileRef,
+          policyProfileHash: policyHash(profile),
+          algorithmVersion: 'mastery-phase-1-1',
+          curriculumSnapshotHash: delayedBank.contentHash,
+          itemsPerAttempt: profile.delayedCheckItemsPerAttempt,
+          requiredCount: profile.delayedCheckPassBar.correct,
+          requiredSkillCodes: [skillRef.code],
+          previouslySeenItemKeys: new Set(
+            seenIndexes.map(
+              (index) => `${delayedBank.items[index]!.id}@${delayedBank.items[index]!.version}`,
+            ),
+          ),
+          expiresAt: new Date(Date.now() + HOUR),
+          idempotencyKey,
+          ...extra,
+        },
+        store,
+      );
+    };
+
+    it('records NEEDS_HELP when an invalidated run strands the skill', async () => {
+      await createMastery(false);
+      await recordDelayedCheckResult('FAIL', new Date(Date.now() - 2 * DAY), {
+        itemIndexes: [0, 1, 2, 3],
+      });
+      const live = await createRun('invalidate-me', [0, 1, 2, 3]);
+      const operator = await prisma.user.create({ data: { householdId, role: 'PARENT' } });
+      await invalidateAssessmentRun({
+        householdId,
+        learnerProfileId,
+        assignmentId: live.assignment.id,
+        invalidationReason: 'Defective item reported by a reviewer.',
+        invalidatedByUserId: operator.id,
+      });
+      expect((await lessonRow('ratio-language-lesson')).remediationStatus).toBe('NEEDS_HELP');
+    });
+
+    it('keeps NEEDS_HELP when a first unit run completes lessons by skip', async () => {
+      await prisma.learnerUnitState.create({
+        data: {
+          householdId,
+          learnerProfileId,
+          unitCode: 'ratios-and-proportional-reasoning',
+          unitVersion: '1.0.0',
+          completionStatus: 'ASSESSMENT_PENDING',
+          overrideStatus: 'NONE',
+          policyProfileCode: reuseProfileRef.code,
+          policyProfileVersion: reuseProfileRef.version,
+        },
+      });
+      await lessonState('ratio-language-lesson', 'IN_PROGRESS', 'NONE');
+      await prisma.learnerLessonState.updateMany({
+        where: { learnerProfileId },
+        data: { remediationStatus: 'NEEDS_HELP' },
+      });
+      await prisma.$transaction((transaction) =>
+        applyPilotUnitAssessmentOutcome(transaction, {
+          householdId,
+          learnerProfileId,
+          unitCode: 'ratios-and-proportional-reasoning',
+          unitVersion: '1.0.0',
+          assessmentRunId: randomUUID(),
+          firstRun: true,
+          policyProfileCode: reuseProfileRef.code,
+          policyProfileVersion: reuseProfileRef.version,
+          outcome: 'PASS',
+          now: new Date(),
+        }),
+      );
+      const lesson = await lessonRow('ratio-language-lesson');
+      expect(lesson.completionStatus).toBe('COMPLETE_BY_SKIP');
+      expect(lesson.remediationStatus).toBe('NEEDS_HELP');
+    });
+
+    it('restarts the reassessment cap from reassessmentCountSince (D-70)', async () => {
+      await createMastery(false);
+      for (const hoursAgo of [72, 60, 48]) {
+        await recordDelayedCheckResult('FAIL', new Date(Date.now() - hoursAgo * HOUR));
+      }
+      const limits = { maxReassessments: 2, reassessmentCooldownHours: 0 };
+      await expect(createRun('capped', [], limits)).rejects.toMatchObject({
+        code: 'MAX_REASSESSMENTS_REACHED',
+      });
+      const reset = await createRun('after-override', [], {
+        ...limits,
+        reassessmentCountSince: new Date(Date.now() - 36 * HOUR),
+      });
+      expect(reset.replayed).toBe(false);
     });
   });
 

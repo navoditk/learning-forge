@@ -781,8 +781,8 @@ export async function recordReviewAttempt(
   if (result.correctness !== 'CORRECT') {
     const policyProfileCode = session.policyProfileCode ?? 'grade-6-math-default';
     const policyProfileVersion = session.policyProfileVersion ?? '1.0.0';
-    await prisma.$transaction(async (transaction) => {
-      await applyReviewLapse(transaction, {
+    await prisma.$transaction((transaction) =>
+      applyReviewLapse(transaction, {
         householdId: identity.householdId,
         learnerProfileId: identity.learnerProfileId,
         skillRefs: [content.skillRef],
@@ -790,19 +790,28 @@ export async function recordReviewAttempt(
         policyProfileVersion,
         algorithmVersion: PHASE_1_MASTERY_VERSION,
         now: new Date(),
-      });
-      // D-69 applies to pilot skills only, whose profile always resolves; a
-      // lapse elsewhere is unchanged.
-      if (pilotSkillRef(content.skillRef.code, content.skillRef.version)) {
-        await recordStrandedSkill(transaction, {
-          householdId: identity.householdId,
-          learnerProfileId: identity.learnerProfileId,
-          policyProfileCode,
-          policyProfileVersion,
-          skillRef: content.skillRef,
+      }),
+    );
+    // D-69 applies to pilot skills only. It is best-effort here so it can
+    // never change the learner's review response; a refusal on the gated
+    // assignment route records NEEDS_HELP if this write is missed.
+    if (pilotSkillRef(content.skillRef.code, content.skillRef.version)) {
+      try {
+        await prisma.$transaction((transaction) =>
+          recordStrandedSkill(transaction, {
+            householdId: identity.householdId,
+            learnerProfileId: identity.learnerProfileId,
+            policyProfileCode,
+            policyProfileVersion,
+            skillRef: content.skillRef,
+          }),
+        );
+      } catch (error) {
+        console.error('Progression stranding check failed', {
+          errorType: error instanceof Error ? error.name : 'UnknownError',
         });
       }
-    });
+    }
   }
   return result;
 }
