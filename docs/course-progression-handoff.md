@@ -39,7 +39,7 @@ release gates.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-62` | **62 approved; 0 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-71` | **71 approved; 0 open** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -63,9 +63,10 @@ detail.
 
 ### Remaining open findings
 
-None from reviews 1–3 are known to be outstanding. **Review 4 has not been
-performed.** The fourth draft has not been independently checked, and its
-self-assessment should not be trusted.
+None from reviews 1–3 are known to be outstanding. The fourth-draft and C1–C3
+review was performed on 2026-09-22 (recommendation: do not approve). Later
+independent reviews and remediation are recorded in
+`docs/course-progression-review/independent-review-result.md`.
 
 Specific things a fourth reviewer should challenge first:
 
@@ -82,7 +83,7 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-All sixty-two entries in `docs/course-progression-decisions.md` are approved.
+All seventy-one entries in `docs/course-progression-decisions.md` are approved.
 D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
 before treating elapsed-time evidence as production mastery evidence. Each
 later stage must still use the approved value for every decision it touches.
@@ -97,10 +98,17 @@ later stage must still use the approved value for every decision it touches.
 ## 6. The exact next task
 
 > The independent C1–C3 review (2026-09-22) and its M1–M3 remediation
-> re-review are recorded in `docs/course-progression-review/`. Before C4:
-> (1) implement pilot `PLACEMENT`, `REVIEW`, and `DELAYED_CHECK` assessment
-> assignments, so D-62 does not remove the pilot's diagnostic, review, and
-> mastery-check flows (re-review findings N3 and N7); (2) deploy, then collect
+> re-review are recorded in `docs/course-progression-review/`. Pilot
+> `DELAYED_CHECK` and `REVIEW` assignments are implemented (D-63, D-65–D-67)
+> with draft held-out items pending review; the independent review's findings
+> are remediated and await re-review.
+> Pilot `PLACEMENT` assignments are implemented (D-64, D-68 as amended). Before
+> C4: (1) resolve the legacy
+> `independentDelayedCheck` flag (re-review F6), build the D-06 step-up endpoint
+> and the parent override surface for D-70's service (D-70 blocks C4, so this
+> precedes C4 even though the wider parent UI is C5), and reconcile `attemptOrdinal`
+> with the D-27 consecutive count (N5) at the latest in C4; (2) deploy,
+> then collect
 > representative non-enforcing shadow traffic from the remediation deploy
 > onward and disposition every divergence; (3) complete the private-package
 > review and the manual gate record. Only then implement the approved C4

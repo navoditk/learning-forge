@@ -6,7 +6,7 @@ import { recalculateMastery } from '../../src/progression/mastery-recalculation'
 describe('mastery recalculation', () => {
   it('rebuilds equivalent evidence under a new algorithm version without mutating evidence', () => {
     const profile = loadPolicyArtifacts().profiles.find(
-      (item) => item.code === 'grade-6-math-default',
+      (item) => item.code === 'grade-6-math-default' && item.version === '1.0.0',
     );
     if (!profile) throw new Error('Grade 6 Math profile is missing');
     const now = new Date('2026-09-22T00:00:00Z');

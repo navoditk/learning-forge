@@ -17,10 +17,25 @@ export function reassessmentEligibility(input: {
   now: Date;
   maxReassessments: number;
   cooldownHours: number;
+  /** A human override (D-70) restarts the consecutive count from this time. */
+  countSince?: Date;
 }): ReassessmentEligibility {
   const failedRuns = input.priorRuns.filter((run) => run.outcome === 'FAIL');
   const excludedItemKeys = new Set(failedRuns.flatMap((run) => run.selectedItemKeys));
-  if (failedRuns.length >= input.maxReassessments && failedRuns.length > 0) {
+  // D-27 counts consecutive reassessments: a pass resets the count, and the
+  // initial run plus `maxReassessments` reassessments may all be attempted.
+  const latestPass = input.priorRuns
+    .filter((run) => run.outcome === 'PASS')
+    .reduce<Date | undefined>(
+      (latest, run) => (!latest || run.scoredAt > latest ? run.scoredAt : latest),
+      undefined,
+    );
+  const consecutiveFailures = failedRuns.filter(
+    (run) =>
+      (!latestPass || run.scoredAt > latestPass) &&
+      (!input.countSince || run.scoredAt > input.countSince),
+  ).length;
+  if (consecutiveFailures > input.maxReassessments) {
     return {
       eligible: false,
       reasonCode: 'MAX_REASSESSMENTS_REACHED',

@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { programsByCode } from '../../src/curriculum/program-registry';
 import { prisma } from '../../src/server/prisma';
 import {
   ensureSyntheticIdentity,
@@ -373,7 +374,7 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
         activityKind: 'PRACTICE',
         targetCode: 'unit-rates-1',
         targetVersion: 'content-1',
-        policyProfileVersion: '1.0.0',
+        policyProfileVersion: programsByCode.get('grade-6-math')?.defaultPolicyProfileRef.version,
       });
       expect(
         await prisma.shadowDecision.count({

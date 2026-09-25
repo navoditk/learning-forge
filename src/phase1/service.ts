@@ -19,6 +19,8 @@ import { planNextActivities } from '../planner';
 import { loadPolicyArtifacts } from '../progression/artifacts';
 import { deriveHighestAssistance } from '../progression/assistance';
 import { applyReviewLapse } from '../progression/learner-state';
+import { recordStrandedSkill } from '../progression/assessment-submission';
+import { pilotSkillRef } from '../progression/skill-assessment';
 import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
 import {
   policyHash,
@@ -242,7 +244,7 @@ async function writeShadowDecision(
   programCode: CurriculumProgram,
   targetCode: string,
   targetVersion: string,
-  activityKind: 'PRACTICE' | 'PLACEMENT' | 'DELAYED_CHECK' | 'REVIEW',
+  activityKind: 'PRACTICE' | 'PLACEMENT' | 'REVIEW',
   activeRunOrSessionId: string,
   assignmentBound: boolean,
 ): Promise<void> {
@@ -388,14 +390,10 @@ async function createAttempt(
   if (independentCheckPassed) {
     await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
   }
+  // D-65: the same-sitting independent check is not a delayed check (no
+  // elapsed-time separation), so it is authorized as independent practice.
   const activityKind =
-    input.context === 'DIAGNOSTIC'
-      ? 'PLACEMENT'
-      : input.reviewDecay
-        ? 'REVIEW'
-        : input.independentDelayedCheck
-          ? 'DELAYED_CHECK'
-          : 'PRACTICE';
+    input.context === 'DIAGNOSTIC' ? 'PLACEMENT' : input.reviewDecay ? 'REVIEW' : 'PRACTICE';
   await persistShadow(() =>
     writeShadowDecision(
       identity,
@@ -781,17 +779,39 @@ export async function recordReviewAttempt(
   // unlike recordIndependentCheck's session, which only ends on success.
   await prisma.session.update({ where: { id: session.id }, data: { endedAt: new Date() } });
   if (result.correctness !== 'CORRECT') {
+    const policyProfileCode = session.policyProfileCode ?? 'grade-6-math-default';
+    const policyProfileVersion = session.policyProfileVersion ?? '1.0.0';
     await prisma.$transaction((transaction) =>
       applyReviewLapse(transaction, {
         householdId: identity.householdId,
         learnerProfileId: identity.learnerProfileId,
         skillRefs: [content.skillRef],
-        policyProfileCode: session.policyProfileCode ?? 'grade-6-math-default',
-        policyProfileVersion: session.policyProfileVersion ?? '1.0.0',
+        policyProfileCode,
+        policyProfileVersion,
         algorithmVersion: PHASE_1_MASTERY_VERSION,
         now: new Date(),
       }),
     );
+    // D-69 applies to pilot skills only. It is best-effort here so it can
+    // never change the learner's review response; a refusal on the gated
+    // assignment route records NEEDS_HELP if this write is missed.
+    if (pilotSkillRef(content.skillRef.code, content.skillRef.version)) {
+      try {
+        await prisma.$transaction((transaction) =>
+          recordStrandedSkill(transaction, {
+            householdId: identity.householdId,
+            learnerProfileId: identity.learnerProfileId,
+            policyProfileCode,
+            policyProfileVersion,
+            skillRef: content.skillRef,
+          }),
+        );
+      } catch (error) {
+        console.error('Progression stranding check failed', {
+          errorType: error instanceof Error ? error.name : 'UnknownError',
+        });
+      }
+    }
   }
   return result;
 }

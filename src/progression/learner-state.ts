@@ -7,14 +7,20 @@ import {
 } from '@prisma/client';
 
 import { PILOT_LESSONS, PILOT_UNITS } from '../curriculum/pilot-catalog';
+import { advanceReviewSchedule } from './review-schedule';
+import { lessonStatusAfterPlacement, placementLessonIndex } from './placement';
 
 export function lessonStatusAfterAssessment(input: {
   current: LessonCompletionStatus | undefined;
+  currentRemediation?: RemediationStatus;
   outcome: AssessmentOutcome;
   firstRun: boolean;
   hadPriorWork: boolean;
 }): { completionStatus: LessonCompletionStatus; remediationStatus: RemediationStatus } {
   const historicallyComplete = input.current === 'COMPLETE' || input.current === 'COMPLETE_BY_SKIP';
+  // D-69: NEEDS_HELP is terminal until a human override; outcomes never clear it.
+  const keepNeedsHelp = (status: RemediationStatus): RemediationStatus =>
+    input.currentRemediation === 'NEEDS_HELP' ? 'NEEDS_HELP' : status;
   if (input.outcome === 'PASS') {
     return {
       completionStatus: historicallyComplete
@@ -22,12 +28,12 @@ export function lessonStatusAfterAssessment(input: {
         : input.firstRun && !input.hadPriorWork
           ? 'COMPLETE_BY_SKIP'
           : 'COMPLETE',
-      remediationStatus: 'NONE',
+      remediationStatus: keepNeedsHelp('NONE'),
     };
   }
   return {
     completionStatus: historicallyComplete ? input.current! : 'IN_PROGRESS',
-    remediationStatus: input.outcome === 'FAIL' ? 'ACTIVE' : 'NONE',
+    remediationStatus: keepNeedsHelp(input.outcome === 'FAIL' ? 'ACTIVE' : 'NONE'),
   };
 }
 
@@ -39,7 +45,7 @@ export function lessonStateAfterReviewLapse(input: {
   return {
     completionStatus:
       input.completionStatus === 'SKIPPED_BY_PLACEMENT' ? 'AVAILABLE' : input.completionStatus,
-    remediationStatus: 'ACTIVE',
+    remediationStatus: input.remediationStatus === 'NEEDS_HELP' ? 'NEEDS_HELP' : 'ACTIVE',
   };
 }
 
@@ -113,6 +119,124 @@ export async function applyReviewLapse(
   }
 }
 
+type SkillOutcomeInput = {
+  householdId: string;
+  learnerProfileId: string;
+  skillRef: { code: string; version: string };
+  algorithmVersion: string;
+  policyProfileCode: string;
+  policyProfileVersion: string;
+  spacingIntervalDays: readonly number[];
+  now: Date;
+};
+
+function firstReviewDueAt(now: Date, spacingIntervalDays: readonly number[]): Date {
+  const firstInterval = spacingIntervalDays[0];
+  if (firstInterval === undefined) throw new Error('REVIEW_INTERVALS_REQUIRED');
+  return new Date(now.getTime() + firstInterval * 86_400_000);
+}
+
+/**
+ * A passed delayed check confirms the skill (§9.2) and starts spaced review
+ * at the first approved interval (D-18). A failed one lapses the skill and
+ * routes to remediation exactly as a failed review does.
+ */
+export async function applyDelayedCheckOutcome(
+  transaction: Prisma.TransactionClient,
+  input: SkillOutcomeInput & { outcome: AssessmentOutcome },
+): Promise<void> {
+  if (input.outcome !== 'PASS') {
+    await applyReviewLapse(transaction, { ...input, skillRefs: [input.skillRef] });
+    return;
+  }
+  await transaction.masteryEstimate.updateMany({
+    where: {
+      learnerProfileId: input.learnerProfileId,
+      skillCode: input.skillRef.code,
+      algorithmVersion: input.algorithmVersion,
+    },
+    data: { independentDelayedCheck: true },
+  });
+  const schedule = {
+    dueAt: firstReviewDueAt(input.now, input.spacingIntervalDays),
+    intervalIndex: 0,
+    lastOutcome: 'CONFIRMED',
+    policyProfileCode: input.policyProfileCode,
+    policyProfileVersion: input.policyProfileVersion,
+    scheduleVersion: `${input.policyProfileCode}@${input.policyProfileVersion}`,
+  };
+  // Eligibility admits a delayed check only before first confirmation or after
+  // a lapse, so this either creates the schedule or restarts a lapsed one.
+  await transaction.reviewSchedule.upsert({
+    where: {
+      learnerProfileId_skillCode_skillVersion: {
+        learnerProfileId: input.learnerProfileId,
+        skillCode: input.skillRef.code,
+        skillVersion: input.skillRef.version,
+      },
+    },
+    create: {
+      householdId: input.householdId,
+      learnerProfileId: input.learnerProfileId,
+      skillCode: input.skillRef.code,
+      skillVersion: input.skillRef.version,
+      ...schedule,
+    },
+    update: schedule,
+  });
+  // The passing delayed check is the reassessment that clears lapse
+  // remediation (§6.8). Remediation on a lesson that is not yet complete comes
+  // from its own lesson assessment and is left for that reassessment.
+  for (const lesson of PILOT_LESSONS.filter((candidate) =>
+    candidate.skillRefs.some(
+      (skill) => skill.code === input.skillRef.code && skill.version === input.skillRef.version,
+    ),
+  )) {
+    await transaction.learnerLessonState.updateMany({
+      where: {
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+        remediationStatus: 'ACTIVE',
+        completionStatus: { in: ['COMPLETE', 'COMPLETE_BY_SKIP'] },
+      },
+      data: {
+        remediationStatus: 'NONE',
+        policyProfileCode: input.policyProfileCode,
+        policyProfileVersion: input.policyProfileVersion,
+      },
+    });
+  }
+}
+
+/** A passed review advances the schedule one approved interval (D-18). */
+export async function applyReviewPass(
+  transaction: Prisma.TransactionClient,
+  input: SkillOutcomeInput,
+): Promise<void> {
+  const schedule = await transaction.reviewSchedule.findUnique({
+    where: {
+      learnerProfileId_skillCode_skillVersion: {
+        learnerProfileId: input.learnerProfileId,
+        skillCode: input.skillRef.code,
+        skillVersion: input.skillRef.version,
+      },
+    },
+  });
+  if (!schedule) throw new Error('REVIEW_SCHEDULE_MISSING');
+  const next = advanceReviewSchedule(schedule, input.now, input.spacingIntervalDays);
+  await transaction.reviewSchedule.update({
+    where: { id: schedule.id },
+    data: {
+      dueAt: next.dueAt,
+      intervalIndex: next.intervalIndex,
+      lastOutcome: next.lastOutcome,
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
+    },
+  });
+}
+
 export function unitStatusAfterLessonUpdate(
   statuses: readonly LessonCompletionStatus[],
   current?: UnitCompletionStatus,
@@ -177,6 +301,9 @@ export async function applyPilotLessonAssessmentOutcome(
         householdId: input.householdId,
         learnerProfileId: input.learnerProfileId,
         contentKey: { in: practiceContentIds },
+        // A placement probe reuses practice items but is not practice (§6.6),
+        // so it never blocks an evidence-backed skip.
+        context: { not: 'PLACEMENT' },
       },
     }),
     transaction.learningEvent.count({
@@ -191,6 +318,7 @@ export async function applyPilotLessonAssessmentOutcome(
   const priorWork = priorPracticeAttempts > 0 || priorTeachingOrPracticeEvents > 0;
   const next = lessonStatusAfterAssessment({
     current: current?.completionStatus,
+    currentRemediation: current?.remediationStatus,
     outcome: input.outcome,
     firstRun: input.firstRun,
     hadPriorWork: priorWork,
@@ -345,6 +473,9 @@ export async function applyPilotUnitAssessmentOutcome(
         householdId: input.householdId,
         learnerProfileId: input.learnerProfileId,
         contentKey: { in: practiceContentIds },
+        // A placement probe reuses practice items but is not practice (§6.6),
+        // so it never blocks an evidence-backed skip.
+        context: { not: 'PLACEMENT' },
       },
     }),
     transaction.learningEvent.count({
@@ -390,17 +521,20 @@ export async function applyPilotUnitAssessmentOutcome(
       (candidate) => candidate.code === lessonRef.code && candidate.version === lessonRef.version,
     );
     if (!lesson) continue;
-    await transaction.learnerLessonState.upsert({
-      where: {
-        learnerProfileId_lessonCode_lessonVersion: {
-          learnerProfileId: input.learnerProfileId,
-          lessonCode: lesson.code,
-          lessonVersion: lesson.version,
-        },
+    const key = {
+      learnerProfileId_lessonCode_lessonVersion: {
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
       },
+    };
+    const existing = await transaction.learnerLessonState.findUnique({ where: key });
+    await transaction.learnerLessonState.upsert({
+      where: key,
       update: {
         completionStatus: 'COMPLETE_BY_SKIP',
-        remediationStatus: 'NONE',
+        // D-69: a unit skip never clears the terminal NEEDS_HELP state.
+        remediationStatus: existing?.remediationStatus === 'NEEDS_HELP' ? 'NEEDS_HELP' : 'NONE',
         policyProfileCode: input.policyProfileCode,
         policyProfileVersion: input.policyProfileVersion,
         assessmentPassedAt: input.now,
@@ -448,4 +582,240 @@ export async function applyPilotUnitAssessmentOutcome(
       policyProfileVersion: input.policyProfileVersion,
     },
   });
+}
+
+/**
+ * D-69: records the parent-visible NEEDS_HELP state on every lesson claiming
+ * the skill. A missing lesson row means NOT_STARTED, so the terminal state is
+ * still recorded.
+ */
+export async function markSkillNeedsHelp(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    skillRef: { code: string; version: string };
+    policyProfileCode: string;
+    policyProfileVersion: string;
+  },
+): Promise<void> {
+  const needsHelp = {
+    remediationStatus: 'NEEDS_HELP' as const,
+    policyProfileCode: input.policyProfileCode,
+    policyProfileVersion: input.policyProfileVersion,
+  };
+  for (const lesson of PILOT_LESSONS.filter((candidate) =>
+    candidate.skillRefs.some(
+      (skill) => skill.code === input.skillRef.code && skill.version === input.skillRef.version,
+    ),
+  )) {
+    await transaction.learnerLessonState.upsert({
+      where: {
+        learnerProfileId_lessonCode_lessonVersion: {
+          learnerProfileId: input.learnerProfileId,
+          lessonCode: lesson.code,
+          lessonVersion: lesson.version,
+        },
+      },
+      create: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+        completionStatus: 'NOT_STARTED',
+        ...needsHelp,
+      },
+      update: needsHelp,
+    });
+  }
+}
+
+export type NeedsHelpOverrideResult =
+  | { applied: true; overrideId: string }
+  | {
+      applied: false;
+      reasonCode:
+        'OVERRIDE_REASON_REQUIRED' | 'REAUTH_EXPIRED' | 'REAUTH_ALREADY_USED' | 'NOT_NEEDS_HELP';
+    };
+
+/**
+ * D-70: a parent or operator override moves a NEEDS_HELP skill's lessons back
+ * to ACTIVE remediation and restarts the consecutive-failure count from the
+ * override (read by the stranding predicate and reassessment limits). It
+ * requires a D-06 step-up re-authentication within the D-47 lifetime, used at
+ * most once, and writes an OverrideRecord. It does not create delayed-check
+ * items: without unseen items the skill is refused NEW_BANK_VERSION_REQUIRED.
+ */
+export async function applyNeedsHelpOverride(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    skillRef: { code: string; version: string };
+    actorUserId: string;
+    actorRole: 'PARENT' | 'OPERATOR';
+    reason: string;
+    reauthAt: Date;
+    stepUpReauthLifetimeMinutes: number;
+    policyProfileCode: string;
+    policyProfileVersion: string;
+    now: Date;
+  },
+): Promise<NeedsHelpOverrideResult> {
+  const reason = input.reason.trim();
+  if (!reason) return { applied: false, reasonCode: 'OVERRIDE_REASON_REQUIRED' };
+  const age = input.now.getTime() - input.reauthAt.getTime();
+  if (age < 0 || age > input.stepUpReauthLifetimeMinutes * 60_000) {
+    return { applied: false, reasonCode: 'REAUTH_EXPIRED' };
+  }
+  const reused = await transaction.overrideRecord.count({
+    where: { actorUserId: input.actorUserId, reauthAt: input.reauthAt },
+  });
+  if (reused > 0) return { applied: false, reasonCode: 'REAUTH_ALREADY_USED' };
+  const lessons = PILOT_LESSONS.filter((candidate) =>
+    candidate.skillRefs.some(
+      (skill) => skill.code === input.skillRef.code && skill.version === input.skillRef.version,
+    ),
+  );
+  const needsHelp = await transaction.learnerLessonState.count({
+    where: {
+      learnerProfileId: input.learnerProfileId,
+      remediationStatus: 'NEEDS_HELP',
+      OR: lessons.map((lesson) => ({ lessonCode: lesson.code, lessonVersion: lesson.version })),
+    },
+  });
+  if (needsHelp === 0) return { applied: false, reasonCode: 'NOT_NEEDS_HELP' };
+  const record = await transaction.overrideRecord.create({
+    data: {
+      householdId: input.householdId,
+      learnerProfileId: input.learnerProfileId,
+      targetKind: 'SKILL',
+      targetCode: input.skillRef.code,
+      targetVersion: input.skillRef.version,
+      actorUserId: input.actorUserId,
+      actorRole: input.actorRole,
+      reason,
+      reauthAt: input.reauthAt,
+      createdAt: input.now,
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
+    },
+  });
+  await transaction.learnerLessonState.updateMany({
+    where: {
+      learnerProfileId: input.learnerProfileId,
+      remediationStatus: 'NEEDS_HELP',
+      OR: lessons.map((lesson) => ({ lessonCode: lesson.code, lessonVersion: lesson.version })),
+    },
+    data: {
+      remediationStatus: 'ACTIVE',
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
+    },
+  });
+  return { applied: true, overrideId: record.id };
+}
+
+/**
+ * Applies a scored placement probe (§9.3, D-68). It records a
+ * `LearnerPlacement` and moves only not-started lessons; it never writes
+ * mastery or delayed-check status, so placement alone cannot reach HIGH.
+ */
+export async function applyPlacementOutcome(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    unitCode: string;
+    unitVersion: string;
+    itemResults: readonly { skillCode?: string; correctness: string }[];
+    assignmentId: string;
+    assessmentRunId: string;
+    policyProfileCode: string;
+    policyProfileVersion: string;
+  },
+): Promise<{ lessonCode: string; lessonVersion: string } | undefined> {
+  const unit = PILOT_UNITS.find(
+    (candidate) => candidate.code === input.unitCode && candidate.version === input.unitVersion,
+  );
+  if (!unit) return undefined;
+  // D-71: one placement per unit. A concurrent second probe is scored but
+  // never places again.
+  const existing = await transaction.learnerPlacement.count({
+    where: {
+      learnerProfileId: input.learnerProfileId,
+      unitCode: unit.code,
+      unitVersion: unit.version,
+    },
+  });
+  if (existing > 0) return undefined;
+  const lessons = unit.lessonRefs.flatMap((ref) =>
+    PILOT_LESSONS.filter((lesson) => lesson.code === ref.code && lesson.version === ref.version),
+  );
+  if (lessons.length === 0) return undefined;
+  const placedIndex = placementLessonIndex(
+    lessons.map((lesson) => lesson.skillRefs.map((ref) => ref.code)),
+    input.itemResults.map((result) => ({
+      skillCode: result.skillCode,
+      correct: result.correctness === 'CORRECT',
+    })),
+  );
+  const placed = lessons[placedIndex]!;
+  for (const [index, lesson] of lessons.entries()) {
+    const key = {
+      learnerProfileId_lessonCode_lessonVersion: {
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+      },
+    };
+    const current = await transaction.learnerLessonState.findUnique({ where: key });
+    const next = lessonStatusAfterPlacement(
+      current?.completionStatus,
+      index < placedIndex ? 'BEFORE' : index === placedIndex ? 'AT' : 'AFTER',
+    );
+    if (!next) continue;
+    await transaction.learnerLessonState.upsert({
+      where: key,
+      create: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+        completionStatus: next,
+        remediationStatus: 'NONE',
+        policyProfileCode: input.policyProfileCode,
+        policyProfileVersion: input.policyProfileVersion,
+      },
+      update: {
+        completionStatus: next,
+        policyProfileCode: input.policyProfileCode,
+        policyProfileVersion: input.policyProfileVersion,
+      },
+    });
+  }
+  await transaction.learnerPlacement.create({
+    data: {
+      householdId: input.householdId,
+      learnerProfileId: input.learnerProfileId,
+      programCode: unit.programRef.code,
+      programVersion: unit.programRef.version,
+      unitCode: unit.code,
+      unitVersion: unit.version,
+      lessonCode: placed.code,
+      lessonVersion: placed.version,
+      method: 'PLACEMENT_PROBE',
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
+      evidenceRefs: {
+        assignmentId: input.assignmentId,
+        assessmentRunId: input.assessmentRunId,
+        itemResults: input.itemResults.map(({ skillCode, correctness }) => ({
+          skillCode: skillCode ?? null,
+          correctness,
+        })),
+      },
+    },
+  });
+  return { lessonCode: placed.code, lessonVersion: placed.version };
 }

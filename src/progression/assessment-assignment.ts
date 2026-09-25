@@ -45,8 +45,11 @@ export function assessmentKindMatchesTarget(
   if (kind === AssessmentKind.LESSON_ASSESSMENT) {
     return targetKind === ProgressionTargetKind.LESSON;
   }
-  if (kind === AssessmentKind.UNIT_ASSESSMENT) {
+  if (kind === AssessmentKind.UNIT_ASSESSMENT || kind === AssessmentKind.PLACEMENT) {
     return targetKind === ProgressionTargetKind.UNIT;
+  }
+  if (kind === AssessmentKind.DELAYED_CHECK || kind === AssessmentKind.REVIEW) {
+    return targetKind === ProgressionTargetKind.SKILL;
   }
   return false;
 }
@@ -116,8 +119,12 @@ export type CreateAssessmentAssignmentInput = {
   authoredBankItemCount?: number;
   authoredBankSkillCodes?: readonly string[];
   requiredSkillCodes?: readonly string[];
+  /** Items excluded under a no-reuse rule (D-44, the profile's review reuse). */
+  previouslySeenItemKeys?: ReadonlySet<string>;
   maxReassessments?: number;
   reassessmentCooldownHours?: number;
+  /** Latest human override on the target (D-70); restarts the D-27 count. */
+  reassessmentCountSince?: Date;
   shadow?: {
     requestKind: string;
     activityKind: ActivityKind;
@@ -143,6 +150,46 @@ function sessionActivityKind(kind: AssessmentKind): ProgressionActivityKind {
     case 'REVIEW':
       return 'REVIEW';
   }
+}
+
+/**
+ * Settles any lease for this learner, kind, and target before eligibility is
+ * judged: a live run is reported as active, and a stale one is expired
+ * through the normal terminal path, so its record and any D-69 stranding
+ * check happen before a refusal.
+ */
+export async function settleAssessmentLease(
+  database: PrismaClient,
+  input: { learnerProfileId: string; kind: AssessmentKind; targetRef: Ref; now: Date },
+): Promise<{ active: boolean }> {
+  return database.$transaction(
+    async (transaction) => {
+      const lease = await transaction.activeAssessmentLease.findFirst({
+        where: {
+          learnerProfileId: input.learnerProfileId,
+          kind: input.kind,
+          targetCode: input.targetRef.code,
+          targetVersion: input.targetRef.version,
+          releasedAt: null,
+        },
+        include: { assignment: { include: { runState: true, result: true } } },
+      });
+      if (!lease) return { active: false };
+      const run = lease.assignment.runState;
+      const expired = lease.expiresAt <= input.now || (run ? run.expiresAt <= input.now : false);
+      if (!expired) return { active: true };
+      if (run && !isTerminalAssessmentStatus(run.status) && !lease.assignment.result) {
+        await expireAssessment(transaction, lease.assignment.id, run.id, lease.id, input.now);
+      } else {
+        await transaction.activeAssessmentLease.update({
+          where: { id: lease.id },
+          data: { releasedAt: input.now },
+        });
+      }
+      return { active: false };
+    },
+    { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+  );
 }
 
 export async function createAssessmentAssignment(
@@ -278,6 +325,7 @@ export async function createAssessmentAssignment(
               now: new Date(),
               maxReassessments: input.maxReassessments,
               cooldownHours: input.reassessmentCooldownHours,
+              countSince: input.reassessmentCountSince,
             })
           : { eligible: true as const, excludedItemKeys: new Set<string>() };
       if (!eligibility.eligible) {
@@ -288,22 +336,28 @@ export async function createAssessmentAssignment(
             : 'The maximum number of reassessments has been reached.',
         );
       }
+      const previouslySeen = input.previouslySeenItemKeys ?? new Set<string>();
       const selectedItems = selectAssessmentItems(
         bank,
         input.itemsPerAttempt,
-        eligibility.excludedItemKeys,
+        new Set([...eligibility.excludedItemKeys, ...previouslySeen]),
         input.requiredSkillCodes,
       );
       const selectedKeys = new Set(selectedItems.map((item) => `${item.id}@${item.version}`));
       const excludedItems = bank.items
         .filter((item) => !selectedKeys.has(`${item.id}@${item.version}`))
-        .map((item) => ({
-          id: item.id,
-          version: item.version,
-          reason: eligibility.excludedItemKeys.has(`${item.id}@${item.version}`)
-            ? 'FAILED_RUN'
-            : 'NOT_SELECTED',
-        }));
+        .map((item) => {
+          const key = `${item.id}@${item.version}`;
+          return {
+            id: item.id,
+            version: item.version,
+            reason: eligibility.excludedItemKeys.has(key)
+              ? 'FAILED_RUN'
+              : previouslySeen.has(key)
+                ? 'PREVIOUSLY_SEEN'
+                : 'NOT_SELECTED',
+          };
+        });
 
       const attemptOrdinal =
         previousAssignments.filter(

@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **62 approved; 0 open.** Approved entries are explicitly marked in
+- Status: **71 approved; 0 open.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -282,6 +282,14 @@ row for the live household.
 | D-31 | Skip bar — evidence required to mark a lesson `COMPLETE_BY_SKIP` | Pass the lesson assessment bank at `D-24` on the **first** run, with no prior teaching or practice event for that skill | **APPROVED 2026-09-19** | Product/pedagogy owner |
 | D-32 | Unit skip bar | Pass the unit assessment at `D-26` on the first run | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
+**`D-28` implementation note (2026-09-24).** For a delayed check after a lapse
+or failed delayed check, "one completed practice session" is read as a
+`PRACTICE` session on the skill's public content, by the same learner. It must
+have ended after remediation began, on a passed same-sitting check. A session
+ended by the operator drain does not count. The practice attempt is itself
+exposure, so the `D-21` delay window restarts from it. The lesson and unit
+reassessment path does not yet enforce this condition.
+
 `D-24` and `D-26` are the "ordinary lesson/unit assessment pass bars" and are
 deliberately listed here rather than in the architecture document, which
 states only that a bar exists and where it is read from.
@@ -458,7 +466,7 @@ architecture referenced or implied without a decision entry.
 | D-47 | `stepUpReauthLifetimeMinutes` | How long a step-up re-authentication remains valid for writing overrides | `10` minutes, single-use per override | **APPROVED 2026-09-19** | Product owner + privacy/safety owner |
 | D-48 | `teachingRecordsPerLesson` | Teaching records authored per lesson | `1`, with a second alternative representation optional | **APPROVED 2026-09-19** | Product/pedagogy owner |
 | D-49 | `practiceRecordsPerLesson` | Practice records authored per lesson | At least `D-42` plus headroom for remediation on unseen items | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-50 | `reviewRecordsPerSkill` | Review-role records authored per skill | `2`, so a review need not repeat the item that confirmed the skill | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-50 | `reviewRecordsPerSkill` | Review-role records authored per skill | `2`, so a review need not repeat the item that confirmed the skill. **Amended to `3` by `D-67` (2026-09-24)** | **APPROVED 2026-09-19** | Product/pedagogy owner |
 | D-51 | `difficultyWeight[]` | Whether item difficulty modifies evidence weight, and if so how | **Do not weight by difficulty in the first version.** Keep `difficultyWeight` absent rather than set to 1.0, so its absence is a recorded choice rather than a silent default | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
 | D-59 | `allowAssistanceInPractice` | Whether assistance-supported practice counts toward a lesson's practice threshold | `true` — completion may be earned with help; mastery is what assistance discounts | **APPROVED 2026-09-19** | Product/pedagogy owner |
@@ -723,9 +731,189 @@ assignment-free placement or review on pilot skills an observable
 implemented once, in `requiresAssessmentAssignment`, and consumed by both the
 shadow predicate and the cutover readiness report.
 
+### D-63 — Delayed-check item source
+
+| Field | Value |
+|---|---|
+| Kind | content + policy |
+| Status | **APPROVED 2026-09-23** |
+| Recommendation | A dedicated held-out delayed-check bank per pilot skill, sized `delayedCheckItemsPerAttempt × (1 + maxReassessments)` = 2 × 3 = **6 items** per skill (arithmetic from `D-43`/`D-27`), so the lesson banks' no-reuse pools stay intact |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Serving `DELAYED_CHECK` assignments |
+
+### D-64 — Placement probe item source
+
+| Field | Value |
+|---|---|
+| Kind | content + policy |
+| Status | **APPROVED 2026-09-23** |
+| Recommendation | Placement assignments select from reviewed public **practice** items (up to `D-22`), as today's diagnostic does. The evidence is weak by design (`contextWeight[placement]`, `D-08`), so open-book is acceptable. Probed items count as exposure |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Serving `PLACEMENT` assignments |
+
+### D-65 — Same-sitting independent check
+
+| Field | Value |
+|---|---|
+| Kind | product + security |
+| Status | **APPROVED 2026-09-23** |
+| Recommendation | Authorize today's same-sitting "independent check" as independent `PRACTICE`, not `DELAYED_CHECK`, because it has no elapsed-time separation. It then survives C4 for legacy and skill-graph-only skills, while pilot skills rely on the genuine delayed-check assignment |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Stage C4 cutover |
+
+### D-66 — Authoring exception for held-out review and delayed-check drafts
+
+| Field | Value |
+|---|---|
+| Kind | content |
+| Status | **APPROVED 2026-09-23** |
+| Recommendation | A narrow exception to the `D-61` authoring pause: model-assisted drafts of the pilot's held-out review (`D-50`) and delayed-check (`D-63`) items, written only to the private package outside this repository and marked `pending_review`. Serving still requires the full content, originality, accessibility, and child-safety review |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | — (the `D-61` pause otherwise remains in force) |
+
+### D-67 — Review reuse versus review volume
+
+| Field | Value |
+|---|---|
+| Kind | policy + content |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | Amend `D-50` to **3** review items per skill and publish `grade-6-math-default@1.1.0` with `reviewReuse: { enabled: true, minIntervalsSinceSeen: 2 }` |
+| Approved value | As recommended. "Not seen within the last two spacing intervals" (`D-46`) is implemented as: an item assigned in either of the skill's two most recent review runs is excluded. A run counts whether or not it was scored |
+| Approver | Product owner (in chat) |
+| Blocks | Serving more than two reviews per skill |
+
+**Why.** Three sources disagreed:
+
+- `D-46` permits reuse of items not seen within the last two spacing intervals.
+- The `grade-6-math-default@1.0.0` profile disables review reuse entirely.
+- `D-50` authors only 2 review items per skill.
+
+At 1 item per review (`D-45`), that supported only two reviews per skill. Three items with reuse after two runs let reviews rotate indefinitely without repeating a recent item. `1.0.0` remains for historical resolution.
+
+Delayed-check exhaustion, including by abandoned or expired runs, is decided
+in `D-69`.
+
+### D-68 — Placement position rule
+
+| Field | Value |
+|---|---|
+| Kind | policy |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | Probe one item per unit skill, in lesson order. Place the learner at the first lesson whose probe item is incorrect; earlier lessons become `SKIPPED_BY_PLACEMENT` (weak evidence, never mastery; §9.3). If every item is correct, place the learner at the unit assessment |
+| Approved value | As recommended, **amended 2026-09-24**: if every item is correct the learner is placed at the **final lesson** (`AVAILABLE`) with earlier lessons `SKIPPED_BY_PLACEMENT`. This keeps architecture §6.6 and U37: placement is weak evidence and never unlocks the unit assessment |
+| Approver | Product owner (in chat) |
+| Blocks | Serving `PLACEMENT` assignments |
+
+**Implementation (2026-09-24).** One probe item is drawn per unit skill, in
+lesson order, using the first authored reviewed practice item for that skill
+(`D-64`). A missing or incorrect item counts as missed. Only lessons that have
+not started change: an earlier lesson becomes `SKIPPED_BY_PLACEMENT` and the
+placed lesson becomes `AVAILABLE`. A probe writes a `LearnerPlacement` record.
+Placement never writes mastery or delayed-check status and carries no
+reassessment limits. Per §9.3, placement on skills an authored unit claims is
+not gated by prerequisites; placement elsewhere stays gated. Probe attempts
+are exposure (`D-64`) but are not prior practice, so they never block the
+`D-31` evidence-backed skip. For a future unit with more than
+`placementProbeMaxItems` (`D-22`) skills, "one item per skill" cannot hold, and
+the route fails closed. A decision is needed before such a unit exists.
+
+### D-69 — Exhausted or capped delayed checks
+
+| Field | Value |
+|---|---|
+| Kind | policy + product |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | See the rule below |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Stage C4 cutover |
+
+**Rule.** After a lapse or a failed delayed check, the skill's lessons move to
+the parent-visible `NEEDS_HELP` remediation state when either of these holds:
+
+- the skill can no longer be served an unseen delayed check (`D-44`), counting
+  abandoned and expired runs;
+- consecutive delayed-check failures exceed `maxReassessments` (`D-27`).
+
+`NEEDS_HELP` refuses further delayed checks. A missing lesson row is recorded
+as `NOT_STARTED` + `NEEDS_HELP`. The check runs on failed delayed checks,
+progression and Phase 1 review lapses, and abandoned, expired, and invalidated
+runs. A stale run is expired before eligibility is judged, and any
+`NEEDS_HELP` refusal writes the record. `NEEDS_HELP` is terminal: lesson and unit outcomes and
+later lapses never clear it. Only the `D-70` human override does. Items are
+never reused, so every delayed check stays on unseen items.
+
+**Why.** Each lapse cycle consumes two of the six items, so repeated lapses
+exhausted the bank and left the skill stranded with no record. That broke
+playbook dimensions 7 and 9.
+
+### D-70 — What a human override reopens after `NEEDS_HELP`
+
+| Field | Value |
+|---|---|
+| Kind | policy + product |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | A parent or operator override moves the skill's lessons from `NEEDS_HELP` back to `ACTIVE` remediation and resets the consecutive-failure count |
+| Approved value | As recommended. The override requires a `D-06` step-up re-authentication within `D-47`'s single-use lifetime and writes an `OverrideRecord`. A new delayed check still requires unseen items, so it is refused with `NEW_BANK_VERSION_REQUIRED` until a reviewed bank version with unseen items exists. No item is reused |
+| Approver | Product owner (in chat) |
+| Blocks | Reopening any `NEEDS_HELP` skill; Stage C4 |
+
+**Why it was needed (found by independent re-review, 2026-09-24).** `D-69`
+made `NEEDS_HELP` terminal, but the architecture's override (§9.3, `D-06`) sets
+`UNLOCKED_BY_OVERRIDE` and has no remediation or mastery effect. Even after an
+override, the delayed-check bank has no unseen items (`D-44`) and the
+consecutive-failure cap still applies (`D-27`). Reopening therefore needed
+decided semantics, for example:
+
+- whether an override resets the consecutive-failure count;
+- whether it requires a new delayed-check bank version with unseen items;
+- whether it returns the lesson to `ACTIVE` remediation or to `NONE`.
+
+**Implementation status.** `applyNeedsHelpOverride` implements this decision.
+It has no HTTP caller yet. Before any caller exists:
+
+- The caller must look up the actor's user, household, and role server-side.
+- It must read `D-47`'s lifetime from the pinned profile.
+- It must make step-up use atomic, with a unique constraint or consumed token
+  and serializable isolation.
+- Tests must cover cross-learner scoping, revocation, and latest-override
+  ordering.
+
+**Assumption to confirm.** A new delayed-check bank version is assumed to use
+only item identities never used in earlier versions. Exhaustion is judged per
+version, but item selection excludes every earlier item. The loader does not
+yet enforce this assumption.
+
+Two related gaps are also open:
+
+- Stranding with no prior lapse or failure (first-time runs abandoned until
+  the bank is exhausted) is outside `D-69`. It fails closed with
+  `ASSESSMENT_BANK_INSUFFICIENT` and leaves no record.
+- The lesson and unit reassessment cap (`D-27`) still produces no `NEEDS_HELP`
+  record.
+
+### D-71 — Placement retakes
+
+| Field | Value |
+|---|---|
+| Kind | policy + product |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | One placement per unit. Once a `LearnerPlacement` exists for the unit, a new placement is refused with `PLACEMENT_ALREADY_RECORDED`, and a concurrent second probe is scored but never places again |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Serving `PLACEMENT` assignments |
+
+After placement, the learner advances through lessons and evidence-backed
+skips. The probe items are public practice items, so repeat probes would be
+progressively weaker evidence.
+
 ## I. Index of open decisions
 
-Sixty-two decisions total; all sixty-two are approved. The grouping below is a
+Seventy-one decisions total; all seventy-one are approved. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 

@@ -83,7 +83,7 @@ Review` capability and its Grade 6 Math ratios pilot. A0–A2 and B are
   implemented; C1–C3 are shipped in non-enforcing mode, while C4/C5 remain
   gated.
 - `docs/course-progression-decisions.md` — the authoritative decision matrix
-  for every human-gated progression parameter, `D-01` … `D-62`. All 62
+  for every human-gated progression parameter, `D-01` … `D-71`. All 71
   decisions are approved; D-36 and D-39 are explicitly revisitable pilot
   choices.
 - `docs/local-development.md` — local PostgreSQL setup and migration rollback.

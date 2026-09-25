@@ -5,11 +5,15 @@ import { loadPolicyArtifacts } from '../../src/progression';
 describe('Stage B policy artifacts', () => {
   it('provides a profile and access policy for every registered program', () => {
     const { profiles, accessPolicies } = loadPolicyArtifacts();
-    expect(profiles).toHaveLength(PROGRAM_REGISTRY.length);
+    expect(profiles.length).toBeGreaterThanOrEqual(PROGRAM_REGISTRY.length);
     expect(accessPolicies.length).toBeGreaterThanOrEqual(PROGRAM_REGISTRY.length);
     for (const program of PROGRAM_REGISTRY) {
       expect(
-        profiles.some((profile) => profile.code === program.defaultPolicyProfileRef.code),
+        profiles.some(
+          (profile) =>
+            profile.code === program.defaultPolicyProfileRef.code &&
+            profile.version === program.defaultPolicyProfileRef.version,
+        ),
       ).toBe(true);
       expect(
         accessPolicies.some(
@@ -21,11 +25,23 @@ describe('Stage B policy artifacts', () => {
     }
   });
 
-  it('keeps access-policy code and version pairs unique', () => {
-    const keys = loadPolicyArtifacts().accessPolicies.map(
-      (policy) => `${policy.code}@${policy.version}`,
+  it('keeps policy code and version pairs unique', () => {
+    const { profiles, accessPolicies } = loadPolicyArtifacts();
+    for (const artifacts of [profiles, accessPolicies]) {
+      const keys = artifacts.map((artifact) => `${artifact.code}@${artifact.version}`);
+      expect(new Set(keys).size).toBe(keys.length);
+    }
+  });
+
+  it('enables review reuse after two runs for the Grade 6 Math pilot (D-67)', () => {
+    const program = PROGRAM_REGISTRY.find((candidate) => candidate.code === 'grade-6-math');
+    const profile = loadPolicyArtifacts().profiles.find(
+      (candidate) =>
+        candidate.code === program?.defaultPolicyProfileRef.code &&
+        candidate.version === program?.defaultPolicyProfileRef.version,
     );
-    expect(new Set(keys).size).toBe(keys.length);
+    expect(profile?.reviewReuse).toEqual({ enabled: true, minIntervalsSinceSeen: 2 });
+    expect(profile?.delayedCheckReuse).toEqual({ enabled: false });
   });
 
   it('grants the pilot assessment kinds to unit-covered Grade 6 Math targets (D-60)', () => {

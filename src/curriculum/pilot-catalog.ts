@@ -3,7 +3,7 @@ import { AssessmentBankSchema, LessonSchema, UnitSchema } from '../contracts/pro
 
 const version = '1.0.0';
 const programRef = { code: 'grade-6-math', version } satisfies Ref;
-const policyProfileRef = { code: 'grade-6-math-default', version } satisfies Ref;
+const policyProfileRef = { code: 'grade-6-math-default', version: '1.1.0' } satisfies Ref;
 
 const skillRef = (code: string): Ref => ({ code, version });
 const itemRef = (id: string, hash: string) => ({
@@ -91,6 +91,20 @@ const BANK_HASHES: Record<string, string> = {
     'sha256:d19ca5d1ad0d22f41cd2c5a2ac92bdd289b1153015ead2e0fe8f710be2218721',
   'ratios-proportional-reasoning-unit-bank':
     'sha256:dabfd7ba2400abe338c01d38bbe5636707ce5f902a7714e84df3d433ea0a4b72',
+  // Skill banks (D-50 as amended by D-67, D-63). These pin pending-review drafts
+  // and must be re-pinned from the reviewed package before serving.
+  'ratio-language-review-bank':
+    'sha256:98402776e74888eb725e84508217656cd0154e79342dc5e1b734b4371a1ff5c7',
+  'ratio-language-delayed-check-bank':
+    'sha256:4fe8216c2343285f476e5ca9a155b713a984d1d6f0135a1fc75178df9b54c99b',
+  'unit-rates-review-bank':
+    'sha256:a34d506685f2cad965c0482935fe693a621dd119248f6254119cb1a740d506b6',
+  'unit-rates-delayed-check-bank':
+    'sha256:4468c27ddfa853fb9fa6a329dd929073236b7bbc04cb64af1a67e24b00ff7d1b',
+  'ratio-tables-review-bank':
+    'sha256:5603bc5a23fa9631248ef70e7b81e9e2acc0b7f0b246572345438ad36b089dde',
+  'ratio-tables-delayed-check-bank':
+    'sha256:f92a339f442addfb0001d2da4e6bc0ece0c3ccfe02d8fcedf2c97555457c03ab',
 };
 
 function bankHash(code: string): string {
@@ -148,6 +162,26 @@ export const PILOT_ASSESSMENT_BANKS: readonly AssessmentBank[] = [
     provenance,
     review,
   }),
+  ...PILOT_LESSONS.flatMap(({ skillRefs }) => skillRefs).flatMap((skill) =>
+    (
+      [
+        ['review-bank', 3],
+        ['delayed-check-bank', 6],
+      ] as const
+    ).map(([suffix, itemCount]) =>
+      AssessmentBankSchema.parse({
+        code: `${skill.code}-${suffix}`,
+        version,
+        targetRef: skill,
+        policyProfileRef,
+        coveredSkillRefs: [skill],
+        itemCount,
+        contentHash: bankHash(`${skill.code}-${suffix}`),
+        provenance,
+        review,
+      }),
+    ),
+  ),
 ];
 
 export const PILOT_PROGRAM_UNIT_REFS: readonly Ref[] = [PILOT_UNIT_REF];
