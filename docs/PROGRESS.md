@@ -1,5 +1,27 @@
 # Progress
 
+## 2026-09-24 — Pilot placement assignments (D-64, D-68 as amended)
+
+- The product owner amended D-68: an all-correct probe places the learner at
+  the final lesson, preserving §6.6 and U37.
+- `PLACEMENT` assignments now target the pilot unit:
+  - Items come from a projection of reviewed public practice items, one per
+    unit skill in lesson order (`src/progression/placement-probe.ts`).
+  - The default assessment store serves that projection; every other bank
+    still resolves only from the fail-closed held-out store.
+  - A scored probe records a `LearnerPlacement` and moves only not-started
+    lessons (earlier lessons to `SKIPPED_BY_PLACEMENT`, the placed lesson to
+    `AVAILABLE`).
+  - It never writes mastery, and it carries no reassessment limits.
+- The shared predicate no longer prerequisite-gates `PLACEMENT` (§9.3), so
+  shadow evidence for placement probes is not falsely denied.
+- Fixed a pre-existing, clock-dependent e2e false positive. The leakage test's
+  `'2:3'` substring check matched ISO timestamps such as `T02:33`, so the
+  test now masks timestamps first.
+- The learner UI still starts assignment-free diagnostic sessions. D-62
+  refuses these for pilot skills at C4, and moving the UI to the assignment
+  route is C4/C5 work.
+
 ## 2026-09-24 — Fifth re-review: ready for human review with noted risks
 
 - The fifth read-only re-review (requested as Claude Fable 5.1; model

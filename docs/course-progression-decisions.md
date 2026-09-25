@@ -804,9 +804,17 @@ in `D-69`.
 | Kind | policy |
 | Status | **APPROVED 2026-09-24** |
 | Recommendation | Probe one item per unit skill, in lesson order. Place the learner at the first lesson whose probe item is incorrect; earlier lessons become `SKIPPED_BY_PLACEMENT` (weak evidence, never mastery; §9.3). If every item is correct, place the learner at the unit assessment |
-| Approved value | As recommended |
+| Approved value | As recommended, **amended 2026-09-24**: if every item is correct the learner is placed at the **final lesson** (`AVAILABLE`) with earlier lessons `SKIPPED_BY_PLACEMENT`. This keeps architecture §6.6 and U37: placement is weak evidence and never unlocks the unit assessment |
 | Approver | Product owner (in chat) |
 | Blocks | Serving `PLACEMENT` assignments |
+
+**Implementation (2026-09-24).** One probe item is drawn per unit skill, in
+lesson order, using the first authored reviewed practice item for that skill
+(`D-64`). A missing or incorrect item counts as missed. Only lessons that have
+not started change: an earlier lesson becomes `SKIPPED_BY_PLACEMENT` and the
+placed lesson becomes `AVAILABLE`. Each probe writes a `LearnerPlacement`
+record. Placement never writes mastery or delayed-check status, carries no
+reassessment limits, and, per §9.3, is not gated by prerequisites.
 
 ### D-69 — Exhausted or capped delayed checks
 

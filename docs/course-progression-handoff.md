@@ -102,8 +102,8 @@ later stage must still use the approved value for every decision it touches.
 > `DELAYED_CHECK` and `REVIEW` assignments are implemented (D-63, D-65–D-67)
 > with draft held-out items pending review; the independent review's findings
 > are remediated and await re-review.
-> Before C4: (1) implement pilot `PLACEMENT` assignments (D-64, D-68), so D-62
-> does not remove the pilot's diagnostic flow; resolve the legacy
+> Pilot `PLACEMENT` assignments are implemented (D-64, D-68 as amended). Before
+> C4: (1) resolve the legacy
 > `independentDelayedCheck` flag (re-review F6), build the D-06 step-up endpoint
 > and the parent override surface for D-70's service (D-70 blocks C4, so this
 > precedes C4 even though the wider parent UI is C5), and reconcile `attemptOrdinal`
