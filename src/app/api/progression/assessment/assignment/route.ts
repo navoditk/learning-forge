@@ -205,6 +205,13 @@ async function resolvePlan(
   if (!target) return conflict('Unknown pilot assessment target', 'VERSION_MISMATCH');
   if (body.kind === 'PLACEMENT' && unit) {
     // D-64: the probe projects reviewed public practice items; D-68 places.
+    // D-71: one placement per unit.
+    const placed = await prisma.learnerPlacement.count({
+      where: { learnerProfileId, unitCode: unit.code, unitVersion: unit.version },
+    });
+    if (placed > 0) {
+      return conflict('Placement is already recorded for this unit', 'PLACEMENT_ALREADY_RECORDED');
+    }
     const probe = placementProbeBank(unit);
     if (!probe) {
       return conflict('Placement probe is not available', 'ASSESSMENT_STORE_UNAVAILABLE', 503);

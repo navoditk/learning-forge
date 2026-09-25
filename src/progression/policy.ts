@@ -8,6 +8,8 @@ export type AuthorizationInput = {
   prerequisiteSkillCodes: string[];
   masteredSkillCodes: ReadonlySet<string>;
   policy: AccessPolicy | undefined;
+  /** Set only by `authorizeProgramActivity` for placement inside a unit (§9.3). */
+  prerequisitesExempt?: boolean;
 };
 export type AuthorizationResult = { allowed: boolean; reasonCode: string; missing: string[] };
 
@@ -62,10 +64,8 @@ export function authorizeActivity(input: AuthorizationInput): AuthorizationResul
     !input.policy.grantsActivityKinds.includes(input.activityKind)
   )
     return { allowed: false, reasonCode: 'ACTIVITY_NOT_GRANTED', missing: [] };
-  // §9.3: placement may probe any skill in a unit, not only root skills, so it
-  // is never gated by prerequisites.
   const missing =
-    input.policy.respectsPrerequisiteGraph && input.activityKind !== 'PLACEMENT'
+    input.policy.respectsPrerequisiteGraph && !input.prerequisitesExempt
       ? input.prerequisiteSkillCodes.filter((code) => !input.masteredSkillCodes.has(code))
       : [];
   return missing.length
@@ -83,7 +83,14 @@ export function authorizeProgramActivity(input: ProgramAuthorizationInput): Auth
   if (!input.skillClaimedByUnit && !policy?.appliesToSkillsClaimedByNoUnit) {
     return { allowed: false, reasonCode: 'LEGACY_POLICY_NOT_APPLICABLE', missing: [] };
   }
-  const result = authorizeActivity({ ...input, policy });
+  // §9.3: placement may probe any skill in a unit, not only root skills. The
+  // exemption is limited to skills an authored unit claims; placement under a
+  // legacy or skill-graph-only policy stays prerequisite-gated.
+  const result = authorizeActivity({
+    ...input,
+    policy,
+    prerequisitesExempt: input.activityKind === 'PLACEMENT' && input.claimedByAuthoredUnit,
+  });
   if (
     result.allowed &&
     !input.assignmentBound &&

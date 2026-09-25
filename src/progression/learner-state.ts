@@ -301,6 +301,9 @@ export async function applyPilotLessonAssessmentOutcome(
         householdId: input.householdId,
         learnerProfileId: input.learnerProfileId,
         contentKey: { in: practiceContentIds },
+        // A placement probe reuses practice items but is not practice (§6.6),
+        // so it never blocks an evidence-backed skip.
+        context: { not: 'PLACEMENT' },
       },
     }),
     transaction.learningEvent.count({
@@ -470,6 +473,9 @@ export async function applyPilotUnitAssessmentOutcome(
         householdId: input.householdId,
         learnerProfileId: input.learnerProfileId,
         contentKey: { in: practiceContentIds },
+        // A placement probe reuses practice items but is not practice (§6.6),
+        // so it never blocks an evidence-backed skip.
+        context: { not: 'PLACEMENT' },
       },
     }),
     transaction.learningEvent.count({
@@ -733,6 +739,16 @@ export async function applyPlacementOutcome(
     (candidate) => candidate.code === input.unitCode && candidate.version === input.unitVersion,
   );
   if (!unit) return undefined;
+  // D-71: one placement per unit. A concurrent second probe is scored but
+  // never places again.
+  const existing = await transaction.learnerPlacement.count({
+    where: {
+      learnerProfileId: input.learnerProfileId,
+      unitCode: unit.code,
+      unitVersion: unit.version,
+    },
+  });
+  if (existing > 0) return undefined;
   const lessons = unit.lessonRefs.flatMap((ref) =>
     PILOT_LESSONS.filter((lesson) => lesson.code === ref.code && lesson.version === ref.version),
   );

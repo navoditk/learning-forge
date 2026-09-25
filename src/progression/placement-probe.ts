@@ -35,8 +35,10 @@ export function placementProbeBank(unit: Unit): HeldOutAssessmentBank | undefine
             (item) =>
               item.id === ref.id &&
               item.version === ref.version &&
+              item.role === 'practice' &&
               'skillRef' in item &&
-              item.skillRef.code === skillRef.code,
+              item.skillRef.code === skillRef.code &&
+              item.skillRef.version === skillRef.version,
           ),
         )
         .find((item) => item !== undefined);

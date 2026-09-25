@@ -1,8 +1,11 @@
+import { randomUUID } from 'node:crypto';
+
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { createAssessmentStore } from '../../src/assessment/store';
 import { PILOT_UNITS } from '../../src/curriculum/pilot-catalog';
 import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
+import { applyPilotLessonAssessmentOutcome } from '../../src/progression/learner-state';
 import { submitAssessmentItem } from '../../src/progression/assessment-submission';
 import { resolvePinnedPolicyProfile } from '../../src/progression/artifacts';
 import { placementProbeBank } from '../../src/progression/placement-probe';
@@ -150,6 +153,53 @@ describe('placement probes (D-64, D-68)', () => {
     expect(await lessonStatus('ratio-tables-lesson')).toBe('AVAILABLE');
   });
 
+  it('keeps the evidence-backed skip available after a probe (§6.6, D-31)', async () => {
+    await probe(['ratio-language', 'unit-rates', 'ratio-tables']);
+    await prisma.$transaction((transaction) =>
+      applyPilotLessonAssessmentOutcome(transaction, {
+        householdId,
+        learnerProfileId,
+        lessonCode: 'ratio-language-lesson',
+        lessonVersion: '1.0.0',
+        policyProfileCode: profileRef.code,
+        policyProfileVersion: profileRef.version,
+        outcome: 'PASS',
+        firstRun: true,
+        assessmentRunId: randomUUID(),
+        now: new Date(),
+      }),
+    );
+    expect(await lessonStatus('ratio-language-lesson')).toBe('COMPLETE_BY_SKIP');
+    expect(
+      await prisma.skipRecord.count({
+        where: { learnerProfileId, targetCode: 'ratio-language-lesson' },
+      }),
+    ).toBe(1);
+    await prisma.skipRecord.deleteMany({ where: { householdId } });
+  });
+
+  it('records the per-skill probe evidence on the placement', async () => {
+    await probe(['ratio-language']);
+    const placement = await prisma.learnerPlacement.findFirstOrThrow({
+      where: { learnerProfileId },
+    });
+    expect(placement.evidenceRefs).toMatchObject({
+      itemResults: [
+        { skillCode: 'ratio-language', correctness: 'CORRECT' },
+        { skillCode: 'unit-rates', correctness: 'INCORRECT' },
+        { skillCode: 'ratio-tables', correctness: 'INCORRECT' },
+      ],
+    });
+  });
+
+  it('places at most once per unit, even for a concurrent second probe (D-71)', async () => {
+    await probe(['ratio-language']);
+    await probe(['ratio-language', 'unit-rates', 'ratio-tables']);
+    expect(await prisma.learnerPlacement.count({ where: { learnerProfileId } })).toBe(1);
+    expect(await lessonStatus('unit-rates-lesson')).toBe('AVAILABLE');
+    expect(await lessonStatus('ratio-tables-lesson')).toBeUndefined();
+  });
+
   it('serves placement through the gated route without the private package', async () => {
     process.env.COURSE_PROGRESSION_RELEASE_GATE_OPEN = 'true';
     delete process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH;
@@ -177,5 +227,38 @@ describe('placement probes (D-64, D-68)', () => {
     const created = await post('UNIT', unit.code, 'route-placement-unit');
     expect(created.status).toBe(201);
     expect(JSON.stringify(created.body)).not.toContain('canonicalAnswer');
+    const stored = await prisma.assessmentAssignment.findUniqueOrThrow({
+      where: {
+        learnerProfileId_idempotencyKey: {
+          learnerProfileId,
+          idempotencyKey: 'route-placement-unit',
+        },
+      },
+    });
+    const bank = placementProbeBank(unit)!;
+    expect(stored.requiredCount).toBe(bank.items.length);
+    expect((stored.selectedItems as { id: string }[]).map(({ id }) => id)).toEqual(
+      bank.items.map((item) => item.id),
+    );
+    await prisma.learnerPlacement.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        programCode: 'grade-6-math',
+        programVersion: '1.0.0',
+        unitCode: unit.code,
+        unitVersion: unit.version,
+        lessonCode: 'unit-rates-lesson',
+        lessonVersion: '1.0.0',
+        method: 'PLACEMENT_PROBE',
+        policyProfileCode: profileRef.code,
+        policyProfileVersion: profileRef.version,
+        evidenceRefs: {},
+      },
+    });
+    expect(await post('UNIT', unit.code, 'route-placement-again')).toMatchObject({
+      status: 409,
+      body: { reasonCode: 'PLACEMENT_ALREADY_RECORDED' },
+    });
   });
 });

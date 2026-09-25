@@ -1,3 +1,7 @@
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
 import { describe, expect, it } from 'vitest';
 
 import { createAssessmentStore } from '../../src/assessment/store';
@@ -9,8 +13,10 @@ import {
   placementProbeBank,
   placementProbeBankFor,
   placementProbeBankRef,
+  unitLessons,
 } from '../../src/progression/placement-probe';
-import { authorizeActivity } from '../../src/progression/policy';
+import { authorizeProgramActivity } from '../../src/progression/policy';
+import { unitStatusAfterLessonUpdate } from '../../src/progression/learner-state';
 import { resolvePinnedPolicyProfile } from '../../src/progression/artifacts';
 import { reassessmentLimitsFor } from '../../src/progression/skill-assessment';
 
@@ -28,6 +34,24 @@ describe('placement position (D-68 as amended)', () => {
       ]),
     ).toBe(1);
     expect(placementLessonIndex(lessonSkills, [result('ratio-language', false)])).toBe(0);
+  });
+
+  it('places at a multi-skill lesson when any of its skills is missed', () => {
+    expect(
+      placementLessonIndex(
+        [['skill-a', 'skill-b'], ['skill-c']],
+        [result('skill-a', true), result('skill-b', false), result('skill-c', true)],
+      ),
+    ).toBe(0);
+  });
+
+  it('never lets placement-skipped lessons complete a unit (U37)', () => {
+    expect(unitStatusAfterLessonUpdate(['SKIPPED_BY_PLACEMENT', 'COMPLETE', 'COMPLETE'])).toBe(
+      'IN_PROGRESS',
+    );
+    expect(unitStatusAfterLessonUpdate(['COMPLETE_BY_SKIP', 'COMPLETE', 'COMPLETE'])).toBe(
+      'ASSESSMENT_PENDING',
+    );
   });
 
   it('treats a missing item as missed', () => {
@@ -109,24 +133,72 @@ describe('placement probe bank (D-64)', () => {
     expect(reassessmentLimitsFor('PLACEMENT', profile)).toEqual({});
   });
 
-  it('never gates placement on prerequisites (§9.3)', () => {
+  it('exempts placement from prerequisites only inside an authored unit (§9.3)', () => {
     const policy = {
       code: 'fixture',
       version: '1.0.0',
       grantsActivityKinds: ['PLACEMENT', 'PRACTICE'] as ('PLACEMENT' | 'PRACTICE')[],
       deniesActivityKinds: [],
-      appliesToSkillsClaimedByNoUnit: false,
+      appliesToSkillsClaimedByNoUnit: true,
       respectsPrerequisiteGraph: true,
     };
     const request = {
+      activityKind: 'PLACEMENT' as const,
       skillCode: 'unit-rates',
       prerequisiteSkillCodes: ['ratio-language'],
       masteredSkillCodes: new Set<string>(),
-      policy,
+      assignmentBound: true,
+      accessPolicy: policy,
+      legacyCompatibilityPolicy: policy,
     };
-    expect(authorizeActivity({ ...request, activityKind: 'PLACEMENT' }).allowed).toBe(true);
-    expect(authorizeActivity({ ...request, activityKind: 'PRACTICE' }).reasonCode).toBe(
-      'LOCKED_PREREQUISITE',
+    // Pilot skill claimed by the unit: placement probes it freely.
+    expect(
+      authorizeProgramActivity({
+        ...request,
+        skillClaimedByUnit: true,
+        claimedByAuthoredUnit: true,
+      }).allowed,
+    ).toBe(true);
+    // Legacy remainder of a hybrid program: still gated.
+    expect(
+      authorizeProgramActivity({
+        ...request,
+        skillClaimedByUnit: false,
+        claimedByAuthoredUnit: false,
+      }).reasonCode,
+    ).toBe('LOCKED_PREREQUISITE');
+    // Skill-graph-only program: still gated.
+    expect(
+      authorizeProgramActivity({
+        ...request,
+        skillClaimedByUnit: true,
+        claimedByAuthoredUnit: false,
+      }).reasonCode,
+    ).toBe('LOCKED_PREREQUISITE');
+    // Other kinds inside the unit stay gated.
+    expect(
+      authorizeProgramActivity({
+        ...request,
+        activityKind: 'PRACTICE',
+        skillClaimedByUnit: true,
+        claimedByAuthoredUnit: true,
+      }).reasonCode,
+    ).toBe('LOCKED_PREREQUISITE');
+  });
+
+  it("draws each lesson's first authored practice item for the skill", () => {
+    const bank = placementProbeBank(unit);
+    expect(bank?.items.map((item) => item.id)).toEqual(
+      unitLessons(unit).map((lesson) => lesson.practiceContentRefs[0]!.id),
     );
+  });
+
+  it('pins each practice reference to the SHA-256 of its record', () => {
+    for (const lesson of unitLessons(unit)) {
+      for (const ref of lesson.practiceContentRefs) {
+        const bytes = readFileSync(path.join(process.cwd(), 'content/ratios', `${ref.id}.json`));
+        expect(ref.hash, ref.id).toBe(`sha256:${createHash('sha256').update(bytes).digest('hex')}`);
+      }
+    }
   });
 });
