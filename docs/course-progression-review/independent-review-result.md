@@ -48,7 +48,30 @@ not an approval, and C4 remains closed.
   would refuse today's mastery-check flow); the rest of N8 (assignment-required
   kind sets are code constants); and the remaining N9 doc ordering.
 
-## Independent re-review of the R1–R5 fixes and D-70 — 2026-09-24 (latest)
+## Independent review of pilot placement — 2026-09-24 (latest)
+
+Reviewer: requested as Claude Fable 5.1; model unverified (self-reported).
+Scope: `535eeeb..7d994c8`. Verdict: **not ready for human review**. It found
+no held-out boundary leak, and the e2e timestamp masking was judged
+legitimate. Remediation made after the review:
+
+- **F1 (major):** probe attempts had counted as prior practice, disabling the
+  D-31 skip. They are now excluded, with a test.
+- **F2 (major):** the prerequisite exemption applied to every program. It is
+  now limited to unit-claimed skills, with falsifiers for the legacy and
+  skill-graph-only cases.
+- **F3 (major):** U37 had no falsifier. A test now shows placement-skipped
+  lessons never complete a unit.
+- **F4:** pinned practice-file hashes are verified against the files.
+- **F5:** retakes were undecided. D-71 is approved and implemented.
+- **F6:** new tests cover multi-skill placement, first-item selection, the
+  route plan, and evidence. The unreviewed-reference fixture is still open.
+- **F7:** probe items must match the skill version and the practice role.
+- **F8:** the D-22 limit for larger units is recorded in D-68.
+
+These remediations need another independent re-review.
+
+## Independent re-review of the R1–R5 fixes and D-70 — 2026-09-24
 
 Reviewer: requested as Claude Fable 5.1; model unverified (self-reported).
 Scope: `c0292fa..8b28727`. Verdict: **ready for human review with noted

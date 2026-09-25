@@ -39,7 +39,7 @@ release gates.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-70` | **70 approved; 0 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-71` | **71 approved; 0 open** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -83,7 +83,7 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-All seventy entries in `docs/course-progression-decisions.md` are approved.
+All seventy-one entries in `docs/course-progression-decisions.md` are approved.
 D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
 before treating elapsed-time evidence as production mastery evidence. Each
 later stage must still use the approved value for every decision it touches.

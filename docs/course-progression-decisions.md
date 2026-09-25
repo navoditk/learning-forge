@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **70 approved; 0 open.** Approved entries are explicitly marked in
+- Status: **71 approved; 0 open.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -812,9 +812,14 @@ in `D-69`.
 lesson order, using the first authored reviewed practice item for that skill
 (`D-64`). A missing or incorrect item counts as missed. Only lessons that have
 not started change: an earlier lesson becomes `SKIPPED_BY_PLACEMENT` and the
-placed lesson becomes `AVAILABLE`. Each probe writes a `LearnerPlacement`
-record. Placement never writes mastery or delayed-check status, carries no
-reassessment limits, and, per §9.3, is not gated by prerequisites.
+placed lesson becomes `AVAILABLE`. A probe writes a `LearnerPlacement` record.
+Placement never writes mastery or delayed-check status and carries no
+reassessment limits. Per §9.3, placement on skills an authored unit claims is
+not gated by prerequisites; placement elsewhere stays gated. Probe attempts
+are exposure (`D-64`) but are not prior practice, so they never block the
+`D-31` evidence-backed skip. For a future unit with more than
+`placementProbeMaxItems` (`D-22`) skills, "one item per skill" cannot hold, and
+the route fails closed. A decision is needed before such a unit exists.
 
 ### D-69 — Exhausted or capped delayed checks
 
@@ -891,9 +896,24 @@ Two related gaps are also open:
 - The lesson and unit reassessment cap (`D-27`) still produces no `NEEDS_HELP`
   record.
 
+### D-71 — Placement retakes
+
+| Field | Value |
+|---|---|
+| Kind | policy + product |
+| Status | **APPROVED 2026-09-24** |
+| Recommendation | One placement per unit. Once a `LearnerPlacement` exists for the unit, a new placement is refused with `PLACEMENT_ALREADY_RECORDED`, and a concurrent second probe is scored but never places again |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Serving `PLACEMENT` assignments |
+
+After placement, the learner advances through lessons and evidence-backed
+skips. The probe items are public practice items, so repeat probes would be
+progressively weaker evidence.
+
 ## I. Index of open decisions
 
-Seventy decisions total; all seventy are approved. The grouping below is a
+Seventy-one decisions total; all seventy-one are approved. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 

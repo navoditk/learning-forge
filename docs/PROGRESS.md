@@ -1,5 +1,21 @@
 # Progress
 
+## 2026-09-24 — Placement review remediation and D-71
+
+- A read-only review of the placement increment (requested as Claude Fable
+  5.1; model unverified) returned **not ready for human review**. There was no
+  held-out leak. Fixes:
+  - probe attempts no longer count as prior practice, so the D-31
+    evidence-backed skip survives placement;
+  - the §9.3 prerequisite exemption is limited to skills an authored unit
+    claims, so legacy and skill-graph-only placement stay gated;
+  - probe items must match the skill version and be practice records;
+  - new falsifiers for U37, the multi-skill rule, first-item selection, the
+    route plan, placement evidence, and the pinned practice-file hashes.
+- The product owner approved **D-71**: one placement per unit. The route
+  refuses a repeat with `PLACEMENT_ALREADY_RECORDED`, and a concurrent second
+  probe never places.
+
 ## 2026-09-24 — Pilot placement assignments (D-64, D-68 as amended)
 
 - The product owner amended D-68: an all-correct probe places the learner at
