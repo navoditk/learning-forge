@@ -265,7 +265,11 @@ test.describe('Phase 1 API route validation and error paths', () => {
       /canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps|deterministicValidator/,
     );
 
-    const serialized = JSON.stringify(responses);
+    // Mask ISO timestamps: a time such as T02:33 would otherwise match '2:3'.
+    const serialized = JSON.stringify(responses).replace(
+      /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})/g,
+      '<timestamp>',
+    );
     expect(serialized).not.toMatch(
       /canonicalAnswer|acceptedAnswers|solutionMethod|hintSteps|deterministicValidator/,
     );

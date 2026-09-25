@@ -14,6 +14,7 @@ import {
   resolvePinnedPolicyProfile,
 } from '../../../../../progression/artifacts';
 import { policyHash } from '../../../../../progression/policy';
+import { placementProbeBank } from '../../../../../progression/placement-probe';
 import {
   latestSkillOverrideAt,
   pilotSkillRef,
@@ -98,7 +99,7 @@ function requiredCount(
 
 type AssessmentPlan = {
   targetRef: { code: string; version: string };
-  bank: AssessmentBank;
+  bank: Pick<AssessmentBank, 'code' | 'version' | 'contentHash' | 'itemCount' | 'coveredSkillRefs'>;
   skillCodes: string[];
   previouslySeenItemKeys?: ReadonlySet<string>;
   reassessmentCountSince?: Date;
@@ -202,6 +203,25 @@ async function resolvePlan(
       : undefined;
   const target = lesson ?? unit;
   if (!target) return conflict('Unknown pilot assessment target', 'VERSION_MISMATCH');
+  if (body.kind === 'PLACEMENT' && unit) {
+    // D-64: the probe projects reviewed public practice items; D-68 places.
+    const probe = placementProbeBank(unit);
+    if (!probe) {
+      return conflict('Placement probe is not available', 'ASSESSMENT_STORE_UNAVAILABLE', 503);
+    }
+    const skillCodes = lessonSkillCodes(unit.lessonRefs);
+    return {
+      targetRef: { code: unit.code, version: unit.version },
+      bank: {
+        code: probe.code,
+        version: probe.version,
+        contentHash: probe.contentHash,
+        itemCount: probe.items.length,
+        coveredSkillRefs: probe.items.map((item) => item.skillRef),
+      },
+      skillCodes,
+    };
+  }
   const bankRef = target.assessmentBankRef;
   if (!bankRef) {
     return conflict('Assessment bank is not configured', 'ASSESSMENT_STORE_UNAVAILABLE', 503);
@@ -253,15 +273,13 @@ export async function POST(request: NextRequest) {
         candidate.code === program.accessPolicyRef.code &&
         candidate.version === program.accessPolicyRef.version,
     );
-    const required = requiredCount(body.kind, profile);
-    if (required === undefined) {
-      return NextResponse.json(
-        { error: 'Placement scoring is not wired yet', reasonCode: 'PLACEMENT_NOT_IMPLEMENTED' },
-        { status: 409 },
-      );
-    }
     const plan = await resolvePlan(body, identity, profile, program.defaultPolicyProfileRef);
     if ('response' in plan) return plan.response;
+    // A placement records whether every probe item was correct; it has no pass
+    // bar and never gates progress (§9.3).
+    const required =
+      body.kind === 'PLACEMENT' ? plan.bank.itemCount : requiredCount(body.kind, profile);
+    if (required === undefined) throw new Error('Assessment pass bar is unavailable');
     const assignment = await createAssessmentAssignment(
       {
         householdId: identity.householdId,
@@ -276,7 +294,10 @@ export async function POST(request: NextRequest) {
         policyProfileHash: policyHash(profile),
         algorithmVersion: 'mastery-phase-1-1',
         curriculumSnapshotHash: plan.bank.contentHash,
-        itemsPerAttempt: itemsPerAttempt(body.kind, profile),
+        itemsPerAttempt:
+          body.kind === 'PLACEMENT'
+            ? Math.min(plan.bank.itemCount, profile.placementProbeMaxItems)
+            : itemsPerAttempt(body.kind, profile),
         requiredCount: required,
         requiredSkillCodes: plan.skillCodes,
         previouslySeenItemKeys: plan.previouslySeenItemKeys,

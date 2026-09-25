@@ -1,12 +1,37 @@
 import type { AssessmentContentItem, Ref } from '../contracts';
 import type { ReviewContentItem } from '../contracts/progression';
 import { createPrivateAssessmentPackageStoreFromEnvironment } from './private-package-store';
+import { placementProbeBankFor } from '../progression/placement-probe';
 
+/**
+ * A reviewed public practice item projected for a placement probe (D-64).
+ * It keeps its `practice` role: it is assessed in placement but never becomes
+ * held-out assessment content.
+ */
+export type PlacementProbeItem = Pick<
+  AssessmentContentItem,
+  | 'id'
+  | 'version'
+  | 'title'
+  | 'skillRef'
+  | 'prompt'
+  | 'deterministicValidator'
+  | 'accessibilityNotes'
+  | 'figure'
+> & {
+  role: 'practice';
+  hash: string;
+  accessibleAlternative?: string;
+};
+
+/** A bank of items an assignment selects from; held-out except for placement. */
 export type HeldOutAssessmentBank = {
   code: string;
   version: string;
   contentHash: string;
-  items: readonly ((AssessmentContentItem | ReviewContentItem) & { hash: string })[];
+  items: readonly (
+    ((AssessmentContentItem | ReviewContentItem) & { hash: string }) | PlacementProbeItem
+  )[];
 };
 
 export interface AssessmentStore {
@@ -33,7 +58,7 @@ export class UnavailableAssessmentStore implements AssessmentStore {
   }
 }
 
-export function createAssessmentStore(): AssessmentStore {
+function createHeldOutStore(): AssessmentStore {
   try {
     return createPrivateAssessmentPackageStoreFromEnvironment() ?? new UnavailableAssessmentStore();
   } catch {
@@ -41,6 +66,19 @@ export function createAssessmentStore(): AssessmentStore {
     // held-out store. Never surface parser details or fall back to public data.
     return new UnavailableAssessmentStore();
   }
+}
+
+/**
+ * Placement probes (D-64) resolve to the public practice projection; every
+ * other bank comes only from the held-out store, which fails closed.
+ */
+export function createAssessmentStore(): AssessmentStore {
+  const heldOut = createHeldOutStore();
+  return {
+    async getBank(ref) {
+      return placementProbeBankFor(ref) ?? heldOut.getBank(ref);
+    },
+  };
 }
 
 export function createInMemoryAssessmentStore(

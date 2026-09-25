@@ -45,7 +45,7 @@ export function assessmentKindMatchesTarget(
   if (kind === AssessmentKind.LESSON_ASSESSMENT) {
     return targetKind === ProgressionTargetKind.LESSON;
   }
-  if (kind === AssessmentKind.UNIT_ASSESSMENT) {
+  if (kind === AssessmentKind.UNIT_ASSESSMENT || kind === AssessmentKind.PLACEMENT) {
     return targetKind === ProgressionTargetKind.UNIT;
   }
   if (kind === AssessmentKind.DELAYED_CHECK || kind === AssessmentKind.REVIEW) {

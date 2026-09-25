@@ -8,6 +8,7 @@ import {
 
 import { PILOT_LESSONS, PILOT_UNITS } from '../curriculum/pilot-catalog';
 import { advanceReviewSchedule } from './review-schedule';
+import { lessonStatusAfterPlacement, placementLessonIndex } from './placement';
 
 export function lessonStatusAfterAssessment(input: {
   current: LessonCompletionStatus | undefined;
@@ -707,4 +708,98 @@ export async function applyNeedsHelpOverride(
     },
   });
   return { applied: true, overrideId: record.id };
+}
+
+/**
+ * Applies a scored placement probe (§9.3, D-68). It records a
+ * `LearnerPlacement` and moves only not-started lessons; it never writes
+ * mastery or delayed-check status, so placement alone cannot reach HIGH.
+ */
+export async function applyPlacementOutcome(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    unitCode: string;
+    unitVersion: string;
+    itemResults: readonly { skillCode?: string; correctness: string }[];
+    assignmentId: string;
+    assessmentRunId: string;
+    policyProfileCode: string;
+    policyProfileVersion: string;
+  },
+): Promise<{ lessonCode: string; lessonVersion: string } | undefined> {
+  const unit = PILOT_UNITS.find(
+    (candidate) => candidate.code === input.unitCode && candidate.version === input.unitVersion,
+  );
+  if (!unit) return undefined;
+  const lessons = unit.lessonRefs.flatMap((ref) =>
+    PILOT_LESSONS.filter((lesson) => lesson.code === ref.code && lesson.version === ref.version),
+  );
+  if (lessons.length === 0) return undefined;
+  const placedIndex = placementLessonIndex(
+    lessons.map((lesson) => lesson.skillRefs.map((ref) => ref.code)),
+    input.itemResults.map((result) => ({
+      skillCode: result.skillCode,
+      correct: result.correctness === 'CORRECT',
+    })),
+  );
+  const placed = lessons[placedIndex]!;
+  for (const [index, lesson] of lessons.entries()) {
+    const key = {
+      learnerProfileId_lessonCode_lessonVersion: {
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+      },
+    };
+    const current = await transaction.learnerLessonState.findUnique({ where: key });
+    const next = lessonStatusAfterPlacement(
+      current?.completionStatus,
+      index < placedIndex ? 'BEFORE' : index === placedIndex ? 'AT' : 'AFTER',
+    );
+    if (!next) continue;
+    await transaction.learnerLessonState.upsert({
+      where: key,
+      create: {
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+        completionStatus: next,
+        remediationStatus: 'NONE',
+        policyProfileCode: input.policyProfileCode,
+        policyProfileVersion: input.policyProfileVersion,
+      },
+      update: {
+        completionStatus: next,
+        policyProfileCode: input.policyProfileCode,
+        policyProfileVersion: input.policyProfileVersion,
+      },
+    });
+  }
+  await transaction.learnerPlacement.create({
+    data: {
+      householdId: input.householdId,
+      learnerProfileId: input.learnerProfileId,
+      programCode: unit.programRef.code,
+      programVersion: unit.programRef.version,
+      unitCode: unit.code,
+      unitVersion: unit.version,
+      lessonCode: placed.code,
+      lessonVersion: placed.version,
+      method: 'PLACEMENT_PROBE',
+      policyProfileCode: input.policyProfileCode,
+      policyProfileVersion: input.policyProfileVersion,
+      evidenceRefs: {
+        assignmentId: input.assignmentId,
+        assessmentRunId: input.assessmentRunId,
+        itemResults: input.itemResults.map(({ skillCode, correctness }) => ({
+          skillCode: skillCode ?? null,
+          correctness,
+        })),
+      },
+    },
+  });
+  return { lessonCode: placed.code, lessonVersion: placed.version };
 }

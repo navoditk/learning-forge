@@ -270,13 +270,14 @@ export async function skillAssessmentEligibility(
 
 /**
  * Reassessment limits (D-27, D-28) for an assignment kind. A review is governed
- * by its schedule and lapse routing instead, so it carries none.
+ * by its schedule and lapse routing, and a placement is a position probe
+ * rather than a reassessment, so neither carries limits.
  */
 export function reassessmentLimitsFor(
   kind: 'PLACEMENT' | 'LESSON_ASSESSMENT' | 'UNIT_ASSESSMENT' | 'DELAYED_CHECK' | 'REVIEW',
   profile: Pick<ProgressionPolicyProfile, 'maxReassessments' | 'reassessmentCooldownHours'>,
 ): { maxReassessments?: number; reassessmentCooldownHours?: number } {
-  return kind === 'REVIEW'
+  return kind === 'REVIEW' || kind === 'PLACEMENT'
     ? {}
     : {
         maxReassessments: profile.maxReassessments,

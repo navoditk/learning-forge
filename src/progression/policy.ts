@@ -62,9 +62,12 @@ export function authorizeActivity(input: AuthorizationInput): AuthorizationResul
     !input.policy.grantsActivityKinds.includes(input.activityKind)
   )
     return { allowed: false, reasonCode: 'ACTIVITY_NOT_GRANTED', missing: [] };
-  const missing = input.policy.respectsPrerequisiteGraph
-    ? input.prerequisiteSkillCodes.filter((code) => !input.masteredSkillCodes.has(code))
-    : [];
+  // §9.3: placement may probe any skill in a unit, not only root skills, so it
+  // is never gated by prerequisites.
+  const missing =
+    input.policy.respectsPrerequisiteGraph && input.activityKind !== 'PLACEMENT'
+      ? input.prerequisiteSkillCodes.filter((code) => !input.masteredSkillCodes.has(code))
+      : [];
   return missing.length
     ? { allowed: false, reasonCode: 'LOCKED_PREREQUISITE', missing }
     : { allowed: true, reasonCode: 'ALLOW', missing: [] };

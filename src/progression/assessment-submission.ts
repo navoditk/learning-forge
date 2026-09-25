@@ -15,6 +15,7 @@ import {
   applyDelayedCheckOutcome,
   applyPilotLessonAssessmentOutcome,
   applyPilotUnitAssessmentOutcome,
+  applyPlacementOutcome,
   applyReviewLapse,
   applyReviewPass,
   markSkillNeedsHelp,
@@ -506,6 +507,19 @@ export async function submitAssessmentItem(
         } else {
           await applyReviewPass(transaction, skillOutcome);
         }
+      }
+      if (assignment.kind === 'PLACEMENT') {
+        await applyPlacementOutcome(transaction, {
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+          unitCode: assignment.targetCode,
+          unitVersion: assignment.targetVersion,
+          itemResults,
+          assignmentId: assignment.id,
+          assessmentRunId: run.id,
+          policyProfileCode: assignment.policyProfileCode,
+          policyProfileVersion: assignment.policyProfileVersion,
+        });
       }
       if (assignment.kind === 'LESSON_ASSESSMENT') {
         await applyPilotLessonAssessmentOutcome(transaction, {
