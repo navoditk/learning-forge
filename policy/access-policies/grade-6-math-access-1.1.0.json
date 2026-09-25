@@ -1,0 +1,15 @@
+{
+  "code": "grade-6-math-access",
+  "version": "1.1.0",
+  "grantsActivityKinds": [
+    "PRACTICE",
+    "PLACEMENT",
+    "REVIEW",
+    "LESSON_ASSESSMENT",
+    "UNIT_ASSESSMENT",
+    "DELAYED_CHECK"
+  ],
+  "deniesActivityKinds": [],
+  "appliesToSkillsClaimedByNoUnit": false,
+  "respectsPrerequisiteGraph": true
+}

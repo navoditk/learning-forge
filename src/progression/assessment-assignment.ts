@@ -405,6 +405,10 @@ export async function createAssessmentAssignment(
           prerequisiteSkillCodes: shadow.prerequisiteSkillCodes[skillCode] ?? [],
           masteredSkillCodes,
           accessPolicy: shadow.accessPolicy,
+          // Assignment skills come from the target lesson or unit, and the
+          // request is bound to the assignment just created or replayed.
+          claimedByAuthoredUnit: true,
+          assignmentBound: true,
           policyProfile: shadow.policyProfile,
           actualBehavior: 'ALLOWED',
           algorithmVersion: input.algorithmVersion,

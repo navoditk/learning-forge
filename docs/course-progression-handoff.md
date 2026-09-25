@@ -39,7 +39,7 @@ release gates.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-61` | **61 approved; 0 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-62` | **62 approved; 0 open** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -82,7 +82,7 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-All sixty-one entries in `docs/course-progression-decisions.md` are approved.
+All sixty-two entries in `docs/course-progression-decisions.md` are approved.
 D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
 before treating elapsed-time evidence as production mastery evidence. Each
 later stage must still use the approved value for every decision it touches.
@@ -96,9 +96,15 @@ later stage must still use the approved value for every decision it touches.
 
 ## 6. The exact next task
 
-> Complete the independent architecture/C1–C3 review, review representative
-> shadow divergences, and then implement the approved C4 expand/contract
-> authorization cutover. Do not serve progression UI until C4 and the manual
+> The independent C1–C3 review (2026-09-22) and its M1–M3 remediation
+> re-review are recorded in `docs/course-progression-review/`. Before C4:
+> (1) implement pilot `PLACEMENT`, `REVIEW`, and `DELAYED_CHECK` assessment
+> assignments, so D-62 does not remove the pilot's diagnostic, review, and
+> mastery-check flows (re-review findings N3 and N7); (2) deploy, then collect
+> representative non-enforcing shadow traffic from the remediation deploy
+> onward and disposition every divergence; (3) complete the private-package
+> review and the manual gate record. Only then implement the approved C4
+> expand/contract cutover. Do not serve progression UI until C4 and the manual
 > accessibility, wording, privacy, and content gates are recorded.
 
 ## 7. Stage dependencies

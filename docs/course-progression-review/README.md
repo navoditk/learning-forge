@@ -9,10 +9,10 @@ approval.
 
 | Gate | Artifact | Status |
 |---|---|---|
-| Fourth-draft architecture and C1–C3 review | `independent-review.md` | **Awaiting independent reviewer** |
+| Fourth-draft architecture and C1–C3 review | `independent-review.md` | **Completed 2026-09-22 for `b7934bc`: do not approve (M1, M2)** |
 | Reviewer handoff packet | `independent-review-request.md` | **Ready to send** |
 | Representative C3 shadow review | `shadow-divergence-review.md` | **Awaiting representative traffic and review** |
-| Staging synthetic shadow evidence | `staging-shadow-pilot.md` | **Collected; one divergence unresolved** |
+| Staging synthetic shadow evidence | `staging-shadow-pilot.md` | **Re-collected 2026-09-22 after remediation: 4 divergences; 2 explained, 2 require remediation (pilot placement/review assignments)** |
 | Accessibility | `accessibility-acceptance.md` | **Product-owner accepted for scoped pilot; evidence assumed** |
 | Privacy/data | `privacy-data-acceptance.md` | **Product-owner accepted for scoped pilot; residual risks recorded** |
 | Child safety | `child-safety-acceptance.md` | **Product-owner accepted for scoped pilot; safety-owner reinforcement remains** |
