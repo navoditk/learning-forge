@@ -633,6 +633,7 @@ model OverrideRecord {
   household            Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
   learnerProfile       LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
 
+  @@unique([actorUserId, reauthAt])
   @@index([learnerProfileId, targetCode, targetVersion])
 }
 

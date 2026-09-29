@@ -635,7 +635,11 @@ export type NeedsHelpOverrideResult =
   | {
       applied: false;
       reasonCode:
-        'OVERRIDE_REASON_REQUIRED' | 'REAUTH_EXPIRED' | 'REAUTH_ALREADY_USED' | 'NOT_NEEDS_HELP';
+        | 'ACTOR_NOT_AUTHORIZED'
+        | 'OVERRIDE_REASON_REQUIRED'
+        | 'REAUTH_EXPIRED'
+        | 'REAUTH_ALREADY_USED'
+        | 'NOT_NEEDS_HELP';
     };
 
 /**
@@ -662,6 +666,17 @@ export async function applyNeedsHelpOverride(
     now: Date;
   },
 ): Promise<NeedsHelpOverrideResult> {
+  // The actor is re-checked server-side. Operator identities do not exist yet,
+  // so an operator override fails closed until they do.
+  const actor = await transaction.user.findUnique({ where: { id: input.actorUserId } });
+  if (
+    input.actorRole !== 'PARENT' ||
+    !actor ||
+    actor.role !== 'PARENT' ||
+    actor.householdId !== input.householdId
+  ) {
+    return { applied: false, reasonCode: 'ACTOR_NOT_AUTHORIZED' };
+  }
   const reason = input.reason.trim();
   if (!reason) return { applied: false, reasonCode: 'OVERRIDE_REASON_REQUIRED' };
   const age = input.now.getTime() - input.reauthAt.getTime();
