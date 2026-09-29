@@ -39,7 +39,7 @@ release gates.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-71` | **71 approved; 0 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-72` | **72 approved; 0 open** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -83,7 +83,7 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-All seventy-one entries in `docs/course-progression-decisions.md` are approved.
+All seventy-two entries in `docs/course-progression-decisions.md` are approved.
 D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
 before treating elapsed-time evidence as production mastery evidence. Each
 later stage must still use the approved value for every decision it touches.
@@ -97,23 +97,30 @@ later stage must still use the approved value for every decision it touches.
 
 ## 6. The exact next task
 
-> The independent C1–C3 review (2026-09-22) and its M1–M3 remediation
-> re-review are recorded in `docs/course-progression-review/`. Pilot
-> `DELAYED_CHECK` and `REVIEW` assignments are implemented (D-63, D-65–D-67)
-> with draft held-out items pending review; the independent review's findings
-> are remediated and await re-review.
-> Pilot `PLACEMENT` assignments are implemented (D-64, D-68 as amended). Before
-> C4: (1) resolve the legacy
-> `independentDelayedCheck` flag (re-review F6), build the parent screen for the
-> D-70 step-up and override APIs (already implemented and release-gated),
-> under C5's manual accessibility and wording gates, and reconcile `attemptOrdinal`
-> with the D-27 consecutive count (N5) at the latest in C4; (2) deploy,
-> then collect
-> representative non-enforcing shadow traffic from the remediation deploy
-> onward and disposition every divergence; (3) complete the private-package
-> review and the manual gate record. Only then implement the approved C4
-> expand/contract cutover. Do not serve progression UI until C4 and the manual
-> accessibility, wording, privacy, and content gates are recorded.
+> As of 2026-09-28: the independent C1–C3 review (2026-09-22) and every
+> remediation round since are recorded in `docs/course-progression-review/`,
+> most recently "ready for human review with noted risks" on the placement
+> (D-64, D-68 as amended, D-71) and D-70 step-up/override work, with its one
+> major finding (no password attempt limiting) closed as D-72. Pilot
+> `PLACEMENT`, `DELAYED_CHECK`, and `REVIEW` assignments are all implemented;
+> draft held-out items for the latter two are pending content review.
+>
+> Before C4:
+>
+> 1. Build the parent-facing screens for the D-70 step-up and override APIs
+>    (implemented and release-gated; no HTTP caller in the UI yet), under
+>    C5's manual accessibility and wording gates.
+> 2. Move the learner UI's diagnostic and review sessions onto the assignment
+>    routes, so D-62 does not silently refuse them at cutover.
+> 3. Resolve the legacy `independentDelayedCheck` flag (re-review F6) and
+>    reconcile `attemptOrdinal` with the D-27 consecutive count (N5).
+> 4. Deploy, then collect representative non-enforcing shadow traffic from
+>    the deploy onward and disposition every divergence.
+> 5. Complete the private-package content review and the manual gate record.
+>
+> Only then implement the approved C4 expand/contract cutover. Do not serve
+> progression UI until C4 and the manual accessibility, wording, privacy, and
+> content gates are recorded.
 
 ## 7. Stage dependencies
 

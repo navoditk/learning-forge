@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **71 approved; 0 open.** Approved entries are explicitly marked in
+- Status: **72 approved; 0 open.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -918,9 +918,43 @@ After placement, the learner advances through lessons and evidence-backed
 skips. The probe items are public practice items, so repeat probes would be
 progressively weaker evidence.
 
+### D-72 — Password attempt limiting
+
+| Field | Value |
+|---|---|
+| Kind | security |
+| Status | **APPROVED 2026-09-28** |
+| Recommendation | Per parent user: after 5 consecutive wrong passwords, refuse further password checks for 15 minutes (`STEP_UP_LOCKED` / sign-in failure); a correct password resets the count to 0. Apply to both the `D-70` step-up route and the main sign-in credential check, keyed by the same `User` row |
+| Approved value | As recommended |
+| Approver | Product owner (in chat) |
+| Blocks | Stage C4 (closes the `D-70` re-review's B-1 finding: the step-up route had no attempt limiting) |
+
+**Why it was needed (found by independent re-review, 2026-09-28).** The `D-70`
+step-up route re-verifies a password with no rate limiting. Anyone holding a
+stolen session cookie could guess the parent's password online, and each
+guess costs a bcrypt-12 comparison, making it a CPU cost vector too. Sign-in
+itself had the same gap, predating `D-70`.
+
+**Implementation.** `checkPasswordWithLockout`
+(`src/auth/password-attempts.ts`) is the single lockout state machine, shared
+by `verifyParentCredentials` (sign-in) and `verifyStepUpPassword` (step-up). A
+locked account is refused **before** any bcrypt comparison runs, so a locked
+account costs the attacker nothing extra and the server no CPU. Reversible
+migration `0015` adds `User.failedPasswordAttempts` and
+`User.passwordLockedUntil`; existing rows start unlocked. `scripts/reset-parent-password.ts`
+also clears the lockout, since an operator resetting the password is a
+stronger authority signal than a correct login.
+
+The step-up route (`POST /api/progression/step-up`) maps a locked account to
+`STEP_UP_LOCKED` (429). Sign-in (NextAuth credentials) maps both a wrong
+password and a locked account to the same generic sign-in failure, so a
+locked-out attacker cannot distinguish "wrong password" from "account
+temporarily locked" — the existing behavior a login form already has no way to
+leak.
+
 ## I. Index of open decisions
 
-Seventy-one decisions total; all seventy-one are approved. The grouping below is a
+Seventy-two decisions total; all seventy-two are approved. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 

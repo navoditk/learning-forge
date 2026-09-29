@@ -48,7 +48,64 @@ not an approval, and C4 remains closed.
   would refuse today's mastery-check flow); the rest of N8 (assignment-required
   kind sets are code constants); and the remaining N9 doc ordering.
 
-## Independent review of pilot placement — 2026-09-24 (latest)
+## Independent re-review of placement (Part A) and D-70 step-up/override (Part B) — 2026-09-28 (latest)
+
+Reviewer: requested as Claude Fable 5.1; model unverified (self-reported).
+Scope: Part A `git diff 7d994c8..0ef00c5` (placement review remediation),
+Part B `git diff 0ef00c5..a968bde` (D-70 step-up and override surface, incl.
+migration `0014`). Commands: `npm run verify` (285 tests), integration (138
+tests, migrated through `0014`), migration round trip (incl. `0014`) — all
+passed. Verdict: **ready for human review with noted risks**. No blocker in
+either part.
+
+- **Part A (placement).** F1 closed for the lesson path with a falsifier;
+  the unit path (A-1) was already correctly implemented but untested. F2–F4
+  closed. F5/D-71 closed functionally; A-2 noted the "concurrent" placement
+  test ran sequentially and no unique index backed true concurrency. F6
+  partial (route coverage tested; unreviewed-source fixture open). F7 (A-3)
+  and F8/D-22 (A-13) noted as untested edge cases in the matching rule and
+  cap.
+- **Part B (D-70 step-up/override).** Token design, lifetime enforcement,
+  single-use atomicity, actor/household/role re-checks, release gating, and
+  fail-closed error handling were all confirmed sound — nothing lets an
+  override happen without a fresh, unused, correctly bound step-up. **B-1
+  (major, risk accepted in docs):** the step-up route had no attempt
+  limiting, exposing online password guessing and a bcrypt-12 CPU cost per
+  guess. B-2 (minor): several defense-in-depth checks (OPERATOR fail-closed,
+  password household/role checks, route role check, future-dated token, the
+  concurrent-reuse error code) had no falsifier. B-3 (minor): a dropped
+  documentation line ("tests must cover cross-learner scoping, revocation,
+  and latest-override ordering") was removed without the tests existing.
+
+Remediation made after this review:
+
+- **B-1 → D-72 (approved):** `checkPasswordWithLockout` is a single lockout
+  state machine shared by sign-in and step-up (5 consecutive failures → a
+  15-minute lock, checked before any bcrypt comparison). Migration `0015`
+  (reversible) adds the lockout columns; `reset-parent-password` clears them.
+- **A-2 → migration `0016`** (reversible): a unique index on
+  `LearnerPlacement(learnerProfileId, unitCode, unitVersion)` backs true
+  concurrency; a `Promise.all` test now exercises the real race and tolerates
+  either a resolved or a rejected loser, asserting exactly one placement.
+- **A-1, A-3 (F7), A-13 (F8), B-2, B-3:** each got a direct falsifying test
+  (the unit-path skip, the probe item-matching rule via an extracted
+  `matchesPlacementProbeRequirement`, the D-22 cap via `selectAssessmentItems`,
+  the OPERATOR/future-token/cross-household/loser-reason-code cases, and
+  override revocation plus latest-vs-first ordering). Two of the new tests
+  (mutant checks on `latestSkillOverrideAt`'s ordering and its `revokedAt`
+  filter) were confirmed to fail against the corresponding bug before being
+  restored, proving they are genuine falsifiers, not just passing assertions.
+- A DB-free unit test (`tests/auth/password-attempts.test.ts`) was found
+  outside any script `npm run verify` runs (`tests/auth` is swept only by
+  `test:integration`, which needs Postgres); added to the `test` script glob
+  in `package.json` so it is gated without a database.
+
+`npm run verify` (58 files / 297 tests, build), `npm run test:integration`
+(18 files / 152 tests), `npm run test:e2e` (24 passed, 1 intentional skip),
+and `npm run test:migrations` (through `0016`) all pass after remediation.
+This is not an approval; C4 remains closed pending the human gates.
+
+## Independent review of pilot placement — 2026-09-24
 
 Reviewer: requested as Claude Fable 5.1; model unverified (self-reported).
 Scope: `535eeeb..7d994c8`. Verdict: **not ready for human review**. It found

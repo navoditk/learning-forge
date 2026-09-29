@@ -1,5 +1,55 @@
 # Progress
 
+## 2026-09-28 — D-72 password lockout and D-70/D-71 review remediation
+
+- A read-only re-review (requested as Claude Fable 5.1; model unverified)
+  found no blocker in the placement (Part A) or D-70 step-up/override (Part
+  B) work, and returned **ready for human review with noted risks**. Its one
+  major finding, B-1 (no attempt limiting on the step-up password check), and
+  its minor falsifier gaps were addressed:
+  - **D-72 approved and implemented:** `checkPasswordWithLockout`
+    (`src/auth/password-attempts.ts`) is a single lockout state machine
+    shared by sign-in (`verifyParentCredentials`) and step-up
+    (`verifyStepUpPassword`). Five consecutive wrong passwords lock the
+    account for 15 minutes; a locked account is refused before any bcrypt
+    comparison runs. Reversible migration `0015` adds
+    `User.failedPasswordAttempts`/`passwordLockedUntil`.
+    `reset-parent-password` also clears the lockout.
+  - **A-1 (unit-path skip):** the existing `context: { not: 'PLACEMENT' }`
+    exclusion in the unit prior-work count was already correct; it now has a
+    falsifying integration test (probe → first-run unit assessment PASS →
+    `COMPLETE_BY_SKIP`).
+  - **A-2 (concurrent placement):** reversible migration `0016` adds a unique
+    index on `LearnerPlacement(learnerProfileId, unitCode, unitVersion)`.
+    Real concurrency (`Promise.all` on two probes' final submissions) now
+    lands on this index or a Serializable conflict; a new test tolerates
+    either outcome for the loser and asserts exactly one placement commits.
+  - **A-3 (F7, probe item matching):** extracted the item-matching rule into
+    `matchesPlacementProbeRequirement`, directly unit-tested for role,
+    version, skill code, and missing-`skillRef` mismatches.
+  - **A-13 (F8, D-22 cap):** `selectAssessmentItems` now has a direct
+    fail-closed test for a hypothetical unit whose skill count exceeds
+    `placementProbeMaxItems`.
+  - **B-2 (defense-in-depth falsifiers):** new tests for an OPERATOR
+    override attempt (fails closed), a future-dated step-up token, the
+    concurrent-override loser's reason code, and password verification for
+    a learner user and a cross-household parent.
+  - **B-3 (dropped test requirements):** added integration tests for
+    override revocation and for using the *latest*, not the first, unrevoked
+    override when computing the consecutive-failure cutoff
+    (`latestSkillOverrideAt`).
+  - Also moved `tests/auth/password-attempts.test.ts` into the DB-free
+    `npm test`/`verify` glob (`package.json`), since it doesn't need Postgres
+    and wasn't gated by any DB-free script.
+- `npm run verify` (58 files / 297 tests, build), `npm run test:integration`
+  (18 files / 152 tests), `npm run test:e2e` (24 passed, 1 intentional
+  skip), and `npm run test:migrations` (17 migrations, incl. `0014`–`0016`)
+  all pass.
+- Still open: the parent-facing screens for step-up/override (C5), moving
+  the diagnostic/review learner UI onto the assignment routes, the legacy
+  `independentDelayedCheck` flag, and reconciling the attempt counter with
+  D-27.
+
 ## 2026-09-28 — D-70 step-up and override APIs
 
 - Added gated `POST /api/progression/step-up` and
