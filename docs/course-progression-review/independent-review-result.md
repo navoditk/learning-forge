@@ -1,9 +1,42 @@
 # Independent fourth-draft / C1–C3 review result
 
-## Current status — 2026-09-23
+## Current status — 2026-09-22
 
-No independent review has been completed for the current implementation target
-`b7934bc`. The entries below are historical reviews of earlier checkpoints and
+The independent review of implementation target `b7934bc` is recorded in
+`independent-review.md`, with recommendation **do not approve**. Major
+findings: M1 (Phase 1 shadow predicate ignores `algorithmVersion`) and M2
+(shadow and drain do not model the `PLACEMENT`/`REVIEW` assignment
+requirement). C4 remains closed.
+
+## Independent re-review of the M1–M3 remediation — 2026-09-22
+
+Reviewer: Claude Fable 5.1, working read-only on the uncommitted remediation
+over `14e8be4`. Verdict: **ready for human review with noted risks**. This is
+not an approval, and C4 remains closed.
+
+- M1 closed. M2 closed in implementation. m3 and m4 closed. m1 and m2 partially
+  closed. m5–m7 open. C3 confirmed non-enforcing, and the tests catch mutations
+  that remove the M1, D-62, readiness, or fail-closed logic.
+- N1 (major): no test covered skill-graph-only programs under D-62. Remediated
+  with unit, binding, and integration falsifiers.
+- N2 (major): shadow rows do not record the access-policy or predicate
+  version. Remediated procedurally: the representative evidence window starts
+  at the deploy of this remediation (`shadow-divergence-review.md`). Adding
+  version columns remains an option that needs a reviewed migration.
+- N3 (major): pilot `RUN_NOT_ACTIVE` rows had been marked `EXPLAINED` although
+  no placement or review assignment can be created. They are now
+  `REQUIRES_REMEDIATION`. Pilot placement and review assignments must be built
+  before C4, unless the owner explicitly accepts losing them.
+- N4: the D-60 reading is now recorded as an owner-approved clarification.
+  N5: `appliesToSkillsClaimedByNoUnit` is set to `false` in 1.1.0. N6: the
+  `division-of-fractions-1` row is relabelled and disposed by the owner.
+  N8: the `assignmentBound` comment is corrected.
+- Open: N7 (the staging harness exercises no attempt path; Phase 1 independent
+  checks map to `DELAYED_CHECK`, which D-62 always ties to an assignment, so C4
+  would refuse today's mastery-check flow); the rest of N8 (assignment-required
+  kind sets are code constants); and the remaining N9 doc ordering.
+
+The entries below are historical reviews of earlier checkpoints and
 must not be interpreted as approval of the current code or authorization for
 C4. The authoritative current gate status is in `README.md` and
 `manual-gate-record.md`.

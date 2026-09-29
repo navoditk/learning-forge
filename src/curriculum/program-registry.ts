@@ -1,7 +1,7 @@
 import { Program, ProgramSchema } from '../contracts/progression';
 import { PILOT_PROGRAM_UNIT_REFS } from './pilot-catalog';
 
-const policy = (code: string) => ({ code, version: '1.0.0' });
+const policy = (code: string, version = '1.0.0') => ({ code, version });
 
 const rawProgramRegistry = [
   {
@@ -13,7 +13,8 @@ const rawProgramRegistry = [
     skillCodePrefix: null,
     progressionMode: 'hybrid',
     unitRefs: PILOT_PROGRAM_UNIT_REFS,
-    accessPolicyRef: policy('grade-6-math-access'),
+    // 1.1.0 grants unit-covered pilot targets full progression kinds (D-60).
+    accessPolicyRef: policy('grade-6-math-access', '1.1.0'),
     legacyCompatibilityPolicyRef: policy('grade-6-math-legacy-compatibility'),
     defaultPolicyProfileRef: policy('grade-6-math-default'),
   },

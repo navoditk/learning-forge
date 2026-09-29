@@ -1822,7 +1822,7 @@ no intermediate deploy is unsafe:
 | Step | Action | Safe because |
 |---|---|---|
 | 1 | **Expand** (done in C1/C3): nullable binding columns exist and C3 has been dual-writing them | Old and new code both work against the column |
-| 2 | **Drain**: wait until no unbound `Session` row is both un-ended and within its activity window. C3's dual-write guarantees this set only shrinks | No enforcement yet |
+| 2 | **Drain**: wait until no unbound `Session` row is both un-ended and within its activity window. C3's dual-write binds every new session's columns, but a session missing a `D-62` assignment (assignment-free placement or review on a unit-claimed skill) is still unbound, so abandoned ones can add to the set; they are drained by explicit operator review or refused in step 3 | No enforcement yet |
 | 3 | **Reject residue**: any remaining unbound session is refused with `SESSION_UNBOUND` and the learner is asked to restart. This is deliberately a refusal, not a best-effort inference of what the session was for | Fails closed |
 | 4 | **Contract**: make the binding columns non-nullable | No unbound rows remain |
 | 5 | **Enforce**: switch `authorizeActivity` from shadow to enforcing, using the decisions C3 was already computing | Behavior already observed in shadow |

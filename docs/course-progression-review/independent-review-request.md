@@ -11,8 +11,10 @@ a review result or authorization.
   shadow context`), the pushed code checkpoint containing the bounded shadow persistence,
   redacted scored assessment responses, household-scoped current-item
   delivery, historical skip-side-effect protection, and archive-drift guard
-- Repository `HEAD`: `45f5dbf`; commits after `b7934bc` are documentation-only
-  evidence updates and do not change the implementation under review.
+- Repository `HEAD` at request time: `14e8be4`. Commits after `b7934bc` are
+  documentation updates, except `45f5dbf`, which also adds one operator-output
+  field to `scripts/report-progression-readiness.ts`. This request is
+  superseded by the M1–M3 remediation, which needs its own re-review target.
 - Browser review surface: `https://learning-forge.onrender.com/review/course-progression`
 - Production progression gate: closed
 - Private package: not mounted in this repository; it must be supplied and
@@ -40,7 +42,7 @@ a review result or authorization.
   authored bank count and skill coverage as well as the bank hash; unsupported
   review and delayed-check pilot assignment kinds fail closed. The code
   remediation parent is `901395a`.
-- `npm run test:migrations`: 11-migration forward/down/forward round trip
+- `npm run test:migrations`: 14-migration forward/down/forward round trip
   passed.
 - Production review page: HTTP 200.
 - Production assessment assignment: HTTP 404,

@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **61 approved; 0 open.** Approved entries are explicitly marked in
+- Status: **62 approved; 0 open.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -521,6 +521,13 @@ reintroduces exactly the missing-state fallback this work exists to remove.
 | `hybrid` | `accessPolicyRef` for unit-covered targets **and** `legacyCompatibilityPolicyRef` for the remainder (`D-53`) | As `D-53` |
 | `unit-sequenced` | `accessPolicyRef` | Full progression grants |
 
+**Clarification approved 2026-09-22 (product owner, in chat).** In a `hybrid`
+program, the `accessPolicyRef` that governs **unit-covered** targets carries
+the full progression grants of `unit-sequenced` mode, including
+`LESSON_ASSESSMENT`, `UNIT_ASSESSMENT`, and `DELAYED_CHECK`. The "As `D-53`"
+grants apply only to the legacy remainder. `grade-6-math-access@1.1.0`
+implements this reading.
+
 **Fail-closed:** a program whose `accessPolicyRef` is missing, unresolvable, or
 fails schema validation grants **nothing**, and its learners see an explicit
 "temporarily unavailable" state rather than either an error or open access.
@@ -693,9 +700,32 @@ uniform schema may be unpaused earlier, by explicit product-owner decision,
 once `D-58`/Stage A0 is done — that narrower option should be recorded here
 rather than assumed.
 
+### D-62 — Assessment-assignment requirement for placement and review
+
+| Field | Value |
+|---|---|
+| Kind | security + product |
+| Status | **APPROVED 2026-09-22** |
+| Recommendation | Lesson, unit, and delayed-check activity always requires an active assessment assignment. Placement and review require one only for skills an authored unit claims; skills claimed by no unit keep assignment-free placement and review under their access policy |
+| Approved value | As recommended |
+| Approver | Product owner (explicit authorization in chat, following independent-review finding M2) |
+| Blocks | Stage C4 cutover |
+
+**Why.** The architecture did not state whether placement and review need an
+assignment outside a unit. C3 readiness assumed they always did, while no
+placement, review, or delayed-check assignment can yet be created, and the
+learner UI starts placement and review sessions without one. Left alone, C4
+would silently withdraw diagnostic and spaced review for all 27 Grade 6 Math
+skills and for every `skill-graph-only` program, which have no banks. The
+approved rule preserves `D-53`'s legacy grants for unclaimed skills and makes
+assignment-free placement or review on pilot skills an observable
+`RUN_NOT_ACTIVE` shadow divergence to dispose before cutover. The rule is
+implemented once, in `requiresAssessmentAssignment`, and consumed by both the
+shadow predicate and the cutover readiness report.
+
 ## I. Index of open decisions
 
-Sixty-one decisions total; all sixty-one are approved. The grouping below is a
+Sixty-two decisions total; all sixty-two are approved. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 
@@ -706,7 +736,7 @@ it is not an open-decision list.
 | Resuming curriculum authoring (full gate set) | D-61 |
 | Any teaching/assessment record for any skill | D-37, D-38 |
 | The entire pilot (24 skills would otherwise be stranded) | D-52, D-53 |
-| **Cutover for every currently enabled program**, not only the pilot | D-60 |
+| **Cutover for every currently enabled program**, not only the pilot | D-60, D-62 |
 | Authorization increment | D-04, D-05, D-06, D-47 |
 | Mastery increment | D-07 … D-20, D-51, D-57 |
 | Lesson completion semantics | D-42, D-59 |

@@ -76,7 +76,7 @@ describe('course progression assessment boundary', () => {
     if (!profileRecord) throw new Error('Grade 6 Math policy profile is missing');
     const profile = resolvePolicyProfile(profileRecord);
     const accessPolicy = artifacts.accessPolicies.find(
-      (policy) => policy.code === 'grade-6-math-access',
+      (policy) => policy.code === 'grade-6-math-access' && policy.version === '1.1.0',
     );
     return createAssessmentAssignment(
       {
@@ -127,14 +127,17 @@ describe('course progression assessment boundary', () => {
     const shadow = await prisma.shadowDecision.findFirst({
       where: { householdId, requestKind: 'integration-assessment-assignment' },
     });
+    // grade-6-math-access@1.1.0 grants lesson assessment to the unit-covered
+    // pilot skill, and the request is bound to the new assignment.
     expect(shadow).toMatchObject({
       targetCode: 'ratio-language-lesson',
-      shadowDecision: 'DENY',
+      shadowDecision: 'ALLOW',
       actualBehavior: 'ALLOWED',
+      divergent: false,
     });
-    expect(shadow ? Object.keys(shadow) : []).not.toEqual(
-      expect.arrayContaining(['prompt', 'learnerResponse', 'answer']),
-    );
+    for (const sensitiveKey of ['prompt', 'learnerResponse', 'answer']) {
+      expect(shadow ?? {}).not.toHaveProperty(sensitiveKey);
+    }
     await abandonAssessmentRun({
       householdId,
       learnerProfileId,

@@ -1,5 +1,77 @@
 # Progress
 
+## 2026-09-22 — Independent re-review of M1–M3 and follow-up
+
+- Claude Fable 5.1 re-reviewed the remediation read-only and returned
+  **ready for human review with noted risks** (see
+  `docs/course-progression-review/independent-review-result.md`).
+- The product owner confirmed the D-60 clarification (hybrid unit-covered
+  targets get full progression grants) and disposed `division-of-fractions-1`
+  as `EXPLAINED`.
+- Follow-up fixes:
+  - N1: skill-graph-only D-62 falsifiers.
+  - N5: `appliesToSkillsClaimedByNoUnit: false` in 1.1.0.
+  - N8: `assignmentBound` comment corrected.
+  - N3: pilot `RUN_NOT_ACTIVE` rows changed to `REQUIRES_REMEDIATION`.
+  - N2: the evidence window starts at the remediation deploy.
+  - m1: stale `HEAD` and documentation-only claims corrected.
+- Next: build pilot placement, review, and delayed-check assignments (N3/N7).
+  C4 remains closed.
+
+## 2026-09-22 — Remediation of independent-review findings M1–M3
+
+Implemented by Claude Opus 5.5 after the product owner approved the review
+recommendations. This work needs its own independent re-review; the
+implementer cannot approve it. C4 remains closed.
+
+- **M1:** the Phase 1 shadow predicate now scopes prerequisite mastery to
+  `PHASE_1_MASTERY_VERSION`. The new integration falsifier fails when the
+  filter is removed.
+- **M2 / D-62 (approved 2026-09-22):** `requiresAssessmentAssignment` is now
+  part of the shared `authorizeProgramActivity` predicate. Lesson, unit, and
+  delayed-check activity always needs an assignment; placement and review need
+  one only on unit-claimed skills. Unmet requirements are denied with
+  `RUN_NOT_ACTIVE` in shadow. Cutover readiness derives its unbound-session
+  kinds from the same predicate and classifies placement/review sessions by
+  unit claim, failing closed on unresolvable targets. The architecture's
+  §11.4a step-2 wording is corrected.
+- **M3 (found during remediation):** `grade-6-math-access@1.0.0` denied the
+  pilot's own lesson, unit, and delayed-check kinds, so C4 would have refused
+  the pilot assessments. Added `grade-6-math-access@1.1.0`, which grants
+  unit-covered targets full progression kinds (D-60), and repointed the
+  program registry. 1.0.0 remains for historical resolution. **Product-owner
+  confirmation of this reading of D-60 is requested.**
+- Minor findings: the deletion test now enumerates every household-scoped
+  model (m2), a Phase 1 non-enforcement falsifier was added (m3), the redaction
+  assertion checks each key (m4), and migration-count drift was corrected (m1).
+  Artifact tests now pin access policies by code and version.
+- The staging harness now also exercises non-pilot skills. Rerun: 8 decisions
+  and 4 divergences. Three are disposed; `division-of-fractions-1`
+  (legacy-policy prerequisite lock) awaits the product owner.
+- Verification: `npm run verify` passed (54 files / 252 tests, plus build).
+  `npm run test:integration` passed (13 files / 58 tests). `npm run test:migrations`
+  passed (14 migrations). `npm run test:e2e` passed (24, with 1 intentional
+  private-package skip).
+- Still open: m5 (planner threshold duplication, C4 scope), m6 (§13.6
+  test-ID traceability), m7 (out-of-order migration rollback default), and
+  representative traffic.
+
+## 2026-09-22 — Independent C1–C3 review of `b7934bc`
+
+- An independent reviewer (Claude Opus 5.5, a different model family from
+  the implementer) re-ran `verify` (243 tests), integration (53), and the
+  migration round trip (14 migrations) at `b7934bc`, and reproduced the
+  staging shadow pilot. All passed.
+- Recommendation: **do not approve** for C4 review. C1–C3 are non-enforcing
+  as claimed. However, M1 (the Phase 1 shadow mastery query is not scoped to
+  `algorithmVersion`) and M2 (shadow and drain do not model the
+  `PLACEMENT`/`REVIEW` assignment requirement, so C4 would refuse the live
+  diagnostic and review flows unseen) must be remediated first. Seven minor
+  findings are also recorded. See
+  `docs/course-progression-review/independent-review.md`.
+- The staging `unit-rates-1` divergence is analysed as consistent with D-05;
+  its disposition remains the product/engineering owner's. C4 remains closed.
+
 ## 2026-09-23 — Cross-tool handoff consistency
 
 - Reconciled `README.md` with the course-progression handoff: A0–A2 and B are
@@ -2232,9 +2304,11 @@ are optional wrappers over it and are not the source of procedure.
 - Phase: 1 — synthetic journeys across all 5 Grade 6 Math domains, skill graph, planner, an actionable planner UI, an on-demand parent weekly digest, and a basic accessible visual design (now automated-WCAG-AA-checked) covered; **Grade 6 Math curriculum v3 shipped 2026-09-18**: 27 skills, 54/54 content records fully human-reviewed (0 pending), merged from the v1 baseline plus the independently-researched/reviewed v2 candidate graph (see the 2026-09-16 through 2026-09-18 entries below for the full merge, safety-gate, and content-review trail); the pilot-readiness decisions (audience, identity/auth, hosting, consent/retention, provider, budget/latency, eval gate) are made for a single-household pilot (ADR-0008, ADR-0009, ADR-0005). **All three approved implementation tracks are now live**: Track 1, real authentication (ADR-0010). Track 2, real Claude adapter (ADR-0011), reviewed, approved, and enabled. Track 3, Render deployment (ADR-0012) — **confirmed genuinely live 2026-09-13**: a real account was provisioned, sign-in works at `https://learning-forge.onrender.com`, and a real hint request was confirmed hitting the real Anthropic API (visible ~1-2s latency, non-templated text), not the fake adapter. This is a real, live, single-household pilot now, not just a local demonstration
 - Branch: `main`
 - Repository state: PRs #13–#42 are merged to `main`; the deployed app is live and working. The web service is currently on the **Starter** plan by deliberate choice for this pilot. The original Free-plan decision is deferred for a later cost review, not an operational blocker.
-- Last verified course-progression implementation checkpoint: `b7934bc fix:
-  fail closed on incomplete shadow context`. Current `HEAD` is `45f5dbf`, whose
-  descendants are documentation-only evidence updates.
+- Last independently reviewed course-progression checkpoint: `b7934bc fix:
+  fail closed on incomplete shadow context`. It was reviewed 2026-09-22 with a
+  `do not approve` recommendation. The M1–M3 remediation on top of `14e8be4` was
+  independently re-reviewed as "ready for human review with noted risks"; see
+  the 2026-09-22 entries at the top of this file.
 - Operational cleanup in progress: tutor traces now retain an optional session
   reference, and the live hint route enforces configurable household-daily and
   session hint limits before calling the model. The current defaults are 100

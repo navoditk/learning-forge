@@ -12,10 +12,41 @@ export type AuthorizationInput = {
 export type AuthorizationResult = { allowed: boolean; reasonCode: string; missing: string[] };
 
 export type ProgramAuthorizationInput = Omit<AuthorizationInput, 'policy'> & {
+  /** Selects the progression access policy rather than the legacy policy. */
   skillClaimedByUnit: boolean;
+  /** True only when an authored unit claims the skill (`D-62`). */
+  claimedByAuthoredUnit: boolean;
+  /**
+   * True when the session carries an assessment assignment id. Whether that
+   * assignment is active and matching is checked by the attempt endpoints.
+   */
+  assignmentBound: boolean;
   accessPolicy: AccessPolicy | undefined;
   legacyCompatibilityPolicy: AccessPolicy | undefined;
 };
+
+const ALWAYS_ASSIGNMENT_BOUND_KINDS: readonly ActivityKind[] = [
+  'LESSON_ASSESSMENT',
+  'UNIT_ASSESSMENT',
+  'DELAYED_CHECK',
+];
+const UNIT_ASSIGNMENT_BOUND_KINDS: readonly ActivityKind[] = ['PLACEMENT', 'REVIEW'];
+
+/**
+ * `D-62`: lesson, unit, and delayed-check activity always needs an assessment
+ * assignment. Placement and review need one only for skills an authored unit
+ * claims; skills outside every unit keep assignment-free placement and review
+ * under their access policy.
+ */
+export function requiresAssessmentAssignment(
+  activityKind: ActivityKind,
+  claimedByAuthoredUnit: boolean,
+): boolean {
+  return (
+    ALWAYS_ASSIGNMENT_BOUND_KINDS.includes(activityKind) ||
+    (claimedByAuthoredUnit && UNIT_ASSIGNMENT_BOUND_KINDS.includes(activityKind))
+  );
+}
 
 export function usesProgressionAccessPolicy(
   progressionMode: ProgressionMode,
@@ -49,7 +80,15 @@ export function authorizeProgramActivity(input: ProgramAuthorizationInput): Auth
   if (!input.skillClaimedByUnit && !policy?.appliesToSkillsClaimedByNoUnit) {
     return { allowed: false, reasonCode: 'LEGACY_POLICY_NOT_APPLICABLE', missing: [] };
   }
-  return authorizeActivity({ ...input, policy });
+  const result = authorizeActivity({ ...input, policy });
+  if (
+    result.allowed &&
+    !input.assignmentBound &&
+    requiresAssessmentAssignment(input.activityKind, input.claimedByAuthoredUnit)
+  ) {
+    return { allowed: false, reasonCode: 'RUN_NOT_ACTIVE', missing: [] };
+  }
+  return result;
 }
 
 export function policyHash(profile: ProgressionPolicyProfile): string {

@@ -2,6 +2,11 @@ import type { PrismaClient, ProgressionActivityKind } from '@prisma/client';
 
 import { prisma } from '../server/prisma';
 import {
+  ALWAYS_ASSIGNMENT_BOUND_KINDS,
+  contentSessionRequiresAssignment,
+  UNIT_ASSIGNMENT_BOUND_KINDS,
+} from './assignment-binding';
+import {
   buildShadowReviewPacket,
   type ShadowDecisionForReview,
   type ShadowReviewDisposition,
@@ -41,7 +46,8 @@ export function summarizeCutoverReadiness(input: {
 /**
  * Reads the expand/drain and shadow-review evidence without returning
  * household or learner identifiers. An open session is unbound when any
- * nullable progression binding is missing. Assessment activities require an
+ * nullable progression binding is missing, or when a D-62 assessment
+ * assignment is required and absent. Assessment activities require an
  * assignment; ordinary practice/teaching sessions do not. This invents no
  * activity timeout.
  */
@@ -49,7 +55,7 @@ export async function readCutoverReadiness(
   database: PrismaClient = prisma,
   dispositions: readonly ShadowReviewDisposition[] = [],
 ): Promise<CutoverReadiness> {
-  const [unboundOpenSessionCount, decisions] = await Promise.all([
+  const [baseUnboundCount, unitBoundCandidates, decisions] = await Promise.all([
     database.session.count({
       where: {
         endedAt: null,
@@ -61,13 +67,7 @@ export async function readCutoverReadiness(
             AND: [
               {
                 activityKind: {
-                  in: [
-                    'PLACEMENT',
-                    'LESSON_ASSESSMENT',
-                    'UNIT_ASSESSMENT',
-                    'DELAYED_CHECK',
-                    'REVIEW',
-                  ],
+                  in: [...ALWAYS_ASSIGNMENT_BOUND_KINDS] as ProgressionActivityKind[],
                 },
               },
               { assignmentId: null },
@@ -77,6 +77,20 @@ export async function readCutoverReadiness(
           { policyProfileVersion: null },
         ],
       },
+    }),
+    // Otherwise-bound, assignment-free placement/review sessions: whether each
+    // is unbound depends on whether an authored unit claims its skill (D-62).
+    database.session.findMany({
+      where: {
+        endedAt: null,
+        assignmentId: null,
+        activityKind: { in: [...UNIT_ASSIGNMENT_BOUND_KINDS] as ProgressionActivityKind[] },
+        targetCode: { not: null },
+        targetVersion: { not: null },
+        policyProfileCode: { not: null },
+        policyProfileVersion: { not: null },
+      },
+      select: { activityKind: true, targetCode: true },
     }),
     database.shadowDecision.findMany({
       orderBy: { occurredAt: 'asc' },
@@ -102,6 +116,14 @@ export async function readCutoverReadiness(
     }),
   ]);
 
+  const unboundOpenSessionCount =
+    baseUnboundCount +
+    unitBoundCandidates.filter((session) =>
+      contentSessionRequiresAssignment(
+        session.activityKind as ProgressionActivityKind,
+        session.targetCode as string,
+      ),
+    ).length;
   const reviewDecisions: ShadowDecisionForReview[] = decisions.map((decision) => ({
     ...decision,
     activityKind: decision.activityKind as ProgressionActivityKind,
