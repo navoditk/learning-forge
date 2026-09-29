@@ -1,5 +1,24 @@
 # Progress
 
+## 2026-09-28 — D-70 step-up and override APIs
+
+- Added gated `POST /api/progression/step-up` and
+  `POST /api/progression/override`:
+  - step-up re-verifies the session parent's password and returns an
+    HMAC-signed token bound to user, household, and issue time;
+  - override takes the actor from the session, verifies the token, reads the
+    D-47 lifetime from the pinned profile, and applies D-70 in a serializable
+    transaction.
+- The service re-checks that the actor is a PARENT in the learner's
+  household; operator overrides fail closed.
+- Reversible migration `0014` adds a unique index on
+  `OverrideRecord(actorUserId, reauthAt)`, which makes step-up single use
+  atomic.
+- Tests cover token forgery, other households, expiry, reuse, a concurrent
+  double use, the gate, and the actor re-check.
+- Still to do: the parent screen (C5) and attempt limiting on the step-up
+  route.
+
 ## 2026-09-24 — Placement review remediation and D-71
 
 - A read-only review of the placement increment (requested as Claude Fable

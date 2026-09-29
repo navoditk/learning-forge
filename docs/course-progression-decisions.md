@@ -873,15 +873,22 @@ decided semantics, for example:
 - whether it requires a new delayed-check bank version with unseen items;
 - whether it returns the lesson to `ACTIVE` remediation or to `NONE`.
 
-**Implementation status.** `applyNeedsHelpOverride` implements this decision.
-It has no HTTP caller yet. Before any caller exists:
+**Implementation status.** `applyNeedsHelpOverride` implements this decision
+behind two gated routes:
 
-- The caller must look up the actor's user, household, and role server-side.
-- It must read `D-47`'s lifetime from the pinned profile.
-- It must make step-up use atomic, with a unique constraint or consumed token
-  and serializable isolation.
-- Tests must cover cross-learner scoping, revocation, and latest-override
-  ordering.
+- `POST /api/progression/step-up` re-verifies the signed-in parent's password
+  (`D-06`). It returns an HMAC-signed token bound to that user, household, and
+  issue time.
+- `POST /api/progression/override` takes the actor from the session. It
+  verifies the token for that actor and household, and reads `D-47`'s
+  lifetime from the pinned profile.
+
+The service re-checks that the actor is a PARENT in the learner's household.
+Operator identities do not exist yet, so operator overrides fail closed.
+Single use is atomic through a unique index on `(actorUserId, reauthAt)`
+(migration `0014`) with serializable isolation. The parent-facing screen
+belongs with C5 and its manual accessibility and wording gates. The step-up
+route has no attempt limiting beyond requiring a signed-in session.
 
 **Assumption to confirm.** A new delayed-check bank version is assumed to use
 only item identities never used in earlier versions. Exhaustion is judged per
