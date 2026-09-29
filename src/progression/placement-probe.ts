@@ -19,6 +19,30 @@ export function unitLessons(unit: Pick<Unit, 'lessonRefs'>) {
 }
 
 /**
+ * Whether a servable catalog item is eligible as the placement-probe item for
+ * `ref` (a lesson's `practiceContentRefs` entry) on `skillRef` (the unit
+ * skill being probed): exact id and version match, the `practice` role (so
+ * an assessment/review item with a hint-free schema is never mistaken for
+ * one), and the skill code and version both match the authored requirement.
+ * Exported separately from `placementProbeBank` so the matching rule itself
+ * is directly testable against synthetic catalog entries.
+ */
+export function matchesPlacementProbeRequirement(
+  item: { id: string; version: string; role: string; skillRef?: { code: string; version: string } },
+  ref: { id: string; version: string },
+  skillRef: { code: string; version: string },
+): boolean {
+  return (
+    item.id === ref.id &&
+    item.version === ref.version &&
+    item.role === 'practice' &&
+    item.skillRef !== undefined &&
+    item.skillRef.code === skillRef.code &&
+    item.skillRef.version === skillRef.version
+  );
+}
+
+/**
  * D-64: a placement probe draws from the unit's reviewed, public practice
  * items, not a held-out bank. One item per unit skill, in lesson order, using
  * each lesson's first authored practice item for that skill. Returns undefined
@@ -33,12 +57,12 @@ export function placementProbeBank(unit: Unit): HeldOutAssessmentBank | undefine
         .map((ref) =>
           servableContentCatalog.find(
             (item) =>
-              item.id === ref.id &&
-              item.version === ref.version &&
-              item.role === 'practice' &&
               'skillRef' in item &&
-              item.skillRef.code === skillRef.code &&
-              item.skillRef.version === skillRef.version,
+              matchesPlacementProbeRequirement(
+                { id: item.id, version: item.version, role: item.role, skillRef: item.skillRef },
+                ref,
+                skillRef,
+              ),
           ),
         )
         .find((item) => item !== undefined);

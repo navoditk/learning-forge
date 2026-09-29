@@ -1250,6 +1250,62 @@ describe('skill-targeted delayed checks and reviews', () => {
         await skillStrandingState(prisma, { learnerProfileId, skillRef, profile: profile11() }),
       ).toBe('NEEDS_HELP');
     });
+
+    it('ignores a revoked override when computing the exhaustion cutoff', async () => {
+      await strandSkill();
+      const applied = await override();
+      expect(applied).toMatchObject({ applied: true });
+      const overrideId = (applied as { overrideId: string }).overrideId;
+      // Revoking the override that turned exhaustion into
+      // NEW_BANK_VERSION_REQUIRED must fall back to the plain NEEDS_HELP
+      // reading, as if the override had never happened.
+      await prisma.overrideRecord.update({
+        where: { id: overrideId },
+        data: { revokedAt: new Date() },
+      });
+      expect(
+        await skillStrandingState(prisma, { learnerProfileId, skillRef, profile: profile11() }),
+      ).toBe('NEEDS_HELP');
+    });
+
+    it('uses the latest, not the first, unrevoked override for the consecutive-failure cutoff', async () => {
+      // delayedCheckReuse enabled: exhaustion never triggers, so this
+      // isolates the consecutive-failure counting branch that reads
+      // latestSkillOverrideAt.
+      const reuse = {
+        ...profile11(),
+        delayedCheckReuse: { enabled: true as const, minIntervalsSinceSeen: 2 },
+      };
+      const at = (hoursAgo: number) => new Date(Date.now() - hoursAgo * HOUR);
+      // Strand the skill with three old failures, then override at 35h ago.
+      for (const hoursAgo of [60, 50, 40]) await recordDelayedCheckResult('FAIL', at(hoursAgo));
+      await lessonState('ratio-language-lesson', 'COMPLETE', 'NONE');
+      await prisma.learnerLessonState.updateMany({
+        where: { learnerProfileId },
+        data: { remediationStatus: 'NEEDS_HELP' },
+      });
+      expect(await override({ now: at(35), reauthAt: at(35.01) })).toMatchObject({
+        applied: true,
+      });
+      // Three more failures, all after the early override and before a
+      // second, later override.
+      for (const hoursAgo of [34, 33, 32]) await recordDelayedCheckResult('FAIL', at(hoursAgo));
+      await prisma.learnerLessonState.updateMany({
+        where: { learnerProfileId },
+        data: { remediationStatus: 'NEEDS_HELP' },
+      });
+      expect(await override({ now: at(25), reauthAt: at(25.01) })).toMatchObject({
+        applied: true,
+      });
+      // Under the EARLY (35h-ago) cutoff the three 32-34h-ago failures are
+      // "since the override" (3 > maxReassessments) and would read
+      // NEEDS_HELP. Under the correct, LATEST (25h-ago) cutoff none of them
+      // are "since the override", so the skill reads NONE. This is the
+      // falsifier for "latest, not first, unrevoked override".
+      expect(
+        await skillStrandingState(prisma, { learnerProfileId, skillRef, profile: reuse }),
+      ).toBe('NONE');
+    });
   });
 
   describe('remaining D-69 and D-70 falsifiers', () => {

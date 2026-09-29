@@ -219,17 +219,20 @@ model Household {
 }
 
 model User {
-  id             String          @id @default(uuid())
-  householdId    String
-  role           UserRole
+  id                     String          @id @default(uuid())
+  householdId            String
+  role                   UserRole
   // Sign-in credentials. Only ever populated for PARENT-role users: ADR-0008
   // decided there is no separate learner login, so LEARNER-role users keep
   // these null.
-  email          String?         @unique
-  passwordHash   String?
-  createdAt      DateTime        @default(now())
-  household      Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile LearnerProfile?
+  email                  String?         @unique
+  passwordHash           String?
+  // D-72: consecutive failed password checks and the resulting lock.
+  failedPasswordAttempts Int             @default(0)
+  passwordLockedUntil    DateTime?
+  createdAt              DateTime        @default(now())
+  household              Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile         LearnerProfile?
 
   @@index([householdId, role])
 }
@@ -534,6 +537,7 @@ model LearnerPlacement {
   household            Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
   learnerProfile       LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
 
+  @@unique([learnerProfileId, unitCode, unitVersion])
   @@index([learnerProfileId, programCode, createdAt])
 }
 

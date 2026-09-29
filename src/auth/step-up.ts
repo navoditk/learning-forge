@@ -1,7 +1,8 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
-import bcrypt from 'bcryptjs';
 import type { PrismaClient } from '@prisma/client';
+
+import { checkPasswordWithLockout, type PasswordCheck } from './password-attempts';
 
 /**
  * D-06 step-up re-authentication. A signed-in parent re-enters their password;
@@ -11,16 +12,18 @@ import type { PrismaClient } from '@prisma/client';
  */
 export type StepUpClaims = { userId: string; householdId: string; issuedAt: Date };
 
-/** Re-verifies the signed-in parent's own password within their household. */
+/**
+ * Re-verifies the signed-in parent's own password within their household,
+ * with D-72 lockout shared with sign-in.
+ */
 export async function verifyStepUpPassword(
   database: Pick<PrismaClient, 'user'>,
   input: { userId: string; householdId: string; password: unknown },
-): Promise<boolean> {
-  if (typeof input.password !== 'string' || input.password.length === 0) return false;
+): Promise<PasswordCheck> {
+  if (typeof input.password !== 'string' || input.password.length === 0) return 'INVALID';
   const user = await database.user.findUnique({ where: { id: input.userId } });
-  if (!user || user.role !== 'PARENT' || user.householdId !== input.householdId) return false;
-  if (!user.passwordHash) return false;
-  return bcrypt.compare(input.password, user.passwordHash);
+  if (!user || user.role !== 'PARENT' || user.householdId !== input.householdId) return 'INVALID';
+  return checkPasswordWithLockout(database, user, input.password);
 }
 
 function signature(payload: string, secret: string): string {

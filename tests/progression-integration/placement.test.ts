@@ -5,7 +5,10 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vites
 import { createAssessmentStore } from '../../src/assessment/store';
 import { PILOT_UNITS } from '../../src/curriculum/pilot-catalog';
 import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
-import { applyPilotLessonAssessmentOutcome } from '../../src/progression/learner-state';
+import {
+  applyPilotLessonAssessmentOutcome,
+  applyPilotUnitAssessmentOutcome,
+} from '../../src/progression/learner-state';
 import { submitAssessmentItem } from '../../src/progression/assessment-submission';
 import { resolvePinnedPolicyProfile } from '../../src/progression/artifacts';
 import { placementProbeBank } from '../../src/progression/placement-probe';
@@ -41,6 +44,7 @@ describe('placement probes (D-64, D-68)', () => {
   beforeEach(async () => {
     await prisma.learnerPlacement.deleteMany({ where: { householdId } });
     await prisma.learnerLessonState.deleteMany({ where: { householdId } });
+    await prisma.learnerUnitState.deleteMany({ where: { householdId } });
     await prisma.masteryEstimate.deleteMany({ where: { householdId } });
   });
 
@@ -178,6 +182,47 @@ describe('placement probes (D-64, D-68)', () => {
     await prisma.skipRecord.deleteMany({ where: { householdId } });
   });
 
+  it('keeps the unit evidence-backed skip available after a probe (§6.6, D-31)', async () => {
+    await prisma.learnerUnitState.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        unitCode: unit.code,
+        unitVersion: unit.version,
+        completionStatus: 'ASSESSMENT_PENDING',
+        overrideStatus: 'NONE',
+        policyProfileCode: profileRef.code,
+        policyProfileVersion: profileRef.version,
+      },
+    });
+    await probe(['ratio-language', 'unit-rates', 'ratio-tables']);
+    await prisma.$transaction((transaction) =>
+      applyPilotUnitAssessmentOutcome(transaction, {
+        householdId,
+        learnerProfileId,
+        unitCode: unit.code,
+        unitVersion: unit.version,
+        policyProfileCode: profileRef.code,
+        policyProfileVersion: profileRef.version,
+        outcome: 'PASS',
+        firstRun: true,
+        assessmentRunId: randomUUID(),
+        now: new Date(),
+      }),
+    );
+    const unitState = await prisma.learnerUnitState.findUniqueOrThrow({
+      where: {
+        learnerProfileId_unitCode_unitVersion: {
+          learnerProfileId,
+          unitCode: unit.code,
+          unitVersion: unit.version,
+        },
+      },
+    });
+    expect(unitState.completionStatus).toBe('COMPLETE_BY_SKIP');
+    await prisma.skipRecord.deleteMany({ where: { householdId } });
+  });
+
   it('records the per-skill probe evidence on the placement', async () => {
     await probe(['ratio-language']);
     const placement = await prisma.learnerPlacement.findFirstOrThrow({
@@ -192,12 +237,29 @@ describe('placement probes (D-64, D-68)', () => {
     });
   });
 
-  it('places at most once per unit, even for a concurrent second probe (D-71)', async () => {
+  it('places at most once per unit for two probes submitted one after another', async () => {
     await probe(['ratio-language']);
     await probe(['ratio-language', 'unit-rates', 'ratio-tables']);
     expect(await prisma.learnerPlacement.count({ where: { learnerProfileId } })).toBe(1);
     expect(await lessonStatus('unit-rates-lesson')).toBe('AVAILABLE');
     expect(await lessonStatus('ratio-tables-lesson')).toBeUndefined();
+  });
+
+  it('places at most once per unit under true concurrency (D-71, migration 0016)', async () => {
+    // Two assignments' final item submissions race for the same unit under
+    // Serializable isolation. Postgres's own conflict detection, or failing
+    // that the unique index on (learnerProfileId, unitCode, unitVersion)
+    // from migration 0016, guarantees at most one LearnerPlacement is ever
+    // committed. The loser may resolve (pre-check found the row already
+    // placed) or reject (a genuine serialization failure) - either is an
+    // acceptable way to lose the race; a second placement row is not.
+    const results = await Promise.allSettled([
+      probe(['ratio-language']),
+      probe(['ratio-language', 'unit-rates', 'ratio-tables']),
+    ]);
+    expect(results.some((result) => result.status === 'fulfilled')).toBe(true);
+    const placements = await prisma.learnerPlacement.findMany({ where: { learnerProfileId } });
+    expect(placements).toHaveLength(1);
   });
 
   it('serves placement through the gated route without the private package', async () => {

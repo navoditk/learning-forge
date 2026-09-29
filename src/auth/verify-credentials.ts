@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 
 import { prisma } from '../server/prisma';
+import { checkPasswordWithLockout } from './password-attempts';
 
 export type AuthenticatedParent = {
   userId: string;
@@ -22,8 +23,9 @@ export async function verifyParentCredentials(
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user || user.role !== 'PARENT' || !user.passwordHash) return null;
 
-  const passwordMatches = await bcrypt.compare(password, user.passwordHash);
-  if (!passwordMatches) return null;
+  // D-72: a locked account is refused without a password comparison.
+  const check = await checkPasswordWithLockout(prisma, user, password);
+  if (check !== 'OK') return null;
 
   return { userId: user.id, email, householdId: user.householdId };
 }

@@ -40,7 +40,13 @@ export async function POST(request: NextRequest) {
       householdId: identity.householdId,
       password: body.password,
     });
-    if (!verified) {
+    if (verified === 'LOCKED') {
+      return NextResponse.json(
+        { error: 'Too many attempts; try again later', reasonCode: 'STEP_UP_LOCKED' },
+        { status: 429 },
+      );
+    }
+    if (verified !== 'OK') {
       return NextResponse.json(
         { error: 'Password could not be verified', reasonCode: 'STEP_UP_FAILED' },
         { status: 403 },

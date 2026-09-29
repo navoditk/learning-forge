@@ -7,9 +7,14 @@ import { describe, expect, it } from 'vitest';
 import { createAssessmentStore } from '../../src/assessment/store';
 import { contentCatalog } from '../../src/content/catalog';
 import { PILOT_UNITS } from '../../src/curriculum/pilot-catalog';
-import { assessmentKindMatchesTarget } from '../../src/progression/assessment-assignment';
+import {
+  AssessmentAssignmentError,
+  assessmentKindMatchesTarget,
+  selectAssessmentItems,
+} from '../../src/progression/assessment-assignment';
 import { lessonStatusAfterPlacement, placementLessonIndex } from '../../src/progression/placement';
 import {
+  matchesPlacementProbeRequirement,
   placementProbeBank,
   placementProbeBankFor,
   placementProbeBankRef,
@@ -200,5 +205,112 @@ describe('placement probe bank (D-64)', () => {
         expect(ref.hash, ref.id).toBe(`sha256:${createHash('sha256').update(bytes).digest('hex')}`);
       }
     }
+  });
+
+  describe('probe-item matching rule (D-64, F7)', () => {
+    const baseItem = {
+      id: 'ratio-language-1',
+      version: 'content-1',
+      role: 'practice',
+      skillRef: { code: 'ratio-language', version: '1.0.0' },
+    };
+    const ref = { id: 'ratio-language-1', version: 'content-1' };
+    const skillRef = { code: 'ratio-language', version: '1.0.0' };
+
+    it('matches an item that satisfies every field', () => {
+      expect(matchesPlacementProbeRequirement(baseItem, ref, skillRef)).toBe(true);
+    });
+
+    it('rejects a different id or content version', () => {
+      expect(matchesPlacementProbeRequirement({ ...baseItem, id: 'other-id' }, ref, skillRef)).toBe(
+        false,
+      );
+      expect(
+        matchesPlacementProbeRequirement({ ...baseItem, version: 'content-2' }, ref, skillRef),
+      ).toBe(false);
+    });
+
+    it('rejects a non-practice role, so an assessment or review item is never served', () => {
+      expect(
+        matchesPlacementProbeRequirement({ ...baseItem, role: 'assessment' }, ref, skillRef),
+      ).toBe(false);
+      expect(matchesPlacementProbeRequirement({ ...baseItem, role: 'review' }, ref, skillRef)).toBe(
+        false,
+      );
+    });
+
+    it('rejects an item with no skillRef at all', () => {
+      expect(
+        matchesPlacementProbeRequirement({ ...baseItem, skillRef: undefined }, ref, skillRef),
+      ).toBe(false);
+    });
+
+    it('rejects a mismatched skill code', () => {
+      expect(
+        matchesPlacementProbeRequirement(
+          { ...baseItem, skillRef: { code: 'unit-rates', version: '1.0.0' } },
+          ref,
+          skillRef,
+        ),
+      ).toBe(false);
+    });
+
+    it('rejects a mismatched skill version, even with the right code', () => {
+      expect(
+        matchesPlacementProbeRequirement(
+          { ...baseItem, skillRef: { code: 'ratio-language', version: '2.0.0' } },
+          ref,
+          skillRef,
+        ),
+      ).toBe(false);
+    });
+  });
+
+  it('fails closed rather than silently drop skill coverage for a unit larger than the placement cap (D-22, D-68)', () => {
+    // D-68's "one item per unit skill" assumes the unit has no more skills
+    // than placementProbeMaxItems (D-22). A hypothetical six-skill unit
+    // would ask for six required-skill items while itemsPerAttempt is
+    // capped at the profile's placementProbeMaxItems (5 today) - the same
+    // shape the route builds for PLACEMENT (`Math.min(bank.itemCount,
+    // placementProbeMaxItems)`). selectAssessmentItems must refuse rather
+    // than place the learner from a probe that silently skipped a skill.
+    const profile = resolvePinnedPolicyProfile({ code: 'grade-6-math-default', version: '1.1.0' });
+    const oversizedSkillCodes = Array.from(
+      { length: profile.placementProbeMaxItems + 1 },
+      (_unused, index) => `fixture-skill-${index}`,
+    );
+    const oversizedBank = {
+      code: 'fixture-oversized-placement-probe',
+      version: '1.0.0',
+      contentHash: 'sha256:fixture',
+      items: oversizedSkillCodes.map((skillCode, index) => ({
+        id: `fixture-item-${index}`,
+        version: '1.0.0',
+        hash: `sha256:fixture-item-${index}`,
+        title: 'Fixture',
+        role: 'practice' as const,
+        skillRef: { code: skillCode, version: '1.0.0' },
+        prompt: 'Fixture prompt',
+        deterministicValidator: {
+          type: 'numeric' as const,
+          canonicalAnswer: '1',
+          acceptedAnswers: ['1'],
+          equivalenceNotes: 'Fixture.',
+        },
+        accessibilityNotes: 'Fixture.',
+      })),
+    };
+    expect(() =>
+      selectAssessmentItems(
+        oversizedBank,
+        Math.min(oversizedBank.items.length, profile.placementProbeMaxItems),
+        new Set(),
+        oversizedSkillCodes,
+      ),
+    ).toThrow(AssessmentAssignmentError);
+    // The pilot's own 3-skill unit stays within the cap today.
+    expect(placementProbeBank(unit)?.items.length).toBeLessThanOrEqual(
+      profile.placementProbeMaxItems,
+    );
   });
 });

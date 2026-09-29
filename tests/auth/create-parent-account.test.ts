@@ -72,6 +72,33 @@ describe('parent account provisioning and credential verification', () => {
     await expect(verifyParentCredentials(testEmail, '')).resolves.toBeNull();
   });
 
+  it('locks sign-in after five consecutive wrong passwords, then resets on the next correct one (D-72)', async () => {
+    // Start from a clean lockout state: an earlier test in this file already
+    // made one failed attempt, and resetParentPassword clears the counter.
+    await resetParentPassword({ email: testEmail, password: 'correct horse battery staple' });
+    for (let attempt = 1; attempt <= 4; attempt += 1) {
+      await expect(verifyParentCredentials(testEmail, 'still wrong')).resolves.toBeNull();
+    }
+    // The 5th consecutive failure locks the account: even the *correct*
+    // password is refused until the lock expires.
+    await expect(verifyParentCredentials(testEmail, 'still wrong')).resolves.toBeNull();
+    await expect(
+      verifyParentCredentials(testEmail, 'correct horse battery staple'),
+    ).resolves.toBeNull();
+
+    const locked = await prisma.user.findUnique({ where: { email: testEmail } });
+    expect(locked?.passwordLockedUntil?.getTime()).toBeGreaterThan(Date.now());
+    expect(locked?.failedPasswordAttempts).toBe(0);
+
+    // An operator reset clears the lock immediately, restoring sign-in.
+    await resetParentPassword({ email: testEmail, password: 'correct horse battery staple' });
+    const reset = await prisma.user.findUnique({ where: { email: testEmail } });
+    expect(reset?.passwordLockedUntil).toBeNull();
+    await expect(
+      verifyParentCredentials(testEmail, 'correct horse battery staple'),
+    ).resolves.toMatchObject({ email: testEmail, householdId: createdHouseholdId });
+  });
+
   it('resets the existing parent password without creating another account', async () => {
     await expect(
       resetParentPassword({

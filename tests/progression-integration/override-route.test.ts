@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { hashPassword } from '../../src/auth/verify-credentials';
-import { issueStepUpToken } from '../../src/auth/step-up';
+import { issueStepUpToken, verifyStepUpPassword } from '../../src/auth/step-up';
 import { applyNeedsHelpOverride } from '../../src/progression/learner-state';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
@@ -221,5 +221,91 @@ describe('step-up and NEEDS_HELP override routes', () => {
       expect(result).toEqual({ applied: false, reasonCode: 'ACTOR_NOT_AUTHORIZED' });
     }
     await deleteHouseholdData(prisma, other.id);
+  });
+
+  it('fails closed on an OPERATOR override, since no operator identity exists yet', async () => {
+    // The parent user passed as the actor is a real PARENT in this
+    // household, so if the service only checked the user row this would
+    // succeed; it must also check the claimed actorRole.
+    const result = await prisma.$transaction((transaction) =>
+      applyNeedsHelpOverride(transaction, {
+        householdId,
+        learnerProfileId,
+        skillRef: { code: 'ratio-language', version: '1.0.0' },
+        actorUserId: parentId,
+        actorRole: 'OPERATOR',
+        reason: 'Fixture.',
+        reauthAt: new Date(),
+        stepUpReauthLifetimeMinutes: 10,
+        policyProfileCode: 'grade-6-math-default',
+        policyProfileVersion: '1.1.0',
+        now: new Date(),
+      }),
+    );
+    expect(result).toEqual({ applied: false, reasonCode: 'ACTOR_NOT_AUTHORIZED' });
+    expect(await remediation()).toBe('NEEDS_HELP');
+  });
+
+  it('refuses a future-dated step-up as expired, never as valid', async () => {
+    const futureToken = issueStepUpToken(
+      { userId: parentId, householdId, issuedAt: new Date(Date.now() + 5 * 60_000) },
+      process.env.AUTH_SECRET,
+    );
+    expect(await post(override, 'override', request(futureToken))).toMatchObject({
+      status: 403,
+      body: { reasonCode: 'REAUTH_EXPIRED' },
+    });
+  });
+
+  it('reports a retry-safe reason code for the loser of a concurrent override', async () => {
+    const token = await freshToken();
+    const results = await Promise.all([
+      post(override, 'override', request(token)),
+      post(override, 'override', request(token)),
+    ]);
+    const winners = results.filter((result) => result.status === 201);
+    const losers = results.filter((result) => result.status !== 201);
+    expect(winners).toHaveLength(1);
+    expect(losers).toHaveLength(1);
+    expect(['REAUTH_ALREADY_USED', 'OVERRIDE_FAILED']).toContain(losers[0]?.body.reasonCode);
+  });
+
+  it('verifies the password only for the right user in the right household', async () => {
+    const other = await prisma.household.create({ data: {} });
+    const otherLearnerUser = await prisma.user.create({
+      data: { householdId: other.id, role: 'LEARNER' },
+    });
+    const otherLearner = await prisma.learnerProfile.create({
+      data: { householdId: other.id, userId: otherLearnerUser.id, gradeLevel: 6 },
+    });
+    const outsiderParent = await prisma.user.create({
+      data: {
+        householdId: other.id,
+        role: 'PARENT',
+        email: `outsider-${other.id}@example.test`,
+        passwordHash: await hashPassword(PASSWORD),
+      },
+    });
+    const learnerUser = await prisma.user.findFirstOrThrow({
+      where: { householdId, role: 'LEARNER' },
+    });
+    // The signed-in household's learner never has a password to verify.
+    expect(
+      await verifyStepUpPassword(prisma, {
+        userId: learnerUser.id,
+        householdId,
+        password: PASSWORD,
+      }),
+    ).toBe('INVALID');
+    // The right password for the right user, but the wrong household.
+    expect(
+      await verifyStepUpPassword(prisma, {
+        userId: outsiderParent.id,
+        householdId,
+        password: PASSWORD,
+      }),
+    ).toBe('INVALID');
+    await deleteHouseholdData(prisma, other.id);
+    void otherLearner;
   });
 });
