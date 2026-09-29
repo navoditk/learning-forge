@@ -25,7 +25,7 @@ This deploy was the first successful production build since the
 content-archive script broke `db:deploy`. Every build from 2026-09-23 until
 this one failed, so production had been running an older revision.
 
-
+## Aggregate evidence
 
 - Unbound open sessions:
 - Drain complete:
@@ -46,8 +46,10 @@ profile hash. The representative window must therefore **start at the deploy
 of the remediation commit**. Record that deploy's UTC time and commit in the run
 record above, and exclude earlier rows or disposition them separately. Adding
 access-policy and predicate-version columns would remove this procedural
-dependency; that would be a reviewed migration. Do not paste household IDs, learner IDs, prompts, answers, or free
-text into this artifact.
+dependency; that would be a reviewed migration.
+
+Do not paste household IDs, learner IDs, prompts, answers, or free text into
+this artifact.
 
 ## Divergence disposition register
 
@@ -72,8 +74,8 @@ above, which still needs real non-enforcing traffic.
 | Target/activity | Shadow decision | Actual behavior | Reason code | Disposition | Explanation | Decided by/date |
 |---|---|---|---|---|---|---|
 | `unit-rates-1` / `PRACTICE` (pilot) | DENY | ALLOWED | `LOCKED_PREREQUISITE` | `EXPLAINED` | Skill graph requires `ratio-language`; access loss acknowledged by D-05; consistent with D-35 | Product owner (in chat), 2026-09-22 |
-| `ratio-language-1` / `PLACEMENT` (pilot) | DENY | ALLOWED | `RUN_NOT_ACTIVE` | `REQUIRES_REMEDIATION` | D-62 requires an assignment here, but no `PLACEMENT` assignment can yet be created (`PLACEMENT_NOT_IMPLEMENTED`). Implement pilot placement assignments before C4, or have the owner explicitly accept losing pilot diagnostics | Implementer disposition after independent re-review N3, 2026-09-22 |
-| `ratio-language-1` / `REVIEW` (pilot) | DENY | ALLOWED | `RUN_NOT_ACTIVE` | `REQUIRES_REMEDIATION` | D-62 requires an assignment here, but no `REVIEW` assignment kind is supported yet. Same remediation as above | Implementer disposition after independent re-review N3, 2026-09-22 |
+| `ratio-language-1` / `PLACEMENT` (pilot) | DENY | ALLOWED | `RUN_NOT_ACTIVE` | `REQUIRES_REMEDIATION` | D-62 requires an assignment here. Pilot `PLACEMENT` assignments now exist (PR #44, D-64/D-68/D-71), but the learner UI still starts assignment-free diagnostic sessions. It must move to the assignment route before C4 | Implementer disposition after independent re-review N3, 2026-09-22 |
+| `ratio-language-1` / `REVIEW` (pilot) | DENY | ALLOWED | `RUN_NOT_ACTIVE` | `REQUIRES_REMEDIATION` | D-62 requires an assignment here. Pilot `REVIEW` assignments now exist (PR #44, D-67), but the learner UI still starts assignment-free review sessions. Same remediation as above | Implementer disposition after independent re-review N3, 2026-09-22 |
 | `division-of-fractions-1` / `PRACTICE` (legacy) | DENY | ALLOWED | `LOCKED_PREREQUISITE` | `EXPLAINED` | The legacy policy respects the prerequisite graph (D-53), so practice cannot start until `fraction-decimal-operations` is mastered; access loss acknowledged by D-05. The `EXPLAINED` recommendation came from the implementer, and the owner accepted it | Product owner (in chat), 2026-09-22 |
 
 Non-divergent legacy rows (`gcf-and-lcm-1` practice and assignment-free
