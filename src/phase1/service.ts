@@ -24,6 +24,7 @@ import { pilotSkillRef } from '../progression/skill-assessment';
 import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
 import {
   policyHash,
+  requiresAssessmentAssignment,
   resolvePolicyProfile,
   usesProgressionAccessPolicy,
 } from '../progression/policy';
@@ -491,7 +492,8 @@ export async function getDiagnosticPlan(
   identity: HouseholdIdentity,
   input: { maxItems?: number; program?: CurriculumProgram } = {},
 ) {
-  const catalog = programCatalog(input.program ?? DEFAULT_PROGRAM);
+  const program = input.program ?? DEFAULT_PROGRAM;
+  const catalog = programCatalog(program);
   const maxItems = input.maxItems ?? DEFAULT_DIAGNOSTIC_MAX_ITEMS;
   const masteryRows = await prisma.masteryEstimate.findMany({
     where: {
@@ -525,6 +527,16 @@ export async function getDiagnosticPlan(
     // practice and independent checks once its prerequisites are placed.
     if (!skill || skill.prerequisiteSkillCodes.length > 0) continue;
     if (assessedSkillCodes.has(skillCode)) continue;
+    // D-62: a unit-claimed skill needs a progression PLACEMENT assignment,
+    // which this assignment-free legacy flow never creates. Offering it here
+    // would work today but fail closed after C4 enforcement turns on, with
+    // no assignment ever having been created to recover into. The proper
+    // assignment-backed placement probe (D-64) ships with C5's gated UI.
+    if (
+      requiresAssessmentAssignment('PLACEMENT', isSkillClaimedByAuthoredUnit(program, skillCode))
+    ) {
+      continue;
+    }
     const available = contentBySkill.get(skillCode) ?? [];
     const pick = available.find((item) => item.mode === 'core') ?? available[0];
     if (!pick) continue;
@@ -683,16 +695,26 @@ export async function getReviewQueue(
   identity: HouseholdIdentity,
   input: { maxItems?: number; program?: CurriculumProgram } = {},
 ) {
-  const catalog = programCatalog(input.program ?? DEFAULT_PROGRAM);
+  const program = input.program ?? DEFAULT_PROGRAM;
+  const catalog = programCatalog(program);
   const maxItems = input.maxItems ?? DEFAULT_REVIEW_MAX_ITEMS;
   const dueBefore = new Date(Date.now() - MASTERY_REVIEW_INTERVAL_DAYS * 24 * 60 * 60 * 1000);
+  // D-62: a unit-claimed skill needs a progression REVIEW assignment, which
+  // this assignment-free legacy queue never creates. Excluded here (not just
+  // filtered post-query) so `take: maxItems` still fills the queue from
+  // skills the legacy flow can actually serve. The assignment-backed spaced
+  // review (D-67) ships with C5's gated UI.
+  const legacySkillCodes = [...catalog.skillCodes].filter(
+    (skillCode) =>
+      !requiresAssessmentAssignment('REVIEW', isSkillClaimedByAuthoredUnit(program, skillCode)),
+  );
   const dueMastery = await prisma.masteryEstimate.findMany({
     where: {
       householdId: identity.householdId,
       learnerProfileId: identity.learnerProfileId,
       algorithmVersion: PHASE_1_MASTERY_VERSION,
       independentDelayedCheck: true,
-      skillCode: { in: [...catalog.skillCodes] },
+      skillCode: { in: legacySkillCodes },
       updatedAt: { lte: dueBefore },
     },
     orderBy: { updatedAt: 'asc' },

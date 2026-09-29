@@ -481,7 +481,14 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       const diagnosticPlan = await getDiagnosticPlan(identity);
       expect(diagnosticPlan.items.length).toBeGreaterThan(0);
       expect(diagnosticPlan.items.length).toBeLessThanOrEqual(5);
-      expect(diagnosticPlan.items.some((item) => item.skillCode === 'ratio-language')).toBe(true);
+      expect(diagnosticPlan.items.some((item) => item.skillCode === 'gcf-and-lcm')).toBe(true);
+      // D-62: a skill an authored pilot unit claims needs a progression
+      // PLACEMENT assignment, which this legacy, assignment-free flow never
+      // creates. Offering it here would fail closed once C4 enforcement is
+      // on, with no assignment to recover into, so it is excluded even
+      // though both are root (no-prerequisite) skills.
+      expect(diagnosticPlan.items.some((item) => item.skillCode === 'ratio-language')).toBe(false);
+      expect(diagnosticPlan.items.some((item) => item.skillCode === 'ratio-tables')).toBe(false);
       // Every offered skill must be a root skill (no prerequisites) -
       // dependent skills are placed through ordinary practice instead.
       for (const item of diagnosticPlan.items) {
@@ -490,15 +497,30 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       }
     });
 
+    it('still lets a directly-started placement session serve a pilot skill (only the suggestion list changed)', async () => {
+      // The filter above only changes what getDiagnosticPlan suggests. The
+      // underlying session/attempt machinery is untouched: before C4,
+      // requesting a pilot skill's placement session directly still works
+      // exactly as it does for a non-pilot skill, and still records the
+      // LOCKED_PREREQUISITE/RUN_NOT_ACTIVE-style shadow evidence D-62's
+      // pre-C4 review depends on (see shadow.test.ts) rather than being
+      // refused outright - refusal only starts at C4 enforcement.
+      const session = await startSession(identity, {
+        contentId: 'ratio-tables-1',
+        activityKind: 'PLACEMENT',
+      });
+      expect(session.sessionId).toBeTruthy();
+    });
+
     it('records a diagnostic attempt without setting independentDelayedCheck, then removes that skill from the diagnostic plan', async () => {
       const before = await getDiagnosticPlan(identity);
-      const ratioLanguageItem = before.items.find((item) => item.skillCode === 'ratio-language');
-      expect(ratioLanguageItem).toBeDefined();
+      const gcfItem = before.items.find((item) => item.skillCode === 'gcf-and-lcm');
+      expect(gcfItem).toBeDefined();
 
-      const session = await startSession(identity, { contentId: ratioLanguageItem!.contentId });
+      const session = await startSession(identity, { contentId: gcfItem!.contentId });
       const result = await recordDiagnosticAttempt(identity, {
         sessionId: session.sessionId,
-        learnerResponse: '2:3',
+        learnerResponse: '6',
       });
       expect(result.correctness).toBe('CORRECT');
 
@@ -506,7 +528,7 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
         where: {
           learnerProfileId_skillCode_algorithmVersion: {
             learnerProfileId: identity.learnerProfileId,
-            skillCode: 'ratio-language',
+            skillCode: 'gcf-and-lcm',
             algorithmVersion: PHASE_1_MASTERY_VERSION,
           },
         },
@@ -520,18 +542,18 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       expect(attemptRow?.context).toBe('DIAGNOSTIC');
 
       const after = await getDiagnosticPlan(identity);
-      expect(after.items.some((item) => item.skillCode === 'ratio-language')).toBe(false);
+      expect(after.items.some((item) => item.skillCode === 'gcf-and-lcm')).toBe(false);
 
       const resumedSession = await startSession(identity, {
-        contentId: ratioLanguageItem!.contentId,
+        contentId: gcfItem!.contentId,
       });
       expect(resumedSession.sessionId).not.toBe(session.sessionId);
     });
 
     it('rejects a second diagnostic attempt for an already-assessed skill', async () => {
-      const session = await startSession(identity, { contentId: 'ratio-language-2' });
+      const session = await startSession(identity, { contentId: 'gcf-and-lcm-2' });
       await expect(
-        recordDiagnosticAttempt(identity, { sessionId: session.sessionId, learnerResponse: '2:3' }),
+        recordDiagnosticAttempt(identity, { sessionId: session.sessionId, learnerResponse: '6' }),
       ).rejects.toThrow('Diagnostic already completed for this skill');
     });
   });
@@ -562,6 +584,22 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
         data: {
           householdId: identity.householdId,
           learnerProfileId: identity.learnerProfileId,
+          skillCode: 'gcf-and-lcm',
+          estimate: 1,
+          confidenceBand: 'MEDIUM',
+          algorithmVersion: PHASE_1_MASTERY_VERSION,
+          independentDelayedCheck: true,
+          updatedAt: overdueAt,
+        },
+      });
+      // Overdue and confirmed, exactly like gcf-and-lcm above, but a skill
+      // an authored pilot unit claims: D-62 requires a progression REVIEW
+      // assignment this legacy, assignment-free queue never creates, so it
+      // is excluded even though it would otherwise qualify on date alone.
+      await prisma.masteryEstimate.create({
+        data: {
+          householdId: identity.householdId,
+          learnerProfileId: identity.learnerProfileId,
           skillCode: 'ratio-language',
           estimate: 1,
           confidenceBand: 'MEDIUM',
@@ -585,14 +623,20 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       });
 
       const queue = await getReviewQueue(identity);
-      expect(queue.items.some((item) => item.skillCode === 'ratio-language')).toBe(true);
+      expect(queue.items.some((item) => item.skillCode === 'gcf-and-lcm')).toBe(true);
       expect(queue.items[0]).not.toHaveProperty('prompt');
+      expect(queue.items.some((item) => item.skillCode === 'ratio-language')).toBe(false);
       expect(queue.items.some((item) => item.skillCode === 'variables-and-expressions')).toBe(
         false,
       );
     });
 
     it('keeps confirmed mastery on a correct review and revokes it on an incorrect one, sending the skill back to practice', async () => {
+      // This exercises recordReviewAttempt and its pilot-lesson-state
+      // remediation side effect directly via startSession, not through
+      // getReviewQueue's suggestion list - both are untouched by the D-62
+      // filter above, so this deliberately still uses a pilot skill
+      // (ratio-language) rather than gcf-and-lcm.
       await prisma.learnerLessonState.upsert({
         where: {
           learnerProfileId_lessonCode_lessonVersion: {
@@ -684,8 +728,11 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
         }),
       ).resolves.toEqual({ completionStatus: 'COMPLETE', remediationStatus: 'ACTIVE' });
 
-      const queueAfterDecay = await getReviewQueue(identity);
-      expect(queueAfterDecay.items.some((item) => item.skillCode === 'ratio-language')).toBe(false);
+      // ratio-language is excluded from getReviewQueue for D-62's reason
+      // now, whatever its decayed confirmation status - already covered by
+      // the "offers a skill for review..." test above. What matters here is
+      // that the decay itself (independentDelayedCheck -> false, lesson
+      // remediation -> ACTIVE) happened correctly, asserted above.
     });
 
     it('rejects a review for a skill whose mastery has never been independently confirmed', async () => {

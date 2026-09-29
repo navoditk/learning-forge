@@ -1,5 +1,38 @@
 # Progress
 
+## 2026-09-29 — Handoff item #2: exclude pilot skills from legacy suggestion
+
+- `getDiagnosticPlan` and `getReviewQueue` (`src/phase1/service.ts`) now skip
+  any root/due skill for which `requiresAssessmentAssignment(kind,
+  isSkillClaimedByAuthoredUnit(program, skillCode))` is true (D-62), so the
+  legacy assignment-free learner UI stops suggesting `PLACEMENT`/`REVIEW`
+  sessions for pilot (unit-claimed) skills — the exact gap the D-70 re-review
+  flagged as needing remediation "before C4" (shadow-divergence-review.md
+  rows for `ratio-language-1` PLACEMENT/REVIEW).
+  - `getReviewQueue` pre-filters `catalog.skillCodes` to `legacySkillCodes`
+    *before* the `masteryEstimate.findMany({ take: maxItems })` query, so the
+    cap still counts only against genuinely offerable rows instead of
+    under-filling when some due rows are pilot skills.
+  - Deliberately scoped to the suggestion lists only. `startSession` is
+    unchanged: a caller can still start a `PLACEMENT`/`REVIEW` session
+    directly by content ID for a pilot skill pre-C4 (new test:
+    `'still lets a directly-started placement session serve a pilot skill'`).
+    That's intended — C4's fail-closed enforcement is what's supposed to
+    close that path, not this change.
+  - `tests/phase1/vertical-slice.test.ts` rewritten: the generic
+    diagnostic/review examples moved from `ratio-language` (now excluded) to
+    `gcf-and-lcm` (legacy); the spaced-review test now seeds three skills to
+    prove the D-62 exclusion overrides date-eligibility; one test
+    deliberately keeps `ratio-language` because it exercises
+    `recordReviewAttempt`/`applyReviewLapse`'s pilot-lesson-state side effect
+    directly, bypassing the queue.
+  - `shadow-divergence-review.md`'s two pilot staging rows moved from
+    `REQUIRES_REMEDIATION` to `EXPLAINED` with the direct-start caveat noted.
+  - Verified: `npm run verify` clean; `npx eslint` clean on both changed
+    files; `tests/phase1/vertical-slice.test.ts` 21/21 pass against the
+    disposable Postgres; full `npm run test:integration` 153/153 pass across
+    18 files.
+
 ## 2026-09-28 — D-72 password lockout and D-70/D-71 review remediation
 
 - A read-only re-review (requested as Claude Fable 5.1; model unverified)

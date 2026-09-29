@@ -105,13 +105,23 @@ later stage must still use the approved value for every decision it touches.
 > `PLACEMENT`, `DELAYED_CHECK`, and `REVIEW` assignments are all implemented;
 > draft held-out items for the latter two are pending content review.
 >
+> As of 2026-09-29: item 2 below is done. `getDiagnosticPlan` and
+> `getReviewQueue` (`src/phase1/service.ts`) now exclude any root/due skill
+> claimed by an authored unit, so the legacy assignment-free learner UI no
+> longer suggests pilot skills D-62 would refuse at C4. Direct session start
+> by content ID for a pilot skill is deliberately left reachable pre-C4 (an
+> explicit test proves it); C4's fail-closed enforcement is what closes that,
+> not this change. `shadow-divergence-review.md`'s two pilot PLACEMENT/REVIEW
+> staging rows are updated to `EXPLAINED` accordingly.
+>
 > Before C4:
 >
 > 1. Build the parent-facing screens for the D-70 step-up and override APIs
 >    (implemented and release-gated; no HTTP caller in the UI yet), under
 >    C5's manual accessibility and wording gates.
-> 2. Move the learner UI's diagnostic and review sessions onto the assignment
->    routes, so D-62 does not silently refuse them at cutover.
+> 2. ~~Move the learner UI's diagnostic and review sessions onto the
+>    assignment routes~~ — done 2026-09-29: pilot skills are excluded from
+>    suggestion instead; see above.
 > 3. Resolve the legacy `independentDelayedCheck` flag (re-review F6) and
 >    reconcile `attemptOrdinal` with the D-27 consecutive count (N5).
 > 4. Deploy, then collect representative non-enforcing shadow traffic from
