@@ -1,5 +1,45 @@
 # Progress
 
+## 2026-09-30 — Independent review of the D-62 suggestion filter (Opus)
+
+- An independent review (requested as, and confirmed, Claude Opus — a
+  different model from the implementing session) of commit `077efeb`
+  returned **READY WITH NOTED RISKS**. Two MAJOR findings were genuine
+  product decisions, not implementation bugs, and were routed to the product
+  owner rather than self-approved:
+  - **Scope swap:** handoff item #2 asked to move diagnostic/review sessions
+    onto the assignment routes; the actual change removes pilot skills from
+    suggestion instead. Flagged as needing explicit sign-off rather than an
+    unqualified "done".
+  - **Live regression, not shadow-only:** `getDiagnosticPlan`/`getReviewQueue`
+    are real production functions. This change means real grade-6-math
+    learners stop being offered ratio-language/ratio-tables/unit-rates
+    placement and review through the normal UI, with no replacement until
+    C5. `startSession` still allows a direct-by-content-ID start, but the
+    reviewer confirmed the standard learner UI never calls it that way.
+  - **Product owner decision (2026-09-30):** accept the regression and ship
+    as-is (these skills are meant to move to the new system regardless), and
+    the implementer's `EXPLAINED` dispositions stand without further
+    revision. Both `course-progression-handoff.md` and
+    `shadow-divergence-review.md` now record this explicitly instead of the
+    implementer's unqualified "done"/`EXPLAINED" framing.
+  - Four MINOR findings and one NIT were fixed directly (no product decision
+    needed): the direct-start test now asserts the D-62 shadow divergence is
+    actually recorded (`RUN_NOT_ACTIVE`), not just that a session starts; a
+    new test proves the `getReviewQueue` D-62 exclusion runs *before*
+    `take: maxItems`, not after (mutation-verified: temporarily reverted the
+    pre-filter to a post-query filter, confirmed the new test fails with an
+    empty queue instead of the legacy skill, then restored); a new test
+    restores lost coverage that a revoked (`independentDelayedCheck: false`)
+    legacy skill is excluded from the queue; `shadow-divergence-review.md`
+    now notes the shadow traffic mix changes once this deploys, so a drop in
+    `RUN_NOT_ACTIVE` divergence frequency shouldn't be misread as behavior
+    change.
+  - Re-verified after remediation: `npx tsc --noEmit` clean, `npx eslint`
+    clean, `npm run verify` clean, `tests/phase1/vertical-slice.test.ts`
+    23/23 pass, full `npm run test:integration` 155/155 pass across 18
+    files.
+
 ## 2026-09-29 — Handoff item #2: exclude pilot skills from legacy suggestion
 
 - `getDiagnosticPlan` and `getReviewQueue` (`src/phase1/service.ts`) now skip

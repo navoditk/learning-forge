@@ -105,14 +105,30 @@ later stage must still use the approved value for every decision it touches.
 > `PLACEMENT`, `DELAYED_CHECK`, and `REVIEW` assignments are all implemented;
 > draft held-out items for the latter two are pending content review.
 >
-> As of 2026-09-29: item 2 below is done. `getDiagnosticPlan` and
-> `getReviewQueue` (`src/phase1/service.ts`) now exclude any root/due skill
-> claimed by an authored unit, so the legacy assignment-free learner UI no
-> longer suggests pilot skills D-62 would refuse at C4. Direct session start
-> by content ID for a pilot skill is deliberately left reachable pre-C4 (an
-> explicit test proves it); C4's fail-closed enforcement is what closes that,
-> not this change. `shadow-divergence-review.md`'s two pilot PLACEMENT/REVIEW
-> staging rows are updated to `EXPLAINED` accordingly.
+> As of 2026-09-29: item 2 below is narrowed and done, not built as
+> originally scoped. `getDiagnosticPlan` and `getReviewQueue`
+> (`src/phase1/service.ts`) now exclude any root/due skill claimed by an
+> authored unit, instead of routing those sessions onto the assignment
+> routes. The legacy assignment-free learner UI no longer suggests pilot
+> skills D-62 would refuse at C4. Direct session start by content ID for a
+> pilot skill is deliberately left reachable pre-C4 (an explicit test proves
+> it, including that the D-62 shadow divergence is still recorded); C4's
+> fail-closed enforcement is what closes that, not this change.
+> `shadow-divergence-review.md`'s two pilot PLACEMENT/REVIEW staging rows are
+> updated to `EXPLAINED` accordingly.
+>
+> This is a real, live production behavior change, not a shadow-only one:
+> `getDiagnosticPlan`/`getReviewQueue` are the legacy Phase 1 functions real
+> learners use today. From this deploy, grade-6-math pilot skills
+> (ratio-language, ratio-tables, unit-rates) stop appearing in the normal
+> learner UI's placement/review suggestions, with no replacement until C5's
+> progression UI ships. An independent review (requested as and confirmed
+> Claude Opus, a different model from the implementing session) flagged this
+> narrowing and the resulting suggestion gap as needing explicit
+> product-owner sign-off rather than implementer self-approval per this
+> project's no-self-approval rule. The product owner reviewed both and
+> accepted: ship as-is, and the `EXPLAINED` dispositions stand as written by
+> the implementer, 2026-09-30.
 >
 > Before C4:
 >

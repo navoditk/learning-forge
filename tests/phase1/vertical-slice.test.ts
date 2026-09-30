@@ -497,19 +497,28 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
       }
     });
 
-    it('still lets a directly-started placement session serve a pilot skill (only the suggestion list changed)', async () => {
+    it('still lets a directly-started placement session serve a pilot skill, and still records the D-62 shadow divergence (only the suggestion list changed)', async () => {
       // The filter above only changes what getDiagnosticPlan suggests. The
       // underlying session/attempt machinery is untouched: before C4,
       // requesting a pilot skill's placement session directly still works
-      // exactly as it does for a non-pilot skill, and still records the
-      // LOCKED_PREREQUISITE/RUN_NOT_ACTIVE-style shadow evidence D-62's
-      // pre-C4 review depends on (see shadow.test.ts) rather than being
-      // refused outright - refusal only starts at C4 enforcement.
+      // exactly as it does for a non-pilot skill - refusal only starts at C4
+      // enforcement, not from this change.
       const session = await startSession(identity, {
         contentId: 'ratio-tables-1',
         activityKind: 'PLACEMENT',
       });
       expect(session.sessionId).toBeTruthy();
+      expect(
+        await prisma.shadowDecision.findFirst({
+          where: {
+            learnerProfileId: identity.learnerProfileId,
+            activityKind: 'PLACEMENT',
+            shadowDecision: 'DENY',
+            shadowReasonCode: 'RUN_NOT_ACTIVE',
+          },
+          select: { shadowReasonCode: true },
+        }),
+      ).toEqual({ shadowReasonCode: 'RUN_NOT_ACTIVE' });
     });
 
     it('records a diagnostic attempt without setting independentDelayedCheck, then removes that skill from the diagnostic plan', async () => {
@@ -768,6 +777,91 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
           learnerResponse: '2:3',
         }),
       ).rejects.toThrow('Review session ended');
+    });
+
+    it('excludes a legacy skill from the queue once its mastery is revoked, even though it is overdue', async () => {
+      const overdueAt = new Date(
+        Date.now() - (MASTERY_REVIEW_INTERVAL_DAYS + 1) * 24 * 60 * 60 * 1000,
+      );
+      await prisma.masteryEstimate.upsert({
+        where: {
+          learnerProfileId_skillCode_algorithmVersion: {
+            learnerProfileId: identity.learnerProfileId,
+            skillCode: 'gcf-and-lcm',
+            algorithmVersion: PHASE_1_MASTERY_VERSION,
+          },
+        },
+        update: { independentDelayedCheck: false, updatedAt: overdueAt },
+        create: {
+          householdId: identity.householdId,
+          learnerProfileId: identity.learnerProfileId,
+          skillCode: 'gcf-and-lcm',
+          estimate: 1,
+          confidenceBand: 'MEDIUM',
+          algorithmVersion: PHASE_1_MASTERY_VERSION,
+          independentDelayedCheck: false,
+          updatedAt: overdueAt,
+        },
+      });
+      const queue = await getReviewQueue(identity);
+      expect(queue.items.some((item) => item.skillCode === 'gcf-and-lcm')).toBe(false);
+    });
+  });
+
+  describe('spaced review queue cap (D-62 pre-filter, F5)', () => {
+    it('applies the D-62 skill exclusion before take: maxItems, not after, so a legacy skill is not starved by an older pilot skill', async () => {
+      const household = await prisma.household.create({ data: {} });
+      const learnerUser = await prisma.user.create({
+        data: { householdId: household.id, role: 'LEARNER' },
+      });
+      const learnerProfile = await prisma.learnerProfile.create({
+        data: { userId: learnerUser.id, householdId: household.id, gradeLevel: 6 },
+      });
+      const identity: HouseholdIdentity = {
+        householdId: household.id,
+        learnerProfileId: learnerProfile.id,
+      };
+      const olderOverdueAt = new Date(
+        Date.now() - (MASTERY_REVIEW_INTERVAL_DAYS + 5) * 24 * 60 * 60 * 1000,
+      );
+      const newerOverdueAt = new Date(
+        Date.now() - (MASTERY_REVIEW_INTERVAL_DAYS + 1) * 24 * 60 * 60 * 1000,
+      );
+      // A pilot skill, older (so a post-query filter's `take` would have
+      // already consumed the only slot on this row before excluding it).
+      await prisma.masteryEstimate.create({
+        data: {
+          householdId: identity.householdId,
+          learnerProfileId: identity.learnerProfileId,
+          skillCode: 'ratio-language',
+          estimate: 1,
+          confidenceBand: 'MEDIUM',
+          algorithmVersion: PHASE_1_MASTERY_VERSION,
+          independentDelayedCheck: true,
+          updatedAt: olderOverdueAt,
+        },
+      });
+      // A legacy skill, newer but still overdue.
+      await prisma.masteryEstimate.create({
+        data: {
+          householdId: identity.householdId,
+          learnerProfileId: identity.learnerProfileId,
+          skillCode: 'gcf-and-lcm',
+          estimate: 1,
+          confidenceBand: 'MEDIUM',
+          algorithmVersion: PHASE_1_MASTERY_VERSION,
+          independentDelayedCheck: true,
+          updatedAt: newerOverdueAt,
+        },
+      });
+      const queue = await getReviewQueue(identity, { maxItems: 1 });
+      // If the D-62 exclusion were applied after `take: maxItems` (post-query)
+      // instead of before (in the WHERE clause), this query would fetch the
+      // oldest row first - the pilot skill - fill the single slot with it,
+      // then filter it out, leaving zero items instead of the legacy skill.
+      expect(queue.items).toHaveLength(1);
+      expect(queue.items[0].skillCode).toBe('gcf-and-lcm');
+      await deleteHouseholdEvidence(prisma, identity.householdId);
     });
   });
 
