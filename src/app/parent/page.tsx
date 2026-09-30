@@ -174,9 +174,13 @@ export default function ParentPage() {
                 <li key={row.skillCode}>
                   Skill: {row.skillCode} — estimate {row.estimate}, confidence{' '}
                   {row.confidenceBand.toLocaleLowerCase()}.{' '}
+                  {/* D-65: today's same-sitting check is independent PRACTICE,
+                      not a genuine time-separated delayed check (re-review
+                      F6) - "delayed" would overclaim for skills confirmed
+                      this way, so this says only what's true for both. */}
                   {row.independentDelayedCheck
-                    ? 'Delayed check complete.'
-                    : 'Delayed check still needed.'}
+                    ? 'Independently confirmed.'
+                    : 'Independent confirmation still needed.'}
                 </li>
               ))}
             </ul>

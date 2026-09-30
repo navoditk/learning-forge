@@ -1,5 +1,32 @@
 # Progress
 
+## 2026-09-30 — Handoff item #3 closed: F6 and N5 investigated, not bugs
+
+- Traced every reader of the two findings the handoff deferred "at the
+  latest in C4." Neither described an actual functional bug once the full
+  call graph was checked; both are closed by clarification, not a behavior
+  change.
+  - **F6:** `independentDelayedCheck`'s legacy same-sitting write path is
+    already policy-settled by D-65 (approved 2026-09-23) as independent
+    `PRACTICE`, surviving C4 for legacy/skill-graph-only skills. The one
+    real gap was `src/app/parent/page.tsx` telling parents "Delayed check
+    complete" for a same-sitting confirmation — overclaiming a genuine
+    time-separated check. Reworded to "Independently confirmed," true under
+    either mechanism.
+  - **N5:** `AssessmentAssignment.attemptOrdinal`
+    (`src/progression/assessment-assignment.ts`) is a lifetime,
+    never-resets count used only for `=== 1` (D-31 evidence-backed-skip
+    credit). `reassessmentEligibility`'s consecutive-since-last-pass count
+    (`src/progression/reassessment.ts`) separately enforces the D-27
+    `maxReassessments` cap and does reset. Both draw from the same
+    `previousAssignments` query but count different things by design —
+    confirmed correct for both purposes. Added a schema comment on
+    `attemptOrdinal` and a comment at its computation so a future change
+    doesn't conflate the two.
+  - No schema/migration change (comment-only), no gating-logic change.
+  - Verified: `npx tsc --noEmit` clean, `npx eslint` clean, `npm run verify`
+    clean, full `npm run test:integration` 155/155 pass across 18 files.
+
 ## 2026-09-30 — Independent review of the D-62 suggestion filter (Opus)
 
 - An independent review (requested as, and confirmed, Claude Opus — a

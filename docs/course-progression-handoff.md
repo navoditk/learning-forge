@@ -130,6 +130,29 @@ later stage must still use the approved value for every decision it touches.
 > accepted: ship as-is, and the `EXPLAINED` dispositions stand as written by
 > the implementer, 2026-09-30.
 >
+> As of 2026-09-30: item 3 (F6, N5) is closed by investigation, not by a
+> functional code change - tracing every reader confirmed neither finding
+> describes an actual bug:
+>
+> - **F6 (`independentDelayedCheck`'s dual meaning):** already policy-settled
+>   by D-65 (approved 2026-09-23): the legacy same-sitting check is
+>   authorized as independent `PRACTICE`, not `DELAYED_CHECK`, and survives
+>   C4 for legacy/skill-graph-only skills. The only live gap was parent-facing
+>   wording: `src/app/parent/page.tsx` said "Delayed check complete," which
+>   overclaims a genuine time-separated check for a skill confirmed the
+>   same-sitting way. Fixed to "Independently confirmed," which is true
+>   under either mechanism. No schema or gating logic changed.
+> - **N5 (`attemptOrdinal` vs. the D-27 count):** `attemptOrdinal`
+>   (`src/progression/assessment-assignment.ts`) is a lifetime, never-resets
+>   ordinal used only for `=== 1` to gate D-31's evidence-backed-skip credit.
+>   `reassessmentEligibility`'s consecutive-failures-since-last-pass count
+>   (`src/progression/reassessment.ts`) enforces the separate D-27
+>   `maxReassessments` cap and does reset on a pass. Both are derived from
+>   the same `previousAssignments` query but intentionally count different
+>   things for different purposes; neither was wrong. Added a schema comment
+>   on `AssessmentAssignment.attemptOrdinal` and a code comment at its
+>   computation so a future reader doesn't "fix" one to match the other.
+>
 > Before C4:
 >
 > 1. Build the parent-facing screens for the D-70 step-up and override APIs
@@ -138,8 +161,9 @@ later stage must still use the approved value for every decision it touches.
 > 2. ~~Move the learner UI's diagnostic and review sessions onto the
 >    assignment routes~~ — done 2026-09-29: pilot skills are excluded from
 >    suggestion instead; see above.
-> 3. Resolve the legacy `independentDelayedCheck` flag (re-review F6) and
->    reconcile `attemptOrdinal` with the D-27 consecutive count (N5).
+> 3. ~~Resolve the legacy `independentDelayedCheck` flag (re-review F6) and
+>    reconcile `attemptOrdinal` with the D-27 consecutive count (N5)~~ —
+>    investigated and closed 2026-09-30; see below.
 > 4. Deploy, then collect representative non-enforcing shadow traffic from
 >    the deploy onward and disposition every divergence.
 > 5. Complete the private-package content review and the manual gate record.

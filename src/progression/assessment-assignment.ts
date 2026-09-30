@@ -359,6 +359,13 @@ export async function createAssessmentAssignment(
           };
         });
 
+      // Lifetime ordinal, never resets on a pass - only `=== 1` is read
+      // downstream, to gate D-31's evidence-backed-skip credit. Deliberately
+      // distinct from reassessmentEligibility's consecutive-since-last-pass
+      // count below, which enforces the D-27 cap and does reset. Both are
+      // derived from the same `previousAssignments` query but count
+      // different things on purpose; see the schema comment on
+      // AssessmentAssignment.attemptOrdinal (re-review N5).
       const attemptOrdinal =
         previousAssignments.filter(
           (previous) => previous.result?.outcome === 'PASS' || previous.result?.outcome === 'FAIL',
