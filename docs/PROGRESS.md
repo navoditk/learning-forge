@@ -1,5 +1,24 @@
 # Progress
 
+## 2026-10-01 — PR #44 merged and deployed; C3 evidence window reopened
+
+- Product owner approved merging and deploying now, given CI green and two
+  closed independent-review rounds (D-62 suggestion filter; F6/N5).
+  `gh pr merge 44 --merge` after `gh pr ready 44` (the PR was a draft).
+  Merge commit `3cda97b`.
+- Render auto-deployed on the `main` push: `dep-daurfsc9v7es73bkocv0`, live
+  2026-10-01T01:33:10Z, confirmed via `render deploys list` and a 200 from
+  `/login`.
+- `shadow-divergence-review.md` updated: the prior window (opened by
+  `ad29e7d`) is closed, and the window for this deploy is open. No traffic
+  collected or dispositioned yet - the window just opened and needs real
+  usage to accumulate, not a one-shot script run.
+- Handoff item #4 is therefore partially done (deployed) and partially open
+  (traffic collection). Item #5 (content review, manual gate record) is
+  confirmed still blocked on the product/content owner's own review - all
+  draft held-out items remain `pending_review`, and this is not something
+  an implementer or reviewer agent can resolve.
+
 ## 2026-09-30 — Handoff item #3 closed: F6 and N5 investigated, not bugs
 
 - Traced every reader of the two findings the handoff deferred "at the

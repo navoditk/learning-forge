@@ -164,9 +164,21 @@ later stage must still use the approved value for every decision it touches.
 > 3. ~~Resolve the legacy `independentDelayedCheck` flag (re-review F6) and
 >    reconcile `attemptOrdinal` with the D-27 consecutive count (N5)~~ —
 >    investigated and closed 2026-09-30; see below.
-> 4. Deploy, then collect representative non-enforcing shadow traffic from
->    the deploy onward and disposition every divergence.
+> 4. Deployed 2026-10-01 (PR #44 merged as `3cda97b`, live as deploy
+>    `dep-daurfsc9v7es73bkocv0`, confirmed via `render deploys list` and a
+>    200 from `/login`). The C3 evidence window reopened at this deploy
+>    (`shadow-divergence-review.md`). **Still open:** collecting
+>    representative non-enforcing shadow traffic and dispositioning every
+>    divergence - this needs real usage to accumulate first, not a one-shot
+>    command, and has not started.
 > 5. Complete the private-package content review and the manual gate record.
+>    **Still open and not delegable to further engineering work:** every
+>    draft item in `grade-6-math-assessments-draft-v2.json` is still
+>    `pending_review` (confirmed 2026-09-30), and `manual-gate-record.md`'s
+>    independent-review, shadow-review, held-out-package, and
+>    authored-content rows are blank. These require the product/content
+>    owner's own originality/accessibility/child-safety judgment and
+>    signature, not implementer or reviewer-agent action.
 >
 > Only then implement the approved C4 expand/contract cutover. Do not serve
 > progression UI until C4 and the manual accessibility, wording, privacy, and
