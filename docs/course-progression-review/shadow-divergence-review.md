@@ -1,25 +1,28 @@
 # C3 shadow-divergence review
 
-**Status:** TEMPLATE — not a review result or approval
+**Status:** WINDOW OPEN, EVIDENCE NOT YET COLLECTED — the representative
+window opened with deploy `dep-daurfsc9v7es73bkocv0` (2026-10-01T01:33:10Z).
+This is still not a review result or approval: no traffic has been pulled
+or dispositioned from this window yet.
 
 ## Run record
 
-- Environment (must be non-enforcing):
-- Run start/end (UTC):
-- Repository commit:
-- Policy profile/version/hash:
-- Algorithm version:
-- Traffic source and representative-scope description:
+- Environment (must be non-enforcing): production, C3 (non-enforcing shadow-mode)
+- Run start/end (UTC): 2026-10-01T01:33:10Z (deploy `dep-daurfsc9v7es73bkocv0` live) — end: not yet closed
+- Repository commit: `3cda97b` (merge of PR #44)
+- Policy profile/version/hash: `grade-6-math-default@1.1.0` / `grade-6-math-access@1.1.0` (hash: see `npm run progression:readiness` output, not yet captured)
+- Algorithm version: `mastery-phase-1-1` (legacy); progression algorithm version per `policyHash` in `src/progression/policy.ts`
+- Traffic source and representative-scope description: not yet collected — this row records only that the window opened, not that evidence has been gathered
 - Readiness command:
   `DATABASE_URL=… npm run progression:readiness`
-- Redacted report location/digest:
+- Redacted report location/digest: not yet run
 
 ### Evidence-window log
 
 | Deploy | Commit | Live at (UTC) | Predicate change | Window status |
 |---|---|---|---|---|
-| `dep-datjcstg1s2s73f4i64g` | `ad29e7d` (PR #43: M1–M3, D-62, access policy 1.1.0) | 2026-09-29T03:56:10Z | Algorithm-version scoping, D-62 assignment rule, `grade-6-math-access@1.1.0`, profile `1.0.0` | Opened. Earlier rows are excluded |
-| (pending) | PR #44 (D-63–D-71, plus 077efeb narrowing `getDiagnosticPlan`/`getReviewQueue`) | — | D-65 practice mapping, unit-scoped placement exemption, profile `1.1.0`; legacy learner UI stops suggesting pilot `PLACEMENT`/`REVIEW` sessions | Must restart at this deploy; rows before it are excluded or dispositioned separately |
+| `dep-datjcstg1s2s73f4i64g` | `ad29e7d` (PR #43: M1–M3, D-62, access policy 1.1.0) | 2026-09-29T03:56:10Z | Algorithm-version scoping, D-62 assignment rule, `grade-6-math-access@1.1.0`, profile `1.0.0` | Closed. Superseded by the row below; rows in this window are excluded or dispositioned separately |
+| `dep-daurfsc9v7es73bkocv0` | `3cda97b` (merge of PR #44: D-63–D-72, `077efeb` narrowing `getDiagnosticPlan`/`getReviewQueue`, `3636b9d` F6/N5 fix) | 2026-10-01T01:33:10Z | D-65 practice mapping, unit-scoped placement exemption, profile `1.1.0`; legacy learner UI stops suggesting pilot `PLACEMENT`/`REVIEW` sessions; D-72 password lockout | **Opened. This is the current representative window** - rows before it are excluded or dispositioned separately. Confirmed live via `render deploys list` and a 200 from `/login`, 2026-10-01 |
 
 This deploy was the first successful production build since the
 content-archive script broke `db:deploy`. Every build from 2026-09-23 until
