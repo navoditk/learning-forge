@@ -1,8 +1,366 @@
 # Progress
 
+## 2026-09-30 — Handoff item #3 closed: F6 and N5 investigated, not bugs
+
+- Traced every reader of the two findings the handoff deferred "at the
+  latest in C4." Neither described an actual functional bug once the full
+  call graph was checked; both are closed by clarification, not a behavior
+  change.
+  - **F6:** `independentDelayedCheck`'s legacy same-sitting write path is
+    already policy-settled by D-65 (approved 2026-09-23) as independent
+    `PRACTICE`, surviving C4 for legacy/skill-graph-only skills. The one
+    real gap was `src/app/parent/page.tsx` telling parents "Delayed check
+    complete" for a same-sitting confirmation — overclaiming a genuine
+    time-separated check. Reworded to "Independently confirmed," true under
+    either mechanism.
+  - **N5:** `AssessmentAssignment.attemptOrdinal`
+    (`src/progression/assessment-assignment.ts`) is a lifetime,
+    never-resets count used only for `=== 1` (D-31 evidence-backed-skip
+    credit). `reassessmentEligibility`'s consecutive-since-last-pass count
+    (`src/progression/reassessment.ts`) separately enforces the D-27
+    `maxReassessments` cap and does reset. Both draw from the same
+    `previousAssignments` query but count different things by design —
+    confirmed correct for both purposes. Added a schema comment on
+    `attemptOrdinal` and a comment at its computation so a future change
+    doesn't conflate the two.
+  - No schema/migration change (comment-only), no gating-logic change.
+  - Verified: `npx tsc --noEmit` clean, `npx eslint` clean, `npm run verify`
+    clean, full `npm run test:integration` 155/155 pass across 18 files.
+
+## 2026-09-30 — Independent review of the D-62 suggestion filter (Opus)
+
+- An independent review (requested as, and confirmed, Claude Opus — a
+  different model from the implementing session) of commit `077efeb`
+  returned **READY WITH NOTED RISKS**. Two MAJOR findings were genuine
+  product decisions, not implementation bugs, and were routed to the product
+  owner rather than self-approved:
+  - **Scope swap:** handoff item #2 asked to move diagnostic/review sessions
+    onto the assignment routes; the actual change removes pilot skills from
+    suggestion instead. Flagged as needing explicit sign-off rather than an
+    unqualified "done".
+  - **Live regression, not shadow-only:** `getDiagnosticPlan`/`getReviewQueue`
+    are real production functions. This change means real grade-6-math
+    learners stop being offered ratio-language/ratio-tables/unit-rates
+    placement and review through the normal UI, with no replacement until
+    C5. `startSession` still allows a direct-by-content-ID start, but the
+    reviewer confirmed the standard learner UI never calls it that way.
+  - **Product owner decision (2026-09-30):** accept the regression and ship
+    as-is (these skills are meant to move to the new system regardless), and
+    the implementer's `EXPLAINED` dispositions stand without further
+    revision. Both `course-progression-handoff.md` and
+    `shadow-divergence-review.md` now record this explicitly instead of the
+    implementer's unqualified "done"/`EXPLAINED" framing.
+  - Four MINOR findings and one NIT were fixed directly (no product decision
+    needed): the direct-start test now asserts the D-62 shadow divergence is
+    actually recorded (`RUN_NOT_ACTIVE`), not just that a session starts; a
+    new test proves the `getReviewQueue` D-62 exclusion runs *before*
+    `take: maxItems`, not after (mutation-verified: temporarily reverted the
+    pre-filter to a post-query filter, confirmed the new test fails with an
+    empty queue instead of the legacy skill, then restored); a new test
+    restores lost coverage that a revoked (`independentDelayedCheck: false`)
+    legacy skill is excluded from the queue; `shadow-divergence-review.md`
+    now notes the shadow traffic mix changes once this deploys, so a drop in
+    `RUN_NOT_ACTIVE` divergence frequency shouldn't be misread as behavior
+    change.
+  - Re-verified after remediation: `npx tsc --noEmit` clean, `npx eslint`
+    clean, `npm run verify` clean, `tests/phase1/vertical-slice.test.ts`
+    23/23 pass, full `npm run test:integration` 155/155 pass across 18
+    files.
+
+## 2026-09-29 — Handoff item #2: exclude pilot skills from legacy suggestion
+
+- `getDiagnosticPlan` and `getReviewQueue` (`src/phase1/service.ts`) now skip
+  any root/due skill for which `requiresAssessmentAssignment(kind,
+  isSkillClaimedByAuthoredUnit(program, skillCode))` is true (D-62), so the
+  legacy assignment-free learner UI stops suggesting `PLACEMENT`/`REVIEW`
+  sessions for pilot (unit-claimed) skills — the exact gap the D-70 re-review
+  flagged as needing remediation "before C4" (shadow-divergence-review.md
+  rows for `ratio-language-1` PLACEMENT/REVIEW).
+  - `getReviewQueue` pre-filters `catalog.skillCodes` to `legacySkillCodes`
+    *before* the `masteryEstimate.findMany({ take: maxItems })` query, so the
+    cap still counts only against genuinely offerable rows instead of
+    under-filling when some due rows are pilot skills.
+  - Deliberately scoped to the suggestion lists only. `startSession` is
+    unchanged: a caller can still start a `PLACEMENT`/`REVIEW` session
+    directly by content ID for a pilot skill pre-C4 (new test:
+    `'still lets a directly-started placement session serve a pilot skill'`).
+    That's intended — C4's fail-closed enforcement is what's supposed to
+    close that path, not this change.
+  - `tests/phase1/vertical-slice.test.ts` rewritten: the generic
+    diagnostic/review examples moved from `ratio-language` (now excluded) to
+    `gcf-and-lcm` (legacy); the spaced-review test now seeds three skills to
+    prove the D-62 exclusion overrides date-eligibility; one test
+    deliberately keeps `ratio-language` because it exercises
+    `recordReviewAttempt`/`applyReviewLapse`'s pilot-lesson-state side effect
+    directly, bypassing the queue.
+  - `shadow-divergence-review.md`'s two pilot staging rows moved from
+    `REQUIRES_REMEDIATION` to `EXPLAINED` with the direct-start caveat noted.
+  - Verified: `npm run verify` clean; `npx eslint` clean on both changed
+    files; `tests/phase1/vertical-slice.test.ts` 21/21 pass against the
+    disposable Postgres; full `npm run test:integration` 153/153 pass across
+    18 files.
+
+## 2026-09-28 — D-72 password lockout and D-70/D-71 review remediation
+
+- A read-only re-review (requested as Claude Fable 5.1; model unverified)
+  found no blocker in the placement (Part A) or D-70 step-up/override (Part
+  B) work, and returned **ready for human review with noted risks**. Its one
+  major finding, B-1 (no attempt limiting on the step-up password check), and
+  its minor falsifier gaps were addressed:
+  - **D-72 approved and implemented:** `checkPasswordWithLockout`
+    (`src/auth/password-attempts.ts`) is a single lockout state machine
+    shared by sign-in (`verifyParentCredentials`) and step-up
+    (`verifyStepUpPassword`). Five consecutive wrong passwords lock the
+    account for 15 minutes; a locked account is refused before any bcrypt
+    comparison runs. Reversible migration `0015` adds
+    `User.failedPasswordAttempts`/`passwordLockedUntil`.
+    `reset-parent-password` also clears the lockout.
+  - **A-1 (unit-path skip):** the existing `context: { not: 'PLACEMENT' }`
+    exclusion in the unit prior-work count was already correct; it now has a
+    falsifying integration test (probe → first-run unit assessment PASS →
+    `COMPLETE_BY_SKIP`).
+  - **A-2 (concurrent placement):** reversible migration `0016` adds a unique
+    index on `LearnerPlacement(learnerProfileId, unitCode, unitVersion)`.
+    Real concurrency (`Promise.all` on two probes' final submissions) now
+    lands on this index or a Serializable conflict; a new test tolerates
+    either outcome for the loser and asserts exactly one placement commits.
+  - **A-3 (F7, probe item matching):** extracted the item-matching rule into
+    `matchesPlacementProbeRequirement`, directly unit-tested for role,
+    version, skill code, and missing-`skillRef` mismatches.
+  - **A-13 (F8, D-22 cap):** `selectAssessmentItems` now has a direct
+    fail-closed test for a hypothetical unit whose skill count exceeds
+    `placementProbeMaxItems`.
+  - **B-2 (defense-in-depth falsifiers):** new tests for an OPERATOR
+    override attempt (fails closed), a future-dated step-up token, the
+    concurrent-override loser's reason code, and password verification for
+    a learner user and a cross-household parent.
+  - **B-3 (dropped test requirements):** added integration tests for
+    override revocation and for using the *latest*, not the first, unrevoked
+    override when computing the consecutive-failure cutoff
+    (`latestSkillOverrideAt`).
+  - Also moved `tests/auth/password-attempts.test.ts` into the DB-free
+    `npm test`/`verify` glob (`package.json`), since it doesn't need Postgres
+    and wasn't gated by any DB-free script.
+- `npm run verify` (58 files / 297 tests, build), `npm run test:integration`
+  (18 files / 152 tests), `npm run test:e2e` (24 passed, 1 intentional
+  skip), and `npm run test:migrations` (17 migrations, incl. `0014`–`0016`)
+  all pass.
+- Still open: the parent-facing screens for step-up/override (C5), moving
+  the diagnostic/review learner UI onto the assignment routes, the legacy
+  `independentDelayedCheck` flag, and reconciling the attempt counter with
+  D-27.
+
+## 2026-09-28 — D-70 step-up and override APIs
+
+- Added gated `POST /api/progression/step-up` and
+  `POST /api/progression/override`:
+  - step-up re-verifies the session parent's password and returns an
+    HMAC-signed token bound to user, household, and issue time;
+  - override takes the actor from the session, verifies the token, reads the
+    D-47 lifetime from the pinned profile, and applies D-70 in a serializable
+    transaction.
+- The service re-checks that the actor is a PARENT in the learner's
+  household; operator overrides fail closed.
+- Reversible migration `0014` adds a unique index on
+  `OverrideRecord(actorUserId, reauthAt)`, which makes step-up single use
+  atomic.
+- Tests cover token forgery, other households, expiry, reuse, a concurrent
+  double use, the gate, and the actor re-check.
+- Still to do: the parent screen (C5) and attempt limiting on the step-up
+  route.
+
+## 2026-09-24 — Placement review remediation and D-71
+
+- A read-only review of the placement increment (requested as Claude Fable
+  5.1; model unverified) returned **not ready for human review**. There was no
+  held-out leak. Fixes:
+  - probe attempts no longer count as prior practice, so the D-31
+    evidence-backed skip survives placement;
+  - the §9.3 prerequisite exemption is limited to skills an authored unit
+    claims, so legacy and skill-graph-only placement stay gated;
+  - probe items must match the skill version and be practice records;
+  - new falsifiers for U37, the multi-skill rule, first-item selection, the
+    route plan, placement evidence, and the pinned practice-file hashes.
+- The product owner approved **D-71**: one placement per unit. The route
+  refuses a repeat with `PLACEMENT_ALREADY_RECORDED`, and a concurrent second
+  probe never places.
+
+## 2026-09-24 — Pilot placement assignments (D-64, D-68 as amended)
+
+- The product owner amended D-68: an all-correct probe places the learner at
+  the final lesson, preserving §6.6 and U37.
+- `PLACEMENT` assignments now target the pilot unit:
+  - Items come from a projection of reviewed public practice items, one per
+    unit skill in lesson order (`src/progression/placement-probe.ts`).
+  - The default assessment store serves that projection; every other bank
+    still resolves only from the fail-closed held-out store.
+  - A scored probe records a `LearnerPlacement` and moves only not-started
+    lessons (earlier lessons to `SKIPPED_BY_PLACEMENT`, the placed lesson to
+    `AVAILABLE`).
+  - It never writes mastery, and it carries no reassessment limits.
+- The shared predicate no longer prerequisite-gates `PLACEMENT` (§9.3), so
+  shadow evidence for placement probes is not falsely denied.
+- Fixed a pre-existing, clock-dependent e2e false positive. The leakage test's
+  `'2:3'` substring check matched ISO timestamps such as `T02:33`, so the
+  test now masks timestamps first.
+- The learner UI still starts assignment-free diagnostic sessions. D-62
+  refuses these for pilot skills at C4, and moving the UI to the assignment
+  route is C4/C5 work.
+
+## 2026-09-24 — Fifth re-review: ready for human review with noted risks
+
+- The fifth read-only re-review (requested as Claude Fable 5.1; model
+  unverified) found no blocker and no major issue. Verdict: **ready for human
+  review with noted risks**.
+- Follow-up fixes:
+  - tests for invalidation stranding, the unit-skip NEEDS_HELP guard, and the
+    D-70 reassessment-count restart;
+  - the Phase 1 stranding check moved out of the learner's lapse transaction
+    and made best-effort, with a failure-injection test;
+  - stale D-69/D-70 wording corrected, and D-70's pre-caller requirements and
+    bank-version assumption recorded.
+
+## 2026-09-24 — D-70 override service
+
+- `applyNeedsHelpOverride` (`src/progression/learner-state.ts`) implements the
+  approved D-70:
+  - it requires a parent or operator actor, a reason, and a D-06 step-up
+    re-authentication within the D-47 lifetime, used once;
+  - it writes an `OverrideRecord` and moves NEEDS_HELP lessons to ACTIVE.
+- The stranding predicate (`skillStrandingState`) and the reassessment limits
+  restart the consecutive-failure count at the latest unrevoked override.
+- Exhaustion now counts only items seen from the current delayed-check bank
+  version. An override after the lapse or failure turns exhaustion into
+  `NEW_BANK_VERSION_REQUIRED` (not re-marked), until a reviewed bank version
+  adds unseen items. A new lapse after the override marks NEEDS_HELP again.
+- Not yet built:
+  - the password re-entry (step-up) endpoint and the parent UI, both with C5;
+  - the service has no HTTP caller.
+
+## 2026-09-24 — Every NEEDS_HELP refusal is recorded
+
+- A fourth re-review (requested as Claude Fable 5.1; model unverified) returned
+  **not ready for human review**. Fixes:
+  - the D-69 check now also runs on Phase 1 review lapses (pilot skills only)
+    and on invalidation;
+  - the route settles a stale run through normal expiry before eligibility,
+    and reports a live run as `ACTIVE_ASSIGNMENT_EXISTS`;
+  - any `NEEDS_HELP` refusal writes the record;
+  - a unit skip no longer clears `NEEDS_HELP`;
+  - a flaky lapse-time test is fixed;
+  - new falsifiers cover the remaining non-equivalent survivors. The kind and
+    target guard mutants are equivalent, because non-skill targets never
+    resolve as stranded.
+- The product owner approved D-70: a parent override resets to active
+  remediation and resets the consecutive count. A new delayed check still
+  needs a new bank version. It is implemented next as a domain service; the
+  step-up endpoint and parent UI belong with C5.
+
+## 2026-09-24 — Stranding, sticky NEEDS_HELP, and D-70
+
+- A third independent re-review (requested as Claude Fable 5.1; model unverified) returned **not ready for
+  human review**. Remediation:
+  - abandoned and expired runs now run the D-69 check;
+  - eligibility refuses a stranded skill with `NEEDS_HELP`;
+  - `NEEDS_HELP` is terminal through lesson outcomes and lapses;
+  - `NEEDS_HELP` writes moved to `learner-state.ts`;
+  - a completed practice session must end on a passed check;
+  - falsifying tests cover the previously surviving filter mutants (a later
+    re-review found two still surviving; since addressed).
+- **D-70 is open:** how a human override reopens a `NEEDS_HELP` skill. Also
+  open: first-time exhaustion outside D-69, and `NEEDS_HELP` for the lesson
+  and unit reassessment cap.
+- Private draft v2: `unit-rates-review-c` replaced; hash re-pinned.
+
+## 2026-09-24 — D-28 re-entry gate and D-69 needs-help terminal state
+
+- A fresh independent re-review (requested as Claude Fable 5.1; model unverified) returned **not ready for
+  human review**. It found two major issues:
+  - a lapsed skill could be re-confirmed immediately (N1);
+  - repeated lapses could exhaust the delayed-check bank, leaving the skill
+    stranded without a record (N2).
+- The product owner approved **D-69**: an exhausted or capped skill moves to a
+  parent-visible `NEEDS_HELP` state, and only an override reopens it.
+- Implemented:
+  - D-28 gating of delayed checks after a lapse or failure (cooldown plus a
+    completed practice session);
+  - D-69 marking on failed delayed checks and review lapses;
+  - `NEEDS_HELP` refusal;
+  - new falsifying tests;
+  - an exported loader configuration with exclusivity assertions.
+- Private draft v2: three items replaced, answers broadened, and skill-bank
+  hashes re-pinned.
+- Open before C4:
+  - the legacy `independentDelayedCheck` flag (F6);
+  - reconciling `attemptOrdinal` with the D-27 consecutive count (N5);
+  - D-28's practice-session condition for lesson and unit reassessments.
+
+## 2026-09-24 — Independent review of delayed checks and reviews; D-67/D-68
+
+- An independent review of the D-63–D-66 increment (requested as Claude Fable 5.1; model unverified)
+  returned **not ready for human review**. Its findings and remediation are
+  recorded in `docs/course-progression-review/independent-review-result.md`.
+- The product owner approved:
+  - **D-67:** three review items per skill, amending D-50; profile
+    `grade-6-math-default@1.1.0` reuses a review item only after two
+    intervening runs.
+  - **D-68:** placement puts the learner at the first lesson whose probe item
+    is missed.
+- Remediation:
+  - Lapsed skills refuse review, and confirmed skills refuse delayed checks.
+  - Re-confirmation after a lapse clears lapse remediation.
+  - Exposure covers every attempt context and all tutor moves.
+  - Reassessment counts consecutive failures and allows the initial run plus
+    D-27 reassessments.
+  - Skill banks require exclusive skill membership.
+  - Idempotent replay is honored before eligibility.
+  - New unit, integration, route, and loader tests kill the prior surviving
+    mutants; a later re-review found new survivors, since addressed.
+- Private draft v2 now holds 27 skill-bank items: 3 review and 6
+  delayed-check items per skill. The six skill-bank hashes are re-pinned; all
+  banks must be re-pinned again from the reviewed package.
+- Open:
+  - bank exhaustion by abandoned runs, and its terminal state;
+  - D-28's practice-session condition;
+  - the legacy `independentDelayedCheck` flag, to resolve at the latest in C4.
+
+## 2026-09-23 — Pilot delayed-check and review assignments (D-63–D-66)
+
+- The product owner approved D-63 (dedicated 6-item delayed-check bank per
+  pilot skill), D-64 (placement probes use reviewed practice items), D-65
+  (today's same-sitting independent check is authorized as `PRACTICE`), and
+  D-66 (a narrow D-61 exception for private held-out drafts).
+- `DELAYED_CHECK` and `REVIEW` assignments now target a pilot `SKILL`
+  (`src/progression/skill-assessment.ts`, assignment route):
+  - **Delayed-check eligibility:** requires a server-derived exposure at least
+    `minDelayHours` old. Exposure comes from learning events, non-independent
+    assistance events, and tutor traces on the skill's sessions, so any hint
+    resets the window. No prior exposure is refused with `NO_PRIOR_EXPOSURE`.
+  - **Review eligibility:** requires a due `ReviewSchedule`.
+  - **Reuse:** follows the profile's reuse artifacts.
+- Outcomes:
+  - A passed delayed check sets `independentDelayedCheck` and creates the first
+    review at `spacingIntervalDays[0]`. Previously nothing created review
+    schedules.
+  - A failed delayed check lapses the skill into remediation.
+  - A passed review advances the schedule.
+- The private-package loader accepts the six skill banks as optional,
+  validates role and coverage when they are present, and rejects unknown
+  banks. Bank metadata is pinned by hash.
+- 24 original skill-bank items are drafted `pending_review` in private
+  draft v2. The pre-existing v1 draft has two issues: its unit bank is tagged
+  only `ratio-language`, and the pinned lesson-bank hashes have drifted. Both
+  are recorded in the package handoff.
+- D-65: the Phase 1 shadow writer can no longer emit `DELAYED_CHECK`.
+- New open decisions:
+  - **D-67:** review reuse and volume conflict. The profile allows no reuse and
+    there are 2 items per skill, so each skill supports only two reviews.
+  - **D-68:** the placement position rule, which blocks the placement increment.
+- C4 remains closed.
+
 ## 2026-09-22 — Independent re-review of M1–M3 and follow-up
 
-- Claude Fable 5.1 re-reviewed the remediation read-only and returned
+- A read-only reviewer (requested as Claude Fable 5.1; model unverified) re-reviewed the remediation and returned
   **ready for human review with noted risks** (see
   `docs/course-progression-review/independent-review-result.md`).
 - The product owner confirmed the D-60 clarification (hybrid unit-covered

@@ -14,7 +14,7 @@ Mount the reviewed JSON package outside the repository and set:
 LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH=/secure/private/grade-6-math-assessments.json
 ```
 
-The package must contain four banks, all at version `1.0.0`:
+The package must contain these four banks, all at version `1.0.0`:
 
 | Bank | Target | Items per attempt | Required no-reuse pool |
 |---|---|---:|---:|
@@ -22,6 +22,44 @@ The package must contain four banks, all at version `1.0.0`:
 | `unit-rates-lesson-bank` | `unit-rates-lesson` | 3 | 9 |
 | `ratio-tables-lesson-bank` | `ratio-tables-lesson` | 3 | 9 |
 | `ratios-proportional-reasoning-unit-bank` | `ratios-and-proportional-reasoning` | 6 | 18 |
+
+The package may also contain six skill banks. The loader validates them when
+present; when absent, the corresponding assessment kind fails closed. Their
+contents are pinned by hash in `src/curriculum/pilot-catalog.ts`.
+
+| Bank | Target skill | Item role | Items per attempt | Required pool |
+|---|---|---|---:|---:|
+| `<skill>-review-bank` (×3) | `ratio-language`, `unit-rates`, `ratio-tables` | `review` | 1 | 3 (D-50 as amended by D-67; reuse after two runs) |
+| `<skill>-delayed-check-bank` (×3) | `ratio-language`, `unit-rates`, `ratio-tables` | `assessment` | 2 | 6 (D-63) |
+
+**Draft status (2026-09-24).** Model-assisted drafts of all 27 skill-bank
+items (D-66) are in the private draft package v2, outside the repository. They
+are `pending_review`. The v2 file adds the six skill banks and leaves the
+original four banks byte-identical to the v1 draft.
+
+Two issues found in the pre-existing v1 draft must be resolved during content
+review:
+
+- **Unit bank coverage.** All 18 unit-bank items are tagged
+  `ratio-language`, so the loader's per-skill coverage rule rejects the unit
+  bank.
+- **Hash drift.** The repository's pinned hashes for the four lesson and unit
+  banks do not match the current v1 draft. They must be re-pinned from the
+  reviewed package.
+
+The six skill-bank hashes pin the `pending_review` drafts. `review.status` is
+part of each hashed item, so **every** bank, including the skill banks, must be
+re-pinned from the reviewed package before any of it can serve.
+
+Draft-quality notes from the independent re-review, already applied in v2:
+
+- Two near-duplicate delayed-check items were replaced.
+- Accepted answers were broadened for exact-match scoring (cents, leading
+  decimals, word and fraction forms, spaced ratios).
+- Leakage patterns now list every accepted form.
+
+Content reviewers should still add any other equivalent answer form they
+expect learners to use.
 
 The pool sizes follow the approved pilot volume and no-reuse reassessment
 policy. Every item must reference its containing bank and include its own

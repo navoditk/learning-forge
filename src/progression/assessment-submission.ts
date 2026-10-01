@@ -12,10 +12,16 @@ import { createAssessmentStore, type AssessmentStore } from '../assessment/store
 import { prisma } from '../server/prisma';
 import { isTerminalAssessmentStatus, transitionAssessmentRun } from './assessment-state';
 import {
+  applyDelayedCheckOutcome,
   applyPilotLessonAssessmentOutcome,
   applyPilotUnitAssessmentOutcome,
+  applyPlacementOutcome,
   applyReviewLapse,
+  applyReviewPass,
+  markSkillNeedsHelp,
 } from './learner-state';
+import { resolvePinnedPolicyProfile } from './artifacts';
+import { isSkillStranded } from './skill-assessment';
 import { assessmentPasses } from './assessment-scoring';
 import { deriveHighestAssistance } from './assistance';
 import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
@@ -62,7 +68,10 @@ function normalize(answer: string): string {
   return answer.trim().toLocaleLowerCase().replace(/\s+/gu, ' ');
 }
 
-function score(item: AssessmentContentItem, response: string): Correctness {
+function score(
+  item: Pick<AssessmentContentItem, 'deterministicValidator'>,
+  response: string,
+): Correctness {
   return item.deterministicValidator.acceptedAnswers.some(
     (accepted) => normalize(accepted) === normalize(response),
   )
@@ -98,6 +107,51 @@ function selectedItems(value: Prisma.JsonValue): SelectedItem[] {
 function requiredCount(value: number | null): number {
   if (value === null || value < 0) throw new Error('Assessment required count is missing');
   return value;
+}
+
+/** D-69: records NEEDS_HELP when a lapse or failure leaves the skill stranded. */
+export async function recordStrandedSkill(
+  transaction: Prisma.TransactionClient,
+  input: {
+    householdId: string;
+    learnerProfileId: string;
+    policyProfileCode: string;
+    policyProfileVersion: string;
+    skillRef: { code: string; version: string };
+  },
+): Promise<void> {
+  const profile = resolvePinnedPolicyProfile({
+    code: input.policyProfileCode,
+    version: input.policyProfileVersion,
+  });
+  if (await isSkillStranded(transaction, { ...input, profile })) {
+    await markSkillNeedsHelp(transaction, input);
+  }
+}
+
+/** Abandoned, expired, and invalidated delayed checks also consume items (D-69). */
+async function recordStrandingAfterUnscoredRun(
+  transaction: Prisma.TransactionClient,
+  assignmentId: string,
+): Promise<void> {
+  const assignment = await transaction.assessmentAssignment.findUnique({
+    where: { id: assignmentId },
+    select: {
+      kind: true,
+      targetKind: true,
+      targetCode: true,
+      targetVersion: true,
+      householdId: true,
+      learnerProfileId: true,
+      policyProfileCode: true,
+      policyProfileVersion: true,
+    },
+  });
+  if (assignment?.kind !== 'DELAYED_CHECK' || assignment.targetKind !== 'SKILL') return;
+  await recordStrandedSkill(transaction, {
+    ...assignment,
+    skillRef: { code: assignment.targetCode, version: assignment.targetVersion },
+  });
 }
 
 export type SubmitAssessmentItemInput = {
@@ -420,6 +474,52 @@ export async function submitAssessmentItem(
           algorithmVersion: assignment.algorithmVersion,
           now,
         });
+        for (const skillRef of lapsedSkillRefs) {
+          await recordStrandedSkill(transaction, { ...assignment, skillRef });
+        }
+      }
+      if (
+        assignment.kind === 'DELAYED_CHECK' ||
+        (assignment.kind === 'REVIEW' && outcome === 'PASS')
+      ) {
+        const profile = resolvePinnedPolicyProfile({
+          code: assignment.policyProfileCode,
+          version: assignment.policyProfileVersion,
+        });
+        const skillOutcome = {
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+          skillRef: { code: assignment.targetCode, version: assignment.targetVersion },
+          algorithmVersion: assignment.algorithmVersion,
+          policyProfileCode: assignment.policyProfileCode,
+          policyProfileVersion: assignment.policyProfileVersion,
+          spacingIntervalDays: profile.spacingIntervalDays,
+          now,
+        };
+        if (assignment.kind === 'DELAYED_CHECK') {
+          await applyDelayedCheckOutcome(transaction, { ...skillOutcome, outcome });
+          if (outcome !== 'PASS') {
+            await recordStrandedSkill(transaction, {
+              ...assignment,
+              skillRef: skillOutcome.skillRef,
+            });
+          }
+        } else {
+          await applyReviewPass(transaction, skillOutcome);
+        }
+      }
+      if (assignment.kind === 'PLACEMENT') {
+        await applyPlacementOutcome(transaction, {
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+          unitCode: assignment.targetCode,
+          unitVersion: assignment.targetVersion,
+          itemResults,
+          assignmentId: assignment.id,
+          assessmentRunId: run.id,
+          policyProfileCode: assignment.policyProfileCode,
+          policyProfileVersion: assignment.policyProfileVersion,
+        });
       }
       if (assignment.kind === 'LESSON_ASSESSMENT') {
         await applyPilotLessonAssessmentOutcome(transaction, {
@@ -559,6 +659,7 @@ export async function abandonAssessmentRun(
           data: { endedAt: now },
         });
       }
+      await recordStrandingAfterUnscoredRun(transaction, assignment.id);
       return { assignmentId: assignment.id, status: run.status, result };
     },
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
@@ -662,6 +763,7 @@ export async function invalidateAssessmentRun(
         where: { id: { in: assignment.sessions.map((session) => session.id) }, endedAt: null },
         data: { endedAt: new Date() },
       });
+      await recordStrandingAfterUnscoredRun(transaction, assignment.id);
       return { assignmentId: assignment.id, status: run.status, result };
     },
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
@@ -733,4 +835,5 @@ export async function expireAssessment(
     where: { id: { in: assignment.sessions.map((session) => session.id) }, endedAt: null },
     data: { endedAt: now },
   });
+  await recordStrandingAfterUnscoredRun(transaction, assignmentId);
 }

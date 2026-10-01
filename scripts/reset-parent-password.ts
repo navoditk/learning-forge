@@ -24,7 +24,13 @@ export async function resetParentPassword(
 
   await prisma.user.update({
     where: { id: parent.id },
-    data: { passwordHash: await hashPassword(parsed.password) },
+    data: {
+      passwordHash: await hashPassword(parsed.password),
+      // An operator resetting the password is a stronger authority signal
+      // than a correct login, so also clear any D-72 lockout.
+      failedPasswordAttempts: 0,
+      passwordLockedUntil: null,
+    },
   });
 
   return { status: 'reset', email: parsed.email };

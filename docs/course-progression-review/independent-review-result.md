@@ -2,6 +2,18 @@
 
 ## Current status — 2026-09-22
 
+**Reviewer-model caveat (2026-09-24).** Each review below was requested from a
+separate read-only agent configured for Claude Fable 5.1, a different model
+from the implementer (Claude Opus 5.5). The identity recorded for each review
+is the agent's own self-report. Two of these agents failed on rate limits, and
+their error messages named `claude-opus-5-5` as the model sent to the API.
+That may be the parent session's model, or it may mean the requested model
+was not applied. Which model actually ran these reviews is therefore
+**unverified**. All of them are also the same model family as the
+implementer. The playbook's preference for a different reasoning
+configuration may not have been met. Treat these reviews as separate
+read-only passes, not as proven model-independent reviews.
+
 The independent review of implementation target `b7934bc` is recorded in
 `independent-review.md`, with recommendation **do not approve**. Major
 findings: M1 (Phase 1 shadow predicate ignores `algorithmVersion`) and M2
@@ -10,7 +22,7 @@ requirement). C4 remains closed.
 
 ## Independent re-review of the M1–M3 remediation — 2026-09-22
 
-Reviewer: Claude Fable 5.1, working read-only on the uncommitted remediation
+Reviewer: requested as Claude Fable 5.1 (model unverified), working read-only on the uncommitted remediation
 over `14e8be4`. Verdict: **ready for human review with noted risks**. This is
 not an approval, and C4 remains closed.
 
@@ -35,6 +47,249 @@ not an approval, and C4 remains closed.
   checks map to `DELAYED_CHECK`, which D-62 always ties to an assignment, so C4
   would refuse today's mastery-check flow); the rest of N8 (assignment-required
   kind sets are code constants); and the remaining N9 doc ordering.
+
+## Independent re-review of placement (Part A) and D-70 step-up/override (Part B) — 2026-09-28 (latest)
+
+Reviewer: requested as Claude Fable 5.1; model unverified (self-reported).
+Scope: Part A `git diff 7d994c8..0ef00c5` (placement review remediation),
+Part B `git diff 0ef00c5..a968bde` (D-70 step-up and override surface, incl.
+migration `0014`). Commands: `npm run verify` (285 tests), integration (138
+tests, migrated through `0014`), migration round trip (incl. `0014`) — all
+passed. Verdict: **ready for human review with noted risks**. No blocker in
+either part.
+
+- **Part A (placement).** F1 closed for the lesson path with a falsifier;
+  the unit path (A-1) was already correctly implemented but untested. F2–F4
+  closed. F5/D-71 closed functionally; A-2 noted the "concurrent" placement
+  test ran sequentially and no unique index backed true concurrency. F6
+  partial (route coverage tested; unreviewed-source fixture open). F7 (A-3)
+  and F8/D-22 (A-13) noted as untested edge cases in the matching rule and
+  cap.
+- **Part B (D-70 step-up/override).** Token design, lifetime enforcement,
+  single-use atomicity, actor/household/role re-checks, release gating, and
+  fail-closed error handling were all confirmed sound — nothing lets an
+  override happen without a fresh, unused, correctly bound step-up. **B-1
+  (major, risk accepted in docs):** the step-up route had no attempt
+  limiting, exposing online password guessing and a bcrypt-12 CPU cost per
+  guess. B-2 (minor): several defense-in-depth checks (OPERATOR fail-closed,
+  password household/role checks, route role check, future-dated token, the
+  concurrent-reuse error code) had no falsifier. B-3 (minor): a dropped
+  documentation line ("tests must cover cross-learner scoping, revocation,
+  and latest-override ordering") was removed without the tests existing.
+
+Remediation made after this review:
+
+- **B-1 → D-72 (approved):** `checkPasswordWithLockout` is a single lockout
+  state machine shared by sign-in and step-up (5 consecutive failures → a
+  15-minute lock, checked before any bcrypt comparison). Migration `0015`
+  (reversible) adds the lockout columns; `reset-parent-password` clears them.
+- **A-2 → migration `0016`** (reversible): a unique index on
+  `LearnerPlacement(learnerProfileId, unitCode, unitVersion)` backs true
+  concurrency; a `Promise.all` test now exercises the real race and tolerates
+  either a resolved or a rejected loser, asserting exactly one placement.
+- **A-1, A-3 (F7), A-13 (F8), B-2, B-3:** each got a direct falsifying test
+  (the unit-path skip, the probe item-matching rule via an extracted
+  `matchesPlacementProbeRequirement`, the D-22 cap via `selectAssessmentItems`,
+  the OPERATOR/future-token/cross-household/loser-reason-code cases, and
+  override revocation plus latest-vs-first ordering). Two of the new tests
+  (mutant checks on `latestSkillOverrideAt`'s ordering and its `revokedAt`
+  filter) were confirmed to fail against the corresponding bug before being
+  restored, proving they are genuine falsifiers, not just passing assertions.
+- A DB-free unit test (`tests/auth/password-attempts.test.ts`) was found
+  outside any script `npm run verify` runs (`tests/auth` is swept only by
+  `test:integration`, which needs Postgres); added to the `test` script glob
+  in `package.json` so it is gated without a database.
+
+`npm run verify` (58 files / 297 tests, build), `npm run test:integration`
+(18 files / 152 tests), `npm run test:e2e` (24 passed, 1 intentional skip),
+and `npm run test:migrations` (through `0016`) all pass after remediation.
+This is not an approval; C4 remains closed pending the human gates.
+
+## Independent review of pilot placement — 2026-09-24
+
+Reviewer: requested as Claude Fable 5.1; model unverified (self-reported).
+Scope: `535eeeb..7d994c8`. Verdict: **not ready for human review**. It found
+no held-out boundary leak, and the e2e timestamp masking was judged
+legitimate. Remediation made after the review:
+
+- **F1 (major):** probe attempts had counted as prior practice, disabling the
+  D-31 skip. They are now excluded, with a test.
+- **F2 (major):** the prerequisite exemption applied to every program. It is
+  now limited to unit-claimed skills, with falsifiers for the legacy and
+  skill-graph-only cases.
+- **F3 (major):** U37 had no falsifier. A test now shows placement-skipped
+  lessons never complete a unit.
+- **F4:** pinned practice-file hashes are verified against the files.
+- **F5:** retakes were undecided. D-71 is approved and implemented.
+- **F6:** new tests cover multi-skill placement, first-item selection, the
+  route plan, and evidence. The unreviewed-reference fixture is still open.
+- **F7:** probe items must match the skill version and the practice role.
+- **F8:** the D-22 limit for larger units is recorded in D-68.
+
+These remediations need another independent re-review.
+
+## Independent re-review of the R1–R5 fixes and D-70 — 2026-09-24
+
+Reviewer: requested as Claude Fable 5.1; model unverified (self-reported).
+Scope: `c0292fa..8b28727`. Verdict: **ready for human review with noted
+risks**. No blocker and no major finding. Of 45 mutants, 29 were killed and 7
+survivors were judged equivalent. Nothing was found invented beyond D-70.
+Follow-up after the review:
+
+- **Findings 2 and 3:** falsifiers added for the reassessment-count restart,
+  invalidation stranding, and the unit-skip guard.
+- **Finding 5:** the Phase 1 stranding check is now best-effort, outside the
+  learner's transaction, with a failure-injection test.
+- **Findings 1, 4, 6, and 7:** documented in D-70 and the handoff:
+  - the assumption that a new bank version uses only new item identities;
+  - the override's pre-caller requirements (server-side actor lookup, D-47
+    lifetime from the profile, atomic single use, and tests for scoping,
+    revocation, and ordering);
+  - stale wording fixed;
+  - the step-up endpoint ordered before C4.
+
+This is not an approval. C4 remains closed pending the human gates.
+
+## Independent re-review of the stranding and NEEDS_HELP fixes — 2026-09-24
+
+Reviewer: requested as Claude Fable 5.1; model unverified. The agent
+self-reported Fable and noted it could not confirm this. Scope:
+`c499084..c0292fa`. Verdict: **not ready for human review**. 28 of 45 mutants
+were killed; F5, F6, and the draft fix were closed. Remediation made after this
+re-review:
+
+- **R1 (major):** three terminal refusals had no record:
+  - Phase 1 review lapses now run the D-69 check (pilot skills only);
+  - invalidation now runs it too;
+  - the route settles a stale run through normal expiry before eligibility,
+    reports a live run as `ACTIVE_ASSIGNMENT_EXISTS`, and records every
+    `NEEDS_HELP` refusal.
+- **R2:** the flaky "exactly at the lapse" test now uses one fixed lapse time.
+- **R3:** new falsifiers cover:
+  - refusal before marking;
+  - the reuse short-circuit;
+  - consecutive counting (latest pass, INCONCLUSIVE, other learners);
+  - the expire hook;
+  - the database-level NEEDS_HELP writers;
+  - no clearing by a delayed-check pass;
+  - the passed-check context;
+  - the failure-kind filter;
+  - other learners' traces;
+  - the Phase 1 lapse;
+  - no marking after a passing check.
+  The guard mutants N16, N17, and N26 are equivalent: a non-skill target never
+  resolves as stranded.
+- **R4:** the unit-skip path now preserves NEEDS_HELP.
+- **R5:** doc overclaims corrected, and the handoff lists D-70 for C4.
+
+## Independent re-review of the D-28 and D-69 remediation — 2026-09-24
+
+Reviewer: requested as Claude Fable 5.1; model unverified. Scope: `8293201..c499084`.
+Verdict: **not ready for human review**. N1 closed, N5 deferral accepted,
+13 of 39 mutants killed. Remediation made after this re-review:
+
+- **F1 (major):** abandoned or expired delayed-check runs after a lapse or
+  failure could still strand a skill with no record. Abandon and expiry now
+  run the D-69 check, and eligibility refuses a stranded skill with
+  `NEEDS_HELP` even before it is marked.
+- **F2 (major):** a lesson-assessment outcome or later lapse could clear
+  `NEEDS_HELP`. It is now terminal in both transitions. Because no override
+  can reopen it, the override semantics are recorded as open decision D-70
+  instead of being invented.
+- **F3:** new falsifying cases cover the practice-session filters (learner,
+  kind, skill, ended, after remediation began, passed check), the exact
+  cooldown boundary, remediation start (max, failure-only, learner, version,
+  outcome), other learners' `NEEDS_HELP`, assistance, and tutor moves,
+  first-time exhaustion under the production profile, abandoned-run
+  stranding, and no `NEEDS_HELP` after passing checks. The implementer
+  confirmed eleven of the previously surviving mutants are now killed.
+- **F4:** documentation claims corrected (the cross-learner scope, D-69
+  wording, and the handoff's stale "Review 4 has not been performed").
+- **F5:** a completed practice session must now end on a passed same-sitting
+  check, which excludes operator-drained sessions. This is documented in the
+  D-28 implementation note.
+- **F6:** the `NEEDS_HELP` write moved to `learner-state.ts`; eligibility is
+  read-only again.
+- **Draft:** `unit-rates-review-c` was replaced because it overlapped a public
+  practice item. The bank hash is re-pinned.
+
+These remediations need another independent re-review.
+
+## Independent re-review of the delayed-check and review remediation — 2026-09-24
+
+Reviewer: a fresh read-only agent requested as Claude Fable 5.1 (model unverified). An earlier
+resumed attempt was discarded.
+Scope: `5eff07e..8293201`. Verdict: **not ready for human review**. F1–F3,
+F7, F9, and F10 were confirmed closed; 24 of 31 mutants were killed. C3 was
+confirmed non-enforcing and the route still gated. Remediation made after this
+re-review:
+
+- **N1 (major):** a lapsed skill could be re-confirmed within seconds. A
+  delayed check after a lapse or a failed delayed check now requires the D-28
+  cooldown (`REASSESSMENT_COOLDOWN`). It also requires a completed practice
+  session on the skill since then (`REMEDIATION_PRACTICE_REQUIRED`).
+- **N2 (major):** repeated lapses stranded a skill with no record. D-69 is now
+  approved and implemented: an exhausted or capped skill gets a `NEEDS_HELP`
+  lesson record (created if missing), and further delayed checks are refused
+  with `NEEDS_HELP`.
+- **N3:** tests now cover:
+  - delayed-check no-reuse under profile `1.1.0`;
+  - remediation staying `ACTIVE` on an incomplete lesson;
+  - cross-learner isolation of attempt exposure (other exposure sources
+    were covered later);
+  - version-aware exclusivity;
+  - the skill-bank configuration.
+- **N4:** the F3 overclaim is corrected, and the D-67 follow-up is folded into
+  D-69.
+- **N5:** `attemptOrdinal` counts every scored run while the D-27 count resets
+  on a pass. Both must be reconciled before C4.
+- **Draft items (by id):**
+  - replaced `unit-rates-delayed-check-b` (answer visible in the prompt),
+    `unit-rates-delayed-check-e` (skill fit), and `ratio-language-review-c`
+    (reused a lesson item's quantities);
+  - broadened accepted answers;
+  - dropped bare-number leakage patterns.
+
+These remediations need another independent re-review.
+
+## Independent review of pilot delayed-check and review assignments — 2026-09-24
+
+Reviewer: requested as Claude Fable 5.1 (model unverified), read-only, reviewing `ad74b09..5eff07e`.
+Verdict: **not ready for human review**. Nothing was approved, and C4
+remains closed. Remediation made after the review:
+
+- **F1:** a lapsed skill now refuses review (`REVIEW_LAPSED_REMEDIATION`).
+- **F2:** a confirmed skill refuses a new delayed check (`ALREADY_CONFIRMED`).
+  A passing re-confirmation after a lapse restarts the schedule and clears lapse
+  remediation on completed lessons.
+- **F3:** exposure now includes every Phase 1 attempt on the skill's public
+  content in any context, and tutor interactions. Held-out assessment attempts
+  are not exposure.
+- **F4 and F7:** new tests cover:
+  - disjoint no-reuse selection, including items from a passed run;
+  - the reassessment cap and review-pool exhaustion;
+  - review rotation (D-67);
+  - the due-date boundary and other-skill isolation;
+  - loader role, missing-bank, and exclusive-skill checks;
+  - route refusals and replay;
+  - the review reassessment-limit rule, now a pure helper.
+- **F5:**
+  - reassessment now counts consecutive failures since the latest pass and
+    allows the initial run plus `maxReassessments`, correcting an off-by-one
+    against D-27;
+  - bank exhaustion by abandoned runs is recorded as an open follow-up
+    under D-67;
+  - D-28's practice-session condition is still not enforced.
+- **F6:** the legacy same-sitting check still writes `independentDelayedCheck`.
+  It must be resolved at the latest in C4 (tracked in the handoff).
+- **F8:** the skill banks now require exclusive skill membership. Re-pinning
+  every bank from the reviewed package is documented.
+- **F9:** superseded. D-67 now specifies reuse semantics, via profile `1.1.0`.
+- **F10:** a replayed idempotency key is honored before eligibility.
+- **Draft items:** near-duplicates were replaced, and accepted answers and
+  leakage patterns broadened.
+
+These remediations need their own independent re-review.
 
 The entries below are historical reviews of earlier checkpoints and
 must not be interpreted as approval of the current code or authorization for

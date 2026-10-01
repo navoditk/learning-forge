@@ -9,7 +9,7 @@ approval.
 
 | Gate | Artifact | Status |
 |---|---|---|
-| Fourth-draft architecture and C1–C3 review | `independent-review.md` | **Completed 2026-09-22 for `b7934bc`: do not approve (M1, M2)** |
+| Fourth-draft architecture and C1–C3 review | `independent-review.md`, `independent-review-result.md` | **`b7934bc`: do not approve (2026-09-22). Latest read-only re-review of the follow-up work: ready for human review with noted risks (2026-09-24; reviewer model unverified). Human approval still required** |
 | Reviewer handoff packet | `independent-review-request.md` | **Ready to send** |
 | Representative C3 shadow review | `shadow-divergence-review.md` | **Awaiting representative traffic and review** |
 | Staging synthetic shadow evidence | `staging-shadow-pilot.md` | **Re-collected 2026-09-22 after remediation: 4 divergences; 2 explained, 2 require remediation (pilot placement/review assignments)** |

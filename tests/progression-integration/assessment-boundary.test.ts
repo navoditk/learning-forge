@@ -71,7 +71,7 @@ describe('course progression assessment boundary', () => {
   async function createAssignment(idempotencyKey: string) {
     const artifacts = loadPolicyArtifacts();
     const profileRecord = artifacts.profiles.find(
-      (profile) => profile.code === 'grade-6-math-default',
+      (profile) => profile.code === 'grade-6-math-default' && profile.version === '1.0.0',
     );
     if (!profileRecord) throw new Error('Grade 6 Math policy profile is missing');
     const profile = resolvePolicyProfile(profileRecord);

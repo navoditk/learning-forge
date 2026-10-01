@@ -30,6 +30,14 @@ The two `RUN_NOT_ACTIVE` rows were invisible before M2 remediation: the prior
 five-request run recorded them as non-divergent `ALLOW`. Dispositions are
 recorded in `shadow-divergence-review.md`.
 
+## Rerun — 2026-09-24 (profile `grade-6-math-default@1.1.0`)
+
+The same 8 requests produced the same 4 divergences, now recorded under
+profile `1.1.0`. Pilot `REVIEW` assignments now exist. The `REVIEW` row still
+diverges because the learner UI starts assignment-free review sessions, which
+D-62 refuses for pilot skills. Moving the UI to the assignment route is C4/C5
+work. Placement assignments (D-64, D-68) are not yet implemented.
+
 ## Earlier run (superseded)
 
 Before remediation, the five-request pilot-only run produced one divergence

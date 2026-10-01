@@ -6,9 +6,25 @@ import {
   AssessmentAssignmentError,
   assessmentKindMatchesTarget,
   createAssessmentAssignment,
+  settleAssessmentLease,
 } from '../../../../../progression/assessment-assignment';
-import { loadPolicyArtifacts } from '../../../../../progression/artifacts';
-import { policyHash, resolvePolicyProfile } from '../../../../../progression/policy';
+import { recordStrandedSkill } from '../../../../../progression/assessment-submission';
+import {
+  loadPolicyArtifacts,
+  resolvePinnedPolicyProfile,
+} from '../../../../../progression/artifacts';
+import { policyHash } from '../../../../../progression/policy';
+import { placementProbeBank } from '../../../../../progression/placement-probe';
+import {
+  latestSkillOverrideAt,
+  pilotSkillRef,
+  reassessmentLimitsFor,
+  skillAssessmentBank,
+  skillAssessmentEligibility,
+} from '../../../../../progression/skill-assessment';
+import type { ProgressionPolicyProfile } from '../../../../../contracts/policy';
+import type { AssessmentBank } from '../../../../../contracts/progression';
+import { prisma } from '../../../../../server/prisma';
 import { skillsByCode } from '../../../../../curriculum/catalog';
 import {
   PILOT_ASSESSMENT_BANKS,
@@ -81,6 +97,155 @@ function requiredCount(
   }
 }
 
+type AssessmentPlan = {
+  targetRef: { code: string; version: string };
+  bank: Pick<AssessmentBank, 'code' | 'version' | 'contentHash' | 'itemCount' | 'coveredSkillRefs'>;
+  skillCodes: string[];
+  previouslySeenItemKeys?: ReadonlySet<string>;
+  reassessmentCountSince?: Date;
+};
+
+function conflict(error: string, reasonCode: string, status = 409) {
+  return { response: NextResponse.json({ error, reasonCode }, { status }) };
+}
+
+function lessonSkillCodes(lessonRefs: readonly { code: string; version: string }[]): string[] {
+  return [
+    ...new Set(
+      PILOT_LESSONS.filter((lesson) =>
+        lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
+      ).flatMap((lesson) => lesson.skillRefs.map((skill) => skill.code)),
+    ),
+  ];
+}
+
+/**
+ * Resolves the pilot target, its authored bank metadata, and any server-side
+ * eligibility for the requested kind. Every unresolved case is a refusal.
+ */
+async function resolvePlan(
+  body: z.infer<typeof RequestSchema>,
+  identity: { householdId: string; learnerProfileId: string },
+  profile: ProgressionPolicyProfile,
+  policyProfileRef: { code: string; version: string },
+): Promise<AssessmentPlan | { response: NextResponse }> {
+  const { householdId, learnerProfileId } = identity;
+  if (body.targetKind === 'SKILL') {
+    const kind = body.kind === 'DELAYED_CHECK' ? 'DELAYED_CHECK' : 'REVIEW';
+    const skillRef = pilotSkillRef(body.targetCode, body.targetVersion);
+    if (!skillRef) return conflict('Unknown pilot assessment target', 'VERSION_MISMATCH');
+    const bank = skillAssessmentBank(kind, skillRef);
+    if (!bank) {
+      return conflict('Assessment bank is not configured', 'ASSESSMENT_STORE_UNAVAILABLE', 503);
+    }
+    // D-54: a retried request replays its assignment even after the run has
+    // changed eligibility; createAssessmentAssignment rejects a mismatch.
+    const replay = await prisma.assessmentAssignment.findUnique({
+      where: {
+        learnerProfileId_idempotencyKey: { learnerProfileId, idempotencyKey: body.idempotencyKey },
+      },
+      select: { id: true },
+    });
+    if (replay) return { targetRef: skillRef, bank, skillCodes: [skillRef.code] };
+    const now = new Date();
+    const lease = await settleAssessmentLease(prisma, {
+      learnerProfileId,
+      kind,
+      targetRef: skillRef,
+      now,
+    });
+    if (lease.active) {
+      return conflict('An assessment run is already active', 'ACTIVE_ASSIGNMENT_EXISTS');
+    }
+    const eligibility = await skillAssessmentEligibility(prisma, {
+      learnerProfileId,
+      kind,
+      skillRef,
+      profile,
+      now,
+    });
+    if (!eligibility.eligible) {
+      if (eligibility.reasonCode === 'NEEDS_HELP') {
+        // D-69: a terminal refusal always has a record.
+        await prisma.$transaction((transaction) =>
+          recordStrandedSkill(transaction, {
+            householdId,
+            learnerProfileId,
+            policyProfileCode: policyProfileRef.code,
+            policyProfileVersion: policyProfileRef.version,
+            skillRef,
+          }),
+        );
+      }
+      return conflict('The assessment is not available yet', eligibility.reasonCode);
+    }
+    return {
+      targetRef: skillRef,
+      bank,
+      skillCodes: [skillRef.code],
+      previouslySeenItemKeys: eligibility.excludedItemKeys,
+      reassessmentCountSince: await latestSkillOverrideAt(prisma, learnerProfileId, skillRef),
+    };
+  }
+  const lesson =
+    body.targetKind === 'LESSON'
+      ? PILOT_LESSONS.find(
+          (candidate) =>
+            candidate.code === body.targetCode && candidate.version === body.targetVersion,
+        )
+      : undefined;
+  const unit =
+    body.targetKind === 'UNIT'
+      ? PILOT_UNITS.find(
+          (candidate) =>
+            candidate.code === body.targetCode && candidate.version === body.targetVersion,
+        )
+      : undefined;
+  const target = lesson ?? unit;
+  if (!target) return conflict('Unknown pilot assessment target', 'VERSION_MISMATCH');
+  if (body.kind === 'PLACEMENT' && unit) {
+    // D-64: the probe projects reviewed public practice items; D-68 places.
+    // D-71: one placement per unit.
+    const placed = await prisma.learnerPlacement.count({
+      where: { learnerProfileId, unitCode: unit.code, unitVersion: unit.version },
+    });
+    if (placed > 0) {
+      return conflict('Placement is already recorded for this unit', 'PLACEMENT_ALREADY_RECORDED');
+    }
+    const probe = placementProbeBank(unit);
+    if (!probe) {
+      return conflict('Placement probe is not available', 'ASSESSMENT_STORE_UNAVAILABLE', 503);
+    }
+    const skillCodes = lessonSkillCodes(unit.lessonRefs);
+    return {
+      targetRef: { code: unit.code, version: unit.version },
+      bank: {
+        code: probe.code,
+        version: probe.version,
+        contentHash: probe.contentHash,
+        itemCount: probe.items.length,
+        coveredSkillRefs: probe.items.map((item) => item.skillRef),
+      },
+      skillCodes,
+    };
+  }
+  const bankRef = target.assessmentBankRef;
+  if (!bankRef) {
+    return conflict('Assessment bank is not configured', 'ASSESSMENT_STORE_UNAVAILABLE', 503);
+  }
+  const bank = PILOT_ASSESSMENT_BANKS.find(
+    (candidate) => candidate.code === bankRef.code && candidate.version === bankRef.version,
+  );
+  if (!bank) throw new Error('Assessment bank metadata is unavailable');
+  return {
+    targetRef: { code: target.code, version: target.version },
+    bank,
+    skillCodes: lesson
+      ? [...new Set(lesson.skillRefs.map((skill) => skill.code))]
+      : lessonSkillCodes(unit?.lessonRefs ?? []),
+  };
+}
+
 export async function POST(request: NextRequest) {
   if (!isProgressionReleaseGateOpen()) {
     return NextResponse.json(
@@ -102,103 +267,26 @@ export async function POST(request: NextRequest) {
     const body = RequestSchema.parse(await request.json());
     const program = programsByCode.get('grade-6-math');
     if (!program) throw new Error('Pilot program is unavailable');
-    const target =
-      body.targetKind === 'LESSON'
-        ? PILOT_LESSONS.find(
-            (lesson) => lesson.code === body.targetCode && lesson.version === body.targetVersion,
-          )
-        : body.targetKind === 'UNIT'
-          ? PILOT_UNITS.find(
-              (unit) => unit.code === body.targetCode && unit.version === body.targetVersion,
-            )
-          : undefined;
-    if (!target) {
-      return NextResponse.json(
-        { error: 'Unknown pilot assessment target', reasonCode: 'VERSION_MISMATCH' },
-        { status: 409 },
-      );
-    }
     if (!assessmentKindMatchesTarget(body.kind, body.targetKind)) {
       return NextResponse.json(
         { error: 'Assessment kind does not match target kind', reasonCode: 'KIND_TARGET_MISMATCH' },
         { status: 409 },
       );
     }
-    const bankRef = target.assessmentBankRef;
-    if (!bankRef) {
-      return NextResponse.json(
-        { error: 'Assessment bank is not configured', reasonCode: 'ASSESSMENT_STORE_UNAVAILABLE' },
-        { status: 503 },
-      );
-    }
-    const bank = PILOT_ASSESSMENT_BANKS.find(
-      (candidate) => candidate.code === bankRef.code && candidate.version === bankRef.version,
-    );
-    if (!bank) throw new Error('Assessment bank metadata is unavailable');
-    const targetLesson =
-      body.targetKind === 'LESSON'
-        ? PILOT_LESSONS.find(
-            (lesson) => lesson.code === target.code && lesson.version === target.version,
-          )
-        : undefined;
-    const targetUnit =
-      body.targetKind === 'UNIT'
-        ? PILOT_UNITS.find((unit) => unit.code === target.code && unit.version === target.version)
-        : undefined;
-    const requiredSkillCodes =
-      body.targetKind === 'LESSON'
-        ? (targetLesson?.skillRefs.map((skill) => skill.code) ?? [])
-        : body.targetKind === 'UNIT'
-          ? targetUnit
-            ? [
-                ...new Set(
-                  PILOT_LESSONS.filter((lesson) =>
-                    targetUnit.lessonRefs.some(
-                      (lessonRef) =>
-                        lessonRef.code === lesson.code && lessonRef.version === lesson.version,
-                    ),
-                  ).flatMap((lesson) => lesson.skillRefs.map((skill) => skill.code)),
-                ),
-              ]
-            : []
-          : [];
     const artifacts = loadPolicyArtifacts();
-    const profileRecord = artifacts.profiles.find(
-      (profile) =>
-        profile.code === program.defaultPolicyProfileRef.code &&
-        profile.version === program.defaultPolicyProfileRef.version,
-    );
-    if (!profileRecord) throw new Error('Policy profile is unavailable');
-    const profile = resolvePolicyProfile(
-      profileRecord,
-      new Map(
-        artifacts.profiles.map((candidate) => [
-          `${candidate.code}@${candidate.version}`,
-          candidate,
-        ]),
-      ),
-    );
+    const profile = resolvePinnedPolicyProfile(program.defaultPolicyProfileRef);
     const accessPolicy = artifacts.accessPolicies.find(
       (candidate) =>
         candidate.code === program.accessPolicyRef.code &&
         candidate.version === program.accessPolicyRef.version,
     );
-    const shadowSkillCodes: string[] = targetLesson
-      ? targetLesson.skillRefs.map((skill) => skill.code)
-      : targetUnit
-        ? PILOT_LESSONS.filter((lesson) =>
-            targetUnit.lessonRefs.some(
-              (lessonRef) => lessonRef.code === lesson.code && lessonRef.version === lesson.version,
-            ),
-          ).flatMap((lesson) => lesson.skillRefs.map((skill) => skill.code))
-        : [];
-    const required = requiredCount(body.kind, profile);
-    if (required === undefined) {
-      return NextResponse.json(
-        { error: 'Placement scoring is not wired yet', reasonCode: 'PLACEMENT_NOT_IMPLEMENTED' },
-        { status: 409 },
-      );
-    }
+    const plan = await resolvePlan(body, identity, profile, program.defaultPolicyProfileRef);
+    if ('response' in plan) return plan.response;
+    // A placement records whether every probe item was correct; it has no pass
+    // bar and never gates progress (§9.3).
+    const required =
+      body.kind === 'PLACEMENT' ? plan.bank.itemCount : requiredCount(body.kind, profile);
+    if (required === undefined) throw new Error('Assessment pass bar is unavailable');
     const assignment = await createAssessmentAssignment(
       {
         householdId: identity.householdId,
@@ -207,27 +295,31 @@ export async function POST(request: NextRequest) {
         actorRole: identity.actorRole,
         kind: body.kind,
         targetKind: body.targetKind,
-        targetRef: { code: target.code, version: target.version },
-        bankRef,
+        targetRef: plan.targetRef,
+        bankRef: { code: plan.bank.code, version: plan.bank.version },
         policyProfileRef: program.defaultPolicyProfileRef,
         policyProfileHash: policyHash(profile),
         algorithmVersion: 'mastery-phase-1-1',
-        curriculumSnapshotHash: bank.contentHash,
-        itemsPerAttempt: itemsPerAttempt(body.kind, profile),
+        curriculumSnapshotHash: plan.bank.contentHash,
+        itemsPerAttempt:
+          body.kind === 'PLACEMENT'
+            ? Math.min(plan.bank.itemCount, profile.placementProbeMaxItems)
+            : itemsPerAttempt(body.kind, profile),
         requiredCount: required,
-        requiredSkillCodes,
-        authoredBankItemCount: bank.itemCount,
-        authoredBankSkillCodes: bank.coveredSkillRefs.map((skill) => skill.code),
-        maxReassessments: profile.maxReassessments,
-        reassessmentCooldownHours: profile.reassessmentCooldownHours,
+        requiredSkillCodes: plan.skillCodes,
+        previouslySeenItemKeys: plan.previouslySeenItemKeys,
+        reassessmentCountSince: plan.reassessmentCountSince,
+        authoredBankItemCount: plan.bank.itemCount,
+        authoredBankSkillCodes: plan.bank.coveredSkillRefs.map((skill) => skill.code),
+        ...reassessmentLimitsFor(body.kind, profile),
         shadow: {
           requestKind: 'assessment-assignment',
           activityKind: body.kind,
           accessPolicy,
           policyProfile: profile,
-          skillCodes: [...new Set<string>(shadowSkillCodes)],
+          skillCodes: plan.skillCodes,
           prerequisiteSkillCodes: Object.fromEntries(
-            [...new Set<string>(shadowSkillCodes)].map((skillCode) => [
+            plan.skillCodes.map((skillCode) => [
               skillCode,
               skillsByCode.get(skillCode)?.prerequisiteSkillCodes ?? [],
             ]),

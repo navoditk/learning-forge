@@ -219,17 +219,20 @@ model Household {
 }
 
 model User {
-  id             String          @id @default(uuid())
-  householdId    String
-  role           UserRole
+  id                     String          @id @default(uuid())
+  householdId            String
+  role                   UserRole
   // Sign-in credentials. Only ever populated for PARENT-role users: ADR-0008
   // decided there is no separate learner login, so LEARNER-role users keep
   // these null.
-  email          String?         @unique
-  passwordHash   String?
-  createdAt      DateTime        @default(now())
-  household      Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile LearnerProfile?
+  email                  String?         @unique
+  passwordHash           String?
+  // D-72: consecutive failed password checks and the resulting lock.
+  failedPasswordAttempts Int             @default(0)
+  passwordLockedUntil    DateTime?
+  createdAt              DateTime        @default(now())
+  household              Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile         LearnerProfile?
 
   @@index([householdId, role])
 }
@@ -446,6 +449,13 @@ model AssessmentAssignment {
   curriculumSnapshotHash String
   selectedItems          Json
   excludedItems          Json
+  // Lifetime ordinal position among all scored (PASS/FAIL) assignments for
+  // this target - never resets on a pass. Only `=== 1` is used, to gate the
+  // D-31 evidence-backed-skip credit (a learner must never have taken this
+  // assessment before to earn it). Deliberately distinct from the D-27
+  // `maxReassessments` cap, which counts consecutive failures since the
+  // latest pass and does reset - see reassessmentEligibility in
+  // src/progression/reassessment.ts. Do not conflate the two (re-review N5).
   attemptOrdinal         Int
   requiredCount          Int?
   idempotencyKey         String
@@ -534,6 +544,7 @@ model LearnerPlacement {
   household            Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
   learnerProfile       LearnerProfile  @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
 
+  @@unique([learnerProfileId, unitCode, unitVersion])
   @@index([learnerProfileId, programCode, createdAt])
 }
 
@@ -633,6 +644,7 @@ model OverrideRecord {
   household            Household             @relation(fields: [householdId], references: [id], onDelete: Cascade)
   learnerProfile       LearnerProfile        @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
 
+  @@unique([actorUserId, reauthAt])
   @@index([learnerProfileId, targetCode, targetVersion])
 }
 

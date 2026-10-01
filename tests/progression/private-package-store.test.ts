@@ -5,7 +5,10 @@ import { join } from 'node:path';
 
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { PrivateAssessmentPackageStore } from '../../src/assessment/private-package-store';
+import {
+  GRADE_6_MATH_PACKAGE_BANKS,
+  PrivateAssessmentPackageStore,
+} from '../../src/assessment/private-package-store';
 
 const temporaryPaths: string[] = [];
 
@@ -145,6 +148,107 @@ describe('private held-out assessment package store', () => {
           { code: 'private-bank', version: '1.0.0', minimumItems: 2 },
         ]),
     ).toThrow('requires at least 2 items');
+  });
+
+  it('accepts an absent optional bank but still validates one that is present', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 1 },
+          { code: 'optional-bank', version: '1.0.0', minimumItems: 6, optional: true },
+        ]),
+    ).not.toThrow();
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 6, optional: true },
+        ]),
+    ).toThrow('requires at least 6 items');
+  });
+
+  it('rejects a package missing a required bank', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 1 },
+          { code: 'required-bank', version: '1.0.0', minimumItems: 1 },
+        ]),
+    ).toThrow('missing bank: required-bank@1.0.0');
+  });
+
+  it('rejects items whose role does not match the bank', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 1, itemRole: 'review' },
+        ]),
+    ).toThrow('must contain only review items');
+  });
+
+  it('rejects an item for another skill in an exclusive skill bank', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          {
+            code: 'private-bank',
+            version: '1.0.0',
+            minimumItems: 1,
+            requiredSkillRefs: [{ code: 'unit-rates', version: '1.0.0' }],
+            exclusiveSkills: true,
+          },
+        ]),
+    ).toThrow('contains an item for another skill');
+  });
+
+  it('rejects an exclusive-bank item pinned to a different skill version', async () => {
+    const path = await writePackage(packageDocument());
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          {
+            code: 'private-bank',
+            version: '1.0.0',
+            minimumItems: 1,
+            requiredSkillRefs: [{ code: 'ratio-language', version: '2.0.0' }],
+            exclusiveSkills: true,
+          },
+        ]),
+    ).toThrow('contains an item for another skill');
+  });
+
+  it('configures every Grade 6 Math skill bank as optional, exclusive, and role-typed', () => {
+    const skillBanks = GRADE_6_MATH_PACKAGE_BANKS.filter((bank) => bank.optional);
+    expect(skillBanks).toHaveLength(6);
+    for (const bank of skillBanks) {
+      expect(bank.exclusiveSkills).toBe(true);
+      expect(bank.requiredSkillRefs).toHaveLength(1);
+      expect(bank.itemRole ?? 'assessment').toBe(
+        bank.code.endsWith('-review-bank') ? 'review' : 'assessment',
+      );
+    }
+    expect(GRADE_6_MATH_PACKAGE_BANKS.filter((bank) => !bank.optional)).toHaveLength(4);
+  });
+
+  it('rejects a bank the configured shape does not name', async () => {
+    const first = packageDocument({ code: 'private-bank', version: '1.0.0' });
+    const second = packageDocument({ code: 'other-bank', version: '1.0.0' });
+    second.banks[0]!.items[0]!.id = 'assessment-two';
+    const secondItem = { ...second.banks[0]!.items[0]! };
+    Reflect.deleteProperty(secondItem, 'hash');
+    second.banks[0]!.items[0]!.hash = sha256(secondItem);
+    second.banks[0]!.contentHash = sha256(second.banks[0]!.items);
+    const path = await writePackage({ banks: [...first.banks, ...second.banks] });
+
+    expect(
+      () =>
+        new PrivateAssessmentPackageStore(path, [
+          { code: 'private-bank', version: '1.0.0', minimumItems: 1 },
+        ]),
+    ).toThrow('unknown bank: other-bank@1.0.0');
   });
 
   it('rejects a required bank that does not cover every required skill', async () => {

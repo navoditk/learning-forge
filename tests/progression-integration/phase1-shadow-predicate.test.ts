@@ -1,6 +1,11 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { PHASE_1_MASTERY_VERSION, startSession } from '../../src/phase1/service';
+import {
+  PHASE_1_MASTERY_VERSION,
+  recordAttempt,
+  recordIndependentCheck,
+  startSession,
+} from '../../src/phase1/service';
 import { readCutoverReadiness } from '../../src/progression/cutover-readiness';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
@@ -133,6 +138,36 @@ describe('Phase 1 shadow predicate', () => {
       });
     }
     expect((await readCutoverReadiness(prisma)).unboundOpenSessionCount).toBe(before);
+  });
+
+  it('authorizes the same-sitting independent check as practice (D-65)', async () => {
+    const session = await startSession(identity(), {
+      contentId: 'gcf-and-lcm-1',
+      activityKind: 'PRACTICE',
+    });
+    const attempt = await recordAttempt(identity(), {
+      sessionId: session.sessionId,
+      learnerResponse: 'not the answer',
+    });
+    await prisma.tutorInteraction.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        attemptId: attempt.attemptId,
+        moveType: 'hint',
+        assistanceLevel: 'SMALL_STRATEGIC_HINT',
+        policyVersion: 'integration-policy',
+      },
+    });
+    await recordIndependentCheck(identity(), {
+      sessionId: session.sessionId,
+      learnerResponse: '6',
+    });
+    expect(await latestShadow()).toMatchObject({
+      activityKind: 'PRACTICE',
+      shadowDecision: 'ALLOW',
+      divergent: false,
+    });
   });
 
   it('counts only unit-claimed assignment-free placement or review as unbound', async () => {

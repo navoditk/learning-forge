@@ -16,7 +16,8 @@ const rawProgramRegistry = [
     // 1.1.0 grants unit-covered pilot targets full progression kinds (D-60).
     accessPolicyRef: policy('grade-6-math-access', '1.1.0'),
     legacyCompatibilityPolicyRef: policy('grade-6-math-legacy-compatibility'),
-    defaultPolicyProfileRef: policy('grade-6-math-default'),
+    // 1.1.0 enables review reuse after two runs (D-67).
+    defaultPolicyProfileRef: policy('grade-6-math-default', '1.1.0'),
   },
   {
     code: 'math-kangaroo-6',

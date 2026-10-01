@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  lessonStateAfterReviewLapse,
   lessonStatusAfterAssessment,
   unitStatusAfterAssessment,
   unitStatusAfterLessonUpdate,
@@ -158,5 +159,27 @@ describe('progression learner-state rules', () => {
         relockEstimate: 0.55,
       }),
     ).toEqual({ targetStatus: 'NOT_STARTED', staleEvidence: false, reEvaluationQueued: false });
+  });
+
+  it('keeps NEEDS_HELP through lesson outcomes and review lapses (D-69)', () => {
+    for (const outcome of ['PASS', 'FAIL', 'INCONCLUSIVE'] as const) {
+      expect(
+        lessonStatusAfterAssessment({
+          current: 'COMPLETE',
+          currentRemediation: 'NEEDS_HELP',
+          outcome,
+          firstRun: false,
+          hadPriorWork: true,
+        }).remediationStatus,
+      ).toBe('NEEDS_HELP');
+    }
+    expect(
+      lessonStateAfterReviewLapse({ completionStatus: 'COMPLETE', remediationStatus: 'NEEDS_HELP' })
+        .remediationStatus,
+    ).toBe('NEEDS_HELP');
+    expect(
+      lessonStateAfterReviewLapse({ completionStatus: 'COMPLETE', remediationStatus: 'NONE' })
+        .remediationStatus,
+    ).toBe('ACTIVE');
   });
 });

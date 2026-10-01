@@ -39,7 +39,7 @@ release gates.
 |---|---|---|
 | `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
 | `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-62` | **62 approved; 0 open** |
+| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-72` | **72 approved; 0 open** |
 | `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
 | `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
 | `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
@@ -63,9 +63,10 @@ detail.
 
 ### Remaining open findings
 
-None from reviews 1–3 are known to be outstanding. **Review 4 has not been
-performed.** The fourth draft has not been independently checked, and its
-self-assessment should not be trusted.
+None from reviews 1–3 are known to be outstanding. The fourth-draft and C1–C3
+review was performed on 2026-09-22 (recommendation: do not approve). Later
+independent reviews and remediation are recorded in
+`docs/course-progression-review/independent-review-result.md`.
 
 Specific things a fourth reviewer should challenge first:
 
@@ -82,7 +83,7 @@ Specific things a fourth reviewer should challenge first:
 
 ## 5. Decisions required before any implementation
 
-All sixty-two entries in `docs/course-progression-decisions.md` are approved.
+All seventy-two entries in `docs/course-progression-decisions.md` are approved.
 D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
 before treating elapsed-time evidence as production mastery evidence. Each
 later stage must still use the approved value for every decision it touches.
@@ -96,16 +97,80 @@ later stage must still use the approved value for every decision it touches.
 
 ## 6. The exact next task
 
-> The independent C1–C3 review (2026-09-22) and its M1–M3 remediation
-> re-review are recorded in `docs/course-progression-review/`. Before C4:
-> (1) implement pilot `PLACEMENT`, `REVIEW`, and `DELAYED_CHECK` assessment
-> assignments, so D-62 does not remove the pilot's diagnostic, review, and
-> mastery-check flows (re-review findings N3 and N7); (2) deploy, then collect
-> representative non-enforcing shadow traffic from the remediation deploy
-> onward and disposition every divergence; (3) complete the private-package
-> review and the manual gate record. Only then implement the approved C4
-> expand/contract cutover. Do not serve progression UI until C4 and the manual
-> accessibility, wording, privacy, and content gates are recorded.
+> As of 2026-09-28: the independent C1–C3 review (2026-09-22) and every
+> remediation round since are recorded in `docs/course-progression-review/`,
+> most recently "ready for human review with noted risks" on the placement
+> (D-64, D-68 as amended, D-71) and D-70 step-up/override work, with its one
+> major finding (no password attempt limiting) closed as D-72. Pilot
+> `PLACEMENT`, `DELAYED_CHECK`, and `REVIEW` assignments are all implemented;
+> draft held-out items for the latter two are pending content review.
+>
+> As of 2026-09-29: item 2 below is narrowed and done, not built as
+> originally scoped. `getDiagnosticPlan` and `getReviewQueue`
+> (`src/phase1/service.ts`) now exclude any root/due skill claimed by an
+> authored unit, instead of routing those sessions onto the assignment
+> routes. The legacy assignment-free learner UI no longer suggests pilot
+> skills D-62 would refuse at C4. Direct session start by content ID for a
+> pilot skill is deliberately left reachable pre-C4 (an explicit test proves
+> it, including that the D-62 shadow divergence is still recorded); C4's
+> fail-closed enforcement is what closes that, not this change.
+> `shadow-divergence-review.md`'s two pilot PLACEMENT/REVIEW staging rows are
+> updated to `EXPLAINED` accordingly.
+>
+> This is a real, live production behavior change, not a shadow-only one:
+> `getDiagnosticPlan`/`getReviewQueue` are the legacy Phase 1 functions real
+> learners use today. From this deploy, grade-6-math pilot skills
+> (ratio-language, ratio-tables, unit-rates) stop appearing in the normal
+> learner UI's placement/review suggestions, with no replacement until C5's
+> progression UI ships. An independent review (requested as and confirmed
+> Claude Opus, a different model from the implementing session) flagged this
+> narrowing and the resulting suggestion gap as needing explicit
+> product-owner sign-off rather than implementer self-approval per this
+> project's no-self-approval rule. The product owner reviewed both and
+> accepted: ship as-is, and the `EXPLAINED` dispositions stand as written by
+> the implementer, 2026-09-30.
+>
+> As of 2026-09-30: item 3 (F6, N5) is closed by investigation, not by a
+> functional code change - tracing every reader confirmed neither finding
+> describes an actual bug:
+>
+> - **F6 (`independentDelayedCheck`'s dual meaning):** already policy-settled
+>   by D-65 (approved 2026-09-23): the legacy same-sitting check is
+>   authorized as independent `PRACTICE`, not `DELAYED_CHECK`, and survives
+>   C4 for legacy/skill-graph-only skills. The only live gap was parent-facing
+>   wording: `src/app/parent/page.tsx` said "Delayed check complete," which
+>   overclaims a genuine time-separated check for a skill confirmed the
+>   same-sitting way. Fixed to "Independently confirmed," which is true
+>   under either mechanism. No schema or gating logic changed.
+> - **N5 (`attemptOrdinal` vs. the D-27 count):** `attemptOrdinal`
+>   (`src/progression/assessment-assignment.ts`) is a lifetime, never-resets
+>   ordinal used only for `=== 1` to gate D-31's evidence-backed-skip credit.
+>   `reassessmentEligibility`'s consecutive-failures-since-last-pass count
+>   (`src/progression/reassessment.ts`) enforces the separate D-27
+>   `maxReassessments` cap and does reset on a pass. Both are derived from
+>   the same `previousAssignments` query but intentionally count different
+>   things for different purposes; neither was wrong. Added a schema comment
+>   on `AssessmentAssignment.attemptOrdinal` and a code comment at its
+>   computation so a future reader doesn't "fix" one to match the other.
+>
+> Before C4:
+>
+> 1. Build the parent-facing screens for the D-70 step-up and override APIs
+>    (implemented and release-gated; no HTTP caller in the UI yet), under
+>    C5's manual accessibility and wording gates.
+> 2. ~~Move the learner UI's diagnostic and review sessions onto the
+>    assignment routes~~ — done 2026-09-29: pilot skills are excluded from
+>    suggestion instead; see above.
+> 3. ~~Resolve the legacy `independentDelayedCheck` flag (re-review F6) and
+>    reconcile `attemptOrdinal` with the D-27 consecutive count (N5)~~ —
+>    investigated and closed 2026-09-30; see below.
+> 4. Deploy, then collect representative non-enforcing shadow traffic from
+>    the deploy onward and disposition every divergence.
+> 5. Complete the private-package content review and the manual gate record.
+>
+> Only then implement the approved C4 expand/contract cutover. Do not serve
+> progression UI until C4 and the manual accessibility, wording, privacy, and
+> content gates are recorded.
 
 ## 7. Stage dependencies
 
