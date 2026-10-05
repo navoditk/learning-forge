@@ -13,7 +13,12 @@
   --color-danger-border: #e6b4b4;
   --color-status-bg: #e5f3ea;
   --color-status-border: #bcdfc8;
-  --radius: 10px;
+  /* Decorative only (progress fills, confirmed-skill icons) - not text. At
+     ~3.7:1 against --color-surface/--color-bg it clears the 3:1 bar WCAG
+     2.2 sets for graphical UI components, but not the 4.5:1 bar for text. */
+  --color-progress: #b5790f;
+  --radius: 14px;
+  --radius-pill: 999px;
   --spacing-1: 0.5rem;
   --spacing-2: 1rem;
   --spacing-3: 1.5rem;
@@ -41,6 +46,7 @@
     --color-danger-border: #6b2f2f;
     --color-status-bg: #1e3327;
     --color-status-border: #2c4a3c;
+    --color-progress: #e4b15c;
   }
 }
 
@@ -227,22 +233,31 @@ input:not([type]) {
 button {
   font-family: var(--font-body-stack);
   font-size: 1rem;
-  font-weight: 600;
-  padding: 0.6rem 1.1rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--color-primary);
+  font-weight: 700;
+  padding: 0.65rem 1.3rem;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-primary);
   background: var(--color-surface);
   color: var(--color-primary);
   cursor: pointer;
   margin: 0 var(--spacing-1) var(--spacing-1) 0;
   transition:
     background-color 120ms ease,
-    color 120ms ease;
+    color 120ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease;
 }
 
 button:hover {
   background: var(--color-primary);
   color: var(--color-surface);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px -4px rgb(0 0 0 / 0.35);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 button:disabled {
@@ -251,6 +266,8 @@ button:disabled {
   background: var(--color-surface);
   color: var(--color-text-muted);
   border-color: var(--color-border);
+  transform: none;
+  box-shadow: none;
 }
 
 button:focus-visible,
@@ -334,4 +351,302 @@ nav[aria-label='Primary navigation'] a {
   color: var(--color-muted);
   font-size: 0.9rem;
   margin-bottom: 0;
+}
+
+/* Chapter navigation shell (learner page). See
+   docs/learner-presentation-design.md for the design rationale. */
+
+main:has(.learner-shell) {
+  max-width: 1440px;
+}
+
+.learner-shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+}
+
+.chapter-sidebar-toggle {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.chapter-toc {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-2);
+}
+
+.chapter-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing-2) 0 0;
+}
+
+.chapter-list > li {
+  margin-bottom: var(--spacing-1);
+}
+
+.chapter-list details {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  overflow: hidden;
+  transition:
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.chapter-list details:hover {
+  box-shadow: 0 3px 10px -5px rgb(0 0 0 / 0.3);
+  transform: translateY(-1px);
+}
+
+.chapter-list summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-1) var(--spacing-2);
+  padding: 0.65rem 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.chapter-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.chapter-list summary::marker {
+  content: '';
+}
+
+.chapter-summary-active {
+  color: var(--color-primary);
+}
+
+.chapter-summary-label {
+  flex: 1 1 auto;
+}
+
+.chapter-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.chapter-view-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.chapter-skill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0.5rem 0.6rem;
+}
+
+.chapter-skill-list li {
+  margin-bottom: 0.25rem;
+}
+
+.chapter-skill-list button {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  text-align: left;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.6rem;
+  margin: 0;
+  border-radius: var(--radius);
+}
+
+.chapter-skill-list button:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+.chapter-skill-list small {
+  margin-left: auto;
+  font-weight: 400;
+  white-space: nowrap;
+  color: var(--color-text-muted);
+}
+
+.chapter-skill-active {
+  background: var(--color-accent-soft);
+  border-color: var(--color-primary) !important;
+}
+
+.status-icon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.status-icon-confirmed {
+  color: var(--color-progress);
+}
+
+.status-icon-practicing {
+  color: var(--color-primary);
+}
+
+.progress-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.progress-badge-track {
+  width: 60px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.progress-badge-fill {
+  height: 100%;
+  background: var(--color-progress);
+  border-radius: var(--radius-pill);
+  transition: width 200ms ease;
+}
+
+.progress-badge-count {
+  font-family: var(--font-mono-stack);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.recent-strengths {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-2) var(--spacing-3);
+  margin: 0;
+}
+
+.chapter-view {
+  width: 100%;
+}
+
+/* The card itself can span the widened shell, but body text stays at a
+   comfortable reading width instead of stretching edge to edge on a wide
+   monitor. Headings, the pager, and progress badges are unaffected. */
+.chapter-view p {
+  max-width: 68ch;
+}
+
+.chapter-view-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.chapter-eyebrow {
+  font-family: var(--font-mono-stack);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: var(--color-primary);
+  margin: 0 0 0.25rem;
+}
+
+.chapter-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  margin: var(--spacing-2) 0;
+  flex-wrap: wrap;
+}
+
+.chapter-pager-position {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.pilot-progress-panel {
+  background: var(--color-accent-soft);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+}
+
+.pilot-progress-panel h4 {
+  font-family: var(--font-body-stack);
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.activity-panel {
+  border-top: 1px dashed var(--color-border);
+  padding-top: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+/* 700px, not the ~860px a sidebar this width might suggest: a tablet in
+   portrait (e.g. 768px) has room for two narrower columns even though it
+   doesn't have room for the desktop-width sidebar - see the 1024px tier
+   below for where the sidebar grows to its full width. */
+@media (min-width: 700px) {
+  .learner-shell {
+    flex-direction: row;
+  }
+
+  .chapter-sidebar {
+    flex: 0 0 240px;
+    max-width: 240px;
+    position: sticky;
+    top: var(--spacing-2);
+    align-self: flex-start;
+    max-height: calc(100vh - 2 * var(--spacing-2));
+    overflow-y: auto;
+  }
+
+  .chapter-sidebar-toggle {
+    display: none;
+  }
+
+  .chapter-toc[hidden] {
+    display: block;
+  }
+
+  .chapter-view-wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+  }
+}
+
+@media (min-width: 1024px) {
+  .chapter-sidebar {
+    flex-basis: 320px;
+    max-width: 320px;
+  }
 }

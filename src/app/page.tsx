@@ -1,94 +1,26 @@
 'use client';
 
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 
-import { svgDataUri, type ContentFigure } from '../content/figure';
-import { ProgramSwitcher } from './components/program-switcher';
-
-type Session = {
-  sessionId: string;
-  resumed: boolean;
-  completed: boolean;
-  hintCount: number;
-  latestAttempt?: { attemptId: string; correctness: string };
-  latestCheck?: { attemptId: string; correctness: string };
-  learner: { displayName: string };
-  content: {
-    id: string;
-    title: string;
-    prompt: string;
-    accessibilityNotes: string;
-    figure?: ContentFigure;
-  };
-};
-
-type AttemptResult = { attemptId: string; correctness: string };
-type TutorResult = {
-  response: {
-    status: string;
-    fallbackMessage?: string;
-    move?: { learnerMessage: string; question: string };
-  };
-};
-
-type DiagnosticItem = {
-  contentId: string;
-  skillCode: string;
-  title: string;
-  skillTitle: string;
-};
-type DiagnosticPlan = { items: DiagnosticItem[] };
-
-type ReviewItem = {
-  contentId: string;
-  skillCode: string;
-  title: string;
-  skillTitle: string;
-  dueSince: string;
-};
-type ReviewQueue = { items: ReviewItem[] };
-
-type SkillProgress = {
-  skillCode: string;
-  title: string;
-  domain: string;
-  status: 'NOT_STARTED' | 'PRACTICING' | 'INDEPENDENTLY_CONFIRMED';
-  summary: string;
-};
-type RecentStrength = {
-  attemptId: string;
-  skillCode: string;
-  skillTitle: string;
-  achievedAt: string;
-};
-type NextActivity = {
-  contentId: string;
-  title: string;
-  skillTitle: string;
-  reason: string;
-};
-type LearnerProgress = {
-  skills: SkillProgress[];
-  recentStrengths: RecentStrength[];
-  nextActivity: NextActivity | null;
-};
-
-type PlanItem = {
-  contentId: string;
-  skillCode: string;
-  title: string;
-  skillTitle: string;
-  reason: string;
-  estimatedMinutes: number;
-};
-type Plan = {
-  items: PlanItem[];
-  totalMinutes: number;
-  blockedSkills: string[];
-  unavailableSkills: string[];
-};
+import {
+  ActivityPanel,
+  type ActivityMode,
+  type AttemptResult,
+  type Session,
+  type TutorResult,
+} from './components/activity-panel';
+import { ChapterSidebar } from './components/chapter-sidebar';
+import { ChapterView } from './components/chapter-view';
+import {
+  buildChapters,
+  chapterForSkill,
+  nextChapterDomain,
+  type DiagnosticPlan,
+  type LearnerProgress,
+  type Plan,
+  type ReviewQueue,
+} from './learner-chapters';
 
 type CourseProgress = {
   units: Array<{
@@ -108,7 +40,10 @@ type CourseProgress = {
 const progressionReleaseGateOpen =
   process.env.NEXT_PUBLIC_COURSE_PROGRESSION_RELEASE_GATE_OPEN === 'true';
 
-type ActivityMode = 'practice' | 'diagnostic' | 'review';
+// The pilot Program -> Unit -> Lesson structure (docs/course-progression-handoff.md)
+// is only authored for this one domain so far. Shown as an enrichment inside
+// that chapter when the release gate is open; unrelated to chapter grouping.
+const PILOT_UNIT_DOMAIN = 'ratios-and-proportional-reasoning';
 
 export default function Home() {
   const [program, setProgram] = useState('grade-6-math');
@@ -126,6 +61,8 @@ export default function Home() {
   const [courseProgress, setCourseProgress] = useState<CourseProgress>();
   const [mode, setMode] = useState<ActivityMode>('practice');
   const [hintPending, setHintPending] = useState(false);
+  const [activeDomain, setActiveDomain] = useState<string>();
+  const [activeSkillCode, setActiveSkillCode] = useState<string>();
   const hintButtonRef = useRef<HTMLButtonElement>(null);
   const responseInputRef = useRef<HTMLInputElement>(null);
   const selectedProgramRef = useRef(program);
@@ -252,6 +189,39 @@ export default function Home() {
     startActivity,
   ]);
 
+  const chapters = useMemo(
+    () => buildChapters(progress, plan, diagnosticPlan, reviewQueue),
+    [progress, plan, diagnosticPlan, reviewQueue],
+  );
+
+  // Keeps the sidebar/chapter-view focus pointed at whichever skill is
+  // actually loaded. It's a no-op whenever the currently active domain is
+  // still present in the current chapters (including right after the
+  // learner picks one themselves, even a skill with nothing queued), so it
+  // only takes over on first load and right after a program switch
+  // invalidates the previous domain (a different program has an entirely
+  // different set of domains).
+  useEffect(() => {
+    if (chapters.length === 0 || !session) return;
+    if (activeDomain && chapters.some((chapter) => chapter.domain === activeDomain)) return;
+    const chapter = chapterForSkill(chapters, session.content.skillCode);
+    if (chapter) {
+      setActiveDomain(chapter.domain);
+      setActiveSkillCode(session.content.skillCode);
+    }
+  }, [session, chapters, activeDomain]);
+
+  const handleSelectItem = useCallback(
+    (domain: string, skillCode: string) => {
+      setActiveDomain(domain);
+      setActiveSkillCode(skillCode);
+      const chapter = chapters.find((candidate) => candidate.domain === domain);
+      const item = chapter?.items.find((candidate) => candidate.skillCode === skillCode);
+      if (item?.action) startActivity(item.action.contentId, item.action.kind);
+    },
+    [chapters, startActivity],
+  );
+
   const submitEndpoint: Record<ActivityMode, string> = {
     practice: '/api/phase1/attempt',
     diagnostic: '/api/phase1/diagnostic-attempt',
@@ -359,6 +329,55 @@ export default function Home() {
       </main>
     );
 
+  const activeChapter = chapters.find((chapter) => chapter.domain === activeDomain);
+  const nextChapter = activeDomain
+    ? chapters.find((chapter) => chapter.domain === nextChapterDomain(chapters, activeDomain))
+    : undefined;
+  // The loaded session is shown whenever it matches the focused skill,
+  // regardless of whether that skill has a queued plan/diagnostic/review
+  // action - a direct-started or already-mastered skill is still real,
+  // workable content.
+  const showActivity = activeSkillCode === session.content.skillCode;
+
+  const pilotProgressPanel =
+    progressionReleaseGateOpen && courseProgress && activeChapter?.domain === PILOT_UNIT_DOMAIN ? (
+      <section aria-labelledby="course-progress-heading" className="pilot-progress-panel">
+        <h3 id="course-progress-heading">Course progress</h3>
+        <p>
+          <small>
+            Completion and mastery are tracked separately. Assessment results appear here only after
+            they are recorded.
+          </small>
+        </p>
+        {courseProgress.units.map((unit) => (
+          <article key={unit.code} aria-labelledby={`${unit.code}-heading`}>
+            <h4 id={`${unit.code}-heading`}>{unit.title}</h4>
+            <p>Unit status: {unit.status.toLocaleLowerCase().replaceAll('_', ' ')}</p>
+            <ol>
+              {unit.lessons.map((lesson) => (
+                <li key={lesson.code}>
+                  <strong>{lesson.title}</strong> —{' '}
+                  {lesson.completionStatus.toLocaleLowerCase().replaceAll('_', ' ')}
+                  {lesson.remediationStatus !== 'NONE' && (
+                    <span>
+                      {' '}
+                      ({lesson.remediationStatus.toLocaleLowerCase().replaceAll('_', ' ')})
+                    </span>
+                  )}
+                  {lesson.latestAssessment && (
+                    <span>
+                      {' '}
+                      Latest assessment: {lesson.latestAssessment.outcome.toLocaleLowerCase()}.
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </article>
+        ))}
+      </section>
+    ) : undefined;
+
   return (
     <main>
       <h1 className="visually-hidden">Learning Forge — learner session</h1>
@@ -367,27 +386,24 @@ export default function Home() {
           Learning Forge
           <small>Local synthetic session</small>
         </div>
-        <ProgramSwitcher value={program} onChange={setProgram} />
         <nav aria-label="Primary navigation">
           <Link href="/parent">Parent evidence</Link>
           <Link href="/help">Help</Link>
         </nav>
       </header>
-      {progress && (
-        <section aria-labelledby="progress-heading">
-          <h2 id="progress-heading">Your progress</h2>
-          {progress.nextActivity && (
-            <p>
-              <strong>Suggested next:</strong>{' '}
-              <button type="button" onClick={() => startActivity(progress.nextActivity!.contentId)}>
-                {progress.nextActivity.title}
-              </button>{' '}
-              ({progress.nextActivity.skillTitle}) — {progress.nextActivity.reason}
-            </p>
-          )}
-          {progress.recentStrengths.length > 0 && (
-            <>
-              <h3>Recent strengths</h3>
+      <div className="learner-shell">
+        <ChapterSidebar
+          program={program}
+          onProgramChange={setProgram}
+          chapters={chapters}
+          activeDomain={activeDomain}
+          activeSkillCode={activeSkillCode}
+          onSelectItem={handleSelectItem}
+        />
+        <div className="chapter-view-wrapper">
+          {progress && progress.recentStrengths.length > 0 && (
+            <details className="recent-strengths">
+              <summary>Recent strengths ({progress.recentStrengths.length})</summary>
               <ul>
                 {progress.recentStrengths.map((strength) => (
                   <li key={strength.attemptId}>
@@ -396,241 +412,41 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-            </>
+            </details>
           )}
-          <details>
-            <summary>Skill-by-skill progress ({progress.skills.length} skills)</summary>
-            <ul>
-              {progress.skills.map((skill) => (
-                <li key={skill.skillCode}>
-                  <strong>{skill.title}</strong> ({skill.domain}): {skill.summary}
-                </li>
-              ))}
-            </ul>
-          </details>
-        </section>
-      )}
-      {progressionReleaseGateOpen && courseProgress && (
-        <section aria-labelledby="course-progress-heading">
-          <h2 id="course-progress-heading">Course progress</h2>
-          <p>
-            <small>
-              Completion and mastery are tracked separately. Assessment results appear here only
-              after they are recorded.
-            </small>
-          </p>
-          {courseProgress.units.map((unit) => (
-            <article key={unit.code} aria-labelledby={`${unit.code}-heading`}>
-              <h3 id={`${unit.code}-heading`}>{unit.title}</h3>
-              <p>Unit status: {unit.status.toLocaleLowerCase().replaceAll('_', ' ')}</p>
-              <ol>
-                {unit.lessons.map((lesson) => (
-                  <li key={lesson.code}>
-                    <strong>{lesson.title}</strong> —{' '}
-                    {lesson.completionStatus.toLocaleLowerCase().replaceAll('_', ' ')}
-                    {lesson.remediationStatus !== 'NONE' && (
-                      <span>
-                        {' '}
-                        ({lesson.remediationStatus.toLocaleLowerCase().replaceAll('_', ' ')})
-                      </span>
-                    )}
-                    {lesson.latestAssessment && (
-                      <span>
-                        {' '}
-                        Latest assessment: {lesson.latestAssessment.outcome.toLocaleLowerCase()}.
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </article>
-          ))}
-        </section>
-      )}
-      {diagnosticPlan && diagnosticPlan.items.length > 0 && (
-        <section aria-labelledby="diagnostic-heading">
-          <h2 id="diagnostic-heading">Quick placement check</h2>
-          <p>
-            <small>
-              A few one-question checks to see what you already know, before recommending practice.
-            </small>
-          </p>
-          <ul>
-            {diagnosticPlan.items.map((item) => (
-              <li key={item.contentId}>
-                <button
-                  type="button"
-                  onClick={() => startActivity(item.contentId, 'diagnostic')}
-                  disabled={mode === 'diagnostic' && session?.content.id === item.contentId}
-                >
-                  {item.title}
-                </button>{' '}
-                ({item.skillTitle})
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-      {reviewQueue && reviewQueue.items.length > 0 && (
-        <section aria-labelledby="review-heading">
-          <h2 id="review-heading">Review due</h2>
-          <p>
-            <small>
-              A quick independent check on skills you mastered a while ago, to make sure they’ve
-              stuck.
-            </small>
-          </p>
-          <ul>
-            {reviewQueue.items.map((item) => (
-              <li key={item.contentId}>
-                <button
-                  type="button"
-                  onClick={() => startActivity(item.contentId, 'review')}
-                  disabled={mode === 'review' && session?.content.id === item.contentId}
-                >
-                  {item.title}
-                </button>{' '}
-                ({item.skillTitle})
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-      {plan && plan.items.length > 0 && (
-        <section aria-labelledby="plan-heading">
-          <h2 id="plan-heading">Recommended next activities</h2>
-          <p>
-            <small>Planned for about {plan.totalMinutes} minutes.</small>
-          </p>
-          <ul>
-            {plan.items.map((item) => (
-              <li key={item.contentId}>
-                <button
-                  type="button"
-                  onClick={() => startActivity(item.contentId)}
-                  disabled={mode === 'practice' && session?.content.id === item.contentId}
-                >
-                  {item.title}
-                </button>{' '}
-                ({item.skillTitle}, {item.estimatedMinutes} min) — {item.reason}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-      <section aria-labelledby="session-heading">
-        <h2 id="session-heading">{session.content.title}</h2>
-        <p>Learner: {session.learner.displayName}</p>
-        {mode === 'diagnostic' && (
-          <p>
-            <small>Placement check — answer independently, no hints.</small>
-          </p>
-        )}
-        {mode === 'review' && (
-          <p>
-            <small>Review check — answer independently, no hints.</small>
-          </p>
-        )}
-        {session.resumed && !session.completed && mode === 'practice' && (
-          <p>
-            <small>Continuing where you left off.</small>
-          </p>
-        )}
-        {session.completed && (
-          <p role="status">Independent check passed — this activity is complete.</p>
-        )}
-        <p>{session.content.prompt}</p>
-        {session.content.figure && (
-          <figure className="content-figure">
-            <Image
-              src={svgDataUri(session.content.figure.svgMarkup)}
-              alt={session.content.figure.altText}
-              width={session.content.figure.width}
-              height={session.content.figure.height}
-              unoptimized
-            />
-            <figcaption>{session.content.figure.caption}</figcaption>
-          </figure>
-        )}
-        <p>
-          <small>{session.content.accessibilityNotes}</small>
-        </p>
-        <form onSubmit={submitAttempt}>
-          <label htmlFor="learner-response">Your answer</label>
-          <input
-            id="learner-response"
-            name="learnerResponse"
-            ref={responseInputRef}
-            value={response}
-            onChange={(event) => {
-              setResponse(event.target.value);
-              if (error) setError('');
-            }}
-            autoComplete="off"
-            aria-invalid={error ? 'true' : undefined}
-            aria-describedby={error ? 'learner-response-error' : undefined}
-          />
-          <button type="submit">Submit answer</button>
-        </form>
-        {error && (
-          <p role="alert" id="learner-response-error">
-            {error}
-          </p>
-        )}
-        {attempt && mode === 'diagnostic' && (
-          <div role="status" aria-live="polite">
-            <p>
-              {attempt.correctness === 'CORRECT'
-                ? 'Correct — recorded for placement.'
-                : 'Not yet — recorded for placement. Regular practice will cover this skill.'}
-            </p>
-          </div>
-        )}
-        {attempt && mode === 'review' && (
-          <div role="status" aria-live="polite">
-            <p>
-              {attempt.correctness === 'CORRECT'
-                ? 'Correct — this skill is still confirmed.'
-                : 'Not yet — this skill has been moved back into regular practice.'}
-            </p>
-          </div>
-        )}
-        {attempt && mode === 'practice' && (
-          <div role="status" aria-live="polite">
-            <p>
-              {attempt.correctness === 'CORRECT'
-                ? 'Correct — nice work.'
-                : 'Not yet. Your attempt is recorded.'}
-            </p>
-            <button ref={hintButtonRef} type="button" onClick={requestHint} disabled={hintPending}>
-              {hintPending
-                ? 'Thinking…'
-                : hintCount === 0
-                  ? 'Ask for a small hint'
-                  : 'Ask for the next hint'}
-            </button>
-            {tutor && (
-              <button type="button" onClick={submitIndependentCheck}>
-                Start independent check
-              </button>
-            )}
-            {check && (
-              <p>Independent check: {check.correctness === 'CORRECT' ? 'correct.' : 'not yet.'}</p>
-            )}
-          </div>
-        )}
-        {tutor && mode === 'practice' && (
-          <aside aria-labelledby="tutor-heading">
-            <h3 id="tutor-heading">Tutor</h3>
-            <p>{tutor.response.move?.learnerMessage ?? tutor.response.fallbackMessage}</p>
-            {tutor.response.move && (
-              <p>
-                <strong>Try this:</strong> {tutor.response.move.question}
-              </p>
-            )}
-          </aside>
-        )}
-      </section>
+          {activeChapter ? (
+            <ChapterView
+              chapter={activeChapter}
+              nextChapter={nextChapter}
+              activeSkillCode={activeSkillCode}
+              showActivity={showActivity}
+              onSelectItem={handleSelectItem}
+              pilotProgress={pilotProgressPanel}
+            >
+              <ActivityPanel
+                session={session}
+                mode={mode}
+                response={response}
+                setResponse={setResponse}
+                error={error}
+                setError={setError}
+                attempt={attempt}
+                tutor={tutor}
+                check={check}
+                hintCount={hintCount}
+                hintPending={hintPending}
+                hintButtonRef={hintButtonRef}
+                responseInputRef={responseInputRef}
+                onSubmitAttempt={submitAttempt}
+                onRequestHint={requestHint}
+                onSubmitIndependentCheck={submitIndependentCheck}
+              />
+            </ChapterView>
+          ) : (
+            <p>Loading your chapters…</p>
+          )}
+        </div>
+      </div>
     </main>
   );
 }

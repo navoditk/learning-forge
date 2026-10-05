@@ -1,5 +1,164 @@
 # Progress
 
+## 2026-10-04 — Tablet gets the two-column sidebar layout; fixed a progress-badge clipping bug
+
+- Follow-up to the responsive review below: an iPad-portrait-width screen
+  (768px) was falling back to the mobile collapsed-sidebar layout even
+  though there's room for two columns - the breakpoint was 860px.
+  `src/app/globals.css`: split the two-column switch into two tiers - row
+  layout + a narrower 240px sidebar from 700px, widening to the full 320px
+  sidebar from 1024px. Verified via Playwright screenshots at 700/768px: no
+  overflow, two columns visible, nothing cramped.
+- That same screenshot pass caught a **real bug**, not just a rough edge:
+  at the narrower sidebar width, each chapter's progress count
+  (`ProgressBadge`'s "n/total" text) was overflowing the card and getting
+  silently clipped off the right edge - invisible rather than wrapped.
+  Fixed by letting `.chapter-list summary` wrap (`flex-wrap: wrap`) and
+  giving `.progress-badge` `flex-shrink: 0`, so the badge now drops to its
+  own line under a long chapter label instead of being squeezed past
+  visibility. This also improved the full-width (320px) sidebar for long
+  labels ("Ratios & Proportional Reasoning", "Expressions & Equations"),
+  which were previously cramming the badge onto the same line as a
+  3-line-wrapped label - confirmed via screenshots at 1024px/1440px that
+  this reads better there too, not just at the new tablet tier.
+  - Verified: `npm run verify` clean, `npm run test:e2e` 25/26 (same 1
+    pre-existing unrelated skip - the axe accessibility check is in that
+    25).
+
+## 2026-10-01 — Widened the learner page's layout cap for large monitors
+
+- Checked the chapter-navigation redesign across viewport widths 320px-2560px
+  (Playwright screenshots, no code assumptions): no horizontal overflow
+  anywhere, mobile/tablet/laptop all read fine. On a 27" monitor
+  (2560×1440) the page's 1080px reading-width cap left roughly 1450px of
+  unused margin - not broken, but sparse. Asked the product owner whether
+  to widen it; chose "moderately" over leaving it or removing the cap
+  entirely.
+- `src/app/globals.css`: `main:has(.learner-shell)` max-width
+  1080px → 1440px; `.chapter-sidebar` 280px → 320px (reduces label
+  wrapping, e.g. "Expressions & Equations" now fits two lines instead of
+  three). Added `.chapter-view p { max-width: 68ch; }` so prompt/hint/
+  course-progress body text stays a comfortable reading width even though
+  the card background now spans the wider shell - only `/` is affected
+  (`/parent`/`/help` don't use `.learner-shell`).
+  - Verified: `npm run verify` clean, `npm run test:e2e` 25/26 (same 1
+    pre-existing unrelated skip), confirmed visually via screenshots at
+    1440px and 2560px.
+
+## 2026-10-01 — Enrichment programs given their own sidebar color/icon identity
+
+- Follow-up to the chapter-based learner redesign below: the "next
+  recommended task" it left (enrichment programs sharing one undifferentiated
+  fallback glyph) is done. `src/app/components/chapter-icon.tsx` now gives
+  each enrichment program (Math Kangaroo `mk6-*`, MOEMS `moems6-*`, AMC 8
+  `amc8-*`, MATHCOUNTS `mc6-*`, Scripps Spelling Bee `snsb6-*`) its own
+  color via a domain-code-prefix match (`PROGRAM_COLOR_BY_PREFIX`), and a
+  glyph chosen by keyword match on the domain code
+  (counting/probability/combinatorics → dice, arithmetic/number → number
+  line, geometry/spatial/visualization → triangle, algebra/data →
+  brackets, proportional/ratio → circles, logic/arrangements → lightbulb),
+  from the same shape vocabulary already used for the five Grade 6 Math
+  domains. All `snsb6-*` domains share one book glyph, since the
+  linguistic categories don't map to a geometric motif the way the math
+  ones do. `CHAPTER_LABELS` already covered every domain (no change
+  needed there).
+  - No logic/data/test-assertion change - purely the decorative color/glyph
+    map, same `chapterColor`/`GlyphFor` call sites as before.
+  - `docs/learner-presentation-design.md` updated to describe the
+    program-prefix color model and keyword-based glyph selection, and to
+    record this as the current, intentionally coarse state rather than a
+    gap.
+  - Verified: `npx tsc --noEmit` clean, `npx eslint .` clean,
+    `npm run verify` clean (format/lint/typecheck/down-migrations/
+    unit+contract+content+tutor-eval tests/build), `npm run test:e2e`
+    25/26 pass (same 1 pre-existing unrelated skip as before) - unaffected,
+    confirming this was purely additive.
+
+## 2026-10-01 — Learner page redesigned as chapter-based navigation
+
+- Presentation-layer-only redesign of `src/app/page.tsx` (no schema, API, or
+  policy change): a left sidebar table of contents groups each program's
+  skills by their existing `domain` field into "chapters," with a
+  progress badge per chapter and a status icon per skill
+  (locked/not started/practicing/confirmed, display-only via the existing
+  `arePrerequisitesMet`). The main pane shows one chapter at a time with
+  Back/Next buttons that page through its skills and a "chapter complete —
+  continue to `<next>`" handoff at the end. Requested by the product owner
+  to make the learner UI more intuitive and age-appropriate (IXL/Beast
+  Academy/AoPS as reference points), replacing the previous flat stack of
+  sections (plan/diagnostic/review lists, then the active activity).
+  - New `src/app/learner-chapters.ts`: pure, framework-free grouping/
+    ordering/action-resolution logic (`buildChapters`, `nextChapterDomain`,
+    `chapterForSkill`), unit-tested in `tests/app/learner-chapters.test.ts`
+    (12 tests). Chapter order and labels are keyed off
+    `CurriculumDomainSchema`'s own declared order, so every program/domain
+    already in the catalog gets a sensible chapter automatically.
+  - New components: `chapter-sidebar.tsx`, `chapter-view.tsx`,
+    `activity-panel.tsx` (the existing practice/diagnostic/review/hint/
+    independent-check loop, extracted out of `page.tsx` essentially
+    verbatim - no behavior change), `progress-badge.tsx`, `chapter-icon.tsx`
+    (a decorative per-domain color + glyph, text-free so it only has to
+    clear the 3:1 graphical-contrast bar, not 4.5:1 text contrast).
+  - The gated `Program → Unit → Lesson` pilot block
+    (`COURSE_PROGRESSION_RELEASE_GATE_OPEN`) is unchanged in substance,
+    relocated to render as an enrichment panel inside the Ratios chapter.
+  - `globals.css`: additive `.learner-shell`/`.chapter-*`/`.progress-badge`
+    rules scoped to new classes (so `/parent` and `/help`, which share the
+    same base `main`/`header`/`section` selectors, are visually unchanged),
+    plus a visual pass requested explicitly ("make this more visually
+    appealing to a sixth grader"): pill-shaped buttons, a slightly larger
+    `--radius`, and the per-chapter color/icon identity.
+  - **Design decision, not a bug:** the loaded activity is always whichever
+    session is actually fetched (initially the server's fixed per-program
+    starter, same as before this change), matched to its chapter/skill via
+    the session response's existing (previously unread client-side)
+    `content.skillCode` field - not via a plan/diagnostic-recommendation
+    guess. An earlier version of this logic tried to reconcile a mismatch
+    by fetching a "more recommended" activity instead, which broke
+    determinism across the shared e2e household (`playwright.config.ts`
+    intentionally reuses one household across all `tests/browser/*.spec.ts`
+    files) because the recommended default shifts as other spec files'
+    fixtures mutate mastery state. Reverted to the simpler, deterministic
+    rule; see the "Keeps the sidebar/chapter-view focus..." comment in
+    `page.tsx`.
+  - Updated `tests/browser/accessibility.spec.ts`,
+    `keyboard-navigation.spec.ts`, and `phase1.spec.ts` for the new
+    structure, and added two new journeys: switching skills from the
+    sidebar, and paging forward/backward through a chapter (including the
+    locked-skill-is-still-browsable state). These intentionally avoid
+    asserting specific problem titles for skills also used as fixtures by
+    `phase1-api.spec.ts` in the same shared household (content items rotate
+    within a skill once attempted, and a skill can become fully confirmed
+    and drop out of the practice plan) - asserted navigation state
+    (position, `aria-current`, heading absence/presence) instead.
+  - New `docs/learner-presentation-design.md`: the chapter-model rationale,
+    component table, visual tokens, and the checklist for giving a new
+    program (Math Kangaroo, MOEMS, AMC 8, MATHCOUNTS, Scripps, and any
+    future category) the same treatment without redesigning it - the
+    `buildChapters` data model is already generic over any program's domain
+    set, so this is mostly a labeling/color checklist, not new mechanism.
+  - Added `tests/app` to the `test` npm script so the new unit tests run
+    under `npm run verify`.
+  - Verified: `npx tsc --noEmit` clean; `npx eslint .` clean;
+    `npx prettier --check .` clean; `npm test` 59 files/307 tests pass;
+    `npm run build` succeeds; `npm run test:integration` 155/155 pass
+    (unaffected - no persistence/service change); `npm run test:e2e`
+    25/26 pass (1 pre-existing unrelated skip), stable across repeated runs
+    against the same shared e2e household.
+  - Risks/follow-ups: only the five Grade 6 Math domains and the Ratios
+    pilot unit have bespoke sidebar icon/color treatment; enrichment
+    programs share a fallback glyph (cosmetic only, documented in the new
+    design doc as the explicit, optional next step). A program switch has a
+    brief (self-correcting, not stuck) window where the sidebar still shows
+    the previous program's chapters until its own plan/diagnostic/review/
+    progress all arrive. No manual mobile-device testing beyond a 390px
+    Playwright viewport screenshot.
+  - Next recommended task: extend `CHAPTER_LABELS`/`CHAPTER_COLOR` for the
+    enrichment-program domains (Math Kangaroo/MOEMS/AMC 8/MATHCOUNTS/
+    Scripps) per the checklist in `docs/learner-presentation-design.md`, if
+    the product owner wants them visually distinguished rather than sharing
+    the fallback.
+
 ## 2026-10-01 — PR #44 merged and deployed; C3 evidence window reopened
 
 - Product owner approved merging and deploying now, given CI green and two

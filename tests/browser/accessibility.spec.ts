@@ -7,7 +7,7 @@ test.describe('accessibility', () => {
   test('learner page has no automatically detectable WCAG AA violations', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('heading', { name: 'Bicycle pace' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Recommended next activities' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Course table of contents' })).toBeVisible();
 
     const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
     expect(results.violations).toEqual([]);

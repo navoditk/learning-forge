@@ -42,9 +42,12 @@ test.describe('keyboard operability', () => {
   }) => {
     await page.goto('/');
     await expect(page.getByRole('heading', { name: 'Bicycle pace' })).toBeVisible();
+    // Switch to a different skill for this check - reusing the default
+    // activity's hint flow across two spec files in the same run would
+    // shift its assistance-level progression for later tests.
     await page
-      .getByRole('region', { name: 'Recommended next activities' })
-      .getByRole('button', { name: 'Garden rows' })
+      .getByRole('navigation', { name: 'Course table of contents' })
+      .getByRole('button', { name: 'Ratio language' })
       .click();
     await expect(page.getByRole('heading', { name: 'Garden rows' })).toBeVisible();
 

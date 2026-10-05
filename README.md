@@ -68,6 +68,9 @@ Supporting reference docs, consulted as needed rather than read end to end:
 
 - `docs/threat-model.md`, `docs/privacy-inventory.md`, `docs/incident-response.md`, `docs/pilot-readiness-checklist.md` — the safety/privacy/legal control baseline.
 - `docs/content-review.md`, `docs/content-authoring-pipeline.md` — how problems are authored and approved.
+- `docs/learner-presentation-design.md` — the learner page's chapter
+  navigation model and visual-design tokens, and the checklist for giving a
+  new program the same treatment.
 - `docs/curriculum-sources.md`, `docs/curriculum-agents.md` — curriculum
   attribution and the research → author → independent-review agent workflow.
 - `docs/course-progression-handoff.md` — **start here for course-progression
