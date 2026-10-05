@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+import { recordAuditEvent } from '../../../../../server/audit-log';
 import { exportHouseholdData } from '../../../../../server/household-data';
 import { requireHouseholdContext } from '../../../../../server/household-context';
 import { prisma } from '../../../../../server/prisma';
@@ -13,6 +14,11 @@ export async function GET() {
   }
 
   const data = await exportHouseholdData(prisma, identity.householdId);
+  await recordAuditEvent(prisma, {
+    eventType: 'HOUSEHOLD_EXPORT',
+    householdId: identity.householdId,
+    userId: identity.actorUserId,
+  });
   const body = JSON.stringify(data, null, 2);
   const fileName = `learning-forge-export-${new Date().toISOString().slice(0, 10)}.json`;
 

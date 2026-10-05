@@ -31,18 +31,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const deleted = await deleteHouseholdData(prisma, identity.householdId);
+  // deleteHouseholdData records the HOUSEHOLD_DELETE audit event itself,
+  // inside the same transaction, then anonymizes every audit row this
+  // household produced - see the comment there for why.
+  const deleted = await deleteHouseholdData(prisma, identity.householdId, identity.actorUserId);
   if (!deleted) {
     return NextResponse.json({ error: 'Household not found' }, { status: 404 });
   }
-
-  // No household data survives to log against, so this is deliberately a
-  // plain operational log line (not a DB row) - just enough to see, after
-  // the fact, that a deletion happened and roughly when.
-  console.log('[household-deletion] household data permanently deleted', {
-    householdId: identity.householdId,
-    deletedAt: new Date().toISOString(),
-  });
 
   return NextResponse.json({ deleted: true });
 }

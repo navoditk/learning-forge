@@ -77,6 +77,17 @@ enum TraceOutcome {
   ERROR
 }
 
+enum AuditEventType {
+  LOGIN_SUCCESS
+  LOGIN_FAILURE
+  LOGIN_LOCKED
+  STEP_UP_SUCCESS
+  STEP_UP_FAILURE
+  STEP_UP_LOCKED
+  HOUSEHOLD_EXPORT
+  HOUSEHOLD_DELETE
+}
+
 enum ConfidenceBand {
   LOW
   MEDIUM
@@ -394,6 +405,23 @@ model TutorTrace {
 
   @@index([learnerProfileId, createdAt])
   @@index([sessionId, createdAt])
+}
+
+/// Security/incident audit trail (logins, step-up, household export,
+/// household deletion). Deliberately outlives the household/user it refers
+/// to, unlike every cascading household-scoped table above: auditing a
+/// deletion requires the audit entry to survive the thing it's auditing.
+/// householdId/userId are plain columns, not Prisma relations - no FK means
+/// no cascade and no dangling-reference risk once that household is gone.
+model AuditLog {
+  id          String         @id @default(uuid())
+  eventType   AuditEventType
+  householdId String?
+  userId      String?
+  createdAt   DateTime       @default(now())
+
+  @@index([householdId, createdAt])
+  @@index([eventType, createdAt])
 }
 
 model MasteryEstimate {

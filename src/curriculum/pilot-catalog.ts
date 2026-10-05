@@ -82,29 +82,35 @@ export const PILOT_LESSONS: readonly Lesson[] = [
   }),
 ];
 
+// Re-pinned 2026-10-04 (D-73) after the lesson/unit banks were corrected
+// (broadened accepted answers, unit-bank skill retagging, two items
+// replaced to stop leaking their answer from public practice content) and
+// all 10 banks' review metadata was updated - every pinned hash below must
+// match the private package's current bank.contentHash exactly, or
+// createAssessmentAssignment refuses the assignment
+// (ASSESSMENT_BANK_METADATA_MISMATCH). Re-pin again from the private
+// package after any future content edit.
 const BANK_HASHES: Record<string, string> = {
   'ratio-language-lesson-bank':
-    'sha256:6469742b86673041c2e43e3bfe465a7950a13d39b396939e95323d8217aab0e0',
+    'sha256:2f6375fc187596f2395b710d21b1da85a2c0023c55fbc5a8c68cbdc445b8ef43',
   'unit-rates-lesson-bank':
-    'sha256:816467f8ea7a548a9b820f2323dc570e424b959a00c0292a94e514823f487f95',
+    'sha256:8f9f65e86c551d4b981e11d5a751738618582b4c19e5a082cd0d9958e39f01b4',
   'ratio-tables-lesson-bank':
-    'sha256:d19ca5d1ad0d22f41cd2c5a2ac92bdd289b1153015ead2e0fe8f710be2218721',
+    'sha256:1b9b53926b3c539e89b04d7747c1a0542bb8d10b786afe4660370633019510b8',
   'ratios-proportional-reasoning-unit-bank':
-    'sha256:dabfd7ba2400abe338c01d38bbe5636707ce5f902a7714e84df3d433ea0a4b72',
-  // Skill banks (D-50 as amended by D-67, D-63). These pin pending-review drafts
-  // and must be re-pinned from the reviewed package before serving.
+    'sha256:7bb0a22e281df58eef824b43ca0fd5469e5c2982a842abdec1a87c200a102085',
   'ratio-language-review-bank':
-    'sha256:98402776e74888eb725e84508217656cd0154e79342dc5e1b734b4371a1ff5c7',
+    'sha256:d18ba08d972c72f0da35c74c74a8c4eb3d40d85a09651a47359851506c42b514',
   'ratio-language-delayed-check-bank':
-    'sha256:4fe8216c2343285f476e5ca9a155b713a984d1d6f0135a1fc75178df9b54c99b',
+    'sha256:ee5c2ce75ddef45c6450a02d997e2a26dc99341dc0f0ddfe1d3dc83df092ffaa',
   'unit-rates-review-bank':
-    'sha256:a34d506685f2cad965c0482935fe693a621dd119248f6254119cb1a740d506b6',
+    'sha256:3af6e366be39835e259fdb394a6cc304cc143b11d84514f13c864f806a76f568',
   'unit-rates-delayed-check-bank':
-    'sha256:4468c27ddfa853fb9fa6a329dd929073236b7bbc04cb64af1a67e24b00ff7d1b',
+    'sha256:b969b9fe051ef33e0a2af580114fc695747508b0583a47b870c953e5932525ae',
   'ratio-tables-review-bank':
-    'sha256:5603bc5a23fa9631248ef70e7b81e9e2acc0b7f0b246572345438ad36b089dde',
+    'sha256:085f187e3a7e2935a45422e2b144ee5754bbf93074573001d4d229c36029f24d',
   'ratio-tables-delayed-check-bank':
-    'sha256:f92a339f442addfb0001d2da4e6bc0ece0c3ccfe02d8fcedf2c97555457c03ab',
+    'sha256:312fc97d7f4864c7eae2f8d0c4d8429c6eeb842ba23c1cee13acbd1cbb6dac48',
 };
 
 function bankHash(code: string): string {

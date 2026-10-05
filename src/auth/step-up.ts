@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 
 import type { PrismaClient } from '@prisma/client';
 
+import { recordAuditEvent } from '../server/audit-log';
 import { checkPasswordWithLockout, type PasswordCheck } from './password-attempts';
 
 /**
@@ -17,13 +18,24 @@ export type StepUpClaims = { userId: string; householdId: string; issuedAt: Date
  * with D-72 lockout shared with sign-in.
  */
 export async function verifyStepUpPassword(
-  database: Pick<PrismaClient, 'user'>,
+  database: Pick<PrismaClient, 'user' | 'auditLog'>,
   input: { userId: string; householdId: string; password: unknown },
 ): Promise<PasswordCheck> {
   if (typeof input.password !== 'string' || input.password.length === 0) return 'INVALID';
   const user = await database.user.findUnique({ where: { id: input.userId } });
   if (!user || user.role !== 'PARENT' || user.householdId !== input.householdId) return 'INVALID';
-  return checkPasswordWithLockout(database, user, input.password);
+  const check = await checkPasswordWithLockout(database, user, input.password);
+  await recordAuditEvent(database, {
+    eventType:
+      check === 'OK'
+        ? 'STEP_UP_SUCCESS'
+        : check === 'LOCKED'
+          ? 'STEP_UP_LOCKED'
+          : 'STEP_UP_FAILURE',
+    householdId: user.householdId,
+    userId: user.id,
+  });
+  return check;
 }
 
 function signature(payload: string, secret: string): string {

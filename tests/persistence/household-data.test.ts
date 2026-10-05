@@ -25,6 +25,7 @@ describe('household export and deletion', () => {
   let householdId: string;
   let learnerProfileId: string;
   let attemptId: string;
+  let parentId: string;
 
   beforeAll(async () => {
     const household = await prisma.household.create({ data: {} });
@@ -37,6 +38,7 @@ describe('household export and deletion', () => {
         passwordHash: 'must-not-export',
       },
     });
+    parentId = parent.id;
     const learner = await prisma.user.create({ data: { householdId, role: 'LEARNER' } });
     const profile = await prisma.learnerProfile.create({
       data: { userId: learner.id, householdId, gradeLevel: 6 },
@@ -180,8 +182,19 @@ describe('household export and deletion', () => {
   });
 
   it('deletes the household and all dependent evidence atomically', async () => {
-    expect(await deleteHouseholdData(prisma, householdId)).toBe(true);
+    expect(await deleteHouseholdData(prisma, householdId, parentId)).toBe(true);
     expect(await prisma.household.findUnique({ where: { id: householdId } })).toBeNull();
+
+    // The deletion itself is recorded in the audit trail, then immediately
+    // anonymized: the event/type/timestamp survive, the household/user
+    // identity does not - see the comment in deleteHouseholdData.
+    const deletionEvents = await prisma.auditLog.findMany({
+      where: { eventType: 'HOUSEHOLD_DELETE', householdId: null, userId: null },
+      orderBy: { createdAt: 'desc' },
+      take: 1,
+    });
+    expect(deletionEvents).toHaveLength(1);
+
     expect(await prisma.attempt.findUnique({ where: { id: attemptId } })).toBeNull();
     expect(await prisma.tutorTrace.count({ where: { householdId } })).toBe(0);
     expect(await prisma.shadowDecision.count({ where: { householdId } })).toBe(0);

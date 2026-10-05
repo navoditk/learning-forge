@@ -44,6 +44,7 @@ export const HOUSEHOLD_DATA_MODEL_COVERAGE = {
     'ReviewSchedule',
     'LearningEvent',
     'ShadowDecision',
+    'AuditLog',
   ],
   delete: [
     'Household',
@@ -70,6 +71,9 @@ export const HOUSEHOLD_DATA_MODEL_COVERAGE = {
     'ReviewSchedule',
     'LearningEvent',
     'ShadowDecision',
+    // Not erased - see deleteHouseholdData: anonymized in place instead, so
+    // the audit trail itself survives the household it refers to.
+    'AuditLog',
   ],
   // Global, immutable curriculum snapshots are intentionally not exported or
   // deleted with a household. They contain no learner or household data.
@@ -235,16 +239,28 @@ export async function exportHouseholdData(prisma: DatabaseClient, householdId: s
     },
   });
   if (!household) throw new Error('Household not found');
+  // AuditLog has no relation to Household (see schema.prisma), so it can't
+  // be reached through the nested select above - fetched separately.
+  const auditLog = await prisma.auditLog.findMany({
+    where: { householdId },
+    select: { id: true, eventType: true, userId: true, createdAt: true },
+    orderBy: { createdAt: 'asc' },
+  });
   return {
     ...household,
     attempts: household.attempts.map((attempt) => ({
       ...attempt,
       highestAssistance: deriveHighestAssistance(attempt.assistanceEvents),
     })),
+    auditLog,
   };
 }
 
-export async function deleteHouseholdData(prisma: PrismaClient, householdId: string) {
+export async function deleteHouseholdData(
+  prisma: PrismaClient,
+  householdId: string,
+  deletedByUserId?: string,
+) {
   return prisma.$transaction(async (transaction) => {
     const existing = await transaction.household.findUnique({
       where: { id: householdId },
@@ -275,6 +291,22 @@ export async function deleteHouseholdData(prisma: PrismaClient, householdId: str
     await transaction.consentRecord.deleteMany({ where: { householdId } });
     await transaction.learnerProfile.deleteMany({ where: { householdId } });
     await transaction.user.deleteMany({ where: { householdId } });
+
+    // Record the deletion itself in the audit trail, then immediately
+    // anonymize every audit row this household ever produced (including the
+    // one just written): AuditLog has no foreign key to Household/User
+    // specifically so it survives this deletion, but leaving a deleted
+    // household's id attached to it forever would itself be a retention
+    // problem. The event, its type, and its timestamp survive; the
+    // household/user identity does not.
+    await transaction.auditLog.create({
+      data: { eventType: 'HOUSEHOLD_DELETE', householdId, userId: deletedByUserId },
+    });
+    await transaction.auditLog.updateMany({
+      where: { householdId },
+      data: { householdId: null, userId: null },
+    });
+
     await transaction.household.delete({ where: { id: householdId } });
     return true;
   });

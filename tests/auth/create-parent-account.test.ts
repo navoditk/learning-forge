@@ -72,6 +72,29 @@ describe('parent account provisioning and credential verification', () => {
     await expect(verifyParentCredentials(testEmail, '')).resolves.toBeNull();
   });
 
+  it('writes an audit log row for a successful login, a wrong password, and an unknown email', async () => {
+    await verifyParentCredentials(testEmail, 'correct horse battery staple');
+    await verifyParentCredentials(testEmail, 'definitely wrong');
+    await verifyParentCredentials('nobody-at-all@example.com', 'anything');
+
+    const parent = await prisma.user.findUnique({ where: { email: testEmail } });
+    const events = await prisma.auditLog.findMany({
+      where: { userId: parent?.id },
+      orderBy: { createdAt: 'asc' },
+    });
+    expect(events.map((event) => event.eventType)).toEqual(
+      expect.arrayContaining(['LOGIN_SUCCESS', 'LOGIN_FAILURE']),
+    );
+    expect(events.every((event) => event.householdId === createdHouseholdId)).toBe(true);
+
+    // The unknown-email attempt has no user/household to attribute it to -
+    // it's recorded unattributed rather than not at all (see verify-credentials.ts).
+    const unattributed = await prisma.auditLog.findMany({
+      where: { userId: null, eventType: 'LOGIN_FAILURE' },
+    });
+    expect(unattributed.length).toBeGreaterThan(0);
+  });
+
   it('locks sign-in after five consecutive wrong passwords, then resets on the next correct one (D-72)', async () => {
     // Start from a clean lockout state: an earlier test in this file already
     // made one failed attempt, and resetParentPassword clears the counter.
@@ -85,6 +108,12 @@ describe('parent account provisioning and credential verification', () => {
     await expect(
       verifyParentCredentials(testEmail, 'correct horse battery staple'),
     ).resolves.toBeNull();
+
+    const parentForLockEvent = await prisma.user.findUnique({ where: { email: testEmail } });
+    const lockEvents = await prisma.auditLog.findMany({
+      where: { userId: parentForLockEvent?.id, eventType: 'LOGIN_LOCKED' },
+    });
+    expect(lockEvents.length).toBeGreaterThan(0);
 
     const locked = await prisma.user.findUnique({ where: { email: testEmail } });
     expect(locked?.passwordLockedUntil?.getTime()).toBeGreaterThan(Date.now());

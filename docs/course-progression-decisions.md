@@ -952,9 +952,43 @@ locked-out attacker cannot distinguish "wrong password" from "account
 temporarily locked" — the existing behavior a login form already has no way to
 leak.
 
+### D-73 — Authoring exception for lesson/unit-bank correction of a review-found defect
+
+| Field | Value |
+|---|---|
+| Kind | content |
+| Status | **APPROVED 2026-10-04** |
+| Recommendation | A narrow exception to the `D-61` authoring pause, parallel to `D-66` but covering the three lesson banks and the unit bank (which `D-66` does not), scoped only to: (1) broadening `acceptedAnswers` in existing items to include mathematically equivalent phrasings the scorer should already treat as correct, (2) retagging the unit bank's `skillRef` so it actually covers all three pilot skills instead of only `ratio-language`, and (3) replacing the two items whose numbers/context duplicate this program's own public practice content for the same lesson, which makes the held-out answer inferable. No new items beyond these three corrections, and no other dimension of the private package may be edited under this exception |
+| Approved value | As recommended |
+| Approver | Product/content owner (in chat) |
+| Blocks | — (the `D-61` pause otherwise remains in force; serving still requires the full content, originality, accessibility, and child-safety review per `D-66`'s same condition) |
+
+**Why.** An independent review (requested as Opus; model identity
+unverified) of `grade-6-math-assessments-draft-v2.json` — after the
+product/content owner had marked all 72 items `review.status: reviewed` —
+found that the package would score mathematically correct learner answers
+as wrong (45 of 72 items list only one accepted phrasing, while the scorer
+does exact-string matching after normalization) and that two items leak
+their own answer from this program's public practice content for the same
+lesson. `D-66` already exempted the six skill-targeted review/delayed-check
+banks from the authoring pause for exactly this kind of content work; those
+six banks were already broadened in package v2. The three lesson banks and
+the unit bank were not in `D-66`'s scope and still have both defects. This
+decision closes that gap narrowly, rather than reading `D-66` as covering
+banks it does not name.
+
+**Also decided in the same conversation (not a new `D-nn`, recorded here for
+the record):** the independent review separately flagged several unit-bank
+items (percent discount/increase, fraction multiplication, complex-fraction
+unit rates above `6.RP.A.2`'s non-complex-fraction scope) as testing
+material outside the three taught lessons. The product/content owner
+decided to keep them as intentional stretch/challenge content in the unit
+assessment rather than remove them — mathematically correct, just broader
+than the three lessons, and not a defect this exception needs to touch.
+
 ## I. Index of open decisions
 
-Seventy-two decisions total; all seventy-two are approved. The grouping below is a
+Seventy-three decisions total; all seventy-three are approved. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 

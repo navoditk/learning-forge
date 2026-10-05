@@ -1,5 +1,137 @@
 # Progress
 
+## 2026-10-04 — D-73: lesson/unit-bank defects found by independent review, fixed
+
+- **New decision `D-73`** (`docs/course-progression-decisions.md`): a
+  narrow authoring exception parallel to `D-66`, covering the three lesson
+  banks and the unit bank (which `D-66` does not), scoped to exactly three
+  corrections - broadening `acceptedAnswers`, retagging the unit bank's
+  `skillRef`, and replacing two answer-leaking items. Approved by the
+  product/content owner in chat, 2026-10-04. `course-progression-handoff.md`
+  and the decision-matrix header updated from 72 to 73 approved decisions.
+- **Content fixed in the private package**
+  (`/Users/navoditkaushik/private-learning-forge/grade-6-math-assessments-draft-v2.json`,
+  outside this repo - a pre-fix backup is alongside it,
+  `.bak-2026-10-04`), exactly within `D-73`'s scope:
+  - **43 items** (the 3 lesson banks + the unit bank, minus the 2 replaced
+    below) had their `acceptedAnswers` broadened to include mathematically
+    equivalent phrasings the exact-string scorer was rejecting (e.g. "3 to
+    2"/"3/2" alongside "3:2"; "1 1/2 gallons per minute" alongside "3/2
+    gallons per minute"; bare numerals alongside unit-qualified answers).
+  - **9 items** in `ratios-proportional-reasoning-unit-bank` were retagged
+    from `ratio-language` to `unit-rates` (5 items) or `ratio-tables` (4
+    items), so the unit bank actually covers all three pilot skills as
+    `pilot-catalog.ts`'s own `coveredSkillRefs` already declared it should -
+    previously all 18 items were tagged `ratio-language`, which made the
+    package fail to load at all (`ASSESSMENT_STORE_UNAVAILABLE`).
+  - **2 items replaced** (`ratio-tables-f`, `ratios-proportional-reasoning-unit-r`):
+    both previously shared exact numbers/context with this program's own
+    *public* practice content for the same lesson, making the held-out
+    answer inferable from practice the learner had just done. Rewritten
+    with new contexts/numbers testing the same skill at the same
+    difficulty.
+  - Decided separately (not part of `D-73`, recorded in `D-73`'s entry for
+    the record): several unit-bank items test material outside the three
+    taught lessons (percent discount/increase, fraction multiplication,
+    complex-fraction unit rates above `6.RP.A.2`'s scope). Product/content
+    owner decided to keep these as intentional stretch/challenge content
+    rather than remove them - mathematically correct, just broader than
+    the three lessons.
+  - All 10 banks' per-item hashes and bank-level `contentHash` recomputed
+    (the hash covers the full item including `review`, so any edit
+    invalidates it). The pinned hashes in `src/curriculum/pilot-catalog.ts`
+    (`BANK_HASHES`) re-pinned to match, for all 10 banks (not just the 4
+    touched by `D-73`, since the earlier review-status edit had already
+    changed all 10 banks' hashes before this pass).
+- **Verified against the real app code, not just schema validation:**
+  `PrivateAssessmentPackageStore` now constructs successfully (previously
+  threw `missing coverage for skill unit-rates@1.0.0`), and
+  `tests/browser/phase1-api.spec.ts`'s "staging private package serves a
+  real lesson assignment when explicitly mounted" test - previously only
+  ever skipped, never run, since nothing had the package mounted - now
+  passes for real with `LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH` pointed at
+  the corrected file (201, a genuine assignment, not 503/409). Also
+  reconfirmed the complementary fail-closed test still passes with the env
+  var unset. `npm run verify`, `npm run test:integration` (160/160), and
+  `npm run test:e2e` all clean in both configurations.
+- **Not yet done:** `docs/course-progression-review/manual-gate-record.md`'s
+  "Held-out assessment package" and "Authored assessment content" rows are
+  still blank. The underlying facts now support filling them in (package
+  reference/version/digest are known; every served record has
+  `review.status: reviewed` with traceable provenance), but that row's
+  decision/signature is the product/content owner's own attestation, not
+  something to synthesize on their behalf - flagged to the owner to sign
+  directly rather than filled in by the implementer.
+
+## 2026-10-04 — Security audit log added; independent review of draft assessment content found real blockers
+
+- **Audit log (pilot-readiness "Observability" row).** New `AuditLog` model
+  (migration `0017_add_audit_log`, reviewed `down.sql` that refuses to drop
+  a non-empty table) records `LOGIN_SUCCESS`/`LOGIN_FAILURE`/`LOGIN_LOCKED`,
+  `STEP_UP_SUCCESS`/`STEP_UP_FAILURE`/`STEP_UP_LOCKED`, `HOUSEHOLD_EXPORT`,
+  and `HOUSEHOLD_DELETE` events. Deliberately has no foreign key to
+  `Household`/`User` (unlike every other household-scoped table), since an
+  audit trail must survive the thing it's auditing being deleted.
+  - `deleteHouseholdData` now records the `HOUSEHOLD_DELETE` event and then
+    anonymizes (nulls `householdId`/`userId` on) every `AuditLog` row for
+    that household, atomically in the same transaction - the event, its
+    type, and its timestamp survive; the identity it refers to does not.
+    This also satisfies the existing generic privacy test
+    (`household-data-coverage.test.ts`) that every model with a
+    `householdId` field must be empty for a deleted household, without
+    special-casing it.
+  - `exportHouseholdData` now includes the household's own audit history
+    (fetched separately - `AuditLog` has no relation to traverse from
+    `Household`).
+  - `recordAuditEvent` (`src/server/audit-log.ts`) is best-effort: a write
+    failure is caught and logged structurally, never allowed to break the
+    login/export/deletion request that triggered it.
+  - New tests: `tests/persistence/audit-log.test.ts` (the write primitive,
+    including the no-FK-survival property and the best-effort-failure
+    property), plus new assertions in
+    `tests/auth/create-parent-account.test.ts` and
+    `tests/persistence/household-data.test.ts`.
+  - Verified: `npm run verify` clean, `npm run test:integration` 160/160
+    (19 files, up from 18), `npm run test:e2e` 25/26 (same 1 pre-existing
+    unrelated skip).
+  - Not yet done from this pass: secrets-management and observability
+    *documentation* (rotation procedure, access policy) was scoped
+    alongside this but not yet written.
+
+- **Independent review of the draft assessment package — found real
+  blockers, not just the known unit-bank gap.** Requested an independent
+  model review (Opus; model identity unverified - see
+  `[[independent-review-model]]`) of all 72 items in
+  `grade-6-math-assessments-draft-v2.json` after the product/content owner
+  marked them `review.status: reviewed`. The review confirmed the unit-bank
+  skill-coverage gap already found, and surfaced more serious issues the
+  owner's pass did not catch:
+  - **Blocker:** 45 of 72 items (the four original, not-yet-broadened
+    banks) list only one accepted answer form each, while the scorer does
+    exact-string matching - mathematically correct alternate phrasings
+    ("3 to 2", "$1.50", "1 1/2 gallons per minute", etc.) would be scored
+    wrong.
+  - **Major:** two items' answers are directly inferable from this
+    program's own *public* practice content for the same lesson (same
+    numbers/context), undermining held-out integrity.
+  - **Major:** several items test material outside the three taught skills
+    (percent discount/increase, fraction multiplication, complex-fraction
+    unit rates above 6.RP.A.2's scope) or have an ambiguous prompt.
+  - All 72 items' `review` metadata is identical (same reviewer, date, and
+    boilerplate statement), which is itself evidence the review pass was
+    not item-level.
+  - Full findings delivered to the product owner for a decision; the
+    private file was left as marked `reviewed` (per the owner's explicit
+    instruction) but the review agent's recommendation is "needs specific
+    fixes first," not approval - the agent is not the authorizing party
+    either way.
+  - Content item hashes in the private package were already recomputed
+    (required after any edit, since the hash covers the full item
+    including `review`) before this review ran; they will need recomputing
+    again after any content fix, and the pinned hashes in
+    `src/curriculum/pilot-catalog.ts` re-pinned only once the final content
+    is settled.
+
 ## 2026-10-04 — Dark mode verified for the chapter-navigation redesign
 
 - Checked, no code change needed. Ran the axe WCAG 2.2 AA check with dark
