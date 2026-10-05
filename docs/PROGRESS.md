@@ -1,5 +1,20 @@
 # Progress
 
+## 2026-10-04 — Dark mode verified for the chapter-navigation redesign
+
+- Checked, no code change needed. Ran the axe WCAG 2.2 AA check with dark
+  color-scheme emulation (`page.goto('/')` + `AxeBuilder` under
+  `colorScheme: 'dark'`): 0 violations. Confirmed via computed styles (not
+  just visually) that the new chapter/progress-badge colors actually switch
+  under `prefers-color-scheme: dark` rather than being stuck on light-mode
+  values (`--color-border` → `#33373b`, `--color-progress` → `#e4b15c`,
+  etc.). Screenshotted the default chapter view, the full hint →
+  independent-check flow (status boxes, tutor panel), and a 375px mobile
+  width in dark mode - all read cleanly. Chapter icons use a static hex
+  color regardless of theme (by design, documented in
+  `docs/learner-presentation-design.md`) and read fine against the dark
+  background too.
+
 ## 2026-10-04 — Tablet gets the two-column sidebar layout; fixed a progress-badge clipping bug
 
 - Follow-up to the responsive review below: an iPad-portrait-width screen
