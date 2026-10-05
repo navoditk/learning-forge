@@ -67,6 +67,7 @@ continues; the reason is recorded in `docs/curriculum-agents.md`.
 Supporting reference docs, consulted as needed rather than read end to end:
 
 - `docs/threat-model.md`, `docs/privacy-inventory.md`, `docs/incident-response.md`, `docs/pilot-readiness-checklist.md` — the safety/privacy/legal control baseline.
+- `docs/secrets-management.md`, `docs/observability.md` — where secrets live and rotate, and what's recorded (tutor traces, the security audit log) versus deliberately not.
 - `docs/content-review.md`, `docs/content-authoring-pipeline.md` — how problems are authored and approved.
 - `docs/learner-presentation-design.md` — the learner page's chapter
   navigation model and visual-design tokens, and the checklist for giving a

@@ -1,5 +1,30 @@
 # Progress
 
+## 2026-10-04 — Secrets-management and observability docs written
+
+- New `docs/secrets-management.md`: where `AUTH_SECRET`/`ANTHROPIC_API_KEY`/
+  `DATABASE_URL` live locally vs. on Render (`sync: false` env vars, never
+  committed), confirmation that neither `TutorTrace` nor `AuditLog` has a
+  field that could hold a secret, a least-privilege statement (today:
+  product owner only, by direct consequence of ADR-0008's single-household
+  scope), and a 12-month/on-suspected-exposure rotation procedure for both
+  secrets.
+- New `docs/observability.md`: what `TutorTrace` and `AuditLog` each record,
+  why `AuditLog` deliberately has no foreign key (and anonymizes instead of
+  cascading on household deletion), the access policy (direct database
+  access, today held only by the product owner; a household's own
+  self-service export), and what's deliberately not recorded (raw learner
+  text, secrets, IP/device fingerprints).
+- Most of the underlying engineering already existed before these docs
+  (metadata-only traces with tested redaction, the secret-storage
+  separation); the pilot-readiness checklist's "Secrets" and
+  "Observability" rows were "Pending" because the evidence wasn't written
+  down, not because it didn't exist - both rows updated to point at the new
+  docs and marked pending only the respective owner's review/acceptance of
+  that evidence, since recording the evidence isn't the same as approving
+  it (no self-approval).
+- `README.md`'s supporting-docs list updated to include both.
+
 ## 2026-10-04 — D-73: lesson/unit-bank defects found by independent review, fixed
 
 - **New decision `D-73`** (`docs/course-progression-decisions.md`): a
