@@ -1,5 +1,43 @@
 # Progress
 
+## 2026-10-05 — Tutor policy and parent reporting documented; a real child-safety gap confirmed, narrowed, and tested
+
+- Investigated the pilot-readiness checklist rows left unverified after the
+  secrets/observability pass: Tutor policy, Child safety, Parent reporting,
+  Operations.
+- **Tutor policy and Parent reporting were already substantially built.**
+  New `docs/tutor-policy.md` and `docs/parent-reporting.md` document them
+  (versioned policy, structured validation, answer-leak detection,
+  fallback, and the hardcoded `masteryAdvanced: false` for the former;
+  every parent-facing claim tracing to a real attempt/mastery row with
+  confidence band and assistance level shown in plain language for the
+  latter). Checklist rows updated to point at the docs, pending the
+  respective owner's acceptance - same pattern as secrets/observability.
+- **Child safety: confirmed a real, already-tracked gap - detection works,
+  escalation doesn't.** The Anthropic adapter is prompted to flag
+  distress/self-harm/off-topic content, and `validateTutorMove` already
+  suppresses a flagged response (fallback, never shown to the learner) -
+  but no test exercised this before, and no human-notification step exists
+  when a flag fires. This isn't a new finding: `docs/course-progression-review/child-safety-acceptance.md`
+  (dated 2026-09-20) already lists "name the safety escalation owner and
+  destination" as an open reinforcement requirement; this session confirms
+  it's still open and narrows exactly what's missing (notification, not
+  detection).
+  - Added two tests, `tests/tutor/tutor.test.ts` "safety-flag handling": a
+    flagged response never reaches `response.move` even if otherwise
+    valid, and a flagged response followed by a clean retry still recovers
+    normally (`repaired`, not stuck in permanent fallback).
+  - Checklist's Child safety row updated to reflect this precisely:
+    detection/suppression evidenced and tested; escalation still genuinely
+    pending, not just awaiting sign-off.
+- **Operations' remaining items** (Render backup/restore drill, spend
+  monitoring, billing alerts, incident contacts) were not touched - a
+  backup/restore drill is a production action needing explicit
+  authorization first, and the rest are account-level settings/decisions,
+  not engineering.
+- Verified: `npx tsc --noEmit`, `npx eslint .`, `npm run verify` all clean;
+  `tests/tutor/tutor.test.ts` 10/10 (8 existing + 2 new).
+
 ## 2026-10-05 — Product/content owner signs the open manual-gate rows
 
 - Four previously-blank rows in

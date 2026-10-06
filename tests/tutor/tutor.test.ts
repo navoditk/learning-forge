@@ -137,6 +137,35 @@ describe('fake tutor harness', () => {
   });
 });
 
+describe('safety-flag handling', () => {
+  it('never exposes a move the model flagged needs_human_review, even if otherwise valid', async () => {
+    const flagged = { ...validHint, safetyFlags: ['needs_human_review'] };
+    const model = new SequenceModel([flagged, flagged]);
+    const response = await new TutorHarness(model).respond(baseInput);
+
+    expect(response.status).toBe('fallback');
+    expect(response.move).toBeUndefined();
+    expect(response.fallbackMessage).toContain('one small step');
+    expect(response.masteryAdvanced).toBe(false);
+    expect(response.nextState).toBe('hint_1_strategy');
+    expect(response.trace.metadata.validationResult).toBe('fallback');
+    expect(response.trace.metadata.outcome).toBe('fallback_returned');
+    // The fallback text itself must not repeat anything from the flagged
+    // candidate - it's the server's own safe message, not model output.
+    expect(response.fallbackMessage).not.toBe(flagged.learnerMessage);
+  });
+
+  it('recovers normally if a flagged response is followed by a clean retry', async () => {
+    const flagged = { ...validHint, safetyFlags: ['needs_human_review'] };
+    const model = new SequenceModel([flagged, validHint]);
+    const response = await new TutorHarness(model).respond(baseInput);
+
+    expect(response.status).toBe('repaired');
+    expect(response.move?.moveType).toBe('hint_2_representation');
+    expect(response.move?.safetyFlags).toEqual(['none']);
+  });
+});
+
 class ThrowingModel implements TutorModel {
   public callCount = 0;
 
