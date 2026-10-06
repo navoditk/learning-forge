@@ -1,5 +1,31 @@
 # Progress
 
+## 2026-10-05 — Product/content owner signs the open manual-gate rows
+
+- Four previously-blank rows in
+  `docs/course-progression-review/manual-gate-record.md` recorded as
+  accepted by the product/content owner, in chat: **D-58 acknowledgement**
+  (Stage A0's fix shipped; no evidence of a leak), **held-out assessment
+  package** (package reference, version, pinned digests, access control,
+  and the 2026-10-04 review status, all now true after `D-73`), **authored
+  assessment content** (every served record reviewed with traceable
+  provenance), and **open decision check** (D-36/D-39 both already
+  approved; nothing blocks the current pilot scope). The file's top-level
+  status line updated to match.
+- The pilot-readiness checklist's **Secrets** and **Observability** rows
+  (previously "evidence recorded, pending owner acceptance") now show the
+  product/security and product/engineering owner's acceptance of
+  `docs/secrets-management.md` and `docs/observability.md` as sufficient
+  for the current single-household/single-operator scope.
+- **Still open, unaffected by this**: the independent-review and
+  shadow-divergence-review rows in `manual-gate-record.md` (not the
+  product owner's to self-approve - the whole reason those rows exist),
+  and every item outside the product/content owner's authority on the
+  pilot-readiness checklist (provider contractual terms, consent UI,
+  support-access procedure, and the rows this session never investigated:
+  child safety, tutor policy, parent reporting, operations, launch
+  decision). C4 is still not authorized.
+
 ## 2026-10-04 — Secrets-management and observability docs written
 
 - New `docs/secrets-management.md`: where `AUTH_SECRET`/`ANTHROPIC_API_KEY`/
