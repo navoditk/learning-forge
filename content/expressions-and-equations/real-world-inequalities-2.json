@@ -1,6 +1,6 @@
 {
   "id": "real-world-inequalities-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Capacity inequality",
   "role": "practice",
   "skillRef": {
@@ -15,17 +15,17 @@
     "Writes an inequality for a real-world constraint, tests candidate values, and describes the solution set on a number line."
   ],
   "prompt": "A youth center has room for at most 24 people. There are already 9 people inside. Write an inequality for the number p of additional people, test p = 14 and p = 16, and describe the number-line solution set.",
-  "solutionRepresentation": "The inequality is 9 + p <= 24, or p <= 15. The value 14 works and 16 does not. The graph has a closed endpoint at 15 and shading to the left.",
-  "solutionMethod": "Translate 'at most' into less than or equal to, test each candidate in the context, and describe all allowable values from zero through 15.",
+  "solutionRepresentation": "The inequality is 9 + p <= 24, or p <= 15. The value 14 works and 16 does not. Because p counts additional people, the solution set is bounded by context on both ends: p can be 0 through 15, with a closed dot at 15.",
+  "solutionMethod": "Translate 'at most' into less than or equal to, test each candidate in the context, and describe all allowable values from zero through 15 - the count of people can't go below zero, so the solution set is bounded on both ends, not an unbounded ray.",
   "deterministicValidator": {
     "type": "composite",
-    "canonicalAnswer": "9 + p <= 24; 14 works, 16 does not; p <= 15 with a closed 15 and shading left",
+    "canonicalAnswer": "9 + p <= 24; 14 works, 16 does not; p can be 0 through 15, with a closed dot at 15",
     "acceptedAnswers": [
-      "9 + p <= 24; 14 works, 16 does not; p <= 15 with a closed 15 and shading left",
-      "p <= 15; 14 yes, 16 no; closed dot at 15 and ray left",
+      "9 + p <= 24; 14 works, 16 does not; p can be 0 through 15, with a closed dot at 15",
+      "p <= 15; 14 yes, 16 no; closed dot at 15, shading left down to 0",
       "9 + p is at most 24; p can be 0 through 15"
     ],
-    "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the closed-left ray and context restriction."
+    "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the solution set, as long as it names both the closed boundary at 15 and the context floor at 0 - describing only 'p <= 15' with no lower bound is incomplete for this context, since a negative or fractional number of people is not meaningful."
   },
   "misconceptionCodes": ["graphs-endpoint-only-instead-of-solution-ray"],
   "hintSteps": [
@@ -38,15 +38,16 @@
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "A solution set includes every value that keeps the total within capacity, not just the boundary.",
-      "question": "Which side of the boundary represents fewer additional people?"
+      "prompt": "A solution set includes every value that keeps the total within capacity, not just the boundary - and p is a count of people, so it can't go below zero.",
+      "question": "What are the smallest and largest numbers of additional people that still fit?"
     }
   ],
   "forbiddenLeakagePatterns": [
     "9 + p <= 24",
     "p <= 15",
-    "closed endpoint at 15",
-    "shading to the left"
+    "closed dot at 15",
+    "0 through 15",
+    "shading left down to 0"
   ],
   "provenance": {
     "origin": "llm_drafted",
@@ -55,9 +56,9 @@
   "review": {
     "status": "reviewed",
     "reviewer": "Navodit Kaushik (product/content owner)",
-    "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material.",
-    "reviewedAt": "2026-09-17"
+    "originalityStatement": "Corrected 2026-10-07 (D-74): the accepted-answer variants previously disagreed with each other, some describing an unbounded solution ray and one describing the context-correct bounded range; all variants now consistently require the 0-to-15 context floor. Drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-10-07"
   },
-  "accessibilityNotes": "Describe the inequality, candidate substitutions, endpoint inclusion, and shading direction in text; no visual number line is required.",
+  "accessibilityNotes": "Describe the inequality, candidate substitutions, the closed boundary at 15, and the context floor at 0 in text; no visual number line is required.",
   "accessibleAlternative": "Read aloud or display: A room holds at most twenty-four people and nine are inside. Model additional people with p, test fourteen and sixteen, and describe all allowed p values."
 }

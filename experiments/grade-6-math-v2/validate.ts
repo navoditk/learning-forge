@@ -286,14 +286,13 @@ async function main(): Promise<void> {
         throw new Error(`content record has unexpected field ${field}`);
       }
     }
-    const {
-      accessibleAlternative,
-      answerFormat,
-      misconceptionDistractors,
-      representations,
-      ...contentItem
-    } = record;
+    const { answerFormat, misconceptionDistractors, representations, ...contentItem } = record;
+    // accessibleAlternative is now a required field directly on
+    // ContentItemSchema (src/contracts/content.ts), so it's left in
+    // contentItem and parsed/validated by the schema itself instead of
+    // being stripped out and checked manually below.
     const parsed = ContentItemSchema.parse(contentItem);
+    const accessibleAlternative = parsed.accessibleAlternative;
     if (!skillsByCode.has(parsed.skillCode)) {
       throw new Error(`content record ${parsed.id} has an out-of-scope skill ${parsed.skillCode}`);
     }

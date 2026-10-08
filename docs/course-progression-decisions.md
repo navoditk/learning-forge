@@ -986,9 +986,37 @@ decided to keep them as intentional stretch/challenge content in the unit
 assessment rather than remove them — mathematically correct, just broader
 than the three lessons, and not a defect this exception needs to touch.
 
-## I. Index of open decisions
+### D-74 — Authoring exception for two live-production defects found by the Grade 6 Math v3 integration review
 
-Seventy-three decisions total; all seventy-three are approved. The grouping below is a
+| Field | Value |
+|---|---|
+| Kind | content |
+| Status | **APPROVED 2026-10-07** |
+| Recommendation | A narrow exception to the `D-61` authoring pause, scoped to exactly two already-live, already-reviewed production content records: (1) `content/expressions-and-equations/one-variable-equations-2.json` — replace its two-step equation (`(1/2)x + 4 = 10`, the `7.EE.B.4a` form) with a genuine single-step `6.EE.B.7` form (`px = q` with a nonnegative rational coefficient), keeping the same skill, standard tag, contest mode, and challenging difficulty; (2) `content/expressions-and-equations/real-world-inequalities-2.json` — correct its `acceptedAnswers` so every variant consistently describes the context-bounded solution set (`p` from 0 to 15, a real count of people), removing the variants that describe an unbounded "shading left forever" ray as equivalent. No other record, skill, or standard mapping may be touched under this exception |
+| Approved value | As recommended |
+| Approver | Product/content owner (in chat) |
+| Blocks | — (the `D-61` pause otherwise remains in force) |
+
+**Why.** A final independent review (requested as Opus; model identity
+unverified) of the Grade 6 Math v2 candidate, run under the mistaken
+premise that v2 had not yet reached production, discovered mid-review that
+a v1+v2 merge ("v3") had already shipped 2026-09-18 and includes
+content directly derived from v2. Re-scoped to compare against actual
+current production, it found two defects in records that are live today:
+`one-variable-equations-2` is tagged `6.EE.B.7` (single-step equations per
+the CDE standard text) but is actually a two-step equation, the Grade 7
+form; `real-world-inequalities-2`'s own three accepted-answer variants
+describe two different solution sets as if equivalent, one of them
+mathematically broader than the real-world context supports. Both were
+independently re-verified by the implementing session before this decision
+was recorded, not accepted on the reviewer's word alone. The review's
+other five findings (a skill mis-scoped to Grade 7 content, validator
+gradability across ~31 experimental records, two distractor defects, and
+missing `6.SP.B.4`/MAD coverage) are explicitly out of scope for this
+decision — they concern the `experiments/grade-6-math-v2/` candidate, not
+live production, and are deferred to a separate, future decision.
+
+Seventy-four decisions total; all seventy-four are approved. The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 

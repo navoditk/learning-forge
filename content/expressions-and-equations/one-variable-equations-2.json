@@ -1,6 +1,6 @@
 {
   "id": "one-variable-equations-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Solving with a rational coefficient",
   "role": "practice",
   "skillRef": {
@@ -12,18 +12,18 @@
   "standards": ["6.EE.B.7"],
   "itemReadinessRefs": [],
   "observableEvidence": [
-    "Solves a one-variable equation with a nonnegative rational coefficient and checks the solution in the original equation."
+    "Solves a one-step equation with a nonnegative rational coefficient and checks the solution in the original equation."
   ],
-  "prompt": "Solve (1/2)x + 4 = 10. Check your answer in the original equation.",
-  "solutionRepresentation": "Subtract 4 from both sides to get (1/2)x = 6. Multiply both sides by 2, so x = 12. Check: (1/2)(12) + 4 = 10.",
-  "solutionMethod": "Undo the constant first, then multiply both sides by the reciprocal of the rational coefficient, and substitute to check.",
+  "prompt": "Solve (3/4)x = 18. Check your answer in the original equation.",
+  "solutionRepresentation": "Multiply both sides by the reciprocal 4/3, so x = 18 × 4/3 = 24. Check: (3/4)(24) = 18.",
+  "solutionMethod": "Multiply both sides by the reciprocal of the rational coefficient, then substitute to check.",
   "deterministicValidator": {
     "type": "composite",
-    "canonicalAnswer": "x = 12; check (1/2)(12) + 4 = 10",
+    "canonicalAnswer": "x = 24; check (3/4)(24) = 18",
     "acceptedAnswers": [
-      "x = 12; check (1/2)(12) + 4 = 10",
-      "x = 12; 6 + 4 = 10",
-      "12, and one-half times 12 plus 4 equals 10"
+      "x = 24; check (3/4)(24) = 18",
+      "x = 24; 18 = 18",
+      "24, and three-fourths times 24 equals 18"
     ],
     "equivalenceNotes": "Accept fraction, word, or decimal notation when the value and original-equation check are correct."
   },
@@ -32,17 +32,17 @@
     {
       "order": 1,
       "assistanceLevel": "small_strategic_hint",
-      "prompt": "First isolate the term containing x by undoing the constant.",
-      "question": "What remains after subtracting 4 from both sides?"
+      "prompt": "The coefficient 3/4 is multiplying x; think about what operation undoes multiplying by a fraction.",
+      "question": "What single operation isolates x in this equation?"
     },
     {
       "order": 2,
       "assistanceLevel": "multiple_hints_representation",
-      "prompt": "To undo multiplication by one-half, use the operation that restores a whole quantity.",
-      "question": "What operation should be applied to both sides to isolate x?"
+      "prompt": "Multiplying by the reciprocal of a fraction undoes multiplying by that fraction.",
+      "question": "What is the reciprocal of 3/4, and what do you get when you multiply both sides by it?"
     }
   ],
-  "forbiddenLeakagePatterns": ["x = 12", "(1/2)(12) + 4 = 10", "6 + 4 = 10"],
+  "forbiddenLeakagePatterns": ["x = 24", "(3/4)(24) = 18", "18 = 18"],
   "provenance": {
     "origin": "llm_drafted",
     "licenseStatus": "owned"
@@ -50,9 +50,9 @@
   "review": {
     "status": "reviewed",
     "reviewer": "Navodit Kaushik (product/content owner)",
-    "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material.",
-    "reviewedAt": "2026-09-17"
+    "originalityStatement": "Corrected 2026-10-07 (D-74) to a genuine single-step 6.EE.B.7 form (px = q); the prior version combined two operations, which is the 7.EE.B.4a form and exceeded this standard's scope. Drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material.",
+    "reviewedAt": "2026-10-07"
   },
   "accessibilityNotes": "Spell out the fraction coefficient and substitution check in text; no stacked fraction typesetting is required.",
-  "accessibleAlternative": "Read aloud or display: One-half times x plus four equals ten. Solve for x, then replace x in the original equation to verify."
+  "accessibleAlternative": "Read aloud or display: Three-fourths times x equals eighteen. Solve for x, then replace x in the original equation to verify."
 }

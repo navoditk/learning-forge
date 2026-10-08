@@ -1,5 +1,57 @@
 # Progress
 
+## 2026-10-07 — D-74: two live-production content defects fixed, after a v2-integration review found the real production baseline was already v3
+
+- An independent review (requested as Opus; model identity unverified, per
+  the standing note on background-agent review attribution) of the
+  Grade 6 Math v2 candidate, run to evaluate integrating v2 into production,
+  discovered mid-review that a v1+v2 merge ("v3") had already shipped
+  2026-09-18 and that live production already contains content derived from
+  v2. Re-scoped against actual current production, it found two defects in
+  records serving real attempts today, plus five other findings scoped to
+  the `experiments/grade-6-math-v2/` candidate only (a skill mis-scoped to
+  Grade 7 content, validator gradability across ~31 experimental records,
+  two distractor defects, and missing `6.SP.B.4`/MAD coverage).
+- Given two of the seven findings were live-production correctness bugs,
+  the product/content owner authorized (`D-74`, narrow exception to the
+  `D-61` authoring pause) fixing exactly those two, deferring the other five
+  to a future decision:
+  - `content/expressions-and-equations/one-variable-equations-2.json` was
+    tagged `6.EE.B.7` (single-step) but its equation,
+    `(1/2)x + 4 = 10`, was actually the two-step `7.EE.B.4a` form. Replaced
+    with a genuine single-step `px = q` equation, `(3/4)x = 18`.
+  - `content/expressions-and-equations/real-world-inequalities-2.json`'s
+    three `acceptedAnswers` variants described two different solution sets
+    as equivalent: one correctly bounded the context (0 to 15 people), one
+    described an unbounded "shading left forever" ray. All variants now
+    consistently require the context floor at 0.
+  - Both records' `version` was bumped `content-1` → `content-2`. This step
+    is not cosmetic: `src/content/archive.ts` keys the immutable
+    `ContentArchive` table by `{contentKey, contentVersion}` and
+    `createAttempt` scores every attempt against that archived snapshot via
+    `requireHistoricalContent`, not the live catalog directly
+    (`skipDuplicates: true` means an unversioned edit is silently never
+    archived, and a later edit to an already-archived version would instead
+    throw `Content archive drift detected`). Caught only by functional
+    testing (submitting real answers through `recordAttempt`) after the
+    schema/type checks had already passed clean — type and content-schema
+    validation alone would not have caught this.
+  - Added `tests/phase1/content-corrections.test.ts`: starts a real session
+    against each corrected content ID and asserts the new canonical answer
+    scores `CORRECT` and the old, pre-fix phrasing now scores `INCORRECT`,
+    locking in both the content fix and the version-bump behavior against
+    regression.
+  - Fixed an unrelated schema-drift bug found along the way in
+    `experiments/grade-6-math-v2/validate.ts`: `accessibleAlternative` is
+    now a required field on `ContentItemSchema` directly, but the validator
+    was still destructuring it out before `.parse()`, throwing a ZodError.
+- The review's other five findings remain explicitly out of scope for this
+  decision and are not addressed here.
+- Verification: `npm run verify` (format, lint, typecheck, down-migration
+  check, 309 unit/contract tests, production build) and
+  `npm run test:integration` (162 integration tests, including the new
+  regression test) both pass clean.
+
 ## 2026-10-05 — Tutor policy and parent reporting documented; a real child-safety gap confirmed, narrowed, and tested
 
 - Investigated the pilot-readiness checklist rows left unverified after the
