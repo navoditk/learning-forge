@@ -9,6 +9,7 @@ import {
 
 import type { AssessmentContentItem } from '../contracts/progression';
 import { createAssessmentStore, type AssessmentStore } from '../assessment/store';
+import { matchesAcceptedAnswer, normalizeAnswer } from '../content/answer-matching';
 import { prisma } from '../server/prisma';
 import { isTerminalAssessmentStatus, transitionAssessmentRun } from './assessment-state';
 import {
@@ -64,17 +65,11 @@ function attemptContextForAssessment(kind: AssessmentKind): AttemptContext {
   }
 }
 
-function normalize(answer: string): string {
-  return answer.trim().toLocaleLowerCase().replace(/\s+/gu, ' ');
-}
-
 function score(
   item: Pick<AssessmentContentItem, 'deterministicValidator'>,
   response: string,
 ): Correctness {
-  return item.deterministicValidator.acceptedAnswers.some(
-    (accepted) => normalize(accepted) === normalize(response),
-  )
+  return matchesAcceptedAnswer(item.deterministicValidator.acceptedAnswers, response)
     ? 'CORRECT'
     : 'INCORRECT';
 }
@@ -354,7 +349,7 @@ export async function submitAssessmentItem(
           contentKey: item.id,
           contentVersion: item.version,
           learnerResponse: input.learnerResponse,
-          normalizedResponse: normalize(input.learnerResponse),
+          normalizedResponse: normalizeAnswer(input.learnerResponse),
           correctness: score(item, input.learnerResponse),
           scoringMethod: 'DETERMINISTIC',
           attemptNumber:

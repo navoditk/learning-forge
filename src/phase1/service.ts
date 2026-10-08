@@ -3,6 +3,7 @@ import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
 import { contentCatalog, contentSkillCode, servableContentCatalog } from '../content/catalog';
 import { resolveHistoricalContent as resolveArchivedHistoricalContent } from '../content/archive';
 import { resolveActive } from '../content/resolvers';
+import { matchesAcceptedAnswer, normalizeAnswer } from '../content/answer-matching';
 import {
   CurriculumProgram,
   PlannerContentItem,
@@ -89,14 +90,8 @@ export const phase1Content = resolveContent();
 
 const assistanceWeights = [1, 0.9, 0.75, 0.55, 0.35, 0.1];
 
-function normalizeAnswer(answer: string): string {
-  return answer.trim().toLocaleLowerCase().replace(/\s+/gu, ' ');
-}
-
 function scoreAnswer(content: typeof phase1Content, answer: string): Correctness {
-  return content.deterministicValidator.acceptedAnswers.some(
-    (accepted) => normalizeAnswer(accepted) === normalizeAnswer(answer),
-  )
+  return matchesAcceptedAnswer(content.deterministicValidator.acceptedAnswers, answer)
     ? 'CORRECT'
     : 'INCORRECT';
 }

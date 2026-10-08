@@ -1,5 +1,38 @@
 # Progress
 
+## 2026-10-07 — M2 minimal hardening: deduplicated and hardened answer-matching
+
+- The final independent review's `M2` finding (exact-string-match composite
+  grading) affects 11 live production records today, each with only 2-3
+  pre-authored accepted-answer phrasings — a correctly-reasoned but
+  differently-worded learner answer can be marked wrong. The full fix (a
+  structured, per-part-matched answer contract) is a multi-hour schema and
+  content migration; given two production-affecting bugs already needed
+  user sign-off today, scoped this increment to minimal hardening only, by
+  explicit user choice.
+- `src/phase1/service.ts` and `src/progression/assessment-submission.ts`
+  each kept their own copy of the trim/lowercase/whitespace-collapse
+  normalization, which had already begun to drift between the two files.
+  Extracted both into a single shared `src/content/answer-matching.ts`
+  (`normalizeAnswer`, `matchesAcceptedAnswer`), used by both.
+- Hardened the shared normalization to also strip a trailing terminal
+  punctuation mark (`.`, `,`, `;`, `!`, `?`) and normalize spacing around
+  internal `;`/`,` separators, so answers like `"x = 5 ; check ... "` or
+  `"x = 5."` match an accepted answer that differs only in that
+  punctuation/spacing. This does not change matching for any answer that
+  was already scored correctly or incorrectly before this change - it only
+  accepts a narrow class of previously-rejected, harmless variations.
+  Grading remains exact-match-after-normalization; wording or notation
+  variation beyond this still needs an authored accepted-answer variant.
+- Added `tests/content/answer-matching.test.ts` (8 tests) covering the new
+  normalization behavior and confirming a genuinely different or
+  incomplete answer is still rejected.
+- The full structured-answer redesign (`M2`'s real fix) remains explicitly
+  deferred; see `experiments/grade-6-math-v2/review-handoff.md` Revision 15.
+- Verification: `npm run verify` (317 unit/contract tests, build) and
+  `npm run test:integration` (162 tests, including the `D-74` regression
+  test) both pass clean - no existing grading outcome changed.
+
 ## 2026-10-07 — Grade 6 Math v2 candidate, Revision 15: final-review blocker, major, and leak remediation
 
 - Addressed six of the seven non-production findings from the same final
