@@ -1,5 +1,56 @@
 # Progress
 
+## 2026-10-07 — Grade 6 Math v2 candidate, Revision 15: final-review blocker, major, and leak remediation
+
+- Addressed six of the seven non-production findings from the same final
+  independent review that produced `D-74` (see entry below): the `B1`
+  blocker, `M1`, `M3`, `M4`, `m1`, and the real content leak `L1`. All
+  changes are confined to the pending-review `experiments/grade-6-math-v2/`
+  candidate, following the same revision/remediation pattern as the
+  candidate's 14 prior revisions (no `D-61` authoring-pause exception
+  needed, since nothing is being integrated into production here).
+  - **B1 (blocker):** `rational-number-operations` was mis-scoped — its
+    evidence, misconceptions, and one content item tested signed-number
+    *operations*, which is Grade 7 content; `6.NS.C.7` covers only ordering
+    and absolute value. Rescoped the skill, replaced the signed-addition
+    item with an absolute-value-as-distance item, dropped the unjustified
+    `one-variable-equations <- rational-number-operations` prerequisite
+    edge, and removed the two now-unused operations-only misconception
+    codes from the skill and glossary (53 → 51 codes, still 1:1 synced).
+  - **M1:** both `one-variable-equations` candidate items were two-step
+    (the Grade 7 form); replaced with a genuine `x + p = q` item and a
+    `px = q` item — the latter using the same equation as the `D-74` fix
+    already live in production, for consistency.
+  - **M3:** `v2-fraction-division-tiles`'s own distractor ("2", missing the
+    unit) was also in its `acceptedAnswers`, so submitting the targeted
+    misconception scored correct. The unit word is now required.
+  - **M4:** `v2-variables-expression-rectangle`'s wrong-variable-position
+    distractor was mathematically unreachable, because `2l + 2w` is
+    symmetric under swapping `l` and `w`. Changed to an asymmetric
+    picture-frame-cost expression (`2l + 5w`) where the swap produces a
+    genuinely different, reachable wrong answer.
+  - **m1:** `v2-inequality-sports-capacity` had the same over-broad
+    canonical-answer defect as production's `real-world-inequalities-2`
+    (fixed under `D-74`); applied the same bounded-solution-set fix here.
+  - **L1 (real leak):** `v2-equivalent-distribute-verify` used the same
+    `4(x + 3)` expression as production's `equivalent-expressions-1`, and
+    its hint stated that record's canonical answer. Changed to `5(x + 2)`
+    verified at `x = 3`.
+  - **Explicitly deferred, not fixed:** `M2` (31 of 48 records use
+    exact-match composite grading, which is a production grading-engine
+    limitation affecting the two live `D-74` records too, not a
+    candidate-specific defect — a structured-answer redesign is a separate
+    engineering decision) and `M5` (coverage gaps versus v1 in `6.RP.A.3`,
+    a `6.SP.B.4` display task, and MAD — closing these means authoring new
+    content, not fixing existing records). Minor items m2, m4-m7, and m9
+    are also undocumented/unaddressed; see `review-handoff.md` Revision 15
+    for the full list.
+- Verification: `npx tsx experiments/grade-6-math-v2/validate.ts` (51
+  glossary-synced codes, 48 records), `npm run verify` (309 unit/contract
+  tests, build), and `npm run test:integration` (162 tests) all pass clean;
+  production's `content:validate` suite (27 tests) is unaffected, confirming
+  this revision touched nothing live.
+
 ## 2026-10-07 — D-74: two live-production content defects fixed, after a v2-integration review found the real production baseline was already v3
 
 - An independent review (requested as Opus; model identity unverified, per

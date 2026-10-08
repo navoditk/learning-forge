@@ -659,8 +659,8 @@
     "deterministicValidator": {
       "type": "numeric",
       "canonicalAnswer": "2 pieces",
-      "acceptedAnswers": ["2", "2 pieces"],
-      "equivalenceNotes": "Accept 2 with or without the unit word pieces."
+      "acceptedAnswers": ["2 pieces", "two pieces"],
+      "equivalenceNotes": "Require the unit word pieces; a bare numeral is the targeted drops-units-from-quotient-answer misconception, not an accepted equivalent form."
     },
     "answerFormat": "A whole-number count, labeled pieces.",
     "misconceptionCodes": ["drops-units-from-quotient-answer"],
@@ -690,52 +690,62 @@
     "accessibleAlternative": "Read aloud or display: A total strip length is seven-eighths meter. One equal piece is seven-sixteenths meter. State how many pieces result, including the word pieces."
   },
   {
-    "id": "v2-rational-number-operations-temperature",
+    "id": "v2-rational-number-operations-absolute-value",
     "version": "candidate-content-1",
-    "title": "Temperature change",
+    "title": "Distance from zero",
     "skillCode": "rational-number-operations",
     "mode": "core",
     "difficulty": "developing",
     "standards": ["6.NS.C.7"],
     "prerequisiteSkillCodes": ["rational-number-representation"],
     "observableEvidence": [
-      "Adds rational numbers with unlike signs and interprets the signed result in context."
+      "Interprets absolute value as a number's distance from zero and distinguishes it from the number's order on the number line."
     ],
-    "prompt": "At dawn, the temperature is -3.5 degrees. By noon it changes by +1.25 degrees. What is the temperature at noon?",
-    "solutionRepresentation": "Adding 1.25 to -3.5 gives -2.25, so the temperature remains 2.25 degrees below zero.",
-    "solutionMethod": "Add signed decimals by comparing magnitudes and keeping the sign of the greater magnitude.",
+    "prompt": "A diver is at -18 feet (18 feet below the surface) and a snorkeler is at 5 feet above the surface. Which person is farther from the surface, and by how many feet? Then state which of -18 and 5 is the greater number.",
+    "solutionRepresentation": "The diver's distance from the surface is |-18| = 18 feet; the snorkeler's is |5| = 5 feet. The diver is farther from the surface, by 18 - 5 = 13 feet. But as numbers, 5 is greater than -18, even though -18 has the larger absolute value.",
+    "solutionMethod": "Use absolute value to find each distance from zero, then compare those distances separately from comparing the signed numbers themselves on the number line.",
     "deterministicValidator": {
-      "type": "numeric",
-      "canonicalAnswer": "-2.25 degrees",
-      "acceptedAnswers": ["-2.25", "-2.25 degrees"],
-      "equivalenceNotes": "Accept -2.25 with or without the word degrees."
+      "type": "composite",
+      "canonicalAnswer": "diver is farther, by 13 feet; 5 is the greater number",
+      "acceptedAnswers": [
+        "diver is farther, by 13 feet; 5 is the greater number",
+        "diver; 18 - 5 = 13 feet farther; 5 > -18",
+        "the diver is 18 feet from the surface and the snorkeler is 5 feet, so the diver is 13 feet farther; 5 is greater than -18"
+      ],
+      "equivalenceNotes": "Accept equivalent wording as long as it names the diver as farther by 13 feet and separately identifies 5 as the greater number."
     },
-    "answerFormat": "A signed decimal temperature in degrees.",
-    "misconceptionCodes": ["adds-magnitudes-instead-of-finding-signed-difference"],
+    "answerFormat": "Which person is farther and by how many feet, plus which signed number is greater.",
+    "misconceptionCodes": ["treats-absolute-value-as-always-negating-the-number"],
     "misconceptionDistractors": [
       {
-        "answer": "4.75 degrees",
-        "misconceptionCode": "adds-magnitudes-instead-of-finding-signed-difference",
-        "rationale": "Adds the magnitudes instead of finding the signed difference."
+        "answer": "the snorkeler is farther, by 23 feet; -18 is the greater number",
+        "misconceptionCode": "treats-absolute-value-as-always-negating-the-number",
+        "rationale": "Treats the negative sign as meaning the value is always the lesser distance and the larger number, flipping both the distance comparison and the order comparison instead of evaluating each separately."
       }
     ],
     "hintSteps": [
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "A positive change moves the value toward zero from a negative starting temperature.",
-        "question": "Which magnitude is larger: 3.5 or 1.25?"
+        "prompt": "Distance from zero ignores the sign; order on the number line does not.",
+        "question": "What is the distance from zero for -18, and what is it for 5?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A number can have a greater distance from zero while still being the lesser number.",
+        "question": "Between -18 and 5, which is positioned farther to the right on the number line?"
       }
     ],
-    "forbiddenLeakagePatterns": ["-2.25 degrees"],
+    "forbiddenLeakagePatterns": ["13 feet", "5 is the greater number", "5 > -18"],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "State signed temperatures in text and words; no thermometer graphic or color convention is required.",
-    "accessibleAlternative": "Read aloud or display: Start at negative three point five degrees, then add positive one point two five degrees. State the resulting signed temperature."
+    "accessibilityNotes": "State both signed positions and the question in text; no number-line graphic is required.",
+    "accessibleAlternative": "Read aloud or display: A diver is eighteen feet below the surface and a snorkeler is five feet above it. Ask who is farther from the surface and by how much, then ask which of negative eighteen and five is the greater number."
   },
   {
     "id": "v2-rational-number-operations-ordering",
@@ -1282,26 +1292,26 @@
     "observableEvidence": [
       "Identifies variable quantities and evaluates an expression with distinct values substituted into the correct variable positions."
     ],
-    "prompt": "The expression 2l + 2w gives the perimeter of a rectangle. Find the perimeter when l = 8 centimeters and w = 3 centimeters, and state what l and w represent.",
-    "solutionRepresentation": "l represents length and w represents width. Substitute in the matching positions: 2(8) + 2(3) = 22 centimeters.",
+    "prompt": "A picture frame costs 2l + 5w dollars, where l is the length of trim in feet and w is the width of trim in feet. Find the cost when l = 8 feet and w = 3 feet, and state what l and w represent.",
+    "solutionRepresentation": "l represents the length of trim and w represents the width of trim. Substitute in the matching positions: 2(8) + 5(3) = 31 dollars.",
     "solutionMethod": "Match each value to its named variable, substitute in the same position, and evaluate using multiplication before addition.",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "22 centimeters; l is length and w is width",
+      "canonicalAnswer": "31 dollars; l is length of trim and w is width of trim",
       "acceptedAnswers": [
-        "22 centimeters; l is length and w is width",
-        "22 cm; l = length, w = width",
-        "2(8) + 2(3) = 22 centimeters"
+        "31 dollars; l is length of trim and w is width of trim",
+        "$31; l = length, w = width",
+        "2(8) + 5(3) = 31 dollars"
       ],
-      "equivalenceNotes": "Accept centimeter abbreviations and equivalent wording for the two variable meanings."
+      "equivalenceNotes": "Accept dollar-sign notation and equivalent wording for the two variable meanings."
     },
-    "answerFormat": "A perimeter with units and the meanings of both variables.",
+    "answerFormat": "A cost in dollars and the meanings of both variables.",
     "misconceptionCodes": ["substitutes-value-into-wrong-variable-position"],
     "misconceptionDistractors": [
       {
-        "answer": "20 centimeters",
+        "answer": "46 dollars",
         "misconceptionCode": "substitutes-value-into-wrong-variable-position",
-        "rationale": "Uses the width value in the length position and the length value in the width position, changing the expression's matching variable assignments."
+        "rationale": "Uses the width value in the length position and the length value in the width position (2(3) + 5(8)), changing the expression's matching variable assignments and producing a different, reachable wrong total because the two coefficients are unequal."
       }
     ],
     "hintSteps": [
@@ -1312,15 +1322,15 @@
         "question": "Which given value belongs in the position marked l?"
       }
     ],
-    "forbiddenLeakagePatterns": ["22 centimeters", "l is length", "w is width"],
+    "forbiddenLeakagePatterns": ["31 dollars", "l is length", "w is width"],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "Read the expression with variable names and units in linear text; no rectangle image is required.",
-    "accessibleAlternative": "Read aloud or display: The perimeter expression is two times length plus two times width. Length is eight centimeters and width is three centimeters. Find the perimeter and name both variables."
+    "accessibilityNotes": "Read the expression with variable names and dollar amounts in linear text; no frame image is required.",
+    "accessibleAlternative": "Read aloud or display: The frame cost expression is two times length plus five times width, in dollars. Length is eight feet and width is three feet. Find the cost and name both variables."
   },
   {
     "id": "v2-equivalent-distribute-verify",
@@ -1337,26 +1347,26 @@
     "observableEvidence": [
       "Uses the distributive property to generate an equivalent expression and verifies equivalence by substitution."
     ],
-    "prompt": "Rewrite 4(x + 3) using the distributive property, then verify that both expressions have the same value when x = 2.",
-    "solutionRepresentation": "4(x + 3) = 4x + 12. At x = 2, both expressions equal 20.",
+    "prompt": "Rewrite 5(x + 2) using the distributive property, then verify that both expressions have the same value when x = 3.",
+    "solutionRepresentation": "5(x + 2) = 5x + 10. At x = 3, both expressions equal 25.",
     "solutionMethod": "Multiply the factor by each term inside the parentheses, then substitute the same value into both forms.",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "4x + 12; both equal 20 when x = 2",
+      "canonicalAnswer": "5x + 10; both equal 25 when x = 3",
       "acceptedAnswers": [
-        "4x + 12; both equal 20 when x = 2",
-        "12 + 4x; 20 for each expression at x = 2",
-        "4x + 12 and 20"
+        "5x + 10; both equal 25 when x = 3",
+        "10 + 5x; 25 for each expression at x = 3",
+        "5x + 10 and 25"
       ],
-      "equivalenceNotes": "Accept commutative order in the expanded expression and any clear verification showing both values are 20."
+      "equivalenceNotes": "Accept commutative order in the expanded expression and any clear verification showing both values are 25."
     },
     "answerFormat": "An equivalent expression and a numerical verification.",
     "misconceptionCodes": ["distributes-factor-to-only-the-first-term"],
     "misconceptionDistractors": [
       {
-        "answer": "4x + 3; 11 when x = 2",
+        "answer": "5x + 2; 17 when x = 3",
         "misconceptionCode": "distributes-factor-to-only-the-first-term",
-        "rationale": "Multiplies 4 by x but leaves the constant 3 outside the distribution, so the resulting expression is not equivalent."
+        "rationale": "Multiplies 5 by x but leaves the constant 2 outside the distribution, so the resulting expression is not equivalent."
       }
     ],
     "hintSteps": [
@@ -1364,7 +1374,7 @@
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
         "prompt": "The outside factor must multiply every term inside the parentheses.",
-        "question": "What does 4 multiply besides x?"
+        "question": "What does 5 multiply besides x?"
       },
       {
         "order": 2,
@@ -1373,7 +1383,7 @@
         "question": "What value does each form produce after substitution?"
       }
     ],
-    "forbiddenLeakagePatterns": ["4x + 12", "both equal 20", "20 when x = 2"],
+    "forbiddenLeakagePatterns": ["5x + 10", "both equal 25", "25 when x = 3"],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
       "status": "pending_review",
@@ -1381,7 +1391,7 @@
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
     "accessibilityNotes": "Present the expression and substitution value in linear text; no algebra tiles or diagram is required.",
-    "accessibleAlternative": "Read aloud or display: Rewrite four times the sum of x and three by multiplying four by each term. Then test both forms when x is two."
+    "accessibleAlternative": "Read aloud or display: Rewrite five times the sum of x and two by multiplying five by each term. Then test both forms when x is three."
   },
   {
     "id": "v2-equivalent-commute-verify",
@@ -1550,30 +1560,30 @@
     "mode": "core",
     "difficulty": "developing",
     "standards": ["6.EE.B.7"],
-    "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "rational-number-operations"],
+    "prerequisiteSkillCodes": ["equation-and-inequality-meaning"],
     "observableEvidence": [
-      "Solves a one-variable equation and checks the solution in the original equation."
+      "Solves a one-variable equation of the form x + p = q and checks the solution in the original equation."
     ],
-    "prompt": "Solve 3x + 5 = 20. Then substitute your value for x back into the original equation to check it.",
-    "solutionRepresentation": "Subtract 5 from both sides: 3x = 15. Divide by 3: x = 5. Check: 3(5) + 5 = 20.",
-    "solutionMethod": "Undo addition first and multiplication second, applying each inverse operation to both sides, then substitute the result into the original equation.",
+    "prompt": "Solve x + 7 = 15. Then substitute your value for x back into the original equation to check it.",
+    "solutionRepresentation": "Subtract 7 from both sides: x = 8. Check: 8 + 7 = 15.",
+    "solutionMethod": "Undo the addition by subtracting the same amount from both sides, then substitute the result into the original equation.",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "x = 5; check 3(5) + 5 = 20",
+      "canonicalAnswer": "x = 8; check 8 + 7 = 15",
       "acceptedAnswers": [
-        "x = 5; check 3(5) + 5 = 20",
-        "x = 5; 15 + 5 = 20",
-        "5, and 3(5) + 5 = 20"
+        "x = 8; check 8 + 7 = 15",
+        "x = 8; 15 = 15",
+        "8, and eight plus seven equals fifteen"
       ],
-      "equivalenceNotes": "Accept equivalent notation that gives x = 5 and demonstrates a true substitution check."
+      "equivalenceNotes": "Accept equivalent notation that gives x = 8 and demonstrates a true substitution check."
     },
     "answerFormat": "A solved value and a substitution check in the original equation.",
     "misconceptionCodes": ["performs-an-operation-on-only-one-side-of-the-equation"],
     "misconceptionDistractors": [
       {
-        "answer": "x = 20/3",
+        "answer": "x = 15",
         "misconceptionCode": "performs-an-operation-on-only-one-side-of-the-equation",
-        "rationale": "Subtracts 5 from the left side only, producing 3x = 20, then divides by 3 to reach x = 20/3."
+        "rationale": "Drops the +7 from the left side without subtracting 7 from the right side, leaving the right side unchanged at 15."
       }
     ],
     "hintSteps": [
@@ -1581,7 +1591,7 @@
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
         "prompt": "Keep the equation balanced by using the same inverse operation on both sides.",
-        "question": "What should be removed from both sides before undoing the multiplication?"
+        "question": "What operation undoes adding 7 to x?"
       },
       {
         "order": 2,
@@ -1590,7 +1600,7 @@
         "question": "What happens when your value replaces x in the original statement?"
       }
     ],
-    "forbiddenLeakagePatterns": ["x = 5", "3(5) + 5 = 20", "15 + 5 = 20"],
+    "forbiddenLeakagePatterns": ["x = 8", "8 + 7 = 15", "15 = 15"],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
       "status": "pending_review",
@@ -1598,7 +1608,7 @@
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
     "accessibilityNotes": "Present the equation and inverse-operation sequence in linear text; no balance-scale graphic is required.",
-    "accessibleAlternative": "Read aloud or display: Solve three times x plus five equals twenty, then replace x with your result in the original equation to check."
+    "accessibleAlternative": "Read aloud or display: Solve x plus seven equals fifteen, then replace x with your result in the original equation to check."
   },
   {
     "id": "v2-equations-rational-coefficient",
@@ -1608,20 +1618,20 @@
     "mode": "core",
     "difficulty": "challenging",
     "standards": ["6.EE.B.7"],
-    "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "rational-number-operations"],
+    "prerequisiteSkillCodes": ["equation-and-inequality-meaning"],
     "observableEvidence": [
-      "Solves a one-variable equation with a nonnegative rational coefficient and checks the solution in the original equation."
+      "Solves a one-variable equation of the form px = q with a nonnegative rational coefficient and checks the solution in the original equation."
     ],
-    "prompt": "Solve (1/2)x + 4 = 10. Check your answer in the original equation.",
-    "solutionRepresentation": "Subtract 4 from both sides to get (1/2)x = 6. Multiply both sides by 2, so x = 12. Check: (1/2)(12) + 4 = 10.",
-    "solutionMethod": "Undo the constant first, then multiply both sides by the reciprocal of the rational coefficient, and substitute to check.",
+    "prompt": "Solve (3/4)x = 18. Check your answer in the original equation.",
+    "solutionRepresentation": "Multiply both sides by the reciprocal 4/3, so x = 18 x 4/3 = 24. Check: (3/4)(24) = 18.",
+    "solutionMethod": "Multiply both sides by the reciprocal of the rational coefficient, then substitute to check.",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "x = 12; check (1/2)(12) + 4 = 10",
+      "canonicalAnswer": "x = 24; check (3/4)(24) = 18",
       "acceptedAnswers": [
-        "x = 12; check (1/2)(12) + 4 = 10",
-        "x = 12; 6 + 4 = 10",
-        "12, and one-half times 12 plus 4 equals 10"
+        "x = 24; check (3/4)(24) = 18",
+        "x = 24; 18 = 18",
+        "24, and three-fourths times 24 equals 18"
       ],
       "equivalenceNotes": "Accept fraction, word, or decimal notation when the value and original-equation check are correct."
     },
@@ -1629,7 +1639,7 @@
     "misconceptionCodes": ["skips-substitution-check-of-solution"],
     "misconceptionDistractors": [
       {
-        "answer": "x = 12 with no check",
+        "answer": "x = 24 with no check",
         "misconceptionCode": "skips-substitution-check-of-solution",
         "rationale": "Gives the correct-looking solution but omits substituting it into the original equation, so the required verification evidence is missing."
       }
@@ -1638,17 +1648,17 @@
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "First isolate the term containing x by undoing the constant.",
-        "question": "What remains after subtracting 4 from both sides?"
+        "prompt": "The coefficient 3/4 is multiplying x; think about what operation undoes multiplying by a fraction.",
+        "question": "What single operation isolates x in this equation?"
       },
       {
         "order": 2,
         "assistanceLevel": "multiple_hints_representation",
-        "prompt": "To undo multiplication by one-half, use the operation that restores a whole quantity.",
-        "question": "What operation should be applied to both sides to isolate x?"
+        "prompt": "Multiplying by the reciprocal of a fraction undoes multiplying by that fraction.",
+        "question": "What is the reciprocal of 3/4, and what do you get when you multiply both sides by it?"
       }
     ],
-    "forbiddenLeakagePatterns": ["x = 12", "(1/2)(12) + 4 = 10", "6 + 4 = 10"],
+    "forbiddenLeakagePatterns": ["x = 24", "(3/4)(24) = 18", "18 = 18"],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
       "status": "pending_review",
@@ -1656,7 +1666,7 @@
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
     "accessibilityNotes": "Spell out the fraction coefficient and substitution check in text; no stacked fraction typesetting is required.",
-    "accessibleAlternative": "Read aloud or display: One-half times x plus four equals ten. Solve for x, then replace x in the original equation to verify."
+    "accessibleAlternative": "Read aloud or display: Three-fourths times x equals eighteen. Solve for x, then replace x in the original equation to verify."
   },
   {
     "id": "v2-inequality-sports-capacity",
@@ -1671,17 +1681,17 @@
       "Writes an inequality for a real-world constraint, tests candidate values, and describes the solution set on a number line."
     ],
     "prompt": "A youth center has room for at most 24 people. There are already 9 people inside. Write an inequality for the number p of additional people, test p = 14 and p = 16, and describe the number-line solution set.",
-    "solutionRepresentation": "The inequality is 9 + p <= 24, or p <= 15. The value 14 works and 16 does not. The graph has a closed endpoint at 15 and shading to the left.",
-    "solutionMethod": "Translate 'at most' into less than or equal to, test each candidate in the context, and describe all allowable values from zero through 15.",
+    "solutionRepresentation": "The inequality is 9 + p <= 24, or p <= 15. The value 14 works and 16 does not. Because p counts additional people, the solution set is bounded by context on both ends: p can be 0 through 15, with a closed dot at 15.",
+    "solutionMethod": "Translate 'at most' into less than or equal to, test each candidate in the context, and describe all allowable values from zero through 15 - the count of people can't go below zero, so the solution set is bounded on both ends, not an unbounded ray.",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "9 + p <= 24; 14 works, 16 does not; p <= 15 with a closed 15 and shading left",
+      "canonicalAnswer": "9 + p <= 24; 14 works, 16 does not; p can be 0 through 15, with a closed dot at 15",
       "acceptedAnswers": [
-        "9 + p <= 24; 14 works, 16 does not; p <= 15 with a closed 15 and shading left",
-        "p <= 15; 14 yes, 16 no; closed dot at 15 and ray left",
+        "9 + p <= 24; 14 works, 16 does not; p can be 0 through 15, with a closed dot at 15",
+        "p <= 15; 14 yes, 16 no; closed dot at 15, shading left down to 0",
         "9 + p is at most 24; p can be 0 through 15"
       ],
-      "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the closed-left ray and context restriction."
+      "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the solution set, as long as it names both the closed boundary at 15 and the context floor at 0 - describing only 'p <= 15' with no lower bound is incomplete for this context, since a negative or fractional number of people is not meaningful."
     },
     "answerFormat": "A context inequality, two candidate checks, and a number-line solution description.",
     "misconceptionCodes": ["graphs-endpoint-only-instead-of-solution-ray"],
@@ -1702,15 +1712,16 @@
       {
         "order": 2,
         "assistanceLevel": "multiple_hints_representation",
-        "prompt": "A solution set includes every value that keeps the total within capacity, not just the boundary.",
-        "question": "Which side of the boundary represents fewer additional people?"
+        "prompt": "A solution set includes every value that keeps the total within capacity, not just the boundary - and p is a count of people, so it can't go below zero.",
+        "question": "What are the smallest and largest numbers of additional people that still fit?"
       }
     ],
     "forbiddenLeakagePatterns": [
       "9 + p <= 24",
       "p <= 15",
-      "closed endpoint at 15",
-      "shading to the left"
+      "closed dot at 15",
+      "0 through 15",
+      "shading left down to 0"
     ],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
@@ -1718,7 +1729,7 @@
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "Describe the inequality, candidate substitutions, endpoint inclusion, and shading direction in text; no visual number line is required.",
+    "accessibilityNotes": "Describe the inequality, candidate substitutions, the closed boundary at 15, and the context floor at 0 in text; no visual number line is required.",
     "accessibleAlternative": "Read aloud or display: A room holds at most twenty-four people and nine are inside. Model additional people with p, test fourteen and sixteen, and describe all allowed p values."
   },
   {

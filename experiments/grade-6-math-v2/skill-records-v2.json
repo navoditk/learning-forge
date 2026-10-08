@@ -122,16 +122,14 @@
     "standards": ["6.NS.C.7"],
     "prerequisiteSkillCodes": ["rational-number-representation"],
     "observableEvidence": [
-      "Orders rational numbers, interprets absolute value as a number's distance from zero, and performs the four operations with rational numbers, explaining sign and magnitude using a model or property."
+      "Orders rational numbers by magnitude and sign, interprets absolute value as a number's distance from zero, and distinguishes absolute value from order for negative numbers in context."
     ],
     "misconceptionCodes": [
-      "applies-sign-rule-from-one-operation-to-a-different-operation",
-      "adds-magnitudes-instead-of-finding-signed-difference",
       "orders-numbers-by-sign-alone-ignoring-magnitude",
       "treats-absolute-value-as-always-negating-the-number"
     ],
     "difficultyBands": ["developing", "challenging"],
-    "masteryCheckRule": "Require one ordering task, one absolute-value-as-distance task, and two operation tasks with different signs, each with a reasonableness check. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+    "masteryCheckRule": "Require one ordering task comparing positive and negative rational numbers and one absolute-value-as-distance task, each with a reasonableness check. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
   },
   {
     "code": "coordinate-distance",
@@ -245,7 +243,7 @@
     "program": "grade-6-math",
     "domain": "expressions-and-equations",
     "standards": ["6.EE.B.7"],
-    "prerequisiteSkillCodes": ["equation-and-inequality-meaning", "rational-number-operations"],
+    "prerequisiteSkillCodes": ["equation-and-inequality-meaning"],
     "observableEvidence": [
       "Solves one-variable equations with nonnegative rational coefficients and checks the solution in the original equation."
     ],

@@ -310,3 +310,80 @@ remediated candidate content pending final independent re-check.
 **Validation evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts`
 (53 glossary-synced codes, 48 records), `npm run format:check`, `npm run
 lint`, `npm run typecheck`, and `npm run content:validate` (4 tests) passed.
+
+## Revision 15 — Final-review blocker, major, and leak remediation (B1, M1, M3, M4, m1, L1)
+
+The FINAL independent review (2026-10-06) found this candidate's own premise
+was stale (production had already shipped a v1+v2 merge, "v3", on
+2026-09-18) and, re-scoped against actual production, reported a blocker and
+five majors against this candidate plus a real content leak against
+production. This revision fixes the six items that are genuine defects in
+this candidate's own records and documents the two majors that remain open
+below.
+
+1. **B1 (blocker) — `rational-number-operations` was mis-scoped for
+   `6.NS.C.7`.** `6.NS.C.7` covers ordering and absolute value of rational
+   numbers only; signed-number _operations_ are Grade 7 (`7.NS.A.1-3`). The
+   skill's evidence, misconception codes, and mastery rule no longer mention
+   operations; `v2-rational-number-operations-temperature` (signed addition)
+   is replaced by `v2-rational-number-operations-absolute-value`, which
+   tests absolute value as distance and explicitly distinguishes it from
+   number-line order. The unjustified `one-variable-equations <-
+rational-number-operations` edge is removed (`6.EE.B.7` uses only
+   nonnegative rationals, so it never depended on signed-number reasoning);
+   `prerequisite-justifications.md` and `standards-to-skill-matrix.md` are
+   updated to match. The two retired operations-only misconception codes are
+   removed from the skill and the glossary (51 codes remain, in sync).
+2. **M1 — both `one-variable-equations` items were two-step (Grade 7
+   form).** Neither tested `x + p = q` or `px = q`. `v2-equations-integer-
+coefficient` is now `x + 7 = 15` (single-step addition form) and
+   `v2-equations-rational-coefficient` is now `(3/4)x = 18` (single-step
+   `px = q` form) — the same equation as the `D-74` fix already shipped to
+   production's `one-variable-equations-2`, for consistency.
+3. **M3 — `v2-fraction-division-tiles` graded its own wrong answer as
+   correct.** The distractor "2" (the `drops-units-from-quotient-answer`
+   misconception) was also in `acceptedAnswers`. The unit word "pieces" is
+   now required, so the distractor is scored incorrect as intended.
+4. **M4 — the `v2-variables-expression-rectangle` distractor was
+   unreachable.** `2l + 2w` is symmetric, so swapping `l` and `w` produces
+   the same value as the correct answer for any input. The item now uses an
+   asymmetric picture-frame-cost expression (`2l + 5w`), where the swapped-
+   position error produces a genuinely different, reachable wrong total.
+5. **m1 — `v2-inequality-sports-capacity`'s canonical answer described an
+   unbounded ray.** Its own third accepted-answer variant already said "0
+   through 15"; the canonical answer and the other variant did not. All
+   variants now consistently require the context floor at 0, matching the
+   `D-74` fix already shipped to production's `real-world-inequalities-2`.
+6. **L1 — `v2-equivalent-distribute-verify` duplicated production's
+   `equivalent-expressions-1`** (same `4(x + 3)` expression; its hint 1 also
+   stated `4x + 12`, production's canonical answer). Changed to `5(x + 2)`
+   verified at `x = 3`, with all accepted answers, the distractor, hints, and
+   accessible alternative updated to match.
+
+**Explicitly not fixed in this revision (remain open):**
+
+- **M2 — composite-validator gradability.** 31 of 48 records use exact-match
+  grading after lowercasing and whitespace-collapsing
+  (`src/phase1/service.ts`, `src/progression/assessment-submission.ts`).
+  This is a production grading-engine limitation that also affects the two
+  `D-74` fixes already live, not a defect specific to this candidate's
+  content; fixing it means a structured-answer or multi-part-field redesign,
+  which is a separate engineering decision, not a content remediation.
+- **M5 — coverage thinner than v1 inside several standards** (`6.RP.A.3`
+  parts a/c/d, a `6.SP.B.4` _display_ task, MAD coverage, unit-fraction cube
+  packing for `6.G.A.2`). Closing these gaps means authoring genuinely new
+  content, not fixing an existing record; deferred to a future increment.
+- Minor items m2 ("ordering" and "operations-ordering" near-duplicate),
+  m4 (coincident mean/range and median/IQR values), m5 (difficulty-band
+  mismatch), m6 (shallow hint ladders), m7 (phrasing-only answer
+  discrimination), and m9 (three content fields outside the production
+  schema) are unaddressed; m8 (stale revision/record counts in this file's
+  earlier headers) is superseded by this file's own revision history and not
+  independently worth a fix.
+
+All 48 records remain `pending_review`; this remediation does not constitute
+human review or approval.
+
+**Validation evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts`
+(51 glossary-synced codes, 48 records), `npm run format:check`, `npm run
+lint`, `npm run typecheck`, and `npm run content:validate` (27 tests) passed.
