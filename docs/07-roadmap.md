@@ -88,7 +88,7 @@ Add reading passages with provenance, evidence selection, constructed response r
 
 ## Phase 6 — Platform expansion
 
-Only after evidence: Science/Social Studies, additional grades, voice, handwriting/image input, native mobile, teacher tools, and organization-level administration.
+Only after evidence: Grade 6 Science and Grade 6 Social Studies, voice, handwriting/image input, native mobile, teacher tools, and organization-level administration. Science and Social Studies expansion is limited to Grade 6 for now; additional grades remain a separate, deferred expansion.
 
 ### Approved enrichment research wave
 

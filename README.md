@@ -23,7 +23,7 @@ Initial scope:
 - Enrichment through AoPS-style depth and contest-style problem solving
 - Interactive Math Tutor and Contest Coach
 - Diagnostics, mastery evidence, spaced review, and parent progress reporting
-- Extensible foundations for Grade 6 ELA, then Science and Social Studies
+- Extensible foundations for Grade 6 ELA, then Grade 6 Science and Grade 6 Social Studies
 
 ## Read in this order
 

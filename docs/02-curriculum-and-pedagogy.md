@@ -27,14 +27,14 @@ The full skill graph and sample problems (answers/hints excluded) are published 
 directly from `skillCatalog`/`contentCatalog` by `scripts/generate-curriculum-site.ts`. It
 regenerates automatically on every push to `main` (`.github/workflows/curriculum-site.yml`), so
 it can never drift from what's actually shipped. Each `Skill` carries a `program` field.
-Grade 6 Math, Math Kangaroo, MOEMS Division E, AMC 8 Grade 6 prep, and MATHCOUNTS Grade 6 are
+Grade 6 Math, Grade 6 Math Kangaroo, MOEMS Division E, AMC 8 Grade 6 prep, and MATHCOUNTS Grade 6 are
 currently available as isolated learner journeys. Future programs such as Grade 6 ELA can be added
 as new top-level sections without restructuring existing content.
 
 The approved next enrichment research wave contains three independent,
 currently unavailable programs for the same Grade 6 learner:
 
-- Scripps National Spelling Bee preparation;
+- Grade 6 Spelling Bee preparation (Scripps National Spelling Bee pathway);
 - International Geography Bee preparation under the International Academic
   Competitions pathway; and
 - current-season Science Olympiad Division B preparation.
@@ -75,7 +75,7 @@ official competition material, or make any program learner-available.
 
 Each skill must define prerequisites, standards, observable evidence, common misconceptions, difficulty bands, and mastery-check rules.
 
-## Math Kangaroo Grade 6 skill graph
+## Grade 6 Math Kangaroo skill graph
 
 Additive contest-preparation program for the same Grade 6 learner
 (`program: "math-kangaroo-6"`); see `docs/curriculum-sources.md`'s Math
@@ -127,7 +127,7 @@ multiple-choice `contestFormat` metadata. All ten records are
 product/content owner on 2026-09-18. The Division E program is available as
 an isolated learner journey.
 
-## Scripps National Spelling Bee Grade 6 skill graph
+## Grade 6 Spelling Bee skill graph (Scripps National Spelling Bee pathway)
 
 Additive, unofficial preparation for school and regional spelling-bee
 pathways (`program: "scripps-spelling-bee-6"`), based on the approved
