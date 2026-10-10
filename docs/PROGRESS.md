@@ -1,5 +1,105 @@
 # Progress
 
+## 2026-10-09 — UI-1 corrected browser journeys pass; final continuity fix pending
+
+- Corrected the four initial review findings. Parent lint/typecheck,
+  409 unit/contract/eval tests and production build pass. Full synthetic
+  browser suite now passes 65 tests, with one explicitly skipped private
+  package test because no assessment package is mounted. The initial default
+  activity/accessibility/keyboard regressions are resolved.
+- Full `npm run verify` temporarily stops at formatting in an unrelated
+  concurrent `tests/progression-integration/api-leakage.test.ts`; the
+  subsequent code checks/build were run separately and passed. These
+  concurrent integration-test files are outside UI-1 and remain untouched.
+- Focused GPT re-review closed current-session advisory blocking, plan
+  retry, default-route restoration and malformed consumed-field validation.
+  One same-session continuity case remains: topic → overview → Back resets
+  draft/tutor state and can hide the independent-check action. A precise
+  correction and browser regression are underway; final visual screenshot
+  evidence is also being confirmed.
+- Not complete or release-approved. Next: finish that continuity fix,
+  repeat serial validation and independent targeted confirmation, retain
+  screenshot evidence and finalize this handoff. No commit/push.
+
+## 2026-10-09 — UI-1 initial implementation; corrections required
+
+- Sonnet 5.5 added reusable course overview/topic detail/breadcrumb/link
+  components, program-scoped deep links and loading/retry handling. Existing
+  chapter/activity components remain the rendering foundation; no backend,
+  curriculum, scoring or authorization gate changed.
+- Parent `npm run verify` passed formatting, lint, typecheck, 400
+  unit/contract/eval tests and production build. Full synthetic
+  `CI=true npm run test:e2e` against a freshly migrated scratch database:
+  53 passed, one skipped (private package not mounted), four failed.
+  Failures concern the missing initial Bicycle pace activity/answer input.
+- Independent GPT-6.1 Sol reviewer task
+  `9a7497cd-12ef-4c06-806e-88d55cabbf9d`, verified from harness metadata
+  against the Sonnet implementation, returned **changes-required**.
+  Fixes underway: recommendations must not suppress an authorized current
+  session; deep-link load retry must actually recover; overview/back
+  navigation must retain or restore attempts/hints/current mode; all
+  optional hydration/figure/version fields consumed by UI must validate.
+- Review also notes existing progress API responses lack version envelopes:
+  requested-program tagging alone must not be called payload/version
+  verification. UI-1 must document this limit without inventing API fields.
+  Next: scoped fixes and regressions, then repeat serial verification,
+  complete browser journeys and independent changed-scope review.
+  Not complete or release-approved; no commit/push.
+
+## 2026-10-10 — m6: wrote the five missing course-progression leakage falsifiers (L6, L8, L9, L14, L16)
+
+- `docs/course-progression-architecture.md` §13.3 named five claims (L6, L8,
+  L9, L14, L16) that had no automated falsifier under any name, tracked as
+  a known gap separate from the C4 gate. All five now exist and pass:
+  - `tests/progression-integration/api-leakage.test.ts` (L6/S5): exercises
+    all 13 `/api/phase1/*` route files against one real session/attempt and
+    structurally scans every response body for the active content item's
+    canonical answer, accepted answers, and forbidden-leakage patterns.
+  - `tests/progression-integration/assessment-no-tutor.test.ts` (L8/S7):
+    attacks the hint route at the layer closest to the claim - an attempt
+    bound, via a fabricated `ContentArchive` row, to an assessment-role
+    record - and confirms refusal plus zero `TutorTrace`/`TutorInteraction`
+    rows. Investigation found this is already defended twice over
+    (`validateContentCatalog` rejects any non-practice role at load time;
+    `resolveArchivedContent` in `src/content/archive.ts` explicitly checks
+    `role !== 'practice'`), so the gap was genuinely only a missing test,
+    not a live bug - confirmed by temporarily removing the archive role
+    check and watching the new test fail, then restoring it.
+  - `tests/progression-integration/preview-safety.test.ts` (L9/S8): creates
+    a real assessment assignment against a bank with deliberately
+    distinctive item ids and prompt text, then scans the pilot preview,
+    digest, progress, and plan surfaces for those strings while asserting
+    the lesson's own target code **is** present (non-vacuous).
+  - `tests/progression-integration/wording-safety.test.ts` (L14): Branch A
+    (open-book) has no code path anywhere in `src/` - `src/assessment/store.ts`
+    always resolves the held-out store per D-01's chosen branch - so this
+    file is unconditionally skipped, the mirror image of L15's always-active
+    shape in `tests/content/held-out.test.ts`. The skip-gated body encodes
+    D-01's actual Branch A phrasing rules, so it is a real, named falsifier
+    if Branch A is ever adopted, not a placeholder.
+  - `tests/progression-integration/log-safety.test.ts` (L16/S10): runs
+    session start -> attempt -> hint (with a distinctive learner message) ->
+    attempt through the real practice/tutoring service functions, then
+    scans every `ShadowDecision`/`TutorTrace`/`TutorInteraction`/`AuditLog`
+    row for the prompt, canonical answer, and learner free text. Confirmed
+    as a genuine falsifier by temporarily disabling `redactFreeFormText` in
+    `src/contracts/trace.ts` and watching it fail, then restoring it.
+- Exported `SKILL_PROGRESS_SUMMARY` from `src/phase1/service.ts` (was
+  file-private) so the L14 test can reference the current Branch B wording.
+- Both the L6 and L16 scanners had to exclude object keys matching
+  `/(^id$|Id$|Key$|Code$)/` from the substring scan: a short canonical
+  answer like a ratio value is otherwise prone to a coincidental substring
+  match inside an unrelated uuid, which surfaced as a real false positive
+  during development and was fixed this way rather than by narrowing the
+  sentinel strings.
+- Updated §13.3's table cells and the former "Known gap" note in
+  `docs/course-progression-architecture.md` to record all five as
+  implemented, naming the exact verification method used for L8 and L16.
+- Verification: `npx tsc --noEmit`, `npx eslint .`, `npm run verify` (409
+  unit/contract tests + production build), and
+  `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
+  tests passed, 1 intentionally skipped) all pass clean.
+
 ## 2026-10-10 — Grade 6 Math v2 candidate, Revision 16: M5 coverage-gap remediation
 
 - Fixed all four real coverage gaps the independent-review backlog had left

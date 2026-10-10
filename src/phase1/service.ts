@@ -1064,7 +1064,7 @@ export async function getPlan(
 
 export type SkillProgressStatus = 'NOT_STARTED' | 'PRACTICING' | 'INDEPENDENTLY_CONFIRMED';
 
-const SKILL_PROGRESS_SUMMARY: Record<SkillProgressStatus, string> = {
+export const SKILL_PROGRESS_SUMMARY: Record<SkillProgressStatus, string> = {
   NOT_STARTED: 'Not started yet.',
   PRACTICING: 'Practicing — some evidence recorded, not yet independently confirmed.',
   INDEPENDENTLY_CONFIRMED: 'Independently confirmed on an unassisted check.',

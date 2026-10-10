@@ -55,21 +55,21 @@ as evidence of implementation.
 
 ## 1.1 Preserve — load-bearing, must survive unchanged
 
-| Behavior | Where | Why |
-|---|---|---|
-| Curriculum and content as versioned, reviewed JSON (ADR-0006) | `content/skills/*.json`, `content/<domain>/*.json`, `src/curriculum/catalog.ts`, `src/content/catalog.ts` | Curriculum stays reviewable in pull requests |
-| Only `review.status: "reviewed"` content is servable | `servableContentCatalog`, `src/content/catalog.ts` | The human content gate |
-| Provenance tracking | `ContentProvenanceSchema` | Curated and generated content stay distinguishable |
-| Immutable `Attempt` rows, `AssistanceEvent`, `MasteryContribution`, `algorithmVersion` on `MasteryEstimate` | `prisma/schema.prisma` | Raw evidence survives algorithm changes |
-| Household and learner scoping on every read and write | `requireHouseholdContext`; every `where` clause in `src/phase1/service.ts` | Cross-household disclosure is release-blocking |
-| Program isolation at query time | `programCatalog`, `src/phase1/service.ts` | Prevents one program's evidence unlocking another's |
-| Deterministic tutor policy; the model never authorizes, scores, or establishes mastery | `src/tutor/policy.ts`, `src/tutor/harness.ts` | `AGENTS.md` hard constraint |
-| Typed contest structure plus policy-profile gating rather than skill-code heuristics | `ContestFormatSchema`, `ProgressionPolicyProfile.contestReadinessRequirement`, `PlannerContestReadinessRequirement` | Structure stays with content; numeric readiness bars stay in policy |
-| `planNextActivities` as a pure function | `src/planner/plan-next-activities.ts` | Testable without a database |
-| Review decay: a failed spaced review can revoke prior confirmation | `createAttempt(reviewDecay)` | Mastery is revisited, not permanent |
-| Diagnostic attempts never set `independentDelayedCheck` | `recordDiagnosticAttempt` | A placement guess must never masquerade as confirmed mastery |
-| The curriculum site deliberately omits answers, solutions, hints, and leakage patterns | `scripts/generate-curriculum-site.ts` header comment and field selection | The intent is right; §1.2 R6 documents what it nonetheless publishes |
-| WCAG 2.2 AA coverage via axe and keyboard journeys | `tests/browser/accessibility.spec.ts`, `tests/browser/keyboard-navigation.spec.ts` | Accessibility target |
+| Behavior                                                                                                    | Where                                                                                                               | Why                                                                  |
+| ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Curriculum and content as versioned, reviewed JSON (ADR-0006)                                               | `content/skills/*.json`, `content/<domain>/*.json`, `src/curriculum/catalog.ts`, `src/content/catalog.ts`           | Curriculum stays reviewable in pull requests                         |
+| Only `review.status: "reviewed"` content is servable                                                        | `servableContentCatalog`, `src/content/catalog.ts`                                                                  | The human content gate                                               |
+| Provenance tracking                                                                                         | `ContentProvenanceSchema`                                                                                           | Curated and generated content stay distinguishable                   |
+| Immutable `Attempt` rows, `AssistanceEvent`, `MasteryContribution`, `algorithmVersion` on `MasteryEstimate` | `prisma/schema.prisma`                                                                                              | Raw evidence survives algorithm changes                              |
+| Household and learner scoping on every read and write                                                       | `requireHouseholdContext`; every `where` clause in `src/phase1/service.ts`                                          | Cross-household disclosure is release-blocking                       |
+| Program isolation at query time                                                                             | `programCatalog`, `src/phase1/service.ts`                                                                           | Prevents one program's evidence unlocking another's                  |
+| Deterministic tutor policy; the model never authorizes, scores, or establishes mastery                      | `src/tutor/policy.ts`, `src/tutor/harness.ts`                                                                       | `AGENTS.md` hard constraint                                          |
+| Typed contest structure plus policy-profile gating rather than skill-code heuristics                        | `ContestFormatSchema`, `ProgressionPolicyProfile.contestReadinessRequirement`, `PlannerContestReadinessRequirement` | Structure stays with content; numeric readiness bars stay in policy  |
+| `planNextActivities` as a pure function                                                                     | `src/planner/plan-next-activities.ts`                                                                               | Testable without a database                                          |
+| Review decay: a failed spaced review can revoke prior confirmation                                          | `createAttempt(reviewDecay)`                                                                                        | Mastery is revisited, not permanent                                  |
+| Diagnostic attempts never set `independentDelayedCheck`                                                     | `recordDiagnosticAttempt`                                                                                           | A placement guess must never masquerade as confirmed mastery         |
+| The curriculum site deliberately omits answers, solutions, hints, and leakage patterns                      | `scripts/generate-curriculum-site.ts` header comment and field selection                                            | The intent is right; §1.2 R6 documents what it nonetheless publishes |
+| WCAG 2.2 AA coverage via axe and keyboard journeys                                                          | `tests/browser/accessibility.spec.ts`, `tests/browser/keyboard-navigation.spec.ts`                                  | Accessibility target                                                 |
 
 ## 1.2 Replace — current behavior this capability supersedes
 
@@ -146,15 +146,15 @@ body contains a canonical answer.
 
 **R9. `Session` has no activity kind, so endpoints reinterpret each other's
 sessions.** The `Session` model carries `contentKey` but nothing that says what
-the session is *for*. Four service functions accept the same `sessionId` and
+the session is _for_. Four service functions accept the same `sessionId` and
 assign different meanings to it:
 
-| Endpoint | Function | Writes `context` | Side effects |
-|---|---|---|---|
-| `POST /api/phase1/attempt` | `recordAttempt` | `PRACTICE` | — |
-| `POST /api/phase1/diagnostic-attempt` | `recordDiagnosticAttempt` | `DIAGNOSTIC` | ends the session |
-| `POST /api/phase1/check` | `recordIndependentCheck` | `MASTERY_CHECK` | sets `independentDelayedCheck` |
-| `POST /api/phase1/review-attempt` | `recordReviewAttempt` | `MASTERY_CHECK` + `reviewDecay` | can **revoke** confirmation |
+| Endpoint                              | Function                  | Writes `context`                | Side effects                   |
+| ------------------------------------- | ------------------------- | ------------------------------- | ------------------------------ |
+| `POST /api/phase1/attempt`            | `recordAttempt`           | `PRACTICE`                      | —                              |
+| `POST /api/phase1/diagnostic-attempt` | `recordDiagnosticAttempt` | `DIAGNOSTIC`                    | ends the session               |
+| `POST /api/phase1/check`              | `recordIndependentCheck`  | `MASTERY_CHECK`                 | sets `independentDelayedCheck` |
+| `POST /api/phase1/review-attempt`     | `recordReviewAttempt`     | `MASTERY_CHECK` + `reviewDecay` | can **revoke** confirmation    |
 
 None of them checks that the session was created for that purpose, and
 `createAttempt` looks the session up by `id`/household only — it **never checks
@@ -194,7 +194,7 @@ workaround's semantics rather than the column's.
 `MasteryContribution` for the attempt and writes
 `masteryEstimate.update({ estimate: weight, confidenceBand })` where `weight`
 is recomputed from `contribution.attempt.correctness` at the hinted assistance
-level. So a learner who answers correctly and *then* asks a clarifying question
+level. So a learner who answers correctly and _then_ asks a clarifying question
 has the skill's whole estimate retroactively downgraded, and the estimate
 tracks that one attempt rather than the learner's record.
 
@@ -310,13 +310,13 @@ instruction/assistance event log, real elapsed-time capture
 Every concept belongs to exactly one layer. A file, schema, table, or function
 spanning two is a defect.
 
-| Layer | Owns | Must never own |
-|---|---|---|
+| Layer                      | Owns                                                                                                                                                                                                              | Must never own                                                                                              |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | **Curriculum and content** | Programs, units, lessons, skills, prerequisite edges, content records and their roles, assessment bank membership, versions, provenance, review status, and **references to policy profiles by code and version** | Numeric thresholds, delays, spacing, weights, pass bars, learner identity, unlock decisions, provider calls |
-| **Pedagogical policy** | `ProgressionPolicyProfile` artifacts and the pure modules that read them: unlock predicates, mastery aggregation, delay windows, spacing, assistance and context weights, pass bars, cooldowns, feedback limits | Learner rows, content text, provider SDK types, persistence access |
-| **Learner state** | Placement, position, unlock grants, skips, overrides, review schedules, session and run progress | Correctness rules, content text, model output, policy numbers |
-| **Assessment evidence** | Immutable attempts, assistance events, assessment runs and results, evidence weights, contributions, derived mastery estimates carrying an algorithm version | Policy thresholds, content authoring, unlock authorization |
-| **Provider interfaces** | Structured model input/output, adapters, traces | Authorization, mastery, unlock, scoring of record |
+| **Pedagogical policy**     | `ProgressionPolicyProfile` artifacts and the pure modules that read them: unlock predicates, mastery aggregation, delay windows, spacing, assistance and context weights, pass bars, cooldowns, feedback limits   | Learner rows, content text, provider SDK types, persistence access                                          |
+| **Learner state**          | Placement, position, unlock grants, skips, overrides, review schedules, session and run progress                                                                                                                  | Correctness rules, content text, model output, policy numbers                                               |
+| **Assessment evidence**    | Immutable attempts, assistance events, assessment runs and results, evidence weights, contributions, derived mastery estimates carrying an algorithm version                                                      | Policy thresholds, content authoring, unlock authorization                                                  |
+| **Provider interfaces**    | Structured model input/output, adapters, traces                                                                                                                                                                   | Authorization, mastery, unlock, scoring of record                                                           |
 
 **The correction this revision makes:** the previous draft put `minEstimate`
 and `minDelayHours` inside a curriculum-layer `ProgressionRequirement`, which
@@ -339,37 +339,36 @@ ItemRef  = { id: string, version: string, hash: string }        // delivered con
 RefList  = Ref[]            // ORDERED; position is meaningful where ordering matters
 ```
 
-| Where | Field | Shape |
-|---|---|---|
-| `Program` | `unitRefs` | `RefList`, ordered — authoritative unit order |
-| `Program` | `accessPolicyRef`, `legacyCompatibilityPolicyRef?`, `defaultPolicyProfileRef` | `Ref` |
-| `Unit` | `programRef`, `policyProfileRef`, `reviewPolicyRef?`, `assessmentBankRef?` | `Ref` |
-| `Unit` | `lessonRefs` | `RefList`, ordered — authoritative lesson order |
-| `Lesson` | `unitRef`, `policyProfileRef?`, `assessmentBankRef` | `Ref` |
-| `Lesson` | `skillRefs` | `RefList` |
-| `Lesson` | `teachingContentRefs`, `practiceContentRefs` | `RefList` |
-| `Skill` | `prerequisiteRefs` | `RefList` — replaces `prerequisiteSkillCodes` |
-| `ContentItem` (all roles) | `skillRef` | `Ref` |
-| `ContentItem` | `itemReadinessRefs` | `RefList`, possibly empty |
-| `AssessmentBank` | `targetRef`, `policyProfileRef` | `Ref` |
-| `AssessmentBank` | `coveredSkillRefs` | `RefList` |
-| `ProgressionPolicyProfile` | `extendsRef?` | `Ref` |
-| `AssessmentAssignment` | `targetRef`, `bankRef`, `policyProfileRef` (+ `policyProfileHash`), `algorithmVersion`, `curriculumSnapshotHash` | `Ref` + hashes |
-| `AssessmentAssignment` | `selectedItems`, `excludedItems` | `ItemRef[]`, ordered |
-| `AssessmentResult` | per-item | `ItemRef` |
-| `MasteryEstimate` | `skillRef`, `policyProfileRef` (+ hash), `curriculumSnapshotHash`, `algorithmVersion` | `Ref` + hashes |
-| `ReviewSchedule` | `skillRef`, `policyProfileRef` | `Ref` |
-| `UnlockGrant` / `SkipRecord` / `OverrideRecord` | `targetRef`, `policyProfileRef`, `requirementVersion` | `Ref` |
-| `LearnerPlacement` / `LearnerUnitState` / `LearnerLessonState` | `targetRef`, `policyProfileRef` | `Ref` |
-| `LearningEvent` | `skillRef`, `contentRef?` | `Ref` / `ItemRef` |
-| `Session` | `targetRef`, `policyProfileRef` | `Ref` |
+| Where                                                          | Field                                                                                                            | Shape                                           |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| `Program`                                                      | `unitRefs`                                                                                                       | `RefList`, ordered — authoritative unit order   |
+| `Program`                                                      | `accessPolicyRef`, `legacyCompatibilityPolicyRef?`, `defaultPolicyProfileRef`                                    | `Ref`                                           |
+| `Unit`                                                         | `programRef`, `policyProfileRef`, `reviewPolicyRef?`, `assessmentBankRef?`                                       | `Ref`                                           |
+| `Unit`                                                         | `lessonRefs`                                                                                                     | `RefList`, ordered — authoritative lesson order |
+| `Lesson`                                                       | `unitRef`, `policyProfileRef?`, `assessmentBankRef`                                                              | `Ref`                                           |
+| `Lesson`                                                       | `skillRefs`                                                                                                      | `RefList`                                       |
+| `Lesson`                                                       | `teachingContentRefs`, `practiceContentRefs`                                                                     | `RefList`                                       |
+| `Skill`                                                        | `prerequisiteRefs`                                                                                               | `RefList` — replaces `prerequisiteSkillCodes`   |
+| `ContentItem` (all roles)                                      | `skillRef`                                                                                                       | `Ref`                                           |
+| `ContentItem`                                                  | `itemReadinessRefs`                                                                                              | `RefList`, possibly empty                       |
+| `AssessmentBank`                                               | `targetRef`, `policyProfileRef`                                                                                  | `Ref`                                           |
+| `AssessmentBank`                                               | `coveredSkillRefs`                                                                                               | `RefList`                                       |
+| `ProgressionPolicyProfile`                                     | `extendsRef?`                                                                                                    | `Ref`                                           |
+| `AssessmentAssignment`                                         | `targetRef`, `bankRef`, `policyProfileRef` (+ `policyProfileHash`), `algorithmVersion`, `curriculumSnapshotHash` | `Ref` + hashes                                  |
+| `AssessmentAssignment`                                         | `selectedItems`, `excludedItems`                                                                                 | `ItemRef[]`, ordered                            |
+| `AssessmentResult`                                             | per-item                                                                                                         | `ItemRef`                                       |
+| `MasteryEstimate`                                              | `skillRef`, `policyProfileRef` (+ hash), `curriculumSnapshotHash`, `algorithmVersion`                            | `Ref` + hashes                                  |
+| `ReviewSchedule`                                               | `skillRef`, `policyProfileRef`                                                                                   | `Ref`                                           |
+| `UnlockGrant` / `SkipRecord` / `OverrideRecord`                | `targetRef`, `policyProfileRef`, `requirementVersion`                                                            | `Ref`                                           |
+| `LearnerPlacement` / `LearnerUnitState` / `LearnerLessonState` | `targetRef`, `policyProfileRef`                                                                                  | `Ref`                                           |
+| `LearningEvent`                                                | `skillRef`, `contentRef?`                                                                                        | `Ref` / `ItemRef`                               |
+| `Session`                                                      | `targetRef`, `policyProfileRef`                                                                                  | `Ref`                                           |
 
 `Skill` gains its own `version` (`D-57`); without it `skillRef` cannot be
 formed, which is why that decision blocks Stage A.
 
 Acceptance test U41 walks every schema and asserts no field holds a bare
 reference string.
-
 
 ## 3.1 Ordering has exactly one source
 
@@ -390,18 +389,18 @@ is resolved:
 `PROGRAM_ROSTER` array and becomes the source `CurriculumProgramSchema` is
 derived from (`D-40`).
 
-| Field | Type | Notes |
-|---|---|---|
-| `code` | `^[a-z0-9-]+$` | |
-| `version` | `VersionSchema` | |
-| `label` | string | Learner-facing |
-| `available` | boolean | Replaces `PROGRAM_ROSTER.available` |
-| `subjectKind` | `graded-academic` \| `enrichment-contest` \| `enrichment-non-graded` | Drives which optional fields are required |
-| `skillCodePrefix` | `^[a-z0-9]+-$` \| `null` | `null` only for the legacy unprefixed `grade-6-math` program |
-| `progressionMode` | `unit-sequenced` \| `hybrid` \| `skill-graph-only` | `skill-graph-only` preserves today's behavior for the whole program; `hybrid` unitises part of it and covers the remainder with a named legacy compatibility policy (§7.5) |
-| `unitRefs` | `RefList` | Ordered. Empty when `progressionMode` is `skill-graph-only` |
-| `legacyCompatibilityPolicyCode` / `...Version` | string \| `null` | Required when `progressionMode` is `hybrid`; must be `null` otherwise. Validation rejects a hybrid program without one (§7.5) |
-| `defaultPolicyProfileCode` / `...Version` | string | Policy reference, not policy content |
+| Field                                          | Type                                                                 | Notes                                                                                                                                                                      |
+| ---------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `code`                                         | `^[a-z0-9-]+$`                                                       |                                                                                                                                                                            |
+| `version`                                      | `VersionSchema`                                                      |                                                                                                                                                                            |
+| `label`                                        | string                                                               | Learner-facing                                                                                                                                                             |
+| `available`                                    | boolean                                                              | Replaces `PROGRAM_ROSTER.available`                                                                                                                                        |
+| `subjectKind`                                  | `graded-academic` \| `enrichment-contest` \| `enrichment-non-graded` | Drives which optional fields are required                                                                                                                                  |
+| `skillCodePrefix`                              | `^[a-z0-9]+-$` \| `null`                                             | `null` only for the legacy unprefixed `grade-6-math` program                                                                                                               |
+| `progressionMode`                              | `unit-sequenced` \| `hybrid` \| `skill-graph-only`                   | `skill-graph-only` preserves today's behavior for the whole program; `hybrid` unitises part of it and covers the remainder with a named legacy compatibility policy (§7.5) |
+| `unitRefs`                                     | `RefList`                                                            | Ordered. Empty when `progressionMode` is `skill-graph-only`                                                                                                                |
+| `legacyCompatibilityPolicyCode` / `...Version` | string \| `null`                                                     | Required when `progressionMode` is `hybrid`; must be `null` otherwise. Validation rejects a hybrid program without one (§7.5)                                              |
+| `defaultPolicyProfileCode` / `...Version`      | string                                                               | Policy reference, not policy content                                                                                                                                       |
 
 **New schema invariants this makes real** (fixing R19):
 
@@ -417,32 +416,32 @@ derived from (`D-40`).
 
 `content/units/<program>/<unit-code>.json`
 
-| Field | Notes |
-|---|---|
-| `code`, `programCode`, `version`, `title`, `summary` | |
-| `lessonCodes` | Ordered, authoritative |
-| `entryRequirement` | `ProgressionRequirement?` — structural only |
-| `completionRule` | `UnitCompletionRule`, §6.2 |
-| `assessmentBankCode` / `...Version` | Optional end-of-unit bank |
-| `policyProfileCode` / `...Version` | Overrides the program default |
-| `reviewPolicyCode` / `...Version` | |
-| `provenance`, `review` | Same human review gate as content |
+| Field                                                | Notes                                       |
+| ---------------------------------------------------- | ------------------------------------------- |
+| `code`, `programCode`, `version`, `title`, `summary` |                                             |
+| `lessonCodes`                                        | Ordered, authoritative                      |
+| `entryRequirement`                                   | `ProgressionRequirement?` — structural only |
+| `completionRule`                                     | `UnitCompletionRule`, §6.2                  |
+| `assessmentBankCode` / `...Version`                  | Optional end-of-unit bank                   |
+| `policyProfileCode` / `...Version`                   | Overrides the program default               |
+| `reviewPolicyCode` / `...Version`                    |                                             |
+| `provenance`, `review`                               | Same human review gate as content           |
 
 ## 3.4 `Lesson` (curriculum)
 
 `content/lessons/<program>/<lesson-code>.json`
 
-| Field | Notes |
-|---|---|
-| `code`, `unitCode`, `version`, `title`, `objectives` | |
-| `skillCodes` | The skills this lesson teaches; same-program; must resolve |
-| `teachingContentIds` | Records with `role: "teaching"` |
-| `practiceContentIds` | Records with `role: "practice"` |
-| `assessmentBankCode` / `...Version` | Names a bank; never an inline item list |
-| `entryRequirement` | `ProgressionRequirement?` — structural only |
-| `completionRule` | `LessonCompletionRule`, §6.1 |
-| `policyProfileCode` / `...Version` | Optional override |
-| `provenance`, `review` | |
+| Field                                                | Notes                                                      |
+| ---------------------------------------------------- | ---------------------------------------------------------- |
+| `code`, `unitCode`, `version`, `title`, `objectives` |                                                            |
+| `skillCodes`                                         | The skills this lesson teaches; same-program; must resolve |
+| `teachingContentIds`                                 | Records with `role: "teaching"`                            |
+| `practiceContentIds`                                 | Records with `role: "practice"`                            |
+| `assessmentBankCode` / `...Version`                  | Names a bank; never an inline item list                    |
+| `entryRequirement`                                   | `ProgressionRequirement?` — structural only                |
+| `completionRule`                                     | `LessonCompletionRule`, §6.1                               |
+| `policyProfileCode` / `...Version`                   | Optional override                                          |
+| `provenance`, `review`                               |                                                            |
 
 ## 3.5 `ProgressionRequirement` (curriculum — structural only)
 
@@ -458,8 +457,8 @@ ProgressionRequirement {
 ```
 
 No numbers. "How good is good enough" is read from the referenced profile
-(§5, policy profiles). `requiresDelayedCheckFor` is structural — *which* skills need a delayed
-check — while *how long* the delay is, is policy.
+(§5, policy profiles). `requiresDelayedCheckFor` is structural — _which_ skills need a delayed
+check — while _how long_ the delay is, is policy.
 
 ## 3.6 `AssessmentBank`
 
@@ -473,10 +472,10 @@ and reuse rules.
 
 Where the **items** live depends on `D-01`:
 
-| Branch | Item storage | Bank record contents |
-|---|---|---|
-| A — open-book | `content/assessments/<program>/` in this repository | May list member item refs (`{contentId, contentVersion}`) directly |
-| B — held-out | The store chosen in `D-02` | **No item ids and no item text.** Membership is resolved at run time from the held-out store, keyed by `bankCode@bankVersion` |
+| Branch        | Item storage                                        | Bank record contents                                                                                                          |
+| ------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| A — open-book | `content/assessments/<program>/` in this repository | May list member item refs (`{contentId, contentVersion}`) directly                                                            |
+| B — held-out  | The store chosen in `D-02`                          | **No item ids and no item text.** Membership is resolved at run time from the held-out store, keyed by `bankCode@bankVersion` |
 
 **Bank coverage invariant (both branches).** A lesson bank must cover every
 skill in its lesson's `skillRefs` with at least one item, and a unit bank must
@@ -488,18 +487,18 @@ lesson's pass meaningful (§7.6).
 None exist; each requires a reviewed migration with a `down.sql`. Every one
 carries version pins (§10).
 
-| Entity | Key fields |
-|---|---|
-| `LearnerPlacement` | household, learner, programCode+Version, unitCode+Version, lessonCode+Version, `method` (§9.4), evidence refs, `createdAt` |
-| `LearnerUnitState` | household, learner, unitCode+Version, `status` (§6.5), policyProfileVersion, enteredAt, completedAt |
-| `LearnerLessonState` | household, learner, lessonCode+Version, `status`, policyProfileVersion, teachingViewedAt, practiceCount, assessmentPassedAt |
-| `UnlockGrant` | household, learner, targetKind, targetCode+Version, grantedAt, requirementVersion, policyProfileVersion, algorithmVersion, evidence refs, `revokedAt?` |
-| `SkipRecord` | household, learner, targetKind, targetCode+Version, `runId`, evidence refs, requirementVersion, `revokedAt?` |
-| `OverrideRecord` | household, learner, targetKind, targetCode+Version, `actorUserId`, `actorRole`, `reason`, `reauthAt`, `createdAt`, `revokedAt?` |
-| `ReviewSchedule` | household, learner, skillCode, `dueAt`, `intervalIndex`, `lastOutcome`, policyProfileVersion |
-| `LearningEvent` | household, learner, `skillRef`, `kind`, `contentRef?`, `occurredAt` — the server-side source for §9.1. **Canonical kind set:** `TEACHING_VIEWED`, `TEACHING_COMPLETED`, `ASSISTANCE_GIVEN`, `REMEDIATION_DELIVERED`, `INDEPENDENT_PRACTICE_EXPOSURE`. `TEACHING_COMPLETED` and `INDEPENDENT_PRACTICE_EXPOSURE` feed `lastIndependentExposureAt` (§9.1) and were referenced there but missing from this list in the previous draft |
-| `AssessmentAssignment` / `AssessmentRunState` / `AssessmentResult` | §6.3 |
-| `AssessmentResult` | run outcome, scored items, algorithmVersion, immutable |
+| Entity                                                             | Key fields                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LearnerPlacement`                                                 | household, learner, programCode+Version, unitCode+Version, lessonCode+Version, `method` (§9.4), evidence refs, `createdAt`                                                                                                                                                                                                                                                                                                        |
+| `LearnerUnitState`                                                 | household, learner, unitCode+Version, `status` (§6.5), policyProfileVersion, enteredAt, completedAt                                                                                                                                                                                                                                                                                                                               |
+| `LearnerLessonState`                                               | household, learner, lessonCode+Version, `status`, policyProfileVersion, teachingViewedAt, practiceCount, assessmentPassedAt                                                                                                                                                                                                                                                                                                       |
+| `UnlockGrant`                                                      | household, learner, targetKind, targetCode+Version, grantedAt, requirementVersion, policyProfileVersion, algorithmVersion, evidence refs, `revokedAt?`                                                                                                                                                                                                                                                                            |
+| `SkipRecord`                                                       | household, learner, targetKind, targetCode+Version, `runId`, evidence refs, requirementVersion, `revokedAt?`                                                                                                                                                                                                                                                                                                                      |
+| `OverrideRecord`                                                   | household, learner, targetKind, targetCode+Version, `actorUserId`, `actorRole`, `reason`, `reauthAt`, `createdAt`, `revokedAt?`                                                                                                                                                                                                                                                                                                   |
+| `ReviewSchedule`                                                   | household, learner, skillCode, `dueAt`, `intervalIndex`, `lastOutcome`, policyProfileVersion                                                                                                                                                                                                                                                                                                                                      |
+| `LearningEvent`                                                    | household, learner, `skillRef`, `kind`, `contentRef?`, `occurredAt` — the server-side source for §9.1. **Canonical kind set:** `TEACHING_VIEWED`, `TEACHING_COMPLETED`, `ASSISTANCE_GIVEN`, `REMEDIATION_DELIVERED`, `INDEPENDENT_PRACTICE_EXPOSURE`. `TEACHING_COMPLETED` and `INDEPENDENT_PRACTICE_EXPOSURE` feed `lastIndependentExposureAt` (§9.1) and were referenced there but missing from this list in the previous draft |
+| `AssessmentAssignment` / `AssessmentRunState` / `AssessmentResult` | §6.3                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `AssessmentResult`                                                 | run outcome, scored items, algorithmVersion, immutable                                                                                                                                                                                                                                                                                                                                                                            |
 
 `UnlockGrant` is an **audit record of a derivation**, never an authorization
 cache. Authorization always re-derives (§7).
@@ -510,12 +509,12 @@ cache. Authorization always re-derives (§7).
 
 ## 4.1 Roles
 
-| Role | Attemptable | Hint ladder | Tutor | Produces mastery evidence | Published publicly |
-|---|---|---|---|---|---|
-| `teaching` | No | n/a | Explanation only, no scored attempt | No | **Only when `review.status` is `reviewed`** (`D-58`) |
-| `practice` | Yes | **Required** | Yes | Yes, assistance-weighted | **Only when `review.status` is `reviewed`** (`D-58`) |
-| `assessment` | Yes | **Forbidden** | **Never** | Yes; what it can establish depends on `D-01` (§4.3) | **Never published, in either `D-01` branch** (`D-58`) |
-| `review` | Yes | **Forbidden** | **Never** | Yes, with decay semantics | **Never published, in either `D-01` branch** (`D-58`) |
+| Role         | Attemptable | Hint ladder   | Tutor                               | Produces mastery evidence                           | Published publicly                                    |
+| ------------ | ----------- | ------------- | ----------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
+| `teaching`   | No          | n/a           | Explanation only, no scored attempt | No                                                  | **Only when `review.status` is `reviewed`** (`D-58`)  |
+| `practice`   | Yes         | **Required**  | Yes                                 | Yes, assistance-weighted                            | **Only when `review.status` is `reviewed`** (`D-58`)  |
+| `assessment` | Yes         | **Forbidden** | **Never**                           | Yes; what it can establish depends on `D-01` (§4.3) | **Never published, in either `D-01` branch** (`D-58`) |
+| `review`     | Yes         | **Forbidden** | **Never**                           | Yes, with decay semantics                           | **Never published, in either `D-01` branch** (`D-58`) |
 
 Two publication rules hold **independently of `D-01`**, because they are wrong
 in both branches:
@@ -537,12 +536,12 @@ in both branches:
 record. A teaching record cannot satisfy that honestly. Replace the single
 schema with a discriminated union on `role`:
 
-| Schema | Requires | Forbids |
-|---|---|---|
-| `TeachingContentSchema` | `explanation`, `accessibilityNotes`, `accessibleAlternative`, `provenance`, `review`, optional `workedExample`, optional `figure` | `deterministicValidator`, `hintSteps`, `forbiddenLeakagePatterns` |
-| `PracticeContentSchema` | Today's `ContentItemSchema` shape unchanged: validator, `hintSteps` contiguous from 1, `forbiddenLeakagePatterns`, misconceptions | — |
-| `AssessmentContentSchema` | validator, `forbiddenLeakagePatterns`, `accessibleAlternative`, `bankCode` | **`hintSteps`** — an assessment item carrying a hint ladder is a defect, not a style choice |
-| `ReviewContentSchema` | validator, `forbiddenLeakagePatterns`, `accessibleAlternative`, `assessmentBankRef` | **`hintSteps`** — a review item is an unassisted retrieval probe |
+| Schema                    | Requires                                                                                                                          | Forbids                                                                                     |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `TeachingContentSchema`   | `explanation`, `accessibilityNotes`, `accessibleAlternative`, `provenance`, `review`, optional `workedExample`, optional `figure` | `deterministicValidator`, `hintSteps`, `forbiddenLeakagePatterns`                           |
+| `PracticeContentSchema`   | Today's `ContentItemSchema` shape unchanged: validator, `hintSteps` contiguous from 1, `forbiddenLeakagePatterns`, misconceptions | —                                                                                           |
+| `AssessmentContentSchema` | validator, `forbiddenLeakagePatterns`, `accessibleAlternative`, `bankCode`                                                        | **`hintSteps`** — an assessment item carrying a hint ladder is a defect, not a style choice |
+| `ReviewContentSchema`     | validator, `forbiddenLeakagePatterns`, `accessibleAlternative`, `assessmentBankRef`                                               | **`hintSteps`** — a review item is an unassisted retrieval probe                            |
 
 The shared fields (`id`, `version`, `title`, `skillRef`, `mode`, `difficulty`,
 `standards`, `provenance`, `review`, accessibility) stay common. `mode`
@@ -576,21 +575,21 @@ does not restate any cell of it, because two copies of a decision drift.
 
 What this document adds is only the **mechanics that differ by branch**:
 
-| Mechanic | Where specified |
-|---|---|
-| Bank record shape per branch | §3.6 |
-| `delayedCheckStatus` value set (`PERFORMED` vs `CONFIRMED`) and its effect on the confidence band | §8.5, §8.6 |
-| Which exclusion surfaces are active | §4.3B below (Branch B only) |
-| Which acceptance tests run | §13.3, tests L14 (A only) and L15 (B only) |
-| Fixture variant selection | §12.2 |
+| Mechanic                                                                                          | Where specified                            |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Bank record shape per branch                                                                      | §3.6                                       |
+| `delayedCheckStatus` value set (`PERFORMED` vs `CONFIRMED`) and its effect on the confidence band | §8.5, §8.6                                 |
+| Which exclusion surfaces are active                                                               | §4.3B below (Branch B only)                |
+| Which acceptance tests run                                                                        | §13.3, tests L14 (A only) and L15 (B only) |
+| Fixture variant selection                                                                         | §12.2                                      |
 
 ### 4.3A Branch A — open-book: mechanics
 
 - Items live at `content/assessments/<program>/` and go through the ordinary
   pull-request review gate.
 - They are **not** published on the public site and **not** listed by any API
-  — open-book means *reachable by a determined reader in the repository*, never
-  *advertised on a browsable page*. (The earlier draft of the decision document
+  — open-book means _reachable by a determined reader in the repository_, never
+  _advertised on a browsable page_. (The earlier draft of the decision document
   said Branch A puts items "on the public site"; that was a contradiction with
   this section and has been corrected in favour of this rule.)
 - Exclusion surfaces S1–S4 do **not** apply; S5–S11 still do.
@@ -603,24 +602,24 @@ Active only under Branch B. An assessment or review item's prompt, answer,
 solution, or bank membership must not appear in any of the following; each row
 has a named acceptance test in §13.3.
 
-| # | Surface | Rule |
-|---|---|---|
-| S1 | The public git tree | No assessment record is tracked in this repository |
-| S2 | The generated curriculum site | The generator reads a reviewed teaching-and-practice projection and cannot reach the assessment store |
-| S3 | `contentCatalog` / `servableContentCatalog` | Assessment items are not members; a server-only `assessmentStore` accessor exists |
-| S4 | Client bundle | The store module carries a server-only marker; any `'use client'` module importing it fails the build |
+| #   | Surface                                     | Rule                                                                                                  |
+| --- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| S1  | The public git tree                         | No assessment record is tracked in this repository                                                    |
+| S2  | The generated curriculum site               | The generator reads a reviewed teaching-and-practice projection and cannot reach the assessment store |
+| S3  | `contentCatalog` / `servableContentCatalog` | Assessment items are not members; a server-only `assessmentStore` accessor exists                     |
+| S4  | Client bundle                               | The store module carries a server-only marker; any `'use client'` module importing it fails the build |
 
 The following apply in **both** branches:
 
-| # | Surface | Rule |
-|---|---|---|
-| S5 | API response bodies | No route returns a bank listing, an item id set, a canonical answer, or an accepted-answer list |
-| S6 | Teaching and practice content | No id appears in both a bank and a lesson's teaching/practice lists, in any program |
-| S7 | Hint payloads and tutor context | The tutor is never invoked with assessment content |
-| S8 | Plans, previews, digests, progress views | These name the *target*, never an item |
-| S9 | Provider input | Assessment text is never sent to a model provider |
-| S10 | Logs and traces | Refusal, scoring, and shadow-decision records carry ids, versions, and reason codes only — never prompts, learner free text, or answers |
-| S11 | Household export | The learner's own responses and results only; never the bank or unattempted items |
+| #   | Surface                                  | Rule                                                                                                                                    |
+| --- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| S5  | API response bodies                      | No route returns a bank listing, an item id set, a canonical answer, or an accepted-answer list                                         |
+| S6  | Teaching and practice content            | No id appears in both a bank and a lesson's teaching/practice lists, in any program                                                     |
+| S7  | Hint payloads and tutor context          | The tutor is never invoked with assessment content                                                                                      |
+| S8  | Plans, previews, digests, progress views | These name the _target_, never an item                                                                                                  |
+| S9  | Provider input                           | Assessment text is never sent to a model provider                                                                                       |
+| S10 | Logs and traces                          | Refusal, scoring, and shadow-decision records carry ids, versions, and reason codes only — never prompts, learner free text, or answers |
+| S11 | Household export                         | The learner's own responses and results only; never the bank or unattempted items                                                       |
 
 ### 4.3C Publication rules that are not part of `D-01`
 
@@ -643,40 +642,40 @@ Contents, all sourced from `docs/course-progression-decisions.md`. This table
 is exhaustive: every `D-id`-backed numeric or behavioral key appears here, and
 no key may exist in a profile without a `D-id`.
 
-| Group | Key | Decision |
-|---|---|---|
-| Aggregation | `assistanceWeight[]` | D-07 |
-| | `contextWeight[]` | D-08 |
-| | `repeatDiscount` | D-09 |
-| | `recencyHalfLifeDays` | D-10 |
-| | `aggregationWindow` | D-11 |
-| | `difficultyWeighting` | D-51 |
-| Confidence | `minEvidenceMassMedium` | D-12 |
-| | `minIndependentObservationsMedium` | D-13 |
-| | `minEstimateMedium` | D-14 |
-| Gating | `minEstimateGate` | D-15 |
-| | `relockEstimate` | D-16 |
-| | `stalenessDays` | D-17 |
-| Spacing | `spacingIntervalDays[]` | D-18 |
-| Delay | `minDelayHours` | D-21 |
-| Lesson completion | `lessonMinPracticeItems` | D-42 |
-| | `allowAssistanceInPractice` | D-59 |
-| Lesson assessment | `lessonItemsPerAttempt`, `lessonPassBar` | D-23, D-24 |
-| Unit assessment | `unitItemsPerAttempt`, `unitPassBar` | D-25, D-26 |
-| Delayed check | `delayedCheckItemsPerAttempt`, `delayedCheckPassBar` | D-43 |
-| | `delayedCheckReuse` | D-44 |
-| Review | `reviewItemsPerAttempt`, `reviewPassBar` | D-45 |
-| | `reviewReuse` | D-46 |
-| Reassessment | `maxReassessments` | D-27 |
-| | `reassessmentCooldown` | D-28 |
-| | `runExpiryHours` | D-29 |
-| | `feedbackLevel` | D-30 |
-| | `duplicateRequestBehavior` | D-54 |
-| Placement and skip | `placementProbeMaxItems` | D-22 |
-| | `lessonSkipBar` | D-31 |
-| | `unitSkipBar` | D-32 |
-| Override | `stepUpReauthLifetimeMinutes` | D-47 |
-| Access (separate `AccessPolicy` artifact) | `grantsActivityKinds`, `deniesActivityKinds`, scope | D-60, D-53 |
+| Group                                     | Key                                                  | Decision   |
+| ----------------------------------------- | ---------------------------------------------------- | ---------- |
+| Aggregation                               | `assistanceWeight[]`                                 | D-07       |
+|                                           | `contextWeight[]`                                    | D-08       |
+|                                           | `repeatDiscount`                                     | D-09       |
+|                                           | `recencyHalfLifeDays`                                | D-10       |
+|                                           | `aggregationWindow`                                  | D-11       |
+|                                           | `difficultyWeighting`                                | D-51       |
+| Confidence                                | `minEvidenceMassMedium`                              | D-12       |
+|                                           | `minIndependentObservationsMedium`                   | D-13       |
+|                                           | `minEstimateMedium`                                  | D-14       |
+| Gating                                    | `minEstimateGate`                                    | D-15       |
+|                                           | `relockEstimate`                                     | D-16       |
+|                                           | `stalenessDays`                                      | D-17       |
+| Spacing                                   | `spacingIntervalDays[]`                              | D-18       |
+| Delay                                     | `minDelayHours`                                      | D-21       |
+| Lesson completion                         | `lessonMinPracticeItems`                             | D-42       |
+|                                           | `allowAssistanceInPractice`                          | D-59       |
+| Lesson assessment                         | `lessonItemsPerAttempt`, `lessonPassBar`             | D-23, D-24 |
+| Unit assessment                           | `unitItemsPerAttempt`, `unitPassBar`                 | D-25, D-26 |
+| Delayed check                             | `delayedCheckItemsPerAttempt`, `delayedCheckPassBar` | D-43       |
+|                                           | `delayedCheckReuse`                                  | D-44       |
+| Review                                    | `reviewItemsPerAttempt`, `reviewPassBar`             | D-45       |
+|                                           | `reviewReuse`                                        | D-46       |
+| Reassessment                              | `maxReassessments`                                   | D-27       |
+|                                           | `reassessmentCooldown`                               | D-28       |
+|                                           | `runExpiryHours`                                     | D-29       |
+|                                           | `feedbackLevel`                                      | D-30       |
+|                                           | `duplicateRequestBehavior`                           | D-54       |
+| Placement and skip                        | `placementProbeMaxItems`                             | D-22       |
+|                                           | `lessonSkipBar`                                      | D-31       |
+|                                           | `unitSkipBar`                                        | D-32       |
+| Override                                  | `stepUpReauthLifetimeMinutes`                        | D-47       |
+| Access (separate `AccessPolicy` artifact) | `grantsActivityKinds`, `deniesActivityKinds`, scope  | D-60, D-53 |
 
 ### 5a. Optional features use an explicit discriminant, never absence
 
@@ -748,15 +747,13 @@ validated so that:
 5. an empty array is the default and means "the skill's prerequisites apply
    unchanged".
 
-`itemReadinessRefs` is an *ordering hint for item selection within a skill*,
+`itemReadinessRefs` is an _ordering hint for item selection within a skill_,
 never an unlock gate. Unlock gates read the skill graph.
 
 **Invariants enforced at catalog validation:** same-program references (§3.2),
 subset-or-equal containment, no self-reference, acyclicity, and — for lessons —
 that a unit's `lessonCodes` order never places a lesson before the lesson
 teaching its prerequisite skill.
-
-
 
 ## 6.1 `LessonCompletionRule` (curriculum — structural switches only)
 
@@ -771,13 +768,13 @@ LessonCompletionRule {
 The **count** and the **assistance allowance** are policy, not curriculum, and
 are read from the referenced profile:
 
-| Policy key | Decision | Why it is policy |
-|---|---|---|
-| `lessonMinPracticeItems` | `D-42` | It is a pedagogical judgement about sufficiency, not a property of the lesson |
-| `allowAssistanceInPractice` | `D-59` | It is a policy stance on what completion may be earned with |
+| Policy key                  | Decision | Why it is policy                                                              |
+| --------------------------- | -------- | ----------------------------------------------------------------------------- |
+| `lessonMinPracticeItems`    | `D-42`   | It is a pedagogical judgement about sufficiency, not a property of the lesson |
+| `allowAssistanceInPractice` | `D-59`   | It is a policy stance on what completion may be earned with                   |
 
-Curriculum says *whether a lesson has a practice requirement*; policy says *how
-much* and *under what assistance*. The previous draft put the count and the
+Curriculum says _whether a lesson has a practice requirement_; policy says _how
+much_ and _under what assistance_. The previous draft put the count and the
 assistance flag on the curriculum record, which was the same layer violation
 this document exists to correct.
 
@@ -803,47 +800,47 @@ That is three lifetimes in one table. They are split.
 Written once, never updated. This is the server's committed, auditable record
 of exactly what was asked, under which policy, at which versions.
 
-| Field | Type / notes |
-|---|---|
-| `id` | |
-| `householdId`, `learnerProfileId` | |
-| `kind` | `PLACEMENT` \| `LESSON_ASSESSMENT` \| `UNIT_ASSESSMENT` \| `DELAYED_CHECK` \| `REVIEW` |
-| `targetKind`, `targetCode`, `targetVersion` | Lesson, unit, or skill |
-| `bankCode`, `bankVersion` | |
-| `policyProfileCode`, `policyProfileVersion`, `policyProfileHash` | Resolved after `extends` composition |
-| `algorithmVersion` | Mastery algorithm in force at assignment time |
-| `curriculumSnapshotHash` | Hash over the resolved target + bank membership |
-| `selectedItems[]` | Ordered array of `{ contentId, contentVersion, contentHash, ordinal }`. **Server-selected**, never client-supplied |
-| `excludedItems[]` | `{ contentId, contentVersion, reason }` for items withheld from this assignment |
-| `attemptOrdinal` | 1 = initial, 2+ = reassessment |
-| `idempotencyKey` | Client-supplied; see §6.4 |
-| `createdAt` | |
+| Field                                                            | Type / notes                                                                                                       |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `id`                                                             |                                                                                                                    |
+| `householdId`, `learnerProfileId`                                |                                                                                                                    |
+| `kind`                                                           | `PLACEMENT` \| `LESSON_ASSESSMENT` \| `UNIT_ASSESSMENT` \| `DELAYED_CHECK` \| `REVIEW`                             |
+| `targetKind`, `targetCode`, `targetVersion`                      | Lesson, unit, or skill                                                                                             |
+| `bankCode`, `bankVersion`                                        |                                                                                                                    |
+| `policyProfileCode`, `policyProfileVersion`, `policyProfileHash` | Resolved after `extends` composition                                                                               |
+| `algorithmVersion`                                               | Mastery algorithm in force at assignment time                                                                      |
+| `curriculumSnapshotHash`                                         | Hash over the resolved target + bank membership                                                                    |
+| `selectedItems[]`                                                | Ordered array of `{ contentId, contentVersion, contentHash, ordinal }`. **Server-selected**, never client-supplied |
+| `excludedItems[]`                                                | `{ contentId, contentVersion, reason }` for items withheld from this assignment                                    |
+| `attemptOrdinal`                                                 | 1 = initial, 2+ = reassessment                                                                                     |
+| `idempotencyKey`                                                 | Client-supplied; see §6.4                                                                                          |
+| `createdAt`                                                      |                                                                                                                    |
 
 ### `AssessmentRunState` — mutable learner state
 
 Exactly one row per assignment. This is the only part that changes.
 
-| Field | Notes |
-|---|---|
-| `assignmentId` | Unique |
-| `status` | `PENDING` \| `IN_PROGRESS` \| `SUBMITTED` \| `SCORED` \| `EXPIRED` \| `ABANDONED` (§6.7) |
-| `currentOrdinal` | Which selected item is being presented |
-| `submittedOrdinals[]` | Which have been answered |
-| `startedAt`, `expiresAt`, `lastActivityAt`, `submittedAt` | `expiresAt` from `D-29` |
+| Field                                                     | Notes                                                                                    |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `assignmentId`                                            | Unique                                                                                   |
+| `status`                                                  | `PENDING` \| `IN_PROGRESS` \| `SUBMITTED` \| `SCORED` \| `EXPIRED` \| `ABANDONED` (§6.7) |
+| `currentOrdinal`                                          | Which selected item is being presented                                                   |
+| `submittedOrdinals[]`                                     | Which have been answered                                                                 |
+| `startedAt`, `expiresAt`, `lastActivityAt`, `submittedAt` | `expiresAt` from `D-29`                                                                  |
 
 ### `AssessmentResult` — immutable outcome
 
 Written once, on transition to `SCORED`. Never updated, never deleted, and
 covered by the no-destructive-rollback rule (§10.4).
 
-| Field | Notes |
-|---|---|
-| `id`, `assignmentId` | |
-| `outcome` | `PASS` \| `FAIL` \| `INCONCLUSIVE` |
-| `itemResults[]` | `{ ordinal, contentId, contentVersion, attemptId, rawScore, correctness, maxAssistance, superseded }` |
-| `correctCount`, `requiredCount` | `requiredCount` copied from the pinned policy so the bar that applied is reconstructable |
-| `algorithmVersion`, `policyProfileHash` | Pinned copies, so a later policy change cannot reinterpret a past result |
-| `scoredAt` | |
+| Field                                   | Notes                                                                                                 |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `id`, `assignmentId`                    |                                                                                                       |
+| `outcome`                               | `PASS` \| `FAIL` \| `INCONCLUSIVE`                                                                    |
+| `itemResults[]`                         | `{ ordinal, contentId, contentVersion, attemptId, rawScore, correctness, maxAssistance, superseded }` |
+| `correctCount`, `requiredCount`         | `requiredCount` copied from the pinned policy so the bar that applied is reconstructable              |
+| `algorithmVersion`, `policyProfileHash` | Pinned copies, so a later policy change cannot reinterpret a past result                              |
+| `scoredAt`                              |                                                                                                       |
 
 **Why the split matters.** A parent-facing claim cites an `AssessmentResult`
 and its `AssessmentAssignment`; neither can be altered by later activity. Run
@@ -873,23 +870,23 @@ UNIQUE (learnerProfileId, kind, targetCode, targetVersion, bankVersion)
 
 Lifecycle:
 
-| Step | Behavior |
-|---|---|
+| Step    | Behavior                                                                                                                                                                                               |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Acquire | In the same transaction that inserts the immutable `AssessmentAssignment` and its `AssessmentRunState`. A conflict fails the whole transaction, so two concurrent creates yield exactly one assignment |
-| Hold | The lease is the single source of "there is an active assignment for this target" |
-| Expire | A lease past `expiresAt` is treated as released by every reader, and is released by the next write touching it. Expiry never requires a background job to be correct |
-| Release | Transactionally, together with the run state's transition to `SCORED`, `EXPIRED`, `ABANDONED`, or `INVALIDATED`. Release and terminal transition cannot diverge |
+| Hold    | The lease is the single source of "there is an active assignment for this target"                                                                                                                      |
+| Expire  | A lease past `expiresAt` is treated as released by every reader, and is released by the next write touching it. Expiry never requires a background job to be correct                                   |
+| Release | Transactionally, together with the run state's transition to `SCORED`, `EXPIRED`, `ABANDONED`, or `INVALIDATED`. Release and terminal transition cannot diverge                                        |
 
 The lease is **mutable learner state** and may be dropped on rollback. The
 assignment it protected is **immutable evidence** and is retained (§10.4).
 
 **Duplicate-request behavior — one rule, applied consistently** (`D-54`):
 
-| Request | Behavior |
-|---|---|
-| Same `idempotencyKey` as an existing assignment | **Idempotent replay.** Return that assignment unchanged. A double-clicked button is a no-op |
-| Different `idempotencyKey` while an assignment for the same target is `PENDING`/`IN_PROGRESS` | **Reject** with `ACTIVE_ASSIGNMENT_EXISTS`. Resume or abandon the existing one first |
-| Different `idempotencyKey`, no active assignment, cooldown met | Create the next assignment with `attemptOrdinal + 1` |
+| Request                                                                                       | Behavior                                                                                    |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Same `idempotencyKey` as an existing assignment                                               | **Idempotent replay.** Return that assignment unchanged. A double-clicked button is a no-op |
+| Different `idempotencyKey` while an assignment for the same target is `PENDING`/`IN_PROGRESS` | **Reject** with `ACTIVE_ASSIGNMENT_EXISTS`. Resume or abandon the existing one first        |
+| Different `idempotencyKey`, no active assignment, cooldown met                                | Create the next assignment with `attemptOrdinal + 1`                                        |
 
 `D-54` exists only in case the product prefers reject-always; the architecture
 does not leave both behaviors live.
@@ -913,12 +910,12 @@ Every assignment reaches exactly one terminal state, and **every terminal state
 writes an `AssessmentResult`**. A missing result must be impossible, because
 "no row" is indistinguishable from "lost row".
 
-| Terminal state | `AssessmentResult.outcome` | Counts toward `attemptOrdinal` / reassessment allowance | Contributes mastery observations | Lease |
-|---|---|---|---|---|
-| `SCORED` | `PASS` or `FAIL` | Yes | Yes, for submitted items | Released |
-| `EXPIRED` | `INCONCLUSIVE` | **No** | Yes, only for items actually submitted before expiry | Released |
-| `ABANDONED` | `INCONCLUSIVE` | **No** | Yes, only for items actually submitted | Released |
-| `INVALIDATED` | `INVALIDATED` | **No** | **No** — every observation is marked `superseded` | Released |
+| Terminal state | `AssessmentResult.outcome` | Counts toward `attemptOrdinal` / reassessment allowance | Contributes mastery observations                     | Lease    |
+| -------------- | -------------------------- | ------------------------------------------------------- | ---------------------------------------------------- | -------- |
+| `SCORED`       | `PASS` or `FAIL`           | Yes                                                     | Yes, for submitted items                             | Released |
+| `EXPIRED`      | `INCONCLUSIVE`             | **No**                                                  | Yes, only for items actually submitted before expiry | Released |
+| `ABANDONED`    | `INCONCLUSIVE`             | **No**                                                  | Yes, only for items actually submitted               | Released |
+| `INVALIDATED`  | `INVALIDATED`              | **No**                                                  | **No** — every observation is marked `superseded`    | Released |
 
 `INVALIDATED` is new and necessary: it covers an assignment voided for a
 defect — a bad item, a mis-resolved bank version, an operator correction. It is
@@ -930,14 +927,14 @@ so an audit can distinguish "this did not count" from "this never happened".
 "Never deleted" is an **operational** rule, not a claim that a household cannot
 erase its data. The two are different obligations and both must hold.
 
-| Context | Rule |
-|---|---|
-| **Operational immutability** | No application code path updates or deletes an `AssessmentAssignment` or `AssessmentResult`. There is no edit endpoint, no correction-in-place, and no cascade from ordinary progression activity. Corrections happen by writing `INVALIDATED`, never by mutation |
-| **Migration and rollback** | Progression migrations never drop these tables in production (§10.4). Schema reversibility is proven separately on a scratch database |
+| Context                              | Rule                                                                                                                                                                                                                                                                           |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Operational immutability**         | No application code path updates or deletes an `AssessmentAssignment` or `AssessmentResult`. There is no edit endpoint, no correction-in-place, and no cascade from ordinary progression activity. Corrections happen by writing `INVALIDATED`, never by mutation              |
+| **Migration and rollback**           | Progression migrations never drop these tables in production (§10.4). Schema reversibility is proven separately on a scratch database                                                                                                                                          |
 | **Authenticated household deletion** | `deleteHouseholdData` **does** remove them, together with every other household-scoped row. A learner's right to erasure overrides the product's audit convenience, and `docs/09-decisions-and-open-questions.md` already records household deletion as an approved capability |
-| **Retention schedule** | Until deletion is requested, retention follows the household's schedule in `docs/privacy-inventory.md`, which gains a row per new table |
+| **Retention schedule**               | Until deletion is requested, retention follows the household's schedule in `docs/privacy-inventory.md`, which gains a row per new table                                                                                                                                        |
 
-So: immutable against the *application*, deletable by the *household*. Test
+So: immutable against the _application_, deletable by the _household_. Test
 I15 asserts household deletion removes every new table's rows; test I29 asserts
 no non-deletion code path can update or delete an assignment or result.
 
@@ -946,13 +943,13 @@ no non-deletion code path can update or delete an assignment or result.
 These are different claims with different evidence and must never be merged
 (`D-33`):
 
-| | Completion | Mastery |
-|---|---|---|
-| What it means | The learner did the required work and met the completion rule | Evidence-weighted estimate, confidence band, and delayed-check status for a skill |
-| Assistance allowed | Yes, if the rule says so | Reduces evidence weight; the strongest signal requires none |
-| Lives on | `LearnerLessonState` / `LearnerUnitState` | `MasteryEstimate` |
-| Can exist without the other | Yes — complete a lesson with heavy assistance and not master it | Yes — master a skill and never complete the lesson, via skip |
-| Parent surface | "Finished Lesson 2" | "Ratio tables: developing, not yet independently confirmed" |
+|                             | Completion                                                      | Mastery                                                                           |
+| --------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| What it means               | The learner did the required work and met the completion rule   | Evidence-weighted estimate, confidence band, and delayed-check status for a skill |
+| Assistance allowed          | Yes, if the rule says so                                        | Reduces evidence weight; the strongest signal requires none                       |
+| Lives on                    | `LearnerLessonState` / `LearnerUnitState`                       | `MasteryEstimate`                                                                 |
+| Can exist without the other | Yes — complete a lesson with heavy assistance and not master it | Yes — master a skill and never complete the lesson, via skip                      |
+| Parent surface              | "Finished Lesson 2"                                             | "Ratio tables: developing, not yet independently confirmed"                       |
 
 Unit completion never asserts mastery of the unit's skills.
 
@@ -966,28 +963,28 @@ Unit completion never asserts mastery of the unit's skills.
 that placement moved the learner past a lesson on weak evidence (§9.3), and it
 never contributes to a unit's `requireAllLessonsComplete`.
 
-| From | Event | Guard | To |
-|---|---|---|---|
-| `LOCKED` | gate re-evaluated | `entryRequirement` satisfied under the pinned profile | `AVAILABLE` |
-| `LOCKED` | override written | adult role + valid step-up (`D-06`, `D-47`) | `UNLOCKED_BY_OVERRIDE` |
-| `LOCKED` | placement assignment scored, learner placed **later** in the unit | placement targets a lesson after this one | `SKIPPED_BY_PLACEMENT` |
-| `LOCKED` | placement places learner **at** this lesson | — | `AVAILABLE` |
-| `AVAILABLE` | teaching viewed or first practice attempt | authorized | `IN_PROGRESS` |
-| `AVAILABLE` | lesson assignment created with no prior teaching or practice event for any of the lesson's skills | skip path (`D-31`) | `ASSESSMENT_PENDING` |
-| `IN_PROGRESS` | practice threshold met (`requirePracticeThreshold` + `D-42`) | `requireAssessmentPass` | `ASSESSMENT_PENDING` |
-| `IN_PROGRESS` | practice threshold met | no assessment required | `COMPLETE` |
-| `ASSESSMENT_PENDING` | result `PASS` | `attemptOrdinal == 1` **and** no prior teaching/practice event for any lesson skill | `COMPLETE_BY_SKIP` (writes `SkipRecord`) |
-| `ASSESSMENT_PENDING` | result `PASS` | otherwise | `COMPLETE` |
-| `ASSESSMENT_PENDING` | result `FAIL` | `attemptOrdinal ≤ maxReassessments` (`D-27`) | `REMEDIATION`, scoped to the failing skills (§6.6a) |
-| `ASSESSMENT_PENDING` | result `FAIL` | `attemptOrdinal > maxReassessments` | `REMEDIATION` + `needsHelp = true` |
-| `REMEDIATION` | cooldown met (`D-28`) and remediation practice delivered | — | `ASSESSMENT_PENDING` |
-| `COMPLETE` / `COMPLETE_BY_SKIP` | review of one of the lesson's skills `LAPSED` | — | `remediationStatus = ACTIVE` scoped to that skill. **`completionStatus` is unchanged** — see §6.6c |
-| `SKIPPED_BY_PLACEMENT` | learner or parent opens the lesson | authorized | `AVAILABLE` |
-| `SKIPPED_BY_PLACEMENT` | review of one of its skills `LAPSED` | — | `AVAILABLE`, flagged for attention |
-| `UNLOCKED_BY_OVERRIDE` | learner begins work | — | `IN_PROGRESS` (normal path resumes from here) |
-| `UNLOCKED_BY_OVERRIDE` | override revoked | — | `OVERRIDE_REVOKED` |
-| `OVERRIDE_REVOKED` | gate re-evaluated | requirement now satisfied | `AVAILABLE` |
-| `OVERRIDE_REVOKED` | gate re-evaluated | requirement not satisfied | `LOCKED` |
+| From                            | Event                                                                                             | Guard                                                                               | To                                                                                                 |
+| ------------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `LOCKED`                        | gate re-evaluated                                                                                 | `entryRequirement` satisfied under the pinned profile                               | `AVAILABLE`                                                                                        |
+| `LOCKED`                        | override written                                                                                  | adult role + valid step-up (`D-06`, `D-47`)                                         | `UNLOCKED_BY_OVERRIDE`                                                                             |
+| `LOCKED`                        | placement assignment scored, learner placed **later** in the unit                                 | placement targets a lesson after this one                                           | `SKIPPED_BY_PLACEMENT`                                                                             |
+| `LOCKED`                        | placement places learner **at** this lesson                                                       | —                                                                                   | `AVAILABLE`                                                                                        |
+| `AVAILABLE`                     | teaching viewed or first practice attempt                                                         | authorized                                                                          | `IN_PROGRESS`                                                                                      |
+| `AVAILABLE`                     | lesson assignment created with no prior teaching or practice event for any of the lesson's skills | skip path (`D-31`)                                                                  | `ASSESSMENT_PENDING`                                                                               |
+| `IN_PROGRESS`                   | practice threshold met (`requirePracticeThreshold` + `D-42`)                                      | `requireAssessmentPass`                                                             | `ASSESSMENT_PENDING`                                                                               |
+| `IN_PROGRESS`                   | practice threshold met                                                                            | no assessment required                                                              | `COMPLETE`                                                                                         |
+| `ASSESSMENT_PENDING`            | result `PASS`                                                                                     | `attemptOrdinal == 1` **and** no prior teaching/practice event for any lesson skill | `COMPLETE_BY_SKIP` (writes `SkipRecord`)                                                           |
+| `ASSESSMENT_PENDING`            | result `PASS`                                                                                     | otherwise                                                                           | `COMPLETE`                                                                                         |
+| `ASSESSMENT_PENDING`            | result `FAIL`                                                                                     | `attemptOrdinal ≤ maxReassessments` (`D-27`)                                        | `REMEDIATION`, scoped to the failing skills (§6.6a)                                                |
+| `ASSESSMENT_PENDING`            | result `FAIL`                                                                                     | `attemptOrdinal > maxReassessments`                                                 | `REMEDIATION` + `needsHelp = true`                                                                 |
+| `REMEDIATION`                   | cooldown met (`D-28`) and remediation practice delivered                                          | —                                                                                   | `ASSESSMENT_PENDING`                                                                               |
+| `COMPLETE` / `COMPLETE_BY_SKIP` | review of one of the lesson's skills `LAPSED`                                                     | —                                                                                   | `remediationStatus = ACTIVE` scoped to that skill. **`completionStatus` is unchanged** — see §6.6c |
+| `SKIPPED_BY_PLACEMENT`          | learner or parent opens the lesson                                                                | authorized                                                                          | `AVAILABLE`                                                                                        |
+| `SKIPPED_BY_PLACEMENT`          | review of one of its skills `LAPSED`                                                              | —                                                                                   | `AVAILABLE`, flagged for attention                                                                 |
+| `UNLOCKED_BY_OVERRIDE`          | learner begins work                                                                               | —                                                                                   | `IN_PROGRESS` (normal path resumes from here)                                                      |
+| `UNLOCKED_BY_OVERRIDE`          | override revoked                                                                                  | —                                                                                   | `OVERRIDE_REVOKED`                                                                                 |
+| `OVERRIDE_REVOKED`              | gate re-evaluated                                                                                 | requirement now satisfied                                                           | `AVAILABLE`                                                                                        |
+| `OVERRIDE_REVOKED`              | gate re-evaluated                                                                                 | requirement not satisfied                                                           | `LOCKED`                                                                                           |
 
 `EXPIRED` and `ABANDONED` assignments do not change lesson state and do not
 consume a reassessment.
@@ -1011,12 +1008,12 @@ A lesson may teach more than one skill (`Lesson.skillRefs`). Then:
 
 When a skill's evidence weakens after downstream targets were already unlocked:
 
-| Situation | Behavior |
-|---|---|
-| `UnlockGrant` already written, learner has not yet started the downstream target | The grant is **not** revoked; it is flagged `staleEvidence` and re-evaluated the next time the target is entered |
-| `UnlockGrant` already written, downstream target is `IN_PROGRESS` | **Grandfathered.** The learner finishes; no mid-work re-lock. A re-evaluation is queued for the target's assessment gate |
-| Downstream target already `COMPLETE` | Never re-locked. Completion is historical fact (§6.5); only the **skill's** mastery decays |
-| Downstream target not yet unlocked | Ordinary evaluation; no grant exists to grandfather |
+| Situation                                                                        | Behavior                                                                                                                 |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `UnlockGrant` already written, learner has not yet started the downstream target | The grant is **not** revoked; it is flagged `staleEvidence` and re-evaluated the next time the target is entered         |
+| `UnlockGrant` already written, downstream target is `IN_PROGRESS`                | **Grandfathered.** The learner finishes; no mid-work re-lock. A re-evaluation is queued for the target's assessment gate |
+| Downstream target already `COMPLETE`                                             | Never re-locked. Completion is historical fact (§6.5); only the **skill's** mastery decays                               |
+| Downstream target not yet unlocked                                               | Ordinary evaluation; no grant exists to grandfather                                                                      |
 
 Re-locking mid-work is deliberately excluded: it punishes a learner for a slip
 on a prerequisite while they are engaged elsewhere, and produces thrash. The
@@ -1026,10 +1023,10 @@ decay signal is carried by `ReviewSchedule` (§6.8) instead.
 
 `LearnerLessonState` carries **two independent fields**, not one status:
 
-| Field | Values | Mutability |
-|---|---|---|
-| `completionStatus` | `NOT_STARTED`, `IN_PROGRESS`, `COMPLETE`, `COMPLETE_BY_SKIP`, `SKIPPED_BY_PLACEMENT` | Once `COMPLETE` or `COMPLETE_BY_SKIP`, **never reverts**. Completion is a historical fact with a date and supporting evidence |
-| `remediationStatus` | `NONE`, `ACTIVE`, `NEEDS_HELP` | Freely mutable; reflects what the learner should do now |
+| Field               | Values                                                                               | Mutability                                                                                                                    |
+| ------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| `completionStatus`  | `NOT_STARTED`, `IN_PROGRESS`, `COMPLETE`, `COMPLETE_BY_SKIP`, `SKIPPED_BY_PLACEMENT` | Once `COMPLETE` or `COMPLETE_BY_SKIP`, **never reverts**. Completion is a historical fact with a date and supporting evidence |
+| `remediationStatus` | `NONE`, `ACTIVE`, `NEEDS_HELP`                                                       | Freely mutable; reflects what the learner should do now                                                                       |
 
 A lapsed review sets `remediationStatus = ACTIVE` and leaves
 `completionStatus` alone. A parent sees "Finished Lesson 2 on 3 March —
@@ -1045,20 +1042,20 @@ now expressed against the correct field.
 `COMPLETE_BY_SKIP`) and an `overrideStatus` (`NONE`, `UNLOCKED_BY_OVERRIDE`,
 `OVERRIDE_REVOKED`).
 
-| From | Event | Guard | To |
-|---|---|---|---|
-| `LOCKED` | gate re-evaluated | `entryRequirement` satisfied | `AVAILABLE` |
-| `LOCKED` | override written | adult role + valid step-up | `UNLOCKED_BY_OVERRIDE` |
-| `AVAILABLE` | first lesson enters `IN_PROGRESS` | — | `IN_PROGRESS` |
-| `AVAILABLE` | unit assignment created with no lesson work in this unit | unit skip path (`D-32`) | `ASSESSMENT_PENDING` |
-| `IN_PROGRESS` | every lesson `COMPLETE` or `COMPLETE_BY_SKIP` (never `SKIPPED_BY_PLACEMENT`) | `requireUnitAssessmentPass` | `ASSESSMENT_PENDING` |
-| `IN_PROGRESS` | every lesson complete | no unit assessment required | `COMPLETE` |
-| `ASSESSMENT_PENDING` | result `PASS` | entered from `AVAILABLE` with no lesson work | `COMPLETE_BY_SKIP`; every lesson in the unit is set `COMPLETE_BY_SKIP` and one `SkipRecord` is written per lesson plus one for the unit |
-| `ASSESSMENT_PENDING` | result `PASS` | entered from `IN_PROGRESS` | `COMPLETE` |
-| `ASSESSMENT_PENDING` | result `FAIL` | — | `IN_PROGRESS`; lessons whose skills were missed → `REMEDIATION`, others untouched |
-| `UNLOCKED_BY_OVERRIDE` | learner begins work | — | `IN_PROGRESS`, `overrideStatus` retained for audit |
-| `UNLOCKED_BY_OVERRIDE` | override revoked by same-or-higher role | — | `OVERRIDE_REVOKED`; `completionStatus` re-evaluated to `AVAILABLE` or `LOCKED`. Work already completed under the override is **retained**, not voided |
-| `OVERRIDE_REVOKED` | gate re-evaluated | requirement now satisfied | `AVAILABLE`, `overrideStatus = NONE` |
+| From                   | Event                                                                        | Guard                                        | To                                                                                                                                                    |
+| ---------------------- | ---------------------------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LOCKED`               | gate re-evaluated                                                            | `entryRequirement` satisfied                 | `AVAILABLE`                                                                                                                                           |
+| `LOCKED`               | override written                                                             | adult role + valid step-up                   | `UNLOCKED_BY_OVERRIDE`                                                                                                                                |
+| `AVAILABLE`            | first lesson enters `IN_PROGRESS`                                            | —                                            | `IN_PROGRESS`                                                                                                                                         |
+| `AVAILABLE`            | unit assignment created with no lesson work in this unit                     | unit skip path (`D-32`)                      | `ASSESSMENT_PENDING`                                                                                                                                  |
+| `IN_PROGRESS`          | every lesson `COMPLETE` or `COMPLETE_BY_SKIP` (never `SKIPPED_BY_PLACEMENT`) | `requireUnitAssessmentPass`                  | `ASSESSMENT_PENDING`                                                                                                                                  |
+| `IN_PROGRESS`          | every lesson complete                                                        | no unit assessment required                  | `COMPLETE`                                                                                                                                            |
+| `ASSESSMENT_PENDING`   | result `PASS`                                                                | entered from `AVAILABLE` with no lesson work | `COMPLETE_BY_SKIP`; every lesson in the unit is set `COMPLETE_BY_SKIP` and one `SkipRecord` is written per lesson plus one for the unit               |
+| `ASSESSMENT_PENDING`   | result `PASS`                                                                | entered from `IN_PROGRESS`                   | `COMPLETE`                                                                                                                                            |
+| `ASSESSMENT_PENDING`   | result `FAIL`                                                                | —                                            | `IN_PROGRESS`; lessons whose skills were missed → `REMEDIATION`, others untouched                                                                     |
+| `UNLOCKED_BY_OVERRIDE` | learner begins work                                                          | —                                            | `IN_PROGRESS`, `overrideStatus` retained for audit                                                                                                    |
+| `UNLOCKED_BY_OVERRIDE` | override revoked by same-or-higher role                                      | —                                            | `OVERRIDE_REVOKED`; `completionStatus` re-evaluated to `AVAILABLE` or `LOCKED`. Work already completed under the override is **retained**, not voided |
+| `OVERRIDE_REVOKED`     | gate re-evaluated                                                            | requirement now satisfied                    | `AVAILABLE`, `overrideStatus = NONE`                                                                                                                  |
 
 Unit override revocation was missing from the previous draft, which defined it
 only for lessons.
@@ -1070,16 +1067,16 @@ were skipped and on what evidence. There is no state in which a unit is
 
 ## 6.7 Assignment and run-state transitions
 
-| From | Event | Guard | To |
-|---|---|---|---|
-| — | `createRun` | authorized (§7); no active run for the same target; cooldown met; bank has ≥ `itemsPerAttempt` unexcluded items | `PENDING` |
-| `PENDING` | first item delivered | `now < expiresAt` | `IN_PROGRESS` |
-| `IN_PROGRESS` | item attempt submitted | item ∈ `selectedItemIds`; not already submitted in this run | `IN_PROGRESS` |
-| `IN_PROGRESS` | last selected item submitted | — | `SUBMITTED` |
-| `SUBMITTED` | deterministic scoring completes | — | `SCORED` (writes `AssessmentResult`) |
-| `PENDING`/`IN_PROGRESS` | `now > expiresAt` | — | `EXPIRED`, `outcome = INCONCLUSIVE` |
-| `PENDING`/`IN_PROGRESS` | learner abandons, or a new run is created for the same target | — | `ABANDONED`, `outcome = INCONCLUSIVE` |
-| `SCORED`, `EXPIRED`, `ABANDONED` | — | terminal | — |
+| From                             | Event                                                         | Guard                                                                                                           | To                                    |
+| -------------------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| —                                | `createRun`                                                   | authorized (§7); no active run for the same target; cooldown met; bank has ≥ `itemsPerAttempt` unexcluded items | `PENDING`                             |
+| `PENDING`                        | first item delivered                                          | `now < expiresAt`                                                                                               | `IN_PROGRESS`                         |
+| `IN_PROGRESS`                    | item attempt submitted                                        | item ∈ `selectedItemIds`; not already submitted in this run                                                     | `IN_PROGRESS`                         |
+| `IN_PROGRESS`                    | last selected item submitted                                  | —                                                                                                               | `SUBMITTED`                           |
+| `SUBMITTED`                      | deterministic scoring completes                               | —                                                                                                               | `SCORED` (writes `AssessmentResult`)  |
+| `PENDING`/`IN_PROGRESS`          | `now > expiresAt`                                             | —                                                                                                               | `EXPIRED`, `outcome = INCONCLUSIVE`   |
+| `PENDING`/`IN_PROGRESS`          | learner abandons, or a new run is created for the same target | —                                                                                                               | `ABANDONED`, `outcome = INCONCLUSIVE` |
+| `SCORED`, `EXPIRED`, `ABANDONED` | —                                                             | terminal                                                                                                        | —                                     |
 
 A second attempt on an already-submitted item in the same run is **recorded**
 as an immutable `Attempt` but contributes weight `0` and is marked superseded.
@@ -1110,7 +1107,7 @@ Authorization is not a feature. It applies to **every mutation endpoint**,
 including programs with `progressionMode: skill-graph-only` that have no units
 at all.
 
-**What a feature flag may control:** whether unit/lesson *sequencing* is
+**What a feature flag may control:** whether unit/lesson _sequencing_ is
 evaluated and displayed.
 
 **What a feature flag may never control:** that an assessment or review item is
@@ -1209,13 +1206,13 @@ either way.
 **Fail-closed means "no authored grant", not "no state".** These are different
 and the distinction is the whole point:
 
-| Situation | Decision | Why |
-|---|---|---|
-| A unit/lesson policy covers the target and its requirement is unmet | **Deny** | Ordinary gating |
-| A unit/lesson policy covers the target and its requirement is met | Allow | Ordinary gating |
-| **No** unit claims the target, and a named legacy compatibility policy grants it | Allow, limited to the kinds that policy names | An explicit authored grant |
-| No unit claims the target and **no** legacy policy is loaded or it does not cover the target | **Deny** | Fail-closed. Absence is never permission |
-| Learner state row is missing for a covered target | **Deny** | Missing state is "not unlocked" |
+| Situation                                                                                    | Decision                                      | Why                                      |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------- | ---------------------------------------- |
+| A unit/lesson policy covers the target and its requirement is unmet                          | **Deny**                                      | Ordinary gating                          |
+| A unit/lesson policy covers the target and its requirement is met                            | Allow                                         | Ordinary gating                          |
+| **No** unit claims the target, and a named legacy compatibility policy grants it             | Allow, limited to the kinds that policy names | An explicit authored grant               |
+| No unit claims the target and **no** legacy policy is loaded or it does not cover the target | **Deny**                                      | Fail-closed. Absence is never permission |
+| Learner state row is missing for a covered target                                            | **Deny**                                      | Missing state is "not unlocked"          |
 
 **The legacy compatibility policy is an artifact, not a fallback** (`D-53`). It
 is an authored, versioned policy profile — for example
@@ -1233,13 +1230,13 @@ Program {
 
 Its contents:
 
-| Key | Recommended content (`D-53`, open) |
-|---|---|
-| `grantsActivityKinds` | `PRACTICE`, `PLACEMENT`, `REVIEW` only |
-| `deniesActivityKinds` | `LESSON_ASSESSMENT`, `UNIT_ASSESSMENT`, `DELAYED_CHECK` — a skill with no unit has no bank and no bar, so these are meaningless, not merely unconfigured |
-| `appliesToSkillsClaimedByNoUnit` | `true` — it is **inapplicable** to a skill any unit claims |
-| `respectsPrerequisiteGraph` | `true` — today's prerequisite behavior is preserved for these skills |
-| `expiresAt` / `reviewBy` | A date forcing a deliberate decision rather than indefinite drift |
+| Key                              | Recommended content (`D-53`, open)                                                                                                                       |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `grantsActivityKinds`            | `PRACTICE`, `PLACEMENT`, `REVIEW` only                                                                                                                   |
+| `deniesActivityKinds`            | `LESSON_ASSESSMENT`, `UNIT_ASSESSMENT`, `DELAYED_CHECK` — a skill with no unit has no bank and no bar, so these are meaningless, not merely unconfigured |
+| `appliesToSkillsClaimedByNoUnit` | `true` — it is **inapplicable** to a skill any unit claims                                                                                               |
+| `respectsPrerequisiteGraph`      | `true` — today's prerequisite behavior is preserved for these skills                                                                                     |
+| `expiresAt` / `reviewBy`         | A date forcing a deliberate decision rather than indefinite drift                                                                                        |
 
 **Two boundaries must be tested** (§13.4 I19, I20):
 
@@ -1301,12 +1298,12 @@ the derived value.
 
 ## 8.3 Deduplication, repeats, and supersession
 
-| Case | Rule |
-|---|---|
-| Two attempts on the same item inside one `AssessmentAssignment` | Only the first submitted attempt scores. Later ones are recorded with `superseded = true` and weight `0` |
+| Case                                                                    | Rule                                                                                                                                                                                                 |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Two attempts on the same item inside one `AssessmentAssignment`         | Only the first submitted attempt scores. Later ones are recorded with `superseded = true` and weight `0`                                                                                             |
 | Multiple attempts on the same `contentId` within one practice `Session` | Collapse to **one** observation: `rawScore` from the **last** attempt, `maxAssistance` = **max across the whole group**. Prevents three wrong answers and one right one inflating observation counts |
-| The same `contentId` attempted again in a later session | A separate observation, discounted by `repeatDiscount^priorExposures` (`D-09`), because re-answering a seen item is weaker evidence |
-| An item appearing in both practice and a later run | Permitted only if `D-01` resolves to open-book; under held-out, S6 forbids the overlap entirely |
+| The same `contentId` attempted again in a later session                 | A separate observation, discounted by `repeatDiscount^priorExposures` (`D-09`), because re-answering a seen item is weaker evidence                                                                  |
+| An item appearing in both practice and a later run                      | Permitted only if `D-01` resolves to open-book; under held-out, S6 forbids the overlap entirely                                                                                                      |
 
 ## 8.4 Formula
 
@@ -1363,7 +1360,7 @@ check.
   `CONFIRMED → LAPSED`.
 - If `estimate` falls below `relockEstimate` (`D-16`) while status is
   `CONFIRMED`, the skill is **flagged for early review** (`ReviewSchedule.dueAt
-  = now`) rather than relocked immediately. Already-granted unlocks are not
+= now`) rather than relocked immediately. Already-granted unlocks are not
   retroactively revoked mid-unit; they are re-evaluated at the next gate. This
   avoids thrash while still catching decay.
 - After `stalenessDays` (`D-17`) with no observation, confidence degrades one
@@ -1438,13 +1435,13 @@ therefore invisible to any per-skill window.
 
 Every tutor move must persist, and be rejected without:
 
-| Field | Requirement |
-|---|---|
-| `learnerProfileId` | Already present |
-| `skillRef` | `Ref` (`{ code, version }`) — **new and required** |
+| Field                          | Requirement                                                                              |
+| ------------------------------ | ---------------------------------------------------------------------------------------- |
+| `learnerProfileId`             | Already present                                                                          |
+| `skillRef`                     | `Ref` (`{ code, version }`) — **new and required**                                       |
 | `attemptId` **or** `sessionId` | At least one, and the referenced row must resolve to the same learner and the same skill |
-| `contentId`, `contentVersion` | The item the move was about |
-| `occurredAt` | |
+| `contentId`, `contentVersion`  | The item the move was about                                                              |
+| `occurredAt`                   |                                                                                          |
 
 An unbound tutor move is a hole in the delay window and must fail closed rather
 than be recorded loosely.
@@ -1478,18 +1475,18 @@ it is exposure.
 
 ## 9.3 Three distinct mechanisms
 
-| | **Placement** | **Evidence-backed skip** | **Parent/operator override** |
-|---|---|---|---|
-| Actor | Learner | Learner | Parent or operator (`PARENT` role) |
-| Input | Short `PLACEMENT` run | Full assessment run at the bank and bar (`D-31`/`D-32`) | An explicit human action |
-| Evidence strength | **Weak** — few items, no delay, no repetition | **Strong** — bank-drawn, independent, at bar | **None.** It is a decision, not evidence |
-| Outcome | Sets **starting position** only | `COMPLETE_BY_SKIP` on the target | `UNLOCKED_BY_OVERRIDE` on the target |
-| Mastery effect | Contributes observations at `contextWeight[PLACEMENT]` (`D-08`, the lowest). **Never** sets `delayedCheckStatus`; therefore can never produce `HIGH` | Contributes normally; may set `delayedCheckStatus` **only** if the run kind was `DELAYED_CHECK` | **Never** any |
-| Downstream | Later gates evaluate independently | Later gates apply normal mastery rules | Later gates still apply; the override unlocks **one** target, not a path |
-| Revocation | Superseded automatically by later evidence | Revoked on a failed review of the skipped skill → remediation | Revocable by the same or higher role; auto-flagged for review |
-| Re-auth | None | None | **Required** step-up (`D-06`) |
-| Audit record | `LearnerPlacement` | `SkipRecord` with `runId` and evidence refs | `OverrideRecord` with `actorUserId`, `actorRole`, `reason`, `reauthAt` |
-| Parent wording | "Placed here; not yet demonstrated" | "Skipped — demonstrated on an assessment on <date>" | "Unlocked by you on <date>" |
+|                   | **Placement**                                                                                                                                        | **Evidence-backed skip**                                                                        | **Parent/operator override**                                             |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Actor             | Learner                                                                                                                                              | Learner                                                                                         | Parent or operator (`PARENT` role)                                       |
+| Input             | Short `PLACEMENT` run                                                                                                                                | Full assessment run at the bank and bar (`D-31`/`D-32`)                                         | An explicit human action                                                 |
+| Evidence strength | **Weak** — few items, no delay, no repetition                                                                                                        | **Strong** — bank-drawn, independent, at bar                                                    | **None.** It is a decision, not evidence                                 |
+| Outcome           | Sets **starting position** only                                                                                                                      | `COMPLETE_BY_SKIP` on the target                                                                | `UNLOCKED_BY_OVERRIDE` on the target                                     |
+| Mastery effect    | Contributes observations at `contextWeight[PLACEMENT]` (`D-08`, the lowest). **Never** sets `delayedCheckStatus`; therefore can never produce `HIGH` | Contributes normally; may set `delayedCheckStatus` **only** if the run kind was `DELAYED_CHECK` | **Never** any                                                            |
+| Downstream        | Later gates evaluate independently                                                                                                                   | Later gates apply normal mastery rules                                                          | Later gates still apply; the override unlocks **one** target, not a path |
+| Revocation        | Superseded automatically by later evidence                                                                                                           | Revoked on a failed review of the skipped skill → remediation                                   | Revocable by the same or higher role; auto-flagged for review            |
+| Re-auth           | None                                                                                                                                                 | None                                                                                            | **Required** step-up (`D-06`)                                            |
+| Audit record      | `LearnerPlacement`                                                                                                                                   | `SkipRecord` with `runId` and evidence refs                                                     | `OverrideRecord` with `actorUserId`, `actorRole`, `reason`, `reauthAt`   |
+| Parent wording    | "Placed here; not yet demonstrated"                                                                                                                  | "Skipped — demonstrated on an assessment on <date>"                                             | "Unlocked by you on <date>"                                              |
 
 **One weak probe never implies mastery.** A passing `PLACEMENT` run sets
 position, writes low-weight observations, and leaves `delayedCheckStatus`
@@ -1499,7 +1496,7 @@ may target **any** skill in a unit, not only root skills — fixing R15.
 ## 9.4 `method` fields
 
 - `LearnerPlacement.method ∈ { INITIAL_DEFAULT, PLACEMENT_PROBE, SKIP,
-  OVERRIDE, LEGACY_BACKFILL }`
+OVERRIDE, LEGACY_BACKFILL }`
 - `SkipRecord.method ∈ { LESSON_ASSESSMENT, UNIT_ASSESSMENT }`
 - `OverrideRecord.actorRole ∈ { PARENT, OPERATOR }`
 
@@ -1513,20 +1510,20 @@ A reference object is `{ code, version }` — never a bare string. This applies
 without exception to program, unit, lesson, skill, content, bank, and policy
 profile references, in curriculum, learner state, and evidence alike.
 
-| Record | Pins |
-|---|---|
-| `Skill` | Gains its own `version` (`D-57`); it currently has none, so a skill's meaning can change silently under existing evidence |
-| `Unit` / `Lesson` | `programRef`, and lessons pin `skillRefs` |
-| `AssessmentBank` | `targetRef`, `coveredSkillRefs`, own `version`, member-set hash |
-| `ContentItem` (all roles) | `skillRef` replaces the bare `skillCode`; own `version` |
-| `AssessmentAssignment` | `targetRef`, `bankRef`, `policyProfileRef` + hash, `algorithmVersion`, `curriculumSnapshotHash`, and per item `{contentId, contentVersion, contentHash}` |
-| `AssessmentResult` | `algorithmVersion`, `policyProfileHash`, per-item `{contentId, contentVersion}` |
-| `MasteryEstimate` | `algorithmVersion` (already), **plus** `policyProfileRef` + hash and `curriculumSnapshotHash` — derived mastery must record the policy and curriculum it was derived under, or it cannot be audited or recomputed |
-| `ReviewSchedule` | `skillRef`, `policyProfileRef` + `scheduleVersion` — the intervals that produced `dueAt` must be reconstructable |
-| `UnlockGrant` / `SkipRecord` / `OverrideRecord` | `targetRef`, `requirementVersion`, `policyProfileRef` |
-| `LearnerPlacement` / `LearnerUnitState` / `LearnerLessonState` | `targetRef` with version, `policyProfileRef` |
-| `LearningEvent` | `skillRef`, and `{contentId, contentVersion}` when applicable |
-| `Session` | `targetRef` with version, `activityKind`, `assignmentId?`, `policyProfileVersion` |
+| Record                                                         | Pins                                                                                                                                                                                                              |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Skill`                                                        | Gains its own `version` (`D-57`); it currently has none, so a skill's meaning can change silently under existing evidence                                                                                         |
+| `Unit` / `Lesson`                                              | `programRef`, and lessons pin `skillRefs`                                                                                                                                                                         |
+| `AssessmentBank`                                               | `targetRef`, `coveredSkillRefs`, own `version`, member-set hash                                                                                                                                                   |
+| `ContentItem` (all roles)                                      | `skillRef` replaces the bare `skillCode`; own `version`                                                                                                                                                           |
+| `AssessmentAssignment`                                         | `targetRef`, `bankRef`, `policyProfileRef` + hash, `algorithmVersion`, `curriculumSnapshotHash`, and per item `{contentId, contentVersion, contentHash}`                                                          |
+| `AssessmentResult`                                             | `algorithmVersion`, `policyProfileHash`, per-item `{contentId, contentVersion}`                                                                                                                                   |
+| `MasteryEstimate`                                              | `algorithmVersion` (already), **plus** `policyProfileRef` + hash and `curriculumSnapshotHash` — derived mastery must record the policy and curriculum it was derived under, or it cannot be audited or recomputed |
+| `ReviewSchedule`                                               | `skillRef`, `policyProfileRef` + `scheduleVersion` — the intervals that produced `dueAt` must be reconstructable                                                                                                  |
+| `UnlockGrant` / `SkipRecord` / `OverrideRecord`                | `targetRef`, `requirementVersion`, `policyProfileRef`                                                                                                                                                             |
+| `LearnerPlacement` / `LearnerUnitState` / `LearnerLessonState` | `targetRef` with version, `policyProfileRef`                                                                                                                                                                      |
+| `LearningEvent`                                                | `skillRef`, and `{contentId, contentVersion}` when applicable                                                                                                                                                     |
+| `Session`                                                      | `targetRef` with version, `activityKind`, `assignmentId?`, `policyProfileVersion`                                                                                                                                 |
 
 ## 10.2 Active resolution and historical resolution are different functions
 
@@ -1585,12 +1582,12 @@ The test for droppability is **reconstructability**, not whether a table is
 called "state". A row that records a human decision or a historical event
 cannot be recomputed from anything and must survive.
 
-| Class | Tables | Production rollback action |
-|---|---|---|
-| **Reconstructable state** | `LearnerUnitState`, `LearnerLessonState`, `UnlockGrant`, `ReviewSchedule`, `LearnerPlacement`, `AssessmentRunState`, `ActiveAssessmentLease`, `ShadowDecision` | **May be dropped.** Each is derivable from evidence plus policy, or is scratch |
-| **Non-reconstructable audit** | `OverrideRecord`, `SkipRecord`, `LearningEvent` | **Retained or archived, never dropped.** An override is a human decision with an actor and a reason; a skip is an evidence-backed claim; a `LearningEvent` is the only record that a teaching view or an assistance moment happened, and `skillExposureAt` cannot be recomputed without it |
-| **Immutable evidence** | `AssessmentAssignment`, `AssessmentResult` | **Retained.** Production rollback is a documented no-op; the `down.sql` that drops them is exercised only by Procedure 1 |
-| **Existing evidence** | `Attempt`, `AssistanceEvent`, `MasteryContribution`, `MasteryEstimate` | Untouched by every progression migration |
+| Class                         | Tables                                                                                                                                                         | Production rollback action                                                                                                                                                                                                                                                                 |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Reconstructable state**     | `LearnerUnitState`, `LearnerLessonState`, `UnlockGrant`, `ReviewSchedule`, `LearnerPlacement`, `AssessmentRunState`, `ActiveAssessmentLease`, `ShadowDecision` | **May be dropped.** Each is derivable from evidence plus policy, or is scratch                                                                                                                                                                                                             |
+| **Non-reconstructable audit** | `OverrideRecord`, `SkipRecord`, `LearningEvent`                                                                                                                | **Retained or archived, never dropped.** An override is a human decision with an actor and a reason; a skip is an evidence-backed claim; a `LearningEvent` is the only record that a teaching view or an assistance moment happened, and `skillExposureAt` cannot be recomputed without it |
+| **Immutable evidence**        | `AssessmentAssignment`, `AssessmentResult`                                                                                                                     | **Retained.** Production rollback is a documented no-op; the `down.sql` that drops them is exercised only by Procedure 1                                                                                                                                                                   |
+| **Existing evidence**         | `Attempt`, `AssistanceEvent`, `MasteryContribution`, `MasteryEstimate`                                                                                         | Untouched by every progression migration                                                                                                                                                                                                                                                   |
 
 The previous draft placed `OverrideRecord`, `SkipRecord`, and `LearningEvent`
 in the droppable class. That was wrong: dropping them destroys the audit trail
@@ -1602,8 +1599,8 @@ household's retention schedule, record the archive location in the runbook, and
 only then drop. A rollback runbook without that step is not approved.
 
 The two procedures are not in tension once named: Procedure 1 tests that the
-migration is reversible *as SQL*; Procedure 2 defines what an operator is
-permitted to run *against real learner evidence*. The runbook must state that
+migration is reversible _as SQL_; Procedure 2 defines what an operator is
+permitted to run _against real learner evidence_. The runbook must state that
 running Procedure 1's down step against production is prohibited for the
 evidence tables.
 
@@ -1648,26 +1645,26 @@ AMC 8, and MATHCOUNTS are consistent precisely because their tests assert it,
 which is evidence that the invariant is enforceable and was simply never
 applied to the older programs.
 
-| # | Record | Item prerequisites | Skill prerequisites | Class |
-|---|---|---|---|---|
-| 1 | `ratio-language-2` | `ratio-language` | _(none)_ | self-reference |
-| 2 | `unit-rates-2` | `unit-rates` | `ratio-language` | self-reference + drops a real edge |
-| 3 | `ratio-tables-1` | `ratio-language` | `unit-rates` | **substantive disagreement** |
-| 4 | `ratio-tables-2` | `ratio-tables`, `unit-rates` | `unit-rates` | self-reference |
-| 5 | `double-number-lines-1` | `unit-rates` | `ratio-tables` | **substantive disagreement** |
-| 6 | `double-number-lines-2` | `double-number-lines`, `ratio-tables` | `ratio-tables` | self-reference |
-| 7 | `percent-applications-2` | `percent-applications`, `ratio-tables` | `unit-rates` | self-reference + **substantive** |
-| 8 | `equivalent-expressions-1` | `variables-and-expressions` | `variables-and-expressions`, `gcf-and-lcm` | drops an edge |
-| 9 | `equivalent-expressions-2` | `variables-and-expressions` | `variables-and-expressions`, `gcf-and-lcm` | drops an edge |
-| 10 | `dependent-and-independent-variables-1` | `variables-and-expressions` | `variables-in-context` | **substantive disagreement** |
-| 11 | `dependent-and-independent-variables-2` | `variables-and-expressions` | `variables-in-context` | **substantive disagreement** |
-| 12 | `coordinate-geometry-1` | `coordinate-plane` | `coordinate-distance` | **substantive disagreement** |
-| 13 | `coordinate-geometry-2` | `coordinate-plane` | `coordinate-distance` | **substantive disagreement** |
-| 14 | `mk6-multi-step-arithmetic-reasoning-2` | `mk6-multi-step-arithmetic-reasoning` | _(none)_ | self-reference |
-| 15 | `mk6-clock-and-calendar-reasoning-2` | `mk6-clock-and-calendar-reasoning` | `mk6-multi-step-arithmetic-reasoning` | self-reference + drops an edge |
-| 16 | `mk6-number-patterns-and-magic-squares-2` | `mk6-number-patterns-and-magic-squares` | `mk6-multi-step-arithmetic-reasoning` | self-reference + drops an edge |
-| 17 | `mk6-logical-deduction-puzzles-2` | `mk6-logical-deduction-puzzles` | `mk6-multi-step-arithmetic-reasoning` | self-reference + drops an edge |
-| 18 | `mk6-perimeter-and-area-reasoning-2` | `mk6-perimeter-and-area-reasoning` | `mk6-multi-step-arithmetic-reasoning` | self-reference + drops an edge |
+| #   | Record                                    | Item prerequisites                      | Skill prerequisites                        | Class                              |
+| --- | ----------------------------------------- | --------------------------------------- | ------------------------------------------ | ---------------------------------- |
+| 1   | `ratio-language-2`                        | `ratio-language`                        | _(none)_                                   | self-reference                     |
+| 2   | `unit-rates-2`                            | `unit-rates`                            | `ratio-language`                           | self-reference + drops a real edge |
+| 3   | `ratio-tables-1`                          | `ratio-language`                        | `unit-rates`                               | **substantive disagreement**       |
+| 4   | `ratio-tables-2`                          | `ratio-tables`, `unit-rates`            | `unit-rates`                               | self-reference                     |
+| 5   | `double-number-lines-1`                   | `unit-rates`                            | `ratio-tables`                             | **substantive disagreement**       |
+| 6   | `double-number-lines-2`                   | `double-number-lines`, `ratio-tables`   | `ratio-tables`                             | self-reference                     |
+| 7   | `percent-applications-2`                  | `percent-applications`, `ratio-tables`  | `unit-rates`                               | self-reference + **substantive**   |
+| 8   | `equivalent-expressions-1`                | `variables-and-expressions`             | `variables-and-expressions`, `gcf-and-lcm` | drops an edge                      |
+| 9   | `equivalent-expressions-2`                | `variables-and-expressions`             | `variables-and-expressions`, `gcf-and-lcm` | drops an edge                      |
+| 10  | `dependent-and-independent-variables-1`   | `variables-and-expressions`             | `variables-in-context`                     | **substantive disagreement**       |
+| 11  | `dependent-and-independent-variables-2`   | `variables-and-expressions`             | `variables-in-context`                     | **substantive disagreement**       |
+| 12  | `coordinate-geometry-1`                   | `coordinate-plane`                      | `coordinate-distance`                      | **substantive disagreement**       |
+| 13  | `coordinate-geometry-2`                   | `coordinate-plane`                      | `coordinate-distance`                      | **substantive disagreement**       |
+| 14  | `mk6-multi-step-arithmetic-reasoning-2`   | `mk6-multi-step-arithmetic-reasoning`   | _(none)_                                   | self-reference                     |
+| 15  | `mk6-clock-and-calendar-reasoning-2`      | `mk6-clock-and-calendar-reasoning`      | `mk6-multi-step-arithmetic-reasoning`      | self-reference + drops an edge     |
+| 16  | `mk6-number-patterns-and-magic-squares-2` | `mk6-number-patterns-and-magic-squares` | `mk6-multi-step-arithmetic-reasoning`      | self-reference + drops an edge     |
+| 17  | `mk6-logical-deduction-puzzles-2`         | `mk6-logical-deduction-puzzles`         | `mk6-multi-step-arithmetic-reasoning`      | self-reference + drops an edge     |
+| 18  | `mk6-perimeter-and-area-reasoning-2`      | `mk6-perimeter-and-area-reasoning`      | `mk6-multi-step-arithmetic-reasoning`      | self-reference + drops an edge     |
 
 **Disposition (`D-56`), executed in Stage A:**
 
@@ -1698,7 +1695,7 @@ Row 3 above is `D-35`, and it is the one that shapes the pilot:
   `prerequisiteSkillCodes: ["unit-rates"]`.
 - `content/ratios/ratio-tables-1.json` — the `core`, `foundational` record —
   has `solutionMethod: "Use the same scale factor in both rows of the ratio
-  table."` Its prompt completes a `2:5` paint table by scaling. **No unit rate
+table."` Its prompt completes a `2:5` paint table by scaling. **No unit rate
   is required.**
 - That record's own `prerequisiteSkillCodes` is `["ratio-language"]` — the
   content author recorded a different dependency than the skill author.
@@ -1760,17 +1757,17 @@ not a preference and does not need its own decision.
 matrix records the current pilot values and approval status; this section does
 not authorize release.
 
-| Input | Decision |
-|---|---|
-| Teaching records per lesson | `D-48` |
-| Practice records per lesson | `D-49` |
-| Lesson practice threshold | `D-42` |
-| Review records per skill | `D-50` |
-| Items per attempt, per target kind | `D-23`, `D-25`, `D-43`, `D-45` |
-| Reassessment allowance | `D-27` |
-| Reuse rules | `D-44`, `D-46` |
-| Pilot lesson count | `D-34` |
-| Whether the six existing ratios records are relabelled as practice | `D-03`, `D-37` |
+| Input                                                              | Decision                       |
+| ------------------------------------------------------------------ | ------------------------------ |
+| Teaching records per lesson                                        | `D-48`                         |
+| Practice records per lesson                                        | `D-49`                         |
+| Lesson practice threshold                                          | `D-42`                         |
+| Review records per skill                                           | `D-50`                         |
+| Items per attempt, per target kind                                 | `D-23`, `D-25`, `D-43`, `D-45` |
+| Reassessment allowance                                             | `D-27`                         |
+| Reuse rules                                                        | `D-44`, `D-46`                 |
+| Pilot lesson count                                                 | `D-34`                         |
+| Whether the six existing ratios records are relabelled as practice | `D-03`, `D-37`                 |
 
 **Total new records, symbolically.** For a pilot unit of `L` lessons over `K`
 skills:
@@ -1789,7 +1786,7 @@ draft's table read as two candidate plans, which is exactly the
 recommendation-as-fact failure this revision is correcting. Substitute approved
 values into the formula; until then the total is undetermined.
 
-What *is* determinate: under `D-01` Branch B, every bank term above — lesson
+What _is_ determinate: under `D-01` Branch B, every bank term above — lesson
 banks, the unit bank, delayed-check items, and review items — must live outside
 this repository, and only the teaching and practice terms are authored here.
 
@@ -1797,37 +1794,37 @@ this repository, and only the teaching and practice terms are authored here.
 
 Each stage is a separate, reviewable, issue-sized increment. **No stage leaves
 a deployable state less safe than the one before it.** "Content" below means
-*any change to `content/**`*, including mechanical relabelling — the previous
+_any change to `content/**`_, including mechanical relabelling — the previous
 draft claimed "Content: No" for Stage A while that stage relabelled and edited
 128 records, which is not true.
 
-| Stage | Scope | Migration | Content changes | Authorization change |
-|---|---|---|---|---|
-| **A0** | **`D-58` hotfix.** Generator reads a reviewed teaching-and-practice projection; legacy records with no `role` are treated as `practice` for this projection only; `scripts/**/*.ts` added to `tsconfig.json`; sentinel regression test (L13) uses a pure generator-input seam for synthetic pending and assessment-role records | No | No | No |
-| **A1** | **Schema and validators only.** Program registry (incl. `accessPolicyRef` and `hybrid`), `Unit`/`Lesson`/`AssessmentBank` schemas, role union, canonical `Ref`/`ItemRef` (§3.0), `Skill.version`, `itemReadinessRefs`, role/program-aware record-count rule replacing the exactly-two invariant, prefix and same-program invariants. Validators accept both the old and new record shapes during transition | No | No | No |
-| **A2** | **Content transformation.** Relabel 128 records to `role`, convert `skillCode` → `skillRef`, remove `prerequisiteSkillCodes`, apply the 18-record remediation, author the two cross-program fixtures. Validators then tighten to new-shape-only | No | **Yes** | No |
-| **B** | Policy artifacts and pure policy modules: access policies for every program (`D-60`), progression profiles, `authorizeActivity`, mastery aggregation, `skillExposureAt`. Nothing calls them | No | No | No |
-| **C1** | **Schema only**, nothing reads or writes: `AssessmentAssignment`, `AssessmentRunState`, `AssessmentResult`, `ActiveAssessmentLease`, `ShadowDecision`, learner-state tables, `LearningEvent`, and **nullable** `Session` binding columns | Yes | No | No |
-| **C2** | Export, deletion, cascade, and retention coverage for every C1 table, plus the model-enumeration coverage test | No | No | No |
-| **C3** | **Shadow mode + dual-write.** Policy modules run on every relevant request and write `ShadowDecision` rows; **enforce nothing**. Simultaneously **dual-write** the new immutable `Session` binding columns on every session creation, so bound sessions accumulate while unbound legacy sessions drain | No | No | No |
-| **C4** | **Cutover, expand/contract** (§11.4a) | Yes (contract only) | No | **Yes — the only authorization change** |
-| **C5** | Learner and parent progression UI, focus and live-region behavior, accessibility scans | No | No | No |
-| **D…** | One stage per lesson, then the unit assessment and review items. **The number of content stages equals the approved lesson count (`D-34`) plus one**; this document does not assume three | No | **Yes** | No |
+| Stage  | Scope                                                                                                                                                                                                                                                                                                                                                                                                       | Migration           | Content changes | Authorization change                    |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | --------------- | --------------------------------------- |
+| **A0** | **`D-58` hotfix.** Generator reads a reviewed teaching-and-practice projection; legacy records with no `role` are treated as `practice` for this projection only; `scripts/**/*.ts` added to `tsconfig.json`; sentinel regression test (L13) uses a pure generator-input seam for synthetic pending and assessment-role records                                                                             | No                  | No              | No                                      |
+| **A1** | **Schema and validators only.** Program registry (incl. `accessPolicyRef` and `hybrid`), `Unit`/`Lesson`/`AssessmentBank` schemas, role union, canonical `Ref`/`ItemRef` (§3.0), `Skill.version`, `itemReadinessRefs`, role/program-aware record-count rule replacing the exactly-two invariant, prefix and same-program invariants. Validators accept both the old and new record shapes during transition | No                  | No              | No                                      |
+| **A2** | **Content transformation.** Relabel 128 records to `role`, convert `skillCode` → `skillRef`, remove `prerequisiteSkillCodes`, apply the 18-record remediation, author the two cross-program fixtures. Validators then tighten to new-shape-only                                                                                                                                                             | No                  | **Yes**         | No                                      |
+| **B**  | Policy artifacts and pure policy modules: access policies for every program (`D-60`), progression profiles, `authorizeActivity`, mastery aggregation, `skillExposureAt`. Nothing calls them                                                                                                                                                                                                                 | No                  | No              | No                                      |
+| **C1** | **Schema only**, nothing reads or writes: `AssessmentAssignment`, `AssessmentRunState`, `AssessmentResult`, `ActiveAssessmentLease`, `ShadowDecision`, learner-state tables, `LearningEvent`, and **nullable** `Session` binding columns                                                                                                                                                                    | Yes                 | No              | No                                      |
+| **C2** | Export, deletion, cascade, and retention coverage for every C1 table, plus the model-enumeration coverage test                                                                                                                                                                                                                                                                                              | No                  | No              | No                                      |
+| **C3** | **Shadow mode + dual-write.** Policy modules run on every relevant request and write `ShadowDecision` rows; **enforce nothing**. Simultaneously **dual-write** the new immutable `Session` binding columns on every session creation, so bound sessions accumulate while unbound legacy sessions drain                                                                                                      | No                  | No              | No                                      |
+| **C4** | **Cutover, expand/contract** (§11.4a)                                                                                                                                                                                                                                                                                                                                                                       | Yes (contract only) | No              | **Yes — the only authorization change** |
+| **C5** | Learner and parent progression UI, focus and live-region behavior, accessibility scans                                                                                                                                                                                                                                                                                                                      | No                  | No              | No                                      |
+| **D…** | One stage per lesson, then the unit assessment and review items. **The number of content stages equals the approved lesson count (`D-34`) plus one**; this document does not assume three                                                                                                                                                                                                                   | No                  | **Yes**         | No                                      |
 
 ### 11.4a Stage C4 expand/contract order
 
 C4 is the only increment that changes authorization, and it is ordered so that
 no intermediate deploy is unsafe:
 
-| Step | Action | Safe because |
-|---|---|---|
-| 1 | **Expand** (done in C1/C3): nullable binding columns exist and C3 has been dual-writing them | Old and new code both work against the column |
-| 2 | **Drain**: wait until no unbound `Session` row is both un-ended and within its activity window. C3's dual-write binds every new session's columns, but a session missing a `D-62` assignment (assignment-free placement or review on a unit-claimed skill) is still unbound, so abandoned ones can add to the set; they are drained by explicit operator review or refused in step 3 | No enforcement yet |
-| 3 | **Reject residue**: any remaining unbound session is refused with `SESSION_UNBOUND` and the learner is asked to restart. This is deliberately a refusal, not a best-effort inference of what the session was for | Fails closed |
-| 4 | **Contract**: make the binding columns non-nullable | No unbound rows remain |
-| 5 | **Enforce**: switch `authorizeActivity` from shadow to enforcing, using the decisions C3 was already computing | Behavior already observed in shadow |
-| 6 | **Remove bypass**: delete the permissive `startSession` path and convert session creation to `POST` | Enforcement already live |
-| 7 | **Tag** the compatibility baseline (§10.5) | Rollback can never precede this point |
+| Step | Action                                                                                                                                                                                                                                                                                                                                                                               | Safe because                                  |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------- |
+| 1    | **Expand** (done in C1/C3): nullable binding columns exist and C3 has been dual-writing them                                                                                                                                                                                                                                                                                         | Old and new code both work against the column |
+| 2    | **Drain**: wait until no unbound `Session` row is both un-ended and within its activity window. C3's dual-write binds every new session's columns, but a session missing a `D-62` assignment (assignment-free placement or review on a unit-claimed skill) is still unbound, so abandoned ones can add to the set; they are drained by explicit operator review or refused in step 3 | No enforcement yet                            |
+| 3    | **Reject residue**: any remaining unbound session is refused with `SESSION_UNBOUND` and the learner is asked to restart. This is deliberately a refusal, not a best-effort inference of what the session was for                                                                                                                                                                     | Fails closed                                  |
+| 4    | **Contract**: make the binding columns non-nullable                                                                                                                                                                                                                                                                                                                                  | No unbound rows remain                        |
+| 5    | **Enforce**: switch `authorizeActivity` from shadow to enforcing, using the decisions C3 was already computing                                                                                                                                                                                                                                                                       | Behavior already observed in shadow           |
+| 6    | **Remove bypass**: delete the permissive `startSession` path and convert session creation to `POST`                                                                                                                                                                                                                                                                                  | Enforcement already live                      |
+| 7    | **Tag** the compatibility baseline (§10.5)                                                                                                                                                                                                                                                                                                                                           | Rollback can never precede this point         |
 
 Steps 4–6 ship together. There is no deploy in which the binding is
 non-nullable but unenforced, or enforced without the binding.
@@ -1910,10 +1907,10 @@ authored teaching or assessment content — must validate through the same
 schemas and evaluate through the same policy code with **zero new policy
 code**:
 
-| Fixture | Shape | What it proves |
-|---|---|---|
-| `fixture-ela-reading` (`subjectKind: graded-academic`, `unit-sequenced`) | Unit with 2 lessons; teaching = a synthetic passage plus a strategy explanation; practice = evidence-selection items; bank = held-out items on an unseen passage; review = vocabulary retrieval | A non-math graded subject needs no new fields and no math-specific role |
-| `fixture-enrichment-journal` (`subjectKind: enrichment-non-graded`, `unit-sequenced`) | Unit with 2 lessons; `requireAssessmentPass: false`; completion by teaching-viewed plus practice count; no pass bar | Completion works without any assessment, proving completion and mastery are genuinely separable (§6.4) |
+| Fixture                                                                               | Shape                                                                                                                                                                                           | What it proves                                                                                         |
+| ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `fixture-ela-reading` (`subjectKind: graded-academic`, `unit-sequenced`)              | Unit with 2 lessons; teaching = a synthetic passage plus a strategy explanation; practice = evidence-selection items; bank = held-out items on an unseen passage; review = vocabulary retrieval | A non-math graded subject needs no new fields and no math-specific role                                |
+| `fixture-enrichment-journal` (`subjectKind: enrichment-non-graded`, `unit-sequenced`) | Unit with 2 lessons; `requireAssessmentPass: false`; completion by teaching-viewed plus practice count; no pass bar                                                                             | Completion works without any assessment, proving completion and mastery are genuinely separable (§6.4) |
 
 Acceptance criterion: both fixtures load, produce an ordering, and evaluate
 `authorizeActivity` correctly. If either needs a new policy branch, the
@@ -1943,14 +1940,14 @@ unrelated suite is not evidence for a progression claim.
 
 ## 13.1 Test wiring is part of the work (fixing R20 and R21)
 
-| Change | Where | Note |
-|---|---|---|
-| Add `tests/progression` to the `test` script | `package.json` | Pure domain tests, no database |
-| Add `tests/progression-integration` to the `test:integration` script | `package.json` | Database-backed |
-| Add `tests/progression/held-out.test.ts` and the client-bundle import-graph test to the `test` script | `package.json` | Leakage tests must run in the DB-free suite |
-| New `db:test-migrations` script implementing §10.4 Procedure 1 (forward → down → forward, schema equivalence) against a scratch database | `package.json`, new script | **Not added to `verify`** |
-| New `test:migrations` script that runs `db:test-migrations`, invoked by the CI database job alongside `test:integration` | `package.json`, CI workflow | Keeps the database requirement in the database job |
-| Add `scripts/**/*.ts` to `tsconfig.json`'s `include` | `tsconfig.json` | The site generator currently escapes `typecheck` (R6) |
+| Change                                                                                                                                   | Where                       | Note                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ----------------------------------------------------- |
+| Add `tests/progression` to the `test` script                                                                                             | `package.json`              | Pure domain tests, no database                        |
+| Add `tests/progression-integration` to the `test:integration` script                                                                     | `package.json`              | Database-backed                                       |
+| Add `tests/progression/held-out.test.ts` and the client-bundle import-graph test to the `test` script                                    | `package.json`              | Leakage tests must run in the DB-free suite           |
+| New `db:test-migrations` script implementing §10.4 Procedure 1 (forward → down → forward, schema equivalence) against a scratch database | `package.json`, new script  | **Not added to `verify`**                             |
+| New `test:migrations` script that runs `db:test-migrations`, invoked by the CI database job alongside `test:integration`                 | `package.json`, CI workflow | Keeps the database requirement in the database job    |
+| Add `scripts/**/*.ts` to `tsconfig.json`'s `include`                                                                                     | `tsconfig.json`             | The site generator currently escapes `typecheck` (R6) |
 
 **`npm run verify` stays database-free.** `README.md` documents it as runnable
 "without authentication, provider credentials, a database, or learner data",
@@ -1964,130 +1961,130 @@ A test that is not wired into a script is not a gate.
 
 ## 13.2 Unit — `tests/progression/`, `tests/curriculum/`, `tests/planner/`
 
-| # | Criterion | File | Assertion |
-|---|---|---|---|
-| U1 | Program registry validates; `skillCodePrefix` mismatch rejected | `tests/curriculum/progression-schema.test.ts` | Specific error |
-| U2 | Cross-program prerequisite rejected at **catalog validation**, not at planner runtime | `tests/curriculum/progression-schema.test.ts` | Throws during validation |
-| U3 | Unit/lesson ordering has one source: a `Lesson` carrying a `sequence` field is rejected; a lesson listed by two units is rejected | `tests/curriculum/progression-schema.test.ts`, `tests/curriculum/pilot-catalog.test.ts` | Specific errors |
-| U4 | Role union: teaching record with a validator or hints rejected; assessment record with `hintSteps` rejected | `tests/curriculum/progression-schema.test.ts` | Specific errors |
-| U5 | Role/program-aware record-count validation replaces exact-two; a `skill-graph-only` program still enforces its legacy count | `tests/content/catalog.test.ts` | Both paths |
-| U6 | Item distinctness asserted by `id@version`, not prompt text | `tests/content/catalog.test.ts` | Replaces the three `new Set(prompt)` assertions |
-| U7 | `authorizeActivity` denies on unmet structural requirement, returning `LOCKED_PREREQUISITE` | `tests/progression/authorize-activity.test.ts` | Exact `reasonCode` and `missing` |
-| U8 | Fail-closed: unresolvable policy profile, unknown flag value, missing run each **deny** | `tests/progression/authorize-activity.test.ts` | Three cases, all deny |
-| U9 | Delay-window boundaries: `−1s` deny, exact allow, `+1s` allow | `tests/progression/delay-window.test.ts` | Three cases |
-| U10 | A later assistance event resets the delay clock | `tests/progression/delay-window.test.ts` | Deny after reset |
-| U11 | `maxAssistance` is the **maximum** ordinal, not the most recent event | `tests/progression/mastery-aggregation.test.ts` | Fixture with a clarifying question after a full solution |
-| U12 | One incorrect observation lowers but does not zero the estimate, and does not clear `delayedCheckStatus` | `tests/progression/mastery-aggregation.test.ts` | Strict inequalities |
-| U13 | Same-session repeats collapse to one observation with max assistance | `tests/progression/mastery-aggregation.test.ts` | Observation count |
-| U14 | Repeat-exposure discount applies across sessions | `tests/progression/mastery-aggregation.test.ts` | Weight ratio |
-| U15 | All three confidence bands reachable; `HIGH` impossible without a confirmed delayed check | `tests/progression/mastery-aggregation.test.ts` | One fixture per band plus a negative |
-| U16 | Staleness degrades confidence only; estimate unchanged | `tests/progression/mastery-aggregation.test.ts` | Estimate equality |
-| U17 | `algorithmVersion` recalculation reproduces from immutable rows and writes a new row | `tests/progression/recalculation.test.ts` | Old row untouched |
-| U18 | Placement outcome sets position only, never `delayedCheckStatus`, and cannot reach `HIGH` | `tests/progression/placement.test.ts` | Gate still locked |
-| U19 | Skip requires the bar; override requires role and re-auth and writes no evidence | `tests/progression/skip-override.test.ts` | Three distinct record types |
-| U20 | Reassessment excludes every item from the failed run; cooldown boundary cases | `tests/progression/reassessment.test.ts` | Disjoint sets; `−1s`/exact/`+1s` |
-| U21 | Run state machine rejects every illegal transition in §6.6 | `tests/progression/run-state.test.ts` | Table-driven |
-| U22 | Lesson/unit state machines match §6.5 exactly | `tests/progression/lesson-state.test.ts` | Table-driven |
-| U23 | Review schedule is not reset by ordinary practice; intervals expand | `tests/progression/review-schedule.test.ts` | `dueAt` unchanged |
-| U24 | Planner never recommends what `authorizeActivity` would refuse | `tests/planner/plan-next-activities.test.ts` | Property over the pilot catalog |
-| U25 | Both cross-program fixtures validate and evaluate with no new policy code | `tests/progression/cross-program-fixtures.test.ts` | Both fixtures |
-| U26 | Policy profile composition: `extends` merge, cycle rejection, hash stability | `tests/progression/policy-profile.test.ts` | |
-| U27 | Completion and mastery are independent: a fixture completes a lesson with assistance while mastery stays below the gate, and another masters a skill with the lesson never completed | `tests/progression/completion-vs-mastery.test.ts` | Both directions |
-| U28 | `itemReadinessRefs` validation: a ref outside the owning skill's prerequisite closure, a self-reference, and a cross-program ref are each rejected | `tests/curriculum/progression-schema.test.ts` | Three specific errors |
-| U29 | No content record carries `prerequisiteSkillCodes`; the catalog-wide item/skill consistency assertion covers **every** program, not only MOEMS/AMC 8/MATHCOUNTS | `tests/content/catalog.test.ts` | Catalog-wide |
-| U30 | A `hybrid` program without a `legacyCompatibilityPolicyCode` is rejected; a non-hybrid program carrying one is rejected | `tests/curriculum/progression-schema.test.ts` | Both directions |
-| U31 | Bank coverage invariant: a lesson bank missing an item for one of its lesson's skills is rejected | `tests/curriculum/progression-schema.test.ts`, `tests/curriculum/pilot-catalog.test.ts` | Specific error |
-| U32 | Multi-skill lesson: the pass bar alone is insufficient without at least one correct item per covered skill | `tests/progression/lesson-state.test.ts` | Fixture with all items from one skill |
-| U33 | `skillExposureAt` is undefined for an untouched skill and a `DELAYED_CHECK` is refused with `NO_PRIOR_EXPOSURE` | `tests/progression/delay-window.test.ts` | Empty-set case |
-| U34 | An independent practice attempt resets the delay window, not only assistance | `tests/progression/delay-window.test.ts` | Reset case |
-| U35 | A tutor move without a resolvable `skillRef` plus `attemptId`/`sessionId` is rejected, not recorded loosely | `tests/progression-integration/tutor-binding.test.ts` (m6, 2026-10-10: corrected from `tests/progression/` — the integration-suite file is the one that exists) | Rejection |
-| U36 | Downstream grandfathering: an in-progress target is not re-locked when a prerequisite's estimate falls; a not-yet-started target is flagged `staleEvidence` | `tests/progression/relock.test.ts` | Both cases |
-| U37 | Placement past a lesson yields `SKIPPED_BY_PLACEMENT`, which does not satisfy `requireAllLessonsComplete` | `tests/progression/placement.test.ts` | Unit stays incomplete |
-| U38 | Unit skip writes one `SkipRecord` per lesson plus one for the unit, and sets every lesson `COMPLETE_BY_SKIP` | `tests/progression/skip-override.test.ts` | Record counts |
-| U39 | Override state machine: `UNLOCKED_BY_OVERRIDE → OVERRIDE_REVOKED → LOCKED/AVAILABLE` per re-evaluation; an expired step-up (`D-47`) cannot write an override | `tests/progression/skip-override.test.ts` | Table-driven |
-| U40 | `resolveActive` and `resolveHistorical` differ: a retired version resolves historically and not actively | `tests/progression/resolvers.test.ts` | Both |
-| U41 | **Reference-schema exhaustiveness**: every schema field that names another record uses `Ref` or `ItemRef`; no bare string reference survives anywhere | `tests/curriculum/reference-schema.test.ts` | Walks all schemas |
-| U42 | **Layer exhaustiveness**: no curriculum schema field holds a numeric threshold, delay, interval, weight, or pass bar; no policy artifact holds content text | `tests/progression/layer-separation.test.ts` | Walks all schemas |
-| U43 | A policy profile missing a required discriminant fails validation; a program whose profile fails validation grants nothing | `tests/progression/policy-profile.test.ts` | Both |
-| U44 | Every `ProgressionPolicyProfile` key maps to a `D-id` listed in §5, and every §5 key exists in the profile schema | `tests/progression/policy-profile.test.ts` | Bidirectional |
-| U45 | Terminal semantics: each of `SCORED`/`EXPIRED`/`ABANDONED`/`INVALIDATED` writes a result, releases the lease, and counts toward `attemptOrdinal` exactly per §6.4a | `tests/progression/run-state.test.ts` | Table-driven |
-| U46 | Completion is historical: a lapsed review sets `remediationStatus` and leaves `completionStatus` unchanged | `tests/progression/lesson-state.test.ts` | Both fields asserted |
-| U47 | Unit override revocation transitions and retains work completed under the override | `tests/progression/skip-override.test.ts` | Table-driven |
-| U48 | `LearningEvent` kind set is exhaustive and `TEACHING_COMPLETED` / `INDEPENDENT_PRACTICE_EXPOSURE` feed `lastIndependentExposureAt` | `tests/progression/delay-window.test.ts` | Both kinds |
+| #   | Criterion                                                                                                                                                                            | File                                                                                                                                                            | Assertion                                                |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| U1  | Program registry validates; `skillCodePrefix` mismatch rejected                                                                                                                      | `tests/curriculum/progression-schema.test.ts`                                                                                                                   | Specific error                                           |
+| U2  | Cross-program prerequisite rejected at **catalog validation**, not at planner runtime                                                                                                | `tests/curriculum/progression-schema.test.ts`                                                                                                                   | Throws during validation                                 |
+| U3  | Unit/lesson ordering has one source: a `Lesson` carrying a `sequence` field is rejected; a lesson listed by two units is rejected                                                    | `tests/curriculum/progression-schema.test.ts`, `tests/curriculum/pilot-catalog.test.ts`                                                                         | Specific errors                                          |
+| U4  | Role union: teaching record with a validator or hints rejected; assessment record with `hintSteps` rejected                                                                          | `tests/curriculum/progression-schema.test.ts`                                                                                                                   | Specific errors                                          |
+| U5  | Role/program-aware record-count validation replaces exact-two; a `skill-graph-only` program still enforces its legacy count                                                          | `tests/content/catalog.test.ts`                                                                                                                                 | Both paths                                               |
+| U6  | Item distinctness asserted by `id@version`, not prompt text                                                                                                                          | `tests/content/catalog.test.ts`                                                                                                                                 | Replaces the three `new Set(prompt)` assertions          |
+| U7  | `authorizeActivity` denies on unmet structural requirement, returning `LOCKED_PREREQUISITE`                                                                                          | `tests/progression/authorize-activity.test.ts`                                                                                                                  | Exact `reasonCode` and `missing`                         |
+| U8  | Fail-closed: unresolvable policy profile, unknown flag value, missing run each **deny**                                                                                              | `tests/progression/authorize-activity.test.ts`                                                                                                                  | Three cases, all deny                                    |
+| U9  | Delay-window boundaries: `−1s` deny, exact allow, `+1s` allow                                                                                                                        | `tests/progression/delay-window.test.ts`                                                                                                                        | Three cases                                              |
+| U10 | A later assistance event resets the delay clock                                                                                                                                      | `tests/progression/delay-window.test.ts`                                                                                                                        | Deny after reset                                         |
+| U11 | `maxAssistance` is the **maximum** ordinal, not the most recent event                                                                                                                | `tests/progression/mastery-aggregation.test.ts`                                                                                                                 | Fixture with a clarifying question after a full solution |
+| U12 | One incorrect observation lowers but does not zero the estimate, and does not clear `delayedCheckStatus`                                                                             | `tests/progression/mastery-aggregation.test.ts`                                                                                                                 | Strict inequalities                                      |
+| U13 | Same-session repeats collapse to one observation with max assistance                                                                                                                 | `tests/progression/mastery-aggregation.test.ts`                                                                                                                 | Observation count                                        |
+| U14 | Repeat-exposure discount applies across sessions                                                                                                                                     | `tests/progression/mastery-aggregation.test.ts`                                                                                                                 | Weight ratio                                             |
+| U15 | All three confidence bands reachable; `HIGH` impossible without a confirmed delayed check                                                                                            | `tests/progression/mastery-aggregation.test.ts`                                                                                                                 | One fixture per band plus a negative                     |
+| U16 | Staleness degrades confidence only; estimate unchanged                                                                                                                               | `tests/progression/mastery-aggregation.test.ts`                                                                                                                 | Estimate equality                                        |
+| U17 | `algorithmVersion` recalculation reproduces from immutable rows and writes a new row                                                                                                 | `tests/progression/recalculation.test.ts`                                                                                                                       | Old row untouched                                        |
+| U18 | Placement outcome sets position only, never `delayedCheckStatus`, and cannot reach `HIGH`                                                                                            | `tests/progression/placement.test.ts`                                                                                                                           | Gate still locked                                        |
+| U19 | Skip requires the bar; override requires role and re-auth and writes no evidence                                                                                                     | `tests/progression/skip-override.test.ts`                                                                                                                       | Three distinct record types                              |
+| U20 | Reassessment excludes every item from the failed run; cooldown boundary cases                                                                                                        | `tests/progression/reassessment.test.ts`                                                                                                                        | Disjoint sets; `−1s`/exact/`+1s`                         |
+| U21 | Run state machine rejects every illegal transition in §6.6                                                                                                                           | `tests/progression/run-state.test.ts`                                                                                                                           | Table-driven                                             |
+| U22 | Lesson/unit state machines match §6.5 exactly                                                                                                                                        | `tests/progression/lesson-state.test.ts`                                                                                                                        | Table-driven                                             |
+| U23 | Review schedule is not reset by ordinary practice; intervals expand                                                                                                                  | `tests/progression/review-schedule.test.ts`                                                                                                                     | `dueAt` unchanged                                        |
+| U24 | Planner never recommends what `authorizeActivity` would refuse                                                                                                                       | `tests/planner/plan-next-activities.test.ts`                                                                                                                    | Property over the pilot catalog                          |
+| U25 | Both cross-program fixtures validate and evaluate with no new policy code                                                                                                            | `tests/progression/cross-program-fixtures.test.ts`                                                                                                              | Both fixtures                                            |
+| U26 | Policy profile composition: `extends` merge, cycle rejection, hash stability                                                                                                         | `tests/progression/policy-profile.test.ts`                                                                                                                      |                                                          |
+| U27 | Completion and mastery are independent: a fixture completes a lesson with assistance while mastery stays below the gate, and another masters a skill with the lesson never completed | `tests/progression/completion-vs-mastery.test.ts`                                                                                                               | Both directions                                          |
+| U28 | `itemReadinessRefs` validation: a ref outside the owning skill's prerequisite closure, a self-reference, and a cross-program ref are each rejected                                   | `tests/curriculum/progression-schema.test.ts`                                                                                                                   | Three specific errors                                    |
+| U29 | No content record carries `prerequisiteSkillCodes`; the catalog-wide item/skill consistency assertion covers **every** program, not only MOEMS/AMC 8/MATHCOUNTS                      | `tests/content/catalog.test.ts`                                                                                                                                 | Catalog-wide                                             |
+| U30 | A `hybrid` program without a `legacyCompatibilityPolicyCode` is rejected; a non-hybrid program carrying one is rejected                                                              | `tests/curriculum/progression-schema.test.ts`                                                                                                                   | Both directions                                          |
+| U31 | Bank coverage invariant: a lesson bank missing an item for one of its lesson's skills is rejected                                                                                    | `tests/curriculum/progression-schema.test.ts`, `tests/curriculum/pilot-catalog.test.ts`                                                                         | Specific error                                           |
+| U32 | Multi-skill lesson: the pass bar alone is insufficient without at least one correct item per covered skill                                                                           | `tests/progression/lesson-state.test.ts`                                                                                                                        | Fixture with all items from one skill                    |
+| U33 | `skillExposureAt` is undefined for an untouched skill and a `DELAYED_CHECK` is refused with `NO_PRIOR_EXPOSURE`                                                                      | `tests/progression/delay-window.test.ts`                                                                                                                        | Empty-set case                                           |
+| U34 | An independent practice attempt resets the delay window, not only assistance                                                                                                         | `tests/progression/delay-window.test.ts`                                                                                                                        | Reset case                                               |
+| U35 | A tutor move without a resolvable `skillRef` plus `attemptId`/`sessionId` is rejected, not recorded loosely                                                                          | `tests/progression-integration/tutor-binding.test.ts` (m6, 2026-10-10: corrected from `tests/progression/` — the integration-suite file is the one that exists) | Rejection                                                |
+| U36 | Downstream grandfathering: an in-progress target is not re-locked when a prerequisite's estimate falls; a not-yet-started target is flagged `staleEvidence`                          | `tests/progression/relock.test.ts`                                                                                                                              | Both cases                                               |
+| U37 | Placement past a lesson yields `SKIPPED_BY_PLACEMENT`, which does not satisfy `requireAllLessonsComplete`                                                                            | `tests/progression/placement.test.ts`                                                                                                                           | Unit stays incomplete                                    |
+| U38 | Unit skip writes one `SkipRecord` per lesson plus one for the unit, and sets every lesson `COMPLETE_BY_SKIP`                                                                         | `tests/progression/skip-override.test.ts`                                                                                                                       | Record counts                                            |
+| U39 | Override state machine: `UNLOCKED_BY_OVERRIDE → OVERRIDE_REVOKED → LOCKED/AVAILABLE` per re-evaluation; an expired step-up (`D-47`) cannot write an override                         | `tests/progression/skip-override.test.ts`                                                                                                                       | Table-driven                                             |
+| U40 | `resolveActive` and `resolveHistorical` differ: a retired version resolves historically and not actively                                                                             | `tests/progression/resolvers.test.ts`                                                                                                                           | Both                                                     |
+| U41 | **Reference-schema exhaustiveness**: every schema field that names another record uses `Ref` or `ItemRef`; no bare string reference survives anywhere                                | `tests/curriculum/reference-schema.test.ts`                                                                                                                     | Walks all schemas                                        |
+| U42 | **Layer exhaustiveness**: no curriculum schema field holds a numeric threshold, delay, interval, weight, or pass bar; no policy artifact holds content text                          | `tests/progression/layer-separation.test.ts`                                                                                                                    | Walks all schemas                                        |
+| U43 | A policy profile missing a required discriminant fails validation; a program whose profile fails validation grants nothing                                                           | `tests/progression/policy-profile.test.ts`                                                                                                                      | Both                                                     |
+| U44 | Every `ProgressionPolicyProfile` key maps to a `D-id` listed in §5, and every §5 key exists in the profile schema                                                                    | `tests/progression/policy-profile.test.ts`                                                                                                                      | Bidirectional                                            |
+| U45 | Terminal semantics: each of `SCORED`/`EXPIRED`/`ABANDONED`/`INVALIDATED` writes a result, releases the lease, and counts toward `attemptOrdinal` exactly per §6.4a                   | `tests/progression/run-state.test.ts`                                                                                                                           | Table-driven                                             |
+| U46 | Completion is historical: a lapsed review sets `remediationStatus` and leaves `completionStatus` unchanged                                                                           | `tests/progression/lesson-state.test.ts`                                                                                                                        | Both fields asserted                                     |
+| U47 | Unit override revocation transitions and retains work completed under the override                                                                                                   | `tests/progression/skip-override.test.ts`                                                                                                                       | Table-driven                                             |
+| U48 | `LearningEvent` kind set is exhaustive and `TEACHING_COMPLETED` / `INDEPENDENT_PRACTICE_EXPOSURE` feed `lastIndependentExposureAt`                                                   | `tests/progression/delay-window.test.ts`                                                                                                                        | Both kinds                                               |
 
 ## 13.3 Leakage and exposure — `tests/progression/`, `tests/content/`
 
-| # | Criterion | File | Assertion |
-|---|---|---|---|
-| L1 | **Branch B / S1** No assessment-role record is tracked in the public repo | `tests/content/held-out.test.ts` | Walks the tracked `content/` tree |
-| L2 | **Branch B / S2** The curriculum-site generator cannot reach the assessment store; its output contains no assessment prompt | `tests/content/held-out.test.ts` | Generates to a temp dir and scans |
-| L3 | **S2b** The site publishes no canonical answer, accepted answer, solution, or hint for **any** role | `tests/content/held-out.test.ts` | Scan generated HTML against every record's answer/solution/hint strings |
-| L4 | **Branch B / S3** `contentCatalog` and `servableContentCatalog` contain no assessment-role item | `tests/content/held-out.test.ts` | Role filter |
-| L5 | **Branch B / S4** No `'use client'` module transitively imports the content catalog or assessment store | `tests/progression/client-bundle.test.ts` | Static import-graph walk from each `'use client'` entry |
-| L6 | **S5** No API route response body contains a canonical answer or an accepted-answer list | `tests/progression-integration/api-leakage.test.ts` — **not yet implemented (m6, 2026-10-10)**: only the assessment-submission route is scanned today (`feedback-safety-route.test.ts`), not every `/api/phase1/*` route as this claim requires | Exercise every `/api/phase1/*` route and scan |
-| L7 | **S6** No id appears in both an assessment bank and any lesson's teaching or practice list, in any program | `tests/curriculum/assessment-separation.test.ts` | Catalog-wide plus a crafted overlap |
-| L8 | **S7** The hint route refuses assessment/review role attempts and creates no `TutorTrace`/`TutorInteraction` | `tests/progression-integration/assessment-no-tutor.test.ts` — **not yet implemented (m6, 2026-10-10)**: no file by this or any other name covers this claim | Refusal plus zero rows |
-| L9 | **S8** Plans, previews, digests, and progress views name targets, never items | `tests/progression-integration/preview-safety.test.ts` — **not yet implemented (m6, 2026-10-10)**: no file by this or any other name covers this claim | Response scan |
-| L10 | **S9** Provider input filtering rejects assessment content | `tests/tutor/provider-input` extension | Existing filter test extended |
-| L11 | **S11** The household export contains the learner's responses and results but never the bank or unattempted items | `tests/persistence/household-data.test.ts` (m6, 2026-10-10: corrected from `tests/progression-integration/export-coverage.test.ts`, which doesn't exist — this is the file that actually asserts the `unattempted-private-item` exclusion) | Set difference |
-| L12 | Assessment feedback: an `IN_PROGRESS` run returns no per-item correctness; a `SCORED` run never returns a canonical answer for an item that may reappear | `tests/progression-integration/feedback-safety.test.ts` | Both phases |
-| L13 | **`D-58`, both `D-01` branches**: the generated site contains no `pending_review` record and no assessment- or review-role record | `tests/content/held-out.test.ts` | Generate to a temp dir and scan by id |
-| L14 | **Branch A only**: the product makes no independence claim derived from assessment — parent and learner wording is checked against the `D-55` phrase artifact's Branch A variant | `tests/progression-integration/wording-safety.test.ts` — **not yet implemented (m6, 2026-10-10)**: no file by this or any other name covers this claim | Skipped under Branch B |
-| L15 | **`D-01` Branch B only**: S1–S4 exclusion tests are active | `tests/content/held-out.test.ts` | Skipped under Branch A |
-| L16 | **S10**: refusal, scoring, and `ShadowDecision` records contain no prompt text, learner free text, or answer string — asserted by running a full journey and scanning every persisted log/trace/shadow row against the fixture's known text | `tests/progression-integration/log-safety.test.ts` — **not yet implemented (m6, 2026-10-10)**: no file by this or any other name covers this claim | Field-level scan |
-| L17 | **Non-vacuous publication test**: an injected synthetic `pending_review` record and an injected assessment-role record are both absent from the generated site. Without the injection the test passes trivially, because zero records are pending today | `tests/content/held-out.test.ts` | Sentinel fixture |
-| L18 | **Semantic leakage**, not substring: a hint, preview, or feedback string is checked against the item's canonical answer using answer-equivalence (numeric value, unit-normalised form, accepted-answer set), not raw substring containment — `"15"` must be caught inside `"about 15 miles"`, and `"1/4"` must be caught as `"0.25"` | `tests/progression/semantic-leakage.test.ts` | Equivalence-based |
+| #   | Criterion                                                                                                                                                                                                                                                                                                                            | File                                                                                                                                                                                                                                                                                                                     | Assertion                                                               |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| L1  | **Branch B / S1** No assessment-role record is tracked in the public repo                                                                                                                                                                                                                                                            | `tests/content/held-out.test.ts`                                                                                                                                                                                                                                                                                         | Walks the tracked `content/` tree                                       |
+| L2  | **Branch B / S2** The curriculum-site generator cannot reach the assessment store; its output contains no assessment prompt                                                                                                                                                                                                          | `tests/content/held-out.test.ts`                                                                                                                                                                                                                                                                                         | Generates to a temp dir and scans                                       |
+| L3  | **S2b** The site publishes no canonical answer, accepted answer, solution, or hint for **any** role                                                                                                                                                                                                                                  | `tests/content/held-out.test.ts`                                                                                                                                                                                                                                                                                         | Scan generated HTML against every record's answer/solution/hint strings |
+| L4  | **Branch B / S3** `contentCatalog` and `servableContentCatalog` contain no assessment-role item                                                                                                                                                                                                                                      | `tests/content/held-out.test.ts`                                                                                                                                                                                                                                                                                         | Role filter                                                             |
+| L5  | **Branch B / S4** No `'use client'` module transitively imports the content catalog or assessment store                                                                                                                                                                                                                              | `tests/progression/client-bundle.test.ts`                                                                                                                                                                                                                                                                                | Static import-graph walk from each `'use client'` entry                 |
+| L6  | **S5** No API route response body contains a canonical answer or an accepted-answer list                                                                                                                                                                                                                                             | `tests/progression-integration/api-leakage.test.ts` (m6, 2026-10-10: implemented — exercises all 13 `/api/phase1/*` route files against one real session/attempt and structurally scans every response)                                                                                                                  | Exercise every `/api/phase1/*` route and scan                           |
+| L7  | **S6** No id appears in both an assessment bank and any lesson's teaching or practice list, in any program                                                                                                                                                                                                                           | `tests/curriculum/assessment-separation.test.ts`                                                                                                                                                                                                                                                                         | Catalog-wide plus a crafted overlap                                     |
+| L8  | **S7** The hint route refuses assessment/review role attempts and creates no `TutorTrace`/`TutorInteraction`                                                                                                                                                                                                                         | `tests/progression-integration/assessment-no-tutor.test.ts` (m6, 2026-10-10: implemented — an attempt bound to a `ContentArchive` row holding an assessment-role record, exercised through the real hint route)                                                                                                          | Refusal plus zero rows                                                  |
+| L9  | **S8** Plans, previews, digests, and progress views name targets, never items                                                                                                                                                                                                                                                        | `tests/progression-integration/preview-safety.test.ts` (m6, 2026-10-10: implemented — a real assessment assignment with distinctive item ids/prompt text, scanned for absence on the pilot preview, digest, progress, and plan surfaces)                                                                                 | Response scan                                                           |
+| L10 | **S9** Provider input filtering rejects assessment content                                                                                                                                                                                                                                                                           | `tests/tutor/provider-input` extension                                                                                                                                                                                                                                                                                   | Existing filter test extended                                           |
+| L11 | **S11** The household export contains the learner's responses and results but never the bank or unattempted items                                                                                                                                                                                                                    | `tests/persistence/household-data.test.ts` (m6, 2026-10-10: corrected from `tests/progression-integration/export-coverage.test.ts`, which doesn't exist — this is the file that actually asserts the `unattempted-private-item` exclusion)                                                                               | Set difference                                                          |
+| L12 | Assessment feedback: an `IN_PROGRESS` run returns no per-item correctness; a `SCORED` run never returns a canonical answer for an item that may reappear                                                                                                                                                                             | `tests/progression-integration/feedback-safety.test.ts`                                                                                                                                                                                                                                                                  | Both phases                                                             |
+| L13 | **`D-58`, both `D-01` branches**: the generated site contains no `pending_review` record and no assessment- or review-role record                                                                                                                                                                                                    | `tests/content/held-out.test.ts`                                                                                                                                                                                                                                                                                         | Generate to a temp dir and scan by id                                   |
+| L14 | **Branch A only**: the product makes no independence claim derived from assessment — parent and learner wording is checked against the `D-55` phrase artifact's Branch A variant                                                                                                                                                     | `tests/progression-integration/wording-safety.test.ts` (m6, 2026-10-10: implemented — unconditionally skipped, since no Branch A code path exists in this deployment; mirrors L15's always-active shape)                                                                                                                 | Skipped under Branch B                                                  |
+| L15 | **`D-01` Branch B only**: S1–S4 exclusion tests are active                                                                                                                                                                                                                                                                           | `tests/content/held-out.test.ts`                                                                                                                                                                                                                                                                                         | Skipped under Branch A                                                  |
+| L16 | **S10**: refusal, scoring, and `ShadowDecision` records contain no prompt text, learner free text, or answer string — asserted by running a full journey and scanning every persisted log/trace/shadow row against the fixture's known text                                                                                          | `tests/progression-integration/log-safety.test.ts` (m6, 2026-10-10: implemented — runs session start → attempt → hint → attempt through the real practice/tutoring path and scans every `ShadowDecision`/`TutorTrace`/`TutorInteraction`/`AuditLog` row for the content prompt, canonical answer, and learner free text) | Field-level scan                                                        |
+| L17 | **Non-vacuous publication test**: an injected synthetic `pending_review` record and an injected assessment-role record are both absent from the generated site. Without the injection the test passes trivially, because zero records are pending today                                                                              | `tests/content/held-out.test.ts`                                                                                                                                                                                                                                                                                         | Sentinel fixture                                                        |
+| L18 | **Semantic leakage**, not substring: a hint, preview, or feedback string is checked against the item's canonical answer using answer-equivalence (numeric value, unit-normalised form, accepted-answer set), not raw substring containment — `"15"` must be caught inside `"about 15 miles"`, and `"1/4"` must be caught as `"0.25"` | `tests/progression/semantic-leakage.test.ts`                                                                                                                                                                                                                                                                             | Equivalence-based                                                       |
 
 ## 13.4 Integration — `tests/progression-integration/`
 
-| # | Criterion | Assertion |
-|---|---|---|
-| I1 | `startSession` refuses a locked item with a lock `reasonCode`, not `404`, and creates no `Session` | Response plus zero rows |
-| I2 | The direct-URL bypass is closed for the verified AMC 8 case | Refusal |
-| I3 | **Session misuse**: an ended session refuses further attempts (`SESSION_ENDED`); a practice session refuses `/api/phase1/review-attempt` (`SESSION_KIND_MISMATCH`); a run-bound session refuses an attempt for a different run | Three cases |
-| I4 | Delayed check passes only outside the window, on an unseen item, with no tutoring prerequisite | Timestamps manipulated directly |
-| I5 | Failed assessment writes `AssessmentResult`, routes to remediation, preserves failed attempts immutably | Rows unmodified |
-| I6 | Idempotent run creation: duplicate `idempotencyKey` returns the same run and does not consume a reassessment | One row |
-| I7 | Cross-household access refused as **unauthorized**, not as locked | Two households |
-| I8 | Every parent-visible progression claim carries supporting evidence **or** an honest non-evidence label | Per-claim assertion |
-| I9 | Retired content does not break digest or progress | Stable label |
-| I10 | Program isolation: ratios progression never unlocks another program | Unchanged |
-| I11 | **Version pinning**: a run scored under profile v1 keeps v1 semantics after v2 ships | Re-read after bump |
-| I12 | **Recalculation/cutover**: new `algorithmVersion` writes a new row; the old row is byte-identical afterwards | Equality |
-| I13 | **Fail-closed flag behavior**: with sequencing disabled, role and readiness enforcement still refuses a tutored assessment and a runless assessment attempt | Two cases |
-| I14 | **Export/deletion coverage**: a test enumerates Prisma's model list and fails if a model is neither exported nor on an explicit exclusion allowlist | Durable, not "remember to add it" |
-| I15 | **Cascade and retention**: household deletion removes every new progression table's rows; retention fields are present on each | Zero rows |
-| I16 | **Semantic evidence ownership and currentness**: every evidence reference resolves to the same `learnerProfileId`, carries the pinned policy/curriculum versions, and is not revoked; a grant made under a superseded requirement version is labeled as such | Per-reference |
-| I17 | **Migration forward/down/reapply** succeeds and schemas match | New `db:test-migrations` |
-| I18 | §10.4 Procedure 2: the documented production rollback leaves `AssessmentAssignment` and `AssessmentResult` row counts unchanged | Row counts preserved |
-| I19 | **Legacy boundary 1**: a pilot skill requested under the legacy compatibility policy is denied with `LEGACY_POLICY_NOT_APPLICABLE` | Refusal |
-| I20 | **Legacy boundary 2**: a non-pilot skill is allowed for `PRACTICE`, denied for `LESSON_ASSESSMENT`, and denied entirely when the legacy policy is absent or unresolvable | Three cases |
-| I21 | The release check refuses a revision that is not a descendant of the compatibility baseline tag (§10.5) | Rejection |
-| I22 | At most one active assignment per target: two concurrent creates produce one assignment and one `ACTIVE_ASSIGNMENT_EXISTS`, enforced by the database constraint | Row count 1 |
-| I23 | Item submission is transactional: an induced failure mid-write leaves no partial attempt, no advanced ordinal, and no result | Rows unchanged |
-| I24 | Idempotent replay returns the same assignment id and does not increment `attemptOrdinal` | Same id |
-| I25 | `MasteryEstimate` rows carry the policy profile ref/hash and curriculum snapshot hash they were derived under | Non-null, resolvable |
-| I26 | `ReviewSchedule` rows pin the profile that produced `dueAt`; a profile bump does not silently reinterpret an existing schedule | Re-read after bump |
-| I27 | Session creation is `POST`, not `GET`; a `GET` to the session route creates no row | Zero rows |
-| I28 | **Access policy per program**: one case per currently enabled program (`grade-6-math`, `math-kangaroo-6`, `moems-6`, `amc-8`, `mathcounts-6`, `scripps-spelling-bee-6`) asserting its `accessPolicyRef` resolves and grants exactly the declared kinds; and one case per program asserting that an absent or invalid policy grants **nothing** | Six programs × two cases |
-| I29 | No code path other than household deletion updates or deletes an `AssessmentAssignment` or `AssessmentResult` | Static + runtime assertion |
-| I30 | **Stage/deploy compatibility**: the sequencing flag is inert before cutover; after cutover, with the flag off, role and readiness still refuse | Two phases |
-| I31 | **Expand/contract**: an unbound legacy session is refused with `SESSION_UNBOUND` after the drain step rather than being inferred | Refusal |
-| I32 | `ActiveAssessmentLease` releases transactionally with every terminal transition; an expired lease is treated as released by readers | Both |
+| #   | Criterion                                                                                                                                                                                                                                                                                                                                      | Assertion                         |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| I1  | `startSession` refuses a locked item with a lock `reasonCode`, not `404`, and creates no `Session`                                                                                                                                                                                                                                             | Response plus zero rows           |
+| I2  | The direct-URL bypass is closed for the verified AMC 8 case                                                                                                                                                                                                                                                                                    | Refusal                           |
+| I3  | **Session misuse**: an ended session refuses further attempts (`SESSION_ENDED`); a practice session refuses `/api/phase1/review-attempt` (`SESSION_KIND_MISMATCH`); a run-bound session refuses an attempt for a different run                                                                                                                 | Three cases                       |
+| I4  | Delayed check passes only outside the window, on an unseen item, with no tutoring prerequisite                                                                                                                                                                                                                                                 | Timestamps manipulated directly   |
+| I5  | Failed assessment writes `AssessmentResult`, routes to remediation, preserves failed attempts immutably                                                                                                                                                                                                                                        | Rows unmodified                   |
+| I6  | Idempotent run creation: duplicate `idempotencyKey` returns the same run and does not consume a reassessment                                                                                                                                                                                                                                   | One row                           |
+| I7  | Cross-household access refused as **unauthorized**, not as locked                                                                                                                                                                                                                                                                              | Two households                    |
+| I8  | Every parent-visible progression claim carries supporting evidence **or** an honest non-evidence label                                                                                                                                                                                                                                         | Per-claim assertion               |
+| I9  | Retired content does not break digest or progress                                                                                                                                                                                                                                                                                              | Stable label                      |
+| I10 | Program isolation: ratios progression never unlocks another program                                                                                                                                                                                                                                                                            | Unchanged                         |
+| I11 | **Version pinning**: a run scored under profile v1 keeps v1 semantics after v2 ships                                                                                                                                                                                                                                                           | Re-read after bump                |
+| I12 | **Recalculation/cutover**: new `algorithmVersion` writes a new row; the old row is byte-identical afterwards                                                                                                                                                                                                                                   | Equality                          |
+| I13 | **Fail-closed flag behavior**: with sequencing disabled, role and readiness enforcement still refuses a tutored assessment and a runless assessment attempt                                                                                                                                                                                    | Two cases                         |
+| I14 | **Export/deletion coverage**: a test enumerates Prisma's model list and fails if a model is neither exported nor on an explicit exclusion allowlist                                                                                                                                                                                            | Durable, not "remember to add it" |
+| I15 | **Cascade and retention**: household deletion removes every new progression table's rows; retention fields are present on each                                                                                                                                                                                                                 | Zero rows                         |
+| I16 | **Semantic evidence ownership and currentness**: every evidence reference resolves to the same `learnerProfileId`, carries the pinned policy/curriculum versions, and is not revoked; a grant made under a superseded requirement version is labeled as such                                                                                   | Per-reference                     |
+| I17 | **Migration forward/down/reapply** succeeds and schemas match                                                                                                                                                                                                                                                                                  | New `db:test-migrations`          |
+| I18 | §10.4 Procedure 2: the documented production rollback leaves `AssessmentAssignment` and `AssessmentResult` row counts unchanged                                                                                                                                                                                                                | Row counts preserved              |
+| I19 | **Legacy boundary 1**: a pilot skill requested under the legacy compatibility policy is denied with `LEGACY_POLICY_NOT_APPLICABLE`                                                                                                                                                                                                             | Refusal                           |
+| I20 | **Legacy boundary 2**: a non-pilot skill is allowed for `PRACTICE`, denied for `LESSON_ASSESSMENT`, and denied entirely when the legacy policy is absent or unresolvable                                                                                                                                                                       | Three cases                       |
+| I21 | The release check refuses a revision that is not a descendant of the compatibility baseline tag (§10.5)                                                                                                                                                                                                                                        | Rejection                         |
+| I22 | At most one active assignment per target: two concurrent creates produce one assignment and one `ACTIVE_ASSIGNMENT_EXISTS`, enforced by the database constraint                                                                                                                                                                                | Row count 1                       |
+| I23 | Item submission is transactional: an induced failure mid-write leaves no partial attempt, no advanced ordinal, and no result                                                                                                                                                                                                                   | Rows unchanged                    |
+| I24 | Idempotent replay returns the same assignment id and does not increment `attemptOrdinal`                                                                                                                                                                                                                                                       | Same id                           |
+| I25 | `MasteryEstimate` rows carry the policy profile ref/hash and curriculum snapshot hash they were derived under                                                                                                                                                                                                                                  | Non-null, resolvable              |
+| I26 | `ReviewSchedule` rows pin the profile that produced `dueAt`; a profile bump does not silently reinterpret an existing schedule                                                                                                                                                                                                                 | Re-read after bump                |
+| I27 | Session creation is `POST`, not `GET`; a `GET` to the session route creates no row                                                                                                                                                                                                                                                             | Zero rows                         |
+| I28 | **Access policy per program**: one case per currently enabled program (`grade-6-math`, `math-kangaroo-6`, `moems-6`, `amc-8`, `mathcounts-6`, `scripps-spelling-bee-6`) asserting its `accessPolicyRef` resolves and grants exactly the declared kinds; and one case per program asserting that an absent or invalid policy grants **nothing** | Six programs × two cases          |
+| I29 | No code path other than household deletion updates or deletes an `AssessmentAssignment` or `AssessmentResult`                                                                                                                                                                                                                                  | Static + runtime assertion        |
+| I30 | **Stage/deploy compatibility**: the sequencing flag is inert before cutover; after cutover, with the flag off, role and readiness still refuse                                                                                                                                                                                                 | Two phases                        |
+| I31 | **Expand/contract**: an unbound legacy session is refused with `SESSION_UNBOUND` after the drain step rather than being inferred                                                                                                                                                                                                               | Refusal                           |
+| I32 | `ActiveAssessmentLease` releases transactionally with every terminal transition; an expired lease is treated as released by readers                                                                                                                                                                                                            | Both                              |
 
 ## 13.5 Playwright — `tests/browser/`
 
-| # | Criterion | Assertion |
-|---|---|---|
-| E1 | Unit 1 shows lesson 1 available and later lessons locked, each with a **text** reason | Accessible names |
-| E2 | Lesson 1: teaching → practice with a hint → assessment where the hint control is **absent**, not merely disabled | Element count zero |
-| E3 | Completing lesson 1 unlocks lesson 2 only | Status text |
-| E4 | A failed assessment shows remediation and a reassessment presenting **different item ids**, asserted by identity, not prompt text | Id comparison via test hooks |
-| E5 | Parent sees unit/lesson progress with completion and mastery as **separate** labeled facts | Both present, distinct |
-| E6 | Axe scan passes on every new surface | Existing helper |
-| E7 | Keyboard operability of unit/lesson navigation, including locked items | Focus order |
-| E8 | **Focus and live announcements**: starting a run moves focus to the first item; scoring announces the outcome through a live region | `aria-live` assertions |
-| E9 | **Timer/cooldown**: a cooldown is announced in text with a concrete time, not a spinner, and is not conveyed by color alone | Text present |
+| #   | Criterion                                                                                                                                                                                                                     | Assertion                                    |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| E1  | Unit 1 shows lesson 1 available and later lessons locked, each with a **text** reason                                                                                                                                         | Accessible names                             |
+| E2  | Lesson 1: teaching → practice with a hint → assessment where the hint control is **absent**, not merely disabled                                                                                                              | Element count zero                           |
+| E3  | Completing lesson 1 unlocks lesson 2 only                                                                                                                                                                                     | Status text                                  |
+| E4  | A failed assessment shows remediation and a reassessment presenting **different item ids**, asserted by identity, not prompt text                                                                                             | Id comparison via test hooks                 |
+| E5  | Parent sees unit/lesson progress with completion and mastery as **separate** labeled facts                                                                                                                                    | Both present, distinct                       |
+| E6  | Axe scan passes on every new surface                                                                                                                                                                                          | Existing helper                              |
+| E7  | Keyboard operability of unit/lesson navigation, including locked items                                                                                                                                                        | Focus order                                  |
+| E8  | **Focus and live announcements**: starting a run moves focus to the first item; scoring announces the outcome through a live region                                                                                           | `aria-live` assertions                       |
+| E9  | **Timer/cooldown**: a cooldown is announced in text with a concrete time, not a spinner, and is not conveyed by color alone                                                                                                   | Text present                                 |
 | E10 | **Child-safe wording**: failure, remediation, and "needs help" copy is checked against the **versioned** `child-safe-phrasing` artifact (`D-55`) — approved phrasings plus a prohibited-pattern list — not an ad-hoc snapshot | Artifact-driven assertion, pinned by version |
 
 E11 of the previous draft — "manual screen-reader review" — has been **removed
@@ -2098,48 +2095,53 @@ from this table**: it is a human gate, not a Playwright criterion. See §13.7.
 Every claim in §16 must be falsifiable by a named test. A claim with no test is
 an assertion, not a specification.
 
-| §16 claim | Falsified by |
-|---|---|
-| 1. Progression shape is authored, versioned curriculum data | U1, U3, U30, U31 |
-| 2. All numbers live in versioned policy artifacts, never curriculum | **U42**, U43, **U44** |
-| 3. Ordering has exactly one source | U3 |
-| 4. Skill graph is the only prerequisite source | U28, **U29** |
-| 5. Role union; assessment/review forbidden hints and never tutored | U4, L8 |
-| 6. No `pending_review` published; no assessment/review item published | **L13, L17** |
-| 7. Authorization always on, fail-closed, incl. hybrid and unitless | U7, U8, I1, I2, I13, **I28**, I19, I20 |
-| 8. Session binding immutable; `POST`; ended/mismatched rejected | I3, I27, **I31** |
-| 9. Assignment / run state / result split; single-active; transactional; one duplicate rule | I22, I23, I24, **I32**, **U45** |
-| 10. Every reference `{code, version}`; mastery and schedules pin policy and curriculum | **U41**, I11, I25, I26 |
-| 11. Mastery aggregation parameterized; `HIGH` reachable under Branch B | U11–U17, **U48** |
-| 12. Delayed check from `skillExposureAt`; empty set ineligible | U9, U10, U33, U34, **U48**, I4 |
-| 13. Placement / skip / override distinct; probe never implies mastery | U18, U19, U37, U38, U39, **U47** |
-| 14. Rollback retains evidence and non-reconstructable audit; code rollback cannot precede baseline | I17, I18, I21, **I29** |
-| 15. Staged increments; only C4 changes authorization | **I30**, **I31**, I13 |
+| §16 claim                                                                                          | Falsified by                           |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 1. Progression shape is authored, versioned curriculum data                                        | U1, U3, U30, U31                       |
+| 2. All numbers live in versioned policy artifacts, never curriculum                                | **U42**, U43, **U44**                  |
+| 3. Ordering has exactly one source                                                                 | U3                                     |
+| 4. Skill graph is the only prerequisite source                                                     | U28, **U29**                           |
+| 5. Role union; assessment/review forbidden hints and never tutored                                 | U4, L8                                 |
+| 6. No `pending_review` published; no assessment/review item published                              | **L13, L17**                           |
+| 7. Authorization always on, fail-closed, incl. hybrid and unitless                                 | U7, U8, I1, I2, I13, **I28**, I19, I20 |
+| 8. Session binding immutable; `POST`; ended/mismatched rejected                                    | I3, I27, **I31**                       |
+| 9. Assignment / run state / result split; single-active; transactional; one duplicate rule         | I22, I23, I24, **I32**, **U45**        |
+| 10. Every reference `{code, version}`; mastery and schedules pin policy and curriculum             | **U41**, I11, I25, I26                 |
+| 11. Mastery aggregation parameterized; `HIGH` reachable under Branch B                             | U11–U17, **U48**                       |
+| 12. Delayed check from `skillExposureAt`; empty set ineligible                                     | U9, U10, U33, U34, **U48**, I4         |
+| 13. Placement / skip / override distinct; probe never implies mastery                              | U18, U19, U37, U38, U39, **U47**       |
+| 14. Rollback retains evidence and non-reconstructable audit; code rollback cannot precede baseline | I17, I18, I21, **I29**                 |
+| 15. Staged increments; only C4 changes authorization                                               | **I30**, **I31**, I13                  |
 
 Bold entries were added in this revision specifically to close a claim that
 previously had no falsifier.
 
-**Known gap (m6, tracked 2026-10-10, not blocking the C4 independent-review
-gate — see `docs/course-progression-review/manual-gate-record.md`):** L6,
-L8, L9, L14, and L16 above have no automated falsifier under any name today,
-only partial or adjacent coverage. §16 claim 5 ("assessment/review forbidden
-hints and never tutored") cites L8 as one of its two falsifiers; with L8
-missing, that claim rests on U4 alone. Writing these five falsifiers is
-tracked as its own follow-up task, separate from this gate's sign-off.
+**Gap closed (m6, 2026-10-10):** L6, L8, L9, L14, and L16 above previously
+had no automated falsifier under any name, only partial or adjacent
+coverage — tracked separately from the C4 independent-review gate (see
+`docs/course-progression-review/manual-gate-record.md`). All five now exist
+as named test files (`tests/progression-integration/api-leakage.test.ts`,
+`assessment-no-tutor.test.ts`, `preview-safety.test.ts`,
+`wording-safety.test.ts`, `log-safety.test.ts`) and pass. Each was verified
+to be a genuine falsifier, not a vacuous pass, by temporarily reverting the
+underlying guard it exercises (`src/content/archive.ts`'s role check for L8,
+`src/contracts/trace.ts`'s `redactFreeFormText` for L16) and confirming the
+test failed, then restoring the guard. §16 claim 5's falsifier list (U4, L8)
+is unchanged by this entry; L8 now actually exists under that name.
 
 ## 13.7 Manual gates — not automated criteria
 
 Human judgements. They must not be listed alongside automated tests, counted
 as passing checks, or reported in a command's output.
 
-| Gate | Owner | Artifact produced | Blocks |
-|---|---|---|---|
-| Screen-reader review of progression surfaces | Accessibility/product owner (`D-41`) | A dated `docs/PROGRESS.md` entry naming the screen reader, the surfaces, and the findings | Serving a learner |
-| Child-safe wording review | Product owner (`D-55`) | An approved, versioned `child-safe-phrasing` artifact that E10 then asserts against | E10 being meaningful rather than circular |
-| `ShadowDecision` divergence review | Product/engineering owner | A written explanation for every divergent row | Stage C4 |
-| `D-58` acknowledgement | Product owner | Recorded acknowledgement that unreviewed content was publishable and that no leak is evidenced | Stage A1 |
-| Six substantive prerequisite disagreements (§11.1a) | Product/content owner | A per-edge decision | Stage A2 |
-| Content review of every authored record | Product/content owner | `review.status: reviewed` | Serving |
+| Gate                                                | Owner                                | Artifact produced                                                                              | Blocks                                    |
+| --------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| Screen-reader review of progression surfaces        | Accessibility/product owner (`D-41`) | A dated `docs/PROGRESS.md` entry naming the screen reader, the surfaces, and the findings      | Serving a learner                         |
+| Child-safe wording review                           | Product owner (`D-55`)               | An approved, versioned `child-safe-phrasing` artifact that E10 then asserts against            | E10 being meaningful rather than circular |
+| `ShadowDecision` divergence review                  | Product/engineering owner            | A written explanation for every divergent row                                                  | Stage C4                                  |
+| `D-58` acknowledgement                              | Product owner                        | Recorded acknowledgement that unreviewed content was publishable and that no leak is evidenced | Stage A1                                  |
+| Six substantive prerequisite disagreements (§11.1a) | Product/content owner                | A per-edge decision                                                                            | Stage A2                                  |
+| Content review of every authored record             | Product/content owner                | `review.status: reviewed`                                                                      | Serving                                   |
 
 E10's automated portion asserts copy **against** the artifact; producing the
 artifact is the manual gate. The two are separate and are reported separately.
@@ -2148,13 +2150,13 @@ artifact is the manual gate. The two are separate and are reported separately.
 
 Automated, and none may be relaxed to accommodate progression:
 
-| Command | Requires a database | Covers |
-|---|---|---|
-| `npm run verify` | **No** | format, lint, typecheck, `db:check-down-migrations` (existence), the DB-free suites including `tests/progression` and the leakage tests, and the production build |
-| `npm run test:integration` | Yes | `tests/progression-integration` and the existing persistence/phase1/auth suites |
-| `npm run test:migrations` | Yes | §10.4 Procedure 1, forward → down → reapply schema equivalence |
-| `npm run test:e2e` | Yes | `tests/browser`, including the new progression journeys and axe scans |
-| `npm run eval:run` | No | The tutor eval corpus, re-run to confirm no leakage regression from new progression text |
+| Command                    | Requires a database | Covers                                                                                                                                                            |
+| -------------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run verify`           | **No**              | format, lint, typecheck, `db:check-down-migrations` (existence), the DB-free suites including `tests/progression` and the leakage tests, and the production build |
+| `npm run test:integration` | Yes                 | `tests/progression-integration` and the existing persistence/phase1/auth suites                                                                                   |
+| `npm run test:migrations`  | Yes                 | §10.4 Procedure 1, forward → down → reapply schema equivalence                                                                                                    |
+| `npm run test:e2e`         | Yes                 | `tests/browser`, including the new progression journeys and axe scans                                                                                             |
+| `npm run eval:run`         | No                  | The tutor eval corpus, re-run to confirm no leakage regression from new progression text                                                                          |
 
 `npm run verify` **stays database-free**, per `README.md`. Migration behavior
 is a database-job gate.
@@ -2263,8 +2265,8 @@ served. A green command output is not a substitute for any of them.
 **Not decided here.** Every numeric threshold, pass bar, window, interval,
 weight, volume, rollout choice, and content-policy question is in
 `docs/course-progression-decisions.md` as `D-01` … `D-61`; approved values are
-  read from that matrix. This document must not be read as independently
-  approving a value or as authorization to cross the release gates.
+read from that matrix. This document must not be read as independently
+approving a value or as authorization to cross the release gates.
 
 In particular **`D-01` is approved as Branch B — held-out**. Its store is
 approved as `D-02` Option A, and the six existing ratios records remain public
