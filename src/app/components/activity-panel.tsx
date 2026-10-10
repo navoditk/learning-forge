@@ -159,6 +159,14 @@ export function ActivityPanel({
                 ? 'Ask for a small hint'
                 : 'Ask for the next hint'}
           </button>
+          {hintCount === 0 && !tutor && (
+            <p>
+              <small>
+                The hint comes from a computer program, not a person. If anything ever feels wrong
+                or upsetting, tell a grown-up.
+              </small>
+            </p>
+          )}
           {tutor && (
             <button type="button" onClick={onSubmitIndependentCheck}>
               Start independent check

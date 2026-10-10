@@ -56,10 +56,29 @@ what's quoted:
     in `/help` (`src/app/help/page.tsx`'s "AI use and children's privacy"
     section) for the product owner's review — it describes current
     practice, not a legal compliance determination.
-  - Still open: Anthropic's optional child-safety system prompt is not
-    implemented; no dedicated minor-facing safety-education content beyond
-    the disclosure exists; and no formal legal review of COPPA/FERPA/state
-    law has happened for this pilot.
+  - Addressed 2026-10-10: a plain-language, learner-facing safety note
+    ("The hint comes from a computer program, not a person. If anything
+    ever feels wrong or upsetting, tell a grown-up.") now shows the first
+    time a learner considers asking for a hint
+    (`src/app/components/activity-panel.tsx`), closing the minor-facing
+    safety-education gap. This is in addition to, not instead of, the
+    parent-facing statement in `/help`.
+  - Researched and closed 2026-10-10, not implemented: Anthropic's own
+    "Child safety guidance for developers" article
+    (support.claude.com/en/articles/15591275) does not publish the
+    child-safety system prompt's text or any self-service way to request
+    it — the article's only concrete tools (Thorn/IWF image-detection
+    services, NCMEC reporting, the Tech Coalition's Pathways program) are
+    for platforms handling user-uploaded images/video, which this app does
+    not have. It is not practically obtainable at this single-household
+    pilot's scale (no enterprise account relationship to request it
+    through). This app's existing `safetyFlags`/deterministic-policy/
+    fallback mechanism (`docs/tutor-policy.md`) already serves the
+    equivalent purpose this prompt is meant to reinforce. Treated as a
+    researched dead end, not a lingering gap.
+  - Still open: no formal legal review of COPPA/FERPA/state law has
+    happened for this pilot. See the briefing packet prepared for that
+    review, `docs/legal-review-briefing.md`.
 
 ## Inventory
 

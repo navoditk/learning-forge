@@ -1,5 +1,44 @@
 # Progress
 
+## 2026-10-10 — Closed out the minors-serving policy's remaining items
+
+Follow-up to the Provider terms research: closed two of the three items it
+left open, and made the third (legal review) cheap to act on rather than
+leaving it as a bare TODO.
+
+- **Anthropic's child-safety system prompt**: researched directly against
+  Anthropic's own "Child safety guidance for developers" article
+  (support.claude.com/en/articles/15591275). It does not publish the
+  prompt's text or any self-service way to request it - the article's only
+  concrete tools (Thorn/IWF image-detection, NCMEC reporting, the Tech
+  Coalition's Pathways program) are for platforms handling user-uploaded
+  images/video, which this app doesn't have. Not practically obtainable at
+  this single-household pilot's scale (no enterprise account relationship
+  to request it through). Documented as a researched dead end in
+  `docs/privacy-inventory.md` - this app's existing `safetyFlags`/
+  deterministic-policy/fallback mechanism already serves the equivalent
+  purpose.
+- **Minor-facing safety content**: added a plain-language safety note
+  directly in the learner UI ("The hint comes from a computer program, not
+  a person. If anything ever feels wrong or upsetting, tell a grown-up."),
+  shown the first time a learner considers asking for a hint
+  (`src/app/components/activity-panel.tsx`). This is in addition to the
+  parent-facing statement already in `/help` - a 6th grader won't read
+  that page, so the gap needed its own, separate fix.
+- **Legal review**: can't be done here - it needs a real lawyer. Instead
+  wrote `docs/legal-review-briefing.md`: a concise summary of what data
+  flows where, Anthropic's relevant terms, current safeguards, named gaps,
+  and five specific questions for counsel (COPPA/FERPA applicability given
+  the parent-is-the-operator structure, whether Anthropic's standard DPA is
+  sufficient, and what threshold should trigger redoing this analysis).
+  Makes a future review fast and cheap instead of a blank-slate research
+  project; does not itself close the gate.
+- Updated `docs/pilot-readiness-checklist.md`'s Provider terms row to
+  reflect all three outcomes.
+- Verification: `npx tsc --noEmit`, `npx eslint`, `npm run verify` (build +
+  all unit/contract tests), and the Playwright accessibility/keyboard/
+  phase1 suites (11/11) all pass clean after the new learner-facing note.
+
 ## 2026-10-09 — Approved model allocation, independent reviewers, and portable fleet/UI plan
 
 - Product owner approved the proposed role defaults in chat: Opus 5.5 for
