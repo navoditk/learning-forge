@@ -1,5 +1,23 @@
 # Progress
 
+## 2026-10-09 — Refreshed the stale "before C4" item 5 in the handoff doc
+
+- `docs/course-progression-handoff.md`'s "exact next task" section 6, item 5
+  still said (as of 2026-09-30) that the private held-out package was
+  `pending_review` and that `manual-gate-record.md`'s held-out-package,
+  authored-content, `D-58`-acknowledgement, and open-decision-check rows
+  were blank. All four were actually signed 2026-10-04/05, after an
+  independent review of the package found real defects (`D-73`) that were
+  then fixed - this was simply never reflected back into the handoff doc.
+  Marked item 5 done with a corrected status, and clarified that only the
+  independent-review and shadow-review rows remain genuinely blank, and that
+  the independent-review gate has no remaining technical blocker (the
+  latest 2026-09-28 pass already returned "ready for human review with
+  noted risks") - it just needs the product/engineering owner's own dated
+  signature.
+- No other content changed; the decision-count summary (`74 approved; 0
+  open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
+
 ## 2026-10-09 — Pause authority and response expectations accepted (second reinforcement requirement closed)
 
 - The product owner accepted, in chat, the pause-authority and

@@ -171,14 +171,24 @@ later stage must still use the approved value for every decision it touches.
 >    representative non-enforcing shadow traffic and dispositioning every
 >    divergence - this needs real usage to accumulate first, not a one-shot
 >    command, and has not started.
-> 5. Complete the private-package content review and the manual gate record.
->    **Still open and not delegable to further engineering work:** every
->    draft item in `grade-6-math-assessments-draft-v2.json` is still
->    `pending_review` (confirmed 2026-09-30), and `manual-gate-record.md`'s
->    independent-review, shadow-review, held-out-package, and
->    authored-content rows are blank. These require the product/content
->    owner's own originality/accessibility/child-safety judgment and
->    signature, not implementer or reviewer-agent action.
+> 5. ~~Complete the private-package content review and the manual gate
+>    record~~ — **mostly done 2026-10-04/05, not as of 2026-09-30 when this
+>    item was last written.** An independent review of
+>    `grade-6-math-assessments-draft-v2.json` found real defects (`D-73`);
+>    once fixed, all 72 items moved to `review.status: "reviewed"`
+>    (confirmed 2026-10-04) and the package's digests were re-pinned in
+>    `BANK_HASHES`. `manual-gate-record.md`'s held-out-package,
+>    authored-content, `D-58`-acknowledgement, and open-decision-check rows
+>    are now all signed (product owner, in chat, 2026-10-05).
+>    **Still genuinely blank:** only the independent-review and
+>    shadow-review rows. The independent-review gate has no remaining
+>    technical blocker — the latest read-only pass (2026-09-28) already
+>    returned "ready for human review with noted risks," with its one major
+>    finding closed as `D-72` — so that row needs only the product/
+>    engineering owner's own dated decision and signature, not further
+>    implementation. The shadow-review row is unchanged from item 4 above:
+>    it needs real representative traffic to accumulate and be
+>    dispositioned, which still has not started.
 >
 > Only then implement the approved C4 expand/contract cutover. Do not serve
 > progression UI until C4 and the manual accessibility, wording, privacy, and
