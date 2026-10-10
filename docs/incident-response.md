@@ -46,10 +46,7 @@ happens**. The product owner would only find out by manually reviewing
 `docs/course-progression-review/child-safety-acceptance.md`'s first
 reinforcement requirement, and it is not closed by this document alone.
 
-- **Escalation destination:** `[fill in: the product owner's own phone or
-  email for urgent alerts — intentionally left blank here rather than
-  committed, since this is personal contact information, not a secret with
-  an env-var home]`.
+- **Escalation destination:** navodit.kaushik@gmail.com (product owner).
 - **Target response time:** same day, given this is a single-parent-operator
   pilot with one learner, not a 24/7-staffed service. If real usage ever
   shows a flag firing with the child actively mid-session and unsupervised,
@@ -113,7 +110,7 @@ Severity may be raised at any time when new evidence changes the impact.
 |---|---|
 | On-call path | Resolved above: product owner, same-day target, no 24/7 staffing (single-operator scope). |
 | Service-pause authority | Resolved above: product owner, unilaterally, no second approval. |
-| Safety escalation destination and notification contact | **Still open** — see "Child-safety escalation" above; needs the product owner's own contact info filled in, and ideally an automated alert rather than manual trace review. |
+| Safety escalation destination and notification contact | Resolved above: navodit.kaushik@gmail.com. Manual `TutorTrace` review until an automated alert is wired up (still-open engineering gap, not blocking this decision). |
 | Notification timelines (parents/schools/regulators) | **Still open** — depends on the privacy/legal review `docs/privacy-data-acceptance.md` already flags as unresolved ("verify ... retention, training-use, subprocessors ... before expanding scope"); do not commit to a timeline here before that review happens. |
 | Processor notification obligations | **Still open** — same dependency: Render/PostgreSQL and the model provider's own terms haven't been verified yet (`docs/privacy-data-acceptance.md`'s first reinforcement requirement). |
 | Backup deletion SLA | **Still open** — same dependency; this is the provider's backup-retention window, not a number this pilot can set on its own. |

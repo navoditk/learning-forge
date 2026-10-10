@@ -18,13 +18,15 @@ an emergency/legal process.
 
 ## Reinforcement requirements
 
-- [ ] Name the safety escalation owner and destination before real learner use
-      beyond the product owner's household. **Draft ready 2026-10-09**:
-      `docs/incident-response.md`'s "Child-safety escalation" section
-      resolves the owner (product owner, single-operator scope) but leaves
-      the actual contact destination as an explicit fill-in blank — personal
-      contact information, not something to commit on the product owner's
-      behalf. Still needs the product owner to fill that in and accept.
+- [x] Name the safety escalation owner and destination before real learner use
+      beyond the product owner's household. **Resolved 2026-10-09** (product
+      owner, in chat): owner and destination are the product owner,
+      navodit.kaushik@gmail.com — recorded in `docs/incident-response.md`'s
+      "Child-safety escalation" section. An automated alert to that address
+      when a `needs_human_review` flag fires is not wired up yet; until it
+      is, this relies on manually reviewing `TutorTrace` (tracked as a
+      still-open engineering gap in that section, not blocking this
+      acceptance).
 - [ ] Document pause authority and response expectations in
       `docs/incident-response.md`. **Draft ready 2026-10-09**: pause
       authority (product owner, unilateral, via existing Render/feature-flag/

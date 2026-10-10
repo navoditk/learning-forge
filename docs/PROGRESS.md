@@ -1,5 +1,46 @@
 # Progress
 
+## 2026-10-09 — Science and Social Studies scope limited to Grade 6
+
+- Updated `README.md`, `docs/01-product-proposal.md`, and `docs/07-roadmap.md`
+  to scope future Science and Social Studies expansion to Grade 6 for now,
+  per the product owner's request. Additional grades remain deferred.
+- Documentation only; no curriculum was authored and no runtime behavior
+  changed. Existing research, authoring, and release gates remain in place.
+  No tests run.
+
+## 2026-10-09 — Safety escalation destination accepted (first reinforcement requirement closed)
+
+- The product owner provided their contact email (navodit.kaushik@gmail.com)
+  in chat for the safety-escalation destination drafted below. Recorded it
+  in `docs/incident-response.md`'s "Child-safety escalation" section and
+  checked off `child-safety-acceptance.md`'s first reinforcement requirement
+  as **Resolved 2026-10-09 (product owner, in chat)**.
+- This closes the "name an owner and destination" requirement, but not the
+  underlying engineering gap: no automated alert fires to that address today
+  when a `needs_human_review` safety flag is recorded. That remains a
+  separate, still-open engineering task, tracked in the same section.
+- The second reinforcement requirement (pause authority/response
+  expectations) is still drafted-but-not-yet-explicitly-accepted; the other
+  two (re-running evals after changes; reviewing a live safety event) are
+  unaffected by this change. Docs-only; `npx prettier --check docs/` passes.
+
+## 2026-10-09 — Spelling Bee scope wording clarified
+
+- Updated `docs/02-curriculum-and-pedagogy.md` to label the scope explicitly
+  **Grade 6 Spelling Bee**, retaining the Scripps National Spelling Bee pathway
+  attribution, per the product owner's request.
+- Documentation only; the existing `scripps-spelling-bee-6` program,
+  curriculum, and runtime behavior are unchanged. No tests run.
+
+## 2026-10-09 — Math Kangaroo scope wording clarified
+
+- Updated `docs/02-curriculum-and-pedagogy.md` to label the program explicitly
+  **Grade 6 Math Kangaroo** in the curriculum overview and skill-graph heading,
+  per the product owner's request.
+- Documentation only; the existing `math-kangaroo-6` program, curriculum,
+  and runtime behavior are unchanged. No tests run.
+
 ## 2026-10-09 — Incident-response draft for the two open child-safety reinforcement requirements
 
 - `docs/course-progression-review/child-safety-acceptance.md` has four open
