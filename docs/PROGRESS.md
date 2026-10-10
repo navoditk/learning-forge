@@ -1,5 +1,62 @@
 # Progress
 
+## 2026-10-09 — Native mappings approved and successful model checks; independent confirmation
+
+- Product owner approved native mappings in chat after discovery exposed
+  unavailable full IDs. Claude `sonnet` and `opus` aliases both completed
+  tool-disabled checks; response/usage metadata identifies
+  `claude-sonnet-5-5` and `claude-opus-5-5`. Native Codex
+  `gpt-5.6-luna` and `gpt-6-sol` both completed explicit-model, ephemeral,
+  read-only checks with token usage and exit 0, without tool calls.
+- Kept Copilot profile defaults unchanged and documented native selections
+  separately. Codex exec provides successful explicit-selection evidence,
+  not a response-model ID; no model self-report was counted as verification.
+- Native Opus independently confirmed the corrected shared policy packet as
+  ready for human review with noted risks. Its response/usage model metadata
+  is verified against the GPT-6.1 Sol Copilot executor. The manual gate date
+  it questioned matches the existing signed record and was retained.
+- Native GPT-6-Sol independently confirmed most UI guidance but found two
+  remaining unconditional held-out reminders in the implementation wrappers.
+  Both wrappers were corrected. A targeted native GPT-6-Sol re-confirmation
+  returned READY with no remaining blocker/major in the distinction.
+- Validation: fresh native client checks and independent confirmations
+  completed successfully. Targeted Prettier initially reported formatting
+  differences after the evidence updates; formatted the two new documents
+  and repeated the check. `git diff --check` passes. No runtime test suite was
+  needed for these documentation/skill-wrapper changes.
+- This moves the fresh discovery/model checks forward; no production access,
+  runtime UI implementation, new curriculum authoring, or release approval.
+- SETUP is complete for the checked native clients and corrected packet.
+  Next recommended issue: SOURCES-1 (main-page curriculum resource index) with
+  the UI implementation/review pair; independent curriculum research/reviews
+  remain available as explicitly scoped parallel packets.
+
+## 2026-10-09 — Agent setup committed; fresh-client discovery passes, native model access blocks verification
+
+- Committed this session's setup/plan changes as `4b1e86d` and pushed to
+  `origin/main`. Left the unrelated concurrent `activity-panel.tsx` edit
+  out of the commit.
+- `copilot skill list --json` discovered all seven project skills, enabled.
+  `copilot instruction list --json` lists all three repository entry points.
+  A fresh Codex app-server `initialize` / `skills/list` exchange discovered
+  the same seven skills, enabled, with zero discovery errors. No inference
+  turn was started in Codex.
+- Fresh Claude `--print --tools "" --strict-mcp-config --output-format
+  stream-json` startup metadata lists all seven skill commands. An approved
+  Sonnet 5.5 attempt and approved Opus 5.5 fallback both exited with errors,
+  without response-model usage metadata; the latter explicitly reports
+  model unavailability or missing access. Configured startup IDs are not
+  successful actual-model verification.
+- Codex `model/list` offers six different native IDs (recorded in
+  `docs/agent-orchestration.md`), neither approved GPT-5.4 Mini nor GPT-6.1
+  Sol. No new ID was silently substituted. Native skill portability passes;
+  approved native-model execution and final model-verified review are blocked
+  pending approved available mappings.
+- Updated the orchestration evidence and SETUP backlog status. Next: obtain
+  native-model substitution approval, verify response metadata, and run an
+  eligible independent confirmation before proceeding to SOURCES-1 or a
+  separately authorized research batch. No release gate or runtime change.
+
 ## 2026-10-10 — Closed out the minors-serving policy's remaining items
 
 Follow-up to the Provider terms research: closed two of the three items it

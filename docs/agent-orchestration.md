@@ -125,6 +125,71 @@ one owner and serialize those edits.
 
 ## Portable discovery
 
+### Observed client verification (2026-10-09)
+
+All seven project skills were discovered by fresh Copilot commands, a fresh
+Codex app-server `skills/list` request (enabled, zero errors), and a fresh
+tool-disabled Claude session's startup `slash_commands` metadata. Copilot
+instruction discovery lists `AGENTS.md`, `CLAUDE.md`, and
+`.github/copilot-instructions.md`.
+
+Model usability is a separate check. Initial full-ID checks were blocked:
+Claude initialized with both approved Sonnet 5.5 and Opus 5.5 IDs, but the
+Opus attempt returned an unavailable/access error and neither attempt produced
+successful response-model usage metadata. Startup configuration does not prove
+a model served the request.
+
+Codex `model/list` offered `gpt-6-astra`, `gpt-6-sol`, `gpt-6-luna`,
+`gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna`, not the approved
+`gpt-5.4-mini` or `gpt-6.1-sol`. These listed alternatives are availability
+evidence only, not approved role substitutions or claims of equal quality/cost.
+The product owner subsequently approved native mappings below. Retain the
+approved Copilot profile defaults; native IDs are client-specific, not a
+replacement for those profiles.
+
+| Native client                                | Approved selection | Verification                                                                                                       |
+| -------------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| Claude Code implementation/UI                | `--model sonnet`   | Successful tool-disabled response and usage metadata identify `claude-sonnet-5-5`                                  |
+| Claude Code research/authoring/design/review | `--model opus`     | Successful tool-disabled response and usage metadata identify `claude-opus-5-5`                                    |
+| Codex bounded implementation                 | `-m gpt-5.6-luna`  | Available in `model/list`; explicit-selection ephemeral read-only invocation completed with token usage and exit 0 |
+| Codex research/design/review                 | `-m gpt-6-sol`     | Available in `model/list`; explicit-selection ephemeral read-only invocation completed with token usage and exit 0 |
+
+Native mappings were approved in chat on 2026-10-09 before invocation.
+The native table supplies the approved client-specific selections for the
+role and fallback policy above; it does not authorize a lower-tier research
+or review model. Assign reviewers by actual executor family, not by the
+table's default pairing. In particular, Claude-implemented critical progression
+work must be reviewed by GPT, not another Claude model.
+Codex's exec completion stream does not expose a response-model ID; evidence
+is the explicit client model selection, matching model-list entry, and a
+successful completed turn, not the model's self-report. Claude aliases may
+change in later client releases: verify resolved IDs at every review and do
+not assume a historic alias resolution still holds.
+
+Premium execution within one native provider may leave no different premium
+review model approved; route review to the other client/provider instead.
+Critical changes always retain cross-family review. These smoke tests confirm
+access and discovery, not quality/cost equivalence, all-model Copilot
+availability, or automatic enforcement of review independence.
+
+### Independent confirmation
+
+The corrected shared policy packet was reviewed in a tool-disabled native
+Claude session: response and usage metadata identify `claude-opus-5-5`.
+Executor was this Copilot session's GPT-6.1 Sol, identified by host model
+configuration. Recommendation: ready for human review with noted risks, not
+approval. The reviewer flagged a recorded 2026-10-10 gate date; the manual
+gate record contains that exact date, so it was retained as recorded rather
+than changing a signed decision on reviewer inference.
+
+Native Codex confirmation used explicit `gpt-6-sol` selection and a successful
+completed turn. It found remaining unconditional held-out wording in the UI
+implementation wrappers, after the playbook was fixed. Those wrappers require
+the same authorized-assigned-prompt exception; both were corrected and a
+targeted native GPT-6-Sol re-confirmation returned READY with no remaining
+blocker/major in that distinction. These checks are scoped to
+documentation/configuration, not runtime release.
+
 Canonical skill bodies live in `.github/skills/`. Repository-relative links
 at `.claude/skills` and `.agents/skills` expose the same bodies to Claude Code
 and Codex, without three editable copies. Verify discovery in a fresh client;

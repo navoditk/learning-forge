@@ -14,6 +14,8 @@ tool can do this work from the playbook alone.
 
 Hard reminders: UI never decides mastery, unlock, or pass; completion is not
 mastery; do not alter C4/C5 gates or non-assessed program contracts; no
-held-out data, trackers, or embedded external content; provide evidence via
+premature, unassigned, or enumerable held-out exposure and never answers (only
+the authorized current assigned prompt, to the correct learner), trackers, or
+embedded external content; provide evidence via
 existing test commands. The work then goes to independent review under
 `docs/ui-review-playbook.md`; never self-review.

@@ -16,7 +16,8 @@ playbook's escalation criteria, and record the model actually used.
 
 Reuse existing modules; the UI presents server decisions and never computes
 mastery, unlock, or quiz-pass outcomes. Do not alter C4/C5 gates or
-non-assessed program contracts, expose held-out data, add trackers or embedded
+non-assessed program contracts, expose held-out answers or premature, unassigned, or enumerable held-out items
+(only the authorized current assigned prompt, to the correct learner), add trackers or embedded
 external content, or add dependencies. Run the playbook's validation commands
 and report exact results. Do not review your own work, commit, or push; hand
 off to the `ui-reviewer`.

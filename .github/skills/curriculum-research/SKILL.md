@@ -29,7 +29,8 @@ before researching. Do not infer a jurisdiction or school system.
 1. Start with official primary sources: standards bodies, departments of
    education, school districts, or the program owner.
 2. Record exact document title, issuing body, edition or publication date,
-   URL, retrieval date, and the claim each source supports.
+   URL where available (otherwise an exact document identifier), retrieval
+   date/access status, and the claim each source supports.
 3. Use secondary sources only to locate or interpret a primary source, and
    label them as secondary.
 4. Distinguish mandatory standards from optional sequencing guidance and
