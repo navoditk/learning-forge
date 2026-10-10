@@ -1,5 +1,59 @@
 # Progress
 
+## 2026-10-10 — Fixed m5, m6, m7 (the independent review's three long-open minors)
+
+Closing out the three minor findings left "still open" since the 2026-09-22
+independent review, as the last step before signing the C4 independent-review
+gate.
+
+- **m5 — duplicated secure threshold.** `getPlan` (`src/phase1/service.ts`)
+  never passed the active policy profile's `minEstimateGate` into
+  `planNextActivities`, which silently fell back to its own hardcoded
+  `DEFAULT_SECURE_THRESHOLD = 0.75`. Every real policy profile happens to
+  also set `minEstimateGate` to `0.75` today, so this was invisible, but
+  nothing enforced that the two stayed in sync. Fixed by passing
+  `secureThreshold: profile?.minEstimateGate` explicitly; added a comment on
+  the planner's constant marking it a fallback-only value, not a second
+  source of truth. Added `tests/phase1/plan-threshold-wiring.test.ts`, which
+  mocks one policy profile's gate to `0.95` (leaving every other profile and
+  access policy real) and proves a `0.85` mastery estimate is still planned
+  under the real gate, not silently treated as secure under the old
+  hardcoded fallback. Verified as a genuine falsifier: reverted the fix
+  locally, confirmed the test fails, restored it, confirmed it passes again.
+- **m6 — §13.6 test-ID traceability.** Of the architecture's seven named
+  claim-to-test files, two were real files under a different path than
+  documented (`U35`'s `tutor-binding.test.ts` is in
+  `tests/progression-integration/`, not `tests/progression/`; `L11`'s
+  export-coverage assertion is in `tests/persistence/household-data.test.ts`,
+  not a dedicated `export-coverage.test.ts`) — corrected both file
+  references in `docs/course-progression-architecture.md`. The other five
+  (`L6`, `L8`, `L9`, `L14`, `L16`) have no automated falsifier under any
+  name today, not just a naming mismatch — flagged explicitly in the doc as
+  a known gap and a separate follow-up task, not fixed here (by product
+  owner's explicit choice: fix the two real naming mismatches now, write the
+  five real tests as their own task later).
+- **m7 — migration-rollback default fragility.** `scripts/db-rollback.sh`
+  picked "the migration to roll back" by sorting `prisma/migrations`
+  directory names and taking the last one — not by querying which migration
+  was actually most recently applied. This already produced a real
+  collision once (`0007_add_assessment_attempt_contexts` and
+  `0007_add_shadow_request_context` are both numbered `0007`, the second
+  added after `0008`-`0013` already existed) and happened to still resolve
+  correctly today only because `0017` is also lexically last. Did not
+  rename either existing, already-applied `0007_*` directory — Prisma
+  tracks applied migrations by directory name, so renaming one would break
+  drift detection for real. Instead hardened the default-selection query to
+  read the most recently applied, non-rolled-back row from
+  `_prisma_migrations.finished_at` directly. Verified the new query returns
+  `0017_add_audit_log` (the true latest) against the local database, and
+  that `scripts/test-migrations.sh`'s forward/down/forward round trip
+  (which applies `down.sql` directly, not via this script) still passes
+  unaffected. `shellcheck` clean.
+- Verification: `npx tsc --noEmit`, `npx eslint .`, `npm run verify` (317
+  unit/contract tests, build), `npm run test:integration` (163 tests, 21
+  files — the new m5 regression test needs a database, so it runs there, not
+  under plain `npm test`), and `npm run test:migrations` all pass clean.
+
 ## 2026-10-09 — Linked the public curriculum map from the Help page
 
 - The full answer-free skill/standard/sample-problem map

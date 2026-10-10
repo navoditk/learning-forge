@@ -10,6 +10,11 @@ import { topologicalOrder } from '../curriculum/topological-sort';
 
 const DEFAULT_ESTIMATED_MINUTES_PER_ITEM = 8;
 const DEFAULT_MAX_ITEMS_PER_SKILL = 2;
+// Fallback only, for a caller with no policy profile loaded. The real
+// caller (src/phase1/service.ts) passes the active policy profile's
+// minEstimateGate explicitly, which is the authoritative threshold used by
+// the shared mastery predicate (src/progression/mastery.ts); this constant
+// must not be read as a second source of truth for it.
 const DEFAULT_SECURE_THRESHOLD = 0.75;
 
 /**

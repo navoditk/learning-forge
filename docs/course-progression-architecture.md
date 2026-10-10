@@ -2000,7 +2000,7 @@ A test that is not wired into a script is not a gate.
 | U32 | Multi-skill lesson: the pass bar alone is insufficient without at least one correct item per covered skill | `tests/progression/lesson-state.test.ts` | Fixture with all items from one skill |
 | U33 | `skillExposureAt` is undefined for an untouched skill and a `DELAYED_CHECK` is refused with `NO_PRIOR_EXPOSURE` | `tests/progression/delay-window.test.ts` | Empty-set case |
 | U34 | An independent practice attempt resets the delay window, not only assistance | `tests/progression/delay-window.test.ts` | Reset case |
-| U35 | A tutor move without a resolvable `skillRef` plus `attemptId`/`sessionId` is rejected, not recorded loosely | `tests/progression/tutor-binding.test.ts` | Rejection |
+| U35 | A tutor move without a resolvable `skillRef` plus `attemptId`/`sessionId` is rejected, not recorded loosely | `tests/progression-integration/tutor-binding.test.ts` (m6, 2026-10-10: corrected from `tests/progression/` — the integration-suite file is the one that exists) | Rejection |
 | U36 | Downstream grandfathering: an in-progress target is not re-locked when a prerequisite's estimate falls; a not-yet-started target is flagged `staleEvidence` | `tests/progression/relock.test.ts` | Both cases |
 | U37 | Placement past a lesson yields `SKIPPED_BY_PLACEMENT`, which does not satisfy `requireAllLessonsComplete` | `tests/progression/placement.test.ts` | Unit stays incomplete |
 | U38 | Unit skip writes one `SkipRecord` per lesson plus one for the unit, and sets every lesson `COMPLETE_BY_SKIP` | `tests/progression/skip-override.test.ts` | Record counts |
@@ -2024,17 +2024,17 @@ A test that is not wired into a script is not a gate.
 | L3 | **S2b** The site publishes no canonical answer, accepted answer, solution, or hint for **any** role | `tests/content/held-out.test.ts` | Scan generated HTML against every record's answer/solution/hint strings |
 | L4 | **Branch B / S3** `contentCatalog` and `servableContentCatalog` contain no assessment-role item | `tests/content/held-out.test.ts` | Role filter |
 | L5 | **Branch B / S4** No `'use client'` module transitively imports the content catalog or assessment store | `tests/progression/client-bundle.test.ts` | Static import-graph walk from each `'use client'` entry |
-| L6 | **S5** No API route response body contains a canonical answer or an accepted-answer list | `tests/progression-integration/api-leakage.test.ts` | Exercise every `/api/phase1/*` route and scan |
+| L6 | **S5** No API route response body contains a canonical answer or an accepted-answer list | `tests/progression-integration/api-leakage.test.ts` — **not yet implemented (m6, 2026-10-10)**: only the assessment-submission route is scanned today (`feedback-safety-route.test.ts`), not every `/api/phase1/*` route as this claim requires | Exercise every `/api/phase1/*` route and scan |
 | L7 | **S6** No id appears in both an assessment bank and any lesson's teaching or practice list, in any program | `tests/curriculum/assessment-separation.test.ts` | Catalog-wide plus a crafted overlap |
-| L8 | **S7** The hint route refuses assessment/review role attempts and creates no `TutorTrace`/`TutorInteraction` | `tests/progression-integration/assessment-no-tutor.test.ts` | Refusal plus zero rows |
-| L9 | **S8** Plans, previews, digests, and progress views name targets, never items | `tests/progression-integration/preview-safety.test.ts` | Response scan |
+| L8 | **S7** The hint route refuses assessment/review role attempts and creates no `TutorTrace`/`TutorInteraction` | `tests/progression-integration/assessment-no-tutor.test.ts` — **not yet implemented (m6, 2026-10-10)**: no file by this or any other name covers this claim | Refusal plus zero rows |
+| L9 | **S8** Plans, previews, digests, and progress views name targets, never items | `tests/progression-integration/preview-safety.test.ts` — **not yet implemented (m6, 2026-10-10)**: no file by this or any other name covers this claim | Response scan |
 | L10 | **S9** Provider input filtering rejects assessment content | `tests/tutor/provider-input` extension | Existing filter test extended |
-| L11 | **S11** The household export contains the learner's responses and results but never the bank or unattempted items | `tests/progression-integration/export-coverage.test.ts` | Set difference |
+| L11 | **S11** The household export contains the learner's responses and results but never the bank or unattempted items | `tests/persistence/household-data.test.ts` (m6, 2026-10-10: corrected from `tests/progression-integration/export-coverage.test.ts`, which doesn't exist — this is the file that actually asserts the `unattempted-private-item` exclusion) | Set difference |
 | L12 | Assessment feedback: an `IN_PROGRESS` run returns no per-item correctness; a `SCORED` run never returns a canonical answer for an item that may reappear | `tests/progression-integration/feedback-safety.test.ts` | Both phases |
 | L13 | **`D-58`, both `D-01` branches**: the generated site contains no `pending_review` record and no assessment- or review-role record | `tests/content/held-out.test.ts` | Generate to a temp dir and scan by id |
-| L14 | **Branch A only**: the product makes no independence claim derived from assessment — parent and learner wording is checked against the `D-55` phrase artifact's Branch A variant | `tests/progression-integration/wording-safety.test.ts` | Skipped under Branch B |
+| L14 | **Branch A only**: the product makes no independence claim derived from assessment — parent and learner wording is checked against the `D-55` phrase artifact's Branch A variant | `tests/progression-integration/wording-safety.test.ts` — **not yet implemented (m6, 2026-10-10)**: no file by this or any other name covers this claim | Skipped under Branch B |
 | L15 | **`D-01` Branch B only**: S1–S4 exclusion tests are active | `tests/content/held-out.test.ts` | Skipped under Branch A |
-| L16 | **S10**: refusal, scoring, and `ShadowDecision` records contain no prompt text, learner free text, or answer string — asserted by running a full journey and scanning every persisted log/trace/shadow row against the fixture's known text | `tests/progression-integration/log-safety.test.ts` | Field-level scan |
+| L16 | **S10**: refusal, scoring, and `ShadowDecision` records contain no prompt text, learner free text, or answer string — asserted by running a full journey and scanning every persisted log/trace/shadow row against the fixture's known text | `tests/progression-integration/log-safety.test.ts` — **not yet implemented (m6, 2026-10-10)**: no file by this or any other name covers this claim | Field-level scan |
 | L17 | **Non-vacuous publication test**: an injected synthetic `pending_review` record and an injected assessment-role record are both absent from the generated site. Without the injection the test passes trivially, because zero records are pending today | `tests/content/held-out.test.ts` | Sentinel fixture |
 | L18 | **Semantic leakage**, not substring: a hint, preview, or feedback string is checked against the item's canonical answer using answer-equivalence (numeric value, unit-normalised form, accepted-answer set), not raw substring containment — `"15"` must be caught inside `"about 15 miles"`, and `"1/4"` must be caught as `"0.25"` | `tests/progression/semantic-leakage.test.ts` | Equivalence-based |
 
@@ -2118,6 +2118,14 @@ an assertion, not a specification.
 
 Bold entries were added in this revision specifically to close a claim that
 previously had no falsifier.
+
+**Known gap (m6, tracked 2026-10-10, not blocking the C4 independent-review
+gate — see `docs/course-progression-review/manual-gate-record.md`):** L6,
+L8, L9, L14, and L16 above have no automated falsifier under any name today,
+only partial or adjacent coverage. §16 claim 5 ("assessment/review forbidden
+hints and never tutored") cites L8 as one of its two falsifiers; with L8
+missing, that claim rests on U4 alone. Writing these five falsifiers is
+tracked as its own follow-up task, separate from this gate's sign-off.
 
 ## 13.7 Manual gates — not automated criteria
 

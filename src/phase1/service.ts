@@ -1048,6 +1048,7 @@ export async function getPlan(
     content,
     masteryBySkillCode,
     timeBudgetMinutes: input.timeBudgetMinutes ?? PHASE_1_DEFAULT_TIME_BUDGET_MINUTES,
+    secureThreshold: profile?.minEstimateGate,
   });
 
   const contentById = new Map(servableContentCatalog.map((item) => [item.id, item]));
