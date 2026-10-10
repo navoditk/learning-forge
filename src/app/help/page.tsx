@@ -66,6 +66,23 @@ export default function HelpPage() {
         </p>
       </section>
 
+      <section aria-labelledby="help-curriculum-map">
+        <h2 id="help-curriculum-map">Browse the full curriculum</h2>
+        <p>
+          A browsable map of every skill, standard, and sample problem across every program — with
+          no answers, hints, or solutions shown, so it is safe to explore freely — is published at{' '}
+          <a
+            href="https://navoditk.github.io/learning-forge/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            navoditk.github.io/learning-forge
+          </a>
+          . It regenerates automatically from the same catalog the app runs on, so it can never
+          drift from what is actually taught here.
+        </p>
+      </section>
+
       <section aria-labelledby="help-diagnostic">
         <h2 id="help-diagnostic">Quick placement check</h2>
         <p>

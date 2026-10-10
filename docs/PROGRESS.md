@@ -1,5 +1,25 @@
 # Progress
 
+## 2026-10-09 — Linked the public curriculum map from the Help page
+
+- The full answer-free skill/standard/sample-problem map
+  (`scripts/generate-curriculum-site.ts`, auto-deployed to GitHub Pages at
+  `navoditk.github.io/learning-forge` on every push) had no link anywhere in
+  the app - a learner or parent had no way to find it without already
+  knowing the URL. Added a "Browse the full curriculum" section to
+  `src/app/help/page.tsx` linking to it.
+- Verified: `npx eslint`/`npx tsc --noEmit` clean, `npm run verify` (build
+  succeeds, `/help` unchanged at 175 B static), and the existing
+  `tests/browser/accessibility.spec.ts` "help page" WCAG AA check passes
+  with the new external link present.
+- This is the easy first step of a larger ask: turning on the richer in-app
+  Unit->Lesson curriculum map for all of Grade 6 Math, then building the
+  same for the other programs. That is not done here - it is gated behind
+  the same C4 manual-review sign-offs discussed in the 2026-10-09 handoff
+  refresh above, plus a large new content-authoring effort for the
+  remaining 26 skills and the other five programs. Not started pending the
+  product owner's direction.
+
 ## 2026-10-09 — Shared development entry points for Claude Code, Codex, and Copilot
 
 - Kept `AGENTS.md` as the shared rulebook and added thin `CLAUDE.md` and
