@@ -1,5 +1,25 @@
 # Progress
 
+## 2026-10-10 — Tutor policy and parent reporting checklist rows accepted
+
+- The learning/engineering owner and learning/product owner accepted, in
+  chat, the evidence recorded in `docs/tutor-policy.md` and
+  `docs/parent-reporting.md` as sufficient. Updated
+  `docs/pilot-readiness-checklist.md`'s Tutor policy and Parent reporting
+  rows from "pending review" to accepted, each still naming its one open,
+  non-blocking gap (the safety-flag human-notification step; the
+  parent-wording eval corpus).
+- While there, found the checklist's Child safety row had gone stale since
+  2026-10-09's incident-response work: it still said the escalation
+  owner/destination was pending, when it was actually named that day.
+  Corrected the row to reflect what's really still open - only the
+  automated human-notification step, not the owner/destination.
+- Docs-only; `npx prettier --check docs/` passes. Launch decision remains
+  pending: Consent (no UI/notices), Data inventory (region/processor/backup
+  terms), Provider terms (Anthropic contractual terms), and Operations
+  (backup/restore verification, spend monitoring, incident contacts) are
+  all still genuinely open, independent of this change.
+
 ## 2026-10-10 — C4 independent-review gate signed
 
 - With m5/m6/m7 closed or explicitly risk-accepted (previous entry), the
