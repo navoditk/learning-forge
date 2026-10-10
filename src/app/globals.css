@@ -816,3 +816,240 @@ a > .source-link-note {
     grid-template-columns: 1fr;
   }
 }
+
+/* Course overview, breadcrumbs and topic detail (UI-1). Reuses the existing
+   tokens only; see docs/learner-presentation-design.md. */
+
+.course-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-1);
+}
+
+.course-toolbar button {
+  min-height: 2.75rem;
+}
+
+.course-toolbar button[aria-current='page'] {
+  background: var(--color-accent-soft);
+}
+
+.route-notice,
+.course-state {
+  background: var(--color-accent-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-2);
+  margin: 0;
+}
+
+.course-state p:last-of-type {
+  margin-bottom: var(--spacing-1);
+}
+
+.course-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-2);
+  font-size: 0.9rem;
+}
+
+.course-breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  min-height: 2rem;
+}
+
+.course-breadcrumb li + li::before {
+  content: '›';
+  margin-right: 0.5rem;
+  color: var(--color-text-muted);
+}
+
+.course-breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.course-breadcrumb [aria-current='page'] {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+#course-overview-heading:focus-visible,
+#topic-heading:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
+.course-overview {
+  margin-bottom: 0;
+}
+
+.course-overview h2 {
+  margin-top: 0;
+}
+
+.course-overview-note {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.overview-chapter-list,
+.topic-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.overview-chapter-list > li {
+  margin: 0;
+}
+
+.overview-chapter {
+  background: var(--color-bg);
+  margin-bottom: var(--spacing-2);
+}
+
+.overview-chapter-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-1);
+}
+
+.overview-chapter-header h3 {
+  margin: 0;
+  font-family: var(--font-display-stack);
+  font-size: 1.1rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--color-text);
+}
+
+.overview-chapter-header a,
+.topic-card-title a {
+  display: inline-block;
+  min-height: 2rem;
+  overflow-wrap: anywhere;
+}
+
+.overview-chapter-progress p {
+  margin: var(--spacing-1) 0 var(--spacing-2);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.topic-card-list {
+  display: grid;
+  gap: var(--spacing-1);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+}
+
+.topic-card {
+  margin: 0;
+  padding: var(--spacing-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  transition: box-shadow 150ms ease;
+}
+
+.topic-card[data-openable='true']:hover {
+  box-shadow: 0 3px 10px -5px rgb(0 0 0 / 0.3);
+}
+
+.topic-card[data-openable='false'] {
+  border-style: dashed;
+}
+
+.topic-card .topic-card-title {
+  margin: 0 0 var(--spacing-1);
+  font-family: var(--font-body-stack);
+  font-size: 1rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--color-text);
+}
+
+.topic-card-status,
+.topic-detail-status {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.topic-card-status > div,
+.topic-detail-status > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+}
+
+.topic-card-status dt,
+.topic-detail-status dt {
+  font-weight: 700;
+}
+
+.topic-card-status dd,
+.topic-detail-status dd {
+  margin: 0;
+}
+
+.topic-card-note {
+  margin: var(--spacing-1) 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.topic-detail {
+  background: var(--color-bg);
+  margin: var(--spacing-2) 0;
+  padding: var(--spacing-2);
+}
+
+.topic-detail h3 {
+  font-family: var(--font-display-stack);
+  font-size: 1.05rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--color-text);
+}
+
+.topic-relations {
+  width: 100%;
+  margin-top: var(--spacing-2);
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.topic-relations caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: var(--spacing-1);
+}
+
+.topic-relations th,
+.topic-relations td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-top: 1px solid var(--color-border);
+  overflow-wrap: anywhere;
+  vertical-align: top;
+}
+
+.topic-relations thead th {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topic-card {
+    transition: none;
+  }
+}

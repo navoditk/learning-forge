@@ -36,6 +36,31 @@ authorization state.
 | `ProgressBadge` | `src/app/components/progress-badge.tsx` | The small "n/total" bar reused in the sidebar and the chapter header. |
 | `ChapterIcon` | `src/app/components/chapter-icon.tsx` | A decorative color + glyph per domain, purely for quick visual recognition in the sidebar and chapter header. |
 
+### Course overview and topic detail (UI-1)
+
+| Piece | File | Role |
+|---|---|---|
+| `CourseOverview` | `components/course-overview.tsx` | Chapter sections with `ProgressBadge` and topic cards; Practice and Mastery are separate rows. A topic is a link only when the server plan offers it. |
+| `TopicDetail` | `components/topic-detail.tsx` | Status, availability note and a "Related skills" table from the catalog prerequisites. |
+| `CourseBreadcrumb`, `CourseLink` | `components/` | Breadcrumb with `aria-current="page"`; real anchors that use `pushState`. |
+| `course-route.ts` | `src/app/` | Strict URL parse/build/resolve. |
+| `use-program-resource.ts`, `learner-data.ts` | `src/app/` | Program-tagged, zod-validated loading that discards stale responses. |
+
+URLs: `/` default activity; `?program=P&view=overview[&domain=D]`;
+`?program=P&domain=D&skill=S`. Unknown or mismatched links fall back to the
+overview with a fixed notice (no input echoed) and fetch no content. Only an
+`offered` topic starts a session, via the existing start-session server.
+"Confirmed" means independently confirmed, never course completion; unknown
+status is shown as unknown. Quiz-gated next (UI-2) is not included.
+
+An already-authorized (loaded or resumed) session is never hidden by the
+advisory plan; the plan only decides whether a new topic session is requested.
+Attempt, hint and check state stays with its session across overview/back
+navigation, and returning to `/` restores the default activity (the server
+resumes it) instead of a topic session opened meanwhile. Session responses
+are validated for every field the UI reads, including recorded attempts and
+the figure; an invalid optional field fails the load with a retry.
+
 `page.tsx` keeps all state and data fetching; it computes `chapters` with
 `buildChapters` and decides what's "active" by matching the loaded
 session's `content.skillCode` to a chapter item (`chapterForSkill`) — see
@@ -163,8 +188,5 @@ never reads or writes learner state.
   domain. Good enough to tell programs and rough categories apart at a
   glance; not meant to carry precise meaning the way the five core Grade 6
   Math glyphs do.
-- Right after a program switch, there's a brief moment where the sidebar
-  still shows the previous program's chapters/activity until the new
-  program's plan/diagnostic/review/progress all arrive — self-correcting,
-  not a stuck state (see the "Keeps the sidebar/chapter-view focus..."
-  comment in `page.tsx`), but not instantaneous either.
+- Per-topic attempt counts and server lock reasons are not in the current
+  API; the UI says so instead of inventing them.

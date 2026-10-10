@@ -11,6 +11,10 @@ export function ChapterView({
   showActivity,
   onSelectItem,
   pilotProgress,
+  breadcrumb,
+  topicDetail,
+  activityStatus,
+  onRetryActivity,
   children,
 }: {
   chapter: Chapter;
@@ -19,15 +23,24 @@ export function ChapterView({
   showActivity: boolean;
   onSelectItem: (domain: string, skillCode: string) => void;
   pilotProgress?: ReactNode;
+  breadcrumb?: ReactNode;
+  topicDetail?: ReactNode;
+  activityStatus?: 'loading' | 'error';
+  onRetryActivity?: () => void;
   children: ReactNode;
 }) {
   const currentIndex = chapter.items.findIndex((item) => item.skillCode === activeSkillCode);
   const current = currentIndex === -1 ? undefined : chapter.items[currentIndex];
   const hasPrevious = currentIndex > 0;
+  const actionAllowed =
+    current?.action !== undefined &&
+    current.availability !== 'blocked' &&
+    current.availability !== 'unavailable';
   const hasNext = currentIndex !== -1 && currentIndex < chapter.items.length - 1;
 
   return (
     <section aria-labelledby="chapter-heading" className="chapter-view">
+      {breadcrumb}
       <header className="chapter-view-header">
         <div className="chapter-view-title">
           <ChapterIcon domain={chapter.domain} size={44} />
@@ -39,6 +52,7 @@ export function ChapterView({
         <ProgressBadge confirmedCount={chapter.confirmedCount} totalCount={chapter.totalCount} />
       </header>
       {pilotProgress}
+      {topicDetail}
       <nav className="chapter-pager" aria-label={`${chapter.label} navigation`}>
         <button
           type="button"
@@ -85,7 +99,19 @@ export function ChapterView({
             : `Nothing is queued for "${current.title}" right now. Check back after more practice elsewhere.`}
         </p>
       )}
-      {!showActivity && current?.action && <p role="status">Loading this activity…</p>}
+      {!showActivity && actionAllowed && activityStatus === 'error' && (
+        <div role="alert">
+          <p>This activity could not be loaded.</p>
+          {onRetryActivity && (
+            <button type="button" onClick={onRetryActivity}>
+              Try again
+            </button>
+          )}
+        </div>
+      )}
+      {!showActivity && actionAllowed && activityStatus !== 'error' && (
+        <p role="status">Loading this activity…</p>
+      )}
       {showActivity && children}
     </section>
   );

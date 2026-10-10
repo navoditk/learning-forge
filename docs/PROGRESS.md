@@ -1,5 +1,21 @@
 # Progress
 
+## 2026-10-10 — UI-1 and UI-3 committed for the authorized push
+
+- Product owner explicitly requested committing and pushing the reviewed
+  UI-1 implementation and UI-3 proposed specification.
+- Re-ran `npm run verify`: passed formatting, lint, typecheck,
+  migration-presence checks, unit/contract/eval tests and production build.
+  Explicit formatting checks for the recall-card specification and expansion
+  plan, plus `git diff --check`, also passed.
+- This commit includes the course overview/navigation implementation and
+  tests, the proposed recall-card design, and related documentation only.
+  Previously recorded browser/integration and independent-review evidence
+  remains in the entries below. No card implementation, authoring approval,
+  C4/C5 authorization or separate deployment action is granted by this push.
+- Next: human review of the UI-3 contract/pedagogy prerequisites before a
+  separately authorized flag-off synthetic increment.
+
 ## 2026-10-10 — UI-3 proposed specification completed and reviewed
 
 - Added `docs/ui-recall-cards-design.md`: proposed dedicated recall-card

@@ -170,4 +170,4 @@ Open `http://localhost:3000/` for the learner session or
 identity only; it is not authentication and must not be used with real learner
 data. `http://localhost:3000/resources` (linked from the main page as
 **Curriculum resources**) is a read-only reference index of research citations
-derived from `docs/curriculum-sources.md`; see `docs/learner-presentation-design.md`.
+derived from `docs/curriculum-sources.md`; see `docs/learner-presentation-design.md`. A "Course overview" button opens clickable chapter/topic navigation with shareable `?program=&domain=&skill=` links.

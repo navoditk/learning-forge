@@ -64,11 +64,17 @@ export type ChapterItemAction = {
   label: string;
 };
 
+// Server-derived planner readiness (advisory, not authority): 'blocked' and
+// 'unavailable' come from the plan's own lists; 'unknown' means no plan has
+// loaded, so nothing is claimed either way.
+export type ItemAvailability = 'offered' | 'blocked' | 'unavailable' | 'unknown';
+
 export type ChapterItem = {
   skillCode: string;
   title: string;
   status: SkillProgress['status'];
   locked: boolean;
+  availability: ItemAvailability;
   action?: ChapterItemAction;
 };
 
@@ -77,6 +83,7 @@ export type Chapter = {
   label: string;
   order: number;
   confirmedCount: number;
+  practicingCount: number;
   totalCount: number;
   items: ChapterItem[];
 };
@@ -187,6 +194,8 @@ export function buildChapters(
       .map((skill) => skill.skillCode),
   );
   const actionBySkillCode = buildActionBySkillCode(plan, diagnosticPlan, reviewQueue);
+  const blockedSkillCodes = new Set(plan?.blockedSkills);
+  const unavailableSkillCodes = new Set(plan?.unavailableSkills);
 
   const itemsByDomain = new Map<string, ChapterItem[]>();
   for (const skill of progress.skills) {
@@ -195,6 +204,13 @@ export function buildChapters(
       title: skill.title,
       status: skill.status,
       locked: !arePrerequisitesMet(skill.skillCode, confirmedSkillCodes),
+      availability: !plan
+        ? 'unknown'
+        : blockedSkillCodes.has(skill.skillCode)
+          ? 'blocked'
+          : unavailableSkillCodes.has(skill.skillCode)
+            ? 'unavailable'
+            : 'offered',
       action: actionBySkillCode.get(skill.skillCode),
     };
     const existing = itemsByDomain.get(skill.domain);
@@ -209,6 +225,7 @@ export function buildChapters(
       label: chapterLabel(domain),
       order: chapterOrder(domain),
       confirmedCount: items.filter((item) => item.status === 'INDEPENDENTLY_CONFIRMED').length,
+      practicingCount: items.filter((item) => item.status === 'PRACTICING').length,
       totalCount: items.length,
       items,
     });
@@ -227,4 +244,44 @@ export function nextChapterDomain(chapters: Chapter[], currentDomain: string): s
  * containing whatever activity is currently loaded. */
 export function chapterForSkill(chapters: Chapter[], skillCode: string): Chapter | undefined {
   return chapters.find((chapter) => chapter.items.some((item) => item.skillCode === skillCode));
+}
+
+export type TopicStatusText = {
+  practice: string;
+  mastery: string;
+  attempts: string;
+  availability: string | null;
+};
+
+/**
+ * Plain-language, truthful status lines for a topic. Practice evidence and
+ * independent confirmation are separate measures; "confirmed" is only ever
+ * said for server-confirmed status. Attempt counts and lock reasons are not
+ * part of the progress or plan responses, so they are reported as not
+ * available rather than inferred.
+ */
+export function describeTopicStatus(item: ChapterItem): TopicStatusText {
+  const confirmed = item.status === 'INDEPENDENTLY_CONFIRMED';
+  return {
+    practice:
+      item.status === 'NOT_STARTED'
+        ? 'No practice evidence recorded yet'
+        : 'Practice evidence recorded',
+    mastery: confirmed ? 'Independently confirmed' : 'Not yet independently confirmed',
+    attempts: 'Number of attempts is not reported in this view',
+    availability:
+      item.availability === 'blocked'
+        ? 'Not offered yet. The course plan lists this topic as blocked; no further reason is available in this view.'
+        : item.availability === 'unavailable'
+          ? 'No activity is offered for this topic yet.'
+          : item.availability === 'unknown'
+            ? 'Availability is unknown because the course plan has not loaded.'
+            : null,
+  };
+}
+
+/** A topic can be opened from the overview or a deep link only when the
+ * server's plan has loaded and does not list it as blocked or unavailable. */
+export function isTopicOpenable(item: ChapterItem): boolean {
+  return item.availability === 'offered';
 }
