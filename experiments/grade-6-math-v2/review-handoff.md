@@ -554,3 +554,43 @@ lint`, `npx tsc --noEmit`, `npm run content:validate` (40 tests), and
 composite `parts` answers were additionally verified against the real
 `matchesAcceptedAnswer` function (exact match, differently-phrased
 complete match, missing-clause rejection, wrong-value rejection).
+
+## Revision 18 — m6 hint-ladder expansion
+
+Deepened every one-step hint ladder this candidate had to two steps (26 of
+the 28 Revision 17 counted - 2 were already brought to two steps as a side
+effect of Revision 17's own content redesigns). Each new step 2
+(`multiple_hints_representation`) targets the item's own declared
+`misconceptionCode` directly - a concrete nudge toward the specific error
+the item is designed to catch - rather than restating step 1's general
+strategy in different words. For example,
+`v2-coordinate-distance-horizontal` (misconception:
+`subtracts-coordinates-without-taking-absolute-value`) now has a step 2
+that names the absolute-value step explicitly: "A subtraction can come out
+negative, but a distance is never negative - apply absolute value to fix
+the sign."
+
+Every new hint was checked against its own record's
+`forbiddenLeakagePatterns` (case-insensitive substring scan of every
+hint's `prompt` + `question` joined, matching `validate.ts`'s own check)
+before this revision was considered done; zero leaks found. `validate.ts`
+also independently re-confirmed this as part of its own non-leaking-hints
+check.
+
+**Explicitly still not fixed:**
+
+- `6.RP.A.3d` (unit conversion) - structurally blocked; see Revision 17.
+- **M2 for the other ~29 composite records** - still deferred as
+  lower-urgency, unchanged by this revision.
+- m5 (beyond the one instance Revision 17 fixed) and m7 (beyond the audit
+  in Revision 17, which found nothing to fix) are not fully closed.
+
+All 48 records remain `pending_review`; this remediation does not
+constitute human review or approval.
+
+**Validation evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts`,
+`npm run format:check`, `npm run lint`, `npx tsc --noEmit`, `npm run
+content:validate` (40 tests), and `npm run verify` (409 tests + production
+build) all passed. A standalone script-based scan confirmed no hint ladder
+in the file contains any of its own record's `forbiddenLeakagePatterns`
+substrings.

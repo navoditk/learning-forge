@@ -39,10 +39,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "Keep the requested order before simplifying both parts by the same factor.",
         "question": "Which color belongs in the first position of the ratio?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Write the two counts in the exact order asked for before you simplify, so you don't accidentally flip which color comes first.",
+        "question": "After you divide both terms by their common factor, does the first position still represent blue?"
       }
     ],
     "forbiddenLeakagePatterns": ["2:3", "2 to 3"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -91,10 +100,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "The word 'all' asks for the whole mix, not just the other ingredient.",
         "question": "What operation finds the total number of cups in the mix?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "The ratio asked for compares one ingredient to the entire mixture, not to the other ingredient alone.",
+        "question": "Does the second number in your ratio represent only the cereal, or does it represent every cup in the mix?"
       }
     ],
     "forbiddenLeakagePatterns": ["3:8", "3 to 8", "3/8"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -198,7 +216,10 @@
       "9 miles per hour",
       "9 mi/h"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -243,10 +264,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "A percent must be converted to a decimal or a fraction out of 100 before it can be multiplied by a price.",
         "question": "What decimal is equivalent to 75%?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "75 is not the number you multiply by directly - only its decimal form should be multiplied by the price.",
+        "question": "Is the number you multiply by the price 75, or its decimal form?"
       }
     ],
     "forbiddenLeakagePatterns": ["$30", "30 dollars"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -291,10 +321,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "The quotient counts complete groups, while any amount left over is the remainder.",
         "question": "After making complete groups of eight, could every sticker be used exactly?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "After dividing, don't discard the amount left over - the context asks for both the number of full envelopes and the stickers that don't fill one.",
+        "question": "Once you subtract the stickers used in full envelopes from the total, is that leftover amount zero or something else?"
       }
     ],
     "forbiddenLeakagePatterns": ["432 full envelopes", "432 R2", "remainder 2"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -339,10 +378,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "Make the place values line up before adding.",
         "question": "How many hundredths should be written in the number 3.7 when it is aligned with 14.08?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Write 3.7 with a zero in the hundredths place so both numbers have two decimal digits, then add straight down by place value.",
+        "question": "What two-decimal-place form of 3.7 lines up under 14.08?"
       }
     ],
     "forbiddenLeakagePatterns": ["17.78 meters", "17.780 meters"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -387,10 +435,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "A factor divides a number evenly; the requested factor must belong to both numbers.",
         "question": "Are you looking for a shared divisor or a shared multiple?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A common factor must divide both numbers; a common multiple is a different, usually much larger, kind of number - make sure you're listing factors, not multiples.",
+        "question": "Are you listing numbers that divide into 24 and 36, or numbers that 24 and 36 divide into?"
       }
     ],
     "forbiddenLeakagePatterns": ["12"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -444,7 +501,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["12 x (3 + 2)", "12 × (3 + 2)", "12(3 + 2)", "12(3+2)"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -489,10 +549,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "The matching y-coordinates mean the segment is horizontal.",
         "question": "Which coordinates should be compared for a horizontal distance?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A subtraction can come out negative, but a distance is never negative - apply absolute value to fix the sign.",
+        "question": "If subtracting the x-coordinates gives a negative result, what turns it into a positive distance?"
       }
     ],
     "forbiddenLeakagePatterns": ["9 units"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -537,10 +606,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "A vertical segment has matching x-coordinates.",
         "question": "Which coordinates change as you move from C to D?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A vertical distance depends on the coordinate that changes between the two points, not the one that stays the same.",
+        "question": "Between points C and D, which coordinate - x or y - actually changes?"
       }
     ],
     "forbiddenLeakagePatterns": ["12 units"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -588,10 +666,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "Separate the one-time fee from the amount that repeats for every workshop.",
         "question": "Which part changes when one more workshop is added?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "An expression alone doesn't explain itself - state in words exactly what quantity the variable counts.",
+        "question": "What real-world thing does w stand for in this situation?"
       }
     ],
     "forbiddenLeakagePatterns": ["12 + 4w", "4w + 12"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -639,10 +726,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "n counts pots, so changing n changes how many groups of six there are.",
         "question": "What does six times n represent in this situation?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "n is not locked to one value - it can be any whole number of pots the garden club decides to use, as long as that count makes sense in context.",
+        "question": "Could n be any whole number starting from a particular value, or must it always be the same fixed number?"
       }
     ],
     "forbiddenLeakagePatterns": ["6n + 3", "3 + 6n"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -687,10 +783,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "The number of servings asks how many one-fourth-liter groups fit in five-sixths liter.",
         "question": "Which fraction is the divisor in this division expression?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Keep the pitcher's amount as the first number and flip only the serving size's fraction before multiplying.",
+        "question": "Which fraction should be flipped to its reciprocal - the pitcher's amount, or the serving size?"
       }
     ],
     "forbiddenLeakagePatterns": ["10/3 servings", "3 1/3 servings"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -735,10 +840,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "Write the total strip length divided by one piece length before changing division to multiplication.",
         "question": "Which fraction describes the size of one piece?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A quotient from a measurement division needs its unit stated - say what each counted group actually is.",
+        "question": "After dividing, what should you call each of the equal-sized results - just a number, or a number of pieces?"
       }
     ],
     "forbiddenLeakagePatterns": ["2 pieces"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -796,7 +910,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["13 feet", "5 is the greater number", "5 > -18"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -850,10 +967,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "First compare every value with zero, then compare the two negative values by which is closer to zero.",
         "question": "Which listed value is positive?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Between two negative values, the one with the smaller magnitude (closer to zero) is actually the greater number.",
+        "question": "Which negative value, -1/2 or -3/4, has the smaller magnitude?"
       }
     ],
     "forbiddenLeakagePatterns": ["0.2, -1/2, -3/4"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -897,12 +1023,18 @@
             "3 in the 2-3 interval, 4 in the 4-5 interval, 1 in the 6-7 interval"
           ]
         },
-        { "accepted": ["pages read", "pages"] },
+        {
+          "accepted": ["pages read", "pages"]
+        },
         {
           "accepted": ["centered around 4 to 5", "centered at 4-5", "typical value around 4 to 5"]
         },
-        { "accepted": ["range from 2 to 6", "spread from 2 to 6", "range 2-6"] },
-        { "accepted": ["clustered from 3 to 5", "cluster from 3 to 5", "clustered 3-5"] }
+        {
+          "accepted": ["range from 2 to 6", "spread from 2 to 6", "range 2-6"]
+        },
+        {
+          "accepted": ["clustered from 3 to 5", "cluster from 3 to 5", "clustered 3-5"]
+        }
       ]
     },
     "answerFormat": "The dot-plot count at each value, the histogram count in each interval, and one sentence describing center, spread, and shape.",
@@ -933,7 +1065,10 @@
       "3 in 2-3, 4 in 4-5, 1 in 6-7",
       "centered around 4 to 5 pages"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -966,11 +1101,21 @@
       ],
       "equivalenceNotes": "Manual review is needed for equivalent complete summaries; this candidate validator accepts the canonical sentence plus, via parts, any response naming each required five-number-summary value and summary feature independently of order or exact wording.",
       "parts": [
-        { "accepted": ["minimum 1", "min 1"] },
-        { "accepted": ["lower quartile 3", "q1 3", "lower quartile is 3"] },
-        { "accepted": ["median 5", "median is 5"] },
-        { "accepted": ["upper quartile 7", "q3 7", "upper quartile is 7"] },
-        { "accepted": ["maximum 9", "max 9"] },
+        {
+          "accepted": ["minimum 1", "min 1"]
+        },
+        {
+          "accepted": ["lower quartile 3", "q1 3", "lower quartile is 3"]
+        },
+        {
+          "accepted": ["median 5", "median is 5"]
+        },
+        {
+          "accepted": ["upper quartile 7", "q3 7", "upper quartile is 7"]
+        },
+        {
+          "accepted": ["maximum 9", "max 9"]
+        },
         {
           "accepted": [
             "ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric",
@@ -1007,7 +1152,10 @@
       "ranges from 1 to 9 minutes",
       "middle half from 3 to 7 minutes"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1070,7 +1218,10 @@
       "opposite +18 meters",
       "18 meters below sea level"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1102,7 +1253,9 @@
       ],
       "equivalenceNotes": "Accept equivalent wording that states the temperature is 4 degrees below 0 and that 0 degrees Celsius is a specific reference point (water's freezing point), not the absence of temperature.",
       "parts": [
-        { "accepted": ["below 0 by 4 degrees", "4 degrees below 0", "4 below zero"] },
+        {
+          "accepted": ["below 0 by 4 degrees", "4 degrees below 0", "4 below zero"]
+        },
         {
           "accepted": [
             "0 degrees celsius is the freezing point of water",
@@ -1141,7 +1294,10 @@
       "freezing point of water",
       "not an absence of temperature"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1188,10 +1344,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "A number farther left on a number line is less; convert only enough forms to compare their locations.",
         "question": "What decimal is equivalent to three-fourths?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A fraction's denominator size alone doesn't decide order - convert to decimals or a common denominator to compare fairly.",
+        "question": "What decimal or common-denominator form lets you directly compare -3/4 and 1/4?"
       }
     ],
     "forbiddenLeakagePatterns": ["-3/4, -0.5, 0, 1/4", "-0.75", "-1/2"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1240,10 +1405,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "In an ordered pair, the first coordinate controls horizontal position and the second controls vertical position.",
         "question": "Which coordinate should be compared to decide which point is farther left?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "The first number in an ordered pair is always the x-coordinate, no matter which position looks more familiar.",
+        "question": "For point P, which number is the x-coordinate - the first listed value or the second?"
       }
     ],
     "forbiddenLeakagePatterns": ["P (-2, 1/2)", "Q (1/2, -2)"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1292,10 +1466,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "The base is the factor that repeats, and the exponent counts repetitions.",
         "question": "Which number is repeated, and how many times does it appear?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "The repeated number goes on the bottom, and the count of how many times it repeats goes on top, small and raised.",
+        "question": "In power notation, does the number that repeats go in the larger position or the smaller raised position?"
       }
     ],
     "forbiddenLeakagePatterns": ["5^4", "base 5", "exponent 4"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1340,10 +1523,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "An exponent tells how many copies of the base are multiplied together.",
         "question": "How many factors of 3 should appear in the repeated product?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "The exponent tells you how many times to multiply the base by itself - it is not a second factor to multiply the base by once.",
+        "question": "Should 3 be multiplied by itself four times, or should 3 be multiplied by 4 one time?"
       }
     ],
     "forbiddenLeakagePatterns": ["81", "3 x 3 x 3 x 3"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1397,7 +1589,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["4 + 3t", "19 dollars", "4 + 3(5)"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1446,10 +1641,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "Keep each measurement paired with the variable whose name describes it.",
         "question": "Which given value belongs in the position marked l?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Keep each number attached to the variable whose name matches the measurement it describes before you substitute.",
+        "question": "Which given measurement, 8 feet or 3 feet, should replace l in the expression?"
       }
     ],
     "forbiddenLeakagePatterns": ["31 dollars", "l is length", "w is width"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1510,7 +1714,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["5x + 10", "both equal 25", "25 when x = 3"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1562,10 +1769,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "Compare the operations and terms before deciding whether the expressions differ structurally.",
         "question": "Did the operation change, or did only the order of the addends change?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Naming the property that justifies equivalence means identifying which arithmetic rule allows reordering addends without changing the sum.",
+        "question": "What is the name of the property that lets you swap the order of two addends?"
       }
     ],
     "forbiddenLeakagePatterns": ["commutative property", "both equal 17", "Equivalent"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1614,10 +1830,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "To test a proposed value, replace the variable with that value and evaluate both sides.",
         "question": "What expression results when x is replaced by the proposed number?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Checking whether a value makes an equation true never requires solving for the variable - only substituting and simplifying both sides.",
+        "question": "After replacing x with the proposed number, is there any need to isolate x again, or is simplifying enough?"
       }
     ],
     "forbiddenLeakagePatterns": ["Yes", "2(6) + 1 = 13", "13"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1666,10 +1891,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "Test each proposed value, then ask what values are on the same satisfying side of the boundary.",
         "question": "What value makes n + 2 equal 7, and which side of it makes the expression smaller?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "An inequality's solution set is every number that keeps it true, not just the one or two values you happened to test.",
+        "question": "Besides the two tested values, are there other values that would also keep n plus 2 less than seven?"
       }
     ],
     "forbiddenLeakagePatterns": ["3 is a solution", "6 is not", "less than 5", "n < 5"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1727,7 +1961,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["x = 8", "8 + 7 = 15", "15 = 15"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1785,7 +2022,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["x = 24", "(3/4)(24) = 18", "18 = 18"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1849,7 +2089,10 @@
       "0 through 15",
       "shading left down to 0"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1907,7 +2150,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["4n <= 30", "7 works", "n is 0 through 7", "n <= 7.5"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -1965,7 +2211,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["c = 6h", "cost depends on hours", "(0,0), (1,6), (2,12), (3,18)"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2027,7 +2276,10 @@
       "pairs are (0,10)",
       "increasing line with vertical intercept 10"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2081,7 +2333,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["72 square meters", "60 square meters", "12 square meters"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2126,10 +2381,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "A parallelogram's area uses the base and the perpendicular height, not the slanted side.",
         "question": "Which measurement is perpendicular to the base?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Adding up all the side lengths gives perimeter, not area - area for this shape comes from multiplying base by height.",
+        "question": "Should you add the side lengths together, or multiply the base by the perpendicular height?"
       }
     ],
     "forbiddenLeakagePatterns": ["60 square feet", "60 ft^2", "60 square ft"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2183,7 +2447,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["3/4 cubic foot", "48 unit cubes", "1/64 cubic foot"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2241,7 +2508,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["2 cubic meters", "2 m^3", "space inside the box"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2290,10 +2560,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "Horizontal movement changes x; vertical movement changes y.",
         "question": "Which coordinate changes along AB, and which changes along BC?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Since AB and BC are each parallel to an axis, their lengths come from a simple coordinate subtraction, not a diagonal distance formula.",
+        "question": "Do AB and BC need the Pythagorean theorem, or just a difference between matching coordinates?"
       }
     ],
     "forbiddenLeakagePatterns": ["AB = 7 units", "BC = 4 units", "horizontal 7", "vertical 4"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2351,7 +2630,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["6, 2, 3, 3, 3, 5 units", "side of length 3"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2396,10 +2678,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "A closed rectangular prism has three pairs of congruent faces.",
         "question": "How many faces belong to each listed rectangle size?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Make sure all three congruent face pairs are counted in your total, not just some of them.",
+        "question": "How many separate face areas should be added together for a closed rectangular prism?"
       }
     ],
     "forbiddenLeakagePatterns": ["62 square centimeters", "62 cm^2", "30 + 20 + 12"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2453,7 +2744,10 @@
       }
     ],
     "forbiddenLeakagePatterns": ["132 square centimeters", "132 cm^2", "132 cubic centimeters"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2502,10 +2796,19 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "A statistical question expects different answers from a group or repeated measurements.",
         "question": "Which question asks about many people's measurements?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "A statistical question anticipates variability across a group; a question about one named person has only one possible value.",
+        "question": "Does question (b) ask about a group of people, or about one specific named person?"
       }
     ],
     "forbiddenLeakagePatterns": ["Grade 6 students' reading times"],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2554,6 +2857,12 @@
         "assistanceLevel": "small_strategic_hint",
         "prompt": "A question is not the same thing as one recorded answer.",
         "question": "Who should be measured so different pet counts can be compared?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Replace the single named person with a group so the same question could produce many different answers.",
+        "question": "Instead of asking about one specific person, what group could the revised question ask about?"
       }
     ],
     "forbiddenLeakagePatterns": [
@@ -2561,7 +2870,10 @@
       "students in Class 6A",
       "How many pets do students"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2595,8 +2907,12 @@
       ],
       "equivalenceNotes": "Accept equivalent context summaries that name five observations, the 7-minute mean, the 2-minute MAD, and identify the notably high 11-minute reading as pulling the mean upward.",
       "parts": [
-        { "accepted": ["5 observations", "n = 5", "five students"] },
-        { "accepted": ["mean 7 minutes", "mean = 7 min", "average is 7 minutes"] },
+        {
+          "accepted": ["5 observations", "n = 5", "five students"]
+        },
+        {
+          "accepted": ["mean 7 minutes", "mean = 7 min", "average is 7 minutes"]
+        },
         {
           "accepted": [
             "mad 2 minutes",
@@ -2608,7 +2924,9 @@
         {
           "accepted": ["11 is notably high", "11 min is notably high", "11 minutes is notably high"]
         },
-        { "accepted": ["pulls the mean upward", "pulls the average upward"] }
+        {
+          "accepted": ["pulls the mean upward", "pulls the average upward"]
+        }
       ]
     },
     "answerFormat": "Mean, MAD, number of observations, and a contextual summary.",
@@ -2648,7 +2966,10 @@
       "5 observations",
       "typical reading time 7"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
@@ -2713,7 +3034,10 @@
       "middle half from 5 to 11",
       "7 observations"
     ],
-    "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
+    "provenance": {
+      "origin": "llm_drafted",
+      "licenseStatus": "owned"
+    },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",

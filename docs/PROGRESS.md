@@ -236,6 +236,27 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — Grade 6 Math v2 candidate, Revision 18: m6 hint-ladder expansion
+
+- Deepened all 26 remaining one-step hint ladders (of the 28 Revision 17
+  counted; 2 had already gained a second step as a side effect of
+  Revision 17's own redesigns) to two steps each.
+- Every new step 2 targets the item's own declared `misconceptionCode`
+  directly - a concrete nudge at the specific error, not a restatement of
+  step 1's general strategy. Example:
+  `v2-coordinate-distance-horizontal` (misconception:
+  `subtracts-coordinates-without-taking-absolute-value`) now explicitly
+  names the absolute-value step in its second hint.
+- Verified zero leaks: a script-based scan confirmed no hint ladder
+  contains any of its own record's `forbiddenLeakagePatterns` substrings,
+  and `validate.ts`'s own non-leaking-hints check independently agrees.
+- Closes m6. Still open: `6.RP.A.3d`, the ~29-record M2 `parts`
+  migration, and the unexhausted remainder of m5/m7.
+- Verification: `npx tsx experiments/grade-6-math-v2/validate.ts`, `npm
+run format:check`, `npm run lint`, `npx tsc --noEmit`, `npm run
+content:validate` (40 tests), and `npm run verify` (409 tests + build)
+  all pass clean.
+
 ## 2026-10-10 — Grade 6 Math v2 candidate, Revision 17: M4 remainder, 6.RP.A.3a, m2
 
 - **M4 (remaining half):** `v2-center-median-iqr`'s dataset changed from
