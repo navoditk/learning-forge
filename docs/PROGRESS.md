@@ -271,6 +271,47 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — C4 shadow-traffic prep: fixed the wrong export command, verified the tooling
+
+- The C4 blocker is unchanged in substance - `docs/course-progression-review/shadow-divergence-review.md`
+  still needs real representative production shadow traffic to accumulate
+  and be dispositioned, which only the product owner can run (no
+  production DB access from this session, per `AGENTS.md`). What moved:
+  the tooling for that step is now verified working end to end, and a
+  real documentation bug in the runbook is fixed.
+- **Found and fixed:** the review doc's "Readiness command" pointed at
+  `npm run progression:readiness`, which only prints aggregate counts.
+  `npm run progression:shadow-review` (`scripts/export-progression-shadow-
+review.ts`) is the one that also prints the full redacted
+  `shadowReview.divergences` array - the actual per-row data (decision id,
+  target, shadow vs. actual decision, reason code) the disposition table
+  needs to be filled in at all. The wrong command would have given the
+  product owner only counts, with no way to fill the table.
+- **Verified end to end against local/staging data** (not production):
+  ran the existing `PROGRESSION_SHADOW_RUN_ENVIRONMENT=staging npm run
+progression:shadow-pilot` synthetic harness (8 requests, 4 divergent),
+  confirmed `progression:shadow-review` prints all 4 divergences with
+  full redacted detail and `reviewStatus: "UNREVIEWED"`, built a
+  dispositions file marking all four `EXPLAINED`, and confirmed
+  `SHADOW_REVIEW_DISPOSITIONS_FILE=<path>` correctly flips both
+  `shadowReview.reviewComplete` and the top-level
+  `readyForIndependentReview` to `true`.
+- Confirmed the representative window opened at deploy
+  `dep-daurfsc9v7es73bkocv0` (2026-10-01) is still valid: no commits
+  touching `src/progression/` (predicate/policy code) have landed since,
+  so nothing requires resetting the window per the doc's own rule.
+- Rewrote the review doc's run record and added a numbered procedure
+  (safety caveat, empty-set handling, disposition-file round trip,
+  pointer to existing staging-disposition precedent for common reason
+  codes) so the product owner can execute this themselves without
+  needing to re-derive the steps. Added a cross-reference from
+  `docs/local-development.md`.
+- **Still genuinely blank, unchanged**: real production traffic has not
+  been pulled or dispositioned. This needs the product owner to run the
+  corrected command against the real Render database and either fill the
+  table themselves or paste the redacted JSON output back (confirmed
+  schema-safe: no household id, learner id, prompt, answer, or free text).
+
 ## 2026-10-10 — Child-safety notification gap closed
 
 - Closed the "actual human-notification step when a flag fires" gap

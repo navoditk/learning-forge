@@ -68,4 +68,8 @@ npm run progression:readiness
 ```
 
 The command reports counts and review status only; it is not an approval or an
-authorization switch.
+authorization switch. To also print the redacted per-row divergence detail
+needed to actually fill `docs/course-progression-review/shadow-divergence-review.md`'s
+disposition table, use `npm run progression:shadow-review` instead (same
+safety rules apply — disposable local database only, never production from
+a non-authorized session).
