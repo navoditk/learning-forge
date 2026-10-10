@@ -51,6 +51,32 @@ section exists - if a second person (a co-developer, a support contact)
 ever needs access, record here what they can see and why, rather than
 granting blanket Render/repo access by default.
 
+## Support-access procedure
+
+No third party has standing access to anything today — not Render, not the
+repository, not `.env`. If the product owner ever needs outside technical
+help (debugging a deploy, a database issue), grant the narrowest access that
+solves the problem, for the shortest time, and record it here:
+
+1. Prefer sharing a redacted log, error message, or screen-share over
+   granting dashboard access at all.
+2. If Render dashboard access is unavoidable, use Render's own collaborator
+   invite (scoped to this one service/workspace, not an Anthropic or
+   repository credential) rather than sharing the product owner's own
+   login.
+3. If repository access is unavoidable, invite as a GitHub collaborator
+   rather than sharing a personal access token or local credentials.
+4. Never share `.env`, the Render dashboard password/session, or the
+   Anthropic console session itself - those map directly to the secrets
+   above, not to a scoped collaborator role.
+5. Revoke the access (remove the collaborator) as soon as the issue is
+   resolved, and rotate `AUTH_SECRET`/`ANTHROPIC_API_KEY` per the schedule
+   below if the access could plausibly have exposed either value.
+6. Record here: who, what access, why, when granted, when revoked.
+
+No support-access grant has happened yet; this section exists so the first
+one has a documented procedure instead of improvising under time pressure.
+
 ## Rotation procedure
 
 Neither secret has a forced expiry. Rotate on this schedule, and

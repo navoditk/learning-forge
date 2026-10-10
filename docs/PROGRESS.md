@@ -1,5 +1,47 @@
 # Progress
 
+## 2026-10-10 — Wrapped up the remaining pilot-readiness rows
+
+- **Identity and access**: wrote a support-access procedure in
+  `docs/secrets-management.md` (scoped/temporary access, never sharing
+  standing credentials, revoke-and-rotate after). No grant has happened
+  yet, so it's documented but untested in practice. Managed identity
+  provider remains a named, accepted gap at this scale.
+- **Consent**: there's no self-service sign-up in this app at all - a
+  household is created by the product owner running
+  `scripts/create-parent-account.ts` directly, so a consent *checkbox* flow
+  has no second party to address. Wrote `docs/consent-notice.md` instead:
+  explicit scope, the notices already given (the AI-not-a-human disclosure
+  and safety note, the Help page's privacy section), the working revocation
+  path (`/parent` deletion, already tested), and a dated evidence table.
+  Needs the privacy/legal + product owner's explicit acceptance, same as
+  tutor-policy/parent-reporting earlier.
+- **Data inventory**: found and fixed real doc drift - every row in
+  `docs/privacy-inventory.md` said "region not selected," but `render.yaml`
+  has pinned `oregon` for both the database and web service since
+  2026-09-17; nobody had reflected it back into the inventory. Also
+  researched Render's Hobby-tier Postgres backup behavior (3-day
+  point-in-time recovery window) from Render's own docs.
+- **Persistence**: performed a real dry run of `docs/backup-recovery.md`'s
+  restore-drill procedure against a fresh local database - created it,
+  applied all 17 migrations via `db:deploy`, seeded synthetic data, and ran
+  the full `test:integration` suite against it (163/163 passed), confirming
+  household ownership, immutable attempts, and every other check the drill
+  names actually hold on a freshly migrated, freshly seeded database. This
+  validates the documented procedure, not a real Render restore - the
+  scratch database was dropped immediately after.
+- **Operations**: wrote `docs/operations.md` covering cost structure
+  (Render is fixed-price; Anthropic is the actual usage-metered risk),
+  exact steps for the Anthropic console spend limit/alerts (not yet done -
+  the one action only the product owner can take, since it requires
+  signing into that console), and incident contacts for infrastructure
+  issues, distinct from the child-safety escalation contact.
+- Updated all five checklist rows in `docs/pilot-readiness-checklist.md`
+  to reflect what's resolved vs. still genuinely open in each.
+- Verification: `npm run verify` (build + all unit/contract tests) and
+  `npx prettier --check docs/` both pass clean. Docs-only except the dry
+  run, which touched no tracked files (scratch database, dropped after).
+
 ## 2026-10-09 — Native mappings approved and successful model checks; independent confirmation
 
 - Product owner approved native mappings in chat after discovery exposed

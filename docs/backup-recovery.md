@@ -1,9 +1,21 @@
 # Production database backup and recovery runbook
 
-This runbook applies to the single-household Render pilot. It deliberately
-does not claim a backup frequency, retention period, point-in-time recovery
-window, or restore region until those details are confirmed in the Render
-dashboard for `learning-forge-db`.
+This runbook applies to the single-household Render pilot.
+
+**Researched 2026-10-10 from Render's own documentation (not yet confirmed
+against this account's actual dashboard settings).** `learning-forge-db` is
+on the `basic-256mb` plan (`render.yaml`), which falls under Render's
+Hobby-tier Postgres offering:
+
+- **Point-in-time recovery window**: the past 3 days.
+- **Restoring creates a new database instance** — Render does not overwrite
+  the original. You validate the recovery instance, then repoint services
+  to it.
+- Region is `oregon` for both the database and web service (`render.yaml`).
+
+This narrows, but does not close, the "Dashboard verification" checklist
+below — the exact configured retention and real restore timing for this
+specific account still need confirming by actually opening the dashboard.
 
 ## Recovery targets
 
@@ -81,7 +93,19 @@ If production data is unavailable or appears inconsistent:
 
 ## Current status
 
+**Dry run performed 2026-10-10 against a local disposable database**, to
+verify the drill's commands are technically sound before ever running them
+against a real Render restore: created a fresh scratch database, ran
+`db:validate` and `db:deploy` against it exactly as step 3 above prescribes
+(all 17 migrations applied cleanly), seeded synthetic data
+(`prisma/seed.sql`), and ran the full `test:integration` suite against it
+(163/163 passed) — confirming household ownership, immutable attempts, and
+every other check step 5 names actually hold on a freshly migrated,
+freshly seeded database. This validates the *procedure*, not a real Render
+restore; the scratch database was dropped immediately after.
+
 The repository has reversible migrations and local integration coverage, but a
-Render backup/restore drill has not yet been performed from this environment.
-The pilot remains single-household and invite-only until the dashboard facts
+real Render backup/restore drill has not yet been performed from this
+environment. The pilot remains single-household and invite-only until the
+dashboard facts
 and a synthetic restore drill are recorded.
