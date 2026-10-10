@@ -104,52 +104,108 @@
     "accessibleAlternative": "Read aloud or display: The mix has three cups of raisins and five cups of cereal. Compare raisins with the total amount, not with cereal alone."
   },
   {
-    "id": "v2-rate-bike-unit-rate",
+    "id": "v2-rate-table-and-unit-rate",
     "version": "candidate-content-1",
-    "title": "Bicycle unit rate",
+    "title": "Ratio table and bicycle unit rate",
     "skillCode": "rate-and-proportional-reasoning",
     "mode": "core",
-    "difficulty": "developing",
-    "standards": ["6.RP.A.2", "6.RP.A.3"],
+    "difficulty": "challenging",
+    "standards": ["6.RP.A.2", "6.RP.A.3a", "6.RP.A.3"],
     "prerequisiteSkillCodes": ["ratio-language-and-meaning"],
     "observableEvidence": [
-      "Computes a unit rate and interprets its units in a real-world context."
+      "Completes a table of equivalent ratios by scaling with multiplication, then computes and interprets the unit rate it reveals."
     ],
-    "prompt": "A cyclist travels 18 miles in 2 hours at a steady rate. What is the cyclist's unit rate in miles per hour?",
-    "solutionRepresentation": "Divide miles by hours: 18 ÷ 2 = 9 miles per hour.",
-    "solutionMethod": "Divide the measured distance by the number of hours to find miles for one hour.",
+    "prompt": "A cyclist travels 18 miles in 2 hours at a steady rate. Complete the table of equivalent ratios for 1, 3, and 4 hours (hours: miles), then state the unit rate in miles per hour.",
+    "solutionRepresentation": "The unit rate is 18 ÷ 2 = 9 miles per hour, so each hour scales by 9: 1 hour: 9 miles; 3 hours: 27 miles; 4 hours: 36 miles; unit rate 9 miles per hour.",
+    "solutionMethod": "Divide to find the miles for one hour, then multiply that unit rate by each requested number of hours to fill the table.",
     "deterministicValidator": {
-      "type": "numeric",
-      "canonicalAnswer": "9 miles per hour",
-      "acceptedAnswers": ["9", "9 miles per hour", "9 mi/h"],
-      "equivalenceNotes": "Accept 9 with a standard miles-per-hour abbreviation or without units."
+      "type": "composite",
+      "canonicalAnswer": "1 hour: 9 miles; 3 hours: 27 miles; 4 hours: 36 miles; unit rate 9 miles per hour",
+      "acceptedAnswers": [
+        "1 hour: 9 miles; 3 hours: 27 miles; 4 hours: 36 miles; unit rate 9 miles per hour"
+      ],
+      "equivalenceNotes": "Accept equivalent phrasing that gives all three table entries (9, 27, 36 miles for 1, 3, 4 hours) and the unit rate 9 miles per hour.",
+      "parts": [
+        {
+          "accepted": [
+            "1 hour: 9 miles",
+            "1 hour, 9 miles",
+            "9 miles in 1 hour",
+            "9 miles for 1 hour"
+          ]
+        },
+        {
+          "accepted": [
+            "3 hours: 27 miles",
+            "3 hours, 27 miles",
+            "27 miles in 3 hours",
+            "27 miles for 3 hours"
+          ]
+        },
+        {
+          "accepted": [
+            "4 hours: 36 miles",
+            "4 hours, 36 miles",
+            "36 miles in 4 hours",
+            "36 miles for 4 hours"
+          ]
+        },
+        {
+          "accepted": [
+            "unit rate 9 miles per hour",
+            "unit rate: 9 miles per hour",
+            "9 miles per hour",
+            "9 mi/h"
+          ]
+        }
+      ]
     },
-    "answerFormat": "A rate in miles per hour.",
-    "misconceptionCodes": ["divides-quantities-in-reversed-order-for-unit-rate"],
+    "answerFormat": "Three completed table entries (hours paired with miles) and a unit rate in miles per hour.",
+    "misconceptionCodes": [
+      "divides-quantities-in-reversed-order-for-unit-rate",
+      "uses-addition-instead-of-multiplication-for-scaling"
+    ],
     "misconceptionDistractors": [
       {
-        "answer": "1/9 miles per hour",
+        "answer": "1 hour: 2 miles; 3 hours: 6 miles; 4 hours: 8 miles; unit rate 1/9 miles per hour",
         "misconceptionCode": "divides-quantities-in-reversed-order-for-unit-rate",
-        "rationale": "Divides hours by miles, producing the reciprocal rate."
+        "rationale": "Divides hours by miles, producing the reciprocal rate, and scales the table by that reversed rate instead of 9."
+      },
+      {
+        "answer": "1 hour: 7 miles; 3 hours: 23 miles; 4 hours: 32 miles; unit rate 9 miles per hour",
+        "misconceptionCode": "uses-addition-instead-of-multiplication-for-scaling",
+        "rationale": "Fills the table by adding a fixed amount to the previous row instead of multiplying hours by the unit rate, so the entries drift away from a constant ratio."
       }
     ],
     "hintSteps": [
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "A miles-per-hour rate tells how many miles belong to one hour.",
-        "question": "Which quantity should be divided by the number of hours?"
+        "prompt": "A ratio table scales every row by multiplying by the same unit rate, not by adding a fixed amount each time.",
+        "question": "How many miles correspond to 1 hour?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Once you know the miles for 1 hour, multiply it by each requested number of hours to fill the rest of the table.",
+        "question": "What is 9 miles times 3 hours? Times 4 hours?"
       }
     ],
-    "forbiddenLeakagePatterns": ["9 miles per hour", "9 mi/h"],
+    "forbiddenLeakagePatterns": [
+      "9 miles in 1 hour",
+      "27 miles in 3 hours",
+      "36 miles in 4 hours",
+      "9 miles per hour",
+      "9 mi/h"
+    ],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "Present the distance, time, and requested units as text; no route map is required.",
-    "accessibleAlternative": "Read aloud or display: A cyclist travels eighteen miles in two hours. Ask how many miles are traveled in one hour, and state the unit."
+    "accessibilityNotes": "Present the distance, time, and table rows (1, 3, 4 hours) as plain text; no coordinate-plane or chart image is required.",
+    "accessibleAlternative": "Read aloud or display: A cyclist travels eighteen miles in two hours. Ask for the number of miles traveled in one, three, and four hours, and the unit rate in miles per hour."
   },
   {
     "id": "v2-rate-percent-discount",
@@ -157,7 +213,7 @@
     "title": "Finding a sale price with percent",
     "skillCode": "rate-and-proportional-reasoning",
     "mode": "core",
-    "difficulty": "challenging",
+    "difficulty": "developing",
     "standards": ["6.RP.A.3"],
     "prerequisiteSkillCodes": ["ratio-language-and-meaning"],
     "observableEvidence": [
@@ -1026,54 +1082,73 @@
   {
     "id": "v2-rational-meaning-temperature",
     "version": "candidate-content-1",
-    "title": "Comparing signed temperatures",
+    "title": "What zero means for a signed temperature",
     "skillCode": "rational-number-meaning",
     "mode": "core",
     "difficulty": "developing",
     "standards": ["6.NS.C.5"],
     "prerequisiteSkillCodes": [],
     "observableEvidence": [
-      "Interprets the sign and magnitude of rational numbers in a temperature context and compares their magnitudes."
+      "Interprets the sign of a rational number relative to a context's reference point and explains what a value of zero represents in that context."
     ],
-    "prompt": "At dawn, Town A is -7 degrees Celsius and Town B is +3 degrees Celsius. Which town is farther from 0 degrees, and how much farther is it?",
-    "solutionRepresentation": "Town A is 7 degrees from 0, while Town B is 3 degrees from 0. Town A is farther from 0 by 4 degrees.",
-    "solutionMethod": "Compare absolute values to compare distances from zero, then subtract the smaller distance from the larger distance.",
+    "prompt": "A thermometer reads -4 degrees Celsius at dawn. What does the negative sign tell you about the temperature compared to 0 degrees Celsius, and what does 0 degrees Celsius itself represent in this context?",
+    "solutionRepresentation": "The negative sign means the temperature is below 0 degrees Celsius by 4 degrees. 0 degrees Celsius is the freezing point of water, a specific reference temperature, not an absence of temperature.",
+    "solutionMethod": "Use the sign to describe direction relative to the 0-degree reference point, then state what that reference point itself represents in the context rather than treating it as 'no temperature.'",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "Town A, by 4 degrees",
+      "canonicalAnswer": "Below 0 by 4 degrees; 0 degrees Celsius is the freezing point of water, not an absence of temperature",
       "acceptedAnswers": [
-        "Town A, by 4 degrees",
-        "Town A is 4 degrees farther from 0",
-        "A; 4 degrees"
+        "Below 0 by 4 degrees; 0 degrees Celsius is the freezing point of water, not an absence of temperature"
       ],
-      "equivalenceNotes": "Accept equivalent answers that identify Town A and a four-degree difference in distance from zero."
+      "equivalenceNotes": "Accept equivalent wording that states the temperature is 4 degrees below 0 and that 0 degrees Celsius is a specific reference point (water's freezing point), not the absence of temperature.",
+      "parts": [
+        { "accepted": ["below 0 by 4 degrees", "4 degrees below 0", "4 below zero"] },
+        {
+          "accepted": [
+            "0 degrees celsius is the freezing point of water",
+            "0 is the freezing point of water",
+            "freezing point of water, not an absence of temperature",
+            "a reference point, not an absence of temperature"
+          ]
+        }
+      ]
     },
-    "answerFormat": "The town farther from zero and the difference in degrees.",
-    "misconceptionCodes": ["assumes-negative-number-always-has-smaller-magnitude"],
+    "answerFormat": "What the negative sign means relative to 0, and what 0 degrees Celsius itself represents.",
+    "misconceptionCodes": ["treats-zero-as-meaning-nothing-instead-of-the-context-reference-point"],
     "misconceptionDistractors": [
       {
-        "answer": "Town B, by 4 degrees",
-        "misconceptionCode": "assumes-negative-number-always-has-smaller-magnitude",
-        "rationale": "Assumes the positive temperature must have greater magnitude because it is positive, ignoring that magnitude is distance from zero."
+        "answer": "Below 0 by 4 degrees; 0 degrees Celsius means there is no temperature at all",
+        "misconceptionCode": "treats-zero-as-meaning-nothing-instead-of-the-context-reference-point",
+        "rationale": "Correctly reads the sign as 'below zero' but treats the zero reference point itself as meaning the absence of temperature, rather than a specific point (the freezing point of water) within the temperature scale."
       }
     ],
     "hintSteps": [
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "Magnitude tells how far a value is from zero, regardless of its sign.",
-        "question": "What are the two distances from zero?"
+        "prompt": "The sign tells you which direction from 0 the value is, and by how much.",
+        "question": "Is -4 above or below 0, and by how many degrees?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "0 degrees Celsius is not 'no temperature' — it is a specific, meaningful point on the scale.",
+        "question": "What does 0 degrees Celsius itself represent?"
       }
     ],
-    "forbiddenLeakagePatterns": ["Town A", "4 degrees"],
+    "forbiddenLeakagePatterns": [
+      "below 0 by 4 degrees",
+      "freezing point of water",
+      "not an absence of temperature"
+    ],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "Use signed temperature text and explicitly define distance from zero; no thermometer graphic is required.",
-    "accessibleAlternative": "Read aloud or display: Compare negative seven degrees and positive three degrees by asking which is farther from zero and by how many degrees."
+    "accessibilityNotes": "Use signed temperature text and explicitly define the 0-degree reference point; no thermometer graphic is required.",
+    "accessibleAlternative": "Read aloud or display: A thermometer reads negative four degrees Celsius. Ask what the negative sign means compared to zero, and what zero degrees Celsius itself represents."
   },
   {
     "id": "v2-rational-representation-order",
@@ -2594,18 +2669,18 @@
     "observableEvidence": [
       "Chooses and computes measures of center and variability and uses context and observation count to summarize a distribution."
     ],
-    "prompt": "The ordered delivery times for 7 packages are 2, 3, 4, 5, 7, 8, and 12 hours. Find the median and interquartile range, state the number of observations, and summarize the typical time and middle-half spread.",
-    "solutionRepresentation": "There are 7 observations. Median = 5 hours. Lower half is 2, 3, 4, so Q1 = 3. Upper half is 7, 8, 12, so Q3 = 8. IQR = 8 - 3 = 5 hours. A typical delivery is 5 hours, and the middle half spans 5 hours.",
+    "prompt": "The ordered delivery times for 7 packages are 3, 5, 6, 8, 9, 11, and 14 hours. Find the median and interquartile range, state the number of observations, and summarize the typical time and middle-half spread.",
+    "solutionRepresentation": "There are 7 observations. Median = 8 hours. Lower half is 3, 5, 6, so Q1 = 5. Upper half is 9, 11, 14, so Q3 = 11. IQR = 11 - 5 = 6 hours. A typical delivery is 8 hours, and the middle half spans 6 hours.",
     "solutionMethod": "Use the middle ordered value for median, find the medians of the lower and upper halves for quartiles, subtract Q1 from Q3, and name the delivery-time context.",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "7 observations; median 5 hours; IQR 5 hours; middle half from 3 to 8",
+      "canonicalAnswer": "7 observations; median 8 hours; IQR 6 hours; middle half from 5 to 11",
       "acceptedAnswers": [
-        "7 observations; median 5 hours; IQR 5 hours; middle half from 3 to 8",
-        "n = 7, median = 5, Q1 = 3, Q3 = 8, IQR = 5 hours",
-        "The typical time is 5 hours and the middle 50 percent spans 5 hours"
+        "7 observations; median 8 hours; IQR 6 hours; middle half from 5 to 11",
+        "n = 7, median = 8, Q1 = 5, Q3 = 11, IQR = 6 hours",
+        "The typical time is 8 hours and the middle 50 percent spans 6 hours"
       ],
-      "equivalenceNotes": "Accept equivalent five-number or middle-half wording that gives median 5, quartiles 3 and 8, and IQR 5 hours."
+      "equivalenceNotes": "Accept equivalent five-number or middle-half wording that gives median 8, quartiles 5 and 11, and IQR 6 hours."
     },
     "answerFormat": "Median, quartiles/IQR, observation count, and contextual summary.",
     "misconceptionCodes": [
@@ -2613,7 +2688,7 @@
     ],
     "misconceptionDistractors": [
       {
-        "answer": "Median = 5; IQR = 5",
+        "answer": "Median = 8; IQR = 6",
         "misconceptionCode": "reports-a-center-or-spread-value-without-context-or-number-of-observations",
         "rationale": "Gives the numerical center and spread but omits that these summarize 7 package delivery times measured in hours, leaving the statistics without context or observation count."
       }
@@ -2633,9 +2708,9 @@
       }
     ],
     "forbiddenLeakagePatterns": [
-      "median 5 hours",
-      "IQR 5 hours",
-      "middle half from 3 to 8",
+      "median 8 hours",
+      "IQR 6 hours",
+      "middle half from 5 to 11",
       "7 observations"
     ],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
@@ -2645,6 +2720,6 @@
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
     "accessibilityNotes": "Provide the ordered delivery times and quartile instructions in text; no box plot is required.",
-    "accessibleAlternative": "Read aloud or display: Seven delivery times in hours are two, three, four, five, seven, eight, and twelve. Find the middle value and the range of the middle half, then summarize with units and count."
+    "accessibleAlternative": "Read aloud or display: Seven delivery times in hours are three, five, six, eight, nine, eleven, and fourteen. Find the middle value and the range of the middle half, then summarize with units and count."
   }
 ]

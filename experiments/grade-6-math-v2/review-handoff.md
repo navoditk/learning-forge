@@ -455,3 +455,102 @@ constitute human review or approval.
 (53 glossary-synced codes, 48 records), `npm run format:check`, `npm run
 lint`, `npm run typecheck`, and `npm run content:validate` (40 tests)
 passed.
+
+## Revision 17 — M4 (remaining half), M2 (one item), and investigation of m5/m6/m7/m9
+
+1. **M4, median/IQR half** — `v2-center-median-iqr`'s 7-value delivery-time
+   dataset (2, 3, 4, 5, 7, 8, 12) had median 5 and IQR 5, the exact
+   coincidence this item flagged. Changed to (3, 5, 6, 8, 9, 11, 14):
+   median 8, Q1 5, Q3 11, IQR 6 - hand-verified, no longer coincident.
+   Closes the half of M4 Revision 16 left open.
+2. **`6.RP.A.3a` (tables/plotting of equivalent ratios) had no coverage.**
+   `v2-rate-bike-unit-rate` is replaced by `v2-rate-table-and-unit-rate`:
+   the learner now completes a ratio table (1, 3, 4 hours) by scaling the
+   unit rate, then states the unit rate itself - closing the remaining
+   `6.RP.A.3` sub-part this candidate could add without exceeding the
+   validator's two-records-per-skill limit. Uses the M2 `parts` mechanism
+   (4 independent clauses: three table entries plus the unit rate),
+   verified against the real `matchesAcceptedAnswer` function for an exact
+   match, a differently-phrased complete match, a missing-clause rejection,
+   and a wrong-value rejection. Also exercises
+   `uses-addition-instead-of-multiplication-for-scaling`, a misconception
+   code the skill declared but no item had tested before this revision.
+   `6.RP.A.3d` (unit conversion) remains uncovered: two records per skill
+   cannot cover unit-rate, a table, percent, and conversion simultaneously
+   without diluting each past usefulness; a future increment adding a
+   third record-equivalent (or retiring an existing one) would be needed.
+3. **M5-adjacent difficulty mismatch found while redesigning point 2.**
+   `v2-rate-percent-discount` (a single decimal multiplication) was
+   labeled `challenging` while its sibling `v2-rate-bike-unit-rate` (a
+   single division) was `developing` - an unjustified difficulty gap
+   between two single-step items. Resolved as a side effect of point 2:
+   the redesigned table-and-unit-rate item is genuinely more complex (four
+   required clauses) and is now `challenging`; the percent item is now
+   `developing`, matching its actual single-step complexity. This fixes
+   one concrete instance of what m5 described; the other 46 records were
+   not exhaustively re-audited for difficulty-band accuracy, since that
+   requires subjective pedagogical judgment, not a mechanical check.
+4. **m2 (near-duplicate "ordering" misconceptions) fixed.**
+   `rational-number-meaning`'s `assumes-negative-number-always-has-smaller-
+magnitude` and `rational-number-operations`'s `orders-numbers-by-sign-
+alone-ignoring-magnitude` were the same cognitive error (ignoring
+   magnitude when comparing signed values) attached to two different
+   skills; the "meaning" item's comparison framing bled into the
+   "operations" skill's actual ordering standard (`6.NS.C.7`), which B1
+   already re-scoped to own ordering/absolute-value. Retired the
+   duplicate code from `rational-number-meaning` and replaced it, along
+   with `v2-rational-meaning-temperature`'s content, with a new,
+   genuinely distinct `6.NS.C.5`-specific misconception:
+   `treats-zero-as-meaning-nothing-instead-of-the-context-reference-point`
+   (e.g., assuming 0°C means "no temperature" rather than water's
+   freezing point - a meaning/interpretation error, not a magnitude-
+   ordering error). Uses `parts` (two clauses: direction-from-zero, and
+   what zero itself represents), verified against the real matcher the
+   same way as point 2. `skill-records-v2.json` and the glossary updated;
+   53 codes remain in 1:1 sync.
+5. **m5/m6/m7/m9 investigated; m9 found to need no further action, m6/m7
+   found to be larger-scope than this revision closed.**
+   - **m9** ("three content fields outside the production schema" -
+     `answerFormat`, `misconceptionDistractors`, `representations`): confirmed
+     `validate.ts` already deliberately destructures these out before
+     validating the rest against the real `ContentItemSchema`
+     (`experiments/grade-6-math-v2/validate.ts` lines ~289-294), with its
+     own hand-written rules for each. This is an intentional,
+     already-documented authoring-format difference, not a defect; no
+     further action taken.
+   - **m6** (shallow hint ladders): confirmed real - 28 of 48 records have
+     exactly one hint step, versus 20 with two. Deepening each
+     meaningfully (not padding) is a per-record authoring task at the
+     same scale as the M2 migration below; not attempted in this
+     revision.
+   - **m7** (phrasing-only answer discrimination): audited by comparing
+     every distractor answer against its record's canonical answer after
+     stripping punctuation; found no record where a distractor and the
+     canonical answer reduce to the same underlying value - the three
+     surface-level substring overlaps found (e.g., canonical "9 miles per
+     hour" vs. distractor "1/9 miles per hour") are genuinely different
+     values, not phrasing variants. No fix made; a script-based audit
+     cannot rule out a subtler case a human reviewer might catch.
+
+**Explicitly still not fixed:**
+
+- `6.RP.A.3d` (unit conversion) - structurally blocked by the two-
+  records-per-skill limit; see point 2.
+- **M2 for the other ~29 composite records** not touched by this revision
+  or Revision 16 - still deferred as lower-urgency per Revision 16's note;
+  unchanged by this revision.
+- **m6** (28 shallow hint ladders) - confirmed real, not fixed; a bounded
+  but sizeable per-record authoring task.
+- m5 (beyond the one instance in point 3) and m7 (beyond the audit in
+  point 5, which found nothing to fix) are not fully closed.
+
+All 48 records remain `pending_review`; this remediation does not
+constitute human review or approval.
+
+**Validation evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts`
+(53 glossary-synced codes, 48 records), `npm run format:check`, `npm run
+lint`, `npx tsc --noEmit`, `npm run content:validate` (40 tests), and
+`npm run verify` (409 tests + production build) passed. The two new
+composite `parts` answers were additionally verified against the real
+`matchesAcceptedAnswer` function (exact match, differently-phrased
+complete match, missing-clause rejection, wrong-value rejection).

@@ -1,5 +1,58 @@
 # Progress
 
+## 2026-10-10 — UI-3 proposed specification completed and reviewed
+
+- Added `docs/ui-recall-cards-design.md`: proposed dedicated recall-card
+  contract, accessible self-check states, server-controlled delivery,
+  version-bound overlap review, instruction-exposure handling, coordinated
+  protected activity starts, and named future acceptance tests. No runtime
+  code, schema, card content, tests or serving behavior was introduced.
+- Self-check never produces scored evidence or mastery/unlock credit.
+  Delivery remains instruction exposure and must reset delayed-check
+  eligibility through an approved server event. Public instructional backs
+  are not held-out secrets; concealment is UX, not revocation of delivery.
+- Separate approved infrastructure/flag-off synthetic development from
+  real authoring and serving. The D-61 pause and human content approvals
+  apply before real cards; synthetic development does not lift those gates.
+- Sonnet 5.5 authored the specification. GPT-6.1 Sol independently reviewed
+  it and closed all findings with **approve-for-human-review**. The GPT
+  coordinator made the final local-navigation/server-delivery clarification;
+  Sonnet separately checked that small GPT-authored change as consistent,
+  without self-approving its main specification. Actual task/model identities
+  are recorded in the preceding entries.
+- `npx prettier --check --ignore-path /dev/null
+docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
+  `git diff --check` passed. No runtime validation was required for this
+  documentation-only packet, and proposed tests are not claimed as existing.
+- Remaining prerequisites: human decisions in the proposal's R table,
+  particularly the dedicated contract, exposure semantics, delivery/start
+  coordination and eligibility carrier. These do not supersede the canonical
+  progression decisions or release gates. Cross-device retained instruction
+  cannot be revoked or unseen; server-observed suppression stops the UI
+  conservatively without claiming immediate cross-device concealment.
+- UI-1 changes remain uncommitted and preserved; UI-3 is also uncommitted.
+  Next: review the proposed human contract/pedagogy decisions before a
+  separately authorized flag-off synthetic increment. No card authoring,
+  production enablement, commit or push is implied.
+
+## 2026-10-10 — UI-3 specification reviewed; revisions underway
+
+- Proposed design: `docs/ui-recall-cards-design.md`, specification only.
+  Sonnet 5.5 author task `07192696-2ba1-45c3-95cd-23561d46ea3c`;
+  independent GPT-6.1 Sol reviewer task
+  `a6a76aeb-5fc1-4bdb-afe8-da21e84d8c57`, verified from harness metadata.
+- Initial verdict **changes-required**: include active practice/tutoring
+  in suppression; review all delivered card text against relevant public
+  and covering private content; coordinate delivery/exposure with
+  assessment starts; separate flag-off synthetic development from gated
+  real authoring. Correct the distinction between LearningEvent exposure
+  and AssistanceEvent-derived maximum assistance.
+- Scoped explicit documentation formatting and `git diff --check` pass.
+  No runtime tests apply to this specification-only increment.
+- Next: revise the proposed specification, obtain changed-scope independent
+  confirmation, and checkpoint pending human contract/pedagogy/content
+  decisions. UI-1 remains uncommitted and unchanged by this packet.
+
 ## 2026-10-10 — UI-3 recall-card specification started
 
 - Product owner accepted the next recommended packet: UI-3 specification,
@@ -166,6 +219,56 @@
   unit/contract tests + production build), and
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
+
+## 2026-10-10 — Grade 6 Math v2 candidate, Revision 17: M4 remainder, 6.RP.A.3a, m2
+
+- **M4 (remaining half):** `v2-center-median-iqr`'s dataset changed from
+  (2,3,4,5,7,8,12) - median 5, IQR 5, a coincidence - to (3,5,6,8,9,11,14) -
+  median 8, IQR 6, hand-verified not coincident.
+- **`6.RP.A.3a` (tables/plotting):** `v2-rate-bike-unit-rate` replaced by
+  `v2-rate-table-and-unit-rate`, requiring the learner to complete a ratio
+  table (1/3/4 hours) by scaling, then state the unit rate. Uses M2's
+  `parts` mechanism (4 clauses); verified against the real
+  `matchesAcceptedAnswer` (exact, reworded-complete, missing-clause,
+  wrong-value). Also exercises `uses-addition-instead-of-multiplication-
+for-scaling`, a skill misconception code no item had tested before.
+  `6.RP.A.3d` (unit conversion) remains uncovered - structurally blocked
+  by the validator's two-records-per-skill limit.
+- **m5 (one instance):** found and fixed a genuine difficulty-band
+  mismatch surfaced by the above redesign (`v2-rate-percent-discount`, a
+  single-step item, was labeled `challenging` while an equally simple
+  sibling was `developing`); the other 46 records were not exhaustively
+  re-audited.
+- **m2 fixed:** `rational-number-meaning`'s
+  `assumes-negative-number-always-has-smaller-magnitude` and
+  `rational-number-operations`'s `orders-numbers-by-sign-alone-ignoring-
+magnitude` were the same cognitive error attached to two skills. Retired
+  the duplicate and replaced `v2-rational-meaning-temperature` with a
+  genuinely distinct `6.NS.C.5` misconception,
+  `treats-zero-as-meaning-nothing-instead-of-the-context-reference-point`
+  (e.g., assuming 0°C means "no temperature" rather than a reference
+  point). Uses `parts`; verified the same way as above. 53 glossary
+  codes remain in 1:1 sync.
+- **m9 investigated, needs no action:** confirmed `validate.ts` already
+  deliberately isolates the three non-schema fields
+  (`answerFormat`/`misconceptionDistractors`/`representations`) with its
+  own validation rules - an intentional, already-documented authoring
+  format, not a defect.
+- **m6 confirmed real, not fixed:** 28 of 48 records have exactly one
+  hint step. Deepening each is a bounded but sizeable per-record task,
+  same scale as the M2 29-record migration below.
+- **m7 audited, nothing found to fix:** scripted every distractor against
+  its canonical answer after stripping punctuation; no genuine
+  phrasing-only duplicate found (the three surface substring overlaps
+  found are real value differences, not phrasing variants). A script
+  can't rule out a subtler case a human reviewer might catch.
+- **Still explicitly open:** `6.RP.A.3d`; M2's `parts` migration for the
+  other ~29 composite records (unchanged, still lower-urgency); m6 (28
+  shallow hint ladders); the remainder of m5 and m7.
+- Verification: `npx tsx experiments/grade-6-math-v2/validate.ts` (53
+  codes, 48 records), `npm run format:check`, `npm run lint`, `npx tsc
+--noEmit`, `npm run content:validate` (40 tests), and `npm run verify`
+  (409 tests + build) all pass clean.
 
 ## 2026-10-10 — Consent record accepted
 

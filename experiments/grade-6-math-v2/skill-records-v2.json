@@ -91,7 +91,7 @@
       "Interprets the sign and magnitude of a rational number in mathematical and real-world contexts and identifies its opposite."
     ],
     "misconceptionCodes": [
-      "assumes-negative-number-always-has-smaller-magnitude",
+      "treats-zero-as-meaning-nothing-instead-of-the-context-reference-point",
       "ignores-real-world-sign-meaning"
     ],
     "difficultyBands": ["foundational", "developing"],
