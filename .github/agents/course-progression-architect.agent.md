@@ -1,7 +1,7 @@
 ---
 name: course-progression-architect
 description: Designs and specifies a course-progression capability for an approved curriculum program, producing an architecture/spec document rather than runtime behavior.
-model: claude-opus-5
+model: claude-opus-5.5
 tools: ['read', 'search', 'edit']
 disable-model-invocation: true
 user-invocable: true

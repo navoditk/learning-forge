@@ -109,6 +109,13 @@ not a paraphrase from memory.
    following the structure of the existing Grade 6 Math section (Standards
    source / Local sequencing source / Content originality and style sources
    / Open items).
+   For parallel research, stage that section at
+   `docs/curriculum-dossiers/<program-code>-<task-id>.md` in an isolated
+   worktree. Reviewers receive the pinned staged dossier; a single integrator
+   merges reviewed sections into the register and preserves pending/approved
+   status. No concurrent appends to the shared register. Require clickable
+   URLs where available; otherwise retain document identifiers and honest
+   retrieval/access status, never fabricated links.
 6. Have the product/content owner review the new section before any skill or
    content authoring begins, the same review gate already used for content
    provenance (`docs/09-decisions-and-open-questions.md`, decision #4).
@@ -117,7 +124,8 @@ not a paraphrase from memory.
 
 A new, reviewed section in `docs/curriculum-sources.md` for the target
 subject/grade/program, with every gap explicitly named rather than implied.
-This is the sole prerequisite for `docs/curriculum-authoring-playbook.md`.
+This is a source prerequisite, not permission to bypass authoring pauses or
+the additional gates in `docs/curriculum-authoring-playbook.md`.
 
 ## Non-goals
 

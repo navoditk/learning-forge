@@ -10,8 +10,10 @@ Follow `docs/curriculum-authoring-playbook.md`,
 
 ## Preconditions
 
-0. Confirm new curriculum authoring is not currently paused. As of
-   2026-09-19 it is. **Architecture approval alone does not lift the pause**:
+0. Check the current authoring pause and any explicitly scoped exception.
+   The pause remains in force until the product owner records a dated lift
+   under `D-61`; only recorded, narrowly scoped exceptions apply.
+   **Architecture approval alone does not lift the pause**:
    the required gate set is `D-61` in
    `docs/course-progression-decisions.md`, which additionally requires the
    publication hotfix (`D-58`, Stage A0), the assessment-exposure decision
@@ -26,6 +28,9 @@ Follow `docs/curriculum-authoring-playbook.md`,
 
 Stop and report the missing prerequisite if any condition is not satisfied.
 Do not perform new source research silently inside the authoring task.
+Under approved `D-01` Branch B, assessment/held-out items must never be authored
+into this public repository's `content/`. Only explicitly authorized content
+work writes to the private package, with its independent and human review.
 
 ## Required behavior
 
@@ -59,8 +64,9 @@ Do not perform new source research silently inside the authoring task.
      The canonical role contract is
      `docs/course-progression-architecture.md` §4.2; this list is a
      convenience restatement and §4.2 governs. Where assessment records live
-     depends on `D-01`, which is open. Until those schemas exist, every record
-     is a `practice` record and the uniform contract applies.
+     follows the approved `D-01`/`D-02` decisions. Verify the implemented
+     role schemas before adding content; do not assume historical schema
+     limitations or decisions are still open.
 7. For every prerequisite edge, verify it is a genuine conceptual
    dependency: a learner must be mathematically/conceptually unable to
    achieve the downstream skill without the upstream one. An edge that only
@@ -76,9 +82,8 @@ Do not perform new source research silently inside the authoring task.
    item actually requires — not by whether their prompt strings differ, which
    both over- and under-detects.
    8a. **Check the catalog's record-count rule before adding a record.**
-   `validateContentCatalog` currently enforces exactly two content records per
-   skill and throws at module load, so adding a third record of any kind
-   crashes the application at import. Confirm the current rule, and whether
+   Legacy programs can retain the exactly-two practice-record invariant.
+   Confirm the current program-specific rule, and whether
    the role-aware replacement in `docs/course-progression-architecture.md`
    §11.2 has been approved and implemented, before authoring anything beyond
    the established pair.

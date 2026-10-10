@@ -1,5 +1,55 @@
 # Progress
 
+## 2026-10-09 — Approved model allocation, independent reviewers, and portable fleet/UI plan
+
+- Product owner approved the proposed role defaults in chat: Opus 5.5 for
+  research, curriculum authoring, progression architecture and implementation
+  review; GPT-6.1 Sol for curriculum/design/UI review; GPT-5.4 Mini for bounded
+  progression implementation; Sonnet 5.5 for UI with Opus design escalation.
+  Claude/GPT quota fallback is approved; Gemini/Grok require further approval
+  and qualification. Routine single-provider reviews may use different actual
+  models; critical changes still require cross-family review.
+- Added `docs/agent-orchestration.md` and
+  `docs/development-expansion-plan.md` as the portable model-policy, fleet,
+  dependency, and resumption entry points. Updated AGENTS, build guide,
+  roadmap, product proposal, README, existing profiles and skills.
+- Added progression implementation review and UI implementation/review
+  playbooks, skills, and profiles: nine profiles and seven shared skills.
+  `.claude/skills` and `.agents/skills` are relative links to the canonical
+  `.github/skills`, avoiding duplicated editable bodies.
+- UI playbooks were delegated to a task configured as Sonnet 5.5; independent
+  UI review was configured as GPT-6.1 Sol. Shared orchestration review was
+  configured as Opus 5.5 against the GPT-6.1 Sol parent changes. Review found
+  conflicting research output locations, missing-URL handling, authoring-pause
+  clarity, and an over-broad held-out DOM ban; all were surgically corrected.
+  These configured model IDs are not independent runtime attestations; the
+  orchestration reviewer could not verify its identity. Advisory review is
+  not represented as a completed model-verified approval gate.
+- Main-page source browsing, rich course UI, quiz-gated next-topic progression,
+  optional non-mastery flash cards, and Grade 6 introductory Python are
+  documented future packets, not implemented runtime features. Source URLs
+  must be clickable where available, otherwise honestly identified; no
+  fabricated links, private bank exposure, or arbitrary server Python execution.
+- Existing manual records now include the independent progression-review
+  acceptance dated 2026-10-10. Shadow evidence/review and explicit C4
+  authorization remain outstanding; no current gate was opened here.
+- Unrelated concurrent edits appeared in `src/app/components/activity-panel.tsx`
+  and `src/app/help/page.tsx`; this increment did not alter or validate them.
+  No commit, push, production access, curriculum authoring, or runtime change.
+- Validation: targeted `npx prettier --check --ignore-path /dev/null` passed
+  for AGENTS, README, all nine agent profiles, all seven skills, new playbooks,
+  orchestration/expansion plans, and the build guide. `git diff --check` passed.
+  `node --input-type=module` checks passed for identical skill bodies across
+  all three native discovery paths, required frontmatter, approved role/model
+  assignments, and all five default executor/reviewer cross-family pairings.
+  Four edited legacy docs still fail Prettier, as do their committed baselines;
+  unrelated full-document reflow was excluded. Product proposal and roadmap
+  formatting passed. No runtime suite was run for this docs/config increment.
+- Next: verify discovery/actual role models in fresh clients and obtain
+  model-verified confirmation of the revised tooling packet; then choose
+  SOURCES-1 or an explicitly approved independent research/review batch from
+  the expansion plan. Do not start UI-2 before its release prerequisites.
+
 ## 2026-10-10 — AI disclosure added; Anthropic's minors-serving policy researched
 
 - Digging into the Provider terms checklist row surfaced a more specific
@@ -1896,8 +1946,8 @@ are optional wrappers over it and are not the source of procedure.
   are complete; C1–C3 foundations, the default-off release gate, pilot
   assessment flow, learner/parent surfaces, and mastery evidence seams are
   implemented. C4 authorization and C5 serving remain gated.
-- **Next task:** record the outstanding independent-review gate decision,
-  collect and independently disposition representative shadow traffic, then
+- **Next task:** collect and independently disposition representative shadow
+  traffic, then
   obtain explicit C4 release authorization. Package/content acceptances are
   recorded in `docs/course-progression-review/manual-gate-record.md`; they
   do not authorize C4.
@@ -3492,9 +3542,9 @@ are optional wrappers over it and are not the source of procedure.
   pilot is the active scope. All 74 progression decisions are approved in the
   authoritative matrix; D-36 and D-39 remain explicitly revisitable pilot
   choices. C4 authorization and C5 learner serving remain closed pending the
-  independent-review gate decision, representative shadow disposition, and
-  explicit release authorization. Package/content acceptances were recorded
-  2026-10-05; the independent-review and shadow-review rows remain open in
+  representative shadow disposition and explicit release authorization.
+  Package/content acceptances were recorded 2026-10-05 and the independent
+  review gate accepted 2026-10-10; the shadow-review row remains open in
   `docs/course-progression-review/manual-gate-record.md`. No client-specific
   review-capacity claim or prior reviewer recommendation grants approval.
 - Phase: 1 — synthetic journeys across all 5 Grade 6 Math domains, skill graph, planner, an actionable planner UI, an on-demand parent weekly digest, and a basic accessible visual design (now automated-WCAG-AA-checked) covered; **Grade 6 Math curriculum v3 shipped 2026-09-18**: 27 skills, 54/54 content records fully human-reviewed (0 pending), merged from the v1 baseline plus the independently-researched/reviewed v2 candidate graph (see the 2026-09-16 through 2026-09-18 entries below for the full merge, safety-gate, and content-review trail); the pilot-readiness decisions (audience, identity/auth, hosting, consent/retention, provider, budget/latency, eval gate) are made for a single-household pilot (ADR-0008, ADR-0009, ADR-0005). **All three approved implementation tracks are now live**: Track 1, real authentication (ADR-0010). Track 2, real Claude adapter (ADR-0011), reviewed, approved, and enabled. Track 3, Render deployment (ADR-0012) — **confirmed genuinely live 2026-09-13**: a real account was provisioned, sign-in works at `https://learning-forge.onrender.com`, and a real hint request was confirmed hitting the real Anthropic API (visible ~1-2s latency, non-templated text), not the fake adapter. This is a real, live, single-household pilot now, not just a local demonstration
@@ -3504,7 +3554,8 @@ are optional wrappers over it and are not the source of procedure.
   `docs/course-progression-review/independent-review-result.md` and the dated
   entries above. The handoff records the latest 2026-09-28 pass as ready for
   human review with noted risks, with its password-limiting finding closed
-  under D-72. The manual independent-review gate still needs a dated decision.
+  under D-72. The manual independent-review gate was accepted 2026-10-10;
+  representative shadow review and explicit release authorization remain open.
 - Operational cleanup in progress: tutor traces now retain an optional session
   reference, and the live hint route enforces configurable household-daily and
   session hint limits before calling the model. The current defaults are 100

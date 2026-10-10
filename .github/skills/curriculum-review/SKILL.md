@@ -1,6 +1,6 @@
 ---
 name: curriculum-review
-description: Independently reviews researched and authored curricula for source fidelity, standards coverage, pedagogy, originality, accessibility, and repository integrity. Use after curriculum authoring and before human approval.
+description: Independently reviews curriculum research dossiers or authored curricula for source fidelity, coverage, pedagogy, originality, accessibility, and repository integrity before human approval.
 ---
 
 # Curriculum review
@@ -11,6 +11,10 @@ Perform an independent, read-only review using
 
 ## Independence rules
 
+- Verify actual-model independence using `docs/agent-orchestration.md`.
+- For research-only packets, verify citations, authority, scope, source access,
+  and unresolved decisions; content-specific checks apply only to authored
+  items actually in scope. Do not invent a missing content requirement.
 - Re-derive conclusions from source documents and repository artifacts.
 - Do not rely on the authoring agent's self-evaluation or hidden reasoning.
 - Do not edit the curriculum under review.

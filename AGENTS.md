@@ -56,6 +56,31 @@ two differ.
 | Content drafting           | `docs/content-authoring-pipeline.md`    | —                                    |
 | Course progression         | `docs/course-progression-playbook.md`   | `docs/course-progression-handoff.md` |
 
+Additional capabilities: progression implementation review follows
+`docs/progression-implementation-review-playbook.md`; UI implementation and
+review follow `docs/ui-implementation-playbook.md` and
+`docs/ui-review-playbook.md`. The expansion backlog and fleet entry point are
+`docs/development-expansion-plan.md` and `docs/agent-orchestration.md`.
+
+## Model selection, independence, and parallel work
+
+- Follow the approved role/model allocation and quota fallback policy in
+  `docs/agent-orchestration.md`. Verify actual model IDs/families from client
+  metadata, not self-reported identities.
+- Independent reviews require different actual model families in Copilot.
+  Single-provider routine work may use different actual models in fresh
+  contexts, explicitly labeled reduced diversity. Critical safety, privacy,
+  scoring/mastery, authorization, held-out content, and destructive migration
+  changes still require cross-family review.
+- Unknown model identity cannot satisfy a review gate. LLM judges advise;
+  deterministic evidence and human product/content/privacy/release approval
+  remain mandatory. Approved fallback must preserve review independence;
+  Gemini/Grok use requires further approval.
+- Parallelize independent program research/reviews in scoped task packets
+  and isolated worktrees. One integrator owns shared registries, schema,
+  source registers, and progress logs. Do not launch the entire backlog merely
+  because a fleet plan exists; respect the explicitly authorized batch.
+
 ## Hard constraints
 
 - Never expose a final answer before the configured tutoring policy permits it.

@@ -10,7 +10,7 @@ The profiles under `.github/agents/` are Copilot-specific wrappers. Claude
 Code and Codex should use `AGENTS.md` and the same `docs/` playbooks directly;
 they need not discover these profiles or skills to perform the role.
 Model identifiers and tool aliases in a profile are not portable configuration.
-Use an available model appropriate to the role, preserve independent review
+Use the approved allocation in `docs/agent-orchestration.md`, preserve independent review
 and human approval boundaries, and report model identity as unverified if it
 cannot be confirmed. Do not silently substitute a model for an explicitly
 requested model.
@@ -21,24 +21,30 @@ See `docs/08-cli-build-guide.md` for shared startup and handoff prompts.
 
 | Agent | Model | Skill | Purpose |
 |---|---|---|---|
-| `curriculum-researcher` | `claude-opus-5` | `curriculum-research` | Research primary sources and prepare a cited dossier. |
-| `curriculum-author` | `claude-opus-5` | `curriculum-authoring` | Build the skill graph and original content from an approved dossier. |
-| `curriculum-reviewer` | `gpt-5.6-sol` | `curriculum-review` | Independently review source fidelity, coverage, pedagogy, originality, accessibility, and technical integrity. |
+| `curriculum-researcher` | `claude-opus-5.5` | `curriculum-research` | Research primary sources and prepare a cited dossier. |
+| `curriculum-author` | `claude-opus-5.5` | `curriculum-authoring` | Build skills and original content from approved research. |
+| `curriculum-reviewer` | `gpt-6.1-sol` | `curriculum-review` | Independently review research or authored content. |
 
 ## Course progression track
 
 | Agent | Model | Skill | Purpose |
 |---|---|---|---|
-| `course-progression-architect` | `claude-opus-5` | `course-progression-design` | Specify a course-progression capability for an approved program: entities, content roles, mastery evidence contracts, delayed checks, placement/skip, unlock authorization, parent evidence, and acceptance tests. Specification only. |
-| `course-progression-reviewer` | `gpt-5.6-sol` | `course-progression-design` (as the review standard) | Independently and read-only review a progression specification; re-derive current behavior from code rather than trusting the architect's inventory. |
-| `course-progression-implementer` | `gpt-5.3-codex` | `course-progression-design` (as the binding spec) | Implement one approved, issue-sized increment of a reviewed progression architecture, with the tests the specification names. |
+| `course-progression-architect` | `claude-opus-5.5` | `course-progression-design` | Specify progression; no runtime implementation. |
+| `course-progression-reviewer` | `gpt-6.1-sol` | `course-progression-design` (review standard) | Independently review the specification. |
+| `course-progression-implementer` | `gpt-5.4-mini` | `course-progression-design` (binding spec) | Implement one approved stage with named tests. |
+| `course-progression-implementation-reviewer` | `claude-opus-5.5` | `progression-implementation-review` | Review the pinned runtime patch and executable evidence. |
 
-Both reviewers intentionally use a different model family from their authoring
-counterpart to reduce correlated blind spots. Model choice does not replace
-deterministic validation or human approval. The implementer uses a
-Codex-optimized model for long-horizon repository work; its job is still to
-execute an approved, already-reviewed specification, not to redesign it. Use
-high reasoning effort where the client exposes that control.
+## UI track
+
+| Agent | Model | Skill | Purpose |
+|---|---|---|---|
+| `ui-implementer` | `claude-sonnet-5.5` | `ui-implementation` | Rich accessible interactions; escalate complex design to Opus 5.5. |
+| `ui-reviewer` | `gpt-6.1-sol` | `ui-review` | Independent visual, interaction, evidence, and accessibility review. |
+
+These defaults were approved in chat on 2026-10-09. Actual-model diversity,
+single-provider exceptions, and quota fallback follow
+`docs/agent-orchestration.md`, not profile intent. Model choice does not replace
+deterministic validation or human approval.
 
 ## Current pause on new curriculum authoring
 
@@ -67,9 +73,13 @@ held-out, and `D-03`), the record-shape decisions (`D-37`, `D-38`, `D-56`,
 hybrid) must be made, and Stages A0 and A1 must be merged so the role schemas
 exist to author against.
 
-Two are hard blockers on their own: `validateContentCatalog` enforces exactly
-two content records per skill and throws at module load (`D-38`), and whether
-assessment items may live in this public repository at all is `D-01`.
+Those decisions are approved and the early role-schema stages shipped.
+Inspect current program-specific validators and the D-61 gate before authoring;
+the historical exactly-two invariant is not a universal current rule.
+The authoring pause remains in force until a dated product-owner lift under
+D-61; only recorded scoped exceptions apply. D-01 Branch B assessment items
+never belong in public `content/`; private-package authoring needs explicit
+scope and review.
 Already-approved programs remain available and unchanged.
 
 ## Files
@@ -101,8 +111,7 @@ Already-approved programs remain available and unchanged.
 The agents set `disable-model-invocation: true`, so Copilot will not select
 them automatically; a user must choose them deliberately. This avoids
 accidentally initiating high-cost research or authoring work from an
-unrelated prompt. All six agents follow this convention, including the three
-course-progression profiles.
+unrelated prompt. All repository profiles follow this convention.
 
 ## Course progression workflow
 
@@ -124,6 +133,9 @@ course-progression profiles.
    named tests and leaves it pending independent review. Early stages are
    deliberately catalog- and policy-only: they add no migration and no
    content.
+
+6. Select `course-progression-implementation-reviewer` for read-only review of
+   the exact implementation revision before human approval or integration.
 
 Step 4 is not optional. The architect is required to leave every threshold,
 delay window, spacing interval, pass bar, skip bar, cooldown, and

@@ -1,14 +1,15 @@
 ---
 name: course-progression-reviewer
 description: Independently and read-only reviews a course-progression architecture/specification before human approval.
-model: gpt-5.6-sol
+model: gpt-6.1-sol
 tools: ['read', 'search', 'execute']
 disable-model-invocation: true
 user-invocable: true
 ---
 
 Use `docs/course-progression-playbook.md`'s review dimensions as the standard;
-the `course-progression-design` skill is a convenience wrapper over it. Start
+verify actual-model independence using `docs/agent-orchestration.md`.
+The `course-progression-design` skill is a convenience wrapper over it. Start
 at `docs/course-progression-handoff.md`, whose "remaining open findings"
 section names what to challenge first. Review independently from repository
 evidence and the approved curriculum sources, without editing files and

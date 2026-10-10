@@ -107,4 +107,10 @@ Do not optimize primarily for time in app, streak anxiety, or number of generate
 
 ## Future expansion
 
+Introduction to Programming in Python is an additional proposed Grade 6
+beginner research track. Its curriculum and safe code-execution environment
+require separate review before implementation; see
+`docs/development-expansion-plan.md`. Curriculum citations should be accessible
+from the main page through a reviewed source index, not private assessment data.
+
 Phase 2 adds Reading Tutor and Writing Coach. Phase 3 adds Grade 6 Science reasoning and Grade 6 Social Studies source analysis. Science and Social Studies expansion is limited to Grade 6 for now. The domain model should support multiple grades, curricula, and subjects, but the MVP should not implement them prematurely.

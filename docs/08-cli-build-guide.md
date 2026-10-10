@@ -22,6 +22,12 @@ portable native subagent definitions. In Claude Code or Codex, follow the
 same role's playbook directly; do not assume its model identifiers, tool
 aliases, or skill discovery work unchanged. See `docs/curriculum-agents.md`.
 
+Shared skill bodies are also exposed through `.claude/skills` and
+`.agents/skills`; verify discovery in your client before relying on it.
+`docs/agent-orchestration.md` defines actual-model verification, approved
+fallback, independent review, isolated task packets, and fleet coordination.
+Start expansion work at `docs/development-expansion-plan.md`.
+
 ## Human/agent responsibility split
 
 Human approves product scope, child-facing behavior, architecture changes, content quality, privacy tradeoffs, releases, commits, and pushes. The agent inspects, proposes, implements bounded changes, writes tests/evals, runs verification, and updates progress.
@@ -90,7 +96,8 @@ Commit at tested, explainable increments—not after every agent response. Merge
 
 ## Cross-agent review
 
-At phase boundaries, optionally ask Claude Code or Copilot CLI to perform a read-only review. Give it the same docs and exact scope:
+Use the required reviewer for the work under `docs/agent-orchestration.md`.
+At phase boundaries, give the reviewer the same approved docs and exact scope:
 
 > Review the diff from main to this branch against AGENTS.md and Phase N exit criteria. Do not edit. Identify functional, pedagogical, privacy, security, data migration, and eval gaps. Cite files and propose minimal fixes.
 

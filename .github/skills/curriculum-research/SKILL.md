@@ -7,6 +7,13 @@ description: Researches authoritative standards, sequencing guidance, and legall
 
 Follow `docs/curriculum-research-playbook.md` exactly.
 
+Use `docs/agent-orchestration.md` for approved premium research models,
+independent review, and per-program task isolation. Every referenced resource
+must carry a descriptive clickable URL where one exists and retrieval/access
+metadata for the source-index projection in `docs/development-expansion-plan.md`.
+Otherwise provide an exact document identifier and honest access status;
+never invent a URL.
+
 ## Required inputs
 
 - Target subject, grade, jurisdiction, or enrichment program.
@@ -57,6 +64,12 @@ before researching. Do not infer a jurisdiction or school system.
 ## Required output
 
 Add a dated section to `docs/curriculum-sources.md` containing:
+
+For parallel work, stage the same section in
+`docs/curriculum-dossiers/<program-code>-<task-id>.md` in the task's isolated
+worktree instead. A single integrator merges reviewed dossier sections into
+`curriculum-sources.md` without changing pending/approved status; human source
+approval is still required. Do not append to the shared register concurrently.
 
 - scope and learner context;
 - standards framework and version;

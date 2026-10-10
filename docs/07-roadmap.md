@@ -110,4 +110,16 @@ architecture review, for the sequencing reason recorded in
 
 ## Work breakdown rule
 
+### Parallel development and Python planning
+
+`docs/development-expansion-plan.md` is the issue-sized backlog for rich UI,
+main-page access to cited curriculum resources, and introductory Python for
+Grade 6 beginners. Python is a research track only until its source, authoring,
+code-execution safety, and content gates are resolved. Shared building blocks
+must support later grades, subjects, and competitions without policy forks.
+
+Use `docs/agent-orchestration.md` for independent program research/reviews,
+approved role models, quota fallback, and serialized shared-file integration.
+Fleet planning does not authorize all tasks to run or lift progression gates.
+
 Each issue must fit one coherent change, list acceptance criteria, identify test/eval evidence, and avoid coupling multiple phases. Each phase ends with a tagged demo, screenshot/video evidence, updated docs, and a retrospective.

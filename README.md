@@ -44,6 +44,12 @@ directly; `CLAUDE.md` imports it for Claude Code, and
 
 ## Curriculum agents
 
+For approved model allocation, independent review, parallel task ownership,
+and quota fallback, see `docs/agent-orchestration.md`. The richer UI,
+main-page curriculum source access, and Grade 6 introductory Python research
+backlog are in `docs/development-expansion-plan.md`; these are planned
+increments, not currently served features.
+
 Repository-scoped custom agents support controlled curriculum expansion and
 course-progression design:
 
@@ -59,6 +65,10 @@ course-progression design:
   specification.
 - `course-progression-implementer` implements one approved increment of a
   reviewed progression architecture.
+- `course-progression-implementation-reviewer` independently reviews its
+  runtime patch and executable evidence.
+- `ui-implementer` and `ui-reviewer` implement and independently review rich,
+  accessible program UI using shared playbooks.
 
 Select them with `/agent`; see `docs/curriculum-agents.md` for models, skills,
 workflow, and approval boundaries.

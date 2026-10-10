@@ -17,7 +17,7 @@ Entry point for resuming work: `docs/course-progression-handoff.md`.
 
 ## Scope of each role
 
-Three roles, which may be three people, three sessions, or three tool
+Four roles, which may be different people, sessions, or tool
 configurations. Independence between the first two matters more than which
 tool performs them.
 
@@ -26,12 +26,12 @@ tool performs them.
 | **Architect** | Re-derives current behavior from code; writes or extends the specification and the decision matrix | Implement, author content, add dependencies, write migrations, or choose a parameter value |
 | **Reviewer** | Independently re-derives the inventory and checks the specification against §6 | Edit files, accept the architect's conclusions, or approve |
 | **Implementer** | Builds exactly one approved stage with the tests the specification names | Redesign, broaden scope, or substitute a value for an open decision |
+| **Implementation reviewer** | Reviews the pinned runtime patch against approved contracts and executable evidence | Edit, self-approve, or substitute design review for implementation review |
 
-An independent review should be performed by a different reasoning
-configuration than the one that authored the work — a different model family
-where that is available — because correlated blind spots are the failure mode
-this gate exists to catch. That is a preference, not a requirement, and no
-model name belongs in this document.
+Actual-model diversity is required under `docs/agent-orchestration.md`, not
+merely preferred. Single-provider routine work has the explicitly approved
+different-model exception; critical changes require cross-family review.
+Use `docs/progression-implementation-review-playbook.md` for runtime review.
 
 ## The five layers
 
