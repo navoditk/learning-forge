@@ -168,4 +168,6 @@ npm run dev
 Open `http://localhost:3000/` for the learner session or
 `http://localhost:3000/parent` for parent evidence. This is a local synthetic
 identity only; it is not authentication and must not be used with real learner
-data.
+data. `http://localhost:3000/resources` (linked from the main page as
+**Curriculum resources**) is a read-only reference index of research citations
+derived from `docs/curriculum-sources.md`; see `docs/learner-presentation-design.md`.

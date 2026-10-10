@@ -1,5 +1,50 @@
 # Progress
 
+## 2026-10-09 — SOURCES-1 implemented and independently reviewed
+
+- The resource index now presents adult-oriented external references, not
+  child-suitability approvals. Preserves dossier approval/pending distinctions,
+  recorded retrieval dates and edition metadata, repeated citations, and
+  stable standalone `?ref=` views. Unsafe or altered addresses are visibly
+  unavailable, never substituted with working-looking replacement links.
+- Added full-projection and rendered-page regressions for sensitive URLs,
+  private paths, profile-shaped metadata and search input; loader failures
+  expose fixed error codes instead of filesystem paths. Loading/retry and
+  invalid-filter notices are explicit. Deployment traces include the
+  authoritative Markdown register.
+- Final parent `npm run verify`: passed formatting, lint, typecheck,
+  migration-presence checks, 362 unit/contract/eval tests and production
+  build. Separate deployment-trace check passed.
+- `DATABASE_URL=<isolated-local-scratch> TUTOR_MODEL_PROVIDER=fake
+  npm run test:integration`: 166/166 passed. Final
+  `CI=true npx playwright test tests/browser/resources.spec.ts`: 10/10
+  passed, including actual keyboard selection, reloadable permalinks,
+  unknown-reference notice, mobile overflow and four WCAG 2.2 AA axe scans
+  in light/dark at 1280px/360px. Initial parallel build/browser execution
+  collided on `.next` manifests; the serial rerun passed without code changes.
+  Final browser rerun after the encoded-token correction also passed 10/10;
+  the isolated scratch database was dropped afterward. Screenshots are
+  preserved in the session artifacts; light/desktop and dark/mobile views
+  were inspected.
+- Prior unrelated content-pin and formatting failures were resolved by
+  concurrent work; this increment did not edit their files. Final independent
+  GPT-6.1 Sol review of the Sonnet corrections returned
+  **approve-for-human-review**, closing every scoped finding. Reviewer
+  independently ran the parser/rendered-page regression command, 29/29
+  passed, including the exact nested encoded-token reproduction.
+- Changed surfaces: `src/sources/`, `src/app/resources/`, main-page
+  navigation/resource styles, `next.config.ts` deployment inclusion,
+  `tests/app/` resource/projection/loader coverage, resource browser tests,
+  README, presentation design, expansion plan and this handoff.
+  The authoritative register itself is unchanged; no duplicate registry,
+  dependency, database migration, learner-state write or provider call.
+- Human accessibility, product/privacy and release gates remain separate;
+  source-link health was not rechecked, and external references are not
+  child-suitability endorsements. No content approval, progression cutover,
+  production access or commit/push is implied. Next recommended issue:
+  **UI-1**, richer course/topic navigation against existing authorized APIs
+  and synthetic fixtures, without opening C4/C5.
+
 ## 2026-10-10 — M2: composite validators now grade by independent required clauses
 
 Real fix for M2 (docs/course-progression-review/independent-review.md),

@@ -97,6 +97,63 @@ are worth doing so it doesn't look unfinished:
 Neither step is required for the chapter UI to work; both are what make a
 new subject look like it was designed for, not just technically supported.
 
+## Curriculum resources (SOURCES-1)
+
+The main page's primary navigation links to `/resources`, an adult-facing
+reference index. It is not part of the chapter, quiz, or progression flow and
+never reads or writes learner state.
+
+- **Single source of truth.** `docs/curriculum-sources.md` is parsed at
+  request time by `src/sources/register-parser.ts` (read via
+  `src/sources/register.server.ts`, cached by file mtime). There is no second
+  citation list. Each register-table row becomes one record; URLs cited only in
+  dossier prose become URL-only records. Scope notes, handoff text, open
+  questions, and every other part of a dossier are not projected.
+- **Stable references.** A record id is `<dossier-slug>-<hash of the row text>`:
+  it survives reordering and unrelated edits, and changes only if that row's
+  own text changes. `/resources?ref=<id>` is the permalink.
+- **Faithful metadata.** Title, issuer, edition/date (every `;` segment),
+  retrieval date, and access notes are extracted from the recorded text only;
+  anything that cannot be extracted renders as an explicit "unknown / not
+  recorded", and the full citation is always available. A dossier-wide
+  retrieval date (for example "all sources retrieved 2026-09-18") is inherited
+  by entries without their own and labelled as recorded for the whole dossier.
+  No remote fetch happens, and the page makes no claim that a link works.
+- **Adult reference, not a recommendation.** The page is public (no new auth;
+  it shows only register citations, no personal data) and is a parent-oriented
+  reference, not a learner-safe list. Resources may include contest solutions
+  or answer keys; adults should review them before learner use. Pending
+  dossiers appear as pending citations, never as lessons.
+- **Link policy.** `src/sources/link-policy.ts` is technical validation only,
+  not a suitability review: an address becomes a link only if, exactly as
+  recorded, it is HTTPS with no credentials, no non-default port, a well-formed
+  public DNS host (no IP, `.local`/`.localhost`/internal names, empty labels,
+  or percent-encoded host), and nothing sensitive in its path, query, or
+  fragment even after bounded repeated percent-decoding (anything that does not
+  settle fails closed). Links open with `rel="noopener noreferrer"` in a new tab
+  and say they leave Learning Forge and are not reviewed for children. `http:`
+  and other schemes stay as text. No host is endorsed.
+- **Redaction.** `src/sources/redaction.ts` judges each address from the raw
+  register text *before* any text redaction, so an altered address is never
+  shown as a different working destination. An address with credentials,
+  tracking or sensitive query/fragment, encoded controls, or private paths is
+  never a link: it is shown unlinked with only its scheme and host (or a fixed
+  marker) and a "withheld" reason, and the descriptive title/issuer/support
+  metadata stays. Emails, secret-shaped values, digests, `/private/...` and
+  assessment paths, and learner/profile fields in any projected text (citation,
+  support, status, labels) become visible withheld markers. A consequence: the
+  register's Google Drive download link (its query carries a file id) is listed
+  without a link. Search text that looks sensitive is dropped with a fixed
+  notice and is never echoed.
+- **Failure handling.** `loading.tsx` and `error.tsx` give the route a loading
+  state and a redacted retry; a missing, unreadable, or empty register throws a stable path-free
+  error (`SOURCE_REGISTER_UNAVAILABLE` / `SOURCE_REGISTER_INVALID`) rather than
+  rendering an empty index or leaking a filesystem path to logs. `next.config.ts` traces the register file into the
+  production bundle for `/resources`.
+- **Status wording.** Dossier status (approved / pending / informal) is
+  research status only. The page states that it is not content approval and
+  does not say whether anything is served to learners.
+
 ## Known rough edges (presentation-layer scope, not deferred by accident)
 
 - `enrichmentGlyph`'s keyword matching is a heuristic over domain codes,

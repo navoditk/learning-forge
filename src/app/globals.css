@@ -650,3 +650,169 @@ main:has(.learner-shell) {
     max-width: 320px;
   }
 }
+
+/* Curriculum resources reference index (SOURCES-1). Adult-facing; no
+   learner navigation. See docs/learner-presentation-design.md. */
+
+main.resources-main {
+  max-width: 960px;
+}
+
+.resources-notes {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.resources-filter-grid {
+  display: grid;
+  gap: var(--spacing-2);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: var(--spacing-2);
+}
+
+.resources-filters input[type='text'],
+.resources-filters select {
+  width: 100%;
+  max-width: none;
+  margin-bottom: 0;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-body-stack);
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.resources-filters button,
+.resources-filters a {
+  display: inline-block;
+  min-height: 2.75rem;
+}
+
+.resources-filters a {
+  padding: 0.65rem 0.5rem;
+}
+
+.dossier-list {
+  list-style: none;
+  padding: 0;
+}
+
+.dossier-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  align-items: baseline;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dossier-meta {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.source-status {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.1rem 0.6rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+.source-status-pending {
+  background: var(--color-danger-bg);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger-text);
+}
+
+.source-status-approved {
+  background: var(--color-status-bg);
+  border-color: var(--color-status-border);
+}
+
+.source-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+  background: var(--color-bg);
+  overflow-wrap: anywhere;
+}
+
+.source-card:target {
+  outline: 3px solid var(--color-focus);
+}
+
+h3.source-title {
+  font-family: var(--font-display-stack);
+  font-size: 1.05rem;
+  color: var(--color-text);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.source-facts {
+  margin: 0 0 var(--spacing-2);
+}
+
+.source-facts > div {
+  display: grid;
+  gap: 0.1rem 1rem;
+  grid-template-columns: minmax(8rem, 12rem) 1fr;
+  padding: 0.25rem 0;
+}
+
+.source-facts dt {
+  font-weight: 600;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.source-facts dd {
+  margin: 0;
+}
+
+h4.source-links-heading {
+  margin: 0 0 var(--spacing-1);
+  font-size: 0.95rem;
+}
+
+.source-links {
+  list-style: none;
+  padding: 0;
+}
+
+.source-url {
+  display: block;
+  font-family: var(--font-mono-stack);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.source-link-note {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+a > .source-link-note {
+  display: inline;
+}
+
+.source-citation summary {
+  cursor: pointer;
+  font-weight: 600;
+  min-height: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .source-facts > div {
+    grid-template-columns: 1fr;
+  }
+}

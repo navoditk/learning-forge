@@ -388,6 +388,7 @@ export default function Home() {
         </div>
         <nav aria-label="Primary navigation">
           <Link href="/parent">Parent evidence</Link>
+          <Link href="/resources">Curriculum resources</Link>
           <Link href="/help">Help</Link>
         </nav>
       </header>
