@@ -56,7 +56,7 @@ export const PILOT_LESSONS: readonly Lesson[] = [
     teachingContentRefs: [],
     practiceContentRefs: [
       itemRef('unit-rates-1', '0aee4911fb0462915f7a58b646c7a95d65ff18c1cd5b03a86a060076dff99428'),
-      itemRef('unit-rates-2', '4157aad609244d2ba957cd6de892d8c2c8063f8d34f1b9842c14c4491b1a80ae'),
+      itemRef('unit-rates-2', 'ea3b8c81aadb70032a23df09ac64ff0c9769d9546df053805484755c54a0b0fc'),
     ],
     assessmentBankRef: { code: 'unit-rates-lesson-bank', version },
     policyProfileRef,
@@ -73,7 +73,7 @@ export const PILOT_LESSONS: readonly Lesson[] = [
     teachingContentRefs: [],
     practiceContentRefs: [
       itemRef('ratio-tables-1', 'bba24d9e4e012194c65c81b5a35ad86e46b2f06404668c67524ffa60faa6848b'),
-      itemRef('ratio-tables-2', 'dd978debecccbf59261d1ee1782615d3b097ae9f0fda0b768b438d093c6cb0ab'),
+      itemRef('ratio-tables-2', '10ace306b5fd0cf77915510a45cbeb3bcadd7cbc7457d2f16879f03a92511b88'),
     ],
     assessmentBankRef: { code: 'ratio-tables-lesson-bank', version },
     policyProfileRef,

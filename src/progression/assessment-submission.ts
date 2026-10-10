@@ -69,9 +69,7 @@ function score(
   item: Pick<AssessmentContentItem, 'deterministicValidator'>,
   response: string,
 ): Correctness {
-  return matchesAcceptedAnswer(item.deterministicValidator.acceptedAnswers, response)
-    ? 'CORRECT'
-    : 'INCORRECT';
+  return matchesAcceptedAnswer(item.deterministicValidator, response) ? 'CORRECT' : 'INCORRECT';
 }
 
 function selectedItems(value: Prisma.JsonValue): SelectedItem[] {

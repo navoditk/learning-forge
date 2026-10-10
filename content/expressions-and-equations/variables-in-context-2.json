@@ -1,6 +1,6 @@
 {
   "id": "variables-in-context-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Changing number of seedling pots",
   "role": "practice",
   "skillRef": {
@@ -24,7 +24,11 @@
       "6n + 3; n is a nonnegative whole number",
       "3 + 6n; n is a nonnegative whole number"
     ],
-    "equivalenceNotes": "Accept either addend order when n is restricted to nonnegative whole numbers."
+    "equivalenceNotes": "Accept either addend order when n is restricted to nonnegative whole numbers.",
+    "parts": [
+      { "accepted": ["6n + 3", "3 + 6n"] },
+      { "accepted": ["n is a nonnegative whole number"] }
+    ]
   },
   "misconceptionCodes": ["assumes-a-variable-can-only-mean-one-fixed-quantity"],
   "hintSteps": [

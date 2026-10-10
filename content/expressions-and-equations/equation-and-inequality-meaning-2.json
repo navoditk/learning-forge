@@ -1,6 +1,6 @@
 {
   "id": "equation-and-inequality-meaning-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Describing an inequality solution",
   "role": "practice",
   "skillRef": {
@@ -25,7 +25,12 @@
       "n = 3 true, n = 6 false; n < 5",
       "3 yes, 6 no; values below 5"
     ],
-    "equivalenceNotes": "Accept inequality notation or equivalent words describing the complete set below 5."
+    "equivalenceNotes": "Accept inequality notation or equivalent words describing the complete set below 5.",
+    "parts": [
+      { "accepted": ["3 is a solution", "n = 3 true", "3 yes"] },
+      { "accepted": ["6 is not", "n = 6 false", "6 no"] },
+      { "accepted": ["all numbers less than 5", "n < 5", "values below 5"] }
+    ]
   },
   "misconceptionCodes": ["treats-inequality-solution-as-a-single-value"],
   "hintSteps": [

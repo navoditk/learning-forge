@@ -91,9 +91,7 @@ export const phase1Content = resolveContent();
 const assistanceWeights = [1, 0.9, 0.75, 0.55, 0.35, 0.1];
 
 function scoreAnswer(content: typeof phase1Content, answer: string): Correctness {
-  return matchesAcceptedAnswer(content.deterministicValidator.acceptedAnswers, answer)
-    ? 'CORRECT'
-    : 'INCORRECT';
+  return matchesAcceptedAnswer(content.deterministicValidator, answer) ? 'CORRECT' : 'INCORRECT';
 }
 
 function assistanceIndexFromDatabase(level: AssistanceLevel): number {

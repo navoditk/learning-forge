@@ -41,14 +41,47 @@ export const HintStepSchema = z
   })
   .strict();
 
+/**
+ * A single required clause of a composite answer. The learner's response
+ * matches this part if it contains (after normalization) any one of
+ * `accepted`'s phrasings - not necessarily in the same position or exact
+ * wording as every other authored variant. See `matchesAcceptedAnswer`
+ * (src/content/answer-matching.ts) for the actual grading logic this
+ * backs. Deliberately still exact-substring matching, never fuzzy or
+ * semantic: this narrows what counts as a match per clause, rather than
+ * requiring the whole response to equal one fully pre-authored sentence.
+ */
+export const DeterministicValidatorPartSchema = z
+  .object({
+    accepted: z.array(z.string().trim().min(1).max(200)).min(1).max(10),
+  })
+  .strict();
+
 export const DeterministicValidatorSchema = z
   .object({
     type: z.enum(['numeric', 'text', 'ratio', 'percent', 'multiple_choice', 'composite']),
     canonicalAnswer: z.string().trim().min(1).max(200),
     acceptedAnswers: z.array(z.string().trim().min(1).max(200)).min(1).max(20),
     equivalenceNotes: z.string().trim().min(1).max(500),
+    // Optional, composite-only: see DeterministicValidatorPartSchema. When
+    // present, grading matches each required clause independently instead
+    // of the whole response against one fully pre-authored sentence (M2,
+    // docs/course-progression-review/independent-review.md). Absent on
+    // every other validator type, and on composite records not yet
+    // migrated to it - grading falls back to today's whole-string
+    // behavior for those.
+    parts: z.array(DeterministicValidatorPartSchema).min(1).max(6).optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((validator, context) => {
+    if (validator.parts && validator.type !== 'composite') {
+      context.addIssue({
+        code: 'custom',
+        path: ['parts'],
+        message: 'parts is only meaningful for a composite validator',
+      });
+    }
+  });
 
 export const ContestFormatSchema = z
   .object({

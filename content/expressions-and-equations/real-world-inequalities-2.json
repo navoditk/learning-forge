@@ -1,6 +1,6 @@
 {
   "id": "real-world-inequalities-2",
-  "version": "content-2",
+  "version": "content-3",
   "title": "Capacity inequality",
   "role": "practice",
   "skillRef": {
@@ -25,7 +25,18 @@
       "p <= 15; 14 yes, 16 no; closed dot at 15, shading left down to 0",
       "9 + p is at most 24; p can be 0 through 15"
     ],
-    "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the solution set, as long as it names both the closed boundary at 15 and the context floor at 0 - describing only 'p <= 15' with no lower bound is incomplete for this context, since a negative or fractional number of people is not meaningful."
+    "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the solution set, as long as it names both the closed boundary at 15 and the context floor at 0 - describing only 'p <= 15' with no lower bound is incomplete for this context, since a negative or fractional number of people is not meaningful.",
+    "parts": [
+      { "accepted": ["9 + p <= 24", "p <= 15", "9 + p is at most 24"] },
+      { "accepted": ["14 works, 16 does not", "14 yes, 16 no"] },
+      {
+        "accepted": [
+          "p can be 0 through 15, with a closed dot at 15",
+          "closed dot at 15, shading left down to 0",
+          "p can be 0 through 15"
+        ]
+      }
+    ]
   },
   "misconceptionCodes": ["graphs-endpoint-only-instead-of-solution-ray"],
   "hintSteps": [

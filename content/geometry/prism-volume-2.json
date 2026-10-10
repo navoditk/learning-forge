@@ -1,6 +1,6 @@
 {
   "id": "prism-volume-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Packing a fractional-edge box",
   "role": "practice",
   "skillRef": {
@@ -25,7 +25,11 @@
       "2 m^3; interior space",
       "The box holds 2 cubic meters"
     ],
-    "equivalenceNotes": "Accept equivalent cubic-meter notation and wording that identifies interior volume."
+    "equivalenceNotes": "Accept equivalent cubic-meter notation and wording that identifies interior volume.",
+    "parts": [
+      { "accepted": ["2 cubic meters", "2 m^3"] },
+      { "accepted": ["the space inside the box", "interior space"] }
+    ]
   },
   "misconceptionCodes": ["labels-volume-answer-with-square-units"],
   "hintSteps": [

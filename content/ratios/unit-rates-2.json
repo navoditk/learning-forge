@@ -1,6 +1,6 @@
 {
   "id": "unit-rates-2",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Comparing snack prices",
   "role": "practice",
   "skillRef": {
@@ -19,7 +19,8 @@
     "type": "composite",
     "canonicalAnswer": "10-pack, $0.05 per bottle",
     "acceptedAnswers": ["10-pack, $0.05 per bottle", "10-pack by $0.05"],
-    "equivalenceNotes": "The response must identify the 10-pack and the per-bottle difference."
+    "equivalenceNotes": "The response must identify the 10-pack and the per-bottle difference.",
+    "parts": [{ "accepted": ["10-pack"] }, { "accepted": ["$0.05 per bottle", "$0.05"] }]
   },
   "misconceptionCodes": ["compares-total-cost", "subtracts-before-unit-rate"],
   "hintSteps": [

@@ -14,7 +14,9 @@ import { deleteHouseholdEvidence } from '../../src/server/delete-household-evide
  * already-live records had defects an independent review found after they'd
  * been serving real attempts. Both were corrected and version-bumped to
  * content-2 (content-1 remains archived, byte-identical, for any historical
- * attempt already scored against it).
+ * attempt already scored against it). Both are now content-3, after the
+ * separate M2 `parts` migration (docs/PROGRESS.md) bumped them again -
+ * content-2 remains archived unchanged for the same reason content-1 does.
  */
 describe('D-74 content corrections', () => {
   beforeAll(async () => {
@@ -30,7 +32,7 @@ describe('D-74 content corrections', () => {
     const session = await startSession(SYNTHETIC_IDENTITY, {
       contentId: 'one-variable-equations-2',
     });
-    expect(session.content.version).toBe('content-2');
+    expect(session.content.version).toBe('content-3');
     expect(session.content.prompt).toContain('(3/4)x = 18');
 
     const correct = await recordAttempt(SYNTHETIC_IDENTITY, {
@@ -54,7 +56,7 @@ describe('D-74 content corrections', () => {
     const session = await startSession(SYNTHETIC_IDENTITY, {
       contentId: 'real-world-inequalities-2',
     });
-    expect(session.content.version).toBe('content-2');
+    expect(session.content.version).toBe('content-3');
 
     const bounded = await recordAttempt(SYNTHETIC_IDENTITY, {
       sessionId: session.sessionId,

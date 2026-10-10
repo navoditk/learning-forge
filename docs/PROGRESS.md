@@ -1,5 +1,90 @@
 # Progress
 
+## 2026-10-10 — M2: composite validators now grade by independent required clauses
+
+Real fix for M2 (docs/course-progression-review/independent-review.md),
+deferred at the 2026-10-07 minimal-hardening pass: 11 live production
+composite records graded by exact-whole-string match only, so a
+correctly-reasoned but differently-worded answer could be marked wrong.
+
+- **Schema**: `DeterministicValidatorSchema`
+  (`src/contracts/content.ts`) gained an optional, composite-only `parts`
+  field - each part declares its own `accepted` phrasings for one required
+  clause. A `superRefine` rejects `parts` on any non-composite validator.
+  Reused by both `src/contracts/content.ts` and `src/contracts/progression.ts`
+  (the latter imports the same schema), so this covers both the Phase 1
+  and assessment grading paths with one change.
+- **Grading**: `matchesAcceptedAnswer`
+  (`src/content/answer-matching.ts`) checks the existing whole-string
+  exact match first, *always* - this means no pre-authored
+  `acceptedAnswers` variant can ever stop matching, even one that's
+  thinner evidence than `parts` would independently require. Only if that
+  fails, and `parts` is present, does it fall through to the new check:
+  every part's accepted phrasings must appear, as a substring after
+  normalization, somewhere in the response - independent of order or
+  wording elsewhere. Still fully deterministic, never fuzzy or semantic.
+- **Content migrated**: 9 of the 11 live composite records now declare
+  `parts`, each version-bumped (the content-archive versioning trap from
+  2026-10-07 applies here too - skipping the bump would make the fix
+  silently inert). The other 2 (`coordinate-plane-2`, `ratio-tables-1`)
+  were left alone - they're pure notation/bare-number variants with no
+  independent clause structure, where `parts` would add risk (short
+  numeric substrings) without real benefit.
+- **Re-pinned 2 stale content hashes** this surfaced:
+  `src/curriculum/pilot-catalog.ts` pins each pilot lesson's practice
+  content by SHA-256; `unit-rates-2` and `ratio-tables-2` legitimately
+  changed, so their pins were updated (caught by
+  `tests/progression/placement-probe.test.ts`, which exists exactly to
+  catch an unpinned content drift like this).
+- Added `tests/phase1/composite-parts-grading.test.ts`: through the real
+  session/attempt path, proves a pre-authored exact phrasing still scores
+  correct (no regression) and a differently-phrased, complete answer now
+  also scores correct, for `one-variable-equations-2` and
+  `real-world-inequalities-2`; also confirms a genuinely incomplete answer
+  (missing a required clause) is still rejected.
+- Updated 2 stale version assertions in `tests/phase1/content-corrections.test.ts`
+  (the D-74 test) - those same two records moved from `content-2` to
+  `content-3` under this change.
+- Verification: `npx tsc --noEmit`, `npx eslint .`, `npm run content:validate`
+  (40 tests), `npm run verify` (build + all unit/contract tests), full
+  `npm run test:integration` (166 tests, 22 files), and `npm run test:e2e`
+  (28/29, 1 skipped - the one failure is in `tests/browser/resources.spec.ts`,
+  an unrelated, untracked feature from a different concurrent session, not
+  touched here) all pass clean.
+- Still deferred: migrating the Grade 6 Math v2 *candidate*'s 31 composite
+  records to `parts` - that's a separate, lower-urgency effort since
+  nothing in `experiments/` is live.
+
+## 2026-10-09 — SOURCES-1 implementation and independent review in progress
+
+- Added the main-page Curriculum resources entry and `/resources` reference
+  index derived from `docs/curriculum-sources.md`, not a duplicate citation
+  registry. Initial projection covers 79 register rows plus one prose
+  citation across nine dossiers, including pending and unavailable sources.
+- Implementation agent harness metadata: `claude-sonnet-5.5`, task
+  `78278190-2240-4aad-bff1-f88c314bd686`. Independent UI reviewer harness
+  metadata: `gpt-6.1-sol`, task `d8f36f86-1dff-4119-925d-98bd10083fa7`.
+  These are different actual model families, not profile/self-report claims.
+- Independent review verdict: **changes-required**. Corrections underway:
+  distinguish adult-oriented external references from child-suitability
+  approval; exclude sensitive text and URL parameters; inherit recorded
+  retrieval metadata; include the register in deployment traces; add error
+  recovery, real keyboard navigation, light/dark accessibility and screenshot
+  evidence; preserve repeated citations' links.
+- Initial validation: `npm run build` passed; targeted
+  `npx playwright test tests/browser/resources.spec.ts` passed 4/4 against
+  an isolated local synthetic database with the fake tutor adapter.
+  `npm run verify` passed formatting, lint, typecheck and migration-presence
+  checks, then stopped at 343/344 tests: concurrent edits to `unit-rates-2`
+  invalidate the pinned placement-probe hash. On the same scratch database,
+  `npm run test:integration` passed 164/166; concurrent content-version
+  changes invalidate two `tests/phase1/content-corrections.test.ts`
+  assertions. These unrelated edits were preserved, not repaired here.
+- Not complete or release-approved. Next: finish corrections, rerun focused
+  validation and browser evidence, obtain independent re-review, then record
+  the final handoff. No commit/push, production access, provider call,
+  progression gate change, migration or new curriculum authoring.
+
 ## 2026-10-10 — Wrapped up the remaining pilot-readiness rows
 
 - **Identity and access**: wrote a support-access procedure in

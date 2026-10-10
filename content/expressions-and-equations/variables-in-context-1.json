@@ -1,6 +1,6 @@
 {
   "id": "variables-in-context-1",
-  "version": "content-1",
+  "version": "content-2",
   "title": "Workshop cost variable",
   "role": "practice",
   "skillRef": {
@@ -24,7 +24,11 @@
       "12 + 4w; w is the number of workshops",
       "4w + 12; w is the number of workshops"
     ],
-    "equivalenceNotes": "Accept either addend order when the response identifies w as the workshop count."
+    "equivalenceNotes": "Accept either addend order when the response identifies w as the workshop count.",
+    "parts": [
+      { "accepted": ["12 + 4w", "4w + 12"] },
+      { "accepted": ["w is the number of workshops"] }
+    ]
   },
   "misconceptionCodes": ["fails-to-name-the-quantity-represented-by-the-variable"],
   "hintSteps": [
