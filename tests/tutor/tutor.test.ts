@@ -153,9 +153,10 @@ describe('safety-flag handling', () => {
     // The fallback text itself must not repeat anything from the flagged
     // candidate - it's the server's own safe message, not model output.
     expect(response.fallbackMessage).not.toBe(flagged.learnerMessage);
+    expect(response.safetyFlagged).toBe(true);
   });
 
-  it('recovers normally if a flagged response is followed by a clean retry', async () => {
+  it('recovers normally if a flagged response is followed by a clean retry, but still reports the flag', async () => {
     const flagged = { ...validHint, safetyFlags: ['needs_human_review'] };
     const model = new SequenceModel([flagged, validHint]);
     const response = await new TutorHarness(model).respond(baseInput);
@@ -163,6 +164,20 @@ describe('safety-flag handling', () => {
     expect(response.status).toBe('repaired');
     expect(response.move?.moveType).toBe('hint_2_representation');
     expect(response.move?.safetyFlags).toEqual(['none']);
+    // The underlying learner message is what triggered the flag, not the
+    // model's phrasing - a human should still be told even though the
+    // retry's output happened not to repeat it.
+    expect(response.safetyFlagged).toBe(true);
+  });
+
+  it('never reports a safety flag for an ordinary validated or repaired response', async () => {
+    const clean = await new TutorHarness(new SequenceModel([validHint])).respond(baseInput);
+    expect(clean.safetyFlagged).toBe(false);
+
+    const repaired = await new TutorHarness(new SequenceModel([{ bad: true }, validHint])).respond(
+      baseInput,
+    );
+    expect(repaired.safetyFlagged).toBe(false);
   });
 });
 

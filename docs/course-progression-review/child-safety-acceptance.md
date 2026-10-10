@@ -22,11 +22,14 @@ an emergency/legal process.
       beyond the product owner's household. **Resolved 2026-10-09** (product
       owner, in chat): owner and destination are the product owner,
       navodit.kaushik@gmail.com — recorded in `docs/incident-response.md`'s
-      "Child-safety escalation" section. An automated alert to that address
-      when a `needs_human_review` flag fires is not wired up yet; until it
-      is, this relies on manually reviewing `TutorTrace` (tracked as a
-      still-open engineering gap in that section, not blocking this
-      acceptance).
+      "Child-safety escalation" section. **Automated notification wired up
+      2026-10-10**: `recordTutorResponse` now calls a real notifier
+      whenever a response is safety-flagged (`src/tutor/harness.ts`'s
+      `safetyFlagged`, `src/notification/`). Still open: the product owner
+      has not yet set `NOTIFIER_PROVIDER=resend` with real Resend
+      credentials in the actual deployment, so production still runs on
+      the log-only default until that's done — see
+      `docs/incident-response.md` for the remaining step.
 - [x] Document pause authority and response expectations in
       `docs/incident-response.md`. **Resolved 2026-10-09** (product owner,
       in chat): pause authority (product owner, unilateral, via existing

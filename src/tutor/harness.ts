@@ -12,6 +12,13 @@ import {
 } from '../contracts';
 import { authorizeTutorMove, PolicyContext, transitionTutorState, TutorState } from './policy';
 
+function wasSafetyFlagged(validation: TutorMoveValidation): boolean {
+  return (
+    validation.status === 'requires_fallback' &&
+    validation.reasons.includes('safety_review_required')
+  );
+}
+
 const UNKNOWN_MODEL_METADATA = {
   modelIdentifier: 'unknown',
   promptTemplateVersion: 'unknown',
@@ -36,6 +43,14 @@ export interface TutorResponse {
   nextState: TutorState;
   masteryAdvanced: false;
   trace: TutorTraceRecord;
+  /**
+   * True if any attempt (including a retry that then recovered cleanly)
+   * was flagged needs_human_review. A human should still be told about the
+   * underlying learner message even if the retry's model output happened
+   * not to repeat the flag - the flag is evidence about what the learner
+   * said, not about the model's phrasing.
+   */
+  safetyFlagged: boolean;
 }
 
 export class TutorHarness {
@@ -82,9 +97,11 @@ export class TutorHarness {
 
     let attemptResult = await attempt();
     let status: TutorResponse['status'] = 'validated';
+    let safetyFlagged = wasSafetyFlagged(attemptResult.validation);
 
     if (attemptResult.validation.status === 'requires_fallback') {
       attemptResult = await attempt();
+      safetyFlagged = safetyFlagged || wasSafetyFlagged(attemptResult.validation);
       status = attemptResult.validation.status === 'validated' ? 'repaired' : 'fallback';
     }
 
@@ -119,6 +136,7 @@ export class TutorHarness {
         nextState: input.state,
         masteryAdvanced: false,
         trace,
+        safetyFlagged,
       };
     }
 
@@ -127,6 +145,7 @@ export class TutorHarness {
       move: validation.move,
       nextState: transitionTutorState(policyContext, validation.move),
       masteryAdvanced: false,
+      safetyFlagged,
       trace,
     };
   }

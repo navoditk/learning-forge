@@ -271,6 +271,51 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — Child-safety notification gap closed
+
+- Closed the "actual human-notification step when a flag fires" gap
+  tracked in `docs/course-progression-review/child-safety-acceptance.md`'s
+  first reinforcement requirement and the Child safety pilot-readiness row.
+  Product owner chose email via Resend (asked via AskUserQuestion) over a
+  webhook or log-only option.
+- `src/tutor/harness.ts`: `TutorResponse` gained a `safetyFlagged: boolean`
+  field, true if _either_ attempt (including a retry that then recovered
+  cleanly) was flagged `needs_human_review` - the flag is evidence about
+  the learner's message, not the model's retry phrasing.
+- `src/contracts/notification.ts`: `NotifierPort` gained
+  `sendSafetyAlert(input: SafetyAlertInput)`, carrying only trace id,
+  household id, policy version, and timestamp - never learner text.
+- New `src/notification/provider-config.ts` + `create-notifier.ts` mirror
+  `src/tutor/provider-config.ts`/`create-model.ts`'s explicit-opt-in
+  pattern exactly: `NOTIFIER_PROVIDER` defaults to `console` (log-only)
+  everywhere it isn't explicitly set to `resend`, including tests/CI: new
+  `src/notification/resend-notifier.ts` sends real email via Resend's REST
+  API (no SDK dependency - one `fetch` call) once `RESEND_API_KEY`,
+  `SAFETY_ALERT_EMAIL_FROM`, and `SAFETY_ALERT_EMAIL_TO` are set.
+- `src/phase1/service.ts`'s `recordTutorResponse` now calls
+  `notifier.sendSafetyAlert` whenever `response.safetyFlagged`, injectable
+  via an optional parameter (defaults to `createNotifier()`) for testing.
+  Best-effort, matching `recordAuditEvent`'s pattern: a failed send is
+  caught and logged, never thrown, so it can't block the safety fallback
+  that already happened.
+- Updated `docs/incident-response.md`, `docs/tutor-policy.md`,
+  `docs/course-progression-review/child-safety-acceptance.md`, and
+  `docs/pilot-readiness-checklist.md`'s Child safety row.
+- **Still pending**: the product owner has not yet created a Resend
+  account or set `NOTIFIER_PROVIDER=resend` with real credentials in the
+  actual Render deployment, so production still runs on the log-only
+  default until that's done.
+- Verification: `npx tsc --noEmit`, `npm run verify` (476 tests +
+  production build), and `DATABASE_URL=<local scratch> npm run
+test:integration` (28 files, 174 tests passed, 1 intentionally skipped)
+  all pass clean. New tests: `tests/notification/notification.test.ts`
+  (14 tests, including a mocked-fetch `ResendNotifier` success/failure
+  case), `tests/tutor/tutor.test.ts` (added `safetyFlagged` assertions to
+  the existing safety-flag cases plus a new negative case),
+  `tests/phase1/safety-alert.test.ts` (3 new integration tests proving the
+  exact wiring: called when flagged, never called when not, best-effort on
+  failure).
+
 ## 2026-10-10 — Render processor terms researched
 
 - Closes the "Render's are not yet researched at all" gap the Data

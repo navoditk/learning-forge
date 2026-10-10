@@ -90,12 +90,14 @@ This is tested directly (`tests/tutor/tutor.test.ts`, "safety-flag
 handling": a flagged response never reaches `response.move`, and a flagged
 response followed by a clean retry still recovers normally).
 
-**What this does not yet do**: suppress the response and notify a human.
-There is no human-escalation/notification step today - a flagged turn is
-indistinguishable, from the outside, from any other fallback. Naming a
-safety escalation owner and destination is still an open item, tracked in
-`docs/course-progression-review/child-safety-acceptance.md`, not something
-this document resolves.
+**Human notification (closed 2026-10-10):** `recordTutorResponse` now
+calls `NotifierPort.sendSafetyAlert` whenever a response is safety-flagged,
+sending only trace metadata (never learner text) to the escalation
+destination named in `docs/incident-response.md`'s "Child-safety
+escalation" section. The default `console` provider only logs; a real
+email requires setting `NOTIFIER_PROVIDER=resend` with Resend credentials,
+which has not yet been done for the real deployment — see that section for
+what remains.
 
 ## Current status
 

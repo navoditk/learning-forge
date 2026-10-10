@@ -42,6 +42,19 @@ export interface NotifierResult {
   status: 'logged' | 'sent';
 }
 
+export interface SafetyAlertInput {
+  traceId: string;
+  householdId: string;
+  policyVersion: string;
+  occurredAt: string;
+}
+
 export interface NotifierPort {
   sendWeeklyDigest(input: WeeklyDigestSummary): Promise<NotifierResult>;
+  /**
+   * Fired when a tutor turn is flagged needs_human_review and suppressed.
+   * Implementations must never be passed raw learner/child text - only
+   * trace metadata - so there is nothing sensitive to redact here.
+   */
+  sendSafetyAlert(input: SafetyAlertInput): Promise<NotifierResult>;
 }

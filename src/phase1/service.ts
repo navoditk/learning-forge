@@ -6,6 +6,7 @@ import { resolveActive } from '../content/resolvers';
 import { matchesAcceptedAnswer, normalizeAnswer } from '../content/answer-matching';
 import {
   CurriculumProgram,
+  NotifierPort,
   PlannerContentItem,
   PlannerMasteryRecord,
   PlannerSkill,
@@ -15,7 +16,7 @@ import {
 import { skillCatalog, skillsByCode, topologicalSkillOrder } from '../curriculum';
 import { isSkillClaimedByAuthoredUnit } from '../curriculum/unit-claims';
 import { programsByCode } from '../curriculum/program-registry';
-import { ConsoleNotifier, buildWeeklyDigest } from '../notification';
+import { ConsoleNotifier, buildWeeklyDigest, createNotifier } from '../notification';
 import { planNextActivities } from '../planner';
 import { loadPolicyArtifacts } from '../progression/artifacts';
 import { deriveHighestAssistance } from '../progression/assistance';
@@ -834,6 +835,7 @@ export async function recordReviewAttempt(
 export async function recordTutorResponse(
   identity: HouseholdIdentity,
   input: { attemptId?: string; sessionId?: string; response: TutorResponse },
+  notifier: NotifierPort = createNotifier(),
 ) {
   if (!input.attemptId && !input.sessionId) {
     throw new Error('TUTOR_BINDING_REQUIRED');
@@ -876,6 +878,22 @@ export async function recordTutorResponse(
       redactedExcerpt: input.response.trace.redactedExcerpt,
     },
   });
+  if (input.response.safetyFlagged) {
+    // Best-effort, matching recordAuditEvent's pattern: a notification
+    // failure (e.g. the email provider is down) must never block the
+    // safety fallback that already happened, nor throw out of this
+    // request. Only trace metadata is sent - never learner text.
+    try {
+      await notifier.sendSafetyAlert({
+        traceId: trace.id,
+        householdId: identity.householdId,
+        policyVersion: metadata.policyVersion,
+        occurredAt: trace.createdAt.toISOString(),
+      });
+    } catch (error) {
+      console.error('Safety alert notification failed', error);
+    }
+  }
   if (input.response.move) {
     const move = input.response.move;
     await prisma.tutorInteraction.create({

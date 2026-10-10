@@ -11,14 +11,14 @@ standing access").
 
 ## Roles
 
-| Role | Responsibility | Who, today |
-|---|---|---|
-| Incident lead | Declares severity, coordinates response, keeps the timeline, and decides service pause | Product owner |
-| Security/operations owner | Contains credentials, access, infrastructure, and availability issues | Product owner (holds the only Render/database access, per `docs/secrets-management.md`) |
-| Privacy/legal owner | Determines data-subject, regulator, school, and processor obligations | Product owner; escalate to outside counsel before any notification claiming legal compliance |
-| Child-safety owner | Assesses unsafe-content, abuse, self-harm, or exploitation concerns and coordinates the approved escalation path | Product owner, who is also the learner's parent — see "Child-safety escalation" below |
-| Product/learning owner | Assesses pedagogical impact, parent communication, and remediation | Product owner |
-| Communications owner | Sends approved notices; no agent or engineer makes legal promises | Product owner |
+| Role                      | Responsibility                                                                                                   | Who, today                                                                                   |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Incident lead             | Declares severity, coordinates response, keeps the timeline, and decides service pause                           | Product owner                                                                                |
+| Security/operations owner | Contains credentials, access, infrastructure, and availability issues                                            | Product owner (holds the only Render/database access, per `docs/secrets-management.md`)      |
+| Privacy/legal owner       | Determines data-subject, regulator, school, and processor obligations                                            | Product owner; escalate to outside counsel before any notification claiming legal compliance |
+| Child-safety owner        | Assesses unsafe-content, abuse, self-harm, or exploitation concerns and coordinates the approved escalation path | Product owner, who is also the learner's parent — see "Child-safety escalation" below        |
+| Product/learning owner    | Assesses pedagogical impact, parent communication, and remediation                                               | Product owner                                                                                |
+| Communications owner      | Sends approved notices; no agent or engineer makes legal promises                                                | Product owner                                                                                |
 
 Because one person holds every role, there is no handoff or second approval
 inside this pilot. The checks that would normally come from a second
@@ -38,25 +38,35 @@ step below to actually be completed first, not just elapsed time.
 
 ## Child-safety escalation
 
-Today, a model turn flagged `safetyFlags: ["needs_human_review"]` is
-suppressed and the learner sees a safe fallback (tested in
-`tests/tutor/tutor.test.ts`) — but **nothing notifies a human when this
-happens**. The product owner would only find out by manually reviewing
-`TutorTrace` rows. This is the concrete gap behind
-`docs/course-progression-review/child-safety-acceptance.md`'s first
-reinforcement requirement, and it is not closed by this document alone.
+A model turn flagged `safetyFlags: ["needs_human_review"]` is suppressed
+and the learner sees a safe fallback (tested in `tests/tutor/tutor.test.ts`).
+
+**Automated notification closed 2026-10-10.** `recordTutorResponse`
+(`src/phase1/service.ts`) now calls `NotifierPort.sendSafetyAlert` whenever
+a response is safety-flagged — including a flagged first attempt that then
+recovered cleanly on retry, since the flag is evidence about what the
+learner said, not about the model's retry phrasing
+(`src/tutor/harness.ts`'s `safetyFlagged` field). The alert carries only
+trace metadata (trace id, household id, policy version, timestamp) — never
+learner text, matching the existing no-raw-child-text-in-logs policy. A
+failed send is best-effort and never blocks the safety fallback that
+already happened (same pattern as `recordAuditEvent`).
 
 - **Escalation destination:** navodit.kaushik@gmail.com (product owner).
 - **Target response time:** same day, given this is a single-parent-operator
   pilot with one learner, not a 24/7-staffed service. If real usage ever
   shows a flag firing with the child actively mid-session and unsupervised,
   this target should be revisited.
-- **Still-open engineering gap:** wiring an actual notification (e.g., an
-  email or push alert sent when a `needs_human_review` flag is recorded) so
-  the product owner doesn't have to manually poll traces. Until that ships,
-  review `TutorTrace` for `needs_human_review` rows on a regular cadence the
-  product owner actually keeps to — write that cadence here once decided:
-  `[fill in: e.g., "daily" or "after every session"]`.
+- **Delivery mechanism:** set by `NOTIFIER_PROVIDER` (default `console` —
+  logs only, does not reach anyone outside the server process). Setting it
+  to `resend` with `RESEND_API_KEY`, `SAFETY_ALERT_EMAIL_FROM`, and
+  `SAFETY_ALERT_EMAIL_TO` (see `.env.example`) sends a real email via
+  Resend's API to the escalation destination above. **Still open:** the
+  product owner has not yet created a Resend account or set these values in
+  the real deployment's environment — until that's done, this pilot is
+  still effectively on the `console`-only default in production, same as
+  before this change. Set `NOTIFIER_PROVIDER=resend` on Render once that
+  account exists to actually close this gap end to end.
 
 ## Severity
 
@@ -106,15 +116,15 @@ Severity may be raised at any time when new evidence changes the impact.
 
 ## Required pre-pilot decisions
 
-| Decision | Status |
-|---|---|
-| On-call path | Resolved above: product owner, same-day target, no 24/7 staffing (single-operator scope). |
-| Service-pause authority | Resolved above: product owner, unilaterally, no second approval. |
-| Safety escalation destination and notification contact | Resolved above: navodit.kaushik@gmail.com. Manual `TutorTrace` review until an automated alert is wired up (still-open engineering gap, not blocking this decision). |
-| Notification timelines (parents/schools/regulators) | **Still open** — depends on the privacy/legal review `docs/privacy-data-acceptance.md` already flags as unresolved ("verify ... retention, training-use, subprocessors ... before expanding scope"); do not commit to a timeline here before that review happens. |
-| Processor notification obligations | **Still open** — same dependency: Render/PostgreSQL and the model provider's own terms haven't been verified yet (`docs/privacy-data-acceptance.md`'s first reinforcement requirement). |
-| Backup deletion SLA | **Still open** — same dependency; this is the provider's backup-retention window, not a number this pilot can set on its own. |
-| Evidence retention period | **Still open** — no retention period has been set for incident evidence itself; proposed default below, pending product-owner sign-off. |
+| Decision                                               | Status                                                                                                                                                                                                                                                            |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| On-call path                                           | Resolved above: product owner, same-day target, no 24/7 staffing (single-operator scope).                                                                                                                                                                         |
+| Service-pause authority                                | Resolved above: product owner, unilaterally, no second approval.                                                                                                                                                                                                  |
+| Safety escalation destination and notification contact | Resolved above: navodit.kaushik@gmail.com. Manual `TutorTrace` review until an automated alert is wired up (still-open engineering gap, not blocking this decision).                                                                                              |
+| Notification timelines (parents/schools/regulators)    | **Still open** — depends on the privacy/legal review `docs/privacy-data-acceptance.md` already flags as unresolved ("verify ... retention, training-use, subprocessors ... before expanding scope"); do not commit to a timeline here before that review happens. |
+| Processor notification obligations                     | **Still open** — same dependency: Render/PostgreSQL and the model provider's own terms haven't been verified yet (`docs/privacy-data-acceptance.md`'s first reinforcement requirement).                                                                           |
+| Backup deletion SLA                                    | **Still open** — same dependency; this is the provider's backup-retention window, not a number this pilot can set on its own.                                                                                                                                     |
+| Evidence retention period                              | **Still open** — no retention period has been set for incident evidence itself; proposed default below, pending product-owner sign-off.                                                                                                                           |
 
 **Proposed default for evidence retention** (not yet accepted): keep incident
 timelines and redacted evidence for 1 year after an incident closes, then
