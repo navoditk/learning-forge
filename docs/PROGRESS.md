@@ -1,5 +1,45 @@
 # Progress
 
+## 2026-10-09 — Incident-response draft for the two open child-safety reinforcement requirements
+
+- `docs/course-progression-review/child-safety-acceptance.md` has four open
+  reinforcement requirements. Drafted `docs/incident-response.md` to resolve
+  as much of the first two as can be resolved without the product owner's
+  own input:
+  - Collapsed all six incident-response roles to "product owner" explicitly,
+    since this is a single-household, single-operator pilot (no second
+    engineer or operator exists) — consistent with `docs/secrets-management.md`'s
+    existing framing and revisit trigger.
+  - Documented concrete pause authority (product owner, unilateral, via
+    existing Render dashboard/feature-flag/database access - no second
+    approval needed) and a same-day response-time target for safety
+    escalation, sized to a single-parent-operator pilot with one learner.
+  - Left the actual escalation contact destination as an explicit fill-in
+    blank, since that's the product owner's personal contact information,
+    not something to invent or commit on their behalf.
+  - Named the concrete, still-open engineering gap plainly: no notification
+    fires today when a `needs_human_review` safety flag is recorded - the
+    product owner would only find out by manually checking `TutorTrace`.
+    Wiring a real alert is separate follow-up work, not done here.
+  - Added a "Required pre-pilot decisions" status table distinguishing what
+    this draft resolves (on-call path, pause authority) from what still
+    depends on an external, unverified fact (notification timelines,
+    processor obligations, and backup-deletion SLA all depend on verifying
+    Render/PostgreSQL/model-provider terms, which `docs/privacy-data-acceptance.md`
+    already flags as its own open item - not invented here) and from what
+    needs the product owner's own sign-off (a proposed 1-year evidence-
+    retention default).
+- Updated `child-safety-acceptance.md`'s first two reinforcement checkboxes
+  with "Draft ready" notes pointing to the new sections; left both unchecked,
+  since filling in personal contact information and accepting the draft are
+  the product owner's decisions, not something to self-approve.
+- The other two reinforcement requirements (re-running safety evals after
+  tutor/progression-copy changes; reviewing a live safety event with a human)
+  are process commitments that can't be closed by a document edit - they
+  remain open until actually exercised.
+- No code changed; this is a docs-only increment.
+  `npx prettier --check docs/` passes clean.
+
 ## 2026-10-07 — M2 minimal hardening: deduplicated and hardened answer-matching
 
 - The final independent review's `M2` finding (exact-string-match composite
