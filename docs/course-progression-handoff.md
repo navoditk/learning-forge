@@ -233,8 +233,10 @@ Rules that survive independently of any tool:
 | `npm run eval:run` | No | Any change to tutor-adjacent text |
 | `git diff --check` | No | Every change |
 
-For documentation-only work, `npm run format:check`, `npm run lint`,
-`npm run typecheck`, `npm test`, and `git diff --check` are sufficient.
+For documentation-only work, follow `AGENTS.md`: run targeted Prettier checks
+with `--ignore-path /dev/null` for changed documents (the repository's default
+format check ignores `docs/`) and `git diff --check`. Runtime validation is
+not required when only documentation changes.
 
 `npm run verify` must stay database-free; do not add database-dependent checks
 to it.

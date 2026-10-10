@@ -37,7 +37,10 @@ Initial scope:
 8. `docs/08-cli-build-guide.md`
 9. `docs/09-decisions-and-open-questions.md`
 
-The CLI agent must also read `AGENTS.md` before changing code.
+All coding agents must read `AGENTS.md` before changing code. Codex reads it
+directly; `CLAUDE.md` imports it for Claude Code, and
+`.github/copilot-instructions.md` points Copilot to it. Use
+`docs/08-cli-build-guide.md` for portable startup and resumption prompts.
 
 ## Curriculum agents
 
@@ -88,7 +91,7 @@ Review` capability and its Grade 6 Math ratios pilot. A0–A2 and B are
   implemented; C1–C3 are shipped in non-enforcing mode, while C4/C5 remain
   gated.
 - `docs/course-progression-decisions.md` — the authoritative decision matrix
-  for every human-gated progression parameter, `D-01` … `D-72`. All 72
+  for every human-gated progression parameter, `D-01` … `D-74`. All 74
   decisions are approved; D-36 and D-39 are explicitly revisitable pilot
   choices.
 - `docs/local-development.md` — local PostgreSQL setup and migration rollback.

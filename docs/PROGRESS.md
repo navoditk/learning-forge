@@ -1,5 +1,32 @@
 # Progress
 
+## 2026-10-09 — Shared development entry points for Claude Code, Codex, and Copilot
+
+- Kept `AGENTS.md` as the shared rulebook and added thin `CLAUDE.md` and
+  `.github/copilot-instructions.md` entry points. Added startup instructions
+  for preserving the worktree, resolving status/approval conflicts, synthetic
+  validation, and durable checkpoints without granting production access.
+- Updated `docs/08-cli-build-guide.md` with current, tool-neutral startup
+  prompts and documented the Copilot-only nature of the agent profiles in
+  `docs/curriculum-agents.md`. Shared playbooks remain the portable procedure;
+  no native Claude/Codex agent wrappers or new tooling were added.
+- Synchronized the README, decision-matrix header, and resumption/status
+  summaries to 74 approved decisions and the recorded package/content
+  acceptances. Independent-review and shadow-review gates and explicit C4
+  authorization remain outstanding. The handoff's item 5 had already been
+  refreshed by another checkpoint before this increment.
+- Documentation only; no runtime, curriculum, approval, or release change.
+  Targeted `npx prettier --check --ignore-path /dev/null` passed for
+  `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `README.md`,
+  and `docs/08-cli-build-guide.md`; it reported formatting drift in the four
+  other edited documents. Checked their committed baselines with
+  `prettier.check`: all four already fail formatting, so unrelated reflow was
+  deliberately excluded. `git diff --check` and entry-point/script-reference
+  checks passed. No runtime tests were run.
+  Client auto-loading is not smoke-tested in fresh Claude/Codex/Copilot
+  sessions. Next task: record the independent-review gate decision and collect
+  representative shadow evidence before any C4 authorization.
+
 ## 2026-10-09 — Refreshed the stale "before C4" item 5 in the handoff doc
 
 - `docs/course-progression-handoff.md`'s "exact next task" section 6, item 5
@@ -1724,10 +1751,12 @@ are optional wrappers over it and are not the source of procedure.
   are complete; C1–C3 foundations, the default-off release gate, pilot
   assessment flow, learner/parent surfaces, and mastery evidence seams are
   implemented. C4 authorization and C5 serving remain gated.
-- **Next task:** complete the independent fourth-draft architecture/C1–C3
-  review and representative shadow-divergence review, then obtain the human
-  approvals required before C4.
-- **Blocking decisions:** `docs/course-progression-decisions.md` records all 61
+- **Next task:** record the outstanding independent-review gate decision,
+  collect and independently disposition representative shadow traffic, then
+  obtain explicit C4 release authorization. Package/content acceptances are
+  recorded in `docs/course-progression-review/manual-gate-record.md`; they
+  do not authorize C4.
+- **Blocking decisions:** `docs/course-progression-decisions.md` records all 74
   entries approved; D-36 and D-39 remain explicitly revisitable pilot choices,
   not open decisions.
 - **Do not** perform the C4 authorization cutover, serve progression UI, or
@@ -3310,27 +3339,27 @@ are optional wrappers over it and are not the source of procedure.
 
 ## Current status
 
-- **Course progression: staged implementation checkpoint (2026-09-23).** A0,
+- **Course progression: staged implementation checkpoint (2026-10-09).** A0,
   A1, A2, and Stage B are complete. C1–C3 persistence, export/deletion
   coverage, dual-write/shadow mode, progression endpoints, held-out package
   validation, review UI, and fail-closed release gates are implemented and
   verified. The three-lesson Grade 6 Math Ratios and Proportional Reasoning
-  pilot is the active scope. All 61 progression decisions are approved in the
+  pilot is the active scope. All 74 progression decisions are approved in the
   authoritative matrix; D-36 and D-39 remain explicitly revisitable pilot
   choices. C4 authorization and C5 learner serving remain closed pending the
-  independent fourth-draft/C1–C3 review, representative shadow disposition,
-  reviewed private assessment package, and manual gate record. Independent
-  reviewer attempts in the current Codex account are presently blocked by its
-  usage limit; this is an external review-capacity issue, not an implementation
-  approval.
+  independent-review gate decision, representative shadow disposition, and
+  explicit release authorization. Package/content acceptances were recorded
+  2026-10-05; the independent-review and shadow-review rows remain open in
+  `docs/course-progression-review/manual-gate-record.md`. No client-specific
+  review-capacity claim or prior reviewer recommendation grants approval.
 - Phase: 1 — synthetic journeys across all 5 Grade 6 Math domains, skill graph, planner, an actionable planner UI, an on-demand parent weekly digest, and a basic accessible visual design (now automated-WCAG-AA-checked) covered; **Grade 6 Math curriculum v3 shipped 2026-09-18**: 27 skills, 54/54 content records fully human-reviewed (0 pending), merged from the v1 baseline plus the independently-researched/reviewed v2 candidate graph (see the 2026-09-16 through 2026-09-18 entries below for the full merge, safety-gate, and content-review trail); the pilot-readiness decisions (audience, identity/auth, hosting, consent/retention, provider, budget/latency, eval gate) are made for a single-household pilot (ADR-0008, ADR-0009, ADR-0005). **All three approved implementation tracks are now live**: Track 1, real authentication (ADR-0010). Track 2, real Claude adapter (ADR-0011), reviewed, approved, and enabled. Track 3, Render deployment (ADR-0012) — **confirmed genuinely live 2026-09-13**: a real account was provisioned, sign-in works at `https://learning-forge.onrender.com`, and a real hint request was confirmed hitting the real Anthropic API (visible ~1-2s latency, non-templated text), not the fake adapter. This is a real, live, single-household pilot now, not just a local demonstration
 - Branch: `main`
 - Repository state: PRs #13–#42 are merged to `main`; the deployed app is live and working. The web service is currently on the **Starter** plan by deliberate choice for this pilot. The original Free-plan decision is deferred for a later cost review, not an operational blocker.
-- Last independently reviewed course-progression checkpoint: `b7934bc fix:
-  fail closed on incomplete shadow context`. It was reviewed 2026-09-22 with a
-  `do not approve` recommendation. The M1–M3 remediation on top of `14e8be4` was
-  independently re-reviewed as "ready for human review with noted risks"; see
-  the 2026-09-22 entries at the top of this file.
+- Course-progression review chronology and findings are recorded in
+  `docs/course-progression-review/independent-review-result.md` and the dated
+  entries above. The handoff records the latest 2026-09-28 pass as ready for
+  human review with noted risks, with its password-limiting finding closed
+  under D-72. The manual independent-review gate still needs a dated decision.
 - Operational cleanup in progress: tutor traces now retain an optional session
   reference, and the live hint route enforces configurable household-daily and
   session hint limits before calling the model. The current defaults are 100

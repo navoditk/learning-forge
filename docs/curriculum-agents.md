@@ -4,6 +4,19 @@ Learning Forge uses thin, repository-scoped custom agents backed by
 model-independent skills. The skills define durable procedures and quality
 gates; the agents select the model and minimum tool set.
 
+## Portability
+
+The profiles under `.github/agents/` are Copilot-specific wrappers. Claude
+Code and Codex should use `AGENTS.md` and the same `docs/` playbooks directly;
+they need not discover these profiles or skills to perform the role.
+Model identifiers and tool aliases in a profile are not portable configuration.
+Use an available model appropriate to the role, preserve independent review
+and human approval boundaries, and report model identity as unverified if it
+cannot be confirmed. Do not silently substitute a model for an explicitly
+requested model.
+
+See `docs/08-cli-build-guide.md` for shared startup and handoff prompts.
+
 ## Curriculum authoring track
 
 | Agent | Model | Skill | Purpose |

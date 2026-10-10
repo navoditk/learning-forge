@@ -1,48 +1,54 @@
-# CLI Build Guide
+# Cross-agent Development Guide
 
-This is a starting recommendation, not a fixed rule: the human running this
-repository has since built with Claude Code directly rather than following the
-primary/secondary split below. The workflow and checkpoint discipline in this
-guide still apply regardless of which agent is doing the work.
+Use the same repository rules, task boundaries, and durable checkpoints in
+Claude Code, Codex, and Copilot CLI. No tool is the required primary builder.
+Change tools at a documented checkpoint, not halfway through unrecorded work.
 
-## Recommendation
+## Instruction entry points
 
-Use **Codex CLI as the primary builder** for this repository, with GitHub CLI for repository operations. It fits a plan-first, file-oriented workflow; supports repository instructions through `AGENTS.md`; can inspect/edit/run/review; and keeps the blueprint portable.
+| Environment           | Repository entry point                                 | Shared procedure                                 |
+| --------------------- | ------------------------------------------------------ | ------------------------------------------------ |
+| Codex                 | Root `AGENTS.md`                                       | Follow the relevant `docs/` handoff and playbook |
+| Claude Code           | Root `CLAUDE.md` imports `AGENTS.md`                   | Same                                             |
+| Copilot CLI / Copilot | Root `AGENTS.md` and `.github/copilot-instructions.md` | Same                                             |
 
-Claude Code is an equally credible secondary agent for an independent architecture/code review or difficult multi-file task. GitHub Copilot CLI is strongest when tight GitHub interaction and an existing Copilot subscription/workflow are the priority. Avoid rotating agents within one unfinished issue; hand off only at a documented checkpoint.
+Keep operating rules in `AGENTS.md`, not duplicated in the wrappers. Verify
+that your client loaded its entry point; client versions, personal settings,
+and instruction precedence can differ. If discovery is unavailable, explicitly
+ask the agent to read `AGENTS.md` before starting.
+
+The `.github/agents/` profiles are Copilot-specific model/tool wrappers, not
+portable native subagent definitions. In Claude Code or Codex, follow the
+same role's playbook directly; do not assume its model identifiers, tool
+aliases, or skill discovery work unchanged. See `docs/curriculum-agents.md`.
 
 ## Human/agent responsibility split
 
 Human approves product scope, child-facing behavior, architecture changes, content quality, privacy tradeoffs, releases, commits, and pushes. The agent inspects, proposes, implements bounded changes, writes tests/evals, runs verification, and updates progress.
 
-## Initial repository setup
+## Existing repository setup
 
-```bash
-mkdir learning-forge
-cd learning-forge
-git init
-git branch -M main
-# Copy this proposal package into the repository.
-git add .
-git commit -m "docs: add product and implementation blueprint"
-gh repo create learning-forge --private --source=. --remote=origin --push
-```
-
-Choose public only after removing private family details, secrets, licensed content, and pilot data.
+Use Node.js 22 or newer. From a fresh clone, run `npm ci` and
+`npm run verify`. Database-backed validation uses the synthetic workflow in
+`docs/local-development.md`; do not point it at production. Credentials and
+private assessment items do not transfer through git or chat history.
 
 ## Start the agent
 
 ```bash
-codex
+# Launch your chosen client from the repository root:
+claude
+# or: codex
+# or: copilot
 ```
 
-First prompt:
+Portable resumption prompt:
 
-> Read README.md, AGENTS.md, and docs/01 through docs/09. Do not write code yet. Inspect the repository, identify contradictions or missing decisions that block Phase 0, and propose the smallest issue sequence for Phase 0. For each issue provide acceptance criteria, tests, and expected files. Record the approved plan in docs/PROGRESS.md.
+> Read AGENTS.md and README.md. Inspect the branch and worktree. Read the latest dated entries and the Resume here and Current status sections of docs/PROGRESS.md. For course progression, start at docs/course-progression-handoff.md and follow its reading order; check the decision matrix and manual gate record. Report the current checkpoint, remaining gates, and the smallest next task without changing code or inferring approval.
 
-Second prompt after review:
+Implementation prompt after task approval:
 
-> Implement only Phase 0 Issue 1 from docs/PROGRESS.md. Follow AGENTS.md. Before editing, restate scope and assumptions. Do not commit or push. When complete, run all relevant checks and update docs/PROGRESS.md with evidence and the exact next issue.
+> Implement only `<approved issue/stage>`. Follow AGENTS.md and its task playbook. State scope and assumptions, preserve existing changes, add required tests, and run applicable synthetic validation. Update docs/PROGRESS.md with exact command results, unresolved risks/gates, and the next task. Do not access production, enable gated behavior, commit, or push.
 
 ## Per-issue loop
 
@@ -50,7 +56,7 @@ Second prompt after review:
 git switch main
 git pull --ff-only
 git switch -c feature/<short-issue-name>
-codex
+# Launch claude, codex, or copilot.
 ```
 
 Prompt pattern:
