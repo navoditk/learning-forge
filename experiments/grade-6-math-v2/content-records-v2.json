@@ -304,7 +304,15 @@
       "type": "composite",
       "canonicalAnswer": "432 full envelopes and 2 stickers remain",
       "acceptedAnswers": ["432 full envelopes and 2 stickers remain", "432 R2", "432 remainder 2"],
-      "equivalenceNotes": "Accept quotient-remainder notation when it clearly identifies 432 as the quotient and 2 as the remainder."
+      "equivalenceNotes": "Accept quotient-remainder notation when it clearly identifies 432 as the quotient and 2 as the remainder.",
+      "parts": [
+        {
+          "accepted": ["432 full envelopes", "432 envelopes", "432 complete envelopes"]
+        },
+        {
+          "accepted": ["2 stickers remain", "2 stickers left over", "2 remain", "remainder of 2"]
+        }
+      ]
     },
     "answerFormat": "A whole-number quotient and remainder, both labeled in context.",
     "misconceptionCodes": ["drops-remainder-when-context-requires-it"],
@@ -649,7 +657,19 @@
         "12 + 4w; w is the number of workshops",
         "4w + 12; w is the number of workshops"
       ],
-      "equivalenceNotes": "Accept either addend order when the response identifies w as the workshop count."
+      "equivalenceNotes": "Accept either addend order when the response identifies w as the workshop count.",
+      "parts": [
+        {
+          "accepted": ["12 + 4w", "4w + 12", "12 plus 4w"]
+        },
+        {
+          "accepted": [
+            "w is the number of workshops",
+            "w represents the number of workshops",
+            "w is how many workshops"
+          ]
+        }
+      ]
     },
     "answerFormat": "An algebraic expression followed by a semicolon and a phrase defining w.",
     "misconceptionCodes": ["fails-to-name-the-quantity-represented-by-the-variable"],
@@ -709,7 +729,19 @@
         "6n + 3; n is a nonnegative whole number",
         "3 + 6n; n is a nonnegative whole number"
       ],
-      "equivalenceNotes": "Accept either addend order when n is restricted to nonnegative whole numbers."
+      "equivalenceNotes": "Accept either addend order when n is restricted to nonnegative whole numbers.",
+      "parts": [
+        {
+          "accepted": ["6n + 3", "3 + 6n", "6 times n plus 3"]
+        },
+        {
+          "accepted": [
+            "n is a nonnegative whole number",
+            "n is a whole number starting from 0",
+            "n cannot be negative"
+          ]
+        }
+      ]
     },
     "answerFormat": "An algebraic expression followed by a semicolon and the allowed values for n.",
     "misconceptionCodes": ["assumes-a-variable-can-only-mean-one-fixed-quantity"],
@@ -884,7 +916,19 @@
         "diver; 18 - 5 = 13 feet farther; 5 > -18",
         "the diver is 18 feet from the surface and the snorkeler is 5 feet, so the diver is 13 feet farther; 5 is greater than -18"
       ],
-      "equivalenceNotes": "Accept equivalent wording as long as it names the diver as farther by 13 feet and separately identifies 5 as the greater number."
+      "equivalenceNotes": "Accept equivalent wording as long as it names the diver as farther by 13 feet and separately identifies 5 as the greater number.",
+      "parts": [
+        {
+          "accepted": [
+            "diver is farther",
+            "diver is farther, by 13 feet",
+            "diver is 13 feet farther"
+          ]
+        },
+        {
+          "accepted": ["5 is the greater number", "5 is greater", "5 > -18"]
+        }
+      ]
     },
     "answerFormat": "Which person is farther and by how many feet, plus which signed number is greater.",
     "misconceptionCodes": ["treats-absolute-value-as-always-negating-the-number"],
@@ -1188,7 +1232,23 @@
         "18 meters below sea level; opposite 18 meters above sea level",
         "negative 18 means 18 below sea level; opposite is positive 18 meters"
       ],
-      "equivalenceNotes": "Accept equivalent wording that identifies the direction, distance, and opposite elevation."
+      "equivalenceNotes": "Accept equivalent wording that identifies the direction, distance, and opposite elevation.",
+      "parts": [
+        {
+          "accepted": [
+            "below sea level by 18 meters",
+            "18 meters below sea level",
+            "negative 18 means 18 below sea level"
+          ]
+        },
+        {
+          "accepted": [
+            "opposite +18 meters",
+            "opposite is positive 18 meters",
+            "opposite 18 meters above sea level"
+          ]
+        }
+      ]
     },
     "answerFormat": "A signed-context explanation with a distance and an opposite value.",
     "misconceptionCodes": ["ignores-real-world-sign-meaning"],
@@ -1388,7 +1448,18 @@
         "P = (-2, 0.5), Q = (0.5, -2), P is farther left",
         "P; (-2, 1/2); Q; (1/2, -2); P"
       ],
-      "equivalenceNotes": "Accept decimal equivalents for one-half and any clear format that preserves coordinate order and the horizontal comparison."
+      "equivalenceNotes": "Accept decimal equivalents for one-half and any clear format that preserves coordinate order and the horizontal comparison.",
+      "parts": [
+        {
+          "accepted": ["p (-2, 1/2)", "p = (-2, 0.5)", "p; (-2, 1/2)"]
+        },
+        {
+          "accepted": ["q (1/2, -2)", "q = (0.5, -2)", "q; (1/2, -2)"]
+        },
+        {
+          "accepted": ["p is farther left", "point p is farther left"]
+        }
+      ]
     },
     "answerFormat": "Two ordered pairs and the point with the smaller x-coordinate.",
     "misconceptionCodes": ["plots-x-and-y-coordinates-in-reversed-order"],
@@ -1449,7 +1520,18 @@
         "5 to the fourth power; base 5; exponent 4",
         "5 x 5 x 5 x 5 = 5^4; base 5; exponent 4"
       ],
-      "equivalenceNotes": "Accept caret, words, or an equivalent repeated-product explanation."
+      "equivalenceNotes": "Accept caret, words, or an equivalent repeated-product explanation.",
+      "parts": [
+        {
+          "accepted": ["5^4", "5 to the fourth power", "5 x 5 x 5 x 5 = 5^4"]
+        },
+        {
+          "accepted": ["base 5", "base is 5", "the base is 5"]
+        },
+        {
+          "accepted": ["exponent 4", "exponent is 4", "the exponent is 4"]
+        }
+      ]
     },
     "answerFormat": "A power plus the base and exponent labels.",
     "misconceptionCodes": ["writes-exponent-as-the-base"],
@@ -1563,7 +1645,15 @@
       "type": "composite",
       "canonicalAnswer": "4 + 3t; 19 dollars when t = 5",
       "acceptedAnswers": ["4 + 3t; 19 dollars when t = 5", "3t + 4; 19", "4 + 3(5) = 19 dollars"],
-      "equivalenceNotes": "Accept commutative order for the sum and a clearly evaluated cost for five tours."
+      "equivalenceNotes": "Accept commutative order for the sum and a clearly evaluated cost for five tours.",
+      "parts": [
+        {
+          "accepted": ["4 + 3t", "3t + 4"]
+        },
+        {
+          "accepted": ["19 dollars when t = 5", "19 dollars", "4 + 3(5) = 19 dollars"]
+        }
+      ]
     },
     "answerFormat": "An expression in t and its evaluated dollar cost.",
     "misconceptionCodes": ["treats-variable-as-word-label-not-quantity"],
@@ -1624,7 +1714,18 @@
         "$31; l = length, w = width",
         "2(8) + 5(3) = 31 dollars"
       ],
-      "equivalenceNotes": "Accept dollar-sign notation and equivalent wording for the two variable meanings."
+      "equivalenceNotes": "Accept dollar-sign notation and equivalent wording for the two variable meanings.",
+      "parts": [
+        {
+          "accepted": ["31 dollars", "$31", "2(8) + 5(3) = 31 dollars"]
+        },
+        {
+          "accepted": ["l is length of trim", "l = length", "l is length"]
+        },
+        {
+          "accepted": ["w is width of trim", "w = width", "w is width"]
+        }
+      ]
     },
     "answerFormat": "A cost in dollars and the meanings of both variables.",
     "misconceptionCodes": ["substitutes-value-into-wrong-variable-position"],
@@ -1688,7 +1789,15 @@
         "10 + 5x; 25 for each expression at x = 3",
         "5x + 10 and 25"
       ],
-      "equivalenceNotes": "Accept commutative order in the expanded expression and any clear verification showing both values are 25."
+      "equivalenceNotes": "Accept commutative order in the expanded expression and any clear verification showing both values are 25.",
+      "parts": [
+        {
+          "accepted": ["5x + 10", "10 + 5x"]
+        },
+        {
+          "accepted": ["both equal 25", "25 when x = 3", "25 for each expression at x = 3"]
+        }
+      ]
     },
     "answerFormat": "An equivalent expression and a numerical verification.",
     "misconceptionCodes": ["distributes-factor-to-only-the-first-term"],
@@ -1752,7 +1861,15 @@
         "Yes, addition is commutative; 7 + 10 = 10 + 7 = 17",
         "Equivalent; commutative property; 17"
       ],
-      "equivalenceNotes": "Accept equivalent naming such as commutative property of addition and a correct substitution check."
+      "equivalenceNotes": "Accept equivalent naming such as commutative property of addition and a correct substitution check.",
+      "parts": [
+        {
+          "accepted": ["commutative property", "addition is commutative", "commutativity"]
+        },
+        {
+          "accepted": ["both equal 17", "17 when n = 5", "7 + 10 = 10 + 7 = 17"]
+        }
+      ]
     },
     "answerFormat": "A yes/no equivalence judgment, property name, and substitution check.",
     "misconceptionCodes": ["changes-operation-without-justification"],
@@ -1813,7 +1930,12 @@
         "Yes, because 12 + 1 = 13",
         "True; substituting 6 gives 13"
       ],
-      "equivalenceNotes": "Accept any clear substitution showing that both sides have the same value."
+      "equivalenceNotes": "Accept any clear substitution showing that both sides have the same value.",
+      "parts": [
+        {
+          "accepted": ["2(6) + 1 = 13", "12 + 1 = 13", "substituting 6 gives 13"]
+        }
+      ]
     },
     "answerFormat": "A truth judgment with a substitution calculation.",
     "misconceptionCodes": ["assumes-every-equation-requires-performing-an-operation"],
@@ -1874,7 +1996,18 @@
         "n = 3 true, n = 6 false; n < 5",
         "3 yes, 6 no; values below 5"
       ],
-      "equivalenceNotes": "Accept inequality notation or equivalent words describing the complete set below 5."
+      "equivalenceNotes": "Accept inequality notation or equivalent words describing the complete set below 5.",
+      "parts": [
+        {
+          "accepted": ["3 is a solution", "n = 3 true", "3 yes"]
+        },
+        {
+          "accepted": ["6 is not", "n = 6 false", "6 no"]
+        },
+        {
+          "accepted": ["less than 5", "n < 5", "values below 5", "numbers below 5"]
+        }
+      ]
     },
     "answerFormat": "Two truth judgments and a description of the full inequality solution set.",
     "misconceptionCodes": ["treats-inequality-solution-as-a-single-value"],
@@ -1935,7 +2068,15 @@
         "x = 8; 15 = 15",
         "8, and eight plus seven equals fifteen"
       ],
-      "equivalenceNotes": "Accept equivalent notation that gives x = 8 and demonstrates a true substitution check."
+      "equivalenceNotes": "Accept equivalent notation that gives x = 8 and demonstrates a true substitution check.",
+      "parts": [
+        {
+          "accepted": ["x = 8", "eight plus seven"]
+        },
+        {
+          "accepted": ["8 + 7 = 15", "15 = 15", "eight plus seven equals fifteen"]
+        }
+      ]
     },
     "answerFormat": "A solved value and a substitution check in the original equation.",
     "misconceptionCodes": ["performs-an-operation-on-only-one-side-of-the-equation"],
@@ -1996,7 +2137,15 @@
         "x = 24; 18 = 18",
         "24, and three-fourths times 24 equals 18"
       ],
-      "equivalenceNotes": "Accept fraction, word, or decimal notation when the value and original-equation check are correct."
+      "equivalenceNotes": "Accept fraction, word, or decimal notation when the value and original-equation check are correct.",
+      "parts": [
+        {
+          "accepted": ["x = 24"]
+        },
+        {
+          "accepted": ["(3/4)(24) = 18", "18 = 18", "three-fourths times 24 equals 18"]
+        }
+      ]
     },
     "answerFormat": "A solved value with a substitution check using the original equation.",
     "misconceptionCodes": ["skips-substitution-check-of-solution"],
@@ -2057,7 +2206,21 @@
         "p <= 15; 14 yes, 16 no; closed dot at 15, shading left down to 0",
         "9 + p is at most 24; p can be 0 through 15"
       ],
-      "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the solution set, as long as it names both the closed boundary at 15 and the context floor at 0 - describing only 'p <= 15' with no lower bound is incomplete for this context, since a negative or fractional number of people is not meaningful."
+      "equivalenceNotes": "Accept equivalent inequality notation and a verbal or text description of the solution set, as long as it names both the closed boundary at 15 and the context floor at 0 - describing only 'p <= 15' with no lower bound is incomplete for this context, since a negative or fractional number of people is not meaningful.",
+      "parts": [
+        {
+          "accepted": ["9 + p <= 24", "p <= 15", "9 + p is at most 24"]
+        },
+        {
+          "accepted": ["14 works", "14 yes"]
+        },
+        {
+          "accepted": ["16 does not", "16 no"]
+        },
+        {
+          "accepted": ["0 through 15", "closed dot at 15", "shading left down to 0"]
+        }
+      ]
     },
     "answerFormat": "A context inequality, two candidate checks, and a number-line solution description.",
     "misconceptionCodes": ["graphs-endpoint-only-instead-of-solution-ray"],
@@ -2124,7 +2287,21 @@
         "n <= 7.5; n = 7 yes, n = 8 no; notebooks are 0, 1, 2, 3, 4, 5, 6, or 7",
         "4 times n is at most 30; maximum 7 whole notebooks"
       ],
-      "equivalenceNotes": "Accept the real-number boundary together with the correctly restricted whole-number context solution."
+      "equivalenceNotes": "Accept the real-number boundary together with the correctly restricted whole-number context solution.",
+      "parts": [
+        {
+          "accepted": ["4n <= 30", "n <= 7.5", "4 times n is at most 30"]
+        },
+        {
+          "accepted": ["7 works", "n = 7 yes"]
+        },
+        {
+          "accepted": ["8 does not", "n = 8 no"]
+        },
+        {
+          "accepted": ["0 through 7", "maximum 7 whole notebooks", "0, 1, 2, 3, 4, 5, 6, or 7"]
+        }
+      ]
     },
     "answerFormat": "An inequality, candidate tests, and the graph/whole-number solution description.",
     "misconceptionCodes": ["flips-inequality-direction-without-justification"],
@@ -2185,7 +2362,25 @@
         "cost depends on hours; c = 6h; (0,0), (1,6), (2,12), (3,18)",
         "h is input and c is output; cost is six times hours; graph is a straight increasing line from zero"
       ],
-      "equivalenceNotes": "Accept equivalent table formatting and a clear text description of the increasing line through the origin."
+      "equivalenceNotes": "Accept equivalent table formatting and a clear text description of the increasing line through the origin.",
+      "parts": [
+        {
+          "accepted": [
+            "h independent, c dependent",
+            "cost depends on hours",
+            "h is input and c is output"
+          ]
+        },
+        {
+          "accepted": ["c = 6h", "cost is six times hours"]
+        },
+        {
+          "accepted": ["(0,0), (1,6), (2,12), (3,18)", "pairs (0,0),(1,6),(2,12),(3,18)"]
+        },
+        {
+          "accepted": ["rising line through origin", "straight increasing line from zero"]
+        }
+      ]
     },
     "answerFormat": "Variable roles, table pairs, equation, and text graph description.",
     "misconceptionCodes": ["swaps-dependent-and-independent-variable-roles"],
@@ -2246,7 +2441,25 @@
         "volume depends on time; v = 3t + 10; (0,10), (1,13), (2,16), (4,22)",
         "t input, v output; start at 10 and add 3 per minute; increasing line starting at 10"
       ],
-      "equivalenceNotes": "Accept commutative order in the expression and any clear table and graph description preserving the same relationship."
+      "equivalenceNotes": "Accept commutative order in the expression and any clear table and graph description preserving the same relationship.",
+      "parts": [
+        {
+          "accepted": ["t independent, v dependent", "volume depends on time", "t input, v output"]
+        },
+        {
+          "accepted": ["v = 10 + 3t", "v = 3t + 10", "start at 10 and add 3 per minute"]
+        },
+        {
+          "accepted": ["(0,10), (1,13), (2,16), (4,22)", "pairs are (0,10)"]
+        },
+        {
+          "accepted": [
+            "increasing line with intercept 10",
+            "increasing line starting at 10",
+            "increasing line with vertical intercept 10"
+          ]
+        }
+      ]
     },
     "answerFormat": "Variable roles, table values, equation, and a graph description.",
     "misconceptionCodes": ["treats-table-rows-as-unrelated-number-pairs"],
@@ -2482,7 +2695,15 @@
         "2 m^3; interior space",
         "The box holds 2 cubic meters"
       ],
-      "equivalenceNotes": "Accept equivalent cubic-meter notation and wording that identifies interior volume."
+      "equivalenceNotes": "Accept equivalent cubic-meter notation and wording that identifies interior volume.",
+      "parts": [
+        {
+          "accepted": ["2 cubic meters", "2 m^3"]
+        },
+        {
+          "accepted": ["space inside the box", "interior space", "the box holds 2 cubic meters"]
+        }
+      ]
     },
     "answerFormat": "A cubic-meter volume and a context interpretation.",
     "misconceptionCodes": ["labels-volume-answer-with-square-units"],
@@ -2543,7 +2764,15 @@
         "horizontal 7, vertical 4",
         "AB 7 and BC 4"
       ],
-      "equivalenceNotes": "Accept equivalent labels and ordering when the horizontal and vertical lengths are correctly identified."
+      "equivalenceNotes": "Accept equivalent labels and ordering when the horizontal and vertical lengths are correctly identified.",
+      "parts": [
+        {
+          "accepted": ["ab = 7 units", "horizontal 7", "ab 7"]
+        },
+        {
+          "accepted": ["bc = 4 units", "vertical 4", "bc 4"]
+        }
+      ]
     },
     "answerFormat": "Two labeled axis-parallel side lengths in units.",
     "misconceptionCodes": ["uses-diagonal-point-distance-for-an-axis-parallel-side"],
@@ -2779,7 +3008,19 @@
         "a statistical for Grade 6 students, b not statistical for Maya",
         "a yes variable group; b no single value"
       ],
-      "equivalenceNotes": "Accept equivalent classifications with the relevant population or measurement context."
+      "equivalenceNotes": "Accept equivalent classifications with the relevant population or measurement context.",
+      "parts": [
+        {
+          "accepted": [
+            "(a) statistical",
+            "a statistical for grade 6 students",
+            "a yes variable group"
+          ]
+        },
+        {
+          "accepted": ["(b) not statistical", "b not statistical for maya", "b no single value"]
+        }
+      ]
     },
     "answerFormat": "Two classifications with a population or measurement context for each.",
     "misconceptionCodes": ["expects-a-statistical-question-to-have-one-fixed-answer"],
@@ -2840,7 +3081,26 @@
         "No; How many pets do students in a class have? Population: students in the class",
         "single person is not statistical; class pet counts are statistical"
       ],
-      "equivalenceNotes": "Accept any valid group-based revision that identifies its student population and allows variable answers."
+      "equivalenceNotes": "Accept any valid group-based revision that identifies its student population and allows variable answers.",
+      "parts": [
+        {
+          "accepted": ["not statistical", "single person is not statistical"]
+        },
+        {
+          "accepted": [
+            "how many pets do students",
+            "how many pets students in class 6a have",
+            "class pet counts are statistical"
+          ]
+        },
+        {
+          "accepted": [
+            "population is class 6a students",
+            "population: students in the class",
+            "population is class 6a"
+          ]
+        }
+      ]
     },
     "answerFormat": "A classification, explanation, revised statistical question, and named population.",
     "misconceptionCodes": ["treats-a-data-value-as-the-statistical-question"],
@@ -3001,7 +3261,21 @@
         "n = 7, median = 8, Q1 = 5, Q3 = 11, IQR = 6 hours",
         "The typical time is 8 hours and the middle 50 percent spans 6 hours"
       ],
-      "equivalenceNotes": "Accept equivalent five-number or middle-half wording that gives median 8, quartiles 5 and 11, and IQR 6 hours."
+      "equivalenceNotes": "Accept equivalent five-number or middle-half wording that gives median 8, quartiles 5 and 11, and IQR 6 hours.",
+      "parts": [
+        {
+          "accepted": ["7 observations", "n = 7"]
+        },
+        {
+          "accepted": ["median 8 hours", "median = 8", "typical time is 8 hours"]
+        },
+        {
+          "accepted": ["iqr 6 hours", "iqr = 6", "middle 50 percent spans 6 hours"]
+        },
+        {
+          "accepted": ["middle half from 5 to 11", "q1 = 5, q3 = 11"]
+        }
+      ]
     },
     "answerFormat": "Median, quartiles/IQR, observation count, and contextual summary.",
     "misconceptionCodes": [

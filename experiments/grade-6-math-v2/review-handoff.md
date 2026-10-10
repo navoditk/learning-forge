@@ -594,3 +594,71 @@ content:validate` (40 tests), and `npm run verify` (409 tests + production
 build) all passed. A standalone script-based scan confirmed no hint ladder
 in the file contains any of its own record's `forbiddenLeakagePatterns`
 substrings.
+
+## Revision 19 — M2 parts migration for the remaining composite records
+
+Reviewed all 33 `composite`-type records (5 already had `parts` from
+Revisions 16-18) and migrated 24 of the remaining 28. Four were
+deliberately left without `parts`, each for a reason verified against the
+real grading code rather than skipped by oversight:
+
+- **Three order-dependent lists** (`v2-rational-number-operations-ordering`,
+  `v2-rational-representation-order`, `v2-coordinate-polygons-l-shape`):
+  each canonical answer is a sequence whose _order_ is the thing being
+  tested (greatest-to-least, least-to-greatest, or a specific perimeter
+  side sequence). `matchesAcceptedAnswer`'s `parts` mechanism checks that
+  each part's text appears _somewhere_ in the response with no positional
+  constraint between parts - decomposing these into per-value parts would
+  let a reordered (mathematically wrong) answer pass as long as all the
+  same values appeared anywhere. Left as plain `acceptedAnswers` variants
+  only.
+- **One single-expression item** (`v2-factors-distributive-factoring`):
+  its three `acceptedAnswers` are just different multiplication-symbol
+  renderings of one factored expression (`12 x (3 + 2)` / `12 × (3 + 2)` /
+  `12(3 + 2)`), with no independent clauses to extract. `parts` would be
+  artificial here, not a real decomposition.
+
+For each of the 24 migrated records, every part's accepted phrases were
+drawn from the item's own existing `acceptedAnswers` wording (not invented
+independently), and every "Yes"/"No"-only clause was deliberately excluded
+from `parts` (e.g. `v2-equivalent-commute-verify`, `v2-equation-meaning-
+truth-test`) since a bare "yes" or "no" substring is dangerously generic as
+an independent containment check.
+
+**Full safety verification against the real grading code** (not just the
+candidate's own `validate.ts`), for every one of the 24 migrated records:
+
+1. The canonical answer still matches.
+2. Every pre-authored `acceptedAnswers` variant still matches (zero
+   regressions - `matchesAcceptedAnswer` checks whole-string match first,
+   unconditionally, before ever falling through to `parts`).
+3. **Every `misconceptionDistractors` answer does NOT match** - the new
+   `parts` do not accidentally accept a known-wrong answer. This is the
+   failure mode that matters most: a `parts` design that's too loose
+   would silently start grading a distractor as correct.
+
+All three checks passed with zero failures across all 24 records. A
+further spot-check on three representative records confirmed `parts`
+is not vacuous: a genuinely new, differently-phrased complete answer is
+now accepted, and the same answer with one required clause removed is
+correctly rejected.
+
+**Explicitly still not fixed:**
+
+- `6.RP.A.3d` (unit conversion) - structurally blocked; unchanged.
+- The 3 order-dependent lists and 1 single-expression item above remain
+  without `parts`, by design (see above), not oversight.
+- m5 (beyond the one instance Revision 17 fixed) and m7 (beyond the audit
+  in Revision 17) are not fully closed.
+
+All 48 records remain `pending_review`; this remediation does not
+constitute human review or approval.
+
+**Validation evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts`,
+`npm run format:check`, `npm run lint`, `npx tsc --noEmit`, `npm run
+content:validate` (40 tests), and `npm run verify` (416 tests + production
+build) all passed. Additionally, a standalone script against the real
+`matchesAcceptedAnswer` function checked, for all 24 migrated records: the
+canonical answer matches, every pre-authored `acceptedAnswers` entry still
+matches, and every `misconceptionDistractors` answer does not match -
+zero failures across all three checks.

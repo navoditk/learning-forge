@@ -1,5 +1,40 @@
 # Progress
 
+## 2026-10-10 — UI-3 contract foundation aligned to ADR-0014
+
+- Aligned the disconnected recall-card contract foundation to ADR-0014's
+  approved technical limits and literal `recall-card-1` contract version.
+  The source-facing schema is now `RecallCardDraftSchema`; the strict DTO
+  is `RecallCardPayloadSchema`, which intentionally omits overlap metadata.
+  The optional overlap-review shape remains present only on the draft
+  schema, as a placeholder for the unresolved source-review workflow.
+- Added synthetic contract tests for the approved text caps, strict DTO
+  isolation, unknown-field rejection and structural program/skill
+  validation. No loader, delivery, event, session or flag wiring was added.
+- Remaining unresolved prerequisites are still R8, R9 and R10 from the
+  ADR: version-bound overlap verdict representation, flag/capability
+  carrier and exposure content-id namespace. Those stay out of this
+  foundation increment.
+- Next: independent review of the contract-only patch, then the separate
+  infrastructure packet once the remaining delivery decisions are approved.
+
+## 2026-10-10 — UI-3 foundation authorized with explicit choices
+
+- Product owner approved contract/infrastructure followed by a flag-off
+  synthetic renderer, selected `TEACHING_VIEWED`, checked-in reviewed
+  eventual storage, per-request idempotency without a time window, and
+  unfinished-session suppression without an inactivity timeout.
+- A second form confirmed technical limits and `recall-card-1`.
+  ADR-0014 records exact approved choices and unresolved delivery decisions;
+  no D-61 exception, rollout or C4/C5 change was authorized.
+- First bounded increment: disconnected strict contracts and synthetic
+  contract tests only. GPT-5.4 Mini implementation task
+  `43e085a1-2811-4aba-a936-3d17d6517aec`; independent Opus review follows.
+  No endpoints, catalogs, learner writes, migrations or real cards.
+- Next: complete and validate the contract foundation, independently review
+  it, then resolve the remaining delivery/coordination prerequisites before
+  further infrastructure.
+
 ## 2026-10-10 — UI-1 and UI-3 committed for the authorized push
 
 - Product owner explicitly requested committing and pushing the reviewed
@@ -235,6 +270,35 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   unit/contract tests + production build), and
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
+
+## 2026-10-10 — Grade 6 Math v2 candidate, Revision 19: M2 parts migration
+
+- Reviewed all 33 `composite`-type records (5 already had `parts`) and
+  migrated 24 of the remaining 28.
+- **4 deliberately left without `parts`, not by oversight:** 3 are
+  order-dependent lists (greatest-to-least ordering, least-to-greatest
+  ordering, a specific perimeter side sequence) where `parts`'
+  no-positional-constraint matching would wrongly accept a reordered
+  (mathematically incorrect) answer; 1 is a single factored expression
+  with no independent clauses to extract.
+- Every migrated part's accepted phrases came from the item's own
+  existing `acceptedAnswers` wording. Bare "yes"/"no" clauses were
+  deliberately excluded from `parts` as too generic to safely check by
+  substring containment.
+- **Full safety verification against the real `matchesAcceptedAnswer`
+  function** for all 24 migrated records: canonical answer matches,
+  every pre-authored `acceptedAnswers` variant still matches (zero
+  regressions), and every `misconceptionDistractors` answer does NOT
+  match (zero false accepts). All three checks passed with zero
+  failures. Spot-checked 3 records to confirm `parts` is not vacuous: a
+  new differently-phrased complete answer is accepted, and the same
+  answer missing one clause is correctly rejected.
+- Closes the ~29-record M2 migration this candidate had deferred since
+  Revision 16 (4 records structurally excluded by design, as above).
+- Verification: `npx tsx experiments/grade-6-math-v2/validate.ts`, `npm
+run format:check`, `npm run lint`, `npx tsc --noEmit`, `npm run
+content:validate` (40 tests), and `npm run verify` (416 tests + build)
+  all pass clean.
 
 ## 2026-10-10 — Grade 6 Math v2 candidate, Revision 18: m6 hint-ladder expansion
 
