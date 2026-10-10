@@ -7,10 +7,20 @@ against this account's actual dashboard settings).** `learning-forge-db` is
 on the `basic-256mb` plan (`render.yaml`), which falls under Render's
 Hobby-tier Postgres offering:
 
-- **Point-in-time recovery window**: the past 3 days.
+- **Point-in-time recovery window**: the past 3 days ("Upgrading from
+  Hobby does not retroactively 'backfill' your recovery window" — Pro or
+  higher gets 7 days instead, but that only applies going forward from an
+  upgrade, not retroactively).
 - **Restoring creates a new database instance** — Render does not overwrite
-  the original. You validate the recovery instance, then repoint services
-  to it.
+  the original ("Render spins up a _new_ database instance that reflects
+  your original instance's state at a specified time in the past"). You
+  validate the recovery instance, then repoint services to it.
+- **Separately, logical (dashboard-triggered) backups are retained for 7
+  days after creation, regardless of plan tier** — a second, independent
+  mechanism from automatic PITR, confirmed 2026-10-10 directly from
+  `render.com/docs/postgresql-backups`. Free-tier compute plan databases
+  have no recovery capability at all (not relevant here; this pilot is on
+  a paid Hobby Postgres plan).
 - Region is `oregon` for both the database and web service (`render.yaml`).
 
 This narrows, but does not close, the "Dashboard verification" checklist
@@ -101,7 +111,7 @@ against a real Render restore: created a fresh scratch database, ran
 (`prisma/seed.sql`), and ran the full `test:integration` suite against it
 (163/163 passed) — confirming household ownership, immutable attempts, and
 every other check step 5 names actually hold on a freshly migrated,
-freshly seeded database. This validates the *procedure*, not a real Render
+freshly seeded database. This validates the _procedure_, not a real Render
 restore; the scratch database was dropped immediately after.
 
 The repository has reversible migrations and local integration coverage, but a

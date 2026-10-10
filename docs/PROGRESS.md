@@ -271,6 +271,41 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — Render processor terms researched
+
+- Closes the "Render's are not yet researched at all" gap the Data
+  inventory pilot-readiness row flagged. Primary-verified directly from
+  Render's own pages: subprocessors (AWS, GCP, Cloudflare, ClickHouse
+  Inc., all US, `render.com/trust`); compliance certifications (SOC 2
+  Type 2, ISO 27001, a GDPR DPA for all workspaces, HIPAA-enabled
+  workspaces available, `render.com/docs/certifications-compliance`);
+  backup facts (3-day PITR on Hobby tier, 7-day logical-backup retention
+  regardless of tier, restore creates a new instance rather than
+  overwriting, `render.com/docs/postgresql-backups`) - refines and
+  strengthens `docs/backup-recovery.md`'s existing PITR claim.
+- The DPA/Terms of Service pages themselves are JavaScript-rendered and
+  would not render their substantive text through this research's fetch
+  tool; the deletion/return clause (DPA Section 2.4: return or delete on
+  service completion, no fixed day-count SLA, unlike Anthropic's explicit
+  30 days) and the 10-day subprocessor-change-notice process are from
+  search-engine-indexed quotes, not a direct fetch - flagged at the same
+  caveat level as Anthropic's subprocessor list already carried.
+- Training-use: no clause found, and none expected - Render is
+  infrastructure/hosting, not a model provider, so "training on customer
+  data" isn't an applicable category the way it is for Anthropic.
+- Updated `docs/privacy-inventory.md` (new Render processor-terms section
+  alongside the existing Anthropic one; corrected the stale "Backups"
+  inventory row), `docs/backup-recovery.md` (added the 7-day logical-
+  backup fact and the exact Pro-tier/no-retroactive-backfill wording),
+  and `docs/pilot-readiness-checklist.md`'s Data inventory row.
+- Still pending: a primary-source read of the full DPA/ToS text (not
+  search-indexed quotes), confirming the 3-day PITR window against this
+  account's actual dashboard, and formal legal review of both providers'
+  terms (briefing packet ready at `docs/legal-review-briefing.md`).
+- Documentation-only change: `npx prettier --check` (all three edited
+  docs) and `git diff --check` both pass clean; no database or provider
+  call needed.
+
 ## 2026-10-10 — Grade 6 Math v2 candidate, Revision 19: M2 parts migration
 
 - Reviewed all 33 `composite`-type records (5 already had `parts`) and
