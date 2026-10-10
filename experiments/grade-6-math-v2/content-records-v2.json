@@ -152,50 +152,52 @@
     "accessibleAlternative": "Read aloud or display: A cyclist travels eighteen miles in two hours. Ask how many miles are traveled in one hour, and state the unit."
   },
   {
-    "id": "v2-rate-smoothie-scaling",
+    "id": "v2-rate-percent-discount",
     "version": "candidate-content-1",
-    "title": "Scaling a smoothie recipe",
+    "title": "Finding a sale price with percent",
     "skillCode": "rate-and-proportional-reasoning",
     "mode": "core",
     "difficulty": "challenging",
-    "standards": ["6.RP.A.2", "6.RP.A.3"],
+    "standards": ["6.RP.A.3"],
     "prerequisiteSkillCodes": ["ratio-language-and-meaning"],
-    "observableEvidence": ["Uses a unit rate to scale an equivalent ratio in a context."],
-    "prompt": "A smoothie recipe uses 3 cups of fruit for 2 pitchers. At the same rate, how many cups of fruit are needed for 5 pitchers?",
-    "solutionRepresentation": "The unit rate is 3 ÷ 2 = 1.5 cups per pitcher. For 5 pitchers, 1.5 × 5 = 7.5 cups.",
-    "solutionMethod": "Find cups per pitcher, then multiply by the new number of pitchers.",
+    "observableEvidence": [
+      "Finds a percent of a quantity in a real-world price context by converting the percent to a decimal or fraction before multiplying."
+    ],
+    "prompt": "A backpack normally costs $40. It is on sale for 75% of the original price. What is the sale price?",
+    "solutionRepresentation": "75% is 0.75. Multiplying, 40 × 0.75 = $30.",
+    "solutionMethod": "Convert the percent to a decimal (or fraction out of 100) before multiplying by the original price.",
     "deterministicValidator": {
       "type": "numeric",
-      "canonicalAnswer": "7.5 cups",
-      "acceptedAnswers": ["7.5", "7.5 cups", "7 1/2 cups", "15/2 cups"],
-      "equivalenceNotes": "Accept decimal, mixed-number, or improper-fraction forms with or without the unit."
+      "canonicalAnswer": "$30",
+      "acceptedAnswers": ["30", "$30", "30 dollars"],
+      "equivalenceNotes": "Accept with or without the dollar sign or the word dollars."
     },
-    "answerFormat": "A fruit amount equivalent to 7.5 cups, preferably labeled cups.",
-    "misconceptionCodes": ["uses-addition-instead-of-multiplication-for-scaling"],
+    "answerFormat": "A dollar amount equal to 30.",
+    "misconceptionCodes": ["treats-percent-value-as-whole-number-without-dividing-by-100"],
     "misconceptionDistractors": [
       {
-        "answer": "6 cups",
-        "misconceptionCode": "uses-addition-instead-of-multiplication-for-scaling",
-        "rationale": "Adds the extra number of pitchers (5 - 2 = 3) directly to the original 3 cups instead of multiplying by the correct scale factor, giving 3 + 3 = 6."
+        "answer": "$3,000",
+        "misconceptionCode": "treats-percent-value-as-whole-number-without-dividing-by-100",
+        "rationale": "Multiplies 40 by 75 directly instead of converting 75% to 0.75 first, giving a price many times larger than the original."
       }
     ],
     "hintSteps": [
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "First determine how many cups belong to one pitcher.",
-        "question": "What unit rate connects cups of fruit with pitchers?"
+        "prompt": "A percent must be converted to a decimal or a fraction out of 100 before it can be multiplied by a price.",
+        "question": "What decimal is equivalent to 75%?"
       }
     ],
-    "forbiddenLeakagePatterns": ["7.5 cups", "7 1/2 cups", "15/2 cups"],
+    "forbiddenLeakagePatterns": ["$30", "30 dollars"],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "Give the recipe quantities and scaling request in linear text; no measuring-cup image is required.",
-    "accessibleAlternative": "Read aloud or display: Two pitchers use three cups of fruit. Ask for the equivalent fruit amount for five pitchers using the same rate."
+    "accessibilityNotes": "Give the original price and percent in linear text; no price-tag image is required.",
+    "accessibleAlternative": "Read aloud or display: A backpack costs forty dollars and is on sale for seventy-five percent of that price. Ask for the sale price."
   },
   {
     "id": "v2-multi-digit-division-leftovers",
@@ -807,45 +809,73 @@
   {
     "id": "v2-distribution-description-dot-histogram",
     "version": "candidate-content-1",
-    "title": "Dot plot and histogram summary",
+    "title": "Displaying data as a dot plot and a histogram",
     "skillCode": "distribution-description",
     "mode": "core",
     "difficulty": "developing",
     "standards": ["6.SP.A.2", "6.SP.B.4"],
     "prerequisiteSkillCodes": ["statistical-questions"],
     "observableEvidence": [
-      "Uses text-equivalent dot-plot and histogram data to describe center, spread, shape, and the measured context."
+      "Displays raw numerical data as a text-equivalent dot plot and histogram, then describes center, spread, shape, and the measured context."
     ],
-    "prompt": "Eight students recorded the number of pages they read yesterday: 2, 3, 3, 4, 5, 5, 5, 6. A dot plot would have one dot at 2, two at 3, one at 4, three at 5, and one at 6. A histogram with intervals 2-3, 4-5, and 6-7 has bar heights 3, 4, and 1. Give one sentence describing the center, spread, and shape of this pages-read distribution.",
-    "solutionRepresentation": "A complete description identifies pages read, a center around 4 to 5 pages, a spread from 2 to 6 pages, and a cluster from 3 to 5 pages.",
-    "solutionMethod": "Use either representation to locate the typical values, endpoints, and concentration of observations.",
+    "prompt": "Eight students recorded the number of pages they read yesterday: 2, 3, 3, 4, 5, 5, 5, 6. Display this data two ways in words: as a dot plot (how many dots sit above each value from 2 to 6) and as a histogram using the intervals 2-3, 4-5, and 6-7 (the count in each interval). Then give one sentence describing the center, spread, and shape.",
+    "solutionRepresentation": "Dot plot: 1 dot at 2, 2 dots at 3, 1 dot at 4, 3 dots at 5, 1 dot at 6. Histogram: 3 in the 2-3 interval, 4 in the 4-5 interval, 1 in the 6-7 interval. Pages read are centered around 4 to 5 pages, range from 2 to 6 pages, and are clustered from 3 to 5 pages.",
+    "solutionMethod": "Tally how many data values equal each number for the dot plot, tally how many fall in each interval for the histogram, then use either display to locate the typical values, endpoints, and concentration of observations.",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "Pages read are centered around 4 to 5 pages, range from 2 to 6 pages, and are clustered from 3 to 5 pages.",
+      "canonicalAnswer": "1 dot at 2, 2 at 3, 1 at 4, 3 at 5, 1 at 6; 3 in 2-3, 4 in 4-5, 1 in 6-7; pages read centered at 4-5, range 2-6, clustered 3-5",
       "acceptedAnswers": [
-        "Pages read are centered around 4 to 5 pages, range from 2 to 6 pages, and are clustered from 3 to 5 pages."
+        "1 dot at 2, 2 at 3, 1 at 4, 3 at 5, 1 at 6; 3 in 2-3, 4 in 4-5, 1 in 6-7; pages read centered at 4-5, range 2-6, clustered 3-5"
       ],
-      "equivalenceNotes": "Manual review is needed for equivalent complete summaries; this candidate validator accepts the canonical sentence only."
+      "equivalenceNotes": "Manual review is needed for equivalent complete summaries; this candidate validator accepts either canonical sentence plus, via parts, any response naming each required dot-plot display, histogram display, and summary feature independently of order or exact wording.",
+      "parts": [
+        {
+          "accepted": [
+            "1 dot at 2, 2 dots at 3, 1 dot at 4, 3 dots at 5, 1 dot at 6",
+            "1 dot at 2, 2 at 3, 1 at 4, 3 at 5, 1 at 6"
+          ]
+        },
+        {
+          "accepted": [
+            "3 in 2-3, 4 in 4-5, 1 in 6-7",
+            "3 in the 2-3 interval, 4 in the 4-5 interval, 1 in the 6-7 interval"
+          ]
+        },
+        { "accepted": ["pages read", "pages"] },
+        {
+          "accepted": ["centered around 4 to 5", "centered at 4-5", "typical value around 4 to 5"]
+        },
+        { "accepted": ["range from 2 to 6", "spread from 2 to 6", "range 2-6"] },
+        { "accepted": ["clustered from 3 to 5", "cluster from 3 to 5", "clustered 3-5"] }
+      ]
     },
-    "answerFormat": "One sentence naming pages read and describing center, spread, and shape.",
+    "answerFormat": "The dot-plot count at each value, the histogram count in each interval, and one sentence describing center, spread, and shape.",
     "misconceptionCodes": ["omits-real-world-context-in-distribution-summary"],
     "misconceptionDistractors": [
       {
-        "answer": "Centered around 4 to 5, with a spread from 2 to 6 and a cluster from 3 to 5.",
+        "answer": "1 dot at 2, 2 dots at 3, 1 dot at 4, 3 dots at 5, 1 dot at 6; 3 in 2-3, 4 in 4-5, 1 in 6-7; centered around 4 to 5, with a spread from 2 to 6 and a cluster from 3 to 5.",
         "misconceptionCode": "omits-real-world-context-in-distribution-summary",
-        "rationale": "Gives numerical features but does not say that the values are pages read."
+        "rationale": "Gives correct dot-plot and histogram counts and numerical summary features but does not say that the values are pages read."
       }
     ],
     "hintSteps": [
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "Use either the dot counts or the histogram bars to notice where observations concentrate and where the endpoints are.",
-        "question": "What quantity did the students measure?"
+        "prompt": "For the dot plot, count how many of the eight values equal each number from 2 to 6.",
+        "question": "How many students read exactly 5 pages?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "For the histogram, count how many values fall inside each of the three given intervals.",
+        "question": "How many values fall in the 4-5 interval?"
       }
     ],
     "forbiddenLeakagePatterns": [
-      "Pages read are centered around 4 to 5 pages, range from 2 to 6 pages, and are clustered from 3 to 5 pages."
+      "1 dot at 2, 2 dots at 3, 1 dot at 4, 3 dots at 5, 1 dot at 6",
+      "3 in 2-3, 4 in 4-5, 1 in 6-7",
+      "centered around 4 to 5 pages"
     ],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
@@ -853,52 +883,73 @@
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "Both plot forms are fully described with data values and bar heights in the prompt; do not rely on visual dots or bars alone.",
-    "accessibleAlternative": "Read aloud or display the eight-value list, then the dot counts and histogram interval counts in text. Ask for a sentence that names pages read and includes a typical region, endpoints, and where values cluster.",
+    "accessibilityNotes": "The raw data list and interval boundaries are given in text; constructing the display is stated as counting and listing numbers, not drawing.",
+    "accessibleAlternative": "Read aloud or display the eight-value list and the three interval boundaries. Ask for the dot count at each value, the count in each interval, and a sentence naming pages read with a typical region, endpoints, and where values cluster.",
     "representations": ["dot plot", "histogram"]
   },
   {
     "id": "v2-distribution-description-box-plot",
     "version": "candidate-content-1",
-    "title": "Box plot summary",
+    "title": "Displaying data as a box plot",
     "skillCode": "distribution-description",
     "mode": "core",
     "difficulty": "challenging",
     "standards": ["6.SP.A.2", "6.SP.B.4"],
     "prerequisiteSkillCodes": ["statistical-questions"],
     "observableEvidence": [
-      "Uses a text-equivalent box plot to describe center, spread, shape, and the measured context."
+      "Displays raw numerical data as a text-equivalent box plot by finding its five-number summary, then describes center, spread, shape, and the measured context."
     ],
-    "prompt": "A box plot summarizes minutes spent reading by a group of students. Its five-number summary is minimum 1, lower quartile 3, median 5, upper quartile 7, and maximum 9. Give one sentence describing the center, spread, and shape of the reading-time distribution.",
-    "solutionRepresentation": "The median is 5 minutes, the values span 1 to 9 minutes, the middle half spans 3 to 7 minutes, and the equal quartile intervals suggest a roughly symmetric distribution.",
-    "solutionMethod": "Interpret the five-number summary for median, total range, middle-half spread, and balance around the median.",
+    "prompt": "Seven students reported their reading time in minutes: 4, 9, 1, 6, 3, 7, 5. Order the data, then display it as a box plot by finding the five-number summary (minimum, lower quartile, median, upper quartile, maximum). Give one sentence describing the center, spread, and shape of the reading-time distribution.",
+    "solutionRepresentation": "Ordered: 1, 3, 4, 5, 6, 7, 9. The median is 5 minutes. The lower half (1, 3, 4) has median 3, the lower quartile; the upper half (6, 7, 9) has median 7, the upper quartile. The five-number summary is minimum 1, lower quartile 3, median 5, upper quartile 7, maximum 9. The values span 1 to 9 minutes, the middle half spans 3 to 7 minutes, and the equal quartile intervals suggest a roughly symmetric distribution.",
+    "solutionMethod": "Order the data, find the median, then find the median of each half to get the lower and upper quartiles, and use that five-number summary for total range, middle-half spread, and balance around the median.",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "Reading time has a median of 5 minutes, ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric.",
+      "canonicalAnswer": "Minimum 1, lower quartile 3, median 5, upper quartile 7, maximum 9; reading time ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric.",
       "acceptedAnswers": [
-        "Reading time has a median of 5 minutes, ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric."
+        "Minimum 1, lower quartile 3, median 5, upper quartile 7, maximum 9; reading time ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric."
       ],
-      "equivalenceNotes": "Manual review is needed for equivalent complete summaries; this candidate validator accepts the canonical sentence only."
+      "equivalenceNotes": "Manual review is needed for equivalent complete summaries; this candidate validator accepts the canonical sentence plus, via parts, any response naming each required five-number-summary value and summary feature independently of order or exact wording.",
+      "parts": [
+        { "accepted": ["minimum 1", "min 1"] },
+        { "accepted": ["lower quartile 3", "q1 3", "lower quartile is 3"] },
+        { "accepted": ["median 5", "median is 5"] },
+        { "accepted": ["upper quartile 7", "q3 7", "upper quartile is 7"] },
+        { "accepted": ["maximum 9", "max 9"] },
+        {
+          "accepted": [
+            "ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric",
+            "spans 1 to 9, middle half 3 to 7, roughly symmetric"
+          ]
+        }
+      ]
     },
-    "answerFormat": "One sentence naming reading time and describing center, spread, and shape.",
+    "answerFormat": "The five-number summary and one sentence naming reading time and describing center, spread, and shape.",
     "misconceptionCodes": ["reports-only-the-maximum-value-as-the-distribution-summary"],
     "misconceptionDistractors": [
       {
         "answer": "The reading-time distribution is 9 minutes.",
         "misconceptionCode": "reports-only-the-maximum-value-as-the-distribution-summary",
-        "rationale": "Reports only the maximum instead of center, spread, shape, and context."
+        "rationale": "Reports only the maximum instead of the full five-number summary, center, spread, shape, and context."
       }
     ],
     "hintSteps": [
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "A five-number summary gives endpoints, a middle value, and the middle half of the data.",
-        "question": "Which number is the median reading time?"
+        "prompt": "Order the data from least to greatest before finding the median or the quartiles.",
+        "question": "What is the ordered list of reading times?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Find the median of each half of the data, excluding the overall median, to get the two quartiles.",
+        "question": "What is the median of the three values below the overall median?"
       }
     ],
     "forbiddenLeakagePatterns": [
-      "Reading time has a median of 5 minutes, ranges from 1 to 9 minutes, has a middle half from 3 to 7 minutes, and is roughly symmetric."
+      "minimum 1, lower quartile 3, median 5, upper quartile 7, maximum 9",
+      "ranges from 1 to 9 minutes",
+      "middle half from 3 to 7 minutes"
     ],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
@@ -906,8 +957,8 @@
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "Supply the five-number summary in text and name each value; do not require reading a visual box plot.",
-    "accessibleAlternative": "Read aloud or display: minimum 1, lower quartile 3, median 5, upper quartile 7, maximum 9 minutes of reading. Ask for a sentence about the typical value, spread, shape, and reading-time context.",
+    "accessibilityNotes": "Raw data is given as a plain list; finding and stating the five-number summary is described as ordering and selecting numbers, not drawing a box plot.",
+    "accessibleAlternative": "Read aloud or display the seven reading times. Ask for the ordered list, the five-number summary, and a sentence about the typical value, spread, shape, and reading-time context.",
     "representations": ["box plot"]
   },
   {
@@ -2013,52 +2064,58 @@
     "accessibleAlternative": "Read aloud or display: A parallelogram-shaped sign has a base of twelve feet and a perpendicular height of five feet. Find its area in square feet."
   },
   {
-    "id": "v2-prism-volume-fractions",
+    "id": "v2-prism-volume-unit-cube-packing",
     "version": "candidate-content-1",
-    "title": "Fractional-edge prism volume",
+    "title": "Packing a fractional-edge prism with unit cubes",
     "skillCode": "fractional-prism-volume",
     "mode": "core",
     "difficulty": "developing",
     "standards": ["6.G.A.2"],
     "prerequisiteSkillCodes": [],
     "observableEvidence": [
-      "Calculates the volume of a rectangular prism with fractional edge lengths and labels the result with cubic units."
+      "Packs a rectangular prism with fractional edge lengths using cubes of an appropriate unit fraction edge length, counts the cubes, and uses that count to find the volume in cubic units."
     ],
-    "prompt": "A rectangular prism has length 2 1/2 feet, width 1 1/2 feet, and height 4 feet. What is its volume?",
-    "solutionRepresentation": "Volume is (5/2)(3/2)(4) = 15 cubic feet.",
-    "solutionMethod": "Convert mixed numbers to fractions, multiply the three edge lengths, and label the result in cubic units.",
+    "prompt": "A storage compartment measures 3/4 foot long, 1/2 foot wide, and 2 feet tall. Pack it with cubes that are 1/4 foot on each edge, and use the number of cubes to find the volume in cubic feet.",
+    "solutionRepresentation": "Along the length, 3/4 ÷ 1/4 = 3 cubes fit; along the width, 1/2 ÷ 1/4 = 2 cubes fit; along the height, 2 ÷ 1/4 = 8 cubes fit. That is 3 × 2 × 8 = 48 unit cubes. Each cube's volume is (1/4)^3 = 1/64 cubic foot, so the total volume is 48 × 1/64 = 3/4 cubic foot - the same result as multiplying the three edge lengths directly.",
+    "solutionMethod": "Choose a unit fraction cube edge length that evenly divides every dimension, count how many cubes fit along each edge, multiply those counts for the total number of cubes, then multiply by one cube's volume.",
     "deterministicValidator": {
       "type": "numeric",
-      "canonicalAnswer": "15 cubic feet",
-      "acceptedAnswers": ["15 cubic feet", "15 ft^3", "15 cubic ft"],
-      "equivalenceNotes": "Accept equivalent cubic-foot notation."
+      "canonicalAnswer": "3/4 cubic foot",
+      "acceptedAnswers": ["3/4 cubic foot", "3/4 cubic feet", "0.75 cubic feet", "0.75 cubic foot"],
+      "equivalenceNotes": "Accept equivalent fraction or decimal cubic-foot notation."
     },
-    "answerFormat": "A volume labeled in cubic feet.",
-    "misconceptionCodes": ["adds-edge-lengths-instead-of-multiplying"],
+    "answerFormat": "A volume labeled in cubic feet, equal to 3/4.",
+    "misconceptionCodes": ["uses-the-unit-cubes-edge-length-instead-of-its-cubed-volume"],
     "misconceptionDistractors": [
       {
-        "answer": "8 cubic feet",
-        "misconceptionCode": "adds-edge-lengths-instead-of-multiplying",
-        "rationale": "Adds the three edge lengths, 2.5 + 1.5 + 4 = 8, instead of multiplying dimensions to measure the prism's volume."
+        "answer": "12 cubic feet",
+        "misconceptionCode": "uses-the-unit-cubes-edge-length-instead-of-its-cubed-volume",
+        "rationale": "Multiplies the cube count (48) by the cube's edge length (1/4) instead of its volume (1/4)^3 = 1/64, giving 48 × 1/4 = 12."
       }
     ],
     "hintSteps": [
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "Volume counts layers of unit cubes, so combine all three edge lengths by multiplication.",
-        "question": "What operation connects length, width, and height for a rectangular prism?"
+        "prompt": "First find how many 1/4-foot cubes fit along each edge of the compartment.",
+        "question": "How many 1/4-foot cubes fit along the 3/4-foot length?"
+      },
+      {
+        "order": 2,
+        "assistanceLevel": "multiple_hints_representation",
+        "prompt": "Once you know the total number of unit cubes, multiply by the volume of a single cube, not its edge length.",
+        "question": "What is the volume of one cube with a 1/4-foot edge?"
       }
     ],
-    "forbiddenLeakagePatterns": ["15 cubic feet", "15 ft^3", "15 cubic ft"],
+    "forbiddenLeakagePatterns": ["3/4 cubic foot", "48 unit cubes", "1/64 cubic foot"],
     "provenance": { "origin": "llm_drafted", "licenseStatus": "owned" },
     "review": {
       "status": "pending_review",
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "State the three fractional edge lengths and multiplication in text; no 3-D rendering is required.",
-    "accessibleAlternative": "Read aloud or display: Multiply two and one-half feet, one and one-half feet, and four feet to find the prism's volume in cubic feet."
+    "accessibilityNotes": "State the three fractional edge lengths and the unit cube edge length in text; no 3-D rendering is required.",
+    "accessibleAlternative": "Read aloud or display: A compartment is three-fourths foot long, one-half foot wide, and two feet tall. Pack it with cubes that are one-fourth foot on each edge, and use the cube count to find the volume."
   },
   {
     "id": "v2-prism-volume-context",
@@ -2439,56 +2496,80 @@
     "accessibleAlternative": "Read aloud or display: Decide whether asking about Jordan's number of pets is statistical. Rewrite it to ask about pet counts for a class, and name that class as the population."
   },
   {
-    "id": "v2-center-mean-range",
+    "id": "v2-center-mean-mad",
     "version": "candidate-content-1",
-    "title": "Mean and range in context",
+    "title": "Mean and mean absolute deviation in context",
     "skillCode": "center-and-variability",
     "mode": "core",
     "difficulty": "developing",
     "standards": ["6.SP.A.3", "6.SP.B.5"],
     "prerequisiteSkillCodes": ["distribution-description"],
     "observableEvidence": [
-      "Computes a measure of center and a measure of variability and uses the number of observations and context to summarize a distribution."
+      "Computes the mean and the mean absolute deviation (MAD) and uses the number of observations and context to summarize a distribution."
     ],
-    "prompt": "Five students recorded 4, 6, 6, 8, and 11 minutes spent reading. Find the mean and range, state the number of observations, and summarize what the values mean in context.",
-    "solutionRepresentation": "There are 5 observations. Mean = (4 + 6 + 6 + 8 + 11) / 5 = 7 minutes. Range = 11 - 4 = 7 minutes. A typical reading time is 7 minutes, and the times span 7 minutes. The 11-minute value is notably higher than the other readings and pulls the mean upward.",
-    "solutionMethod": "Add all observations and divide by their count for the mean; subtract minimum from maximum for range; include context and observation count in the summary.",
+    "prompt": "Five students recorded 4, 6, 6, 8, and 11 minutes spent reading. Find the mean and the mean absolute deviation (MAD), state the number of observations, and summarize what the values mean in context.",
+    "solutionRepresentation": "There are 5 observations. Mean = (4 + 6 + 6 + 8 + 11) / 5 = 7 minutes. The absolute deviations from the mean are |4-7| = 3, |6-7| = 1, |6-7| = 1, |8-7| = 1, and |11-7| = 4, totaling 10; MAD = 10 / 5 = 2 minutes. A typical reading time is 7 minutes, and each reading differs from that typical value by about 2 minutes on average. The 11-minute value is notably higher than the other readings and pulls the mean upward.",
+    "solutionMethod": "Add all observations and divide by their count for the mean; find each value's absolute deviation from the mean, add those, and divide by the count for the MAD; include context and observation count in the summary.",
     "deterministicValidator": {
       "type": "composite",
-      "canonicalAnswer": "5 observations; mean 7 minutes; range 7 minutes; typical reading time 7 and span 7; 11 is notably high and pulls the mean upward",
+      "canonicalAnswer": "5 observations; mean 7 minutes; MAD 2 minutes; typical reading time 7, each value differs from the mean by about 2 on average; 11 is notably high and pulls the mean upward",
       "acceptedAnswers": [
-        "5 observations; mean 7 minutes; range 7 minutes; typical reading time 7 and span 7; 11 is notably high and pulls the mean upward",
-        "n = 5, mean = 7 min, range = 7 min; 11 min is notably high and pulls the mean upward",
-        "The average is 7 minutes and the range is 7 minutes across five students; 11 minutes is notably high and pulls the average upward"
+        "5 observations; mean 7 minutes; MAD 2 minutes; typical reading time 7, each value differs from the mean by about 2 on average; 11 is notably high and pulls the mean upward",
+        "n = 5, mean = 7 min, MAD = 2 min; 11 min is notably high and pulls the mean upward",
+        "The average is 7 minutes and readings differ from it by 2 minutes on average across five students; 11 minutes is notably high and pulls the average upward"
       ],
-      "equivalenceNotes": "Accept equivalent context summaries that name five observations, the 7-minute mean, the 7-minute range, and identify the notably high 11-minute reading as pulling the mean upward."
+      "equivalenceNotes": "Accept equivalent context summaries that name five observations, the 7-minute mean, the 2-minute MAD, and identify the notably high 11-minute reading as pulling the mean upward.",
+      "parts": [
+        { "accepted": ["5 observations", "n = 5", "five students"] },
+        { "accepted": ["mean 7 minutes", "mean = 7 min", "average is 7 minutes"] },
+        {
+          "accepted": [
+            "mad 2 minutes",
+            "mad = 2 min",
+            "differ from it by 2 minutes",
+            "differs from the mean by about 2"
+          ]
+        },
+        {
+          "accepted": ["11 is notably high", "11 min is notably high", "11 minutes is notably high"]
+        },
+        { "accepted": ["pulls the mean upward", "pulls the average upward"] }
+      ]
     },
-    "answerFormat": "Mean, range, number of observations, and a contextual summary.",
-    "misconceptionCodes": ["reports-median-value-when-asked-for-the-mean"],
+    "answerFormat": "Mean, MAD, number of observations, and a contextual summary.",
+    "misconceptionCodes": [
+      "reports-median-value-when-asked-for-the-mean",
+      "omits-absolute-value-when-finding-mad"
+    ],
     "misconceptionDistractors": [
       {
-        "answer": "Mean = 6 minutes; range = 7 minutes",
+        "answer": "Mean = 6 minutes; MAD = 2 minutes",
         "misconceptionCode": "reports-median-value-when-asked-for-the-mean",
-        "rationale": "Reports the middle ordered value, 6, as the mean while correctly finding the range; it does not add all five values and divide by 5."
+        "rationale": "Reports the middle ordered value, 6, as the mean while correctly finding the MAD; it does not add all five values and divide by 5."
+      },
+      {
+        "answer": "MAD = 0 minutes",
+        "misconceptionCode": "omits-absolute-value-when-finding-mad",
+        "rationale": "Averages the signed deviations (-3, -1, -1, +1, +4), which sum to 0, instead of their absolute values (3, 1, 1, 1, 4), which sum to 10 and average to 2."
       }
     ],
     "hintSteps": [
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "The mean uses every observation, while range compares only the two endpoints.",
+        "prompt": "The mean uses every observation, while MAD measures how far each observation typically sits from that mean.",
         "question": "What operation combines all five reading times for the mean?"
       },
       {
         "order": 2,
         "assistanceLevel": "multiple_hints_representation",
-        "prompt": "A complete summary says who or what was measured and how many observations were included.",
-        "question": "What does the seven-minute spread describe about these students' reading times?"
+        "prompt": "Each deviation from the mean must be made positive (its absolute value) before averaging them for the MAD.",
+        "question": "What happens if you average the deviations without taking their absolute value first?"
       }
     ],
     "forbiddenLeakagePatterns": [
       "mean 7 minutes",
-      "range 7 minutes",
+      "mad 2 minutes",
       "5 observations",
       "typical reading time 7"
     ],
@@ -2499,7 +2580,7 @@
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
     "accessibilityNotes": "List the five data values and calculations in text; no chart is required.",
-    "accessibleAlternative": "Read aloud or display: Five reading times are four, six, six, eight, and eleven minutes. Find their average, largest-minus-smallest spread, count the observations, summarize, and note whether one reading stands out and affects the average."
+    "accessibleAlternative": "Read aloud or display: Five reading times are four, six, six, eight, and eleven minutes. Find their average and their mean absolute deviation, count the observations, summarize, and note whether one reading stands out and affects the average."
   },
   {
     "id": "v2-center-median-iqr",

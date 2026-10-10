@@ -387,3 +387,71 @@ human review or approval.
 **Validation evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts`
 (51 glossary-synced codes, 48 records), `npm run format:check`, `npm run
 lint`, `npm run typecheck`, and `npm run content:validate` (27 tests) passed.
+
+## Revision 16 — M5 coverage-gap remediation
+
+Addressed all four coverage gaps M5 named, by revising one of the two
+existing content records per affected skill (the validator requires exactly
+two records per skill, so this is replacement, not addition):
+
+1. **`6.RP.A.3` parts a/c/d (percent, conversion, tables/plotting) had no
+   coverage** - both `rate-and-proportional-reasoning` items tested only
+   unit rate and scaling (`6.RP.A.2`/`6.RP.A.3` generically).
+   `v2-rate-smoothie-scaling` is replaced by `v2-rate-percent-discount`
+   (find a sale price at 75% of an original price), closing the percent
+   gap (`6.RP.A.3c`) and exercising the skill's own
+   `treats-percent-value-as-whole-number-without-dividing-by-100`
+   misconception code, which no item had tested before. Tables/plotting
+   (`6.RP.A.3a`) and unit conversion (`6.RP.A.3d`) remain uncovered - two
+   records per skill cannot cover all four sub-parts alongside the
+   required unit-rate item; a future increment would need to decide which
+   to prioritize next.
+2. **No item used unit-fraction cube packing for `6.G.A.2`**, despite the
+   skill's own evidence statement already claiming it.
+   `v2-prism-volume-fractions` is replaced by
+   `v2-prism-volume-unit-cube-packing`: a 3/4 × 1/2 × 2 foot compartment
+   packed with 1/4-foot cubes (48 cubes × 1/64 cubic foot each = 3/4 cubic
+   foot), with a new misconception code,
+   `uses-the-unit-cubes-edge-length-instead-of-its-cubed-volume`, for the
+   specific error of multiplying the cube count by the edge length instead
+   of the cube's volume. Added to the skill and the glossary.
+3. **Both `distribution-description` items asked the learner to interpret
+   a given plot, never to display one** - the actual `6.SP.B.4` verb.
+   Both records revised to give raw data and require constructing the
+   display first (dot-plot counts and histogram-interval counts from a
+   raw list; a five-number summary, including finding the two quartiles,
+   from a raw list) before describing center/spread/shape. Both now also
+   declare `parts` (the M2 mechanism, not retrofitted project-wide but
+   applied here since these composite answers grew more clause-heavy).
+4. **MAD never appeared anywhere** despite being named in `6.SP.B.5c`.
+   `v2-center-mean-range` is replaced by `v2-center-mean-mad` (same 4, 6,
+   6, 8, 11-minute data; mean 7, MAD 2), pairing mean with MAD rather than
+   range - the CCSS-canonical pairing (median pairs with IQR in the
+   skill's other item). Added `omits-absolute-value-when-finding-mad`
+   (averaging signed deviations, which cancel toward zero, instead of
+   their absolute values) to the skill and the glossary, alongside the
+   original median-reported-as-mean distractor.
+   **Incidental partial fix to minor m4** (coincident center/spread
+   values): the old mean-range item had mean = range = 7, the exact
+   coincidence m4 flagged; mean (7) and MAD (2) are no longer coincident.
+   The other item's median/IQR coincidence is unchanged and still open.
+
+**Explicitly still not fixed:**
+
+- `6.RP.A.3` parts a and d (tables/plotting, unit conversion) - see point 1.
+- **M2 for the other ~29 composite records** in this candidate that were
+  not already touched by this revision or Revision 15 - the M2 mechanism
+  itself is now implemented and live in production (`docs/PROGRESS.md`,
+  2026-10-10), but retrofitting every remaining candidate record with
+  `parts` is still deferred as lower-urgency, since nothing in
+  `experiments/` is live.
+- Minor items m2, m5, m6, m7, m9, and the median/IQR half of m4 remain
+  unaddressed, same as Revision 15 left them.
+
+All 48 records remain `pending_review`; this remediation does not
+constitute human review or approval.
+
+**Validation evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts`
+(53 glossary-synced codes, 48 records), `npm run format:check`, `npm run
+lint`, `npm run typecheck`, and `npm run content:validate` (40 tests)
+passed.

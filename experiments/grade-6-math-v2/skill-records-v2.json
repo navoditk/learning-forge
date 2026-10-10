@@ -317,10 +317,11 @@
     ],
     "misconceptionCodes": [
       "labels-volume-answer-with-square-units",
-      "adds-edge-lengths-instead-of-multiplying"
+      "adds-edge-lengths-instead-of-multiplying",
+      "uses-the-unit-cubes-edge-length-instead-of-its-cubed-volume"
     ],
     "difficultyBands": ["developing", "challenging"],
-    "masteryCheckRule": "Require a fractional-edge computation and a context interpretation with cubic units. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
+    "masteryCheckRule": "Require a fractional-edge computation using unit-cube packing and a context interpretation with cubic units. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
   },
   {
     "code": "coordinate-polygons",
@@ -402,7 +403,8 @@
     ],
     "misconceptionCodes": [
       "reports-median-value-when-asked-for-the-mean",
-      "reports-a-center-or-spread-value-without-context-or-number-of-observations"
+      "reports-a-center-or-spread-value-without-context-or-number-of-observations",
+      "omits-absolute-value-when-finding-mad"
     ],
     "difficultyBands": ["developing", "challenging"],
     "masteryCheckRule": "Require a full data summary naming context, number of observations, center, variability, and notable shape or outlier feature. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
