@@ -1,16 +1,16 @@
 # Course-progression manual gate record
 
 **Status:** Partially recorded — product-owner risk acceptances, the D-58
-acknowledgement, the held-out-package and authored-content gates, and the
-open-decision check are recorded. Independent review and shadow review
-remain open; C4 is not authorized until those two close.
+acknowledgement, the held-out-package and authored-content gates, the
+open-decision check, and (2026-10-10) the independent-review gate are
+recorded. Shadow review remains open; C4 is not authorized until it closes.
 
 Record one dated decision per gate. “Automated tests pass” is not a substitute
 for a manual gate.
 
 | Gate | Required artifact/evidence | Owner | Decision/date/signature |
 |---|---|---|---|
-| Fourth-draft architecture and C1–C3 independent review | Completed `independent-review.md` with no unresolved blocker/major finding | Independent reviewer | |
+| Fourth-draft architecture and C1–C3 independent review | Completed `independent-review.md` with no unresolved blocker/major finding | Independent reviewer | Accepted 2026-10-10 (product owner, in chat): the most recent read-only re-review (2026-09-28, `independent-review-result.md`) returned "ready for human review with noted risks — no blocker in either part," and every major finding across all review rounds since 2026-09-22 (M1, M2, B-1/`D-72`, A-2/migration `0016`) is closed. Of the three minors left open from the first round (m5, m6, m7), m5 and m7 are now fixed; m6 is partially fixed (two stale file references corrected) with its five real test-coverage gaps (L6, L8, L9, L14, L16) explicitly accepted as residual risk, tracked as separate follow-up work in `docs/course-progression-architecture.md` §13.6, not blocking this sign-off. |
 | Shadow divergence review | Completed `shadow-divergence-review.md`; every divergence explained or remediated | Product/engineering owner | |
 | D-58 acknowledgement | Acknowledgement that the prior unreviewed-publication path existed and no leak is evidenced | Product owner | Acknowledged 2026-10-05 (product owner, in chat): the pre-Stage-A0 code path that could publish a `pending_review` record on merge existed; Stage A0 shipped the fix; no evidence of any such record ever reaching a learner-facing surface. |
 | Screen-reader review | `accessibility-acceptance.md`; product-owner assumption recorded, with repeat-pass requirement | Product owner (`D-41`) | Accepted 2026-09-20 for scoped pilot; evidence assumed |

@@ -179,16 +179,15 @@ later stage must still use the approved value for every decision it touches.
 >    (confirmed 2026-10-04) and the package's digests were re-pinned in
 >    `BANK_HASHES`. `manual-gate-record.md`'s held-out-package,
 >    authored-content, `D-58`-acknowledgement, and open-decision-check rows
->    are now all signed (product owner, in chat, 2026-10-05).
->    **Still genuinely blank:** only the independent-review and
->    shadow-review rows. The independent-review gate has no remaining
->    technical blocker — the latest read-only pass (2026-09-28) already
->    returned "ready for human review with noted risks," with its one major
->    finding closed as `D-72` — so that row needs only the product/
->    engineering owner's own dated decision and signature, not further
->    implementation. The shadow-review row is unchanged from item 4 above:
->    it needs real representative traffic to accumulate and be
->    dispositioned, which still has not started.
+>    are now all signed (product owner, in chat, 2026-10-05), and
+>    (2026-10-10) so is the independent-review row: the three minors left
+>    open since the first 2026-09-22 review (m5, m6, m7) were closed or
+>    explicitly risk-accepted first (`docs/PROGRESS.md`, 2026-10-10), then
+>    the product owner accepted the 2026-09-28 "ready for human review with
+>    noted risks" verdict.
+>    **Still genuinely blank: only the shadow-review row.** It is unchanged
+>    from item 4 above: it needs real representative traffic to accumulate
+>    and be dispositioned, which still has not started.
 >
 > Only then implement the approved C4 expand/contract cutover. Do not serve
 > progression UI until C4 and the manual accessibility, wording, privacy, and

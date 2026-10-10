@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-10-10 — C4 independent-review gate signed
+
+- With m5/m6/m7 closed or explicitly risk-accepted (previous entry), the
+  product owner accepted, in chat, the independent-review gate for C4:
+  the most recent re-review (2026-09-28) returned "ready for human review
+  with noted risks, no blocker in either part," and every major finding
+  across every round since the first 2026-09-22 review is closed.
+  `manual-gate-record.md`'s independent-review row is now signed (dated
+  2026-10-10), and its status line and `docs/course-progression-handoff.md`
+  are both updated to say so.
+- Of the two C4 manual gates, only the shadow-review row is still
+  genuinely blank: it needs real representative production traffic to
+  accumulate and be dispositioned, which has not started and cannot be
+  rushed by either of us - that requires the product owner's own production
+  database access per `docs/secrets-management.md`'s single-operator model.
+- Docs-only; `npx prettier --check docs/` passes.
+
 ## 2026-10-10 — Fixed m5, m6, m7 (the independent review's three long-open minors)
 
 Closing out the three minor findings left "still open" since the 2026-09-22
