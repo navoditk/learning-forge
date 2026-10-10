@@ -27,11 +27,11 @@ an emergency/legal process.
       is, this relies on manually reviewing `TutorTrace` (tracked as a
       still-open engineering gap in that section, not blocking this
       acceptance).
-- [ ] Document pause authority and response expectations in
-      `docs/incident-response.md`. **Draft ready 2026-10-09**: pause
-      authority (product owner, unilateral, via existing Render/feature-flag/
-      database access) and a same-day response-time target are now written
-      there, pending the product owner's review and acceptance.
+- [x] Document pause authority and response expectations in
+      `docs/incident-response.md`. **Resolved 2026-10-09** (product owner,
+      in chat): pause authority (product owner, unilateral, via existing
+      Render/feature-flag/database access) and a same-day response-time
+      target for safety escalation are accepted as written there.
 - [ ] Re-run safety, tone, age-appropriateness, prompt-injection, and
       answer-leakage evaluations after tutor or progression-copy changes.
 - [ ] Review live safety events with a human and add a redacted regression

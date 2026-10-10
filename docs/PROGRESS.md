@@ -1,5 +1,20 @@
 # Progress
 
+## 2026-10-09 — Pause authority and response expectations accepted (second reinforcement requirement closed)
+
+- The product owner accepted, in chat, the pause-authority and
+  response-expectations draft in `docs/incident-response.md`: unilateral
+  pause authority via existing Render/feature-flag/database access, and a
+  same-day response-time target for safety escalation. Checked off
+  `child-safety-acceptance.md`'s second reinforcement requirement as
+  **Resolved 2026-10-09 (product owner, in chat)**.
+- Two of the four child-safety reinforcement requirements are now resolved
+  (escalation destination, pause authority/response expectations). The
+  remaining two are process commitments, not document edits: re-running
+  safety/tone/age-appropriateness/prompt-injection/answer-leakage evals
+  after tutor or progression-copy changes, and reviewing a live safety event
+  with a human. Docs-only; `npx prettier --check docs/` passes.
+
 ## 2026-10-09 — Science and Social Studies scope limited to Grade 6
 
 - Updated `README.md`, `docs/01-product-proposal.md`, and `docs/07-roadmap.md`
