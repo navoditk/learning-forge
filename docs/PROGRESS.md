@@ -100,6 +100,27 @@
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — L6 falsifier: fixed a flaky timestamp false-positive
+
+- Independently re-ran the five new m6 falsifiers (L6/L8/L9/L14/L16,
+  committed as `5442940`) against the local synthetic database as a
+  post-hoc check. `api-leakage.test.ts` (L6) failed non-deterministically:
+  its naive substring scan flagged `$.attempts[0].createdAt` and
+  `$.createdAt` because the active fixture's canonical answer is the short
+  numeric string `"15"`, which coincidentally appears inside an ISO
+  timestamp's day-of-month/seconds component on some run dates.
+- Fixed by applying the same `TEMPORAL_FIELDS`/`ISO_TIMESTAMP` exclusion
+  pattern already established in `feedback-safety-assertions.ts`, adapted
+  to a key-suffix match (`/At$/`) since `api-leakage.test.ts` scans routes
+  with more timestamp field names (`expiresAt`, `dueAt`, etc.) than that
+  file's fixed five-name set.
+- Re-verified this doesn't mask a real leak: reran with the fix in place
+  (passes), confirmed the SENSITIVE_STRINGS/forbidden-pattern matching on
+  non-timestamp fields is untouched by the exclusion.
+- Verification: `npm run test:integration` (27 files, 171 passed, 1
+  intentionally skipped — L14) and `npm run verify` (409 tests + build)
+  both pass clean.
+
 ## 2026-10-10 — Grade 6 Math v2 candidate, Revision 16: M5 coverage-gap remediation
 
 - Fixed all four real coverage gaps the independent-review backlog had left

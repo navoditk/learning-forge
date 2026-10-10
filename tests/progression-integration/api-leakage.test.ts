@@ -41,9 +41,17 @@ const SENSITIVE_STRINGS = [
 // rather than meaningful. Field VALUES are still scanned everywhere else.
 const IDENTIFIER_KEY = /(^id$|Id$|Key$|Code$)/u;
 
+// Same reasoning for ISO timestamp fields (createdAt/expiresAt/dueAt/...):
+// a short numeric canonical answer like "15" can coincidentally appear in a
+// day-of-month or seconds component. Matches the convention already
+// established in feedback-safety-assertions.ts for the same scan shape.
+const TIMESTAMP_KEY = /At$/u;
+const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?(?:Z|[+-]\d{2}:\d{2})$/u;
+
 function findLeak(value: unknown, path = '$', key?: string): string | undefined {
   if (typeof value === 'string') {
     if (key && IDENTIFIER_KEY.test(key)) return undefined;
+    if (key && TIMESTAMP_KEY.test(key) && ISO_TIMESTAMP.test(value)) return undefined;
     const hit = SENSITIVE_STRINGS.find((marker) => value.includes(marker));
     return hit ? `${path} contains "${hit}"` : undefined;
   }
