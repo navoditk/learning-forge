@@ -1,5 +1,72 @@
 # Progress
 
+## 2026-10-10 — UI-3 recall-card specification started
+
+- Product owner accepted the next recommended packet: UI-3 specification,
+  not runtime enablement, content authoring or committing UI-1.
+- Current contracts distinguish teaching, practice, assessment and review;
+  none defines reviewed recall-card front/back records. No existing card
+  dataset was found. Do not reuse scored review items, solutions or hint
+  ladders as flash-card backs.
+- Sonnet 5.5 specification task
+  `07192696-2ba1-45c3-95cd-23561d46ea3c` owns only the proposed recall-card
+  design document. Fresh GPT-6.1 Sol independent review follows.
+- The design must separate self-check from mastery while accounting for
+  instruction exposure: card viewing may reset delayed-check eligibility
+  even though it earns no mastery credit. Missing approved delivery/event
+  contracts and the D-61 authoring pause block serving new card content.
+- Preserve uncommitted UI-1 changes. No runtime code, schemas, dependencies,
+  learner data, curriculum records, provider calls or progression gate
+  changes are authorized by this specification packet.
+- Next: finish the proposed contract/UI/state/test specification, obtain
+  independent review, and record the exact human prerequisites for a
+  later flag-off synthetic implementation.
+
+## 2026-10-09 — UI-1 implemented and independently reviewed
+
+- Added the Course overview entry, reusable chapter/topic cards, topic
+  details with skill relationships, breadcrumbs and program-scoped deep links.
+  Practice evidence and independent confirmation are separately labelled.
+  Existing reviewed activity figures and chapter/activity components are
+  reused; no teaching content, quiz thresholds or new curriculum was authored.
+- Loading, empty, error/retry and unavailable-topic states are explicit.
+  Stale program responses are discarded and consumed session fields
+  validate. Overview/Back navigation preserves the same session's draft,
+  attempt, hints, tutor and independent check; different/default sessions
+  restore through the existing server. Advisory recommendations never
+  suppress an already-authorized current session.
+- Final parent `npm run verify` passed formatting, lint, typecheck,
+  migration-presence checks, 409 unit/contract/eval tests and production
+  build. Full `CI=true npm run test:e2e` on an isolated local synthetic
+  database passed 66 tests; one private-package test skipped because no
+  assessment package was mounted. A run interrupted by concurrent `.next`
+  build-artifact changes was restarted; the clean rerun passed.
+- `npm run test:integration` on the same scratch database: 171 passed,
+  one skipped (a separately gated wording fixture). No real provider or
+  production data was used. The scratch database was dropped afterward.
+- Four light/dark narrow/wide overview-and-topic axe cases passed.
+  Eight screenshots are retained in session artifacts; desktop/light
+  overview and phone/dark topic were visually inspected. Human
+  screen-reader/accessibility review remains a separate gate.
+- Sonnet implementation harness: `claude-sonnet-5.5`, task
+  `48a90a0f-20d0-45a6-9a4b-c6584e95379a`. Independent reviewer harness:
+  `gpt-6.1-sol`, task `9a7497cd-12ef-4c06-806e-88d55cabbf9d`.
+  Final verdict **approve-for-human-review**; all scoped findings closed.
+  Reviewer reproduced same-topic continuity with the actual Home hooks:
+  one request and preserved draft/tutor/attempt/check/hint state.
+- Changed: `src/app/page.tsx`, chapter model/view, new course components,
+  route/data-loading helpers, scoped CSS, app/browser tests, README and
+  presentation/expansion/progress docs. No backend, dependency, database
+  migration, mastery/scoring computation, provider input or C4/C5 change.
+- Limits: existing progress APIs do not supply full version envelopes;
+  session versions validate when supplied, and this UI cannot claim
+  complete payload-version verification. Human product/privacy/release
+  approval remains separate. UI-1 is uncommitted; concurrent integration
+  test edits were preserved.
+- Next recommended packet: specify UI-3's optional recall cards against
+  reviewed content-role data; no reasoning answers or mastery credit.
+  UI-2 remains blocked by the applicable progression release gates.
+
 ## 2026-10-09 — UI-1 corrected browser journeys pass; final continuity fix pending
 
 - Corrected the four initial review findings. Parent lint/typecheck,
@@ -99,6 +166,16 @@
   unit/contract tests + production build), and
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
+
+## 2026-10-10 — Consent record accepted
+
+- Privacy/legal + product owner accepted `docs/consent-notice.md` in chat
+  as sufficient: scope (data collected, Anthropic API use, no ad/sale/other
+  use), notices already given (AI-not-a-human disclosure, first-hint safety
+  note, Help page section), the working `/parent` export/delete revocation
+  path, and the dated evidence table.
+- Closes the "Consent" pilot-readiness row. Updated
+  `docs/pilot-readiness-checklist.md`'s Consent row accordingly.
 
 ## 2026-10-10 — L6 falsifier: fixed a flaky timestamp false-positive
 
