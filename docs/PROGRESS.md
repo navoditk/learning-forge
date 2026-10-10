@@ -1,5 +1,39 @@
 # Progress
 
+## 2026-10-10 — AI disclosure added; Anthropic's minors-serving policy researched
+
+- Digging into the Provider terms checklist row surfaced a more specific
+  finding than "fill in contractual terms": Anthropic's Usage Policy has a
+  dedicated "Guidelines for Organizations Serving Minors" requirement that
+  applies directly to this app, since a Grade 6 student talks to Claude
+  through its API integration. Researched against Anthropic's own published
+  pages (training use, retention, deletion, region/subprocessors, and the
+  minors policy itself); results and sources recorded in
+  `docs/privacy-inventory.md`'s new Provider terms section.
+- Closed the cheapest, concrete gap immediately: added an AI-not-a-human
+  disclosure wherever the tutor appears
+  (`src/app/components/activity-panel.tsx`'s "Tutor" heading now reads
+  "Tutor (an AI, not a real person)") and in the Help page's description of
+  it.
+- Drafted a public child-privacy statement in a new "AI use and children's
+  privacy" section of the Help page (`src/app/help/page.tsx`), which is
+  outside the app's auth matcher and therefore the closest thing this app
+  has to the "public-facing documentation" Anthropic's policy asks for. It
+  describes current practice (single-household pilot, no ads/sale/sharing
+  of data, minimal provider payload) and explicitly does not claim formal
+  legal compliance - that still needs the product owner's own review and,
+  eventually, real legal review of COPPA/FERPA/state law.
+- Still open: Anthropic's optional child-safety system prompt is not
+  implemented; no minor-facing safety-education content exists beyond the
+  disclosure; Anthropic's subprocessor list could not be rendered directly
+  (dynamic trust-center page) and is only sourced secondhand.
+- Verification: `npx tsc --noEmit`, `npx eslint`, `npm run verify` (build +
+  all unit/contract tests), and the Playwright accessibility/keyboard/phase1
+  suites (11/11, including both axe passes on the changed pages) all pass
+  clean. No existing test needed updating; the "Tutor" heading's accessible
+  name still contains "Tutor", which is all the existing Playwright
+  `getByRole` locators for it require.
+
 ## 2026-10-10 — Tutor policy and parent reporting checklist rows accepted
 
 - The learning/engineering owner and learning/product owner accepted, in

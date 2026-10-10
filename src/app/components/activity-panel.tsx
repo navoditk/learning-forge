@@ -171,7 +171,9 @@ export function ActivityPanel({
       )}
       {tutor && mode === 'practice' && (
         <aside aria-labelledby="tutor-heading">
-          <h3 id="tutor-heading">Tutor</h3>
+          <h3 id="tutor-heading">
+            Tutor <small>(an AI, not a real person)</small>
+          </h3>
           <p>{tutor.response.move?.learnerMessage ?? tutor.response.fallbackMessage}</p>
           {tutor.response.move && (
             <p>

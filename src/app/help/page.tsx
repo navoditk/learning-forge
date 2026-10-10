@@ -50,8 +50,9 @@ export default function HelpPage() {
           </li>
           <li>
             <strong>Ask for help if needed.</strong> The <em>Ask for a small hint</em> button starts
-            a short back-and-forth with the tutor. Hints escalate gradually (a small strategic hint,
-            then a worked example, and so on) — the tutor never simply gives the final answer.
+            a short back-and-forth with the tutor — an AI model, not a real person, clearly labeled
+            as such wherever it appears. Hints escalate gradually (a small strategic hint, then a
+            worked example, and so on) — the tutor never simply gives the final answer.
           </li>
           <li>
             <strong>Independent check.</strong> Once the tutor has responded,{' '}
@@ -154,6 +155,30 @@ export default function HelpPage() {
           Export downloads a JSON file with every attempt, session, mastery estimate, and tutor
           trace. Deletion permanently removes all of it, including the household account itself, and
           requires typing a confirmation phrase first since it cannot be undone.
+        </p>
+      </section>
+
+      <section aria-labelledby="help-ai-and-children">
+        <h2 id="help-ai-and-children">AI use and children&apos;s privacy</h2>
+        <p>
+          The tutor the learner talks to is an <strong>AI model, not a real person</strong> — this
+          is stated wherever the tutor appears, not only here. The model never decides what the
+          learner has mastered; mastery is always computed from recorded attempts and independent
+          checks, never from the AI&apos;s own judgment of the conversation (see{' '}
+          <strong>Your progress</strong> above).
+        </p>
+        <p>
+          Learning Forge is currently an invite-only, single-household pilot: the person who set it
+          up is both the account operator and the learner&apos;s parent or guardian. There is no
+          public sign-up, no advertising, and no sale or sharing of any learner data with third
+          parties. Only what a tutoring interaction actually needs — the problem, the learner&apos;s
+          message, and the server-decided next step — is ever sent to the AI provider; account
+          details and household data never are.
+        </p>
+        <p>
+          This section describes current practice, not a legal compliance determination — the
+          product owner has not yet obtained formal legal review of applicable children&apos;s
+          privacy law (such as COPPA in the United States) for this pilot.
         </p>
       </section>
 

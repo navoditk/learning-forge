@@ -20,9 +20,46 @@ The intended flow is:
 Tutor requests pass only the problem prompt, current learner message, server-
 authorized move type, and redacted skill context needed for a move. The
 provider boundary rejects profile fields, credentials, and secret-like values;
-provider SDK objects remain inside adapters. Anthropic is the current provider,
-but its contractual region, retention, training-use, and subprocessor terms
-remain a human/privacy review item.
+provider SDK objects remain inside adapters. Anthropic is the current
+provider.
+
+**Provider terms (researched 2026-10-10, not a legal review).** Sourced from
+Anthropic's own published pages where fetched directly; summarized where a
+page could not be rendered (noted below). Not independently verified beyond
+what's quoted:
+
+- **Training use**: excluded by default. Anthropic's Commercial Terms of
+  Service state "Anthropic may not train models on Customer Content from
+  Services." No training opt-out is needed; it is the baseline.
+- **Retention**: the API's default is 30 days after receipt/generation,
+  with exceptions (a separate Zero Data Retention agreement, legal
+  requirement, dispute resolution, or abuse enforcement). No ZDR agreement
+  exists for this pilot, so the 30-day default applies.
+- **Deletion**: the Data Processing Addendum requires deletion or return of
+  customer data within 30 days of contract termination, same exceptions as
+  above.
+- **Region/subprocessors**: the DPA does not name specific data-center
+  regions; it incorporates EU/UK/Swiss SCC transfer frameworks. Anthropic's
+  subprocessor list lives at a dynamic trust-center page this research could
+  not render directly; third-party summaries (not primary-verified) name AWS
+  and GCP as primary infrastructure subprocessors.
+- **Moderation / minors-serving policy**: Anthropic's Usage Policy requires
+  organizations letting minors directly interact with a product built on its
+  API — which this app is — to follow its "Guidelines for Organizations
+  Serving Minors": content moderation/filtering, monitoring/reporting,
+  minor-facing safety education, a public child-privacy-law compliance
+  statement (e.g. COPPA), disclosure that the learner is talking to an AI,
+  and (optionally) Anthropic's own child-safety system prompt. Anthropic may
+  audit and suspend/terminate non-compliant accounts.
+  - Addressed 2026-10-10: the AI-not-a-human disclosure now appears
+    wherever the tutor appears, and a draft public compliance statement is
+    in `/help` (`src/app/help/page.tsx`'s "AI use and children's privacy"
+    section) for the product owner's review — it describes current
+    practice, not a legal compliance determination.
+  - Still open: Anthropic's optional child-safety system prompt is not
+    implemented; no dedicated minor-facing safety-education content beyond
+    the disclosure exists; and no formal legal review of COPPA/FERPA/state
+    law has happened for this pilot.
 
 ## Inventory
 
