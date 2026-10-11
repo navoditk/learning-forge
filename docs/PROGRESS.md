@@ -271,6 +271,57 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — Started extending the rich course structure beyond Ratios
+
+- Product owner redirected priority: stop treating C4's shadow-traffic
+  gate as the thing to wait on, and prioritize a fully working rich
+  course structure across all of Grade 6 Math instead - shadow traffic
+  is only useful once there is a real curriculum for it to observe.
+- **Key finding that changes the scope:** the legacy v3 system already
+  has fully-authored, reviewed content for all 27 Grade 6 Math skills
+  (Ratios 5, Number System 7, Expressions & Equations 8, Geometry 4,
+  Statistics 3) - including the 2 skills even the Ratios pilot itself
+  was missing (`double-number-lines`, `percent-applications`). Building
+  the rich interface for the rest of the curriculum therefore does not
+  mean authoring new practice problems - it means wrapping already-
+  reviewed content into Lesson/Unit records, which is a mechanical task.
+- **Hard constraint found:** `validateProgressionCatalog` requires every
+  Lesson to resolve a real `AssessmentBank` with a positive `itemCount`
+  and a real pinned SHA-256 `contentHash`. Per this project's existing
+  held-out (Branch B, `D-01`) decision, assessment items can never live
+  in this public repository - so every new lesson still needs real
+  assessment content authored and placed in the private package before
+  it can actually validate, same workflow as the existing pilot banks.
+  This is genuine remaining work, not something that can be wrapped
+  away like the practice content.
+- **Collision-risk finding:** `src/curriculum/course-catalog.ts` (a new,
+  general multi-unit abstraction replacing the old single-array
+  `PILOT_LESSONS`/`PILOT_UNITS` pattern), `program-registry.ts`,
+  `pilot-catalog.ts`, and `src/progression/pilot-progress.ts`/
+  `learner-state.ts` are all currently uncommitted and being actively
+  edited by a concurrent session right now - exactly the subsystem
+  needed to wire in new units. Editing them now risks a real collision,
+  not a hypothetical one.
+- **What was actually done, with zero collision risk:** new standalone
+  `src/curriculum/ratios-extension-catalog.ts` wraps the Ratios domain's
+  2 missing skills into real `Lesson` records, reusing the already-
+  reviewed `content/ratios/*.json` practice items verbatim (no new
+  problems). New `tests/curriculum/ratios-extension-catalog.test.ts` (3
+  tests) proves the practice-content hashes are the real SHA-256 of
+  those files (the same falsifier `placement-probe.test.ts` already uses
+  for the existing pilot lessons) and documents that wiring-in is
+  deliberately not done yet.
+- **Explicitly not done, and why:** these 2 lessons are not wired into
+  the program's `unitRefs`/`COURSE_CATALOG` construction (blocked on
+  the concurrent-session collision risk above, and would fail to
+  validate anyway without a real assessment bank for each). The other
+  22 skills across the remaining 4 domains are not yet wrapped at all.
+- Verification: `npx tsc --noEmit`, `npm run lint`, and `npm run verify`
+  (1550 tests + build) all pass clean. The new test file's hash
+  assertions are a genuine falsifier, not a tautology - confirmed by
+  computing the SHA-256 of the actual files independently
+  (`shasum -a 256`) before writing them into the record.
+
 ## 2026-10-10 — C5: Playwright/accessibility coverage for the override UI; found and fixed a real bug
 
 - Built the Playwright E2E coverage flagged as missing in the prior entry.
