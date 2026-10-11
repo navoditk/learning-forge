@@ -7,13 +7,44 @@ not an approval register or an automatic task scheduler.
 
 ## Ordered relay and quota-conserving plan
 
-**Current next client: Codex. Next task: TEACH-T2A corrected-patch review.**
-Sonnet corrections have returned frozen; no worker is running. Do not spend
+**Current state: TEACH-T2A exact patch integrated and committed locally
+(`56ea7b3`, not pushed) and validated by the Sonnet integrator. Next: `/resources` mobile accessibility (Claude Sonnet, then Codex
+review).**
+Codex changed-hash review is complete; no worker is running. Do not spend
 the remaining Copilot allowance on new research or implementation fleets.
 Preserve it for narrow coordinator/status work and unforeseen recovery;
 native continuation can begin before Copilot is fully exhausted.
 No numeric credit estimate guarantees completion, and native client limits
 are independent of Copilot usage.
+
+### Concurrent Grade 6 checkpoint and safe resume
+
+Reviewed main checkpoint `ed18540` includes Claude Code documentation commits
+`949da59` and `ed18540`: D-148 now records 296 private draft assessment items
+(24 full lesson banks, four full unit banks and one partial Ratios unit-bank
+supplement). These commits change only the decision matrix and PROGRESS;
+they do not integrate assessment content, activate units or change runtime.
+The draft content remains outside Git and `pending_review`. Its reported
+schema/grader verification is not independent pedagogical/content approval.
+Private-package placement and digest confirmation, Ratios bank merging,
+independent originality/accessibility/safety review, human content approval
+and gated catalog/registry wiring remain separate work. This track is part
+of the shared plan, not permission to bypass the ordered T2a relay.
+
+The owner authorized reconciling the shared log on 2026-10-10: retain the
+committed Grade 6 entry alongside Codex's uncommitted T2a review/approval
+entries and preserve unrelated edits. Do not blanket-stage PROGRESS or
+overwrite it from either terminal's stale snapshot.
+
+Before resuming the existing Claude Code terminal, stop its Grade 6 writing
+task and reread AGENTS, this index and TEACH-T2A. Claim the Sonnet integration
+role, use an isolated worktree based on current main with explicit handoff
+inputs, and serialize final shared-file integration. No advisory claim was
+present at the review checkpoint, but absence of a claim does not establish
+that another session has stopped. The exact approved T2a patch hash remains
+unchanged and `git apply --check` passed against `ed18540`; integrated-tree
+synthetic validation is still required. Do not resume the old correction
+assignment or start Grade 6 catalog wiring in parallel.
 
 For every continuation turn, read the active packet before dispatch:
 
@@ -34,18 +65,18 @@ For every continuation turn, read the active packet before dispatch:
 
 Use this order. Later rows are recommendations, **not implementation approval**:
 
-| Order | Bounded task                                          | Client / role                                                                                          | Prerequisite and stop                                                                                                                                                   |
-| ----- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1     | TEACH-T2A corrected patch review                      | Codex parent validates; `forge-reviewer` / `gpt-6-sol` reviews                                         | Exact `77cd03a7...e46bae6` patch and packet; report only. If changes, return to Claude Sonnet; if ready, stop for human approval                                        |
-| 2     | T2a migration/privacy decision                        | Human; either client presents reviewed `migration.sql`, `down.sql`, privacy and residual-risk evidence | No main schema integration before explicit approval                                                                                                                     |
-| 3     | Approved T2a integration                              | Claude Code integrator / `sonnet`                                                                      | Exact approved patch only, isolated synthetic validation; changed code needs Codex re-review; no writer or serving                                                      |
-| 4     | Existing `/resources` mobile accessibility CI blocker | Claude Code `forge-implementer` / `sonnet`, then Codex `forge-reviewer` / `gpt-6-sol`                  | Obtain bounded UI scope first; targeted browser/accessibility evidence and independent review; do not suppress the failing checks                                       |
-| 5     | Reviewed commit/push checkpoint                       | Named integrator, normally Claude Code                                                                 | Preserve unrelated work; green relevant CI/local evidence, explicit commit/push scope and publication/deployment gates. T2a stays excluded if human approval is missing |
-| 6     | Lifecycle L2 prerequisite/probe decisions             | Claude Code `forge-expert` / `opus`, then Codex `forge-reviewer`                                       | Existing writer-free proposal, named open decisions and synthetic probe authorization; human migration/privacy approval before Sonnet implementation                    |
-| 7     | Blocked Python increment                              | Claude Code Sonnet corrections; Codex independent review                                               | First resolve execution evidence, persistence/route-test gaps and authorized synthetic environment; no broad authoring                                                  |
-| 8     | Six approved source-reference integrations            | Claude Code `forge-implementer` / `sonnet`, then Codex `forge-reviewer`                                | Narrow mechanical documentation scope; no repeat research or content authoring                                                                                          |
-| 9     | Shared bank/completion/teaching-serving contracts     | Claude Code `forge-expert` / `opus`, then Codex `forge-reviewer`                                       | One contract at a time, approved source/design scope and consumed decisions; T3/T4 choices are still open                                                               |
-| 10    | First-unit content, then runtime/UI release           | Claude Code Opus authoring; Sonnet implementation; Codex review after each frozen increment            | Scoped D-61/content/store/volume approvals, human content and release gates; no automatic authoring from the roadmap                                                    |
+| Order | Bounded task                                          | Client / role                                                                               | Prerequisite and stop                                                                                                                                                   |
+| ----- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | TEACH-T2A corrected patch review                      | **Done**: Codex parent validation; `forge-reviewer` / `gpt-6-sol` review                    | Exact `77cd03a7...e46bae6` patch; ready for human review with noted risks, including one privacy wording minor                                                          |
+| 2     | T2a migration/privacy decision                        | **Done**: owner approved the exact reviewed patch                                           | Approval recorded in TEACH-T2A; first-write and release gates remain                                                                                                    |
+| 3     | Approved T2a integration                              | **Done (`56ea7b3`)**: Claude Code `sonnet`                                                  | Exact approved patch only, isolated synthetic validation; changed code needs Codex re-review; no writer or serving                                                      |
+| 4     | Existing `/resources` mobile accessibility CI blocker | Claude Code `forge-implementer` / `sonnet`, then Codex `forge-reviewer` / `gpt-6-sol`       | Obtain bounded UI scope first; targeted browser/accessibility evidence and independent review; do not suppress the failing checks                                       |
+| 5     | Reviewed commit/push checkpoint                       | Named integrator, normally Claude Code                                                      | Preserve unrelated work; green relevant CI/local evidence, explicit commit/push scope and publication/deployment gates. T2a stays excluded if human approval is missing |
+| 6     | Lifecycle L2 prerequisite/probe decisions             | Claude Code `forge-expert` / `opus`, then Codex `forge-reviewer`                            | Existing writer-free proposal, named open decisions and synthetic probe authorization; human migration/privacy approval before Sonnet implementation                    |
+| 7     | Blocked Python increment                              | Claude Code Sonnet corrections; Codex independent review                                    | First resolve execution evidence, persistence/route-test gaps and authorized synthetic environment; no broad authoring                                                  |
+| 8     | Six approved source-reference integrations            | Claude Code `forge-implementer` / `sonnet`, then Codex `forge-reviewer`                     | Narrow mechanical documentation scope; no repeat research or content authoring                                                                                          |
+| 9     | Shared bank/completion/teaching-serving contracts     | Claude Code `forge-expert` / `opus`, then Codex `forge-reviewer`                            | One contract at a time, approved source/design scope and consumed decisions; T3/T4 choices are still open                                                               |
+| 10    | First-unit content, then runtime/UI release           | Claude Code Opus authoring; Sonnet implementation; Codex review after each frozen increment | Scoped D-61/content/store/volume approvals, human content and release gates; no automatic authoring from the roadmap                                                    |
 
 Codex's configured reviewer is read-only. The Codex parent/integrator runs
 authorized synthetic validation with normal permission prompts in its own
@@ -86,8 +117,9 @@ returned a frozen 14-file draft. GPT review returned **changes requested**:
 three majors and one minor; see
 `docs/course-progression-review/teaching-t2a-20261010-review.md`.
 Bounded Sonnet corrections have returned as an 18-file frozen patch; Codex
-changed-hash review is now the next role. Human migration review is required before main
-integration. At a new session, inspect files,
+changed-hash review returned ready for human review with noted risks. The owner
+approved exact-patch migration/privacy integration on 2026-10-10. Claude Code
+Sonnet integration is next. At a new session, inspect files,
 claim a bounded role and confirm its scope before implementation. The local
 resource-browser server is not needed; do not restart it.
 
@@ -120,7 +152,7 @@ failed. No T2a schema change is a fix for that unrelated UI blocker.
 
 Local checkpoint commits make reviewed course/T1 code and linked records
 resolvable locally, but are not on origin until a separately approved push.
-The corrected, not-yet-re-reviewed T2a Prisma/migration draft remains isolated
+The corrected, independently re-reviewed T2a Prisma/migration draft remains isolated
 and excluded. Its patch/evidence is copied and hash-verified under common Git
 metadata `agent-handoffs/TEACH-T2A/`; see the packet for full hash and recovery.
 Geography/Olympiad prerequisite drafts and their advisory reports remain
@@ -144,7 +176,7 @@ bounded model only for a separately allocated task or quota fallback.
 | ID / next bounded task                                                                 | State and prerequisite                                                                                                                                        | Executor → reviewer                                                                           |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | TEACH-T2-PROPOSAL: writer-free delivery context/event persistence and privacy proposal | **Proposal + independent review complete; accepted by owner**; D-145–D-147 approved                                                                           | Copilot Opus 5.5 → GPT-6.1 Sol; native relay uses Opus → GPT-6-Sol                            |
-| TEACH-T2/T3 implementation                                                             | R1–R4 correction patch returned; Codex review next, then human migration/privacy approval. D-143/D-144 remain open before writers                             | Claude Code Sonnet → Codex GPT-6-Sol                                                          |
+| TEACH-T2/T3 implementation                                                             | R1–R4 corrected and Codex re-reviewed; owner approved exact T2a integration. D-143/D-144 remain open before writers                                           | Claude Code Sonnet exact-patch integration                                                    |
 | TEACH-T4 interlock/serving                                                             | Needs D-100/D-102/D-140/D-141, complete exposure/assignment/result participation, activation protocol, shadow/permanent enforcement, content and manual gates | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
 | BANK-CONTRACT: remaining bank kind, manifest and historical resolution                 | Needs one bounded scope; D-75 covers only shared catalog access                                                                                               | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
 | COMPLETION-CONTRACT: ordinary completion/practice sufficiency                          | Open per-program choices, D-31 skip and completion/mastery separation preserved; no silent threshold defaults                                                 | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
@@ -203,9 +235,10 @@ duplicate the work or run a same-family independent review.
 
 **Current intake result:** T1 is complete; TEACH-T2-PROPOSAL now has
 writer-free proposal/review accepted and D-145–D-147 approved. TEACH-T2A
-isolated correction/scratch validation has returned from Sonnet; do not
-duplicate it or touch production. Codex review and human migration approval
-must precede integration.
+isolated correction/scratch validation has returned from Sonnet and Codex
+changed-hash review is complete; do not duplicate either or touch production.
+The owner approved the exact TEACH-T2A migration/privacy patch; the next role
+is Claude Code Sonnet integrator. Codex must route to that client and stop.
 When an integrator assigns an approved packet, it records its path and
 eligible next role in this index so the other terminal needs only "continue".
 After completing a role, tell the human **SWITCH TO: Codex** or

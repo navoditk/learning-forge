@@ -1,5 +1,30 @@
 # Progress
 
+## 2026-10-10 — Concurrent Grade 6 checkpoint reviewed and relay reconciled
+
+- Copilot GPT-6.1 Sol reviewed documentation-only commits `949da59` and
+  `ed18540` on main. They expand D-148's private draft record from 96 to
+  296 assessment items; no content, runtime, schema or registry change is
+  committed. The drafting session's schema/grader results are recorded
+  evidence, not independent content approval. Private items were not read
+  or independently validated in this checkpoint.
+- The dirty progress log omitted the newly committed drafting section while
+  retaining Codex's T2a review/approval updates. With owner authorization,
+  restored that committed section alongside the Codex entries without
+  replacing unrelated historical edits. The resume index now records the
+  Grade 6 track and its remaining private-package/content/registry gates.
+- Approved T2a patch SHA-256 remains
+  `77cd03a76a7d5c1f0776a4f3e752bd099264f57d033c534d04c230480e46bae6`;
+  `git apply --check` passes against current main `ed18540`. No advisory
+  claim files were present; that is not proof the other terminal is idle.
+  Resume Claude Code only after it stops Grade 6 writes, rereads current
+  instructions and claims the bounded Sonnet T2a integration role.
+- Checks: committed diff contains only PROGRESS and the decision matrix;
+  `git diff --check 4b6a854..ed18540` and explicit decision-matrix Prettier
+  check passed. No runtime, database, browser or provider command was needed
+  for this documentation review. T2a integrated-tree validation remains the
+  next task, not completed here. No implementation, commit or push.
+
 ## 2026-10-10 — Draft assessment content expanded to full D-36 volume (296 items)
 
 - Found that the 96 items drafted in the two prior entries only averaged
@@ -54,6 +79,73 @@
   `COURSE_CATALOG`/`program-registry.ts` (still a concurrent-session
   collision risk on `src/curriculum/course-catalog.ts`, unresolved as of
   this entry).
+
+## 2026-10-10 — T2a approved patch integrated and committed locally (`56ea7b3`)
+
+- Claude Code Sonnet integrator (`claude-sonnet-5-5`) verified the common-Git
+  patch SHA-256 `77cd03a7...e46bae6`, `git apply --check` against `ed18540`,
+  and applied the exact 18-file patch to the main working tree. `git patch-id`
+  of the applied diff equals the approved patch's; no reviewed byte changed,
+  so no new Codex changed-hash review is triggered.
+- Validation in a separate isolated worktree at `ed18540` plus the patch, using
+  a task-created synthetic PG16 container and explicit `DATABASE_URL` (no main
+  `.env`): `db:validate`, `db:generate`, `verify` (87 files / 1,666 tests),
+  `db:deploy`, `test:integration` (244 passed, one existing skip) and
+  `test:migrations` (forward/down/reapply, catalog and seeded guards) passed.
+  Explicit Prettier check of the three changed docs and `git diff --check` passed.
+  The scratch container, worktree and temp dir were removed.
+- Committed locally as `56ea7b3` (18 approved files only) at owner request;
+  not pushed (remote `/resources` CI failure holds push). Outstanding: privacy-inventory operational-
+  telemetry wording minor, diagnostic redaction, D-143/D-144, writer/serving,
+  first-write/release gates and the unrelated `/resources` CI blocker.
+- Next: the packet's row 4 (`/resources` accessibility, Sonnet then Codex). Integrator claim released.
+
+## 2026-10-10 — T2a human approval recorded; Claude integration next
+
+- Owner replied "approved" to the exact reviewed T2a migration/privacy
+  integration request. Approved patch SHA-256:
+  `77cd03a76a7d5c1f0776a4f3e752bd099264f57d033c534d04c230480e46bae6`.
+  The request linked the frozen migration, sibling down script, privacy
+  inventory and evidence addendum and disclosed the remaining risks.
+- TEACH-T2A is now **READY_TO_INTEGRATE**, assigned to Claude Code Sonnet
+  integrator. Codex records the decision and routes the next terminal; no
+  implementation is applied in this approval-record turn. Exact next task:
+  hash/check/apply only the approved patch, preserve other changes and validate
+  the integrated tree with the required synthetic gates. Any changed patch
+  returns to Codex independent review.
+- Writer/serving, D-143/D-144, diagnostics redaction, privacy wording correction
+  and first-write/release evidence remain outstanding. No production database
+  action, deployment or push is authorized by this approval. Documentation
+  formatting and whitespace checks apply to this status update.
+
+## 2026-10-10 — T2a corrected patch reviewed; human migration/privacy gate next
+
+- Codex validated frozen Sonnet patch
+  `77cd03a76a7d5c1f0776a4f3e752bd099264f57d033c534d04c230480e46bae6`
+  on isolated committed baseline `f94148a`, with a task-created PostgreSQL 16
+  container and explicit synthetic databases. `db:validate`, `db:generate`,
+  `verify` (87 files/1,666 tests), migration seeded/catalog/drift and
+  forward/down/reapply checks, `db:deploy`, integration (244 passed/one existing
+  skip), explicit three-document Prettier and whitespace checks passed. Teaching
+  context and linked-event counts were zero after integration. Accepted
+  proposal/T1 input hashes remained unchanged; main schema was untouched.
+- Read-only native Codex `forge-reviewer` (`gpt-6-sol` role selection) completed
+  cross-family changed-hash review of the Claude Sonnet 5.5 correction. R1–R4
+  are closed for this writer-free draft. Verdict: **ready for human migration
+  and privacy review with noted risks**, not approval. Report:
+  `docs/course-progression-review/teaching-t2a-20261010-rereview.md`.
+- One nonblocking privacy wording inconsistency remains: the general
+  operational-telemetry row overstates absence of identifiers in default logs,
+  while the teaching row discloses possible raw-key error diagnostics. A
+  separately reviewed wording fix and an approved, tested diagnostics-redaction
+  policy are required before real teaching writes. D-143/D-144 and writer,
+  serving, concurrency, rollback and release gates remain open.
+- Packet/index now stop at **AWAITING_HUMAN**. Exact next task: human review of
+  frozen T2a `migration.sql`, sibling `down.sql`, privacy inventory and evidence
+  addendum, with explicit approve-or-request-changes decision for main
+  integration. If approved, Claude Code Sonnet integrates only the exact
+  reviewed patch; any changed patch returns to Codex review. No commit, push,
+  production access or deployment occurred.
 
 ## 2026-10-10 — Quota-conserving native relay; corrected T2a ready for Codex review
 
@@ -241,6 +333,77 @@
   session. Historical agents are idle, not ongoing work. Resource browser
   stays stopped. T2 implementation/privacy/migration approval, open teaching
   choices, scoped course authoring and release gates remain pending.
+
+## 2026-10-10 — Portable startup iteration prepared for commit and push
+
+- Owner explicitly authorized commit/push of the current iteration. Scope:
+  root instruction wrappers, README/CLI/relay documentation, resume index,
+  eight native role/default configs and only this iteration's progress entries.
+  Unrelated source, curriculum, teaching/lifecycle foundations and older
+  uncommitted progress changes are preserved outside this commit.
+- Remote/main matched local main at `9420fa1` before committing. Startup
+  configuration and documentation checks passed; native role dispatch still
+  requires verification in the chosen client. This commit does not transfer
+  the full dirty course/T1 state or authorize T2 work.
+
+## 2026-10-10 — Zero-parameter native intake and role models configured
+
+- Added project defaults (`.claude/settings.json` Sonnet,
+  `.codex/config.toml` native GPT Sol) and three thin native forge roles per
+  client: implementer, expert and read-only opposite-family reviewer.
+  Approved native model mappings are unchanged; permissions are not relaxed.
+- AGENTS and Claude entry point automatically read the resume index on the
+  first task turn. Plain `claude` / `codex` plus "continue" if idle requires
+  no pasted handoff instructions or launch-model flags. Native worker
+  dispatch selects the role model; instructions cannot mutate a running
+  parent's model or synthesize paid work at terminal startup.
+- Intake has no approved next task packet yet: T1 is complete, writer-free
+  T2 proposal scope remains to be authorized. No new runtime task, migration
+  or fleet is approved by automatic routing.
+- Installed versions inspected without model calls: Claude Code 2.1.286,
+  Codex CLI 0.155.1. Official native configuration/agent documentation
+  consulted. Static format/config checks apply; actual project trust,
+  discovery and response-model verification remain client runtime checks.
+- Validation passed: Python JSON/TOML parsing and eight-config role/model/
+  reviewer-restriction assertions; targeted Prettier (11 files);
+  `git diff --check`. `codex debug prompt-input` confirmed the new root
+  intake instructions load without inference. It does not expose the native
+  agent registry; a separate description-presence assertion failed because
+  that output contains instruction messages rather than the role registry.
+  Therefore native role discovery/dispatch is **not yet runtime verified**.
+  No paid smoke test, production/provider/database/server operation,
+  runtime source change, commit or push.
+- Next progression issue is still writer-free TEACH-T2-PROPOSAL with explicit
+  scope approval. First native use should verify project trust, role discovery
+  and response-model evidence; report a configuration block if absent rather
+  than executing on a wrong model. Temporary prompt-debug artifact removed.
+
+## 2026-10-10 — Human-operated Claude Code/Codex relay documented
+
+- Added `docs/coding-agent-handoff.md` with the current effective dirty
+  checkout, T1 evidence, outstanding work/dependencies, existing approved
+  native model selections and pasteable resume/role prompts. No new backlog
+  task or runtime stage is authorized by this handoff.
+- Extended `docs/agent-orchestration.md` with explicit executor-to-other-family
+  review routing, bounded role stop conditions, advisory atomic local claims,
+  frozen hashed task packets, one integrator and quota/approval/block messages.
+  Root AGENTS and thin Claude/Copilot wrappers point every client to it.
+- Updated README and the CLI guide; replaced unsafe unconditional switch/pull
+  examples with dirty-baseline/isolation instructions. New worktrees/clones
+  do not inherit accepted uncommitted source or untracked artifacts.
+- Confirmed official instruction discovery documentation: Codex reads AGENTS
+  by hierarchy; Claude supports CLAUDE imports/AGENTS. The existing wrapper
+  setup is retained. No native paid smoke tests or agent fleet was launched.
+  Instructions/claims are advisory, not hard permissions or automatic
+  inter-terminal context transfer.
+- Targeted Prettier on all eight changed files passed; `git diff --check`
+  passed. Read-only audit confirmed required handoff inputs and all five
+  startup links exist, and the accepted contract hash is unchanged. No commit,
+  push, database/provider/server or runtime changes. The integrator releases
+  its own local handoff claim after validation.
+- Next action in either client: use the resume prompt to inspect authority
+  and scope the writer-free T2 proposal. Actual T2 work still needs explicit
+  issue scope; migration execution, privacy choices and writers remain gated.
 
 ## 2026-10-10 — Teaching T1 integrated; database-free verification passed
 
@@ -1302,130 +1465,17 @@ docs/learner-session-lifecycle-design.md` and `git diff --check` passed.
   delivery infrastructure. D-61, C4/C5 and release gates remain unchanged.
   No commit or push authorized for this increment.
 
-## 2026-10-10 — Portable startup iteration prepared for commit and push
-
-- Owner explicitly authorized commit/push of the current iteration. Scope:
-  root instruction wrappers, README/CLI/relay documentation, resume index,
-  eight native role/default configs and only this iteration's progress entries.
-  Unrelated source, curriculum, teaching/lifecycle foundations and older
-  uncommitted progress changes are preserved outside this commit.
-- Remote/main matched local main at `9420fa1` before committing. Startup
-  configuration and documentation checks passed; native role dispatch still
-  requires verification in the chosen client. This commit does not transfer
-  the full dirty course/T1 state or authorize T2 work.
-
-## 2026-10-10 — Zero-parameter native intake and role models configured
-
-- Added project defaults (`.claude/settings.json` Sonnet,
-  `.codex/config.toml` native GPT Sol) and three thin native forge roles per
-  client: implementer, expert and read-only opposite-family reviewer.
-  Approved native model mappings are unchanged; permissions are not relaxed.
-- AGENTS and Claude entry point automatically read the resume index on the
-  first task turn. Plain `claude` / `codex` plus "continue" if idle requires
-  no pasted handoff instructions or launch-model flags. Native worker
-  dispatch selects the role model; instructions cannot mutate a running
-  parent's model or synthesize paid work at terminal startup.
-- Intake has no approved next task packet yet: T1 is complete, writer-free
-  T2 proposal scope remains to be authorized. No new runtime task, migration
-  or fleet is approved by automatic routing.
-- Installed versions inspected without model calls: Claude Code 2.1.286,
-  Codex CLI 0.155.1. Official native configuration/agent documentation
-  consulted. Static format/config checks apply; actual project trust,
-  discovery and response-model verification remain client runtime checks.
-- Validation passed: Python JSON/TOML parsing and eight-config role/model/
-  reviewer-restriction assertions; targeted Prettier (11 files);
-  `git diff --check`. `codex debug prompt-input` confirmed the new root
-  intake instructions load without inference. It does not expose the native
-  agent registry; a separate description-presence assertion failed because
-  that output contains instruction messages rather than the role registry.
-  Therefore native role discovery/dispatch is **not yet runtime verified**.
-  No paid smoke test, production/provider/database/server operation,
-  runtime source change, commit or push.
-- Next progression issue is still writer-free TEACH-T2-PROPOSAL with explicit
-  scope approval. First native use should verify project trust, role discovery
-  and response-model evidence; report a configuration block if absent rather
-  than executing on a wrong model. Temporary prompt-debug artifact removed.
-
-## 2026-10-10 — Human-operated Claude Code/Codex relay documented
-
-- Added `docs/coding-agent-handoff.md` with the current effective dirty
-  checkout, T1 evidence, outstanding work/dependencies, existing approved
-  native model selections and pasteable resume/role prompts. No new backlog
-  task or runtime stage is authorized by this handoff.
-- Extended `docs/agent-orchestration.md` with explicit executor-to-other-family
-  review routing, bounded role stop conditions, advisory atomic local claims,
-  frozen hashed task packets, one integrator and quota/approval/block messages.
-  Root AGENTS and thin Claude/Copilot wrappers point every client to it.
-- Updated README and the CLI guide; replaced unsafe unconditional switch/pull
-  examples with dirty-baseline/isolation instructions. New worktrees/clones
-  do not inherit accepted uncommitted source or untracked artifacts.
-- Confirmed official instruction discovery documentation: Codex reads AGENTS
-  by hierarchy; Claude supports CLAUDE imports/AGENTS. The existing wrapper
-  setup is retained. No native paid smoke tests or agent fleet was launched.
-  Instructions/claims are advisory, not hard permissions or automatic
-  inter-terminal context transfer.
-- Targeted Prettier on all eight changed files passed; `git diff --check`
-  passed. Read-only audit confirmed required handoff inputs and all five
-  startup links exist, and the accepted contract hash is unchanged. No commit,
-  push, database/provider/server or runtime changes. The integrator releases
-  its own local handoff claim after validation.
-- Next action in either client: use the resume prompt to inspect authority
-  and scope the writer-free T2 proposal. Actual T2 work still needs explicit
-  issue scope; migration execution, privacy choices and writers remain gated.
-
-## 2026-10-10 — Remaining 4 of 5 draft assessment-content batches completed
-
-- Continued from the prior entry's first batch (Ratios extension) and
-  drafted the remaining three batches, completing original held-out
-  assessment content for all 24 newly-wrapped lessons across the other
-  four domains: Number System (28 items across 7 skills), Expressions and
-  Equations (32 items across 8 skills), and Geometry and Statistics,
-  drafted together in one batch (28 items across 7 skills: 4 Geometry
-  skills, 3 Statistics skills).
-- Same safety constraint as the first batch: this repository is public,
-  so none of this draft content is committed here. All of it lives only
-  in the session's private scratchpad, **not committed, not pushed** -
-  `assessment-drafts/number-system-assessment-draft.json`,
-  `expressions-and-equations-assessment-draft.json`, and
-  `geometry-and-statistics-assessment-draft.json` (paths are
-  session-local; ask the agent for the live path if resuming this). The
-  product owner must move all four drafted files to the actual private
-  package location and confirm the digest before any of these banks can
-  be wired in, same workflow as the existing pilot banks.
-- All 88 items (8 + 28 + 32 + 28) across the four batches are schema-valid
-  against the real `AssessmentContentItemSchema`, with original contexts
-  distinct from the existing practice items, canonical answers
-  hand-verified by arithmetic (or, for qualitative items, by worked logic)
-  before writing, and each item's declared `misconceptionCodes` drawn from
-  the skill's own existing list with one worked-through distractor per
-  item.
-- **Verified against the real production code, not just the schema:**
-  for every item in every batch, the canonical answer matches via the
-  real `matchesAcceptedAnswer` function, every distractor is correctly
-  rejected by it (zero false accepts across all 88 items), including the
-  composite-validator items that depend on its per-part substring
-  matching. The invented prompt-leakage self-check used partway through
-  the Number System batch was confirmed to be a false-positive-prone,
-  non-production check (see that entry) and was not repeated for the
-  later batches.
-- **Status: drafting is done for all 5 domains / 27 skills.** Still open:
-  wiring the 5 new curriculum-catalog files into `COURSE_CATALOG`/
-  `program-registry.ts` (blocked on a concurrent session's in-flight
-  refactor of those exact files) and the product owner's private-package
-  placement, review, and digest confirmation for all four drafted files
-  above before any assessment bank can go live.
-
 ## 2026-10-10 — UI-3 contract foundation aligned to ADR-0014
 
 - Aligned the disconnected recall-card contract foundation to ADR-0014's
   approved technical limits and literal `recall-card-1` contract version.
   The source-facing schema is now `RecallCardDraftSchema`; the strict DTO
-  is `RecallCardPayloadSchema`, which intentionally omits overlap metadata.
-  The optional overlap-review shape remains present only on the draft
-  schema, as a placeholder for the unresolved source-review workflow.
+  is `RecallCardPayloadSchema`. The DTO intentionally omits readiness refs
+  and any overlap metadata.
 - Added synthetic contract tests for the approved text caps, strict DTO
-  isolation, unknown-field rejection and structural program/skill
-  validation. No loader, delivery, event, session or flag wiring was added.
+  isolation, comparison-friendly plain text, unsafe markup/URL rejection,
+  provenance/review gating, and structural readiness-ref parsing. The
+  contract does not claim catalog integrity; that remains deferred.
 - Remaining unresolved prerequisites are still R8, R9 and R10 from the
   ADR: version-bound overlap verdict representation, flag/capability
   carrier and exposure content-id namespace. Those stay out of this
@@ -1685,489 +1735,6 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   unit/contract tests + production build), and
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
-
-## 2026-10-10 — First batch of draft held-out assessment content (Ratios extension)
-
-- Started drafting the real assessment content the 24 new non-Ratios
-  lessons need (see the prior two entries). **Safety check first: this
-  repository is public on GitHub** (confirmed via `gh repo view`). Draft
-  assessment content, even in `pending_review` status, can never be
-  committed here - per the existing held-out (Branch B, `D-01`) decision,
-  that would be a real leak the moment it's pushed, not a hypothetical
-  one. The existing `grade-6-math-assessments-draft-v2.json` was
-  confirmed (via `git log`/`git grep`) to have never been committed
-  either - same precedent.
-- Drafted 8 original items (4 per skill) for the two Ratios-extension
-  lessons (`double-number-lines`, `percent-applications`) into the
-  session's private scratchpad - **outside the repository, not
-  committed, not pushed** - at
-  `assessment-drafts/ratios-extension-assessment-draft.json` (path is
-  session-local; ask the agent for the live path if resuming this).
-  The product owner must move it to the actual private package location
-  and confirm the digest before these banks can be wired in, same
-  workflow as the existing pilot banks.
-- All 8 items are schema-valid against the real
-  `AssessmentContentItemSchema` (verified by parsing, not eyeballing),
-  original contexts distinct from the existing practice items, with
-  canonical answers hand-verified by arithmetic before writing. Each
-  item's declared `misconceptionCodes` come from the skill's own
-  existing list, each with one worked-through distractor.
-- **Verified against the real production code, not just the schema:**
-  every canonical answer matches via the real `matchesAcceptedAnswer`
-  function, every distractor is correctly rejected by it (zero false
-  accepts), and no item's prompt contains any of its own
-  `forbiddenLeakagePatterns` substrings (zero leaks).
-- This is the first of five planned batches (one per domain); the
-  other ~21 lessons' worth of assessment content (Number System,
-  Expressions and Equations, Geometry, Statistics) have not been
-  drafted yet.
-
-## 2026-10-10 — All 5 Grade 6 Math domains now wrapped into Lesson/Unit records
-
-- Continued the wrapping started in the prior entry across the three
-  remaining domains: `number-system-catalog.ts` (7 lessons: multi-digit
-  division, GCF/LCM, fraction/decimal operations, division of fractions,
-  negative numbers and absolute value, coordinate plane, coordinate
-  distance), `expressions-and-equations-catalog.ts` (8 lessons:
-  variables and expressions, whole-number exponents, variables in
-  context, dependent/independent variables, equation and inequality
-  meaning, equivalent expressions, one-variable equations, real-world
-  inequalities), `geometry-catalog.ts` (4 lessons: composite-shape area,
-  prism volume, surface area and volume, coordinate geometry), and
-  `statistics-catalog.ts` (3 lessons: statistical questions,
-  distributions, center and variability).
-- **All 27 Grade 6 Math skills are now wrapped**, across 5 new/extended
-  units, each reusing its already-reviewed production practice content
-  verbatim (no new problems authored). Lesson order within each domain
-  follows the real skill prerequisite chain (e.g.
-  `fraction-decimal-operations` before `division-of-fractions`;
-  `equation-and-inequality-meaning` before `one-variable-equations` and
-  `real-world-inequalities`).
-- Each new file is standalone (not merged into `course-catalog.ts`/
-  `program-registry.ts`), for the same two reasons as the prior entry:
-  a concurrent session is still actively editing those exact files, and
-  every lesson still needs a real held-out assessment bank this public
-  repository can never hold the actual items for - that remains the one
-  genuine piece of new authoring work left, not something wrapping
-  avoids.
-- 12 new tests (3 per domain file) verify: full skill coverage with one
-  lesson each, the unit's `lessonRefs` matching in prerequisite order,
-  and - the actual falsifier - that every practice-content reference's
-  pinned hash is the real SHA-256 of its already-reviewed file (computed
-  independently via `shasum -a 256` before writing each record, not
-  copied from any existing pin).
-- Verification: `npx tsc --noEmit`, `npm run lint`, and `npm run verify`
-  (1562 tests + build) all pass clean.
-- **Status: the mechanical wrapping of all 27 skills is done.** Still
-  open: wiring these 5 domains into `COURSE_CATALOG`/`program-registry.ts`
-  (blocked on the concurrent session's refactor settling) and authoring
-  real held-out assessment content for the 24 lessons that need it
-  (blocked on actual authoring + the product owner's private-package
-  placement and digest confirmation, same workflow as the existing
-  Ratios banks).
-
-## 2026-10-10 — Started extending the rich course structure beyond Ratios
-
-- Product owner redirected priority: stop treating C4's shadow-traffic
-  gate as the thing to wait on, and prioritize a fully working rich
-  course structure across all of Grade 6 Math instead - shadow traffic
-  is only useful once there is a real curriculum for it to observe.
-- **Key finding that changes the scope:** the legacy v3 system already
-  has fully-authored, reviewed content for all 27 Grade 6 Math skills
-  (Ratios 5, Number System 7, Expressions & Equations 8, Geometry 4,
-  Statistics 3) - including the 2 skills even the Ratios pilot itself
-  was missing (`double-number-lines`, `percent-applications`). Building
-  the rich interface for the rest of the curriculum therefore does not
-  mean authoring new practice problems - it means wrapping already-
-  reviewed content into Lesson/Unit records, which is a mechanical task.
-- **Hard constraint found:** `validateProgressionCatalog` requires every
-  Lesson to resolve a real `AssessmentBank` with a positive `itemCount`
-  and a real pinned SHA-256 `contentHash`. Per this project's existing
-  held-out (Branch B, `D-01`) decision, assessment items can never live
-  in this public repository - so every new lesson still needs real
-  assessment content authored and placed in the private package before
-  it can actually validate, same workflow as the existing pilot banks.
-  This is genuine remaining work, not something that can be wrapped
-  away like the practice content.
-- **Collision-risk finding:** `src/curriculum/course-catalog.ts` (a new,
-  general multi-unit abstraction replacing the old single-array
-  `PILOT_LESSONS`/`PILOT_UNITS` pattern), `program-registry.ts`,
-  `pilot-catalog.ts`, and `src/progression/pilot-progress.ts`/
-  `learner-state.ts` are all currently uncommitted and being actively
-  edited by a concurrent session right now - exactly the subsystem
-  needed to wire in new units. Editing them now risks a real collision,
-  not a hypothetical one.
-- **What was actually done, with zero collision risk:** new standalone
-  `src/curriculum/ratios-extension-catalog.ts` wraps the Ratios domain's
-  2 missing skills into real `Lesson` records, reusing the already-
-  reviewed `content/ratios/*.json` practice items verbatim (no new
-  problems). New `tests/curriculum/ratios-extension-catalog.test.ts` (3
-  tests) proves the practice-content hashes are the real SHA-256 of
-  those files (the same falsifier `placement-probe.test.ts` already uses
-  for the existing pilot lessons) and documents that wiring-in is
-  deliberately not done yet.
-- **Explicitly not done, and why:** these 2 lessons are not wired into
-  the program's `unitRefs`/`COURSE_CATALOG` construction (blocked on
-  the concurrent-session collision risk above, and would fail to
-  validate anyway without a real assessment bank for each). The other
-  22 skills across the remaining 4 domains are not yet wrapped at all.
-- Verification: `npx tsc --noEmit`, `npm run lint`, and `npm run verify`
-  (1550 tests + build) all pass clean. The new test file's hash
-  assertions are a genuine falsifier, not a tautology - confirmed by
-  computing the SHA-256 of the actual files independently
-  (`shasum -a 256`) before writing them into the record.
-
-## 2026-10-10 — C5: Playwright/accessibility coverage for the override UI; found and fixed a real bug
-
-- Built the Playwright E2E coverage flagged as missing in the prior entry.
-  Standing up a real `NEEDS_HELP` state needs several consecutive failed
-  pilot-skill assessments (D-69's stranding threshold) - slow and tests
-  the stranding threshold, not this UI - so added
-  `playwright/seed-needs-help.ts`, seeding `LearnerLessonState` directly
-  the same way `global-setup.ts` already touches Prisma directly from
-  Playwright infra (never from inside a `.spec.ts` file).
-- New `tests/browser/needs-help-override.spec.ts` (6 tests): the control
-  shows only for the lesson that needs help, focus moves into each
-  revealed form (E8), a wrong password is rejected with `role="alert"`
-  and never reaches the override endpoint, the reason field is required,
-  a successful override shows a `role="status"` confirmation and the
-  control disappears, keyboard-only activation works, cancel is a true
-  no-op, and axe finds no WCAG AA violations in any of the three UI
-  states (closed, password step, reason step).
-- **Found a real bug while writing the first passing version of this
-  test, not a test artifact:** the success confirmation message lived in
-  `NeedsHelpOverride`'s own local state, but that component's render
-  condition in the parent is the exact state change a successful
-  override causes (`remediationStatus` leaving `NEEDS_HELP`) - so React
-  unmounts it immediately on success, destroying the message before a
-  real user could ever see it. Fixed by moving the message to the
-  parent (`onApplied(message: string)` instead of `onApplied()`), which
-  owns a state slot that survives the child unmounting.
-- Also hit two real Playwright locator ambiguities worth noting: the
-  button text uses curly quotes (`&ldquo;`/`&rdquo;`) that must match
-  exactly in `getByRole` name matching, and `getByLabel('Reason')`
-  without `{ exact: true }` also matches the unrelated "Ratios and
-  proportional reasoning" heading (substring match on "reason").
-- Also found and fixed an unrelated environmental blocker: a stale
-  `next-server` process had been running on port 3000 for over an hour
-  without `DATABASE_URL` in its own environment, so local Playwright
-  runs (which reuse whatever's already on that port) were silently
-  failing login in `global-setup.ts` for _any_ spec, not just the new
-  one. Confirmed with the product owner before stopping it, then all
-  specs passed normally.
-- Verification: full `npx playwright test` (73 tests) - 71 passed, 1
-  skipped, 1 failed (`resources.spec.ts`'s "external links are labelled"
-  test - the other concurrent session's in-progress feature, untouched
-  here). `npx tsc --noEmit`, `npm run lint`, `npm run verify` (1532
-  tests), and `DATABASE_URL=<local scratch> npm run test:integration`
-  (30 files, 189 tests, 1 intentionally skipped) all pass clean.
-- **C5 is now substantially complete** for the pilot unit: read-only
-  progress panel, step-up/override UI, and accessibility/keyboard/focus
-  coverage for all of it. Still open: the rest of course-progression's
-  own stage dependencies (C4's real cutover, then D-stages for the other
-  four domains).
-
-## 2026-10-10 — C5: parent-facing step-up/override UI built
-
-- Closes the "Build the parent-facing screens for the D-70 step-up and
-  override APIs" gap `docs/course-progression-handoff.md` had tracked
-  as still open - the routes (`src/app/api/progression/step-up`,
-  `.../override`) existed and were tested, but nothing in the UI called
-  them.
-- New `src/app/components/needs-help-override.tsx`: a two-step flow
-  matching the server's own two-call contract (password
-  re-verification, independent of and strictly before the override
-  reason, so a wrong password never reaches the override endpoint with
-  a reason attached). Moves focus to each newly-revealed form's first
-  field (E8); uses `role="alert"`/`role="status"` for error/success
-  announcements.
-- `src/progression/pilot-progress.ts`'s `getPilotProgression` now
-  exposes each lesson's `skillRefs` - the override API takes a skill
-  ref, not a lesson ref, and this was previously missing from the
-  payload entirely, so the parent UI had no way to call it without a
-  second lookup. New integration test
-  (`pilot-progress-skill-refs.test.ts`) proves every pilot lesson
-  resolves to a real, well-formed skill ref.
-- Wired into `src/app/parent/page.tsx`: shows the override control only
-  when `lesson.remediationStatus === 'NEEDS_HELP'`, refreshes course
-  progress on success via the existing fetch, extracted into
-  `loadCourseProgress`.
-- **Not yet built**: Playwright E2E coverage for the full flow. Standing
-  up a real `NEEDS_HELP` state requires driving several consecutive
-  failed pilot-skill assessments (D-69's stranding threshold) through
-  the browser, or a test-only DB seed seam - a nontrivial fixture in
-  its own right, flagged rather than skipped silently. C5's own
-  accessibility-scan requirement for this new surface is also still
-  open.
-- Verification: `npx tsc --noEmit`, `npm run lint`, `npm run build`,
-  `npm run verify` (1532 tests), and `DATABASE_URL=<local scratch> npm
-run test:integration` (30 files, 189 tests passed, 1 intentionally
-  skipped) all pass clean.
-
-## 2026-10-10 — C4 steps 5-6 built, tested, off by default (step 4 deferred)
-
-- Product owner chose option 3 after the step-4-migration sequencing
-  concern: skip the schema migration until the drain is actually
-  verified in production, and keep building the gated app-code side.
-- **Step 5 ("enforce"):** refactored `writeShadowDecision`'s input-
-  assembly into a shared `resolveProgressionAuthorizationInput`, so
-  enforcement can never compute a different decision than shadow mode
-  already observed and recorded - the exact invariant architecture.md
-  §11.4c requires. New `enforceProgressionAuthorizationOrThrow` calls
-  `authorizeProgramActivity` (the same function `buildShadowDecision`
-  calls internally) and throws `ProgressionAuthorizationDeniedError`
-  with the decision's own reasonCode (e.g. `LOCKED_PREREQUISITE`) when
-  denied. New `isC4AuthorizationEnforced()` flag
-  (`COURSE_PROGRESSION_C4_AUTHORIZATION_ENFORCED`), same default-off
-  pattern as step 3's flag, independent of it.
-- **Step 6 ("remove bypass"), preparation only:** added a POST handler
-  to `src/app/api/phase1/session/route.ts` with the exact same
-  `startSession` logic as GET (shared `handleStartSession`), fully
-  tested. **GET is deliberately not removed** - `src/app/page.tsx`
-  still calls this route with GET today, and removing it now would
-  break every real learner request immediately, regardless of any
-  flag. Actually retiring GET is a coordinated client+server change at
-  the real cutover, not something this change does.
-- 12 new tests (8 integration, split across the existing D-62 shadow
-  fixtures reused for the "off leaves behavior unchanged" /
-  "on refuses with the shadow-observed reasonCode" pairing, plus 4
-  route-level tests for both GET and the new POST path, including a
-  `.strict()` schema rejection test for an unexpected field).
-- Verification: `npx tsc --noEmit`, `npm run lint`, `npm run verify`
-  (1532 tests + build), and `DATABASE_URL=<local scratch> npm run
-test:integration` (29 files, 188 tests passed, 1 intentionally
-  skipped) all pass clean.
-- **Still deferred, unchanged from the prior entry**: step 4's contract
-  migration, held until the real drain is verified in production -
-  this repo auto-deploys from `main`, so that migration is not written
-  yet, by design, not oversight.
-
-## 2026-10-10 — C4 step 3 ("reject residue") built, tested, off by default
-
-- Product owner asked to proceed on C4/C5 engineering without waiting for
-  the shadow-review gate to close, with the explicit understanding that
-  actually flipping enforcement live still requires that gate plus the
-  C4 runbook's other preconditions - this entry is engineering only, no
-  production behavior change.
-- Implemented Stage C4 step 3 (architecture.md §11.4a, "reject residue"):
-  a brand-new (non-resumed) `startSession` request that would require an
-  assessment assignment this entry point never carries is now refused
-  with a distinguishable `SessionUnboundError` (`reasonCode:
-SESSION_UNBOUND`) instead of silently created, reusing the existing
-  `contentSessionRequiresAssignment` predicate from
-  `cutover-readiness.ts` prospectively rather than retrospectively.
-- New `isC4SessionBindingEnforced()` flag
-  (`COURSE_PROGRESSION_C4_SESSION_BINDING_ENFORCED`), mirroring every
-  other provider/notifier selector in this codebase: explicit opt-in,
-  fails closed to today's unchanged behavior. Not set anywhere in
-  `render.yaml`; turning it on is a deliberate operator action at actual
-  cutover time, not something this change enables by itself.
-- `src/app/api/phase1/session/route.ts` now maps `SessionUnboundError` to
-  a 409 with `reasonCode: SESSION_UNBOUND`, instead of the generic 400
-  every other `startSession` failure gets - matching the project's
-  existing `reasonCode`-driven refusal convention
-  (`src/app/api/progression/override/route.ts`).
-- 13 new tests across 3 files prove both directions: flag off leaves the
-  existing D-62 behavior byte-identical (a direct pilot-skill
-  PLACEMENT/REVIEW request still succeeds, matching the pre-existing
-  shadow-only test immediately above it in the same file); flag on
-  refuses the same request with zero new session rows created, never
-  refuses PRACTICE or non-unit-claimed skills, and never retroactively
-  refuses an already-existing resumed session. A dedicated route test
-  confirms the HTTP-layer mapping.
-- **Flagged explicitly, not yet started**: step 4 (the contract
-  migration making binding columns non-nullable) is a real schema
-  change that would be unsafe to apply before the actual drain has
-  happened in the real production database - unbound rows genuinely
-  exist there today. Since this repo auto-deploys from `main`, this
-  needs a deliberate conversation about sequencing before any migration
-  file for it is even committed, let alone applied.
-- Verification: `npx tsc --noEmit`, `npm run verify` (1531 tests +
-  build), and `DATABASE_URL=<local scratch> npm run test:integration`
-  (29 files, 180 tests passed, 1 intentionally skipped) all pass clean.
-
-## 2026-10-10 — Grade 6 Math v2 candidate, Revision 20: 6.RP.A.3d closed, deeper m5/m7 audit
-
-- **`6.RP.A.3d` closed** - previously structurally blocked by the
-  two-records-per-skill limit. Fixed by combining two sub-parts into one
-  item instead: `v2-rate-percent-discount` replaced by
-  `v2-rate-percent-and-conversion` (convert 2 quarts to 8 cups, then find
-  150% of that), covering percent (`6.RP.A.3c`) and unit conversion
-  (`6.RP.A.3d`) together. All four `6.RP.A.3` sub-parts are now covered
-  by this skill's two records. Added `skips-unit-conversion-before-
-scaling` (54 codes, in sync). Verified against the real
-  `matchesAcceptedAnswer` (exact, reworded, both missing-clause
-  rejections, both distractor rejections).
-- **m5 deeper pass:** heuristic-scanned every skill's pair for
-  difficulty-band inversions, manually judged each flagged pair. Found
-  and fixed one genuine inversion: `polygon-area`'s decomposition item
-  (the skill's own defining technique) was labeled easier than its
-  single-formula sibling - swapped.
-- **m7 deeper pass:** checked for numeric-value equivalence between
-  distractors and canonical answers (catching notation differences a
-  literal substring scan would miss), not just string overlap. Found 11
-  matches; all were either the misconception itself (reversed order,
-  swapped base/exponent, wrong unit type on an unchanged number) or a
-  genuinely different pedagogical claim once read in context. No fix
-  made - still not claimed exhaustive.
-- Verification: `npx tsx experiments/grade-6-math-v2/validate.ts`, `npm
-run format:check`, `npm run lint`, `npx tsc --noEmit`, `npm run
-content:validate` (50 tests), and `npm run verify` (1524 tests +
-  build) all pass clean.
-
-## 2026-10-10 — Anthropic spend limit set; cost-estimate math recorded
-
-- Product owner asked why an Anthropic spend limit was needed once
-  curriculum is built, and what eliminating Anthropic entirely would
-  take. Explained that the live model is called on every hint request in
-  production (not just during authoring) for two reasons: reacting to the
-  learner's own free-text message, and live safety-flag detection on that
-  text - and that `FakeTutorModel` already exists but does neither.
-- **Cost estimate, grounded in actual code** (confirmed Haiku 4.5 pricing
-  directly from claude.com/pricing: /MTok input, /MTok output):
-  roughly 500 input + 110 output tokens per hint request
-  (`src/tutor/anthropic-model.ts`'s actual system/user prompt and tool
-  schema) ≈ /bin/zsh.001/request. At a realistic ~10 hints/day, about
-  /bin/zsh.30/month; even at the app's own enforced `TUTOR_DAILY_HINT_LIMIT=100`
-  hit every day for a month, about .15/month - both far under
-  ADR-0009's "well under /month" target. `scoreConstructedResponse`
-  is defined but not called from any production route, so it adds
-  nothing.
-- Scoped what a fully deterministic, Anthropic-free tutor would take:
-  serving the already-authored `hintSteps`/`solutionMethod` content
-  directly (currently used only for the leak-check scan, never served) is
-  the easy, low-risk part; replacing live semantic safety-flag detection
-  with a keyword/pattern classifier is the hard part and a real
-  recall/false-positive trade-off that would need its own explicit
-  risk-acceptance decision, not a silent swap. Recommended keeping
-  Anthropic given the real cost is negligible - product owner agreed.
-- **Spend limit set 2026-10-10** (product owner, in chat): /month,
-  usage alerts at and . Recorded in `docs/operations.md` (closes
-  its one remaining console-only action and its "Current status" line)
-  and `docs/pilot-readiness-checklist.md`'s Operations row, which this
-  closes in full.
-- Documentation-only change: `npx prettier --check` and `git diff
---check` on both edited docs pass clean; no code or runtime behavior
-  changed.
-
-## 2026-10-10 — Formal legal review risk-accepted at current scale
-
-- Product owner asked why legal review was needed for a tool built for
-  their own kids. Explained the actual reasoning rather than just citing
-  the checklist row: COPPA's "operator" model assumes separation between
-  the data-collecting party and the parent, which doesn't hold when the
-  product owner is simultaneously the sole operator and the learner's own
-  parent/guardian (already the basis for ADR-0008's informal consent);
-  FERPA requires a school/educational-agency affiliation that doesn't
-  exist here; the one real third-party data flow (Anthropic) is the same
-  category as using any commercial SaaS tool with a child logged in under
-  a parent's own account, and Anthropic's own minors-serving requirements
-  are already met.
-- **Product owner explicitly accepted this as low risk at the current
-  single-household scale** and asked to move forward without commissioning
-  counsel now.
-- Recorded as a conscious risk-acceptance decision, not a legal
-  conclusion or compliance claim, in a new "Risk-acceptance decision"
-  section in `docs/legal-review-briefing.md`, with the exact revisit
-  trigger (second household, self-service sign-up, monetization, school
-  affiliation - identical to `docs/consent-notice.md`'s). Corrected two
-  now-stale "known gaps" bullets in that same document (consent and
-  safety-notification are both now addressed, just not in the form those
-  bullets described). Updated the Provider terms and Data inventory rows
-  of `docs/pilot-readiness-checklist.md` accordingly.
-- The open questions for counsel in `docs/legal-review-briefing.md`
-  remain unanswered and ready to use if the revisit trigger is ever hit -
-  this is explicitly not a closed legal question, only an accepted risk
-  at today's scale.
-- Documentation-only change: `npx prettier --check` and `git diff
---check` on both edited docs pass clean; no code, schema, or runtime
-  behavior changed.
-
-## 2026-10-10 — C4 shadow-traffic prep: fixed the wrong export command, verified the tooling
-
-- The C4 blocker is unchanged in substance - `docs/course-progression-review/shadow-divergence-review.md`
-  still needs real representative production shadow traffic to accumulate
-  and be dispositioned, which only the product owner can run (no
-  production DB access from this session, per `AGENTS.md`). What moved:
-  the tooling for that step is now verified working end to end, and a
-  real documentation bug in the runbook is fixed.
-- **Found and fixed:** the review doc's "Readiness command" pointed at
-  `npm run progression:readiness`, which only prints aggregate counts.
-  `npm run progression:shadow-review` (`scripts/export-progression-shadow-
-review.ts`) is the one that also prints the full redacted
-  `shadowReview.divergences` array - the actual per-row data (decision id,
-  target, shadow vs. actual decision, reason code) the disposition table
-  needs to be filled in at all. The wrong command would have given the
-  product owner only counts, with no way to fill the table.
-- **Verified end to end against local/staging data** (not production):
-  ran the existing `PROGRESSION_SHADOW_RUN_ENVIRONMENT=staging npm run
-progression:shadow-pilot` synthetic harness (8 requests, 4 divergent),
-  confirmed `progression:shadow-review` prints all 4 divergences with
-  full redacted detail and `reviewStatus: "UNREVIEWED"`, built a
-  dispositions file marking all four `EXPLAINED`, and confirmed
-  `SHADOW_REVIEW_DISPOSITIONS_FILE=<path>` correctly flips both
-  `shadowReview.reviewComplete` and the top-level
-  `readyForIndependentReview` to `true`.
-- Confirmed the representative window opened at deploy
-  `dep-daurfsc9v7es73bkocv0` (2026-10-01) is still valid: no commits
-  touching `src/progression/` (predicate/policy code) have landed since,
-  so nothing requires resetting the window per the doc's own rule.
-- Rewrote the review doc's run record and added a numbered procedure
-  (safety caveat, empty-set handling, disposition-file round trip,
-  pointer to existing staging-disposition precedent for common reason
-  codes) so the product owner can execute this themselves without
-  needing to re-derive the steps. Added a cross-reference from
-  `docs/local-development.md`.
-- **Still genuinely blank, unchanged**: real production traffic has not
-  been pulled or dispositioned. This needs the product owner to run the
-  corrected command against the real Render database and either fill the
-  table themselves or paste the redacted JSON output back (confirmed
-  schema-safe: no household id, learner id, prompt, answer, or free text).
-
-## 2026-10-10 — Child-safety notification gap closed
-
-- Closed the "actual human-notification step when a flag fires" gap
-  tracked in `docs/course-progression-review/child-safety-acceptance.md`'s
-  first reinforcement requirement and the Child safety pilot-readiness row.
-  Product owner chose email via Resend (asked via AskUserQuestion) over a
-  webhook or log-only option.
-- `src/tutor/harness.ts`: `TutorResponse` gained a `safetyFlagged: boolean`
-  field, true if _either_ attempt (including a retry that then recovered
-  cleanly) was flagged `needs_human_review` - the flag is evidence about
-  the learner's message, not the model's retry phrasing.
-- `src/contracts/notification.ts`: `NotifierPort` gained
-  `sendSafetyAlert(input: SafetyAlertInput)`, carrying only trace id,
-  household id, policy version, and timestamp - never learner text.
-- New `src/notification/provider-config.ts` + `create-notifier.ts` mirror
-  `src/tutor/provider-config.ts`/`create-model.ts`'s explicit-opt-in
-  pattern exactly: `NOTIFIER_PROVIDER` defaults to `console` (log-only)
-  everywhere it isn't explicitly set to `resend`, including tests/CI: new
-  `src/notification/resend-notifier.ts` sends real email via Resend's REST
-  API (no SDK dependency - one `fetch` call) once `RESEND_API_KEY`,
-  `SAFETY_ALERT_EMAIL_FROM`, and `SAFETY_ALERT_EMAIL_TO` are set.
-- `src/phase1/service.ts`'s `recordTutorResponse` now calls
-  `notifier.sendSafetyAlert` whenever `response.safetyFlagged`, injectable
-  via an optional parameter (defaults to `createNotifier()`) for testing.
-  Best-effort, matching `recordAuditEvent`'s pattern: a failed send is
-  caught and logged, never thrown, so it can't block the safety fallback
-  that already happened.
-- Updated `docs/incident-response.md`, `docs/tutor-policy.md`,
-  `docs/course-progression-review/child-safety-acceptance.md`, and
-  `docs/pilot-readiness-checklist.md`'s Child safety row.
-- **Still pending**: the product owner has not yet created a Resend
-  account or set `NOTIFIER_PROVIDER=resend` with real credentials in the
-  actual Render deployment, so production still runs on the log-only
-  default until that's done.
-- Verification: `npx tsc --noEmit`, `npm run verify` (476 tests +
-  production build), and `DATABASE_URL=<local scratch> npm run
-test:integration` (28 files, 174 tests passed, 1 intentionally skipped)
-  all pass clean. New tests: `tests/notification/notification.test.ts`
-  (14 tests, including a mocked-fetch `ResendNotifier` success/failure
-  case), `tests/tutor/tutor.test.ts` (added `safetyFlagged` assertions to
-  the existing safety-flag cases plus a new negative case),
-  `tests/phase1/safety-alert.test.ts` (3 new integration tests proving the
-  exact wiring: called when flagged, never called when not, best-effort on
-  failure).
 
 ## 2026-10-10 — Render processor terms researched
 

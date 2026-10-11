@@ -1,16 +1,26 @@
 # TEACH-T2A
 
-Phase: **AWAITING_REVIEW / CORRECTED ISOLATED DRAFT ONLY**.
+Phase: **INTEGRATED / validated; committed locally as `56ea7b3`, not pushed**.
 
-Next client: **Codex**.
-Next role: **parent synthetic validator/integrator, then read-only
-`forge-reviewer` (`gpt-6-sol`)**.
+Next client: **Claude Code**: `/resources` accessibility task (needs UI scope).
+Integration role complete (Claude Code Sonnet, 2026-10-10).
 Author family: **Claude**, runtime executor `claude-sonnet-5.5`.
-Stop after: **changed-hash review report**. If changes, assign Claude Code
-Sonnet correction; if ready, set `AWAITING_HUMAN` and request migration/privacy
-approval. Claude Code opened now must advise switching to Codex and stop.
+Stop after: **integration checkpoint and applicable synthetic validation**.
+Changed implementation must return to Codex `forge-reviewer`; do not advance
+to writers, serving, deployment or push.
 
 ## Owner authorization
+
+**Current approval:** on 2026-10-10 the owner replied "approved" to the
+immediately preceding request for migration/privacy main integration of exact
+patch `77cd03a76a7d5c1f0776a4f3e752bd099264f57d033c534d04c230480e46bae6`.
+That request linked the frozen `migration.sql`, `down.sql`, privacy inventory
+and evidence addendum and disclosed the remaining risks. This clears the
+human migration/privacy integration gate for that patch only. Claude Code
+Sonnet is the assigned integrator; the Codex status integrator records the
+approval and stops at the client relay.
+
+The original isolated-draft authorization and chronology follow.
 
 2026-10-10 approval form accepted the independently reviewed T2 proposal,
 D-145 retained actor FK, D-146 raw opaque token (UUIDv4 is proposed only for
@@ -69,8 +79,8 @@ explicit catalog checks. State what remains unverified. Freeze allowlisted
 patch/artifacts with SHA-256, preserve inputs and release only worker claim.
 Return evidence to GPT reviewer; do not integrate or claim reviewed down.sql.
 
-Next: **Codex changed-hash review of returned R1–R4 corrections**, then
-human migration/privacy approval before integration.
+At that correction checkpoint, the next role was Codex changed-hash review;
+the completed disposition and current human gate are recorded below.
 No next-stage writer or serving work.
 
 ## Frozen implementation returned
@@ -224,3 +234,65 @@ Integrator records actual reviewer model/family, reviewed full hash, results,
 R1–R4 dispositions and residual risks in the review report, PROGRESS and index.
 Then release only its own claims and give the next terminal/approval step.
 No paid Copilot review worker or implementation fleet is needed for this relay.
+
+## Changed-hash review returned; human gate pending
+
+Review: `docs/course-progression-review/teaching-t2a-20261010-rereview.md`.
+The Codex `forge-reviewer` selected `gpt-6-sol` and completed a read-only
+cross-family review of exact patch
+`77cd03a76a7d5c1f0776a4f3e752bd099264f57d033c534d04c230480e46bae6`
+on `f94148a`. Verdict: **ready for human migration and privacy review with
+noted risks**; R1–R4 are closed for this writer-free draft. The reviewer made no
+edits or database calls. The integrator independently validated an isolated
+copy: `db:validate`, `db:generate`, `verify` (1,666 tests), migration round
+trip/catalog/seeded guards, `db:deploy`, integration (244 passed, one existing
+skip), explicit document formatting and whitespace checks all passed on
+task-created synthetic databases. No main schema integration occurred.
+
+The reviewer found one nonblocking minor inconsistency: the general
+operational-telemetry row in `docs/privacy-inventory.md` overstates default
+log exclusion while the teaching row correctly discloses possible raw-key
+error diagnostics. Record a separately reviewed privacy wording correction.
+Real teaching writes remain blocked pending an approved, tested redaction
+policy covering ORM/application/database diagnostics. D-143/D-144, writer and
+serving decisions and production/concurrency/rollback evidence remain open.
+
+**Human decision now required:** review the exact frozen
+`prisma/migrations/0018_add_teaching_delivery_context/migration.sql` and
+`down.sql`, `docs/privacy-inventory.md` and
+`docs/teaching-persistence-t2a-evidence-addendum.md` against the accepted
+proposal, then explicitly approve T2a migration/privacy integration or request
+specific changes. Passing tests and reviewer recommendation are not approval.
+If approved, the next role is Claude Code Sonnet integrator for exact-patch
+integration only; any changed patch returns to Codex independent review. No
+writer, serving, deployment or push follows from this decision.
+
+## Human approval returned; integration relay
+
+The owner's "approved" response accepts the exact reviewed T2a migration and
+privacy patch for main integration, including its sibling `down.sql`, with the
+risks recorded in `teaching-t2a-20261010-rereview.md`. No new runtime diagnostic
+implementation, writer, route, serving, provider, production database action,
+deployment or push is authorized by this response.
+
+**SWITCH TO: Claude Code, Sonnet integrator, TEACH-T2A.** Read the live index
+and this packet, verify actual Sonnet selection and claims, preserve existing
+changes, verify the common-Git patch hash and use `git apply --check` against
+the current baseline before applying only the frozen allowlist. Main HEAD at
+review completion was `4b6a854b834ddf09dc4f4f21e8ac4582d1560931`; re-read it.
+Validate the integrated result with the required code and synthetic persistence/
+migration gates in a task-created environment with an explicit connection.
+If collisions require changing the reviewed patch, stop for Codex changed-hash
+review. Finish with evidence and a durable integration checkpoint. D-143/D-144,
+diagnostic redaction, the privacy wording minor and first-write/release gates
+remain outstanding.
+
+## Integration completed (2026-10-10)
+
+Claude Code Sonnet integrator applied exact patch `77cd03a7...e46bae6`
+(patch-id identical) to main at `ed18540`; committed locally as `56ea7b3` at owner request. Isolated
+validation on a task-created PG16 passed: verify 1,666 tests; integration 244
+passed + one existing skip; migrations round trip; deploy/validate/generate;
+doc formatting. Scratch resources removed. No writer, serving, push or commit.
+Remaining: privacy wording minor, diagnostic redaction, D-143/D-144, first-write
+and release gates. Push remains held.
