@@ -6,6 +6,38 @@ compliance with COPPA, FERPA, or any state law. It summarizes, with pointers
 to the underlying evidence, so counsel can start from facts instead of a
 blank page.
 
+## Risk-acceptance decision (2026-10-10)
+
+**The product owner reviewed the reasoning below and explicitly accepted
+formal legal review as low risk at the current scale, rather than
+commissioning counsel now.** This is a conscious risk acceptance, not a
+legal conclusion, and not a claim of compliance:
+
+- COPPA's "operator" model assumes separation between the data-collecting
+  party and the parent; here the product owner is simultaneously the sole
+  operator and the learner's own parent/guardian, with no second household
+  and no public sign-up (ADR-0008). The informal-consent basis already
+  reflects this (`docs/consent-notice.md`).
+- FERPA applies to schools/educational agencies receiving federal funding;
+  this is a personal household tool, not an educational institution, so
+  FERPA is very unlikely to apply at all.
+- The one genuine third-party data flow (learner text to Anthropic's API)
+  is the same category as using any commercial SaaS tool with a child
+  logged in under a parent's own account; Anthropic's own minors-serving
+  requirements (disclosure, safety education, public privacy statement)
+  are already met (see "Current safeguards" below).
+- **Revisit trigger — identical to `docs/consent-notice.md`'s**: before a
+  second household, a self-service sign-up flow, monetization, any school
+  affiliation, or any party other than the learner's own parent/guardian
+  gaining the ability to create an account. At that point this risk
+  calculus no longer holds and this document's open questions (below)
+  should actually go to counsel before proceeding.
+
+This closes the "formal legal review" row of
+`docs/pilot-readiness-checklist.md` as an accepted-risk decision, not a
+completed review. The open questions below remain unanswered and should
+still be counsel's starting point if the revisit trigger is ever hit.
+
 ## What this product is
 
 Learning Forge is a single-household, invite-only math tutoring pilot for
@@ -32,12 +64,12 @@ and no plan to expand beyond this one family without a separate decision
 
 Full inventory: `docs/privacy-inventory.md`. Summary:
 
-| Data | Goes to | Notes |
-|---|---|---|
-| Learner's answer text, tutor conversation message | Anthropic Claude API (see Provider section below) | Only the current problem, the learner's message, and a server-decided move type are sent — never account identity, credentials, or other household data |
-| Attempts, mastery estimates, session records | This app's own PostgreSQL database (hosted on Render) | Immutable attempt rows; mastery is recalculated, never model-generated |
-| Tutor interaction metadata | Same database | Redacted excerpt only by default; no raw child conversation text retained in traces |
-| Account/household data | Same database | Email/password only; no managed identity provider in front of it |
+| Data                                              | Goes to                                               | Notes                                                                                                                                                   |
+| ------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Learner's answer text, tutor conversation message | Anthropic Claude API (see Provider section below)     | Only the current problem, the learner's message, and a server-decided move type are sent — never account identity, credentials, or other household data |
+| Attempts, mastery estimates, session records      | This app's own PostgreSQL database (hosted on Render) | Immutable attempt rows; mastery is recalculated, never model-generated                                                                                  |
+| Tutor interaction metadata                        | Same database                                         | Redacted excerpt only by default; no raw child conversation text retained in traces                                                                     |
+| Account/household data                            | Same database                                         | Email/password only; no managed identity provider in front of it                                                                                        |
 
 No data is sold, shared with advertisers, or used for any purpose besides
 running and improving this one household's tutoring sessions. A household's
@@ -95,12 +127,19 @@ independent legal review of their terms).
 
 ## Known, named gaps (not yet closed, listed so counsel doesn't have to find them)
 
-- No consent UI/notice/revocation flow (informal consent only, per above).
-- No automated human notification when a safety flag fires.
-- Anthropic's region/subprocessor/training/retention terms are researched
-  from public pages, not confirmed via a signed, reviewed contract specific
-  to this account.
-- No prior COPPA, FERPA, or state-law analysis has been performed.
+- Consent is formalized and accepted (`docs/consent-notice.md`,
+  2026-10-10) but remains informal by design, not a self-service
+  UI/notice/revocation flow — appropriate only at the current
+  single-household, same-person-operator-and-guardian scale (see above).
+- An automated human notification now fires when a safety flag is
+  recorded (`docs/incident-response.md`, 2026-10-10), but the real
+  deployment has not yet had a real email provider's credentials set, so
+  it still runs on a log-only default in production today.
+- Anthropic's and Render's region/subprocessor/training/retention terms
+  are researched from public pages (`docs/privacy-inventory.md`), not
+  confirmed via a signed, reviewed contract specific to this account.
+- No COPPA, FERPA, or state-law analysis by counsel has been performed —
+  risk-accepted at current scale per the decision above, not resolved.
 
 ## Specific questions for counsel
 

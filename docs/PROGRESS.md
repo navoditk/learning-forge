@@ -271,6 +271,39 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — Formal legal review risk-accepted at current scale
+
+- Product owner asked why legal review was needed for a tool built for
+  their own kids. Explained the actual reasoning rather than just citing
+  the checklist row: COPPA's "operator" model assumes separation between
+  the data-collecting party and the parent, which doesn't hold when the
+  product owner is simultaneously the sole operator and the learner's own
+  parent/guardian (already the basis for ADR-0008's informal consent);
+  FERPA requires a school/educational-agency affiliation that doesn't
+  exist here; the one real third-party data flow (Anthropic) is the same
+  category as using any commercial SaaS tool with a child logged in under
+  a parent's own account, and Anthropic's own minors-serving requirements
+  are already met.
+- **Product owner explicitly accepted this as low risk at the current
+  single-household scale** and asked to move forward without commissioning
+  counsel now.
+- Recorded as a conscious risk-acceptance decision, not a legal
+  conclusion or compliance claim, in a new "Risk-acceptance decision"
+  section in `docs/legal-review-briefing.md`, with the exact revisit
+  trigger (second household, self-service sign-up, monetization, school
+  affiliation - identical to `docs/consent-notice.md`'s). Corrected two
+  now-stale "known gaps" bullets in that same document (consent and
+  safety-notification are both now addressed, just not in the form those
+  bullets described). Updated the Provider terms and Data inventory rows
+  of `docs/pilot-readiness-checklist.md` accordingly.
+- The open questions for counsel in `docs/legal-review-briefing.md`
+  remain unanswered and ready to use if the revisit trigger is ever hit -
+  this is explicitly not a closed legal question, only an accepted risk
+  at today's scale.
+- Documentation-only change: `npx prettier --check` and `git diff
+--check` on both edited docs pass clean; no code, schema, or runtime
+  behavior changed.
+
 ## 2026-10-10 — C4 shadow-traffic prep: fixed the wrong export command, verified the tooling
 
 - The C4 blocker is unchanged in substance - `docs/course-progression-review/shadow-divergence-review.md`
