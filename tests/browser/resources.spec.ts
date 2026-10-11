@@ -42,7 +42,11 @@ test.describe('curriculum resources reference index', () => {
       await expect(link).toContainText('leaves Learning Forge');
     }
     await expect(page.getByText('not reviewed for children').first()).toBeVisible();
-    await expect(page.getByText('Research pending content-owner review').first()).toBeVisible();
+    await expect(
+      page
+        .getByText('Research approved by the content owner (research only, not a lesson)')
+        .first(),
+    ).toBeVisible();
   });
 
   test('search shows an empty state and never turns input into a link', async ({ page }) => {

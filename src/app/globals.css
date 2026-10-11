@@ -322,7 +322,17 @@ form {
   padding: var(--spacing-2);
 }
 
+nav[aria-label='Primary navigation'] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+}
+
 nav[aria-label='Primary navigation'] a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.5rem;
   font-weight: 600;
 }
 
