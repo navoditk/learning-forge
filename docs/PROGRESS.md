@@ -271,6 +271,50 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — All 5 Grade 6 Math domains now wrapped into Lesson/Unit records
+
+- Continued the wrapping started in the prior entry across the three
+  remaining domains: `number-system-catalog.ts` (7 lessons: multi-digit
+  division, GCF/LCM, fraction/decimal operations, division of fractions,
+  negative numbers and absolute value, coordinate plane, coordinate
+  distance), `expressions-and-equations-catalog.ts` (8 lessons:
+  variables and expressions, whole-number exponents, variables in
+  context, dependent/independent variables, equation and inequality
+  meaning, equivalent expressions, one-variable equations, real-world
+  inequalities), `geometry-catalog.ts` (4 lessons: composite-shape area,
+  prism volume, surface area and volume, coordinate geometry), and
+  `statistics-catalog.ts` (3 lessons: statistical questions,
+  distributions, center and variability).
+- **All 27 Grade 6 Math skills are now wrapped**, across 5 new/extended
+  units, each reusing its already-reviewed production practice content
+  verbatim (no new problems authored). Lesson order within each domain
+  follows the real skill prerequisite chain (e.g.
+  `fraction-decimal-operations` before `division-of-fractions`;
+  `equation-and-inequality-meaning` before `one-variable-equations` and
+  `real-world-inequalities`).
+- Each new file is standalone (not merged into `course-catalog.ts`/
+  `program-registry.ts`), for the same two reasons as the prior entry:
+  a concurrent session is still actively editing those exact files, and
+  every lesson still needs a real held-out assessment bank this public
+  repository can never hold the actual items for - that remains the one
+  genuine piece of new authoring work left, not something wrapping
+  avoids.
+- 12 new tests (3 per domain file) verify: full skill coverage with one
+  lesson each, the unit's `lessonRefs` matching in prerequisite order,
+  and - the actual falsifier - that every practice-content reference's
+  pinned hash is the real SHA-256 of its already-reviewed file (computed
+  independently via `shasum -a 256` before writing each record, not
+  copied from any existing pin).
+- Verification: `npx tsc --noEmit`, `npm run lint`, and `npm run verify`
+  (1562 tests + build) all pass clean.
+- **Status: the mechanical wrapping of all 27 skills is done.** Still
+  open: wiring these 5 domains into `COURSE_CATALOG`/`program-registry.ts`
+  (blocked on the concurrent session's refactor settling) and authoring
+  real held-out assessment content for the 24 lessons that need it
+  (blocked on actual authoring + the product owner's private-package
+  placement and digest confirmation, same workflow as the existing
+  Ratios banks).
+
 ## 2026-10-10 — Started extending the rich course structure beyond Ratios
 
 - Product owner redirected priority: stop treating C4's shadow-traffic
