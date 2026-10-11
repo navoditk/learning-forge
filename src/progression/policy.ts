@@ -13,6 +13,22 @@ export type AuthorizationInput = {
 };
 export type AuthorizationResult = { allowed: boolean; reasonCode: string; missing: string[] };
 
+/**
+ * Stage C4 step 5 ("enforce", architecture.md §11.4a): thrown with the
+ * real decision's own reasonCode (LOCKED_PREREQUISITE, RUN_NOT_ACTIVE,
+ * LEGACY_POLICY_NOT_APPLICABLE, ...) - never a generic refusal - so the
+ * caller can surface exactly what shadow mode already observed.
+ */
+export class ProgressionAuthorizationDeniedError extends Error {
+  constructor(
+    public readonly reasonCode: string,
+    targetCode: string,
+    activityKind: ActivityKind,
+  ) {
+    super(`${activityKind} on ${targetCode} was denied: ${reasonCode}`);
+  }
+}
+
 export type ProgramAuthorizationInput = Omit<AuthorizationInput, 'policy'> & {
   /** Selects the progression access policy rather than the legacy policy. */
   skillClaimedByUnit: boolean;

@@ -28,9 +28,14 @@ import {
   contentSessionRequiresAssignment,
   SessionUnboundError,
 } from '../progression/assignment-binding';
-import { isC4SessionBindingEnforced } from '../progression/release-gates';
 import {
+  isC4AuthorizationEnforced,
+  isC4SessionBindingEnforced,
+} from '../progression/release-gates';
+import {
+  authorizeProgramActivity,
   policyHash,
+  ProgressionAuthorizationDeniedError,
   requiresAssessmentAssignment,
   resolvePolicyProfile,
   usesProgressionAccessPolicy,
@@ -204,6 +209,19 @@ export async function startSession(
   ) {
     throw new SessionUnboundError(activityKind, content.id);
   }
+  // C4 step 5 ("enforce"): only a brand-new session is checked, for the
+  // same reason as step 3 above - an existing/resumed session already
+  // passed this (or predates enforcement) and is never retroactively
+  // refused.
+  if (!existing) {
+    await enforceProgressionAuthorizationOrThrow(
+      identity,
+      program,
+      content.id,
+      activityKind,
+      false,
+    );
+  }
   const session =
     existing ??
     (await prisma.session.create({
@@ -249,25 +267,36 @@ export async function startSession(
   };
 }
 
-async function writeShadowDecision(
+/**
+ * Shared by the shadow logger and C4 step 5 enforcement, so enforcement can
+ * never diverge from what shadow mode already observed and recorded - the
+ * exact invariant architecture.md §11.4c requires ("a bug in the new policy
+ * modules cannot lock a learner out... [differently from] reviewed shadow
+ * behavior").
+ */
+async function resolveProgressionAuthorizationInput(
   identity: HouseholdIdentity,
   programCode: CurriculumProgram,
   targetCode: string,
-  targetVersion: string,
   activityKind: 'PRACTICE' | 'PLACEMENT' | 'REVIEW',
-  activeRunOrSessionId: string,
   assignmentBound: boolean,
-): Promise<void> {
+): Promise<
+  | {
+      authorizationInput: Parameters<typeof authorizeProgramActivity>[0];
+      resolvedProfile: ReturnType<typeof resolvePolicyProfile>;
+    }
+  | undefined
+> {
   const program = programsByCode.get(programCode);
   const skill = skillsByCode.get(contentSkillCode(resolveContent(targetCode)));
-  if (!program || !skill) return;
+  if (!program || !skill) return undefined;
   const artifacts = loadPolicyArtifacts();
   const profile = artifacts.profiles.find(
     (candidate) =>
       candidate.code === program.defaultPolicyProfileRef.code &&
       candidate.version === program.defaultPolicyProfileRef.version,
   );
-  if (!profile) return;
+  if (!profile) return undefined;
   const resolvedProfile = resolvePolicyProfile(
     profile,
     new Map(
@@ -301,6 +330,67 @@ async function writeShadowDecision(
     },
     select: { skillCode: true },
   });
+  return {
+    authorizationInput: {
+      activityKind,
+      skillCode: skill.code,
+      prerequisiteSkillCodes: prerequisiteCodes,
+      masteredSkillCodes: new Set(priorMastery.map((record) => record.skillCode)),
+      skillClaimedByUnit,
+      claimedByAuthoredUnit,
+      assignmentBound,
+      accessPolicy,
+      legacyCompatibilityPolicy,
+    },
+    resolvedProfile,
+  };
+}
+
+/**
+ * C4 step 5 ("enforce", architecture.md §11.4a): denies using the exact
+ * decision shadow mode already computes, never a separately-maintained
+ * check. Off by default - see isC4AuthorizationEnforced in release-gates.ts.
+ */
+async function enforceProgressionAuthorizationOrThrow(
+  identity: HouseholdIdentity,
+  programCode: CurriculumProgram,
+  targetCode: string,
+  activityKind: 'PRACTICE' | 'PLACEMENT' | 'REVIEW',
+  assignmentBound: boolean,
+): Promise<void> {
+  if (!isC4AuthorizationEnforced()) return;
+  const resolved = await resolveProgressionAuthorizationInput(
+    identity,
+    programCode,
+    targetCode,
+    activityKind,
+    assignmentBound,
+  );
+  if (!resolved) return;
+  const decision = authorizeProgramActivity(resolved.authorizationInput);
+  if (!decision.allowed) {
+    throw new ProgressionAuthorizationDeniedError(decision.reasonCode, targetCode, activityKind);
+  }
+}
+
+async function writeShadowDecision(
+  identity: HouseholdIdentity,
+  programCode: CurriculumProgram,
+  targetCode: string,
+  targetVersion: string,
+  activityKind: 'PRACTICE' | 'PLACEMENT' | 'REVIEW',
+  activeRunOrSessionId: string,
+  assignmentBound: boolean,
+): Promise<void> {
+  const resolved = await resolveProgressionAuthorizationInput(
+    identity,
+    programCode,
+    targetCode,
+    activityKind,
+    assignmentBound,
+  );
+  if (!resolved) return;
+  const { authorizationInput, resolvedProfile } = resolved;
   const shadow = buildShadowDecision({
     actorUserId: identity.actorUserId,
     actorRole: identity.actorRole,
@@ -309,12 +399,12 @@ async function writeShadowDecision(
     targetCode,
     targetVersion,
     activityKind,
-    prerequisiteSkillCodes: prerequisiteCodes,
-    masteredSkillCodes: new Set(priorMastery.map((record) => record.skillCode)),
-    accessPolicy,
-    legacyCompatibilityPolicy,
-    skillClaimedByUnit,
-    claimedByAuthoredUnit,
+    prerequisiteSkillCodes: authorizationInput.prerequisiteSkillCodes,
+    masteredSkillCodes: authorizationInput.masteredSkillCodes,
+    accessPolicy: authorizationInput.accessPolicy,
+    legacyCompatibilityPolicy: authorizationInput.legacyCompatibilityPolicy,
+    skillClaimedByUnit: authorizationInput.skillClaimedByUnit,
+    claimedByAuthoredUnit: authorizationInput.claimedByAuthoredUnit,
     assignmentBound,
     policyProfile: resolvedProfile,
     actualBehavior: 'ALLOWED',

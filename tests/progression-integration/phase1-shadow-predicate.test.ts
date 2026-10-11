@@ -268,3 +268,94 @@ describe('C4 step 3: session-binding enforcement', () => {
     expect(resumed.resumed).toBe(true);
   });
 });
+
+/**
+ * Stage C4 step 5 ("enforce", architecture.md §11.4a). Reuses the exact
+ * fixture from "serves the session while recording a locked-prerequisite
+ * shadow denial" above - same request, same decision, proven both ways.
+ */
+describe('C4 step 5: authorization enforcement', () => {
+  let householdId: string;
+  let learnerProfileId: string;
+
+  beforeAll(async () => {
+    const household = await prisma.household.create({ data: {} });
+    householdId = household.id;
+    const user = await prisma.user.create({ data: { householdId, role: 'LEARNER' } });
+    const profile = await prisma.learnerProfile.create({
+      data: { householdId, userId: user.id, gradeLevel: 6 },
+    });
+    learnerProfileId = profile.id;
+  });
+
+  beforeEach(async () => {
+    await prisma.session.updateMany({
+      where: { householdId, endedAt: null },
+      data: { endedAt: new Date() },
+    });
+  });
+
+  afterEach(() => {
+    delete process.env.COURSE_PROGRESSION_C4_AUTHORIZATION_ENFORCED;
+  });
+
+  afterAll(async () => {
+    await deleteHouseholdData(prisma, householdId);
+    await prisma.$disconnect();
+  });
+
+  const identity = () => ({ householdId, learnerProfileId });
+
+  it('leaves today’s behavior unchanged when the flag is off (default)', async () => {
+    const session = await startSession(identity(), {
+      contentId: 'unit-rates-1',
+      activityKind: 'PRACTICE',
+    });
+    expect(session.sessionId).toBeTruthy();
+  });
+
+  it('denies with the shadow-observed reasonCode once enforced, and creates no session', async () => {
+    process.env.COURSE_PROGRESSION_C4_AUTHORIZATION_ENFORCED = 'true';
+    const before = await prisma.session.count({ where: { householdId } });
+
+    await expect(
+      startSession(identity(), { contentId: 'unit-rates-1', activityKind: 'PRACTICE' }),
+    ).rejects.toMatchObject({ reasonCode: 'LOCKED_PREREQUISITE' });
+
+    expect(await prisma.session.count({ where: { householdId } })).toBe(before);
+  });
+
+  it('allows the same request once the prerequisite is mastered, even enforced', async () => {
+    await prisma.masteryEstimate.create({
+      data: {
+        householdId,
+        learnerProfileId,
+        skillCode: 'ratio-language',
+        estimate: 0.95,
+        confidenceBand: 'HIGH',
+        algorithmVersion: PHASE_1_MASTERY_VERSION,
+        independentDelayedCheck: true,
+      },
+    });
+    process.env.COURSE_PROGRESSION_C4_AUTHORIZATION_ENFORCED = 'true';
+    const session = await startSession(identity(), {
+      contentId: 'unit-rates-1',
+      activityKind: 'PRACTICE',
+    });
+    expect(session.sessionId).toBeTruthy();
+  });
+
+  it('resumes an existing session unaffected, even once enforced', async () => {
+    const created = await startSession(identity(), {
+      contentId: 'unit-rates-1',
+      activityKind: 'PRACTICE',
+    });
+    process.env.COURSE_PROGRESSION_C4_AUTHORIZATION_ENFORCED = 'true';
+    const resumed = await startSession(identity(), {
+      contentId: 'unit-rates-1',
+      activityKind: 'PRACTICE',
+    });
+    expect(resumed.sessionId).toBe(created.sessionId);
+    expect(resumed.resumed).toBe(true);
+  });
+});

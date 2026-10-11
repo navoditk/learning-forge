@@ -271,6 +271,44 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — C4 steps 5-6 built, tested, off by default (step 4 deferred)
+
+- Product owner chose option 3 after the step-4-migration sequencing
+  concern: skip the schema migration until the drain is actually
+  verified in production, and keep building the gated app-code side.
+- **Step 5 ("enforce"):** refactored `writeShadowDecision`'s input-
+  assembly into a shared `resolveProgressionAuthorizationInput`, so
+  enforcement can never compute a different decision than shadow mode
+  already observed and recorded - the exact invariant architecture.md
+  §11.4c requires. New `enforceProgressionAuthorizationOrThrow` calls
+  `authorizeProgramActivity` (the same function `buildShadowDecision`
+  calls internally) and throws `ProgressionAuthorizationDeniedError`
+  with the decision's own reasonCode (e.g. `LOCKED_PREREQUISITE`) when
+  denied. New `isC4AuthorizationEnforced()` flag
+  (`COURSE_PROGRESSION_C4_AUTHORIZATION_ENFORCED`), same default-off
+  pattern as step 3's flag, independent of it.
+- **Step 6 ("remove bypass"), preparation only:** added a POST handler
+  to `src/app/api/phase1/session/route.ts` with the exact same
+  `startSession` logic as GET (shared `handleStartSession`), fully
+  tested. **GET is deliberately not removed** - `src/app/page.tsx`
+  still calls this route with GET today, and removing it now would
+  break every real learner request immediately, regardless of any
+  flag. Actually retiring GET is a coordinated client+server change at
+  the real cutover, not something this change does.
+- 12 new tests (8 integration, split across the existing D-62 shadow
+  fixtures reused for the "off leaves behavior unchanged" /
+  "on refuses with the shadow-observed reasonCode" pairing, plus 4
+  route-level tests for both GET and the new POST path, including a
+  `.strict()` schema rejection test for an unexpected field).
+- Verification: `npx tsc --noEmit`, `npm run lint`, `npm run verify`
+  (1532 tests + build), and `DATABASE_URL=<local scratch> npm run
+test:integration` (29 files, 188 tests passed, 1 intentionally
+  skipped) all pass clean.
+- **Still deferred, unchanged from the prior entry**: step 4's contract
+  migration, held until the real drain is verified in production -
+  this repo auto-deploys from `main`, so that migration is not written
+  yet, by design, not oversight.
+
 ## 2026-10-10 — C4 step 3 ("reject residue") built, tested, off by default
 
 - Product owner asked to proceed on C4/C5 engineering without waiting for

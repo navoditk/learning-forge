@@ -29,3 +29,17 @@ export function isC4SessionBindingEnforced(
 ): boolean {
   return value === 'true';
 }
+
+/**
+ * Stage C4 step 5 ("enforce" - architecture.md §11.4a). Switches
+ * `authorizeProgramActivity` from shadow-only (observed, never blocking) to
+ * actually denying, using the exact same decision computation shadow mode
+ * already produces - never a separately-maintained check (§11.4c). Same
+ * default-off, explicit-opt-in rule as every flag in this file: do not set
+ * this from application code; it is an operator action at cutover time.
+ */
+export function isC4AuthorizationEnforced(
+  value: string | undefined = process.env.COURSE_PROGRESSION_C4_AUTHORIZATION_ENFORCED,
+): boolean {
+  return value === 'true';
+}
