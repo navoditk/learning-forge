@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { startSession } from '../../../../phase1/service';
 import { parseAvailableProgram } from '../../../../phase1/program';
 import { requireHouseholdContext } from '../../../../server/household-context';
+import { SessionUnboundError } from '../../../../progression/assignment-binding';
 
 const SessionActivityKindSchema = z.enum(['PRACTICE', 'PLACEMENT', 'REVIEW']);
 
@@ -23,7 +24,13 @@ export async function GET(request: NextRequest) {
       ? SessionActivityKindSchema.parse(rawActivityKind)
       : 'PRACTICE';
     return NextResponse.json(await startSession(identity, { contentId, program, activityKind }));
-  } catch {
+  } catch (error) {
+    if (error instanceof SessionUnboundError) {
+      return NextResponse.json(
+        { error: error.message, reasonCode: error.reasonCode },
+        { status: 409 },
+      );
+    }
     return NextResponse.json({ error: 'Unknown content' }, { status: 400 });
   }
 }

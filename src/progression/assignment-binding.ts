@@ -33,3 +33,20 @@ export function contentSessionRequiresAssignment(
     isSkillClaimedByAuthoredUnit(skill.program, skill.code),
   );
 }
+
+/**
+ * Stage C4 step 3 (architecture.md §11.4a, "reject residue"): a session
+ * `startSession` would create fresh (no existing row to resume) is refused,
+ * not inferred, when it would require an assignment this entry point never
+ * carries. The caller must use the assignment-bound route instead. Thrown
+ * only when `isC4SessionBindingEnforced()` is true - see release-gates.ts.
+ */
+export class SessionUnboundError extends Error {
+  public readonly reasonCode = 'SESSION_UNBOUND';
+
+  constructor(activityKind: ActivityKind, targetCode: string) {
+    super(
+      `Session for ${targetCode} (${activityKind}) requires an assessment assignment and cannot be started directly.`,
+    );
+  }
+}

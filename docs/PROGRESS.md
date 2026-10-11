@@ -271,6 +271,50 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — C4 step 3 ("reject residue") built, tested, off by default
+
+- Product owner asked to proceed on C4/C5 engineering without waiting for
+  the shadow-review gate to close, with the explicit understanding that
+  actually flipping enforcement live still requires that gate plus the
+  C4 runbook's other preconditions - this entry is engineering only, no
+  production behavior change.
+- Implemented Stage C4 step 3 (architecture.md §11.4a, "reject residue"):
+  a brand-new (non-resumed) `startSession` request that would require an
+  assessment assignment this entry point never carries is now refused
+  with a distinguishable `SessionUnboundError` (`reasonCode:
+SESSION_UNBOUND`) instead of silently created, reusing the existing
+  `contentSessionRequiresAssignment` predicate from
+  `cutover-readiness.ts` prospectively rather than retrospectively.
+- New `isC4SessionBindingEnforced()` flag
+  (`COURSE_PROGRESSION_C4_SESSION_BINDING_ENFORCED`), mirroring every
+  other provider/notifier selector in this codebase: explicit opt-in,
+  fails closed to today's unchanged behavior. Not set anywhere in
+  `render.yaml`; turning it on is a deliberate operator action at actual
+  cutover time, not something this change enables by itself.
+- `src/app/api/phase1/session/route.ts` now maps `SessionUnboundError` to
+  a 409 with `reasonCode: SESSION_UNBOUND`, instead of the generic 400
+  every other `startSession` failure gets - matching the project's
+  existing `reasonCode`-driven refusal convention
+  (`src/app/api/progression/override/route.ts`).
+- 13 new tests across 3 files prove both directions: flag off leaves the
+  existing D-62 behavior byte-identical (a direct pilot-skill
+  PLACEMENT/REVIEW request still succeeds, matching the pre-existing
+  shadow-only test immediately above it in the same file); flag on
+  refuses the same request with zero new session rows created, never
+  refuses PRACTICE or non-unit-claimed skills, and never retroactively
+  refuses an already-existing resumed session. A dedicated route test
+  confirms the HTTP-layer mapping.
+- **Flagged explicitly, not yet started**: step 4 (the contract
+  migration making binding columns non-nullable) is a real schema
+  change that would be unsafe to apply before the actual drain has
+  happened in the real production database - unbound rows genuinely
+  exist there today. Since this repo auto-deploys from `main`, this
+  needs a deliberate conversation about sequencing before any migration
+  file for it is even committed, let alone applied.
+- Verification: `npx tsc --noEmit`, `npm run verify` (1531 tests +
+  build), and `DATABASE_URL=<local scratch> npm run test:integration`
+  (29 files, 180 tests passed, 1 intentionally skipped) all pass clean.
+
 ## 2026-10-10 — Grade 6 Math v2 candidate, Revision 20: 6.RP.A.3d closed, deeper m5/m7 audit
 
 - **`6.RP.A.3d` closed** - previously structurally blocked by the

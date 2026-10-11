@@ -25,6 +25,11 @@ import { recordStrandedSkill } from '../progression/assessment-submission';
 import { pilotSkillRef } from '../progression/skill-assessment';
 import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
 import {
+  contentSessionRequiresAssignment,
+  SessionUnboundError,
+} from '../progression/assignment-binding';
+import { isC4SessionBindingEnforced } from '../progression/release-gates';
+import {
   policyHash,
   requiresAssessmentAssignment,
   resolvePolicyProfile,
@@ -189,6 +194,16 @@ export async function startSession(
     },
     orderBy: { startedAt: 'desc' },
   });
+  // C4 step 3 ("reject residue"): only a brand-new session can be unbound -
+  // an existing row already resolved its binding (or was created before
+  // enforcement existed) and is resumed as-is, never retroactively refused.
+  if (
+    !existing &&
+    isC4SessionBindingEnforced() &&
+    contentSessionRequiresAssignment(activityKind, content.id)
+  ) {
+    throw new SessionUnboundError(activityKind, content.id);
+  }
   const session =
     existing ??
     (await prisma.session.create({
