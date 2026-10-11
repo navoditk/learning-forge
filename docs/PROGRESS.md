@@ -1,5 +1,20 @@
 # Progress
 
+## 2026-10-11 — Remote CI green after push
+
+- CI run `38182079316` at `ccd6192`: success (job `verify`; browser journeys
+  72 passed, 1 skipped). CI run `38182113951` at `332ef01`: success. The
+  previously failing `/resources` mobile target-size tests no longer fail
+  remotely, which clears the CI hold recorded for `d70287d`.
+- Curriculum site (Pages) run `38182113684` at `332ef01`: success; the run for
+  `ccd6192` was cancelled by the concurrency group, superseded by `332ef01`.
+  What the Pages site publishes has not been reviewed by this session.
+- The CI log shows a PostgreSQL `DELETE FROM "User"` statement echo in the
+  "Stop containers" step; not investigated, and the run still succeeded.
+- Gates unchanged: teaching first-write/serving/release, production migration
+  and deployment approvals remain closed. Exact next task: row 6 (Lifecycle L2)
+  via Claude Code `forge-expert`/`opus` once the owner scopes it.
+
 ## 2026-10-11 — Pushed main to origin (`d70287d..ccd6192`)
 
 - On the owner's explicit request, Claude Code Sonnet pushed local `main` to
