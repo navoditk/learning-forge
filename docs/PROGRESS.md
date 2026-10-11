@@ -1,5 +1,47 @@
 # Progress
 
+## 2026-10-10 — Remaining 4 of 5 draft assessment-content batches completed
+
+- Continued from the prior entry's first batch (Ratios extension) and
+  drafted the remaining three batches, completing original held-out
+  assessment content for all 24 newly-wrapped lessons across the other
+  four domains: Number System (28 items across 7 skills), Expressions and
+  Equations (32 items across 8 skills), and Geometry and Statistics,
+  drafted together in one batch (28 items across 7 skills: 4 Geometry
+  skills, 3 Statistics skills).
+- Same safety constraint as the first batch: this repository is public,
+  so none of this draft content is committed here. All of it lives only
+  in the session's private scratchpad, **not committed, not pushed** -
+  `assessment-drafts/number-system-assessment-draft.json`,
+  `expressions-and-equations-assessment-draft.json`, and
+  `geometry-and-statistics-assessment-draft.json` (paths are
+  session-local; ask the agent for the live path if resuming this). The
+  product owner must move all four drafted files to the actual private
+  package location and confirm the digest before any of these banks can
+  be wired in, same workflow as the existing pilot banks.
+- All 88 items (8 + 28 + 32 + 28) across the four batches are schema-valid
+  against the real `AssessmentContentItemSchema`, with original contexts
+  distinct from the existing practice items, canonical answers
+  hand-verified by arithmetic (or, for qualitative items, by worked logic)
+  before writing, and each item's declared `misconceptionCodes` drawn from
+  the skill's own existing list with one worked-through distractor per
+  item.
+- **Verified against the real production code, not just the schema:**
+  for every item in every batch, the canonical answer matches via the
+  real `matchesAcceptedAnswer` function, every distractor is correctly
+  rejected by it (zero false accepts across all 88 items), including the
+  composite-validator items that depend on its per-part substring
+  matching. The invented prompt-leakage self-check used partway through
+  the Number System batch was confirmed to be a false-positive-prone,
+  non-production check (see that entry) and was not repeated for the
+  later batches.
+- **Status: drafting is done for all 5 domains / 27 skills.** Still open:
+  wiring the 5 new curriculum-catalog files into `COURSE_CATALOG`/
+  `program-registry.ts` (blocked on a concurrent session's in-flight
+  refactor of those exact files) and the product owner's private-package
+  placement, review, and digest confirmation for all four drafted files
+  above before any assessment bank can go live.
+
 ## 2026-10-10 — UI-3 contract foundation aligned to ADR-0014
 
 - Aligned the disconnected recall-card contract foundation to ADR-0014's
