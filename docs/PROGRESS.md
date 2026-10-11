@@ -1,5 +1,138 @@
 # Progress
 
+## 2026-10-11 — Resources nav CSS and Geography status test integrated; local commit `a02bbfa`
+
+- Claude Code Sonnet integrator applied the accepted `UI-RESOURCES-STATUS`
+  patch (SHA-256 `53cc0839...5fd8`; hashes of the patch, nav CSS overlay and
+  original test matched the packet; `git apply --check` passed at `c248254`).
+  Only `tests/browser/resources.spec.ts` changed (5+/1-): the stale "Research
+  pending content-owner review" assertion now expects the rendered "Research
+  approved by the content owner (research only, not a lesson)". Link, warning
+  and four axe assertions are unchanged.
+- Validation on the integrated tree: Prettier and `git diff --check` pass;
+  `npm run verify` passes (format, lint, types, down-migration presence,
+  87 files / 1,666 tests, build). The integrator did **not** rerun browser
+  suites (no disposable PG16 created). The author's 10-pass resources run and
+  72-passed/1-skipped full e2e remain supplied evidence; exact logs and the
+  skip identity are not preserved. A bare `vitest run` shows 21 failures in
+  DB integration files outside `verify`; not investigated.
+- Owner authorized a **local-only** commit of the accepted nav CSS
+  (`UI-RESOURCES-A11Y`, patch `d97365b0...4988e6`) and this test patch:
+  `a02bbfa`, two files (`src/app/globals.css`, `tests/browser/resources.spec.ts`).
+  Packet files, review reports, dossiers and shared-log edits stay uncommitted.
+- Remaining gates: no push. Remote CI has not run on `a02bbfa`; the last
+  remote run failed two `/resources` mobile target-size tests, which the nav
+  CSS is meant to fix but is unverified remotely. Push needs separate approval
+  and green CI/local browser evidence. Teaching first-write/serving/release
+  gates remain closed.
+- Exact next task: reviewed commit/push checkpoint (index row 5) — owner
+  decides whether to run the browser suites in a disposable PG16 environment
+  and whether to push; otherwise proceed to row 6 (Lifecycle L2) via Claude
+  Code `forge-expert`/`opus` once scoped. Packet `UI-RESOURCES-STATUS` is
+  `INTEGRATED_LOCAL`; no worker or claim is active.
+
+## 2026-10-11 — Geography status patch accepted for integration
+
+- Owner replied "accepted" to the exact reviewed `UI-RESOURCES-STATUS`
+  test-only patch SHA-256 `53cc0839...5fd8`. The patch remains unchanged and
+  unapplied; `git apply --check` passes at main `c248254` with the accepted nav
+  CSS overlay intact. The independent review is recorded in
+  `docs/ui-resources-status-20261011-review.md`.
+- Packet and resume index are **READY_TO_INTEGRATE**. Exact next task: Claude
+  Code Sonnet integrator claims `UI-RESOURCES-STATUS`, applies only the accepted
+  patch, validates the integrated tree with synthetic data, and checkpoints
+  results. Any changed patch returns to Codex independent review. Preserve
+  unrelated work and the accepted navigation CSS.
+- This acceptance does not authorize commit, push, production migration,
+  provider calls or deployment. Remote CI has not been rerun; teaching
+  first-write/serving/release gates remain closed.
+
+## 2026-10-11 — Geography browser status correction independently reviewed
+
+- Reviewed exact one-file test patch `53cc0839...5fd8` at `c248254` under
+  `UI-RESOURCES-STATUS`. The fresh Codex `forge-reviewer` (`gpt-6.1-sol`)
+  found no in-scope defect and returned **approve for human review**. Actual
+  `claude-sonnet-5-5` author metadata was matched to the assertion-writing
+  tool call and successful result. Report:
+  `docs/ui-resources-status-20261011-review.md`.
+- Frozen patch, original test, source register, accepted nav CSS and overlay
+  hashes match; `git apply --check` and `git diff --check` pass. The new
+  expectation matches the research-only owner-approved label. Geography
+  filtering, external-link/warning checks and four axe cases are untouched.
+- Author supplied isolated synthetic results: resources 10 passed; `verify`
+  87 files/1,666 tests; full browser suite 72 passed, one skipped, zero failed.
+  The reviewer did not repeat these suites; exact logs and skip identity were
+  not preserved with the patch. Main still has the old assertion and remote
+  CI has not been rerun.
+- Packet and resume index now stop at **AWAITING_HUMAN** for acceptance of
+  this exact test-only patch. After acceptance, the named Claude Code
+  integrator applies only that patch and validates the integrated tree while
+  preserving the accepted CSS and unrelated work. Commit/push and deployment
+  remain outside this packet; T2a first-write/serving/release gates remain.
+
+## 2026-10-10 — Geography browser status correction authorized
+
+- Owner approved the separate test-only Geography research-status correction,
+  retaining warning/link and accessibility checks, followed by Codex review.
+  Packet: `docs/agent-handoffs/UI-RESOURCES-STATUS.md`.
+- Next role: Claude Code `forge-implementer` / Sonnet, unclaimed and not started.
+  Owned code path: `tests/browser/resources.spec.ts` only, replacing the stale
+  pending-status expectation with the current research-only approval label.
+  Source-register status, runtime UI and accepted CSS remain inputs. Pinned
+  base `c248254` and immutable nav-overlay hashes are in the packet.
+- Codex records scope and routes the client; no test/runtime edit or synthetic
+  suite is performed in this documentation-only turn. Claude returns a frozen
+  test-only patch and verify/targeted/full-browser evidence, then Codex reviews.
+  No commit, push, production access or deployment is authorized by this
+  packet. Document formatting and whitespace checks apply.
+- Another session updated the reviewer configuration and orchestration record
+  with owner-approved `gpt-6.1-sol` for future reviews during this checkpoint.
+  Those edits are preserved. The new status-test packet follows that mapping
+  and requires client reload/effective-selection verification; historical
+  `gpt-6-sol` review identities are unchanged.
+
+## 2026-10-10 — Resources navigation patch accepted; test scope needed
+
+- Owner accepted the independently reviewed navigation CSS patch
+  `d97365b069c89ef614be676c88219130045488a7278037d4a38c9f7ebd4988e6`.
+  `UI-RESOURCES-A11Y` is DONE; the unchanged main CSS diff remains uncommitted.
+  Review evidence and its 71-pass/one-skip/one-failure browser result stand;
+  no suite was repeated for this documentation-only acceptance checkpoint.
+- Read-only diagnosis confirms the remaining Geography browser assertion is
+  stale: the source register records research-only owner approval, the existing
+  source-register unit test expects `approved`, and the page defines the matching
+  approval label. Proposed next task: change only the browser status expectation
+  while retaining external-link warnings, child-review warnings and axe checks.
+  This separate test scope needs authorization under the completed UI packet;
+  no next implementation packet is approved or dispatched.
+- Approval and resume records are updated; targeted document formatting and
+  whitespace checks apply. No runtime/source-status change, commit, push,
+  deployment, database operation or real provider call occurred.
+
+## 2026-10-10 — Resources nav accessibility independently reviewed
+
+- Reviewed frozen nav-only CSS patch `d97365b0...4988e6` on `c248254`.
+  Verified actual `claude-sonnet-5-5` author metadata against the exact
+  CSS-writing tool call and successful result. Fresh read-only Codex
+  `forge-reviewer` (`gpt-6-sol`) returned **approve for human review**, with
+  no in-scope finding. Report: `docs/ui-resources-a11y-20261010-review.md`.
+- Parent independent synthetic validation: regenerated Prisma client and
+  migrated task-created PG16; `verify` passed (87 files/1,666 tests); all four
+  `/resources` axe cases passed in light/dark at 360/1280px. Nav measurements
+  confirmed 44px link heights, minimum width 48.09px, 8px/4px gaps, zero
+  overflow, preserved Tab order and visible focus. Full browser suite:
+  **71 passed, one skipped, one failed** at the Geography pending-status
+  assertion, including retry. Browser/CI gate remains failing.
+- The CSS patch remains unchanged and uncommitted. Safe independent logs,
+  navigation screenshots, metrics and filtered runtime metadata are preserved
+  in common Git `agent-handoffs/UI-RESOURCES-A11Y/`. Existing source and dossier
+  work is preserved. No main `.env`, production access, real provider, commit,
+  push or deployment was used in this review.
+- Packet/index now stop at **AWAITING_HUMAN** for exact CSS-patch acceptance.
+  Next recommended issue: separately scoped reconciliation of the rendered
+  Geography source status and `resources.spec.ts:45`, retaining warnings and
+  accessibility coverage. No automatic expansion into that task.
+
 ## 2026-10-10 — Concurrent Grade 6 checkpoint reviewed and relay reconciled
 
 - Copilot GPT-6.1 Sol reviewed documentation-only commits `949da59` and
