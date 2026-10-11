@@ -1,5 +1,24 @@
 # Progress
 
+## 2026-10-11 — Browser suites run green on committed HEAD `2e6012f` (local evidence)
+
+- Claude Code Sonnet integrator ran the browser suites in a task-created
+  disposable PG16 container (port 55433), a fresh isolated worktree at
+  `2e6012f` with its own `npm ci` and generated Prisma client, fixture
+  `AUTH_SECRET`, fake tutor, console notifier and `CI=1`. Main `.env` was not
+  read; the compose database and another session's `lf-review-pg` container
+  were not used. The scratch database was seeded directly, not via `db:seed`.
+- `resources.spec.ts`: 10 passed, including the corrected research-approved
+  assertion and all four axe cases. Full `npm run test:e2e`: **72 passed,
+  1 skipped, 0 failed, 0 flaky**; a second JSON-reporter run gave the same
+  counts. The skip is `phase1-api.spec.ts:120` (staging private package),
+  expected because no private assessment package was mounted.
+- Container and worktree were removed; no other resources or claims were
+  touched. This is local evidence only: remote CI has not run on `a02bbfa`,
+  `4aeecc1` or `2e6012f`, and push remains held for separate approval.
+  Exact next task is unchanged: owner decides on push (index row 5), otherwise
+  row 6 (Lifecycle L2) via Claude Code `forge-expert`/`opus` once scoped.
+
 ## 2026-10-11 — Resources nav CSS and Geography status test integrated; local commit `a02bbfa`
 
 - Claude Code Sonnet integrator applied the accepted `UI-RESOURCES-STATUS`
