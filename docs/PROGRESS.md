@@ -271,6 +271,41 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — Anthropic spend limit set; cost-estimate math recorded
+
+- Product owner asked why an Anthropic spend limit was needed once
+  curriculum is built, and what eliminating Anthropic entirely would
+  take. Explained that the live model is called on every hint request in
+  production (not just during authoring) for two reasons: reacting to the
+  learner's own free-text message, and live safety-flag detection on that
+  text - and that `FakeTutorModel` already exists but does neither.
+- **Cost estimate, grounded in actual code** (confirmed Haiku 4.5 pricing
+  directly from claude.com/pricing: /MTok input, /MTok output):
+  roughly 500 input + 110 output tokens per hint request
+  (`src/tutor/anthropic-model.ts`'s actual system/user prompt and tool
+  schema) ≈ /bin/zsh.001/request. At a realistic ~10 hints/day, about
+  /bin/zsh.30/month; even at the app's own enforced `TUTOR_DAILY_HINT_LIMIT=100`
+  hit every day for a month, about .15/month - both far under
+  ADR-0009's "well under /month" target. `scoreConstructedResponse`
+  is defined but not called from any production route, so it adds
+  nothing.
+- Scoped what a fully deterministic, Anthropic-free tutor would take:
+  serving the already-authored `hintSteps`/`solutionMethod` content
+  directly (currently used only for the leak-check scan, never served) is
+  the easy, low-risk part; replacing live semantic safety-flag detection
+  with a keyword/pattern classifier is the hard part and a real
+  recall/false-positive trade-off that would need its own explicit
+  risk-acceptance decision, not a silent swap. Recommended keeping
+  Anthropic given the real cost is negligible - product owner agreed.
+- **Spend limit set 2026-10-10** (product owner, in chat): /month,
+  usage alerts at and . Recorded in `docs/operations.md` (closes
+  its one remaining console-only action and its "Current status" line)
+  and `docs/pilot-readiness-checklist.md`'s Operations row, which this
+  closes in full.
+- Documentation-only change: `npx prettier --check` and `git diff
+--check` on both edited docs pass clean; no code or runtime behavior
+  changed.
+
 ## 2026-10-10 — Formal legal review risk-accepted at current scale
 
 - Product owner asked why legal review was needed for a tool built for

@@ -33,9 +33,15 @@ configuration, not something a deploy or this repository can set:
    console's Usage section.
 4. Record here once done: the limit set, the alert thresholds, and the date.
 
-**Not yet done** — this is the one item in this document that only the
-product owner can complete, since it requires signing into the Anthropic
-console directly.
+**Done, 2026-10-10** (product owner, in chat): monthly spending limit set to
+**$30**, with usage alerts at **$10** and **$20**. This is well above the
+estimated realistic cost (~$0.30-3/month at 2hr/day usage — see
+`docs/PROGRESS.md`'s 2026-10-10 Anthropic cost-estimate entry for the token
+math) and comfortably inside ADR-0009's "well under $20/month" budget
+target; it exists as a ceiling against a bug, leaked key, or billing
+surprise, not a budget expected to be spent. Closes the one remaining
+console-only action in this document and the "Operations" pilot-readiness
+row's spend-limit gap.
 
 ## Existing request-level backstop (already implemented, for context)
 
@@ -54,9 +60,9 @@ Distinct from `docs/incident-response.md`'s child-safety escalation
 contact: these are the channels for an infrastructure incident (outage,
 suspected breach, billing anomaly), not a learner-safety event.
 
-| Provider | Contact channel | When to use |
-|---|---|---|
-| Render | Render dashboard support chat/ticket (`render.com/support`); status page `status.render.com` | Service outage, database issue, suspected unauthorized dashboard access |
+| Provider  | Contact channel                                                                                  | When to use                                                                  |
+| --------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| Render    | Render dashboard support chat/ticket (`render.com/support`); status page `status.render.com`     | Service outage, database issue, suspected unauthorized dashboard access      |
 | Anthropic | Anthropic console support (`platform.claude.com`); `support.claude.com` for policy/API questions | API outage, suspected key compromise, usage-policy question, billing anomaly |
 
 Both are single-operator contacts today — the product owner is the only
@@ -66,9 +72,10 @@ contact list, because there is no team.
 
 ## Current status
 
-Closes the "Operations" pilot-readiness row's monitoring/alerting/incident-
-contacts requirements, except the spend-limit console action above, which
-only the product owner can perform. Rollback is covered by the standard
+**Closes the "Operations" pilot-readiness row in full, 2026-10-10** —
+monitoring/alerting/incident-contacts requirements, and now the
+spend-limit console action above, which only the product owner could
+perform and has now been done. Rollback is covered by the standard
 deploy process (Render redeploy to a prior commit) and
 `docs/backup-recovery.md` for data-level recovery; no separate rollback
 procedure is needed beyond those.
