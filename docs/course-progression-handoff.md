@@ -26,8 +26,14 @@ complete. C1–C3 are shipped as a non-enforcing persistence,
 export/deletion, dual-write, and shadow-mode foundation. The product owner
 approved the remaining policy recommendations on 2026-09-19 and approved the
 revisitable D-36 pilot-volume and D-39 elapsed-time decisions on 2026-09-20.
-No course-progression decision entries remain open. Independent and manual
-release gates still remain required.
+The original ratios decisions remain approved. D-75 accepts five independently
+reviewed extension designs and their completed catalog-only foundation.
+The 63 extension candidates D-76 through D-138 and four shared teaching choices
+D-140/D-141/D-143/D-144 remain open. T2 privacy choices D-145–D-147 are
+approved for the isolated T2a draft/scratch-validation scope. The owner accepted the reviewed teaching
+contract and D-139/D-142 shapes; disconnected T1 is complete and validated.
+No database schema, writer, route or serving approval follows from T1.
+Independent and manual release gates remain.
 
 No authorization cutover has been performed. Teaching, assessment, and review
 content remain untouched, and C4/C5 still require their independent and manual
@@ -35,15 +41,17 @@ release gates.
 
 ## 3. Artifacts and their status
 
-| File | Role | Status |
-|---|---|---|
-| `docs/course-progression-handoff.md` | This file. Resumption entry point | Current |
-| `docs/course-progression-architecture.md` | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft |
-| `docs/course-progression-decisions.md` | The single authoritative decision matrix, `D-01` … `D-74` | **74 approved; 0 open** |
-| `docs/course-progression-playbook.md` | The tool-neutral procedure for doing this kind of work | Current |
-| `docs/adr/0013-course-progression-structure.md` | Decision record | **Proposed** |
-| `.github/skills/course-progression-design/SKILL.md` | A thin wrapper around the playbook for one specific tool | Optional convenience |
-| `.github/agents/course-progression-*.agent.md` | Model/tool selection for one specific tool | Optional convenience |
+| File                                                                           | Role                                                                                              | Status                                                        |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `docs/course-progression-handoff.md`                                           | This file. Resumption entry point                                                                 | Current                                                       |
+| `docs/course-progression-architecture.md`                                      | The specification: inventory, entities, policy, authorization, mastery, staging, acceptance tests | **Proposed**, fourth draft                                    |
+| `docs/course-progression-decisions.md`                                         | The single authoritative decision matrix, `D-01` … `D-147`                                        | **80 approved; 67 open extension/shared-teaching candidates** |
+| `docs/teaching-delivery-exposure-contract.md`                                  | Shared teaching delivery, context, replay and exposure contract                                   | **Proposed; ready for human review with noted risks**         |
+| `docs/course-progression-review/teaching-delivery-exposure-20261010-review.md` | Split-author independent review and correction dispositions                                       | Review complete; no approval                                  |
+| `docs/course-progression-playbook.md`                                          | The tool-neutral procedure for doing this kind of work                                            | Current                                                       |
+| `docs/adr/0013-course-progression-structure.md`                                | Decision record                                                                                   | **Proposed**                                                  |
+| `.github/skills/course-progression-design/SKILL.md`                            | A thin wrapper around the playbook for one specific tool                                          | Optional convenience                                          |
+| `.github/agents/course-progression-*.agent.md`                                 | Model/tool selection for one specific tool                                                        | Optional convenience                                          |
 
 The `.github/` files are **wrappers, not the source of procedure**. Any tool
 can do this work from `docs/course-progression-playbook.md` alone.
@@ -54,12 +62,12 @@ Four drafts, three completed independent reviews. Each review's findings were
 remediated in the following draft; the entries in `docs/PROGRESS.md` record the
 detail.
 
-| Draft | Trigger | Principal findings remediated |
-|---|---|---|
-| 1 | Initial design | — |
-| 2 | First independent review | Assessment could not be held out (public repository, public site); layer violation putting thresholds in curriculum; advisory-only gating; last-observation-wins mastery; unreachable `HIGH`; same-sitting "delayed" check; the exactly-two-records-per-skill invariant that throws at module load; unwired test directories; existence-only migration checking |
-| 3 | Second independent review | `D-01` was being pre-decided by prose; decision matrix incomplete; 24 of 27 Grade 6 Math skills would be stranded by fail-closed enforcement; single `AssessmentRun` conflating three lifetimes; missing version pinning; content records duplicating and contradicting the skill graph; incomplete transition tables; unsafe staging intermediates |
-| 4 | Third independent review | `D-01` not a single discriminated union and self-contradicting across files; unitless programs implicitly permitted; an unimplementable cross-table unique index; dishonest staging table; incomplete policy mapping; audit tables classified as droppable; undefined terminal result semantics; no claim-to-test matrix; vacuous publication test; imprecise `D-58` statement; authoring gates understated |
+| Draft | Trigger                   | Principal findings remediated                                                                                                                                                                                                                                                                                                                                                                               |
+| ----- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | Initial design            | —                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 2     | First independent review  | Assessment could not be held out (public repository, public site); layer violation putting thresholds in curriculum; advisory-only gating; last-observation-wins mastery; unreachable `HIGH`; same-sitting "delayed" check; the exactly-two-records-per-skill invariant that throws at module load; unwired test directories; existence-only migration checking                                             |
+| 3     | Second independent review | `D-01` was being pre-decided by prose; decision matrix incomplete; 24 of 27 Grade 6 Math skills would be stranded by fail-closed enforcement; single `AssessmentRun` conflating three lifetimes; missing version pinning; content records duplicating and contradicting the skill graph; incomplete transition tables; unsafe staging intermediates                                                         |
+| 4     | Third independent review  | `D-01` not a single discriminated union and self-contradicting across files; unitless programs implicitly permitted; an unimplementable cross-table unique index; dishonest staging table; incomplete policy mapping; audit tables classified as droppable; undefined terminal result semantics; no claim-to-test matrix; vacuous publication test; imprecise `D-58` statement; authoring gates understated |
 
 ### Remaining open findings
 
@@ -76,26 +84,89 @@ Specific things a fourth reviewer should challenge first:
    so, `D-01` has leaked out of the storage layer.
 3. Does the Stage C4 expand/contract order leave any unsafe intermediate
    deploy?
-4. Does every claim in architecture §16 have a genuinely *falsifying* test in
+4. Does every claim in architecture §16 have a genuinely _falsifying_ test in
    the §13.6 matrix, rather than a merely related one?
 5. Is the §1 inventory still accurate? Re-derive it from code; do not accept
    it.
 
 ## 5. Decisions required before any implementation
 
-All seventy-four entries in `docs/course-progression-decisions.md` are approved.
+D-01 through D-75 in `docs/course-progression-decisions.md` are approved.
+D-139 and D-142 were approved on 2026-10-10 with owner acceptance of the
+reviewed teaching contract. D-145–D-147 were approved after T2 review in the
+2026-10-10 owner form. The other D-76 through D-147 entries remain
+open, stage-scoped extension/shared choices. Read only the
+approved values for the chosen increment; do not adopt proposal defaults.
 D-36 and D-39 are explicitly revisitable pilot decisions; D-39 is required
 before treating elapsed-time evidence as production mastery evidence. Each
 later stage must still use the approved value for every decision it touches.
 
-| Order | Decision | Why first |
-|---|---|---|
-| 1 | Independent review of C1–C3 and representative shadow divergences | Confirms the persistence, dual-write, privacy coverage, and shadow evidence before authorization changes |
-| 2 | Remaining open decisions required by the next planned stage | Prevents implementing unresolved policy or product parameters |
+| Order | Decision                                                          | Why first                                                                                                |
+| ----- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| 1     | Independent review of C1–C3 and representative shadow divergences | Confirms the persistence, dual-write, privacy coverage, and shadow evidence before authorization changes |
+| 2     | Remaining open decisions required by the next planned stage       | Prevents implementing unresolved policy or product parameters                                            |
 
 `D-61` defines the full gate set for resuming curriculum authoring.
 
 ## 6. The exact next task
+
+### 2026-10-10 extension handoff
+
+The five accepted first-unit specifications and independent review dispositions
+are integrated in `docs/curriculum-dossiers/`:
+
+| Program      | Accepted specification                     | Open decisions |
+| ------------ | ------------------------------------------ | -------------- |
+| AMC 8        | `amc-8-course-pilot-20261010.md`           | D-76–D-85      |
+| MOEMS        | `moems-6-course-pilot-20261010.md`         | D-86–D-103     |
+| Kangaroo     | `math-kangaroo-6-course-pilot-20261010.md` | D-104–D-116    |
+| MATHCOUNTS   | `mathcounts-6-course-pilot-20261010.md`    | D-117–D-126    |
+| Spelling Bee | `spelling-bee-6-course-pilot-20261010.md`  | D-127–D-138    |
+
+Exact reviewed specification hashes and dated design acceptance are in D-75.
+Original proposed-status wording is historical; the authoritative matrix records
+acceptance and unresolved values without mutating reviewed artifact bytes.
+
+`src/curriculum/course-catalog.ts` and its mechanical consumers are integrated
+and validated. Current Grade 6 data/behavior remain unchanged; the five
+extensions have no active units. The first increment does not resolve bank
+kind/manifest/history, teaching serving/exposure, completion enforcement or
+choice transport. Those need separate reviewed, issue-sized contracts and
+their stage-specific owner decisions.
+
+**T1 complete:** owner accepted the reviewed teaching contract and D-139/D-142
+recommended shapes on 2026-10-10. Sonnet implemented disconnected schemas and
+computed-byte synthetic fixtures. GPT cross-family review closed padding and
+trailing-newline defects; corrected patch is integrated. `npm run verify`
+passed, including 1,641 tests and build. No writer, route, migration, real
+teaching content or registration. Next recommended issue is a writer-free T2
+privacy/migration proposal for explicit context/event storage, now authorized
+for proposal and independent review only by the owner's 2026-10-10 "proceed";
+packet `docs/agent-handoffs/TEACH-T2-PROPOSAL.md`. Actual migration
+execution and new data writers remain separately approval-gated.
+The contract's implementation gates include shared interlock participation,
+conservative replay-expiry horizons, explicit teaching grants and privacy
+coverage before serving. D-100/D-102/D-138 and D-140/D-141/D-143/D-144 remain
+OPEN. Approval of the two shapes does not authorize T2 or serving.
+D-145–D-147 record additional actor-history, operation-key representation
+and retention choices discovered in T2 review and explicitly approved by owner.
+T2 proposal and GPT cross-family review are complete, ready for human review
+with noted risks: `docs/teaching-persistence-privacy-proposal.md` and
+`docs/course-progression-review/teaching-t2-20261010-review.md`.
+Owner accepted the proposal and authorized isolated T2a implementation and
+disposable local scratch validation only. Sonnet returned a frozen draft under
+`docs/agent-handoffs/TEACH-T2A.md`; GPT independent and human migration
+review precede integration; no worker is running. No production access, deployment, data writer
+or content approval is inferred.
+Bank-resolution and completion remain
+separately scoped increments.
+
+All five D-61 authoring exceptions remain ungranted. Content defects identified
+in proposed reuse are recorded dependencies, not silently corrected records.
+Python implementation is separately blocked on execution-environment evidence,
+persistence/migration review and missing route/independent validation.
+
+### Earlier ratios release chronology
 
 > As of 2026-09-28: the independent C1–C3 review (2026-09-22) and every
 > remediation round since are recorded in `docs/course-progression-review/`,
@@ -192,6 +263,21 @@ later stage must still use the approved value for every decision it touches.
 > Only then implement the approved C4 expand/contract cutover. Do not serve
 > progression UI until C4 and the manual accessibility, wording, privacy, and
 > content gates are recorded.
+>
+> As of 2026-10-10 (D-75, mechanical increment only): active Grade 6 pilot
+> units, lessons and bank metadata are now read through one shared catalog,
+> `src/curriculum/course-catalog.ts` (`COURSE_CATALOG`, `createCourseCatalog`),
+> with ref lookups (`unitByRef`, `lessonByRef`, `bankByRef`) and the selectors
+> the progression consumers previously open-coded. `pilot-catalog.ts` remains
+> the source of the authored records and its exports are unchanged;
+> `isSkillClaimedByAuthoredUnit` accepts an optional catalog. Behavior,
+> registry refs and `validateProgressionCatalog` are unchanged;
+> `tests/curriculum/course-catalog.test.ts` covers the production aggregate
+> and a database-free synthetic second program that is not registered. This
+> does not ship C4, add any real course, or approve authoring. Still
+> pilot-coupled (later reviewed packets): the assignment route, the review
+> page, `private-package-store.ts`, `pilot-progress.ts`'s hard-coded program
+> label, skill-bank suffix resolution, and strict catalog coverage.
 
 ## 7. Stage dependencies
 
@@ -224,13 +310,13 @@ Rules that survive independently of any tool:
 
 ## 8. Validation commands
 
-| Command | Needs a database | When |
-|---|---|---|
-| `npm run verify` | **No** | Every change. Format, lint, typecheck, migration-file existence, DB-free test suites, production build |
-| `npm run test:integration` | Yes | Any persistence change |
-| `npm run test:e2e` | Yes | Any learner- or parent-facing change |
-| `npm run eval:run` | No | Any change to tutor-adjacent text |
-| `git diff --check` | No | Every change |
+| Command                    | Needs a database | When                                                                                                   |
+| -------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------ |
+| `npm run verify`           | **No**           | Every change. Format, lint, typecheck, migration-file existence, DB-free test suites, production build |
+| `npm run test:integration` | Yes              | Any persistence change                                                                                 |
+| `npm run test:e2e`         | Yes              | Any learner- or parent-facing change                                                                   |
+| `npm run eval:run`         | No               | Any change to tutor-adjacent text                                                                      |
+| `git diff --check`         | No               | Every change                                                                                           |
 
 For documentation-only work, follow `AGENTS.md`: run targeted Prettier checks
 with `--ignore-path /dev/null` for changed documents (the repository's default

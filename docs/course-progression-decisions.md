@@ -1,6 +1,6 @@
 # Course Progression — Authoritative Decision Matrix
 
-- Status: **74 approved; 0 open.** Approved entries are explicitly marked in
+- Status: **80 approved; 67 open extension/shared-teaching candidates.** Approved entries are explicitly marked in
   their individual decision sections below.
 - Authority: this file is the **single source of truth** for every
   human-gated course-progression parameter and policy choice.
@@ -40,14 +40,14 @@
 
 ### D-01 — Assessment delivery model: open-book vs held-out
 
-| Field | Value |
-|---|---|
-| Kind | security |
-| Status | **APPROVED** |
-| Recommendation | **Held-out** (strong) |
-| Approved value | Branch B — held-out assessment delivery |
-| Approver | Product owner + privacy/safety owner |
-| Blocks | All assessment authoring; `AssessmentBank`; the lesson/unit completion rules; the entire held-out store decision `D-02` |
+| Field          | Value                                                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Kind           | security                                                                                                                |
+| Status         | **APPROVED**                                                                                                            |
+| Recommendation | **Held-out** (strong)                                                                                                   |
+| Approved value | Branch B — held-out assessment delivery                                                                                 |
+| Approver       | Product owner + privacy/safety owner                                                                                    |
+| Blocks         | All assessment authoring; `AssessmentBank`; the lesson/unit completion rules; the entire held-out store decision `D-02` |
 
 **Verified context.** The repository `navoditk/learning-forge` is **public**
 (`gh repo view` → `"visibility":"PUBLIC"`). Every record under `content/`
@@ -70,26 +70,26 @@ the **canonical definition of both branches**; `docs/course-progression-architec
 cell of it. Every downstream artifact — pipeline, skill, agent profiles,
 roadmap, fixtures, acceptance criteria — is conditional on this table.
 
-| Dimension | **Branch A — open-book** | **Branch B — held-out (recommended)** |
-|---|---|---|
-| Item storage | `content/assessments/<program>/` in this **public** repository, reviewed by pull request exactly as practice is | The store chosen in `D-02`, outside this repository |
-| Bank record contents | May list member refs `{contentId, contentVersion}` directly | Metadata only; membership resolved at run time from the held-out store |
-| Public site publication | **Never published.** Open-book means the item is *reachable by a determined reader in the repository*; it does not mean the product advertises the bank on a browsable page | **Never published** |
-| API exposure | Never lists a bank or an item set; a run returns only the items it currently delivers | Identical |
-| Client bundle | Assessment module is server-only | Identical, plus an import-graph test (S4) |
-| Delayed check (`DELAYED_CHECK`) | **Available**, but establishes *unassisted performance on a knowable item*. It sets `delayedCheckStatus = PERFORMED`, not `CONFIRMED` | **Available** and establishes independence. Sets `delayedCheckStatus = CONFIRMED` |
-| Spaced review (`REVIEW`) | Runs normally; a failure moves `PERFORMED → LAPSED` | Runs normally; a failure moves `CONFIRMED → LAPSED` |
-| `HIGH` confidence | **Not reachable.** No evidence path in this branch supports an independence claim. The band exists in the contract but is unreachable, and that must be stated in the UI copy rather than hidden | **Reachable**, and only via `delayedCheckStatus = CONFIRMED` |
-| Highest reachable band | `MEDIUM` | `HIGH` |
-| Context weights (`D-08`) | Assessment kinds weighted **below** practice-equivalent independence; the approved vector must encode that | Assessment kinds weighted at or above practice |
-| Parent wording | "Completed without asking for help, using open materials." Never "independently confirmed" | "Independently confirmed on an unassisted check after a delay" |
-| Learner wording | "You finished this on your own." | "You showed you remembered this on your own." |
-| Post-run feedback (`D-30`) | Per-item correctness permitted; canonical answers still withheld for reusable items | Identical |
-| Branch-specific tests | L14 (wording: no independence claim anywhere), plus L8/L9/L12/L13 | L15 (S1–S4 exclusion surfaces active), plus L8/L9/L12/L13 |
-| Tests **skipped** in this branch | L15 | L14 |
-| Fixture variant | `fixture-*/assessment-open-book` | `fixture-*/assessment-held-out` |
+| Dimension                        | **Branch A — open-book**                                                                                                                                                                         | **Branch B — held-out (recommended)**                                             |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| Item storage                     | `content/assessments/<program>/` in this **public** repository, reviewed by pull request exactly as practice is                                                                                  | The store chosen in `D-02`, outside this repository                               |
+| Bank record contents             | May list member refs `{contentId, contentVersion}` directly                                                                                                                                      | Metadata only; membership resolved at run time from the held-out store            |
+| Public site publication          | **Never published.** Open-book means the item is _reachable by a determined reader in the repository_; it does not mean the product advertises the bank on a browsable page                      | **Never published**                                                               |
+| API exposure                     | Never lists a bank or an item set; a run returns only the items it currently delivers                                                                                                            | Identical                                                                         |
+| Client bundle                    | Assessment module is server-only                                                                                                                                                                 | Identical, plus an import-graph test (S4)                                         |
+| Delayed check (`DELAYED_CHECK`)  | **Available**, but establishes _unassisted performance on a knowable item_. It sets `delayedCheckStatus = PERFORMED`, not `CONFIRMED`                                                            | **Available** and establishes independence. Sets `delayedCheckStatus = CONFIRMED` |
+| Spaced review (`REVIEW`)         | Runs normally; a failure moves `PERFORMED → LAPSED`                                                                                                                                              | Runs normally; a failure moves `CONFIRMED → LAPSED`                               |
+| `HIGH` confidence                | **Not reachable.** No evidence path in this branch supports an independence claim. The band exists in the contract but is unreachable, and that must be stated in the UI copy rather than hidden | **Reachable**, and only via `delayedCheckStatus = CONFIRMED`                      |
+| Highest reachable band           | `MEDIUM`                                                                                                                                                                                         | `HIGH`                                                                            |
+| Context weights (`D-08`)         | Assessment kinds weighted **below** practice-equivalent independence; the approved vector must encode that                                                                                       | Assessment kinds weighted at or above practice                                    |
+| Parent wording                   | "Completed without asking for help, using open materials." Never "independently confirmed"                                                                                                       | "Independently confirmed on an unassisted check after a delay"                    |
+| Learner wording                  | "You finished this on your own."                                                                                                                                                                 | "You showed you remembered this on your own."                                     |
+| Post-run feedback (`D-30`)       | Per-item correctness permitted; canonical answers still withheld for reusable items                                                                                                              | Identical                                                                         |
+| Branch-specific tests            | L14 (wording: no independence claim anywhere), plus L8/L9/L12/L13                                                                                                                                | L15 (S1–S4 exclusion surfaces active), plus L8/L9/L12/L13                         |
+| Tests **skipped** in this branch | L15                                                                                                                                                                                              | L14                                                                               |
+| Fixture variant                  | `fixture-*/assessment-open-book`                                                                                                                                                                 | `fixture-*/assessment-held-out`                                                   |
 
-**Rules that hold in both branches**, and are therefore *not* part of this
+**Rules that hold in both branches**, and are therefore _not_ part of this
 decision: assessment and review items are never tutored and carry no hint
 ladder; item selection is server-side and recorded on an immutable assignment;
 a run requires an active assignment bound to the session; no `pending_review`
@@ -101,37 +101,37 @@ the learner's own responses and results, never the bank.
 distinguishes independent work from assisted work — is not defensible if the
 items used to establish it, and their canonical answers, are in a public
 repository. Branch A does not make the product dishonest; it makes it a
-*different, weaker* product whose top band is `MEDIUM`. That is a
+_different, weaker_ product whose top band is `MEDIUM`. That is a
 recommendation, not a decision.
 
 **Honest limit, both branches:** delivering an assessment shows its prompt to
 that learner at that moment, and the learner's own response is exported to the
-parent. Held-out means *not published in advance and not enumerable*, never
-*never displayed*.
+parent. Held-out means _not published in advance and not enumerable_, never
+_never displayed_.
 
 ### D-02 — Held-out assessment store mechanism
 
-| Field | Value |
-|---|---|
-| Kind | security |
-| Status | **APPROVED** |
-| Recommendation | **Option A — private reviewed assessment package** (strong) |
-| Approved value | Option A — private reviewed assessment package |
-| Approver | Product owner + engineering owner |
-| Blocks | Assessment authoring; the leakage acceptance tests in `docs/course-progression-architecture.md` §13 |
+| Field          | Value                                                                                               |
+| -------------- | --------------------------------------------------------------------------------------------------- |
+| Kind           | security                                                                                            |
+| Status         | **APPROVED**                                                                                        |
+| Recommendation | **Option A — private reviewed assessment package** (strong)                                         |
+| Approved value | Option A — private reviewed assessment package                                                      |
+| Approver       | Product owner + engineering owner                                                                   |
+| Blocks         | Assessment authoring; the leakage acceptance tests in `docs/course-progression-architecture.md` §13 |
 
-| Option | Mechanism | Review history | Weaknesses |
-|---|---|---|---|
-| **A (recommended)** | A separate **private** repository published as a private package (GitHub Packages / private npm) and installed as a server-only dependency. Items load through a server-only `assessmentStore` module. | Full: pull-request review in the private repo, same `docs/content-review.md` gate | Adds a second repository and a package-publish step; private-package auth must be managed in Render |
-| **B** | Database-backed assessment store, seeded by an operator-run import from a private, reviewed source | Partial: rows are not diffable, so review must happen on the import source, which must itself be a reviewed repository | Drifts from the "curriculum as reviewed code" precedent (ADR-0006); the import source becomes an unversioned dependency unless it is itself reviewed |
-| **C** | Encrypted bundle committed to the public repo, key in the deployment environment | Full, but ciphertext | Ciphertext is permanently public; a future key compromise retroactively exposes every assessment. Not recommended |
+| Option              | Mechanism                                                                                                                                                                                              | Review history                                                                                                         | Weaknesses                                                                                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A (recommended)** | A separate **private** repository published as a private package (GitHub Packages / private npm) and installed as a server-only dependency. Items load through a server-only `assessmentStore` module. | Full: pull-request review in the private repo, same `docs/content-review.md` gate                                      | Adds a second repository and a package-publish step; private-package auth must be managed in Render                                                  |
+| **B**               | Database-backed assessment store, seeded by an operator-run import from a private, reviewed source                                                                                                     | Partial: rows are not diffable, so review must happen on the import source, which must itself be a reviewed repository | Drifts from the "curriculum as reviewed code" precedent (ADR-0006); the import source becomes an unversioned dependency unless it is itself reviewed |
+| **C**               | Encrypted bundle committed to the public repo, key in the deployment environment                                                                                                                       | Full, but ciphertext                                                                                                   | Ciphertext is permanently public; a future key compromise retroactively exposes every assessment. Not recommended                                    |
 
 **Every option must preserve a human review gate.** An option that stores
 assessment items without version history, pull-request review, or an
 equivalent auditable approval trail is not acceptable and is deliberately not
 listed: `docs/content-review.md` applies to assessment items exactly as it
-applies to practice items. The held-out decision changes *where* review
-happens, never *whether* it happens.
+applies to practice items. The held-out decision changes _where_ review
+happens, never _whether_ it happens.
 
 Whichever is chosen, the **exclusion surfaces** in
 `docs/course-progression-architecture.md` §4.3B and their acceptance tests are
@@ -139,14 +139,14 @@ mandatory and not separately negotiable.
 
 ### D-03 — Treatment of the six existing ratios records under a held-out model
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED** |
-| Recommendation | Keep all six public as `practice`; author assessment items fresh in the held-out store |
+| Field          | Value                                                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------------------------ |
+| Kind           | content                                                                                                      |
+| Status         | **APPROVED**                                                                                                 |
+| Recommendation | Keep all six public as `practice`; author assessment items fresh in the held-out store                       |
 | Approved value | Keep all six existing ratios records public as practice; author assessment items fresh in the held-out store |
-| Approver | Product/content owner |
-| Blocks | Pilot record-count estimates (`D-36`) |
+| Approver       | Product/content owner                                                                                        |
+| Blocks         | Pilot record-count estimates (`D-36`)                                                                        |
 
 The six existing ratios records are already public and already on the
 curriculum site. They cannot become held-out retroactively.
@@ -157,14 +157,14 @@ curriculum site. They cannot become held-out retroactively.
 
 ### D-04 — Sequencing feature flag default for the live household
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED 2026-09-19, confirmed 2026-09-19** |
-| Recommendation | Ship enforcement with sequencing **off**, enable after one week of observation |
+| Field          | Value                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------- |
+| Kind           | product                                                                               |
+| Status         | **APPROVED 2026-09-19, confirmed 2026-09-19**                                         |
+| Recommendation | Ship enforcement with sequencing **off**, enable after one week of observation        |
 | Approved value | Ship enforcement with sequencing off; enable sequencing after one week of observation |
-| Approver | Product owner |
-| Blocks | Cutover plan |
+| Approver       | Product owner                                                                         |
+| Blocks         | Cutover plan                                                                          |
 
 **Not negotiable regardless of this decision:** role and readiness
 authorization is always on and fail-closed. The flag governs **unit/lesson
@@ -174,14 +174,14 @@ See `docs/course-progression-architecture.md` §7.
 
 ### D-05 — Acknowledgement: closing the `startSession` bypass removes current access
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED 2026-09-19** |
-| Recommendation | Acknowledge and proceed |
+| Field          | Value                                                                                |
+| -------------- | ------------------------------------------------------------------------------------ |
+| Kind           | product                                                                              |
+| Status         | **APPROVED 2026-09-19**                                                              |
+| Recommendation | Acknowledge and proceed                                                              |
 | Approved value | Acknowledge and proceed; existing access may be refused until an authored gate opens |
-| Approver | Product owner |
-| Blocks | Authorization increment |
+| Approver       | Product owner                                                                        |
+| Blocks         | Authorization increment                                                              |
 
 Today `GET /api/phase1/session?contentId=…` starts a session on any reviewed
 item in a program regardless of evidence. Closing it makes content that the
@@ -189,14 +189,14 @@ existing live learner can reach today unreachable until its gate opens.
 
 ### D-06 — Override re-authentication mechanism
 
-| Field | Value |
-|---|---|
-| Kind | security |
-| Status | **APPROVED 2026-09-19** |
+| Field          | Value                                                                         |
+| -------------- | ----------------------------------------------------------------------------- |
+| Kind           | security                                                                      |
+| Status         | **APPROVED 2026-09-19**                                                       |
 | Recommendation | Password re-entry within a short step-up window before an override is written |
 | Approved value | Password re-entry within a short step-up window before an override is written |
-| Approver | Product owner + privacy/safety owner |
-| Blocks | Parent/operator override (`§9`) |
+| Approver       | Product owner + privacy/safety owner                                          |
+| Blocks         | Parent/operator override (`§9`)                                               |
 
 ---
 
@@ -205,31 +205,31 @@ existing live learner can reach today unreachable until its gate opens.
 All of these feed the formula in `docs/course-progression-architecture.md` §8.
 None may be hard-coded. All live in a versioned `ProgressionPolicyProfile`.
 
-| ID | Symbol | Parameter | Recommendation | Status | Approver |
-|---|---|---|---|---|---|
-| D-07 | `assistanceWeight[]` | Weight by maximum assistance used | Carry today's documented ladder: `1.00 / 0.90 / 0.75 / 0.55 / 0.35 / 0.10` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-08 | `contextWeight[]` | Weight by assessment context | `delayed_check 1.00`, `unit_assessment 1.00`, `lesson_assessment 0.95`, `review 0.90`, `practice 0.80`, `placement 0.40` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-09 | `ρ` | Repeat-exposure discount per prior exposure to the same item | `0.6` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-10 | `H` | Recency half-life (days) | `30` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-11 | `N` | Aggregation window (most recent observations) | `8` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-12 | `M_med` | Minimum evidence mass for `MEDIUM` | `1.6` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-13 | `K_med` | Minimum independent observations for `MEDIUM` | `2` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-14 | `θ_med` | Minimum estimate for `MEDIUM` | `0.70` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-15 | `θ_gate` | Minimum estimate for a structural unlock gate | `0.75` (today's planner `DEFAULT_SECURE_THRESHOLD`) | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-16 | `θ_relock` | Estimate below which a `CONFIRMED` skill is flagged for early review | `0.55` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-17 | `stalenessDays` | Days without an observation before confidence degrades one band | `45` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-18 | `spacingIntervals[]` | Expanding review intervals (days), replacing the flat 14 | `3 / 7 / 21 / 45` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| ID   | Symbol               | Parameter                                                            | Recommendation                                                                                                           | Status                  | Approver               |
+| ---- | -------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------- | ---------------------- |
+| D-07 | `assistanceWeight[]` | Weight by maximum assistance used                                    | Carry today's documented ladder: `1.00 / 0.90 / 0.75 / 0.55 / 0.35 / 0.10`                                               | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-08 | `contextWeight[]`    | Weight by assessment context                                         | `delayed_check 1.00`, `unit_assessment 1.00`, `lesson_assessment 0.95`, `review 0.90`, `practice 0.80`, `placement 0.40` | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-09 | `ρ`                  | Repeat-exposure discount per prior exposure to the same item         | `0.6`                                                                                                                    | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-10 | `H`                  | Recency half-life (days)                                             | `30`                                                                                                                     | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-11 | `N`                  | Aggregation window (most recent observations)                        | `8`                                                                                                                      | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-12 | `M_med`              | Minimum evidence mass for `MEDIUM`                                   | `1.6`                                                                                                                    | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-13 | `K_med`              | Minimum independent observations for `MEDIUM`                        | `2`                                                                                                                      | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-14 | `θ_med`              | Minimum estimate for `MEDIUM`                                        | `0.70`                                                                                                                   | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-15 | `θ_gate`             | Minimum estimate for a structural unlock gate                        | `0.75` (today's planner `DEFAULT_SECURE_THRESHOLD`)                                                                      | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-16 | `θ_relock`           | Estimate below which a `CONFIRMED` skill is flagged for early review | `0.55`                                                                                                                   | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-17 | `stalenessDays`      | Days without an observation before confidence degrades one band      | `45`                                                                                                                     | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-18 | `spacingIntervals[]` | Expanding review intervals (days), replacing the flat 14             | `3 / 7 / 21 / 45`                                                                                                        | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
 ### D-19 — `Attempt.highestAssistance` correction strategy
 
-| Field | Value |
-|---|---|
-| Kind | policy |
-| Status | **APPROVED 2026-09-19** |
+| Field          | Value                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| Kind           | policy                                                                                          |
+| Status         | **APPROVED 2026-09-19**                                                                         |
 | Recommendation | **Option 2 — derive at read time from `AssistanceEvent`, and drop or ignore the stored column** |
-| Approved value | Derive maximum assistance at read time from `AssistanceEvent`; ignore the stored column |
-| Approver | Product/engineering owner |
-| Blocks | Mastery aggregation; parent evidence; household export |
+| Approved value | Derive maximum assistance at read time from `AssistanceEvent`; ignore the stored column         |
+| Approver       | Product/engineering owner                                                                       |
+| Blocks         | Mastery aggregation; parent evidence; household export                                          |
 
 **Verified defect.** `src/phase1/service.ts:234` writes
 `highestAssistance: 'INDEPENDENT'` at attempt creation and **never updates
@@ -240,25 +240,25 @@ independent. `src/phase1/service.ts:691` works around it by reading
 `assistanceEvents[0].level` under `orderBy: { occurredAt: 'desc' }, take: 1` —
 that is the **most recent** assistance event, not the **highest**.
 
-| Option | Approach | Trade-off |
-|---|---|---|
-| 1 | Keep the column and update it whenever an `AssistanceEvent` is appended | Requires the attempt-immutability trigger to permit this one column; muddies the immutability guarantee |
+| Option              | Approach                                                                                                                 | Trade-off                                                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| 1                   | Keep the column and update it whenever an `AssistanceEvent` is appended                                                  | Requires the attempt-immutability trigger to permit this one column; muddies the immutability guarantee            |
 | **2 (recommended)** | Treat `AssistanceEvent` as authoritative and derive `max(level)` at read time; stop selecting the stored column anywhere | One correct source; no immutability exception; needs an index and a read-path change everywhere the column is used |
-| 3 | Add a separate append-only projection table | Correct but heavier than the problem warrants at this scale |
+| 3                   | Add a separate append-only projection table                                                                              | Correct but heavier than the problem warrants at this scale                                                        |
 
 Either way, `docs/course-progression-architecture.md` §8.2 specifies **maximum
 by assistance-level ordinal**, never "most recent".
 
 ### D-20 — Recalculation and cutover for the new `algorithmVersion`
 
-| Field | Value |
-|---|---|
-| Kind | policy |
-| Status | **APPROVED 2026-09-19** |
+| Field          | Value                                                                                                                 |
+| -------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Kind           | policy                                                                                                                |
+| Status         | **APPROVED 2026-09-19**                                                                                               |
 | Recommendation | Shadow-compute the new version alongside the old, compare, then switch the active pointer; never mutate existing rows |
 | Approved value | Shadow-compute the new version alongside the old, compare, then switch the active pointer; never mutate existing rows |
-| Approver | Product/engineering owner |
-| Blocks | Mastery increment |
+| Approver       | Product/engineering owner                                                                                             |
+| Blocks         | Mastery increment                                                                                                     |
 
 The new aggregation changes the meaning of every existing `MasteryEstimate`
 row for the live household.
@@ -267,20 +267,20 @@ row for the live household.
 
 ## D. Delayed checks, placement, skip, remediation, reassessment
 
-| ID | Parameter | Recommendation | Status | Approver |
-|---|---|---|---|---|
-| D-21 | `minDelayHours` — minimum separation from the last instruction or assistance event for that skill | `20` (next calendar day) | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-22 | `placementProbeMaxItems` | `5` (today's cap) | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-23 | `lessonAssessment.itemsPerAttempt` | `3` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-24 | `lessonAssessment.passBar` — correct items required out of `itemsPerAttempt` | `3 of 3` at independent assistance | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-25 | `unitAssessment.itemsPerAttempt` | `6` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-26 | `unitAssessment.passBar` | `5 of 6` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-27 | `maxReassessments` — consecutive reassessments before routing to a parent-visible "needs help" state | `2` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-28 | `reassessmentCooldown` | one completed practice session **and** `12` hours | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-29 | `assessmentRunExpiry` — how long an `IN_PROGRESS` run stays valid before `EXPIRED` | `24` hours | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-30 | `feedbackLevel` after a scored run | `PER_ITEM_CORRECTNESS` without revealing correct answers | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-31 | Skip bar — evidence required to mark a lesson `COMPLETE_BY_SKIP` | Pass the lesson assessment bank at `D-24` on the **first** run, with no prior teaching or practice event for that skill | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-32 | Unit skip bar | Pass the unit assessment at `D-26` on the first run | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| ID   | Parameter                                                                                            | Recommendation                                                                                                          | Status                  | Approver               |
+| ---- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------- | ---------------------- |
+| D-21 | `minDelayHours` — minimum separation from the last instruction or assistance event for that skill    | `20` (next calendar day)                                                                                                | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-22 | `placementProbeMaxItems`                                                                             | `5` (today's cap)                                                                                                       | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-23 | `lessonAssessment.itemsPerAttempt`                                                                   | `3`                                                                                                                     | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-24 | `lessonAssessment.passBar` — correct items required out of `itemsPerAttempt`                         | `3 of 3` at independent assistance                                                                                      | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-25 | `unitAssessment.itemsPerAttempt`                                                                     | `6`                                                                                                                     | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-26 | `unitAssessment.passBar`                                                                             | `5 of 6`                                                                                                                | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-27 | `maxReassessments` — consecutive reassessments before routing to a parent-visible "needs help" state | `2`                                                                                                                     | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-28 | `reassessmentCooldown`                                                                               | one completed practice session **and** `12` hours                                                                       | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-29 | `assessmentRunExpiry` — how long an `IN_PROGRESS` run stays valid before `EXPIRED`                   | `24` hours                                                                                                              | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-30 | `feedbackLevel` after a scored run                                                                   | `PER_ITEM_CORRECTNESS` without revealing correct answers                                                                | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-31 | Skip bar — evidence required to mark a lesson `COMPLETE_BY_SKIP`                                     | Pass the lesson assessment bank at `D-24` on the **first** run, with no prior teaching or practice event for that skill | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| D-32 | Unit skip bar                                                                                        | Pass the unit assessment at `D-26` on the first run                                                                     | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
 **`D-28` implementation note (2026-09-24).** For a delayed check after a lapse
 or failed delayed check, "one completed practice session" is read as a
@@ -300,14 +300,14 @@ states only that a bar exists and where it is read from.
 
 ### D-33 — Completion is not mastery: parent-surface wording
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED 2026-09-19** |
+| Field          | Value                                                                                                           |
+| -------------- | --------------------------------------------------------------------------------------------------------------- |
+| Kind           | product                                                                                                         |
+| Status         | **APPROVED 2026-09-19**                                                                                         |
 | Recommendation | Render completion and mastery as two separate, separately-labeled facts; never merge them into one "done" state |
 | Approved value | Render completion and mastery as two separate, separately-labeled facts; never merge them into one "done" state |
-| Approver | Product owner |
-| Blocks | Parent evidence increment |
+| Approver       | Product owner                                                                                                   |
+| Blocks         | Parent evidence increment                                                                                       |
 
 A learner can complete a lesson with assistance without mastering its skill,
 and can master a skill without completing its lesson (via skip). See
@@ -315,25 +315,25 @@ and can master a skill without completing its lesson (via skip). See
 
 ### D-34 — Pilot unit lesson count
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED 2026-09-19** |
+| Field          | Value                                                       |
+| -------------- | ----------------------------------------------------------- |
+| Kind           | product                                                     |
+| Status         | **APPROVED 2026-09-19**                                     |
 | Recommendation | `3`, staged one lesson at a time; the approved bound is 2–4 |
-| Approved value | 3, staged one lesson at a time |
-| Approver | Product owner |
-| Blocks | Pilot scope |
+| Approved value | 3, staged one lesson at a time                              |
+| Approver       | Product owner                                               |
+| Blocks         | Pilot scope                                                 |
 
 ### D-35 — `ratio-tables → unit-rates` prerequisite edge
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED 2026-09-19** |
-| Recommendation | Re-audit and most likely **remove or narrow** the edge |
+| Field          | Value                                                                                                                                                                                                                                  |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | content                                                                                                                                                                                                                                |
+| Status         | **APPROVED 2026-09-19**                                                                                                                                                                                                                |
+| Recommendation | Re-audit and most likely **remove or narrow** the edge                                                                                                                                                                                 |
 | Approved value | Remove `unit-rates` from the `ratio-tables` skill prerequisite list. The pilot lesson order remains authored separately; `ratio-tables-2` may use a narrower readiness reference only if it remains inside the approved skill closure. |
-| Approver | Product/content owner (explicit authorization in chat) |
-| Blocks | Pilot lesson ordering |
+| Approver       | Product/content owner (explicit authorization in chat)                                                                                                                                                                                 |
+| Blocks         | Pilot lesson ordering                                                                                                                                                                                                                  |
 
 **Verified context.** Before this approval,
 `content/skills/ratio-tables.json` declared
@@ -357,14 +357,14 @@ sound.
 
 ### D-36 — Content-volume inputs
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED 2026-09-20** |
-| Recommendation | See `D-48`, `D-49`, `D-50`, and `D-42`, which are the actual independent inputs |
+| Field          | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | content                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Status         | **APPROVED 2026-09-20**                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Recommendation | See `D-48`, `D-49`, `D-50`, and `D-42`, which are the actual independent inputs                                                                                                                                                                                                                                                                                                                                                                           |
 | Approved value | For the initial three-lesson Grade 6 Math pilot: one teaching record per lesson; six practice records per lesson (four threshold items plus two remediation headroom items); two review records per skill; nine held-out lesson-assessment items per lesson and eighteen held-out unit-assessment items, derived from the approved no-reuse reassessment policy. Revisit volumes after live pilot observation; any expansion remains separately reviewed. |
-| Approver | Product/pedagogy owner (explicit approval in chat) |
-| Blocks | Authoring volume |
+| Approver       | Product/pedagogy owner (explicit approval in chat)                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Blocks         | Authoring volume                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 This entry is a pointer, not an independent value. Content volume is not one
 decision; it is four independent inputs plus arithmetic:
@@ -385,25 +385,25 @@ Volumes are **assumptions about this learner**, not findings about learning.
 
 ### D-37 — Relabelling existing reviewed content with an explicit `role`
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED 2026-09-19** |
+| Field          | Value                                                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Kind           | content                                                                                                                 |
+| Status         | **APPROVED 2026-09-19**                                                                                                 |
 | Recommendation | Permit relabelling all 128 existing reviewed records to `role: "practice"` without re-review, as a mechanical migration |
-| Approved value | Relabel all 128 existing reviewed records to `role: "practice"` without re-review as a mechanical migration |
-| Approver | Product/content owner (explicit approval in chat) |
-| Blocks | Role increment |
+| Approved value | Relabel all 128 existing reviewed records to `role: "practice"` without re-review as a mechanical migration             |
+| Approver       | Product/content owner (explicit approval in chat)                                                                       |
+| Blocks         | Role increment                                                                                                          |
 
 ### D-38 — Replacing the exact-two-records-per-skill invariant
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED 2026-09-19** |
+| Field          | Value                                                                                             |
+| -------------- | ------------------------------------------------------------------------------------------------- |
+| Kind           | content                                                                                           |
+| Status         | **APPROVED 2026-09-19**                                                                           |
 | Recommendation | Replace with role- and program-aware validation (`docs/course-progression-architecture.md` §11.2) |
-| Approved value | Replace with role- and program-aware validation |
-| Approver | Product/content owner + engineering owner |
-| Blocks | Any teaching or assessment record for any skill |
+| Approved value | Replace with role- and program-aware validation                                                   |
+| Approver       | Product/content owner + engineering owner                                                         |
+| Blocks         | Any teaching or assessment record for any skill                                                   |
 
 **Verified context.** `src/content/catalog.ts` enforces
 `REQUIRED_RECORDS_PER_SKILL = 2` and throws
@@ -416,38 +416,38 @@ assert `expect(records).toHaveLength(2)` and
 
 ### D-39 — Whether real `Attempt.elapsedSeconds` capture is in scope
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED 2026-09-20** |
-| Recommendation | Separate increment; the delay window does **not** depend on it |
+| Field          | Value                                                                                                                                                                                                      |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | product                                                                                                                                                                                                    |
+| Status         | **APPROVED 2026-09-20**                                                                                                                                                                                    |
+| Recommendation | Separate increment; the delay window does **not** depend on it                                                                                                                                             |
 | Approved value | Defer real elapsed-time capture to a post-pilot increment. Keep the current non-evidence value out of mastery calculations, parent claims, and release gates. Revisit after live Grade 6 Math observation. |
-| Approver | Product/engineering owner (explicit approval in chat) |
-| Blocks | Nothing in the progression critical path |
+| Approver       | Product/engineering owner (explicit approval in chat)                                                                                                                                                      |
+| Blocks         | Nothing in the progression critical path                                                                                                                                                                   |
 
 `Attempt.elapsedSeconds` is hardcoded to `0` in `createAttempt`.
 
 ### D-40 — Program registry replacing `PROGRAM_ROSTER`
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED** |
+| Field          | Value                                                                                                             |
+| -------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Kind           | product                                                                                                           |
+| Status         | **APPROVED**                                                                                                      |
 | Recommendation | Introduce a versioned `Program` registry record and derive `PROGRAM_ROSTER` and `CurriculumProgramSchema` from it |
-| Approved value | Introduce a versioned `Program` registry and derive the roster and program schema from it |
-| Approver | Product/engineering owner |
-| Blocks | Cross-program generality (`§12`) |
+| Approved value | Introduce a versioned `Program` registry and derive the roster and program schema from it                         |
+| Approver       | Product/engineering owner                                                                                         |
+| Blocks         | Cross-program generality (`§12`)                                                                                  |
 
 ### D-41 — Screen-reader human review scope
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED 2026-09-19** |
+| Field          | Value                                                                                                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | product                                                                                                                                                                 |
+| Status         | **APPROVED 2026-09-19**                                                                                                                                                 |
 | Recommendation | One manual screen-reader pass over the progression surfaces before the pilot serves a learner; axe automation is not sufficient for live-region and focus-order quality |
-| Approved value | One manual screen-reader pass over progression surfaces before serving a learner |
-| Approver | Accessibility/product owner |
-| Blocks | Pilot serving |
+| Approved value | One manual screen-reader pass over progression surfaces before serving a learner                                                                                        |
+| Approver       | Accessibility/product owner                                                                                                                                             |
+| Blocks         | Pilot serving                                                                                                                                                           |
 
 ---
 
@@ -456,18 +456,18 @@ assert `expect(records).toHaveLength(2)` and
 These close gaps the second independent review identified: policy keys the
 architecture referenced or implied without a decision entry.
 
-| ID | Policy key | Parameter | Recommendation | Status | Approver |
-|---|---|---|---|---|---|
-| D-42 | `lessonMinPracticeItems` | Distinct practice items a learner must attempt before a lesson's practice threshold is met | `4` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-43 | `delayedCheckItemsPerAttempt`, `delayedCheckPassBar` | Items presented in a delayed check, and how many must be correct | `2` items, `2 of 2` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-44 | `delayedCheckReuse` | Whether a delayed check may reuse an item the learner has seen for that skill | **No reuse** — unseen items only | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-45 | `reviewItemsPerAttempt`, `reviewPassBar` | Items presented in a spaced review, and how many must be correct | `1` item, `1 of 1` | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-46 | `reviewReuse` | Whether a review may reuse a previously seen item, and after what interval | Reuse permitted only for items not seen within the last two spacing intervals | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-47 | `stepUpReauthLifetimeMinutes` | How long a step-up re-authentication remains valid for writing overrides | `10` minutes, single-use per override | **APPROVED 2026-09-19** | Product owner + privacy/safety owner |
-| D-48 | `teachingRecordsPerLesson` | Teaching records authored per lesson | `1`, with a second alternative representation optional | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-49 | `practiceRecordsPerLesson` | Practice records authored per lesson | At least `D-42` plus headroom for remediation on unseen items | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-50 | `reviewRecordsPerSkill` | Review-role records authored per skill | `2`, so a review need not repeat the item that confirmed the skill. **Amended to `3` by `D-67` (2026-09-24)** | **APPROVED 2026-09-19** | Product/pedagogy owner |
-| D-51 | `difficultyWeight[]` | Whether item difficulty modifies evidence weight, and if so how | **Do not weight by difficulty in the first version.** Keep `difficultyWeight` absent rather than set to 1.0, so its absence is a recorded choice rather than a silent default | **APPROVED 2026-09-19** | Product/pedagogy owner |
+| ID   | Policy key                                           | Parameter                                                                                  | Recommendation                                                                                                                                                                | Status                  | Approver                             |
+| ---- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ------------------------------------ |
+| D-42 | `lessonMinPracticeItems`                             | Distinct practice items a learner must attempt before a lesson's practice threshold is met | `4`                                                                                                                                                                           | **APPROVED 2026-09-19** | Product/pedagogy owner               |
+| D-43 | `delayedCheckItemsPerAttempt`, `delayedCheckPassBar` | Items presented in a delayed check, and how many must be correct                           | `2` items, `2 of 2`                                                                                                                                                           | **APPROVED 2026-09-19** | Product/pedagogy owner               |
+| D-44 | `delayedCheckReuse`                                  | Whether a delayed check may reuse an item the learner has seen for that skill              | **No reuse** — unseen items only                                                                                                                                              | **APPROVED 2026-09-19** | Product/pedagogy owner               |
+| D-45 | `reviewItemsPerAttempt`, `reviewPassBar`             | Items presented in a spaced review, and how many must be correct                           | `1` item, `1 of 1`                                                                                                                                                            | **APPROVED 2026-09-19** | Product/pedagogy owner               |
+| D-46 | `reviewReuse`                                        | Whether a review may reuse a previously seen item, and after what interval                 | Reuse permitted only for items not seen within the last two spacing intervals                                                                                                 | **APPROVED 2026-09-19** | Product/pedagogy owner               |
+| D-47 | `stepUpReauthLifetimeMinutes`                        | How long a step-up re-authentication remains valid for writing overrides                   | `10` minutes, single-use per override                                                                                                                                         | **APPROVED 2026-09-19** | Product owner + privacy/safety owner |
+| D-48 | `teachingRecordsPerLesson`                           | Teaching records authored per lesson                                                       | `1`, with a second alternative representation optional                                                                                                                        | **APPROVED 2026-09-19** | Product/pedagogy owner               |
+| D-49 | `practiceRecordsPerLesson`                           | Practice records authored per lesson                                                       | At least `D-42` plus headroom for remediation on unseen items                                                                                                                 | **APPROVED 2026-09-19** | Product/pedagogy owner               |
+| D-50 | `reviewRecordsPerSkill`                              | Review-role records authored per skill                                                     | `2`, so a review need not repeat the item that confirmed the skill. **Amended to `3` by `D-67` (2026-09-24)**                                                                 | **APPROVED 2026-09-19** | Product/pedagogy owner               |
+| D-51 | `difficultyWeight[]`                                 | Whether item difficulty modifies evidence weight, and if so how                            | **Do not weight by difficulty in the first version.** Keep `difficultyWeight` absent rather than set to 1.0, so its absence is a recorded choice rather than a silent default | **APPROVED 2026-09-19** | Product/pedagogy owner               |
 
 | D-59 | `allowAssistanceInPractice` | Whether assistance-supported practice counts toward a lesson's practice threshold | `true` — completion may be earned with help; mastery is what assistance discounts | **APPROVED 2026-09-19** | Product/pedagogy owner |
 
@@ -482,14 +482,14 @@ is superseded by `D-07` for every progression purpose.
 
 ### D-52 — Rollout mode for a program that is only partly unitised
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED** |
-| Recommendation | **Option H — hybrid mode with a named legacy compatibility policy** |
-| Approved value | Option H — hybrid mode with a named legacy compatibility policy |
-| Approver | Product owner + engineering owner |
-| Blocks | The entire pilot; without this, 24 of 27 Grade 6 Math skills are stranded |
+| Field          | Value                                                                     |
+| -------------- | ------------------------------------------------------------------------- |
+| Kind           | product                                                                   |
+| Status         | **APPROVED**                                                              |
+| Recommendation | **Option H — hybrid mode with a named legacy compatibility policy**       |
+| Approved value | Option H — hybrid mode with a named legacy compatibility policy           |
+| Approver       | Product owner + engineering owner                                         |
+| Blocks         | The entire pilot; without this, 24 of 27 Grade 6 Math skills are stranded |
 
 **Verified context.** `grade-6-math` has **27** skills. The proposed pilot unit
 covers **3** (`ratio-language`, `unit-rates`, `ratio-tables`). If authorization
@@ -497,10 +497,10 @@ becomes fail-closed and only unit-covered targets are grantable, the other
 **24 skills become unreachable** — a regression for the live learner, not a
 gate.
 
-| Option | Mechanism | Trade-off |
-|---|---|---|
-| **H (recommended)** | `grade-6-math` carries units for the pilot skills. The other 24 skills are reachable through an explicit, authored, versioned **legacy compatibility policy** (`D-53`) that grants practice-only activity on skills no unit claims. | One program, one evidence stream, no duplicated skill codes. Requires the legacy policy to be a real authored artifact, not a fallback |
-| **I** | A separate pilot program (for example `grade-6-math-ratios-pilot`) with its own prefixed skill codes; `grade-6-math` is untouched and keeps today's behavior wholesale. | Simplest isolation, but duplicates three skills, splits the learner's evidence for the same concepts across two programs, and makes the pilot's results not directly transferable to `grade-6-math` |
+| Option              | Mechanism                                                                                                                                                                                                                           | Trade-off                                                                                                                                                                                           |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **H (recommended)** | `grade-6-math` carries units for the pilot skills. The other 24 skills are reachable through an explicit, authored, versioned **legacy compatibility policy** (`D-53`) that grants practice-only activity on skills no unit claims. | One program, one evidence stream, no duplicated skill codes. Requires the legacy policy to be a real authored artifact, not a fallback                                                              |
+| **I**               | A separate pilot program (for example `grade-6-math-ratios-pilot`) with its own prefixed skill codes; `grade-6-math` is untouched and keeps today's behavior wholesale.                                                             | Simplest isolation, but duplicates three skills, splits the learner's evidence for the same concepts across two programs, and makes the pilot's results not directly transferable to `grade-6-math` |
 
 **Why hybrid is recommended:** option I duplicates skill codes for concepts the
 learner already has evidence for, and program isolation then means that
@@ -509,25 +509,25 @@ to have never seen ratios. That is a recommendation, not a decision.
 
 ### D-60 — Access policy for **every** progression mode, including `skill-graph-only`
 
-| Field | Value |
-|---|---|
-| Kind | security |
-| Status | **APPROVED** |
+| Field          | Value                                                                                                          |
+| -------------- | -------------------------------------------------------------------------------------------------------------- |
+| Kind           | security                                                                                                       |
+| Status         | **APPROVED**                                                                                                   |
 | Recommendation | Every program references an explicit, versioned `AccessPolicy`; there is no mode that is implicitly permissive |
-| Approved value | Every program references an explicit, versioned `AccessPolicy`; missing or invalid policy grants nothing |
-| Approver | Product owner + engineering owner |
-| Blocks | Cutover (Stage C4) for **all** currently enabled programs, not only the pilot |
+| Approved value | Every program references an explicit, versioned `AccessPolicy`; missing or invalid policy grants nothing       |
+| Approver       | Product owner + engineering owner                                                                              |
+| Blocks         | Cutover (Stage C4) for **all** currently enabled programs, not only the pilot                                  |
 
 `D-52`/`D-53` covered the hybrid remainder. They did not cover the five
 programs that will still be `skill-graph-only` at cutover — Math Kangaroo,
 MOEMS, AMC 8, MATHCOUNTS, and Scripps. Leaving those implicitly permitted
 reintroduces exactly the missing-state fallback this work exists to remove.
 
-| Mode | Required policy reference | Recommended grants |
-|---|---|---|
-| `skill-graph-only` | `accessPolicyRef` — required, non-null | `PRACTICE`, `PLACEMENT`, `REVIEW`, and `DELAYED_CHECK` only where the program already declares a readiness contract; never `LESSON_ASSESSMENT`/`UNIT_ASSESSMENT`, which have no bank or bar in this mode. Prerequisite graph and existing per-item contest-readiness contracts are honored |
-| `hybrid` | `accessPolicyRef` for unit-covered targets **and** `legacyCompatibilityPolicyRef` for the remainder (`D-53`) | As `D-53` |
-| `unit-sequenced` | `accessPolicyRef` | Full progression grants |
+| Mode               | Required policy reference                                                                                    | Recommended grants                                                                                                                                                                                                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `skill-graph-only` | `accessPolicyRef` — required, non-null                                                                       | `PRACTICE`, `PLACEMENT`, `REVIEW`, and `DELAYED_CHECK` only where the program already declares a readiness contract; never `LESSON_ASSESSMENT`/`UNIT_ASSESSMENT`, which have no bank or bar in this mode. Prerequisite graph and existing per-item contest-readiness contracts are honored |
+| `hybrid`           | `accessPolicyRef` for unit-covered targets **and** `legacyCompatibilityPolicyRef` for the remainder (`D-53`) | As `D-53`                                                                                                                                                                                                                                                                                  |
+| `unit-sequenced`   | `accessPolicyRef`                                                                                            | Full progression grants                                                                                                                                                                                                                                                                    |
 
 **Clarification approved 2026-09-22 (product owner, in chat).** In a `hybrid`
 program, the `accessPolicyRef` that governs **unit-covered** targets carries
@@ -543,14 +543,14 @@ Acceptance case I28 requires one test per currently enabled program.
 
 ### D-53 — Legacy compatibility policy definition
 
-| Field | Value |
-|---|---|
-| Kind | security + product |
-| Status | **APPROVED** |
+| Field          | Value                                                                                                                                                                                                                                   |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | security + product                                                                                                                                                                                                                      |
+| Status         | **APPROVED**                                                                                                                                                                                                                            |
 | Recommendation | An authored, versioned policy profile granting `PRACTICE`, `PLACEMENT`, and `REVIEW` only — never `LESSON_ASSESSMENT`, `UNIT_ASSESSMENT`, or `DELAYED_CHECK` — on skills claimed by no unit, subject to the existing prerequisite graph |
-| Approved value | Authored, versioned policy granting only `PRACTICE`, `PLACEMENT`, and `REVIEW` for skills claimed by no unit |
-| Approver | Product owner + engineering owner |
-| Blocks | Hybrid rollout |
+| Approved value | Authored, versioned policy granting only `PRACTICE`, `PLACEMENT`, and `REVIEW` for skills claimed by no unit                                                                                                                            |
+| Approver       | Product owner + engineering owner                                                                                                                                                                                                       |
+| Blocks         | Hybrid rollout                                                                                                                                                                                                                          |
 
 This must be an **explicit authored grant**, never a missing-state fallback.
 Authorization denies unless some authored policy grants; "no policy covers this
@@ -563,14 +563,14 @@ target" is a denial, not a permission. See
 
 ### D-54 — Duplicate assignment-creation behavior
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED 2026-09-19** |
-| Recommendation | **Idempotent replay on a matching idempotency key; reject on a different key while an active assignment exists** |
+| Field          | Value                                                                                                                                        |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | product                                                                                                                                      |
+| Status         | **APPROVED 2026-09-19**                                                                                                                      |
+| Recommendation | **Idempotent replay on a matching idempotency key; reject on a different key while an active assignment exists**                             |
 | Approved value | Idempotent replay on a matching idempotency key; reject with `ACTIVE_ASSIGNMENT_EXISTS` on a different key while an active assignment exists |
-| Approver | Product/engineering owner |
-| Blocks | `AssessmentAssignment` implementation |
+| Approver       | Product/engineering owner                                                                                                                    |
+| Blocks         | `AssessmentAssignment` implementation                                                                                                        |
 
 The architecture specifies one consistent behavior
 (`docs/course-progression-architecture.md` §6.4): a repeated request carrying
@@ -582,28 +582,28 @@ double-clicked button an error rather than a no-op.
 
 ### D-55 — Child-safe phrase and rubric artifact
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED 2026-09-19** |
+| Field          | Value                                                                                                                                                                      |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | content                                                                                                                                                                    |
+| Status         | **APPROVED 2026-09-19**                                                                                                                                                    |
 | Recommendation | A versioned `child-safe-phrasing` artifact holding approved phrasings and a prohibited-pattern list, reviewed like content and referenced by version from the wording test |
-| Approved value | A versioned `child-safe-phrasing` artifact with approved phrasings and prohibited patterns, reviewed like content |
-| Approver | Product owner + accessibility/product owner |
-| Blocks | Acceptance test E10 |
+| Approved value | A versioned `child-safe-phrasing` artifact with approved phrasings and prohibited patterns, reviewed like content                                                          |
+| Approver       | Product owner + accessibility/product owner                                                                                                                                |
+| Blocks         | Acceptance test E10                                                                                                                                                        |
 
 Without a versioned artifact, "child-safe wording" is a snapshot test against
 whatever text happened to ship.
 
 ### D-56 — Disposition of the 18 content/skill prerequisite mismatches
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED 2026-09-19** |
-| Recommendation | Treat the skill graph as authoritative; remove or re-type every content-level prerequisite list in Stage A; re-audit the eight edges that differ substantively |
+| Field          | Value                                                                                                                                                                                                                                                                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Kind           | content                                                                                                                                                                                                                                                                                                                                    |
+| Status         | **APPROVED 2026-09-19**                                                                                                                                                                                                                                                                                                                    |
+| Recommendation | Treat the skill graph as authoritative; remove or re-type every content-level prerequisite list in Stage A; re-audit the eight edges that differ substantively                                                                                                                                                                             |
 | Approved value | Skill graph is authoritative; remove all legacy content prerequisite lists. Preserve only narrower `itemReadinessRefs` that are already inside the owning skill's prerequisite closure; discard self-references and out-of-closure references. This resolves the six substantive edge disagreements without adding new skill dependencies. |
-| Approver | Product/content owner (explicit authorization in chat) |
-| Blocks | Stage A |
+| Approver       | Product/content owner (explicit authorization in chat)                                                                                                                                                                                                                                                                                     |
+| Blocks         | Stage A                                                                                                                                                                                                                                                                                                                                    |
 
 **Verified context.** Content records carry their own
 `prerequisiteSkillCodes`, unconstrained by `ContentItemSchema` and unchecked
@@ -622,28 +622,28 @@ This is a broader finding than `D-35`, which concerns one specific edge.
 
 ### D-57 — Introducing a `version` field on `Skill`
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED** |
+| Field          | Value                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------ |
+| Kind           | content                                                                                                |
+| Status         | **APPROVED**                                                                                           |
 | Recommendation | Add a required `version` to `SkillSchema` so skill references can be pinned like every other reference |
-| Approved value | Add a required `version` to `SkillSchema` |
-| Approver | Product/engineering owner |
-| Blocks | Version pinning on mastery, review schedules, and item selections |
+| Approved value | Add a required `version` to `SkillSchema`                                                              |
+| Approver       | Product/engineering owner                                                                              |
+| Blocks         | Version pinning on mastery, review schedules, and item selections                                      |
 
 `SkillSchema` currently has no `version` field, so a skill reference cannot be
 pinned and a skill's meaning can change under existing evidence silently.
 
 ### D-58 — Publication scope of the public curriculum site
 
-| Field | Value |
-|---|---|
-| Kind | security |
-| Status | **APPROVED** |
-| Recommendation | Publish a **reviewed teaching-and-practice projection only**; fix the code path **before Stage A** as Stage A0 |
+| Field          | Value                                                                                                                        |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | security                                                                                                                     |
+| Status         | **APPROVED**                                                                                                                 |
+| Recommendation | Publish a **reviewed teaching-and-practice projection only**; fix the code path **before Stage A** as Stage A0               |
 | Approved value | Reviewed teaching-and-practice projection only; Stage A0 shipped on 2026-09-19; no current unreviewed-content leak evidenced |
-| Approver | Product owner + privacy/safety owner |
-| Blocks | Stage A, and any change to the site generator |
+| Approver       | Product owner + privacy/safety owner                                                                                         |
+| Blocks         | Stage A, and any change to the site generator                                                                                |
 
 **Precise statement of the defect.** `scripts/generate-curriculum-site.ts`
 iterates `contentCatalog`, **not** `servableContentCatalog`. All 128 records
@@ -679,45 +679,65 @@ This is independent of `D-01` — it is wrong under both branches.
 
 ### D-61 — Gate set required to resume curriculum authoring
 
-| Field | Value |
-|---|---|
-| Kind | product |
-| Status | **APPROVED 2026-09-19** |
-| Recommendation | Architecture approval alone is **not** sufficient; the set below must be satisfied |
+| Field          | Value                                                                                                                                              |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | product                                                                                                                                            |
+| Status         | **APPROVED 2026-09-19**                                                                                                                            |
+| Recommendation | Architecture approval alone is **not** sufficient; the set below must be satisfied                                                                 |
 | Approved value | All listed independent-review, publication, exposure, content, registry, rollout, and stage-merge gates must be satisfied before authoring resumes |
-| Approver | Product/content owner + engineering owner |
-| Blocks | Lifting the authoring pause |
+| Approver       | Product/content owner + engineering owner                                                                                                          |
+| Blocks         | Lifting the authoring pause                                                                                                                        |
 
 Resuming role-based authoring requires **all** of:
 
-| Requirement | Why |
-|---|---|
-| Independent review passed and architecture approved | Baseline |
-| `D-58` resolved **and Stage A0 shipped** | Otherwise a new `pending_review` record is published on merge |
-| `D-01` resolved | Determines whether assessment items may be authored in this repository at all |
-| `D-02` resolved | Required only if `D-01` = Branch B, before the first assessment record crosses into the store |
-| `D-03` resolved | Disposition of the six existing ratios records |
-| `D-37`, `D-38` resolved | Role labelling, and the exactly-two invariant that throws at module load |
-| `D-56`, `D-57` resolved | Prerequisite remediation and `Skill.version`, both of which change the record shape |
-| `D-40` resolved | The program registry that role and prefix validation reads |
-| `D-52` resolved, plus `D-53` if hybrid | Otherwise authoring targets a structure whose access model is undecided |
-| **Stage A0 and Stage A1 merged** | The role schemas and validators must exist before a record can be authored against them |
+| Requirement                                         | Why                                                                                           |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Independent review passed and architecture approved | Baseline                                                                                      |
+| `D-58` resolved **and Stage A0 shipped**            | Otherwise a new `pending_review` record is published on merge                                 |
+| `D-01` resolved                                     | Determines whether assessment items may be authored in this repository at all                 |
+| `D-02` resolved                                     | Required only if `D-01` = Branch B, before the first assessment record crosses into the store |
+| `D-03` resolved                                     | Disposition of the six existing ratios records                                                |
+| `D-37`, `D-38` resolved                             | Role labelling, and the exactly-two invariant that throws at module load                      |
+| `D-56`, `D-57` resolved                             | Prerequisite remediation and `Skill.version`, both of which change the record shape           |
+| `D-40` resolved                                     | The program registry that role and prefix validation reads                                    |
+| `D-52` resolved, plus `D-53` if hybrid              | Otherwise authoring targets a structure whose access model is undecided                       |
+| **Stage A0 and Stage A1 merged**                    | The role schemas and validators must exist before a record can be authored against them       |
 
 Authoring **practice-role** content for an existing program under the current
 uniform schema may be unpaused earlier, by explicit product-owner decision,
 once `D-58`/Stage A0 is done — that narrower option should be recorded here
 rather than assumed.
 
+**Scoped Python exception — approved by product/content owner 2026-10-10.**
+In the focused Python decision form, the owner selected `approve-recommended`:
+Python 3.14; beginner-core `py6-print-output-reading`; exactly one
+`practice` record; clearly labelled internal objective codes and link-only
+sources with original wording/code. No optional depth, teaching record,
+code execution or held-out assessment is included.
+
+This is a **conditional drafting exception**, not a full pause lift.
+Drafting may start only after the independently reviewed Python
+validator/content contract is implemented, validated and integrated, and
+applicable D-61 gate evidence and engineering-owner sign-off are recorded.
+The proposal is
+`docs/curriculum-dossiers/python-intro-grade-6-authoring-prerequisites-20261010.md`
+(reviewed SHA-256
+`4375fbe8564857f53bf6247168a16107298a36617a484c84c668bf7fc918f958`).
+The item must remain `llm_drafted`, `owned` and `pending_review`; independent
+cross-family review follows authoring, then separate human content approval.
+This decision authorizes no learner availability, serving, deployment or
+exception for any other program.
+
 ### D-62 — Assessment-assignment requirement for placement and review
 
-| Field | Value |
-|---|---|
-| Kind | security + product |
-| Status | **APPROVED 2026-09-22** |
+| Field          | Value                                                                                                                                                                                                                                                             |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | security + product                                                                                                                                                                                                                                                |
+| Status         | **APPROVED 2026-09-22**                                                                                                                                                                                                                                           |
 | Recommendation | Lesson, unit, and delayed-check activity always requires an active assessment assignment. Placement and review require one only for skills an authored unit claims; skills claimed by no unit keep assignment-free placement and review under their access policy |
-| Approved value | As recommended |
-| Approver | Product owner (explicit authorization in chat, following independent-review finding M2) |
-| Blocks | Stage C4 cutover |
+| Approved value | As recommended                                                                                                                                                                                                                                                    |
+| Approver       | Product owner (explicit authorization in chat, following independent-review finding M2)                                                                                                                                                                           |
+| Blocks         | Stage C4 cutover                                                                                                                                                                                                                                                  |
 
 **Why.** The architecture did not state whether placement and review need an
 assignment outside a unit. C3 readiness assumed they always did, while no
@@ -733,58 +753,58 @@ shadow predicate and the cutover readiness report.
 
 ### D-63 — Delayed-check item source
 
-| Field | Value |
-|---|---|
-| Kind | content + policy |
-| Status | **APPROVED 2026-09-23** |
+| Field          | Value                                                                                                                                                                                                                                  |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | content + policy                                                                                                                                                                                                                       |
+| Status         | **APPROVED 2026-09-23**                                                                                                                                                                                                                |
 | Recommendation | A dedicated held-out delayed-check bank per pilot skill, sized `delayedCheckItemsPerAttempt × (1 + maxReassessments)` = 2 × 3 = **6 items** per skill (arithmetic from `D-43`/`D-27`), so the lesson banks' no-reuse pools stay intact |
-| Approved value | As recommended |
-| Approver | Product owner (in chat) |
-| Blocks | Serving `DELAYED_CHECK` assignments |
+| Approved value | As recommended                                                                                                                                                                                                                         |
+| Approver       | Product owner (in chat)                                                                                                                                                                                                                |
+| Blocks         | Serving `DELAYED_CHECK` assignments                                                                                                                                                                                                    |
 
 ### D-64 — Placement probe item source
 
-| Field | Value |
-|---|---|
-| Kind | content + policy |
-| Status | **APPROVED 2026-09-23** |
+| Field          | Value                                                                                                                                                                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Kind           | content + policy                                                                                                                                                                                                                                 |
+| Status         | **APPROVED 2026-09-23**                                                                                                                                                                                                                          |
 | Recommendation | Placement assignments select from reviewed public **practice** items (up to `D-22`), as today's diagnostic does. The evidence is weak by design (`contextWeight[placement]`, `D-08`), so open-book is acceptable. Probed items count as exposure |
-| Approved value | As recommended |
-| Approver | Product owner (in chat) |
-| Blocks | Serving `PLACEMENT` assignments |
+| Approved value | As recommended                                                                                                                                                                                                                                   |
+| Approver       | Product owner (in chat)                                                                                                                                                                                                                          |
+| Blocks         | Serving `PLACEMENT` assignments                                                                                                                                                                                                                  |
 
 ### D-65 — Same-sitting independent check
 
-| Field | Value |
-|---|---|
-| Kind | product + security |
-| Status | **APPROVED 2026-09-23** |
+| Field          | Value                                                                                                                                                                                                                                                                     |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | product + security                                                                                                                                                                                                                                                        |
+| Status         | **APPROVED 2026-09-23**                                                                                                                                                                                                                                                   |
 | Recommendation | Authorize today's same-sitting "independent check" as independent `PRACTICE`, not `DELAYED_CHECK`, because it has no elapsed-time separation. It then survives C4 for legacy and skill-graph-only skills, while pilot skills rely on the genuine delayed-check assignment |
-| Approved value | As recommended |
-| Approver | Product owner (in chat) |
-| Blocks | Stage C4 cutover |
+| Approved value | As recommended                                                                                                                                                                                                                                                            |
+| Approver       | Product owner (in chat)                                                                                                                                                                                                                                                   |
+| Blocks         | Stage C4 cutover                                                                                                                                                                                                                                                          |
 
 ### D-66 — Authoring exception for held-out review and delayed-check drafts
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED 2026-09-23** |
+| Field          | Value                                                                                                                                                                                                                                                                                                                                   |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | content                                                                                                                                                                                                                                                                                                                                 |
+| Status         | **APPROVED 2026-09-23**                                                                                                                                                                                                                                                                                                                 |
 | Recommendation | A narrow exception to the `D-61` authoring pause: model-assisted drafts of the pilot's held-out review (`D-50`) and delayed-check (`D-63`) items, written only to the private package outside this repository and marked `pending_review`. Serving still requires the full content, originality, accessibility, and child-safety review |
-| Approved value | As recommended |
-| Approver | Product owner (in chat) |
-| Blocks | — (the `D-61` pause otherwise remains in force) |
+| Approved value | As recommended                                                                                                                                                                                                                                                                                                                          |
+| Approver       | Product owner (in chat)                                                                                                                                                                                                                                                                                                                 |
+| Blocks         | — (the `D-61` pause otherwise remains in force)                                                                                                                                                                                                                                                                                         |
 
 ### D-67 — Review reuse versus review volume
 
-| Field | Value |
-|---|---|
-| Kind | policy + content |
-| Status | **APPROVED 2026-09-24** |
-| Recommendation | Amend `D-50` to **3** review items per skill and publish `grade-6-math-default@1.1.0` with `reviewReuse: { enabled: true, minIntervalsSinceSeen: 2 }` |
+| Field          | Value                                                                                                                                                                                                                     |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | policy + content                                                                                                                                                                                                          |
+| Status         | **APPROVED 2026-09-24**                                                                                                                                                                                                   |
+| Recommendation | Amend `D-50` to **3** review items per skill and publish `grade-6-math-default@1.1.0` with `reviewReuse: { enabled: true, minIntervalsSinceSeen: 2 }`                                                                     |
 | Approved value | As recommended. "Not seen within the last two spacing intervals" (`D-46`) is implemented as: an item assigned in either of the skill's two most recent review runs is excluded. A run counts whether or not it was scored |
-| Approver | Product owner (in chat) |
-| Blocks | Serving more than two reviews per skill |
+| Approver       | Product owner (in chat)                                                                                                                                                                                                   |
+| Blocks         | Serving more than two reviews per skill                                                                                                                                                                                   |
 
 **Why.** Three sources disagreed:
 
@@ -799,14 +819,14 @@ in `D-69`.
 
 ### D-68 — Placement position rule
 
-| Field | Value |
-|---|---|
-| Kind | policy |
-| Status | **APPROVED 2026-09-24** |
-| Recommendation | Probe one item per unit skill, in lesson order. Place the learner at the first lesson whose probe item is incorrect; earlier lessons become `SKIPPED_BY_PLACEMENT` (weak evidence, never mastery; §9.3). If every item is correct, place the learner at the unit assessment |
+| Field          | Value                                                                                                                                                                                                                                                                            |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | policy                                                                                                                                                                                                                                                                           |
+| Status         | **APPROVED 2026-09-24**                                                                                                                                                                                                                                                          |
+| Recommendation | Probe one item per unit skill, in lesson order. Place the learner at the first lesson whose probe item is incorrect; earlier lessons become `SKIPPED_BY_PLACEMENT` (weak evidence, never mastery; §9.3). If every item is correct, place the learner at the unit assessment      |
 | Approved value | As recommended, **amended 2026-09-24**: if every item is correct the learner is placed at the **final lesson** (`AVAILABLE`) with earlier lessons `SKIPPED_BY_PLACEMENT`. This keeps architecture §6.6 and U37: placement is weak evidence and never unlocks the unit assessment |
-| Approver | Product owner (in chat) |
-| Blocks | Serving `PLACEMENT` assignments |
+| Approver       | Product owner (in chat)                                                                                                                                                                                                                                                          |
+| Blocks         | Serving `PLACEMENT` assignments                                                                                                                                                                                                                                                  |
 
 **Implementation (2026-09-24).** One probe item is drawn per unit skill, in
 lesson order, using the first authored reviewed practice item for that skill
@@ -823,14 +843,14 @@ the route fails closed. A decision is needed before such a unit exists.
 
 ### D-69 — Exhausted or capped delayed checks
 
-| Field | Value |
-|---|---|
-| Kind | policy + product |
-| Status | **APPROVED 2026-09-24** |
-| Recommendation | See the rule below |
-| Approved value | As recommended |
-| Approver | Product owner (in chat) |
-| Blocks | Stage C4 cutover |
+| Field          | Value                   |
+| -------------- | ----------------------- |
+| Kind           | policy + product        |
+| Status         | **APPROVED 2026-09-24** |
+| Recommendation | See the rule below      |
+| Approved value | As recommended          |
+| Approver       | Product owner (in chat) |
+| Blocks         | Stage C4 cutover        |
 
 **Rule.** After a lapse or a failed delayed check, the skill's lessons move to
 the parent-visible `NEEDS_HELP` remediation state when either of these holds:
@@ -853,14 +873,14 @@ playbook dimensions 7 and 9.
 
 ### D-70 — What a human override reopens after `NEEDS_HELP`
 
-| Field | Value |
-|---|---|
-| Kind | policy + product |
-| Status | **APPROVED 2026-09-24** |
-| Recommendation | A parent or operator override moves the skill's lessons from `NEEDS_HELP` back to `ACTIVE` remediation and resets the consecutive-failure count |
+| Field          | Value                                                                                                                                                                                                                                                                                                                     |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | policy + product                                                                                                                                                                                                                                                                                                          |
+| Status         | **APPROVED 2026-09-24**                                                                                                                                                                                                                                                                                                   |
+| Recommendation | A parent or operator override moves the skill's lessons from `NEEDS_HELP` back to `ACTIVE` remediation and resets the consecutive-failure count                                                                                                                                                                           |
 | Approved value | As recommended. The override requires a `D-06` step-up re-authentication within `D-47`'s single-use lifetime and writes an `OverrideRecord`. A new delayed check still requires unseen items, so it is refused with `NEW_BANK_VERSION_REQUIRED` until a reviewed bank version with unseen items exists. No item is reused |
-| Approver | Product owner (in chat) |
-| Blocks | Reopening any `NEEDS_HELP` skill; Stage C4 |
+| Approver       | Product owner (in chat)                                                                                                                                                                                                                                                                                                   |
+| Blocks         | Reopening any `NEEDS_HELP` skill; Stage C4                                                                                                                                                                                                                                                                                |
 
 **Why it was needed (found by independent re-review, 2026-09-24).** `D-69`
 made `NEEDS_HELP` terminal, but the architecture's override (§9.3, `D-06`) sets
@@ -905,14 +925,14 @@ Two related gaps are also open:
 
 ### D-71 — Placement retakes
 
-| Field | Value |
-|---|---|
-| Kind | policy + product |
-| Status | **APPROVED 2026-09-24** |
+| Field          | Value                                                                                                                                                                                               |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | policy + product                                                                                                                                                                                    |
+| Status         | **APPROVED 2026-09-24**                                                                                                                                                                             |
 | Recommendation | One placement per unit. Once a `LearnerPlacement` exists for the unit, a new placement is refused with `PLACEMENT_ALREADY_RECORDED`, and a concurrent second probe is scored but never places again |
-| Approved value | As recommended |
-| Approver | Product owner (in chat) |
-| Blocks | Serving `PLACEMENT` assignments |
+| Approved value | As recommended                                                                                                                                                                                      |
+| Approver       | Product owner (in chat)                                                                                                                                                                             |
+| Blocks         | Serving `PLACEMENT` assignments                                                                                                                                                                     |
 
 After placement, the learner advances through lessons and evidence-backed
 skips. The probe items are public practice items, so repeat probes would be
@@ -920,14 +940,14 @@ progressively weaker evidence.
 
 ### D-72 — Password attempt limiting
 
-| Field | Value |
-|---|---|
-| Kind | security |
-| Status | **APPROVED 2026-09-28** |
+| Field          | Value                                                                                                                                                                                                                                                                                          |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | security                                                                                                                                                                                                                                                                                       |
+| Status         | **APPROVED 2026-09-28**                                                                                                                                                                                                                                                                        |
 | Recommendation | Per parent user: after 5 consecutive wrong passwords, refuse further password checks for 15 minutes (`STEP_UP_LOCKED` / sign-in failure); a correct password resets the count to 0. Apply to both the `D-70` step-up route and the main sign-in credential check, keyed by the same `User` row |
-| Approved value | As recommended |
-| Approver | Product owner (in chat) |
-| Blocks | Stage C4 (closes the `D-70` re-review's B-1 finding: the step-up route had no attempt limiting) |
+| Approved value | As recommended                                                                                                                                                                                                                                                                                 |
+| Approver       | Product owner (in chat)                                                                                                                                                                                                                                                                        |
+| Blocks         | Stage C4 (closes the `D-70` re-review's B-1 finding: the step-up route had no attempt limiting)                                                                                                                                                                                                |
 
 **Why it was needed (found by independent re-review, 2026-09-28).** The `D-70`
 step-up route re-verifies a password with no rate limiting. Anyone holding a
@@ -954,14 +974,14 @@ leak.
 
 ### D-73 — Authoring exception for lesson/unit-bank correction of a review-found defect
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED 2026-10-04** |
+| Field          | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Status         | **APPROVED 2026-10-04**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | Recommendation | A narrow exception to the `D-61` authoring pause, parallel to `D-66` but covering the three lesson banks and the unit bank (which `D-66` does not), scoped only to: (1) broadening `acceptedAnswers` in existing items to include mathematically equivalent phrasings the scorer should already treat as correct, (2) retagging the unit bank's `skillRef` so it actually covers all three pilot skills instead of only `ratio-language`, and (3) replacing the two items whose numbers/context duplicate this program's own public practice content for the same lesson, which makes the held-out answer inferable. No new items beyond these three corrections, and no other dimension of the private package may be edited under this exception |
-| Approved value | As recommended |
-| Approver | Product/content owner (in chat) |
-| Blocks | — (the `D-61` pause otherwise remains in force; serving still requires the full content, originality, accessibility, and child-safety review per `D-66`'s same condition) |
+| Approved value | As recommended                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Approver       | Product/content owner (in chat)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Blocks         | — (the `D-61` pause otherwise remains in force; serving still requires the full content, originality, accessibility, and child-safety review per `D-66`'s same condition)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 **Why.** An independent review (requested as Opus; model identity
 unverified) of `grade-6-math-assessments-draft-v2.json` — after the
@@ -988,14 +1008,14 @@ than the three lessons, and not a defect this exception needs to touch.
 
 ### D-74 — Authoring exception for two live-production defects found by the Grade 6 Math v3 integration review
 
-| Field | Value |
-|---|---|
-| Kind | content |
-| Status | **APPROVED 2026-10-07** |
+| Field          | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Kind           | content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Status         | **APPROVED 2026-10-07**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | Recommendation | A narrow exception to the `D-61` authoring pause, scoped to exactly two already-live, already-reviewed production content records: (1) `content/expressions-and-equations/one-variable-equations-2.json` — replace its two-step equation (`(1/2)x + 4 = 10`, the `7.EE.B.4a` form) with a genuine single-step `6.EE.B.7` form (`px = q` with a nonnegative rational coefficient), keeping the same skill, standard tag, contest mode, and challenging difficulty; (2) `content/expressions-and-equations/real-world-inequalities-2.json` — correct its `acceptedAnswers` so every variant consistently describes the context-bounded solution set (`p` from 0 to 15, a real count of people), removing the variants that describe an unbounded "shading left forever" ray as equivalent. No other record, skill, or standard mapping may be touched under this exception |
-| Approved value | As recommended |
-| Approver | Product/content owner (in chat) |
-| Blocks | — (the `D-61` pause otherwise remains in force) |
+| Approved value | As recommended                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| Approver       | Product/content owner (in chat)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Blocks         | — (the `D-61` pause otherwise remains in force)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 **Why.** A final independent review (requested as Opus; model identity
 unverified) of the Grade 6 Math v2 candidate, run under the mistaken
@@ -1016,26 +1036,270 @@ missing `6.SP.B.4`/MAD coverage) are explicitly out of scope for this
 decision — they concern the `experiments/grade-6-math-v2/` candidate, not
 live production, and are deferred to a separate, future decision.
 
-Seventy-four decisions total; all seventy-four are approved. The grouping below is a
+### D-75 — Reviewed five-program designs and first shared catalog increment
+
+| Field          | Value                                                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kind           | architecture + engineering                                                                                                                  |
+| Status         | **APPROVED 2026-10-10**                                                                                                                     |
+| Recommendation | Accept the independently reviewed first-unit specifications and begin consolidation plus one shared, behavior-preserving catalog foundation |
+| Approved value | Design acceptance and the bounded mechanical increment below only; open per-program candidates remain undecided                             |
+| Approver       | Product/engineering owner, in chat: "approved, go ahead" after all five independent reviews completed                                       |
+| Blocks         | Integration of the reviewed specifications and the first shared catalog implementation                                                      |
+
+Approved specification pins:
+
+| Program      | Specification SHA-256                                              |
+| ------------ | ------------------------------------------------------------------ |
+| AMC 8        | `c02a4f60f9f069e963c1a9bc8305bf286eaaf0d72e60535c8f63a911444050bb` |
+| MOEMS        | `9856d2c50ce6d553d9f7649cbf20fdaa212e13470d259482b19a80f2f8bfca9e` |
+| Kangaroo     | `1d6e87078751c0a23535ba8a08d0f064a76969df48c7a47ff3f0a93cf0322bf4` |
+| MATHCOUNTS   | `1c3e914998bdee1f33c2dd273bd22f7e515a7436c23446612083379b3e6a2d16` |
+| Spelling Bee | `64e4e9efd9a17632b892ac78dadfd86675e563aafb6a524c8c41fee657439174` |
+
+The first increment consolidates existing active units, lessons and bank
+metadata behind shared catalog access, preserving Grade 6 records, current
+registry references, policy, authorization, scoring, completion and private
+package readiness. Synthetic fixtures demonstrate a second program without
+registering any real course. Existing pilot exports remain compatible.
+
+This is not approval of any candidate volume, threshold, retry window,
+completion choice or profile adoption. Candidate dispositions must be
+consolidated into this decision document and remain open. It grants no
+curriculum-data edit, content correction/drafting, private-bank access,
+schema/migration, database operation, C4 cutover, learner activation,
+deployment or release. D-61 remains unchanged. Sonnet 5.5 implements the
+bounded increment; independent GPT review and coordinator validation precede
+integration. Minor coverage notes from accepted reviews must be carried into
+their relevant future acceptance packets.
+
+## I. Consolidated five-program extension candidates
+
+`D-76` through `D-138` are the sole operative entries for the candidate
+choices in the five specifications accepted under D-75. Their original IDs
+are retained below for traceability; the proposal tables are non-normative
+source material, not a second decision authority. Imported specification
+bytes and their historical proposed-status wording remain unchanged to
+preserve the independently reviewed hashes. D-75 records their design
+acceptance; it does not select these candidate values.
+
+**Every entry below is OPEN. Approved value: none. Approver: not yet signed.**
+Recommendations are not defaults. Named owner roles identify who must decide,
+not who already approved. Existing D-01 through D-74 are not reopened by
+reference here. Inherited invariants such as D-31 skip, D-59 assistance and
+permanent authorization cannot be waived by a local candidate choice.
+
+Blocks identify the source specification's future stage. They do not undo
+the completed D-75 catalog-only increment. In particular, MOEMS MC-01 also
+includes bank resolution/manifests not implemented by D-75, and Kangaroo
+rollout/access choices apply to new real activation/enforcement, not the
+synthetic fixture already integrated. No content correction, teaching
+drafting, private-bank drafting or actual program activation is authorized
+by this table.
+
+Source abbreviations refer to files in `docs/curriculum-dossiers/`:
+AMC = `amc-8-course-pilot-20261010.md`;
+MOEMS = `moems-6-course-pilot-20261010.md`;
+Kangaroo = `math-kangaroo-6-course-pilot-20261010.md`;
+MATHCOUNTS = `mathcounts-6-course-pilot-20261010.md`;
+Spelling = `spelling-bee-6-course-pilot-20261010.md`.
+Line citations below refer to the exact approved specification pins in D-75.
+
+### AMC 8
+
+| ID / source candidate | Recommendation or choice (not approved)                                                                                                | Status | Required approver                    | Blocks         | Source  |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------ | -------------- | ------- |
+| D-76 / O1             | Two lessons, one per target skill, in proposed teaching order                                                                          | OPEN   | Product/pedagogy owner               | S3             | AMC:643 |
+| D-77 / O2             | Keep contest items out of lesson practice refs                                                                                         | OPEN   | Product/pedagogy owner               | S3             | AMC:644 |
+| D-78 / O3             | Retain `amc-8-default@1.0.0` or approve a new profile; bank minimum arithmetic depends on approved inputs, review volume unresolved    | OPEN   | Product/pedagogy owner               | S3             | AMC:645 |
+| D-79 / O4             | Resolve executable ordinary completion and practice sufficiency; no lower threshold proposed; preserve D-31 skip                       | OPEN   | Product/pedagogy owner               | S3             | AMC:646 |
+| D-80 / O5             | Decide registration consequences for assignment-free review/placement; do not register incomplete structure                            | OPEN   | Product owner                        | S4             | AMC:647 |
+| D-81 / O6             | Decide whether legacy independent-check state satisfies the unit-claimed requirement; do not reinterpret current evidence by default   | OPEN   | Product/pedagogy owner               | S4             | AMC:648 |
+| D-82 / O7             | Scoped D-61 teaching/practice exception; no packet requested or authorized yet                                                         | OPEN   | Product/content + engineering owners | S5             | AMC:649 |
+| D-83 / O8             | Separate versioned contest eligibility wording correction packet                                                                       | OPEN   | Product/content owner                | Content stages | AMC:650 |
+| D-84 / O9             | Choose read-only closure at activation or denial followed by read-only closure on next action; neither grants below-readiness evidence | OPEN   | Product + engineering owners         | S4             | AMC:651 |
+| D-85 / O10            | Private-bank package access/drafting under D-02; not authorized                                                                        | OPEN   | Product/content owner under D-02     | S3             | AMC:652 |
+
+### MOEMS
+
+The source MC table does not assign approver roles. Roles below are coordinator
+routing by decision kind, not approvals or changes to the proposed choices.
+
+| ID / source candidate | Recommendation or choice (not approved)                                                                                                                  | Status | Required approver                     | Blocks                                         | Source    |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------- | ---------------------------------------------- | --------- |
+| D-86 / MC-01          | Shared multi-program catalog, generic bank resolution and per-program manifest; D-75 completes only catalog foundation                                   | OPEN   | Engineering owner                     | Packet 1 remaining bank/manifest scope         | MOEMS:507 |
+| D-87 / MC-02          | Two one-skill lessons and proposed unit/lesson codes                                                                                                     | OPEN   | Product/content owner                 | Packet 5                                       | MOEMS:508 |
+| D-88 / MC-03          | New hybrid registry version only at complete atomic registration                                                                                         | OPEN   | Product + engineering owners          | Packet 7                                       | MOEMS:509 |
+| D-89 / MC-04          | Claimed-skill access and unclaimed-skill compatibility policies as one reviewed versioned set                                                            | OPEN   | Product + engineering owners          | Packets 5, 7                                   | MOEMS:510 |
+| D-90 / MC-05          | Retain or version MOEMS profile for unit use; explicitly decide values and review reuse                                                                  | OPEN   | Product/pedagogy owner                | Packets 6, 7                                   | MOEMS:511 |
+| D-91 / MC-06          | Decide threshold applicability and distinct eligible practice sufficiency                                                                                | OPEN   | Product/pedagogy owner                | Packet 4                                       | MOEMS:512 |
+| D-92 / MC-07          | Decide teaching volume per lesson                                                                                                                        | OPEN   | Product/content owner                 | Packet 6                                       | MOEMS:513 |
+| D-93 / MC-08          | PASS-only ordinary completion or proposed teaching/threshold rule; latter changes Grade 6; preserve skip/history either way                              | OPEN   | Product/pedagogy + engineering owners | Packet 7 always; packet 4 if consumer required | MOEMS:514 |
+| D-94 / MC-09          | Initial skill-version adoption/sequencing before MOEMS unit evidence; D-57 requirement already approved                                                  | OPEN   | Product/content + engineering owners  | Packet 2                                       | MOEMS:515 |
+| D-95 / MC-10          | Do not require explanation evidence without a structured validator; any later requirement is separately decided                                          | OPEN   | Product/pedagogy owner                | Later explanation-evidence adoption only       | MOEMS:516 |
+| D-96 / MC-11          | Disposition of unstated Division M concepts in optional Division E contest items; core approval remains intact                                           | OPEN   | Product/content owner                 | Packet 6 if affected contest content included  | MOEMS:517 |
+| D-97 / MC-12          | Decide contest-tier inclusion in core lessons versus optional strand                                                                                     | OPEN   | Product/pedagogy owner                | Packet 5                                       | MOEMS:518 |
+| D-98 / MC-13          | Scoped held-out drafting exception and access, analogous in form but not authority to D-66                                                               | OPEN   | Product/content + engineering owners  | Packet 6                                       | MOEMS:519 |
+| D-99 / MC-14          | Packet-bounded MOEMS D-61 authoring exception; not requested yet                                                                                         | OPEN   | Product/content + engineering owners  | Packet 6                                       | MOEMS:520 |
+| D-100 / MC-15         | Explicit TEACHING grants respecting shared authorization and prerequisites                                                                               | OPEN   | Product + engineering owners          | Packets 3, 5                                   | MOEMS:521 |
+| D-101 / MC-16         | Separate disposition of impossible existing cryptarithm; unit/placement exclusion already specified, global record unchanged                             | OPEN   | Product/content owner                 | Correction/reuse of affected item only         | MOEMS:522 |
+| D-102 / MC-17         | Bound teaching operation keys and approved retry-window reference; expired replay refuses content, fresh delivery records exposure; no duration selected | OPEN   | Product/pedagogy + engineering owners | Packet 3                                       | MOEMS:523 |
+| D-103 / MC-18         | Immutable raw-byte artifact/digest retention only if historical verification claims require it                                                           | OPEN   | Engineering + privacy owners          | Dependent historical raw-digest claims         | MOEMS:524 |
+
+### Math Kangaroo
+
+| ID / source candidate | Recommendation or choice (not approved)                                                                                    | Status | Required approver     | Blocks                        | Source       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------ | --------------------- | ----------------------------- | ------------ |
+| D-104 / K-01          | Two lessons, one per target skill                                                                                          | OPEN   | Product/content owner | C0, S2 onward                 | Kangaroo:489 |
+| D-105 / K-02          | Decide teaching/practice/review volumes and assessment/reassessment inputs; existing Grade 6 figures are reference only    | OPEN   | Product/content owner | S2 onward, S3                 | Kangaroo:490 |
+| D-106 / K-03          | Retain or version Kangaroo profile after explicit feasibility/value decisions                                              | OPEN   | Product owner         | S3, S4                        | Kangaroo:491 |
+| D-107 / K-04          | Review/delayed reuse remains unadopted until explicitly decided                                                            | OPEN   | Product owner         | S3                            | Kangaroo:492 |
+| D-108 / K-05          | Hybrid rollout for one real unit, not activation of synthetic fixtures                                                     | OPEN   | Product owner         | Real rollout stages           | Kangaroo:493 |
+| D-109 / K-06          | Explicit proposed access/compatibility grants                                                                              | OPEN   | Product owner         | New access/enforcement stages | Kangaroo:494 |
+| D-110 / K-07          | Retain current prerequisite edge pending content judgement; change requires conditional C0-R versioned repinning           | OPEN   | Content owner         | C0, S3                        | Kangaroo:495 |
+| D-111 / K-08          | Shared choice presentation and live rollout separately reviewed; preserve server accepted-answer variants                  | OPEN   | Product owner         | S1b, S4                       | Kangaroo:496 |
+| D-112 / K-09          | Use truthful multiple-choice label without unsupported exact-count claim                                                   | OPEN   | Content owner         | S2                            | Kangaroo:497 |
+| D-113 / K-10          | Separate dated Kangaroo D-61 exception per exact packet; none granted                                                      | OPEN   | Product/content owner | C0, S2, S3                    | Kangaroo:498 |
+| D-114 / K-11          | Shared typed lesson/item eligibility, core-safe placement and owner-decided readiness; no new threshold selected           | OPEN   | Product owner         | S1b, S4                       | Kangaroo:499 |
+| D-115 / K-12          | Recurring-bank exhaustion and post-placement freshness: decide block, NEEDS_HELP or explicitly approved reuse              | OPEN   | Product owner         | S3, S4                        | Kangaroo:500 |
+| D-116 / K-13          | Engineering sign-off for the remaining proposed shared stage's inactive-boundary assertions; D-75 subset already validated | OPEN   | Engineering owner     | Remaining S1b scope           | Kangaroo:501 |
+
+### MATHCOUNTS
+
+| ID / source candidate | Recommendation or choice (not approved)                                                                                                                       | Status | Required approver                     | Blocks      | Source         |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------- | ----------- | -------------- |
+| D-117 / H1            | Two one-skill lessons, number theory first; ratios lesson-count approval does not transfer                                                                    | OPEN   | Product/pedagogy owner                | S3, S6      | MATHCOUNTS:836 |
+| D-118 / H2            | Decide sequential lesson gating as teaching order, not a new skill prerequisite                                                                               | OPEN   | Product/pedagogy owner                | S6          | MATHCOUNTS:837 |
+| D-119 / H3            | Separate practice-expansion packet and explicit teaching/review/bank volumes; stronger per-skill quotas remain optional proposals                             | OPEN   | Product/pedagogy owner                | S4, S4a, S5 | MATHCOUNTS:838 |
+| D-120 / H4            | Decide whether contest-mode practice counts toward eligible ordinary completion                                                                               | OPEN   | Product/pedagogy owner                | S4a, S6     | MATHCOUNTS:839 |
+| D-121 / H5            | Proposed new MATHCOUNTS profile adopting review reuse with unchanged practice threshold; never edit existing profile in place                                 | OPEN   | Product/pedagogy owner                | S3, S5      | MATHCOUNTS:840 |
+| D-122 / H6            | Proposed unit/lesson/bank identity codes                                                                                                                      | OPEN   | Product/content owner                 | S3, S5      | MATHCOUNTS:841 |
+| D-123 / H7            | Proposed teaching record per lesson; no automatic transfer of ratios precedent                                                                                | OPEN   | Product/content owner                 | S4          | MATHCOUNTS:842 |
+| D-124 / H8            | Sign off real suggestion/position changes at atomic registration                                                                                              | OPEN   | Product owner                         | S6          | MATHCOUNTS:843 |
+| D-125 / H9            | Scoped teaching/practice/private-bank authoring and named private access; not granted                                                                         | OPEN   | Product/content + engineering owners  | S4, S4a, S5 | MATHCOUNTS:844 |
+| D-126 / H10           | Shared ordinary practice-threshold enforcement cutover after shadow review, including ratios; or explicitly defer enforcement without false completion claims | OPEN   | Product/pedagogy + engineering owners | S2c, S6     | MATHCOUNTS:845 |
+
+### Spelling Bee
+
+| ID / source candidate | Recommendation or choice (not approved)                                                                              | Status | Required approver                    | Blocks                | Source       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------ | --------------------- | ------------ |
+| D-127 / CD-SNSB-01    | No new morphology/orthography prerequisite edge; teaching order only                                                 | OPEN   | Product/content + pedagogy owners    | S2                    | Spelling:478 |
+| D-128 / CD-SNSB-02    | Two one-skill lessons; math lesson-count decision is not spelling approval                                           | OPEN   | Product/content owner                | S2                    | Spelling:479 |
+| D-129 / CD-SNSB-03    | Decide spelling practice/assessment/review volumes; none proposed as settled                                         | OPEN   | Product/content + pedagogy owners    | S3                    | Spelling:480 |
+| D-130 / CD-SNSB-04    | Proposed lesson banks first versus additional unit bank                                                              | OPEN   | Product/content owner                | S2                    | Spelling:481 |
+| D-131 / CD-SNSB-05    | Retain or version spelling profile only through explicit candidate dispositions; inherited decisions remain intact   | OPEN   | Product/content owner                | S3                    | Spelling:482 |
+| D-132 / CD-SNSB-06    | Review reuse decision after bank-sizing inputs                                                                       | OPEN   | Product/content owner                | S3                    | Spelling:483 |
+| D-133 / CD-SNSB-07    | Derive delayed-bank minimum from approved per-attempt/reassessment inputs, not a new local default                   | OPEN   | Product/content owner                | S3                    | Spelling:484 |
+| D-134 / CD-SNSB-08    | Separately reviewed shared UI spellcheck/autocorrect behavior and accessibility scope                                | OPEN   | Engineering + accessibility owners   | S4                    | Spelling:485 |
+| D-135 / CD-SNSB-09    | Required versioned corrections F-01/F-02/F-04 and optional others; exact content exception under D-61 still required | OPEN   | Product/content + engineering owners | S3                    | Spelling:486 |
+| D-136 / CD-SNSB-10    | Apply inherited placement contract without a spelling-specific rule; confirm adoption, not reopen D-64               | OPEN   | Product/content owner                | S4                    | Spelling:487 |
+| D-137 / CD-SNSB-11    | Proposed teaching/practice/assessment completion switches and unit rule; preserve D-31 exception and D-59 policy     | OPEN   | Product/content + pedagogy owners    | S1e schema, S2 values | Spelling:488 |
+| D-138 / CD-SNSB-12    | Truthful teaching-completed event from explicit learner action after body delivery, not load/timer alone             | OPEN   | Pedagogy + engineering owners        | S1d                   | Spelling:489 |
+
+The shared next contract work must be issue-sized and cannot choose open
+inputs. Separate role-safe teaching delivery/exposure, completion/skip
+evaluation, bank-kind/history/manifest resolution and choice transport from
+real curriculum-data packets and activation. Serialize shared edits; parallel
+content work becomes eligible only after each exact packet and its contracts
+are authorized. Manual/privacy/content gates remain separate from automated
+test evidence.
+
+## J. Shared teaching-delivery contract choices
+
+The proposed contract is `docs/teaching-delivery-exposure-contract.md`.
+The owner's "go ahead" on 2026-10-10 authorizes specification and independent
+review only, not any values, schema, migration, writer, content or release.
+The owner subsequently said "go ahead with the recommendations" on
+2026-10-10 in response to the two-decision T1 request. This accepts the
+reviewed contract hash
+`c18411c4648cd50f40782e18555c4dfbe1977b7f7bfa4c15c50be73b47a161ff`
+and approves **D-139 and D-142 only**, with their recommended values.
+Approval authorizes T1 disconnected schemas and computed-byte synthetic
+fixtures, not a database schema/migration, writer, route, grant, real content,
+provider call, registration or release. The contract's original proposed
+metadata is retained to preserve reviewed bytes; this record is authority.
+
+### Approved T1 shape dispositions
+
+| ID    | Status              | Approved value                                                                                                               | Approver                           | Scope                                                                  |
+| ----- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------- |
+| D-139 | APPROVED 2026-10-10 | Parent-authenticated learner surface; authenticated parent actor recorded truthfully, no verified learner identity claim     | Product/privacy owner, in chat     | T1 parent-actor schema shape; serving still requires all later gates   |
+| D-142 | APPROVED 2026-10-10 | Separate immutable delivery context with explicit event FK and context/kind uniqueness; exact delivery identity/version pins | Engineering/privacy owner, in chat | T1 disconnected shape only; T2 migration/privacy review still required |
+
+The rows below contain the remaining recommendations/alternatives.
+**D-140, D-141, D-143 and D-144 remain OPEN, approved value: none.**
+
+| ID    | Choice and recommendation (not approved)                                                                                                                                                                                                            | Alternatives                                                                                                                                                                                                                                                                 | Status | Required approver                       | Blocks                                                      |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | --------------------------------------- | ----------------------------------------------------------- |
+| D-140 | Assessment interlock: conservatively refuse teaching delivery, replay, acknowledgement and help while any learner assignment/lease is nonterminal or unsettled, across kinds/versions; expired-but-unsettled runs refuse and are settled separately | Narrow refusal to known overlapping skill coverage only after exact historical target/bank resolution is proven; or permit help with separately approved, audited invalidation/remediation that prevents an independent result. Serializable aborts alone are not admissible | OPEN   | Pedagogy + engineering owners           | T4a interlock contract; T4b serving                         |
+| D-141 | Scope: adopt shared teaching mechanics across the five D-75 programs through explicit shared-scope approval of D-100/D-102/D-138, while retaining separate per-program grant/profile/content adoption                                               | Keep mechanics scoped per program with separately recorded adoption; D-100/D-102/D-138 cannot transfer automatically                                                                                                                                                         | OPEN   | Product + pedagogy + engineering owners | Shared T4b and later acknowledgement; not catalog-only D-75 |
+| D-143 | Export operation identity: include delivery/context attribution and policy pins in household export, omit raw operation key to minimize unnecessary identifiers                                                                                     | Include the key as well after privacy review; neither option exports teaching bodies or held-out banks                                                                                                                                                                       | OPEN   | Privacy owner                           | T3 export contract before writer                            |
+| D-144 | Refusal/error audit: no new learner-scoped persisted refusal rows; use repository-standard structured reason-code logs without content/free text and retain successful exposure/context audit                                                       | Persist refusals with separately approved fields, retention, export and deletion coverage; no silent error handling under either option                                                                                                                                      | OPEN   | Privacy + engineering owners            | T3 audit contract before writer                             |
+
+**Consumed existing OPEN entries:** D-100 (explicit grants), D-102 (retry
+policy) and D-138 (acknowledgement) remain unchanged and unapproved.
+For shared adoption, the D-102 recommendation is a versioned positive
+retry-window reference strictly shorter than the applicable D-21 delay:
+exact expiry refuses, replay never extends the window, incompatible or absent
+policy denies. Its numeric duration is still undecided; do not add a second
+duration decision or transfer assessment D-54's no-window semantics.
+The proposed replay contract conservatively anchors delayed eligibility to
+the delivery context's fixed replay-expiry horizon plus the approved D-21
+minimum, not delivery time alone. Actual events keep actual timestamps;
+the horizon is a separate scheduling input, never fabricated evidence.
+This may delay checks even without a replay and requires explicit D-102
+approval. Missing historical horizon policy denies eligibility.
+D-138 acknowledgement is an explicit authenticated action referencing an
+actual delivery, not a viewing/comprehension/lesson-completion claim.
+Approving D-141 alone does not approve those consumed decisions.
+
+D-103 is needed only for a new historical raw-byte verification claim.
+This packet proposes parsed-JSON canonical verification instead, with an
+explicit distinction from authored raw-byte digests. D-58 public teaching
+projection is unchanged; outside exposure is unobservable.
+
+### T2 persistence/privacy choices discovered during proposal review
+
+Owner's 2026-10-10 "proceed" authorized the writer-free T2 proposal and
+independent review only. After that review the owner explicitly selected
+the retained actor FK, raw opaque token and household-erasure retention
+branches in the approval form and accepted the proposal. **D-145–D-147 are
+APPROVED 2026-10-10**, with the values in the table below.
+Approval also authorizes one isolated T2a schema/privacy-coverage/migration
+draft and disposable local scratch validation, with independent and
+human migration review before integration; no production access, writer,
+serving, content, deployment, commit or push.
+The selected UUIDv4 format is a **proposal for the next reviewed delivery
+boundary update**, not a change to T1 or a runtime validation approval.
+
+| ID    | Choice and recommendation (not approved)                                                                                                                                                                                                      | Alternatives                                                                                         | Status              | Required approver                                           | Blocks                                                                         |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| D-145 | Historical parent attribution: retain same-household parent identity pins and fail closed on individual parent deletion, role change or household reassignment while contexts reference that actor; household erasure deletes scoped evidence | A different attribution model requires a new reviewed owner decision                                 | APPROVED 2026-10-10 | Product/privacy + engineering owner, explicit approval form | T2a actor relation; implementation/migration review still required             |
+| D-146 | Retain raw opaque operation token consistent with T1 string identity; never log the key; propose canonical lowercase UUIDv4 validation for the next reviewed boundary update; D-143 remains separate export choice                            | Digest storage requires a new independently reviewed binding/persistence contract and owner decision | APPROVED 2026-10-10 | Privacy + engineering owner, explicit approval form         | T2a raw-key representation only; future validation remains reviewed separately |
+| D-147 | Household-scoped personal activity/provenance audit retained until household erasure; document existing backup limitations; no new duration                                                                                                   | Another retention lifecycle requires separate privacy review and owner decision                      | APPROVED 2026-10-10 | Privacy owner, explicit approval form                       | T2a privacy-inventory/erasure contract; actual deletion tests still required   |
+
+There are 147 decisions: D-01 through D-75, D-139, D-142 and D-145–D-147 approved;
+D-76 through D-138, D-140, D-141, D-143 and D-144 open.
+The grouping below is a
 historical map of which implementation gates each decision originally blocked;
 it is not an open-decision list.
 
-| Blocks | Decisions |
-|---|---|
-| **Stage A0 — before everything else** | D-58 |
-| Any assessment authoring at all | D-01, D-02, D-03 |
-| Resuming curriculum authoring (full gate set) | D-61 |
-| Any teaching/assessment record for any skill | D-37, D-38 |
-| The entire pilot (24 skills would otherwise be stranded) | D-52, D-53 |
-| **Cutover for every currently enabled program**, not only the pilot | D-60, D-62 |
-| Authorization increment | D-04, D-05, D-06, D-47 |
-| Mastery increment | D-07 … D-20, D-51, D-57 |
-| Lesson completion semantics | D-42, D-59 |
-| Assessment run behavior | D-21 … D-32, D-42 … D-46, D-54 |
-| Stage A catalog work | D-38, D-56, D-57, D-40 |
-| Pilot scope and ordering | D-33, D-34, D-35, D-36, D-39, D-48, D-49, D-50 |
-| Cross-program generality | D-40 |
-| Pilot serving | D-41, D-55 |
+| Blocks                                                              | Decisions                                      |
+| ------------------------------------------------------------------- | ---------------------------------------------- |
+| **Stage A0 — before everything else**                               | D-58                                           |
+| Any assessment authoring at all                                     | D-01, D-02, D-03                               |
+| Resuming curriculum authoring (full gate set)                       | D-61                                           |
+| Any teaching/assessment record for any skill                        | D-37, D-38                                     |
+| The entire pilot (24 skills would otherwise be stranded)            | D-52, D-53                                     |
+| **Cutover for every currently enabled program**, not only the pilot | D-60, D-62                                     |
+| Authorization increment                                             | D-04, D-05, D-06, D-47                         |
+| Mastery increment                                                   | D-07 … D-20, D-51, D-57                        |
+| Lesson completion semantics                                         | D-42, D-59                                     |
+| Assessment run behavior                                             | D-21 … D-32, D-42 … D-46, D-54                 |
+| Stage A catalog work                                                | D-38, D-56, D-57, D-40                         |
+| Pilot scope and ordering                                            | D-33, D-34, D-35, D-36, D-39, D-48, D-49, D-50 |
+| Cross-program generality                                            | D-40                                           |
+| Pilot serving                                                       | D-41, D-55                                     |
 
 **Resolution order.** `D-58` first — it is a code-path defect that ships a
 publication hole on the next merge of any pending record, and Stage A0 exists

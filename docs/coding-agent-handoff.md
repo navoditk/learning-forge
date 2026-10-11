@@ -16,38 +16,51 @@ The five AMC 8, MOEMS, Kangaroo, MATHCOUNTS and Spelling first-unit designs
 are accepted; the shared catalog foundation is integrated. They are not
 active courses and no full-course content-authoring packet is authorized.
 
-The decision matrix has 77 approved choices (D-01–D-75, D-139/D-142) and
-67 open choices. Contract acceptance and D-139/D-142 approve T1 only.
+The decision matrix has 80 approved choices (D-01–D-75, D-139/D-142 and
+D-145–D-147) and 67 open choices.
+Contract acceptance and D-139/D-142 approve T1 only.
 Use `docs/course-progression-decisions.md` for exact scope and
 `docs/course-progression-review/manual-gate-record.md` for release authority.
 `docs/course-progression-handoff.md` is the detailed progression entry point.
 
-No worker is assigned through this index. At a new session, inspect files,
+Active packet: `docs/agent-handoffs/TEACH-T2A.md`, isolated schema/privacy-
+coverage/migration draft and disposable local scratch validation authorized
+on 2026-10-10. T2 proposal/review accepted, D-145–D-147 approved. Sonnet
+returned a frozen 14-file draft in its isolated worktree; no worker is running.
+GPT independent and human migration review are required before main
+integration. At a new session, inspect files,
 claim a bounded role and confirm its scope before implementation. The local
 resource-browser server is not needed; do not restart it.
 
 ## Local checkout warning
 
-Recorded pre-startup-commit main HEAD: `9420fa1`.
+Recorded pre-checkpoint-commit main HEAD: `d70287d`.
 Re-read current HEAD and worktree status; other sessions can advance it.
-Numerous reviewed source, schema and documentation changes are still
-uncommitted, including the teaching schemas and accepted course artifacts. The **current
-main working tree**, not a clean checkout of that SHA, is the effective state.
+The owner authorized coherent **local-only** checkpoint commits after the
+startup push. Reviewed publication/source fixes, disconnected recall/lifecycle
+foundations, shared catalog, teaching T1 and reviewed design/research records
+are included; pending design/authoring/release gates remain pending.
+Verify current commit and dirty status rather than assuming the recorded SHA
+contains those later checkpoint commits.
 Do not reset it, pull over conflicting edits, copy the whole directory or
 assume a fresh worktree contains those inputs.
 
 In a second local terminal, read this same checkout. For an isolated writer,
 the integrator supplies an allowlisted overlay and hashes for the task's
 uncommitted/untracked dependencies before work begins. Record that effective
-baseline in its packet. The owner authorized committing/pushing the portable
-startup iteration on 2026-10-10; that is not permission to commit other dirty
-work or make further commits without an explicit request.
+baseline in its packet. Startup commit/push and later reviewed checkpoint
+local commits are separately authorized; **no push of the later checkpoints**
+or commit of T2a implementation is authorized by that sequence.
 
-The startup commit makes the instruction wrappers, native configuration and
-resume procedure portable. It does **not** make the entire local course/T1
-checkpoint portable: some linked proposal/review/specification files and
-runtime changes remain uncommitted. A clean clone must report missing inputs
-rather than treating this index's local-state summary as integrated behavior.
+Local checkpoint commits make reviewed course/T1 code and linked records
+resolvable locally, but are not on origin until a separately approved push.
+The unreviewed T2a Prisma/migration draft remains isolated and excluded.
+Geography/Olympiad prerequisite drafts and their advisory reports remain
+uncommitted because original-author provenance is unresolved; their references
+describe pending local artifacts, not portable approved inputs. Older
+progress-log edits are also preserved outside the checkpoint commits.
+A clean clone of origin must report missing inputs rather than treating this
+index's local-state summary as remotely integrated behavior.
 
 All accepted course specifications and completed review dispositions are in
 `docs/` and the T1 code/tests are in `src/`/`tests/`; they do not require
@@ -62,7 +75,7 @@ bounded model only for a separately allocated task or quota fallback.
 
 | ID / next bounded task                                                                 | State and prerequisite                                                                                                                                        | Executor → reviewer                                                                           |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| TEACH-T2-PROPOSAL: writer-free delivery context/event persistence and privacy proposal | Next recommended issue, **needs scope authorization**; include retention, export/delete ordering and scratch migration plan; no migration execution           | Claude Code Opus → Codex GPT-6-Sol                                                            |
+| TEACH-T2-PROPOSAL: writer-free delivery context/event persistence and privacy proposal | **Proposal + independent review complete; accepted by owner**; D-145–D-147 approved                                                                           | Copilot Opus 5.5 → GPT-6.1 Sol; native relay uses Opus → GPT-6-Sol                            |
 | TEACH-T2/T3 implementation                                                             | Needs proposal acceptance, migration/privacy review and consumed export/audit choices D-143/D-144; T1 does not approve migrations                             | Claude Code Sonnet → Codex GPT-6-Sol                                                          |
 | TEACH-T4 interlock/serving                                                             | Needs D-100/D-102/D-140/D-141, complete exposure/assignment/result participation, activation protocol, shadow/permanent enforcement, content and manual gates | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
 | BANK-CONTRACT: remaining bank kind, manifest and historical resolution                 | Needs one bounded scope; D-75 covers only shared catalog access                                                                                               | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
@@ -120,9 +133,11 @@ select role-specific worker models. The parent identifies the eligible
 approved packet and uses at most one appropriate role worker; it does not
 duplicate the work or run a same-family independent review.
 
-**Current intake result:** T1 is complete; TEACH-T2-PROPOSAL has not yet
-received issue-scope authorization. Either client's first task turn should
-request that bounded scope, not start migrations or select a later task.
+**Current intake result:** T1 is complete; TEACH-T2-PROPOSAL now has
+writer-free proposal/review accepted and D-145–D-147 approved. TEACH-T2A
+isolated draft/scratch validation has returned from Sonnet; do not
+duplicate it or touch production. Review and human migration approval
+must precede integration.
 When an integrator assigns an approved packet, it records its path and
 eligible next role in this index so the other terminal needs only "continue".
 After completing a role, tell the human **SWITCH TO: Codex** or

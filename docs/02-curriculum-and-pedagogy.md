@@ -2,14 +2,14 @@
 
 ## Curriculum layers
 
-| Layer | Purpose | Initial source |
-|---|---|---|
-| Standards | Define expected competencies | California Common Core Grade 6 Math |
-| Local sequence | Approximate school timing | IUSD published curriculum/year-at-a-glance, manually curated |
-| Core mastery | Detect and repair gaps | Original lessons/problems aligned to standards |
-| Depth | Build explanations and connections | Original AoPS-style reasoning activities; no copied content |
-| Contest | Build strategy and transfer | Original Math Kangaroo/MOEMS/AMC-style skill types |
-| Review | Retain learning | Retrieval practice and spaced scheduling |
+| Layer          | Purpose                            | Initial source                                               |
+| -------------- | ---------------------------------- | ------------------------------------------------------------ |
+| Standards      | Define expected competencies       | California Common Core Grade 6 Math                          |
+| Local sequence | Approximate school timing          | IUSD published curriculum/year-at-a-glance, manually curated |
+| Core mastery   | Detect and repair gaps             | Original lessons/problems aligned to standards               |
+| Depth          | Build explanations and connections | Original AoPS-style reasoning activities; no copied content  |
+| Contest        | Build strategy and transfer        | Original Math Kangaroo/MOEMS/AMC-style skill types           |
+| Review         | Retain learning                    | Retrieval practice and spaced scheduling                     |
 
 The local sequence is guidance, not an assumption about a specific classroom. Parent/learner input can adjust the current unit.
 
@@ -26,7 +26,12 @@ The full skill graph and sample problems (answers/hints excluded) are published 
 [navoditk.github.io/learning-forge](https://navoditk.github.io/learning-forge/), generated
 directly from `skillCatalog`/`contentCatalog` by `scripts/generate-curriculum-site.ts`. It
 regenerates automatically on every push to `main` (`.github/workflows/curriculum-site.yml`), so
-it can never drift from what's actually shipped. Each `Skill` carries a `program` field.
+it can never drift from what's actually shipped. Public skill metadata and
+counts are limited to available programs with reviewed teaching/practice
+content referencing that exact skill version (legacy skills use `1.0.0`).
+Pending-only skills, unavailable programs' drafts and held-out roles are
+excluded; this projection does not substitute for human skill/content approval.
+Each `Skill` carries a `program` field.
 Grade 6 Math, Grade 6 Math Kangaroo, MOEMS Division E, AMC 8 Grade 6 prep, and MATHCOUNTS Grade 6 are
 currently available as isolated learner journeys. Future programs such as Grade 6 ELA can be added
 as new top-level sections without restructuring existing content.
@@ -43,6 +48,26 @@ Each program will receive its own primary-source dossier and human approval
 gate before authoring. The intended product structure is core prep plus contest
 content; this scope decision does not yet define a skill graph, reproduce
 official competition material, or make any program learner-available.
+
+## Accepted first-unit course designs
+
+On 2026-10-10 the owner accepted independently reviewed first-unit designs for
+AMC 8, MOEMS, Math Kangaroo, MATHCOUNTS and Spelling Bee under D-75. These
+extend existing practice catalogs into proposed Unit/Lesson courses; they are
+not new learner-available courses. The shared catalog foundation is implemented
+without registering new units or changing existing practice, policy or scoring.
+
+See `docs/course-progression-handoff.md` for the five integrated specifications
+and `docs/course-progression-decisions.md` D-76 through D-138 for all open
+extension choices. Design acceptance does not authorize teaching/private-bank
+authoring, resolve volumes or completion rules, or permit learner release.
+Known reused-content corrections require separate scope and review.
+
+The owner accepted the independently reviewed shared teaching contract and
+D-139/D-142 shapes; disconnected T1 schemas/fixtures are implemented.
+It separates server delivery, authenticated acknowledgement, lesson completion
+and mastery. D-140/D-141/D-143/D-144 remain open; shape approval does not
+authorize content, learner-data writers, database migrations or serving.
 
 ## Initial Math skill graph
 
@@ -301,14 +326,14 @@ replaced.
 
 Initial configurable weights:
 
-| Highest assistance used | Evidence weight |
-|---|---:|
-| Independent | 1.00 |
-| Clarifying question only | 0.90 |
-| Small strategic hint | 0.75 |
-| Multiple hints/representation | 0.55 |
-| Analogous worked example | 0.35 |
-| Guided/full solution | 0.10 |
+| Highest assistance used       | Evidence weight |
+| ----------------------------- | --------------: |
+| Independent                   |            1.00 |
+| Clarifying question only      |            0.90 |
+| Small strategic hint          |            0.75 |
+| Multiple hints/representation |            0.55 |
+| Analogous worked example      |            0.35 |
+| Guided/full solution          |            0.10 |
 
 These are hypotheses, not validated psychometric constants. Preserve raw evidence and make weights configurable.
 

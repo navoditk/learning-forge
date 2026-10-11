@@ -1,5 +1,1170 @@
 # Progress
 
+## 2026-10-10 — Reviewed session checkpoints authorized for local commits
+
+- Owner accepted the recommended coherent-batch sequence: commit completed
+  reviewed main-checkout work locally, keep T2a isolated until independent
+  and human migration approval, and decide push only after deployment/
+  publication effects are reviewed. No new push is authorized.
+- Validated the integrated reviewed main checkout: `npm run verify` passed
+  format/lint/typecheck/down-file check, 85 files/1,641 tests and build.
+  `npm run curriculum:site` passed; explicit pending-document Prettier and
+  `git diff --check` passed. Five accepted course specs, teaching contract
+  and T2 proposal retain exact reviewed hashes.
+- Batches separate publication/source records, disconnected recall/lifecycle
+  foundations and reviewed persistence preflights, shared catalog/accepted
+  five designs, teaching T1/reviewed T2 proposal, and governance/prerequisite
+  records. Committing proposals preserves their pending gates, not authoring,
+  privacy/migration execution or release approval.
+- Push to main triggers CI and curriculum GitHub Pages publication.
+  Render's configured deployment build runs migrate deploy; actual hosted
+  auto-deploy settings were not inspected. Therefore checkpoints stay local.
+  No DB/integration/browser/provider command was run for these commits;
+  new pure modules have no runtime wiring and prior catalog/projection
+  evidence is preserved. No T2a migration/Prisma file enters main.
+- Sonnet T2a draft returned frozen with supplied migration/87-test evidence.
+  No background worker remains active. Missing catalog baseline input,
+  unreproduced RESTRICT claim and scoped-only drift evidence require review.
+  `docs/agent-handoffs/TEACH-T2A.md` records the exact pending review boundary.
+- Completed local code/design checkpoints: `58df200` publication/source
+  records; `b65443b` recall/lifecycle; `da0b0b4` shared catalog/five accepted
+  designs; `59e7973` disconnected teaching contracts/T2 proposal.
+  Exact staged snapshots passed typecheck and targeted Vitest: 47 publication/
+  source tests, 1,100 recall/lifecycle tests, 1,294 curriculum/progression tests,
+  and 79 teaching tests. Publication snapshot site generation also passed.
+  Governance/handoff checkpoint follows. Geography/Olympiad prerequisite
+  drafts/reports remain uncommitted pending author provenance; older progress
+  edits remain unstaged. Session-only log entries are added without replacing
+  committed chronology, including another task's assessment drafting entry.
+- Final combined staged snapshot, exported separately from the dirty worktree,
+  passed `npm run verify`: 85 files/1,641 tests, fake tutor evals, formatting,
+  lint, typecheck, down-file presence and production build. No real provider,
+  database integration, browser journey or T2a migration validation was run
+  by this checkpoint task.
+
+## 2026-10-10 — T2 accepted; D-145–D-147 and isolated T2a approved
+
+- Owner approval form accepted the reviewed T2 proposal and D-145 retained
+  parent FK, D-146 raw opaque token (UUIDv4 validation proposal for next
+  reviewed boundary only), D-147 retention until household erasure with
+  existing backup limits/no new duration. Matrix: 80 approved/67 open.
+- Authorized one isolated T2a schema/privacy-coverage/migration draft with
+  disposable local scratch validation only. Independent and human migration
+  review remain required before main integration; no production access,
+  data writer, route, serving, content, deployment, commit or push.
+- Packet `docs/agent-handoffs/TEACH-T2A.md` pins reviewed proposal and
+  approved dirty inputs. Sonnet implementation, GPT cross-family review.
+  Docker is available; local PostgreSQL clients need command-local PATH.
+  Existing databases, ambient DATABASE_URL and main .env are prohibited.
+
+## 2026-10-10 — Teaching T2 proposal reviewed and imported; awaiting owner
+
+- Original Opus architect corrected R1–R6; GPT-6.1 Sol independently
+  reviewed changed scope. Recommendation: ready for human review with noted
+  risks, not implementation/privacy/migration approval.
+- Imported exact final `docs/teaching-persistence-privacy-proposal.md`,
+  SHA-256 `d142183646e35c7c8e7c997bad3711e40e69fcccd76e097706cb736023a26e5d`.
+  Review: `docs/course-progression-review/teaching-t2-20261010-review.md`.
+  Native/Prisma representability, FK/trigger/cascade behavior and scratch
+  rollback remain future falsifying probes, not proved by prose or Prisma diff.
+- Packet is AWAITING_HUMAN; no running worker. Next approval: proposal
+  acceptance, D-145 actor history, D-146 operation-key storage/format,
+  D-147 retention and bounded T2a implementation/scratch probes. D-143/D-144
+  and later serving/content/access/interlock decisions remain OPEN.
+- Documentation-only validation: exact artifact/input hashes preserved;
+  targeted formatting and whitespace checks. No runtime/Prisma/SQL changes,
+  database/provider/server operation, new content, commit or push.
+
+## 2026-10-10 — T2 proposal first review requests corrections
+
+- Opus task metadata verified `claude-opus-5.5`. Initial frozen writer-free
+  artifact hash `851e464db949c75e182a6cff27a5bc6aa7a49a828f8d5ba579bd7a100732c31c`.
+  GPT-6.1 Sol direct independent review re-derived code/schema/test runners.
+- Requested same-author corrections for weakened Prisma fallback integrity,
+  TRUNCATE bypass of paired exposure-history guards, linked personal-data
+  classification, prospective runner/seeded rollback coverage and consistent
+  privacy-stage gating. Original artifact is not accepted or imported.
+- Added discovered D-145–D-147 as OPEN in the sole decision matrix
+  (actor-history, operation-key representation, retention). Counts now
+  77 approved/70 open. No new approval or value inferred.
+- One same-task architect correction is active; all code/SQL/database,
+  writer/serving/content and release gates remain intact.
+
+## 2026-10-10 — Writer-free teaching T2 proposal authorized
+
+- Owner said "proceed" after T2 was identified as the next proposal. This
+  authorizes one persistence/privacy proposal and cross-family review only;
+  no Prisma/SQL change, database operation, writer, route, content, provider,
+  threshold, serving, release or new commit/push is authorized.
+- Packet: `docs/agent-handoffs/TEACH-T2-PROPOSAL.md`. Isolated Opus author
+  workspace pins main `d70287d` plus the allowlisted documented input overlay
+  and exact accepted teaching contract/T1 hashes. GPT integrator owns shared
+  status and independent review; all open choices remain open.
+- Status check before launch: no running agents or shell jobs in this
+  session. Historical agents are idle, not ongoing work. Resource browser
+  stays stopped. T2 implementation/privacy/migration approval, open teaching
+  choices, scoped course authoring and release gates remain pending.
+
+## 2026-10-10 — Teaching T1 integrated; database-free verification passed
+
+- Integrated Sonnet's six-file disconnected T1 patch after GPT cross-family
+  review and correction of exact-reference padding and trailing-newline
+  acceptance. Reviewed patch SHA-256:
+  `10ed72153464c8d21d80324075c037fae6d1d01a83d10887928567ce1585a7d0`.
+  Review/evidence: `docs/course-progression-review/teaching-t1-20261010-review.md`.
+- Added `src/contracts/teaching-catalog.ts` and `teaching-delivery.ts`;
+  no application consumer, barrel export or production catalog wiring.
+  Three pure test files cover strict shapes, all required version pins,
+  actor/activity restrictions, duplicate membership, canonical refs/digests
+  and operation/served-binding distinctions. Two disconnected nonmath
+  synthetic fixtures compute hashes from their exact synthetic bytes.
+- Targeted Vitest: 79 passed. Main `npm run verify`: passed all stages,
+  including 85 test files / 1,641 tests, fake evals, type/lint/format,
+  down-migration file check and production build. No DB, integration/browser,
+  real-provider or server commands; no content, policy, route or schema changes.
+- Owner approved D-139/D-142 only; the matrix now reports 77 approved and
+  67 open entries with one status per decision. No TTL/evaluator, actual event
+  link, immutable persistence, teaching delivery or mastery claim is implied.
+- Next recommended issue: writer-free T2 privacy/migration proposal for
+  explicit context/event storage, including retention, export/delete order
+  and reversible scratch validation plan. Actual migrations and writers
+  remain approval-gated. No commit or push.
+
+## 2026-10-10 — Teaching T1 recommendations accepted; implementation started
+
+- Owner said "go ahead with the recommendations" after the two-decision
+  T1 request. Recorded contract acceptance and recommended D-139 parent actor
+  and D-142 separate immutable context shapes. This approves T1 only, not
+  database schema/migration, persistence writers, grants, content or release.
+- Sonnet 5.5 worker `abde4c17-3bdf-44f2-b9d5-105bb85aa93d` is implementing
+  disconnected strict schemas and computed-byte synthetic fixtures in an
+  isolated worktree at `fd8fbbb`. GPT cross-family review follows the exact
+  returned patch. Shared documentation remains coordinator-owned.
+- D-100/D-102/D-138 and D-140/D-141/D-143/D-144 remain OPEN. There are
+  77 approved and 67 open decisions. Future retry-window, interlock,
+  privacy/migration and serving behavior must not be implemented under T1.
+
+## 2026-10-10 — Shared teaching-delivery contract reviewed
+
+- Completed the owner's specification/review request in
+  `docs/teaching-delivery-exposure-contract.md`, not a runtime increment.
+  Opus authored the initial packet; GPT independently reviewed and corrected
+  it. Fresh Opus reviews of GPT-authored corrections closed four material
+  concurrency, replay-gap, raw-byte and assessment-overlap findings, returning
+  ready for human review with noted risks. Split provenance and dispositions
+  are in `docs/course-progression-review/teaching-delivery-exposure-20261010-review.md`.
+- Proposed contracts require exact active teaching membership, an immutable
+  delivery context, exposure committed before body response, current
+  authorization on replay, a conservative replay-expiry delay horizon and a
+  shared learner-row interlock across exposure/assignment/result operations.
+  None of those missing runtime surfaces is represented as implemented.
+- Consolidated six new shared choices D-139–D-144 into the sole matrix:
+  actor, active-assessment interlock, shared scope, persistence shape, key
+  export and refusal audit. All remain OPEN; consumed D-100/D-102/D-138 also
+  remain OPEN. There are now 75 approved and 69 open entries.
+- Updated the handoff, pedagogy and expansion checkpoints and marked the
+  older numbered decision inventory explicitly historical. Concurrent main
+  advanced to `debfbdc`; existing work is preserved. No source code, content,
+  schema, database, provider, browser, server or migration operations.
+- Documentation-only targeted Prettier, diff-whitespace and decision/hash
+  audit are the applicable checks; proposed runtime tests are not claimed run.
+  Remaining risks are complete interlock conversion/participation, assessment
+  settling liveness and unobservable public/outside exposure.
+- Exact next task: obtain owner acceptance and D-139/D-142 shape decisions,
+  then T1 disconnected schemas plus computed-byte synthetic fixtures with
+  pure tests on Sonnet 5.5 and cross-family review. No writer, route, real
+  teaching record, migration, registration or release is authorized yet.
+
+## 2026-10-10 — Course-foundation batch wrapped up
+
+- Integrated all five exact, hash-verified owner-accepted specification
+  versions and their independent review dispositions into
+  `docs/curriculum-dossiers/`. Existing proposed-status text is preserved
+  as historical reviewed artifact content; D-75 is acceptance authority.
+- Consolidated every source candidate exactly once into the sole decision
+  matrix: D-76–D-138, 63 OPEN entries with original IDs, source line citations,
+  approver roles and blocked stages. D-01–D-75 remain approved. No new
+  threshold, volume, retry duration, profile or authoring exception selected.
+  Updated curriculum, expansion and self-contained progression handoff docs.
+- Imported hash-verified completed Geography/Olympiad comprehensive source
+  review reports. Substantive reviews are complete; original source-author
+  model provenance remains unverified and separately blocked.
+- Final documentation checks: five approved specifications pass Prettier;
+  decision formatting and diff whitespace pass; deterministic audit confirms
+  all 63 unique OPEN IDs, correct original candidate citations and unchanged
+  five specification hashes. Runtime gate remains the preceding integrated
+  catalog evidence: 1,547 tests, types, scoped lint/format and build passed.
+  This final increment changes documentation only; no DB, provider, browser,
+  deployment, content or migration operations.
+- No agents are running; all are idle. The local browser server remains
+  stopped. Source-index expansion is deferred, lifecycle L2 is approval-gated
+  and Python remains blocked. Work is uncommitted/unpushed.
+- Next recommended issue is one shared teaching-delivery/exposure contract
+  packet, with its required owner choices and independent review before
+  implementation. Full-course authoring and learner activation remain gated.
+
+## 2026-10-10 — D-75 shared catalog foundation integrated and validated
+
+- Integrated Sonnet's corrected catalog patch after fresh GPT full review
+  and coordinator GPT changed-scope confirmation of the normalization fix.
+  Pinned diff `516382bd9124f5709e2ac4e053c08cfa31284a0a5a9ffe76e2e32438ab746cac`
+  applied conflict-free to `a7022ea`. No commit or push.
+- New `src/curriculum/course-catalog.ts` exposes validated, typed shared
+  metadata/lookups. Unit claims and five progression consumers now use it;
+  existing Grade 6 authored records/registry refs and legacy exports remain
+  unchanged. Synthetic multi-program fixtures prove isolation and exact refs.
+  Canonical-form checks reject normalized identifiers before raw indexing.
+- Main `npm test`: 77 files, 1,547 passed. Typecheck, scoped ESLint,
+  changed-source/test Prettier, down-file check and production build passed.
+  After a test-only unsafe-cast cleanup, all 15 catalog tests and typecheck
+  passed again. No DB/integration/browser/provider commands or server restart.
+- Remaining: approved-spec integration and open-candidate consolidation into
+  the sole decision matrix; explicit bank-kind/history/route/store contracts,
+  teaching and completion serving, scoped content exceptions and C4 gates.
+  Five new courses remain inactive. Python remains separately blocked.
+
+## 2026-10-10 — Shared catalog implementation reviewed; minor fix underway
+
+- Sonnet worker returned the isolated D-75 patch; actual
+  `claude-sonnet-5.5` verified from read metadata. Worker reports type/lint/
+  format, curriculum tests and full pure `npm test` passing (432 tests).
+  No database, integration, browser, build or provider commands.
+- Fresh GPT implementation review found no major/blocker in current Grade 6
+  behavior and returned ready for human review with noted risks. It
+  independently ran 69 targeted pure tests and verified record identity,
+  order, claims and unchanged semantics.
+- One minor factory defect: schema-normalized identifiers validate but raw
+  indexes fail their canonical lookups. Original implementer is correcting
+  it with regression tests before integration. Review summary is in
+  `docs/course-progression-review/shared-course-catalog-20261010-review.md`.
+- No code integrated yet; D-75 does not authorize learner activation,
+  policy changes, content authoring, migration or database operations.
+
+## 2026-10-10 — Shared catalog implementation running on Sonnet
+
+- Launched `f19692b7-ab19-40fc-82a0-90ff2dbba278`, selected
+  `claude-sonnet-5.5`, in isolated `shared-course-catalog-implementation`
+  at `a7022ea`. Actual model will be verified from returned metadata.
+- D-75 scope is catalog-only: unchanged active records, mechanical shared
+  lookup consumers, compatible pilot exports and database-free synthetic
+  multi-program assertions. Existing bank suffix semantics and private
+  manifest remain untouched. Fresh independent GPT implementation review
+  follows the pinned patch before integration.
+- Decision/spec consolidation is tracked separately; open candidates have
+  not been selected. No database commands, migrations, provider calls,
+  content edits, learner activation or server restart are permitted.
+
+## 2026-10-10 — Owner accepts reviewed designs and bounded shared increment
+
+- Owner said "approved, go ahead" after all five course-pilot reviews.
+  Recorded D-75 as design acceptance plus consolidation and the first shared,
+  behavior-preserving catalog increment. This does not choose open policy
+  candidates or lift D-61.
+- Implementation scope: one shared active catalog over unchanged Grade 6
+  units/lessons/bank metadata, mechanical consumer lookup replacement,
+  compatibility exports and synthetic multi-program tests. No real new
+  program registration, content, database, migration, authorization,
+  completion, scoring, private manifest or release changes.
+- Current main advanced concurrently to `a7022ea`; implementation worktree
+  is based on that revision, not the older specification base `e04643e`.
+  Re-derive current consumers and preserve concurrent C4/C5 behavior.
+- Sonnet 5.5 implementation and independent GPT review are the selected
+  model allocation. Python remains blocked separately.
+
+## 2026-10-10 — All five course-pilot specifications independently reviewed
+
+- Spelling revision 4 and MOEMS revision 4 independently returned ready
+  for human review, joining AMC 8, Kangaroo and MATHCOUNTS (ready with noted
+  risks). Actual GPT reviewer versus Opus author identities verified via
+  Copilot task/read metadata. Final findings close at specification level,
+  not as implemented runtime behavior.
+- Spelling final hash:
+  `64e4e9efd9a17632b892ac78dadfd86675e563aafb6a524c8c41fee657439174`.
+  MOEMS final hash:
+  `9856d2c50ce6d553d9f7649cbf20fdaa212e13470d259482b19a80f2f8bfca9e`.
+  Dated coordinator review summaries record the final dispositions.
+- All five reviewed specifications remain in their isolated worktrees.
+  Next coordinator increment is integration/consolidation of shared
+  mechanical contract work and stage-specific candidate decisions into
+  the one authoritative matrix before requesting bounded owner approval.
+- No approval of policy values, shared implementation, curriculum-data
+  edits, teaching/private-bank authoring, migration, C4 or release follows.
+  Python implementation remains independently blocked on its incident and
+  persistence/validation review; it is not cleared by these design reviews.
+
+## 2026-10-10 — Final two specification revisions enter bounded review
+
+- Spelling revision 4
+  `64e4e9efd9a17632b892ac78dadfd86675e563aafb6a524c8c41fee657439174`
+  and MOEMS revision 4
+  `9856d2c50ce6d553d9f7649cbf20fdaa212e13470d259482b19a80f2f8bfca9e`
+  returned from original Opus authors. Original GPT reviewers received
+  only remaining findings and tightly coupled changes for verification.
+- Spelling changes concern explicit historical delivery attribution and
+  table/reference accuracy. MOEMS changes preserve profile-based assisted
+  practice, acknowledge public exposure limits, gate retry policy and
+  resolve completion-choice dependencies. Closure remains unverified.
+- Three other pilots remain ready for human review with noted risks.
+  No actual curriculum content, implementation, schema or release authorized.
+
+## 2026-10-10 — Three pilots ready for human review; two narrowly revising
+
+- AMC 8 revision 4 and MATHCOUNTS revision 3 independently reached ready for
+  human review with noted risks, joining Kangaroo revision 3.
+  Actual reviewer/author GPT/Opus metadata verified. This is design readiness,
+  not approval of policy, implementation, authoring or release.
+- AMC 8 has no remaining finding in its bounded final review.
+  MATHCOUNTS retains minor blanket-statement drift and explicit historical
+  non-removal acceptance detail.
+- Spelling revision 3 needs one major historical event-to-lesson attribution
+  correction plus two minor documentation fixes. MOEMS revision 3 needs two
+  majors (profile-based assistance counting and honest exposure/replay/public
+  boundaries) plus one completion-choice dependency correction.
+  Original authors received only these residual specification changes.
+
+## 2026-10-10 — Four corrected pilot specifications return to reviewers
+
+- Original authors returned narrower corrections; original independent GPT
+  reviewers are checking changed scope. Actual Opus/GPT model provenance
+  remains verified through task/read metadata, not self-report.
+- Reviewed targets: AMC 8 revision 4
+  `c02a4f60f9f069e963c1a9bc8305bf286eaaf0d72e60535c8f63a911444050bb`;
+  MOEMS revision 3
+  `666a97a2ba8102a97785aa3cb5786acdc9db22c9884d639045c9ca8029a2e6d5`;
+  Spelling revision 3
+  `d661db2e6a65e7f4f34bad5e22f9bad5a3c707f4a4990d5b5e701f214867de36`;
+  MATHCOUNTS revision 3
+  `1c3e914998bdee1f33c2dd273bd22f7e515a7436c23446612083379b3e6a2d16`.
+- Author-reported closure is not accepted until independent confirmation.
+  Kangaroo remains ready for human review with two minor coverage notes.
+  All specifications remain isolated; no content or runtime changes.
+
+## 2026-10-10 — Kangaroo specification reaches human-review readiness
+
+- Kangaroo revision 3 independently reviewed by actual `gpt-6.1-sol`
+  against `claude-opus-5.5` author, verified task/read metadata:
+  ready for human review with noted risks. No remaining blocker/major
+  in bounded scope. Two minor acceptance additions cover no-history
+  authorization and unlinked practice-session historical resolution.
+  Reviewed hash:
+  `1d6e87078751c0a23535ba8a08d0f064a76969df48c7a47ff3f0a93cf0322bf4`.
+  Spec remains isolated; review readiness is not owner approval.
+- AMC 8 revision 3 needs two narrow corrections: no below-readiness
+  evidence-producing completion for old sessions, and new structural
+  versions when reactivating archived ownership. Original author tasked.
+- Other three pilots are correcting their revision-2 findings.
+  Shared implementation, policy adoption, content exceptions and release
+  remain gated; no automatic D-61 lift follows a successful spec review.
+
+## 2026-10-10 — Narrow contract corrections continue; revision 3 checks started
+
+- Spelling revision-2 re-review: one blocker (flag-reversible permanent
+  authorization), two majors (D-31 skip contradiction and overstated
+  persistence pins). MOEMS: five majors/one minor (candidate activation,
+  skip, raw-file versus JSON archive hashes, reliable teaching exposure,
+  permanent enforcement and packet dependencies). MATHCOUNTS: four majors
+  plus minor drift (threshold/skip staging, teaching grant/exposure,
+  per-attempt skill coverage, active/staged/historical manifest scopes).
+  Original authors received these bounded spec-only corrections.
+- AMC 8 revision 3
+  `04853fc488b38c9846a5cbf2ca87d0505c41de0a0c5c904c175b18b00b52f63c`
+  and Kangaroo revision 3
+  `1d6e87078751c0a23535ba8a08d0f064a76969df48c7a47ff3f0a93cf0322bf4`
+  are with original independent GPT reviewers for remaining-finding checks.
+  Author-reported closure is not independent closure or human approval.
+- No runtime, content, migration, database or local-server work authorized.
+
+## 2026-10-10 — Remaining revised pilots enter review; two need narrower fixes
+
+- Spelling revision 2
+  `84d578084f20f5084177df57b93d76a1bbb49741a7d20045c5ad5f698207f087`,
+  MOEMS revision 2
+  `e8a90e2a905ec42d405b6ed94dec6839773d87adae2bf7e39c103e9e61f38e50`,
+  and MATHCOUNTS revision 2
+  `66cbff72e74da5851f842fe67751a702c5b7ebcbf41392780963ffbc5e596698`
+  returned and were sent to original independent GPT reviewers.
+- AMC 8 revision-2 review still not ready: three residual majors concern
+  preserving D-31 first-run skip, coherent readiness cutover rather than
+  bypass grandfathering, and active/archive validation across rollback.
+- Kangaroo revision-2 review still not ready: four majors and one minor
+  concern permanent enforcement versus flags, scheduled completion wiring,
+  preserving reviewed accepted-answer variants, accurate historical pin
+  mapping and conditional versioned repinning. Authors received narrower
+  specification corrections; no runtime/content operations authorized.
+- Owner explicitly no longer needs local resource browser; leave it stopped.
+
+## 2026-10-10 — AMC 8 and Kangaroo corrected specs enter re-review
+
+- Original Opus authors returned specification-only revisions addressing
+  their first-review findings. Closure remains author-reported, not accepted.
+  Original GPT reviewers received bounded changed-scope re-review tasks.
+- AMC 8 revision 2:
+  `e63bcc286b967d6128a0056a22e07974f1f2876a60ddbf9d2d762d2fa5459ef5`.
+  Kangaroo revision 2:
+  `7f4d8ba7413675a4af7c33dabfccef4daf5b66bfc0c1a82e93949a286d2d75c2`.
+  Artifacts remain isolated; no implementation or content authorization.
+- Local resource-browser dev process `python-review-web` exited. Retrieved
+  log includes resource-page 500 responses and missing generated Next.js
+  modules before exit. Cause is unverified; localhost availability is no
+  longer claimed. No server restart or shared build-cache cleanup performed.
+
+## 2026-10-10 — MOEMS and MATHCOUNTS reviews require corrections
+
+- Actual GPT reviewers verified through task/read metadata. MOEMS returned
+  eight major/three minor findings; MATHCOUNTS four major/four minor.
+  Both recommend not ready for human review. Persisted coordinator review
+  summaries and sent findings to original authors for spec-only revisions.
+- MOEMS review found an impossible existing cryptarithm in proposed reused
+  content (37 + 55 = 92, not 192). Spec must gate its use on a separate
+  authorized content-correctness disposition; no item was edited.
+- MATHCOUNTS source refresh hash discrepancy is resolved: direct comparison
+  confirms only approval/integration-status annotations changed between
+  reviewed and current copies. No substantive source re-review is required
+  for that delta; recorded owner approval remains the approval witness.
+- All five proposals now need corrections and changed-scope re-review.
+  No approval request is needed to correct specifications; curriculum,
+  runtime, migration and release gates remain intact.
+
+## 2026-10-10 — First three pilot reviews require specification corrections
+
+- AMC 8, Spelling and Kangaroo independent reviews returned not ready for
+  human review. Actual reviewer `gpt-6.1-sol` versus author
+  `claude-opus-5.5` verified through Copilot task/read metadata.
+  Persisted coordinator finding summaries in their dated review documents.
+- AMC 8 has five major/two minor findings; Spelling four major/three minor;
+  Kangaroo seven major/two minor. Common themes: active registration is
+  behavioral even with flags off, actual authorization/readiness inventory,
+  teaching role-safe delivery, executable completion rules and honest stage
+  prerequisites. Kangaroo additionally needs complete choice transport and
+  resource/test-runner coverage. No owner decision resolves these defects.
+- Original authors received bounded specification-only correction tasks.
+  No runtime, content, migration or database changes are authorized.
+  Independent changed-scope re-review follows revised hashes.
+
+## 2026-10-10 — All five course specifications drafted; reviews underway
+
+- MOEMS and MATHCOUNTS specification workers returned their isolated
+  proposals at `e04643e`. Actual author models are `claude-opus-5.5`,
+  witnessed through Copilot task/read metadata. No proposals are integrated
+  or approved, and no curriculum content was authored.
+- Fresh read-only reviewers selected on `gpt-6.1-sol`:
+  MOEMS `b79523b4-d784-46ee-b266-2f5b70467b15`, target hash
+  `86abf43ec04d30c53222f304bc2d64dc681195ce0fa7deeee8324f774a7ffa30`;
+  MATHCOUNTS `cb160d6f-463b-4f3e-b0f5-7709bc3f6c74`, target hash
+  `e835d4ce89ac0af6efe7f22a12ae56e7e709e189cac25bddd6a439c72a15f1e4`.
+  Actual reviewer metadata will be verified on return.
+- All five first-unit specs are now in independent review. Review includes
+  source revision/approval provenance, contested blocker scope and shared
+  mechanical prerequisites. No per-program policy recommendations become
+  approved defaults. Sonnet implementation model selection is already
+  owner-authorized; runtime and authoring packets still require their gates.
+
+## 2026-10-10 — Three course pilots enter independent design review
+
+- AMC 8, Kangaroo and Spelling specification workers returned their
+  first-unit proposals. Actual author models are `claude-opus-5.5`,
+  verified through Copilot task/read metadata. Artifacts remain in their
+  isolated worktrees, not integrated or approved.
+- Launched fresh read-only GPT-family reviewers, selected `gpt-6.1-sol`:
+  AMC 8 `ddb2f044-adab-4004-8cdd-9c079970830b` reviewing
+  `dd162c8331f3e961a04eb9d4515e0b097506506865effec59c5764d84240b27f`;
+  Kangaroo `039ef488-e4e9-4bfe-b2d2-d8c1069bfa54` reviewing
+  `cd680f8cec5944c2f9b5e1c14d28b7106d21699847886892735a8e535ea0f98b`;
+  Spelling `5b87dbfa-88bc-4d00-8a91-97825689f108` reviewing
+  `395eb8df69834864678f008113c92bebc13ee21941c9fa8a6356ce40fa7a5609`.
+  Reviewer actual-model metadata remains to be verified on return.
+- Review scope includes shared-catalog hardcoding, hybrid compatibility,
+  contest placement/readiness, teaching delivery, practice coverage and
+  candidate decisions. Reported Spelling content/scorer issues and resolver
+  behavior require independent verification; they are not accepted fixes.
+  No database, runtime, content or private-bank operations are authorized.
+- MOEMS and MATHCOUNTS specifications remain underway. Human approvals
+  follow reviewed concrete packets, not author self-evaluation.
+
+## 2026-10-10 — Source reviews returned; database target still unverified
+
+- Geography reviewer `91566566-5ba7-4280-b84e-5bf7961aa8af` returned
+  substantive sources ready for human consideration with noted risks:
+  two minor precision gaps and inaccessible legacy sources. Original
+  source-author model provenance remains unverified. Neither comprehensive
+  source review closes the model-independence or authoring gate.
+- Python worker's read-only follow-up qualifies its initial database
+  disclosure: direct Vitest invocation with an unset `DATABASE_URL` may
+  have failed before connecting, rather than used the integration script's
+  fallback. Effective environment, connection target and successful writes
+  remain unknown; main-database access is not confirmed or ruled out.
+  The worker saw filtered failure names, not underlying errors.
+- Worker reports only scratch-database migration deployment and no main
+  deployment. The proposed schema exception was its own interpretation,
+  not explicit migration approval. Worker is stopped; integration remains
+  blocked pending execution evidence and review of persistence options.
+
+## 2026-10-10 — Python implementation returned; integration blocked
+
+- Sonnet worker `fe7a4bc6-83ca-4ce9-9cb0-12292eac16ac` reports C1–C5
+  implemented in its isolated worktree. No patch has been integrated or
+  approved. It includes an Attempt evaluator-version column and proposed
+  migration; migration authorization and independent rollback review are
+  not established.
+- Worker reports type/lint/format checks passed and scratch-database
+  integration checks passed, but three source-browser tests failed against
+  stale supplied inputs. Route-level invalid-response tests remain missing.
+  These are worker-reported results, not coordinator verification.
+- Worker disclosed an accidental integration-test run against the main
+  local development database because `DATABASE_URL` was unset. Actual write
+  and cleanup effects are unverified. Coordinator instructed the worker to
+  stop all database operations and provide a read-only account from existing
+  logs/code. No cleanup, migration, or assumption of unaffected data is
+  authorized. Impact assessment precedes integration and authoring.
+- Science Olympiad comprehensive source reviewer returned ready for human
+  review with noted risks (three minor findings, no substantive major or
+  blocker). Original source-author model provenance remains unverified;
+  source independence and authoring gates are not declared closed.
+
+## 2026-10-10 — Five existing-program full-course pilots started
+
+- Owner selected full Unit/Lesson courses rather than practice expansion,
+  then explicitly approved specification-only first-unit targets:
+  AMC 8 number sense/proportional reasoning; MOEMS number/place value and
+  cryptarithms; Kangaroo arithmetic/number patterns; MATHCOUNTS number
+  theory/fraction-percent fluency; Spelling Bee orthography/morphology.
+- Five isolated Opus 5.5 specification workers launched at `e04643e`:
+  AMC 8 `fd630003-4ca5-410d-a37a-9067331ccd82`;
+  MOEMS `158b71b4-b48d-49da-9844-7c1f56b3a3e2`;
+  Kangaroo `b6645be8-fa7c-4908-a179-5dfc4b221da0`;
+  MATHCOUNTS `bef79e87-3fbe-4066-bb7e-5946294b0cc6`;
+  Spelling `ab1e5eb4-c4eb-4a8e-9b4b-25760e3bd092`.
+- Each owns one proposed first-unit packet and prerequisite/test inventory,
+  reuses reviewed practice identities and the shared progression engine,
+  and changes no actual content, policy, runtime or private bank.
+  Independent GPT review follows completion. Defined implementation uses
+  Sonnet per owner instruction. D-61 full-course authoring is not lifted.
+
+## 2026-10-10 — Two comprehensive source reviews running alongside implementation
+
+- Owner selected both independent background source reviews: Geography
+  `91566566-5ba7-4280-b84e-5bf7961aa8af` and Science Olympiad
+  `f4c73c54-854a-4048-8ea1-d2e3213a93da`, launched on GPT-6.1 Sol.
+  They verify existing public citations only and own separate reports.
+- Original 2026-09-19 source-author model identities are not yet verified.
+  Reviewers must separate substantive source readiness from that unresolved
+  model-independence evidence; prerequisite-spec Opus authors are not
+  assumed to be the original source authors.
+- Sonnet Python C1–C5 implementation continues independently. No additional
+  curriculum authoring or release authorization is inferred.
+
+## 2026-10-10 — Sonnet Python contract implementation started
+
+- Owner requested Sonnet 5.5 or equivalent for well-defined implementation,
+  avoiding expensive models for pure implementation. Launched
+  `fe7a4bc6-83ca-4ce9-9cb0-12292eac16ac` on `claude-sonnet-5.5` in an
+  isolated worktree at `d7bda52`, preserving concurrent C4 changes.
+- Scope is the reviewed C1–C5 authoring contract: unavailable program
+  identity/domain/version, code-listing schema/lints, exact-output scoring,
+  raw-input preservation, invalid-response rejection before writes and
+  evaluator provenance. Synthetic fixtures only; no curriculum content.
+- Existing reviewed publication gate is supplied as an input, not worker
+  work. Learner rendering, execution, tutor enablement and release remain
+  excluded. Opus cross-family review follows the completed implementation.
+
+## 2026-10-10 — Python first-increment owner decision recorded
+
+- Owner selected `approve-recommended` in the focused prerequisite form:
+  Python 3.14, one beginner-core print-output-reading skill and one practice
+  record, internal objective codes, link-only sources and original content.
+  No teaching, optional depth, execution or held-out items.
+- Recorded a conditional D-61 drafting exception: implementation,
+  validation/integration of the reviewed contract, applicable gate evidence
+  and engineering sign-off remain required before drafting starts.
+  Independent review and final human content approval follow drafting;
+  learner release is not authorized.
+- Social Studies revision 3 also passed bounded independent review.
+  Its owner choices and contract implementation remain pending.
+
+## 2026-10-10 — Three more prerequisite proposals pass independent review
+
+- Science, Geography and Science Olympiad revision-2 prerequisite proposals
+  passed bounded GPT review with noted risks. Integrated proposals and
+  reports into `docs/curriculum-dossiers/`; formatting and whitespace checks
+  passed. This closes specification findings, not implementation or owner
+  scope/authoring gates.
+- Reviewer identities verified from task/read metadata: Science
+  `140f5836-1a6c-4c3a-9f1b-f7018ac1cb6b`, Geography
+  `ff96473b-d338-436b-baaa-f532cc0f8b9a`, Olympiad
+  `c8e73d77-3f1a-40c1-b02a-93c769a151a0`, all GPT-6.1 Sol reviewing
+  Opus 5.5 authors. Comprehensive Geography/Olympiad source review remains
+  a separate prerequisite; no such review is claimed here.
+- Social Studies retains two coupled specification findings: mandatory
+  publication gating must not be optional, and inherited per-skill analysis
+  mapping must not be omitted when evidence cannot be scored automatically.
+  Original author received the exact report for correction.
+
+## 2026-10-10 — Python prerequisite review closes; four re-reviews started
+
+- Python revision 2 passed GPT changed-scope review with noted acceptance
+  details: preserve raw input at every scoring entry, validate canonical
+  output before trimming, and persist evaluator provenance. Integrated
+  prerequisite proposal and review into `docs/curriculum-dossiers/`.
+  Proposal hash: `4375fbe8564857f53bf6247168a16107298a36617a484c84c668bf7fc918f958`.
+- Author `f2e7410b-9b9d-427f-81f1-4bc3ab384f50` used Opus 5.5; reviewer
+  `58e388cf-32d6-4e0f-89e8-700959edeb83` used GPT-6.1 Sol, verified from
+  coordinator task/read metadata. Formatting and whitespace checks passed.
+- Corrected Science, Social Studies, Geography and Olympiad prerequisite
+  specs are with their original independent reviewers for bounded confirmation.
+- Python scope/version/coverage decisions, implementation of its contract
+  and dated D-61 authoring authorization remain open. No lessons authored.
+
+## 2026-10-10 — First authoring blocker: draft publication gate corrected
+
+- Owner authorized resolving blockers with a cross-family LLM judge.
+  GPT-6.1 Sol implemented public skill projection limited to available
+  programs with reviewed teaching/practice content pinned to the exact skill
+  version. Pending-only and unavailable-program skills no longer appear in
+  public body, navigation or counts; hidden prerequisite identifiers are
+  withheld. Existing 64 skills and 128 reviewed problems remain unchanged.
+- Opus 5.5 independently judged the bounded implementation ready for human
+  review. This is not independent approval of skill edits, a D-61 lift or
+  release authorization. Same-version skill edits still require human review.
+  Corrected coupled coming-soon wording and removed stale unfiltered logging.
+- Added `tests/content/publication.test.ts`; 33 targeted tests, TypeScript
+  and changed-file lint passed before the wording cleanup.
+- Final validation after cleanup: 76 tests across publication, catalog,
+  assessment separation and source-browser suites passed; `npm run typecheck`,
+  changed-file ESLint/Prettier, `npm run curriculum:site` and
+  `git diff --check` passed. No persistence, tutor or learner-runtime behavior
+  changed; no database integration or browser suite run for this static
+  projection increment.
+- All five prerequisite specs received cross-family review findings.
+  Original authors are correcting their owned proposals, particularly
+  normalization/scoring validity, inflated draft-versus-release gates,
+  historical alignment and unenforced mastery claims. No lessons authored.
+
+## 2026-10-10 — New-curriculum prerequisite fleet authorized and started
+
+- Owner selected `new-curricula-first`: parallel bounded prerequisite/spec
+  work, then scoped authoring and independent review as each becomes ready.
+  This does not authorize expansion of already-authored contest programs
+  or lift the D-61 authoring pause.
+- Five isolated specification workers launched with the approved Opus 5.5
+  allocation: Python `f2e7410b-9b9d-427f-81f1-4bc3ab384f50`;
+  school Science `a823edd5-70c7-4d89-8e95-b8fd1832232c`;
+  Social Studies `bd2b8093-5ccc-4b1a-b3c5-a2438da92cdb`;
+  Geography `19741f8e-22f1-4912-945c-d5438833a370`;
+  Science Olympiad `fa189d43-66c0-4ee4-967c-1b74dff88b28`.
+  Each owns one prerequisite proposal, not runtime schemas, skills or lessons.
+- Workers inspect existing contracts before proposing gaps, identify minimal
+  owner choices, and prepare a first bounded authoring packet. Independent
+  GPT-6.1 Sol review follows each completed proposal; actual-model metadata
+  is recorded before review. Shared implementation remains serialized.
+- L2 revision 3 separately passed bounded review for writer-free L2a human
+  review. G-12/G-13 are untested; L2b choices and migration/privacy approval
+  remain open. No schema, migration or runtime operation authorized.
+
+## 2026-10-10 — MATHCOUNTS sources approved; authoring fleet requested
+
+- Owner approved MATHCOUNTS: "math counts is good as well". Recorded
+  source-refresh approval in the dossier and shared source register.
+  All requested research/source approvals are now recorded.
+- Owner requested curriculum authoring followed by independent review and
+  asked to leverage a fleet. Scope and a dated D-61 lift/exception must be
+  recorded before writers start; no broad lift is inferred.
+- Repository inspection confirms AMC 8, MOEMS, Math Kangaroo, MATHCOUNTS
+  and Spelling Bee already have authored, reviewed catalogs. Further work
+  there is expansion, not creating missing curricula. School Science,
+  Social Studies, Geography, Science Olympiad and Python still require
+  applicable program/content/validation or scope prerequisites.
+
+## 2026-10-10 — School Science and Science Olympiad research accepted
+
+- Owner said "science and science olympiad are good to go as well".
+  Recorded research-only approval of the independently reviewed school
+  Science dossier and the Science Olympiad source section.
+- California integrated Grade 6 school Science remains separate from
+  Science Olympiad Division B. Olympiad event-subset, safety/supervision,
+  season and release choices remain separately open; owner source approval
+  does not establish independent review evidence for the Olympiad dossier.
+- No D-61 pause lift, new content authoring, migration or publication.
+  MATHCOUNTS is the remaining refreshed research track awaiting owner approval.
+
+## 2026-10-10 — Spelling and Geography Bee research accepted
+
+- Owner said "spelling bee and geography bee look good as well". Reconfirmed
+  the existing Spelling Bee source approval and recorded research/source
+  approval for IAC National Geography Bee in the shared source register.
+- Geography label, mechanics scope and volatile-content review policy
+  remain separately open. This approval does not establish independent
+  review evidence, lift D-61 or authorize course/content publication.
+- Updated the reference-status regression test to reflect Geography's
+  approval while preserving Science Olympiad's pending status.
+
+## 2026-10-10 — Three contest source refreshes approved by owner
+
+- Owner accepted the independently reviewed refreshes: "moems, math
+  kangaroo, amc8 look good as well". Recorded source-only approval in all
+  three refresh dossiers and linked their accepted deltas from the shared
+  source register. Detailed reference-row integration remains pending.
+- Existing Division E-only, USA Grades 5–6 individual competition and
+  readiness-gated AMC 8 boundaries remain unchanged. No contest content
+  reuse, D-61 pause lift or new authoring authorization is inferred.
+- Python sources and Social Studies research also have owner approval.
+  School Science and MATHCOUNTS refresh still await owner review.
+
+## 2026-10-10 — L2 changed-scope review retains two blockers
+
+- Independent review found two remaining preflight defects: nullable
+  tenant CHECK constraints can pass SQL UNKNOWN and bypass actor/clear
+  composite foreign keys; malformed-state handling must not claim L1
+  BACKFILL accepts malformed snapshots.
+- Original author received the exact findings for proposal-only correction.
+  Most prior findings are resolved, but L2a/L2b readiness is not approved.
+  Prisma relation and explicit-transaction migration probes remain untested.
+- No migration, schema, database or runtime changes authorized or applied.
+
+## 2026-10-10 — Social Studies research approved by owner
+
+- Owner accepted the independently reviewed Social Studies dossier:
+  "social studies looks good". Recorded research-only approval in the
+  dossier and source register, retaining disclosed edition, publisher TOC,
+  access and licensing gaps.
+- Clarified the dossier handoff: research approval does not lift D-61 or
+  authorize content authoring or runtime publication. Core plus depth,
+  the confirmed IMPACT ISBN and no unverified school pacing remain the
+  previously agreed research scope.
+- Next: complete the shared reference index and establish the
+  subject-appropriate content/validation contracts before separately
+  authorized course authoring.
+
+## 2026-10-10 — Final contest reviews and revised L2 preflight
+
+- Math Kangaroo and MOEMS independent reviewers closed their assigned
+  findings and recommended human review. Both refresh dossiers and reports
+  are integrated into `docs/curriculum-dossiers/`; source-register expansion
+  remains pending. Existing approved contest baselines remain unchanged.
+- L2 author revised the preflight for all seven findings. Its original
+  independent reviewer is confirming tenant constraints, L1 compatibility,
+  rolling activation, D-28 effects, transaction safety and privacy contracts.
+  The author's proposed L2a/L2b split and remaining owner choices are not
+  accepted until review confirms them.
+- No migration, database operation, runtime cutover or L3 authorization.
+  Python sources alone have owner approval; other batch proposals remain
+  pending owner review.
+
+## 2026-10-10 — Python sources approved by owner
+
+- Owner approved the Python references: "sources for python look good,
+  approved." Recorded source-only approval in the integrated research
+  dossier and shared source register. Independent review had already passed.
+- No scope/depth, Python version, validator/renderer, execution or D-61
+  authoring decision is inferred from this approval.
+- Source-browser checks caught citation metadata disappearing when Prettier
+  normalized italic titles to underscores. The parser now recognizes both
+  Markdown emphasis styles; regression cases cover title, issuer and date.
+- Next recommended increment: specify a pinned Python version and a
+  non-executing code-presentation/deterministic-answer contract for an
+  initial tracing/predict-output lesson, then review and implement that
+  contract before seeking the required authoring authorization.
+
+## 2026-10-10 — School research ready for owner review
+
+- Independent reviewers closed all reported School Science and Social
+  Studies findings and recommended human review with disclosed risks.
+  Copied both corrected dossiers and review reports into
+  `docs/curriculum-dossiers/`. Source-register expansion remains pending.
+- School Science preserves all 19 required performance expectations,
+  including four engineering expectations. Social Studies preserves
+  required Persian Empire coverage and adopted literacy support.
+- Math Kangaroo corrections are complete; its original independent
+  reviewer is confirming the changed scope.
+- Source approval remains pending. These are research proposals, not
+  authored courses, and do not authorize authoring or runtime publication.
+
+## 2026-10-10 — Contest refresh confirmations and school re-review
+
+- AMC 8 and MATHCOUNTS independent reviewers closed their findings and
+  confirmed approve-for-human-review. Copied both refresh dossiers and
+  review reports into `docs/curriculum-dossiers/`; shared reference-register
+  integration remains pending. Existing approved baselines are unchanged.
+- School Science and Social Studies authors corrected the reported findings.
+  Their existing independent reviewers are checking the changed scope.
+- Math Kangaroo review requires four minor corrections to citation metadata,
+  privacy search scope, pricing inference and licensing wording. MOEMS
+  review requires correcting a new restriction on already-approved internal
+  inspiration, redundant Division E approval and source-reporting precision.
+  Both original authors received their reports for correction.
+- Python dossier and independent review were linked for owner review.
+  They describe researched sources and proposed scope, not authored lessons.
+  No owner source approval, authoring authorization or migration approval
+  has been recorded for this batch.
+
+## 2026-10-10 — Parallel review findings routed for correction
+
+- Social Studies review found required Persian Empire coverage and adopted
+  literacy support misclassified as optional, incorrect model-authored
+  provenance and an unnecessary textbook-extract request. Original author
+  is correcting these; no source approval/authoring starts.
+- AMC 8 deadline qualification and MATHCOUNTS marks/OPLET findings are
+  corrected. Their existing GPT reviewers are confirming changed scope and
+  recording coordinator-verified actual model IDs before integration.
+- L2 review returned changes-required: strengthen tenant constraints and
+  migration transactions; reconcile L1 replay, historical/live termination
+  recording, rolling-deploy timestamps and actual D-28 eligibility effects.
+  Original Opus author is revising the proposal only; no migration applied.
+- School Science review returned changes-required: preserve authoring,
+  provenance/content/held-out gates after source approval; correct minor
+  source metadata and access reporting. Official 19-PE coverage was verified.
+- MATHCOUNTS review returned changes-required: include the explicit
+  advertising/publicity marks restriction and correct a false OPLET
+  metadata-conflict claim. Source refresh author is correcting those points.
+- AMC 8 review returned approve-for-human-review with a non-blocking deadline
+  qualification omission. Author is correcting it before final integration.
+- Executor/reviewer identity is verified by this session's task/read metadata:
+  Opus 5.5 source/design authors and GPT-6.1 Sol independent reviewers.
+  Reviewer reports that leave metadata UNVERIFIED do not supersede that
+  coordinator evidence; no human source/release gate is cleared.
+- Next: changed-scope confirmation, then reviewed reference integration.
+  Python remains integrated/pending owner approval; other artifacts stay
+  isolated. Remaining Social Studies, Kangaroo and MOEMS reviews continue.
+
+## 2026-10-10 — Python reviewed sources integrated; final contest reviews launched
+
+- Python's GPT reviewer confirmed the provenance/gate fixes, returning
+  approve-for-human-review. Copied the revised dossier and review into
+  `docs/curriculum-dossiers/`; added its 17 source rows to the source register
+  so the full reference set appears in `/resources`. Owner approval remains
+  pending; no authoring, runner, curriculum skill records or publication
+  of book contents.
+- Source-index/parser/page/adversarial tests passed 38/38. Explicit Python
+  dossier/review formatting and `git diff --check` passed. Integration
+  summarizes reviewed citation metadata only; full evidence stays in dossier.
+- Math Kangaroo and MOEMS refresh drafts finished. Independent GPT reviewers
+  now running: `5e8afed6-61ff-4612-a23a-84cb9e74e613` (Kangaroo) and
+  `3a8ee194-5b4a-40e6-8e67-8066e3673fc5` (MOEMS).
+  All new school/contest research and L2 artifacts are now either drafted
+  and in review, or corrected/integrated as above. Next: collect remaining
+  reviewer outcomes; preserve original approved contest baselines.
+
+## 2026-10-10 — First parallel artifacts enter independent review
+
+- Social Studies, AMC 8 and MATHCOUNTS drafts have also finished and entered
+  GPT review: `2b1c560e-37d1-424e-b6b3-ba6e44e5d2bb`,
+  `7e6bb0a4-718c-4670-8f36-31dd1a0bf1f6` and
+  `feabe408-4bb9-4716-9582-6bcae1ab2dc3`, respectively.
+  Python's scoped provenance/gate correction is applied and its original
+  GPT reviewer is confirming it. No artifact is integrated or approved yet.
+- School Science dossier drafted (18 source references); GPT reviewer
+  `9b038ea5-c7cb-4067-b845-46ef86cdfd9b` is checking its primary-source
+  coverage and claims. No owner approval or register integration yet.
+- L2 persistence preflight drafted at isolated schema head
+  `0017_add_audit_log`; GPT reviewer `e1648e74-7d9c-41fc-8348-1ac4cc189733`
+  is checking terminal-site inventory, proposed constraints and which
+  decisions genuinely need new human input. Proposed H decisions are not
+  accepted merely because the author lists them. No migration drafted in
+  the runtime tree or applied.
+- Python independent review returned changes-required: correct the instruction
+  to label model-authored content `original` to `llm_drafted`, preserving
+  pending content review; source approval does not clear authoring/runtime
+  gates. Original author is applying that scoped correction before re-review.
+- Artifact locations: the corresponding isolated worktrees under session
+  `files/parallel-20261010`; research in `docs/curriculum-dossiers`, L2
+  proposal in `docs/learner-session-l2-persistence-preflight.md`.
+  Main source register remains unchanged by the workers.
+- Next: close scoped review findings and integrate only reviewed references
+  as pending owner approval. Remaining school/contest writers continue.
+
+## 2026-10-10 — Additional contest research tasks queued without duplicating approved dossiers
+
+- User requested AMC 8, MATHCOUNTS, Math Kangaroo and MOEMS research.
+  All four already have owner-approved dossiers in the source register.
+  Added separate refresh tasks to the expansion plan: reverify current
+  rules/eligibility, official archives, access/licensing and material changes,
+  preserving each approved baseline and Grade 6 scope.
+- AMC 8 and MOEMS also have pre-existing research worktrees owned outside
+  this batch. Their presence is not proof of active work; ownership must be
+  clarified before duplicate writers are launched.
+- Product owner explicitly approved all four focused refreshes in new
+  isolated worktrees. Older external worktrees remain untouched.
+  Selected Opus agents now running: AMC 8
+  `f62ec83b-e8bd-4a9e-a096-2a657d8d6e22`, MATHCOUNTS
+  `2ab1e72e-492a-417c-aa16-42a500d62baf`, Math Kangaroo
+  `de7bd4cb-b2c1-4886-92b4-081c5d4dba5f`, MOEMS
+  `90345a72-cfc9-47a7-b33b-93266c627d2b`. Worktrees use the session's
+  `files/parallel-20261010/{amc8-refresh,mathcounts-refresh,kangaroo-refresh,moems-refresh}`.
+- Python source drafting completed; independent GPT-6.1 Sol reviewer
+  `a5782798-475e-4e7d-9b5d-3ef8a8c4a938` is checking the staged artifact.
+  It is not integrated or owner-approved. Existing school research and L2
+  preflight continue; next collect and independently review each artifact.
+
+## 2026-10-10 — Parallel school/Python research and lifecycle L2 preflight authorized
+
+- Product owner explicitly requested L2 and curriculum research in parallel.
+  Created four isolated detached worktrees from `4f678f5`, with the current
+  approved, uncommitted foundation copied as input. Existing main-worktree
+  changes and other contributors' worktrees are preserved.
+- Authorized batch: SCI-RESEARCH (California integrated Grade 6 school
+  Science), SOC-RESEARCH (California Grade 6 Social Studies, McGraw Hill
+  IMPACT ISBN 9780076755905), PY-RESEARCH (Grade 6 Python fundamentals,
+  Think Like a Computer Scientist references), and L2 persistence preflight.
+  School tracks are core plus depth with no unverified local pacing.
+- Premium Opus research/design tasks write separate dossier/preflight files;
+  GPT-6.1 Sol independent review follows each finished artifact. One
+  coordinator owns shared source-register, roadmap and progress integration.
+  No shared-register concurrent edits or curriculum authoring.
+- Running agent IDs (all selected `claude-opus-5.5`, verified by task launch):
+  school Science `e55d9947-6955-4fd7-968d-88290d566c80`;
+  Social Studies `d6dd7bb5-e233-437f-903a-a38c44f64bc3`;
+  Python `dac34a10-e657-45d2-a0c8-5288069f1ccf`;
+  L2 preflight `25cf214d-9f63-4719-8277-c85dd0df8503`.
+  Isolated worktrees live under this session's
+  `files/parallel-20261010/{school-science,school-social-studies,python-intro,l2-preflight}`.
+  These are in-progress tasks, not completed or reviewed artifacts.
+- L2 is preparation and review only until migration review: exact schema,
+  constraints, terminal write sites, export/delete, backfill and test plan.
+  No migration application, database access, paid tutor call, production
+  backfill, L3, deployment, commit or push authorized by the batch.
+- Next: collect scoped artifacts, independently review each, integrate
+  reviewed research as pending owner approval into `/resources`, and present
+  the L2 migration proposal for the required human review.
+
+## 2026-10-10 — Python beginner reference nominated
+
+- User nominated _How to Think Like a Computer Scientist_ or a similar
+  fundamental Python text. Added it to PY-RESEARCH and preliminary references
+  in `docs/curriculum-sources.md`, projected by `/resources`.
+- Read the Open Book Project Python 3 edition's October 2012 version metadata
+  and GFDL 1.3-or-later statement with invariant sections. Runestone remains
+  a separate candidate: curl returned HTTP 403 and web extraction showed only
+  donation notices. No edition/license/access claims inferred for that version.
+- Next: evaluate current Python compatibility, beginner sequencing, Grade 6
+  suitability, accessibility and licensing alongside official Python sources.
+  Nomination is research input, not source-dossier/content approval. No new
+  lesson content, runtime execution or fleet launch.
+
+## 2026-10-10 — School Science and California IMPACT Social Studies scoped in backlog
+
+- Confirmed `grade-6-science` and `grade-6-social-studies` already exist as
+  unavailable program placeholders. Split combined SCI-SOC-RESEARCH into
+  SCI-RESEARCH and SOC-RESEARCH in the expansion plan; school Science remains
+  separate from Science Olympiad, and Social Studies remains separate from
+  Geography Bee. Named California IMPACT as the requested book alignment,
+  without inventing its title/edition/license.
+- Confirmed the homepage links to `/resources`, whose source/dossier filters
+  and permalinks project `docs/curriculum-sources.md`. New references will be
+  reviewable there after dossier integration, including pending research;
+  backlog-only entries do not yet supply citations.
+- Next prerequisite: confirm book identity and school Science jurisdiction/
+  course model, plus requested local pacing. Curriculum research can proceed
+  independently of the still-gated recall delivery infrastructure once those
+  inputs are settled. No curriculum authoring, runtime program enablement,
+  L2/L3 implementation or fleet launch authorized by this backlog update.
+- User then identified McGraw Hill _IMPACT California Social Studies: World
+  History and Geography_, California school Science, core plus depth with
+  no unverified pacing, and both tracks separately. Added preliminary source
+  sections to `docs/curriculum-sources.md` so these references are visible in
+  `/resources` now, clearly pending/incomplete. Publisher metadata retrieval
+  showed a regional notice; CDE retrieval showed a bot challenge. HTTP 200
+  was observed for both and is not claimed as substantive source access.
+  Exact book edition and Science course model remain unresolved.
+- Added an L2 prerequisite checklist to the lifecycle design: schema-head
+  coordination, reviewed migration/down script, export/delete before writers,
+  synthetic backfill, atomic dual-write and scratch-database evidence.
+  This is preflight only, not authorization to apply a migration.
+- Source parser/page/adversarial checks passed 38/38 after aligning new table
+  headers with the existing register convention. Explicit expansion/lifecycle
+  document formatting and `git diff --check` passed.
+- Final scope form selected California integrated Grade 6 Science and
+  confirmed Social Studies ISBN 9780076755905. Research inputs are now settled:
+  two separate school curricula, core plus depth, no unverified local pacing.
+  Next curriculum task: premium source research and independent review of
+  each dossier. These scope approvals are not completed-dossier approval or
+  permission to author content.
+
+## 2026-10-10 — Lifecycle choices approved; corrected L1 completed
+
+- Product owner explicitly approved all S-01 through S-14 recommendations
+  and **L1 only** in a focused form. The lifecycle design is the authority;
+  its header and section 9 now agree. L2 persistence and L3 runtime/UI cutover
+  are not authorized by this approval. Architecture amendment and independent
+  transaction proof remain prerequisites for pre-C4 runtime changes.
+- Added `src/contracts/session-lifecycle.ts` and
+  `src/progression/session-lifecycle.ts`: strict JSON DTOs, separate trusted
+  server context/events, lifecycle-only continuation checks, tenant-first
+  refusals, immutable terminal replay, unfinished-row projection and a shared
+  termination-consistency matrix. Historical ended rows have an explicit
+  unrecorded state for backfill; they are never treated as mastery evidence.
+- Two GPT-5.4 Mini drafts passed smoke tests but failed Opus independent
+  probes. Concrete tenant, binding and outcome defects triggered approved
+  premium escalation: Opus rewrote the four L1 files, and GPT-6.1 Sol
+  coordinator directly reviewed the runtime helpers, schemas and matrix
+  tests. Final review is cross-family; passing the earlier smoke tests was
+  not treated as completion.
+- Added `tests/contracts/session-lifecycle.test.ts`,
+  `tests/progression/session-lifecycle.test.ts` and
+  `tests/progression/session-lifecycle-layer-separation.test.ts`. Tests cover
+  the event/binding and stored-ending matrices, actor scope, verified-event
+  prerequisites, malformed state, legacy null targets, assignment-only end
+  paths, exact JSON dates, copied date references and transitive dependencies.
+  Unended assignment sessions remain listed even if their run is terminal,
+  preserving R7 suppression until the session itself is ended.
+- `npm run verify` passed formatting, lint, typecheck, down-migration checks,
+  **1519 tests across 75 files** and production build. The two lifecycle test
+  files have 1042 cases; the dependency test adds one. No persistence,
+  browser or provider tests rerun: nothing is wired into runtime.
+- Updated lifecycle design, delivery preflight, expansion plan and this log.
+  No routes, migration, flag/capability wiring, learner writes, paid calls,
+  real content, deployment, commit or push. Existing concurrent changes
+  preserved.
+- Next recommended issue: separately reviewed L2 persistence packet with
+  human-reviewed migration/down script, export/delete coverage, historical
+  backfill and atomic termination dual-write. Do not jump to L3 or recall
+  delivery; D-61, C4/C5 and remaining preflight gates remain unchanged.
+
+## 2026-10-10 — Learner session-lifecycle L1 contracts completed
+
+- Added disconnected pure contracts in `src/contracts/session-lifecycle.ts`
+  for strict start/end/clear request bodies, current-session and unfinished-row
+  DTOs, the approved lifecycle outcome union, continuation decisions, and the
+  transition input/result schemas.
+- Added pure progression helpers in `src/progression/session-lifecycle.ts`
+  for the terminal transition, continuation guard, and unfinished-row
+  classifier. The helpers fail closed on malformed input, keep terminal replay
+  idempotent, refuse assignment-bound generic end paths, and preserve the
+  legacy practice-only compatibility subset.
+- Added tests in `tests/contracts/session-lifecycle.test.ts` and
+  `tests/progression/session-lifecycle.test.ts` covering request/response
+  strictness, private-field rejection, terminal replay, assignment-bound
+  refusal, legacy null-kind compatibility, malformed input, and unfinished-row
+  classification.
+- Verified with `npx vitest run tests/contracts/session-lifecycle.test.ts
+tests/progression/session-lifecycle.test.ts` ✅, `npx tsc --noEmit` ✅,
+  `npx eslint src/contracts/session-lifecycle.ts src/progression/session-lifecycle.ts
+tests/contracts/session-lifecycle.test.ts tests/progression/session-lifecycle.test.ts`
+  ✅, and `npx prettier --check --ignore-path /dev/null ...` ✅. Prettier
+  formatting was applied once with `npx prettier --write --ignore-path /dev/null
+...` before the final checks.
+- Remaining scope: no runtime routes, Prisma changes, or docs beyond this
+  progress note. Next recommended issue is the reviewed L2/L3 lifecycle wiring
+  once product approval and release gates allow it.
+
+## 2026-10-10 — Learner session-lifecycle design completed; approval pending
+
+- Added `docs/learner-session-lifecycle-design.md`, specification only:
+  read-only topic browsing, explicit start/resume/end, adult step-up clear,
+  immutable termination facts, protected continuation ordering, export/delete
+  coverage and staged atomic cutover. No runtime change or migration.
+- Claude Opus 5.5 authored the design; GPT-6.1 Sol independently reviewed
+  actual paths and requested corrections to asynchronous assessment-item
+  response authorization, discarded tutor traces, purpose-bound clear tokens
+  and production rollback retention. GPT coordinator applied those fixes;
+  Opus separately confirmed only the GPT-authored changed scope. Unchanged
+  design retains the GPT review; no reviewer self-approves its own text.
+- Added named forced-interleaving tests for bank loading versus termination,
+  deletion during provider work, trace persistence failure and cross-purpose
+  token replay. These tests are proposed, not implemented or passed.
+  Erasure wins over linked trace persistence; production termination evidence
+  is retained from its first write, not just after UI cutover.
+- S-01 through S-14 remain OPEN in the design's single decision table.
+  S-01 asks whether a bounded lifecycle-integrity increment may precede C4;
+  no readiness cutover or architecture amendment is authorized by this design.
+  Further choices cover explicit start, who can end/clear, terminal storage,
+  backfill, discarded traces, legacy sessions, idempotency and visibility.
+- Targeted `npx prettier --check --ignore-path /dev/null
+docs/learner-session-lifecycle-design.md` and `git diff --check` passed.
+  No code tests rerun for this documentation-only packet; prior helper verify
+  remains 466 tests/build. No commit/push; existing dirty work preserved.
+- Next: product approval of scoped lifecycle choices, beginning with S-01,
+  then L1 disconnected lifecycle contracts with synthetic tests. Delivery
+  remains blocked by L3 and the other preflight requirements. D-61 and C4/C5
+  gates remain unchanged.
+
+## 2026-10-10 — UI-3 disconnected delivery gate helpers completed and reviewed
+
+- Added `src/server/recall-cards-flag.ts` (exact literal-`true` parser,
+  no environment read), `src/content/recall-card-identity.ts` (reserved
+  exposure identity and collision checks), and
+  `src/progression/recall-suppression.ts` (complete supplied learner-wide
+  snapshot, unfinished sessions/non-terminal runs suppress, malformed input
+  denies explicitly). No timeout or skill/program exemption. Clearing this
+  predicate alone is not permission to serve.
+- Added synthetic tests in `tests/content/recall-card-identity.test.ts`,
+  `tests/progression/recall-cards-flag.test.ts`,
+  `tests/progression/recall-suppression.test.ts` and
+  `tests/progression/recall-helper-layer-separation.test.ts`. The dependency
+  guard traverses runtime imports, including transitive dependencies.
+- GPT-5.4 Mini implementation; Claude Opus 5.5 review found permissive string
+  date coercion. GPT-6.1 Sol coordinator corrected it to valid database
+  `Date` values only and expanded exact malformed-state tests. Fresh Opus
+  changed-scope review confirmed the finding closed and returned
+  **approve for human review**; actual selected families are distinct.
+- `npm run verify` passed formatting, lint, typecheck, down-migration checks,
+  466 tests across 72 files and production build. Targeted four-file tests
+  passed 50/50, independently repeated by the reviewer. Targeted ESLint and
+  `npx tsc --noEmit` passed. No integration/browser rerun: these helpers have
+  no runtime wiring, persistence or learner-facing behavior.
+- No endpoints, capability field, flag wiring, overlap evaluator, migration,
+  learner writes or real cards added. Prior dirty work was preserved; no
+  commit/push. Delivery remains blocked by lifecycle, continuation,
+  idempotency, private coverage and coordination requirements.
+- Next issue: a reviewed session-lifecycle design that separates topic
+  browsing from starting practice and defines explicit abandonment without
+  inventing an inactivity timeout. Runtime implementation waits for product
+  approval of that behavior and its coordinated terminal/continuation rules.
+  See `docs/ui-recall-delivery-preflight.md`; D-61/C4/C5 remain unchanged.
+
+## 2026-10-10 — UI-3 delivery choices approved; preflight exposes lifecycle blockers
+
+- Product owner explicitly approved ADR-0014 R8/R9/R10 in a focused form:
+  private version-bound human overlap review, default-off server flag with an
+  existing-response capability, and reserved `recall-card:` exposure identity.
+  Recorded choices in ADR-0014; no commit, real content or rollout approval.
+- Added `docs/ui-recall-delivery-preflight.md`. Architecture task selected
+  Claude Opus 5.5; coordinator GPT-6.1 Sol reviewed the proposed packet and
+  corrected its ended-session exception, incomplete cross-program coverage
+  claim and impossible response/event equivalence test. The corrected
+  coordination proposal still needs independent confirmation and integration
+  proof; this entry does not clear a runtime review gate.
+- Existing progress response is the proposed read-only capability carrier.
+  Delivery remains blocked: topic navigation automatically starts sessions,
+  abandoned practice sessions have no terminal path, and some attempts/checks/
+  hints still accept ended sessions. Shared ordering must cover lifecycle
+  transitions and continuations, not just creation. Private inventory must
+  detect same-version bank changes and prove complete cross-program coverage.
+- Changed this packet: ADR-0014, recall-card design, new delivery preflight,
+  expansion plan and this log. Existing contract changes are preserved;
+  no runtime code, migration, learner writes or content added by this packet.
+- Explicit `npx prettier --check --ignore-path /dev/null` on ADR-0014,
+  recall-card design, delivery preflight and expansion plan passed;
+  `git diff --check` passed. No runtime tests rerun for this documentation-only
+  packet; prior contract verification remains 416 tests and production build.
+- Next issue: disconnected flag-parser, exposure-identity and conservative
+  suppression helpers with synthetic tests. Defer overlap evaluator until its
+  private verdict/coverage contract is reviewed. Real delivery additionally
+  needs a product-approved session lifecycle, reviewed idempotency persistence
+  and shared-ordering proof. D-61 and C4/C5 remain unchanged.
+
+## 2026-10-10 — UI-3 public projection corrections validated
+
+- Added `projectRecallCardPayload`: validates the full draft, rejects
+  unreviewed or unapproved-origin drafts, then rebuilds and validates public
+  fields explicitly. Public provenance and review contain only origin and
+  reviewed-status labels; reviewer, licensing, readiness and overlap metadata
+  are excluded. This is not serving authorization.
+- Changed files: `src/contracts/recall-card.ts`,
+  `tests/contracts/recall-card.test.ts`, ADR-0014, recall-card design,
+  expansion plan and this progress log. No runtime wiring or real cards.
+- `npm run verify` passed formatting, lint, typecheck, down-migration checks,
+  416 unit/contract/eval tests across 68 files and production build. Targeted
+  recall-contract tests passed 7/7; explicit ADR/design/expansion formatting
+  and `git diff --check` passed. Browser and persistence suites were not rerun
+  for these disconnected contracts; they do not validate future delivery.
+- GPT-5.4 Mini author and Claude Opus 5.5 reviewer have distinct actual model
+  families. Reviewer task `916b879c-70e3-4491-9849-6c2f38dd88a7` confirmed
+  both final findings closed and returned **approve for human review**.
+  Reviewer independently passed 7/7 contract tests, lint, format and typecheck.
+  Two unused schema exports were noted as non-blocking cleanup, left unchanged.
+- Next: resolve ADR-0014 R8/R9/R10 before
+  delivery infrastructure. D-61, C4/C5 and release gates remain unchanged.
+  No commit or push authorized for this increment.
+
 ## 2026-10-10 — Portable startup iteration prepared for commit and push
 
 - Owner explicitly authorized commit/push of the current iteration. Scope:
