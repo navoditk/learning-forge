@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-10-11 — Shared resume index reconciled after push and green CI
+
+- Owner assigned Copilot the documentation reconciliation after Claude
+  completed remote CI confirmation. Updated `docs/coding-agent-handoff.md`
+  to mark T2a, resources fixes and the reviewed push checkpoint complete,
+  remove obsolete integration/push-held intake, and distinguish green CI
+  at `332ef01` from the still-running checks at documentation HEAD `1b274cc`.
+- The next recommended issue is Lifecycle L2 prerequisite/probe decisions
+  via Claude Code Opus, then Codex GPT-6.1 Sol review. No new implementation
+  or probe scope is granted: intake must obtain the missing owner authorization.
+  Private curriculum/package, teaching first-write/serving/release, production
+  migration and application deployment gates remain; Pages contents still
+  need review. Four untracked provenance-blocked dossiers are untouched.
+- Documentation-only change; no runtime, database, browser or provider
+  command, implementation worker, commit or push. Explicit document formatting
+  and whitespace checks are the applicable validation.
+
 ## 2026-10-11 — Remote CI green after push
 
 - CI run `38182079316` at `ccd6192`: success (job `verify`; browser journeys
