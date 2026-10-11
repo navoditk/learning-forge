@@ -14,9 +14,12 @@ package skip. Remote CI passed at `ccd6192` (run `38182079316`) and `332ef01`
 (run `38182113951`); Pages passed at `332ef01` (run `38182113684`).
 The old accessibility CI hold is cleared. Current documentation-only HEAD
 `1b274cc` records that result; its CI/Pages runs were still in progress at
-this checkpoint. No advisory claim was present. Next: owner scopes row 6,
-Lifecycle L2 prerequisite/probe decisions, before Claude Code Opus dispatch.**
-No implementation packet for that next issue is authorized by this index.
+this checkpoint (later confirmed green). No advisory claim was present.
+Row 6 was scoped by the owner on 2026-10-11 as packet
+`docs/agent-handoffs/LIFECYCLE-L2.md` (**SCOPED / READY_FOR_EXPERT**): next is
+Claude Code `forge-expert`/`opus` writing one document-only decision brief,
+then Codex `forge-reviewer`. It authorizes no code, schema, database operation
+or synthetic probe; "continue" in Claude Code dispatches it.**
 Pages publication contents remain unreviewed; application deployment,
 production migration and teaching first-write/serving/release approvals
 remain closed.

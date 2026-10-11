@@ -1,5 +1,19 @@
 # Progress
 
+## 2026-10-11 — Row 6 (Lifecycle L2) scoped for Opus
+
+- At the owner's request, the Sonnet integrator scoped row 6 as packet
+  `docs/agent-handoffs/LIFECYCLE-L2.md`, **SCOPED / READY_FOR_EXPERT**: Claude
+  Code `forge-expert`/`opus` writes one document-only brief,
+  `docs/lifecycle-l2-decision-brief.md`, covering open L2b items H-01, H-02
+  (i)–(iv), A-1 and C-1 with re-verified code facts, alternatives,
+  recommendations and exact owner approval wording, plus what L2a can proceed
+  on and an unrun G-12/G-13 probe plan. Codex `forge-reviewer` follows.
+- Not authorized: code, schema, migration, database operations, synthetic
+  probes (a later explicit owner decision), L3, deployment. Nothing dispatched
+  yet; no claim active. Exact next step: "continue" in Claude Code to dispatch
+  the Opus expert.
+
 ## 2026-10-11 — Shared resume index reconciled after push and green CI
 
 - Owner assigned Copilot the documentation reconciliation after Claude
