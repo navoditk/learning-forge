@@ -271,6 +271,42 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — First batch of draft held-out assessment content (Ratios extension)
+
+- Started drafting the real assessment content the 24 new non-Ratios
+  lessons need (see the prior two entries). **Safety check first: this
+  repository is public on GitHub** (confirmed via `gh repo view`). Draft
+  assessment content, even in `pending_review` status, can never be
+  committed here - per the existing held-out (Branch B, `D-01`) decision,
+  that would be a real leak the moment it's pushed, not a hypothetical
+  one. The existing `grade-6-math-assessments-draft-v2.json` was
+  confirmed (via `git log`/`git grep`) to have never been committed
+  either - same precedent.
+- Drafted 8 original items (4 per skill) for the two Ratios-extension
+  lessons (`double-number-lines`, `percent-applications`) into the
+  session's private scratchpad - **outside the repository, not
+  committed, not pushed** - at
+  `assessment-drafts/ratios-extension-assessment-draft.json` (path is
+  session-local; ask the agent for the live path if resuming this).
+  The product owner must move it to the actual private package location
+  and confirm the digest before these banks can be wired in, same
+  workflow as the existing pilot banks.
+- All 8 items are schema-valid against the real
+  `AssessmentContentItemSchema` (verified by parsing, not eyeballing),
+  original contexts distinct from the existing practice items, with
+  canonical answers hand-verified by arithmetic before writing. Each
+  item's declared `misconceptionCodes` come from the skill's own
+  existing list, each with one worked-through distractor.
+- **Verified against the real production code, not just the schema:**
+  every canonical answer matches via the real `matchesAcceptedAnswer`
+  function, every distractor is correctly rejected by it (zero false
+  accepts), and no item's prompt contains any of its own
+  `forbiddenLeakagePatterns` substrings (zero leaks).
+- This is the first of five planned batches (one per domain); the
+  other ~21 lessons' worth of assessment content (Number System,
+  Expressions and Equations, Geometry, Statistics) have not been
+  drafted yet.
+
 ## 2026-10-10 — All 5 Grade 6 Math domains now wrapped into Lesson/Unit records
 
 - Continued the wrapping started in the prior entry across the three
