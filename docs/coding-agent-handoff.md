@@ -161,9 +161,12 @@ whole directory. Only the claimed integrator edits shared status/schema files.
 The original T2a patch/evidence remains preserved under common Git metadata
 `agent-handoffs/TEACH-T2A/` for historical recovery; integrated code and review
 records are tracked. Do not apply the old patch again.
-Geography/Olympiad prerequisite drafts and their advisory reports remain
-uncommitted because original-author provenance is unresolved; their references
-describe pending local artifacts, not portable approved inputs. Older
+Geography/Olympiad prerequisite drafts and advisory reports are checkpointed
+as pending documents on owner request, not approved inputs. Their revision-2
+hashes match the reports, but original-author provenance remains unresolved
+under SOURCE-PROVENANCE; report-attributed model witnesses alone do not clear
+that coordinator gate. Source review, human decisions and D-61 authoring
+authorization remain separate requirements. Older
 progress-log edits are also preserved outside the checkpoint commits.
 A clean clone has the pushed code/review records, but must report missing
 local artifacts rather than infer access to private banks or Git-metadata

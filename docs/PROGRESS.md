@@ -1,5 +1,23 @@
 # Progress
 
+## 2026-10-11 — Pending Geography/Olympiad prerequisite documents checkpointed
+
+- Owner requested committing the four remaining untracked prerequisite
+  proposals and advisory reports. Preserve all four artifact bytes unchanged;
+  this is a documentation checkpoint, not acceptance of their recommendations
+  or approval for authoring, content integration, publication or runtime work.
+- Geography revision-2 SHA-256 `80085c76...4f71275` and Olympiad
+  `3aa73ad8...b920df` match the changed-scope review pins. Both reports recommend
+  human review of the corrected proposals; those recommendations are advisory.
+  Original-author provenance remains blocked until coordinator execution
+  evidence is recovered. Report-attributed identity witnesses are preserved,
+  not newly independently certified here.
+- Updated the resume index to distinguish tracked pending artifacts from
+  approved inputs. D-61, comprehensive source-review gaps and scoped owner
+  decisions remain unchanged. Explicit four-artifact Prettier checks passed;
+  shared-document formatting and whitespace checks apply before commit.
+  No runtime/database/provider command or push is authorized by this checkpoint.
+
 ## 2026-10-11 — Row 6 (Lifecycle L2) scoped for Opus
 
 - At the owner's request, the Sonnet integrator scoped row 6 as packet
