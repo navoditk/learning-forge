@@ -1,5 +1,60 @@
 # Progress
 
+## 2026-10-10 — Draft assessment content expanded to full D-36 volume (296 items)
+
+- Found that the 96 items drafted in the two prior entries only averaged
+  4 per lesson bank, well under `D-36`'s approved volume of 9 held-out
+  items per lesson bank and 18 per unit bank (set for the original
+  3-lesson Ratios pilot). Reported the gap before drafting further;
+  owner chose to draft to the full `D-36` volume rather than revisit it
+  for the extension domains.
+- Recorded this and the owner's retroactive authorization of the prior
+  "start drafting"/"keep drafting" instructions as a new decision,
+  `D-148` (parallel to `D-66`/`D-73`/`D-74`), in
+  `docs/course-progression-decisions.md` - a narrow `D-61` authoring-pause
+  exception, draft-only, nothing committed to this repository, nothing
+  registered in any catalog, all items `pending_review`.
+- Expanded all 24 lesson banks (Ratios extension, Number System,
+  Expressions and Equations, Geometry, Statistics) to 9 items each (216
+  total) and authored 4 new unit-level banks at the full 18 items each
+  (Number System, Expressions and Equations, Geometry, Statistics - 72
+  total). The fifth, `ratios-proportional-reasoning-unit-bank`, got only
+  an 8-item partial supplement covering the 2 extension skills
+  (`double-number-lines`, `percent-applications`): its full bank is
+  entangled with a pre-existing external v2 draft (outside this
+  repository, outside this session) covering the original 3 pilot
+  skills, recorded in
+  `docs/course-progression-review/private-assessment-package-handoff.md`.
+  Merging and re-pinning that bank to its full volume is a content-owner
+  task, not completed here.
+- All 296 items were generated programmatically (Python, not hand-typed
+  per item) to make the volume tractable: each item's canonical answer
+  and every distractor were computed directly from the chosen numbers,
+  not asserted, and several real generator bugs were caught this way
+  before the content was finalized - most commonly a "wrong" distractor
+  that happened to equal the correct answer after case-insensitive
+  grading normalization, or a point/value ordering that made a
+  sign-dependent distractor collapse onto the correct answer. Each
+  domain's output was independently re-verified against the real,
+  production `AssessmentContentItemSchema` and the real
+  `matchesAcceptedAnswer` grading function after every fix, the same
+  verification standard as the first 96 items.
+- Final state, all four scratchpad files, verified clean: Ratios
+  extension 26 items/3 banks, Number System 81 items/8 banks,
+  Expressions and Equations 90 items/9 banks, Geometry and Statistics 99
+  items/9 banks. Total 296 items across 24 lesson banks and 5 unit-level
+  banks (one partial).
+- **Status: drafting at full approved volume is done for 4 of 5 unit
+  banks and all 24 lesson banks.** Still open, unchanged from the prior
+  entries: human educator/content-owner review of pedagogical quality
+  (schema and grader verification is not a substitute for this),
+  placement of the four draft files into the real private assessment
+  package with confirmed digests, the Ratios unit-bank merge described
+  above, and - once content is placed - wiring the five new units into
+  `COURSE_CATALOG`/`program-registry.ts` (still a concurrent-session
+  collision risk on `src/curriculum/course-catalog.ts`, unresolved as of
+  this entry).
+
 ## 2026-10-10 — Quota-conserving native relay; corrected T2a ready for Codex review
 
 - Owner requested conserving the remaining Copilot allowance and clear
