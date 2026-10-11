@@ -1,5 +1,57 @@
 # Progress
 
+## 2026-10-10 — T2a corrections authorized; push held on existing CI failure
+
+- Owner authorized proceeding with bounded R1–R4 correction and independent
+  re-review, with commit/push if recommended. Main migration integration
+  still requires human approval; no writer/serving gate is changed.
+- Prepared separate `files/teaching-t2a-corrections` worktree from committed
+  `f94148a` plus frozen original patch and independently copied dependencies.
+  Sonnet owns corrections; GPT owns shared docs/review. R3 scope is honest
+  disclosure and first-write diagnostic-redaction gate, not a shared runtime
+  logging refactor or tightening the approved T1 input.
+- Remote main still `d70287d`. Latest CI `38108327463` fails `/resources`
+  light/dark 360px WCAG 2.2 target-size checks (70 passed, one skipped);
+  earlier main CI also failed. Pages run passed. Migration/config/workflow
+  files are unchanged across the five local checkpoints.
+  Recommend holding push until this known CI blocker is addressed in a
+  separately scoped UI increment; no unrelated CSS change is made here.
+
+## 2026-10-10 — Teaching T2a independently reviewed; corrections required
+
+- Owner's "go ahead" authorized the recommended isolated T2a review and
+  synthetic validation, not integration/commit/push or a new writer.
+  GPT-6.1 Sol reviewed Sonnet 5.5 frozen 14-file patch
+  `f4affa3ef31e70c2fa413e7fcc514ed4f2e6fafb62cdf98d968f304f1379d820`.
+  Original draft and accepted proposal bytes remain unchanged.
+- Restored missing dependencies by applying the exact patch without conflicts
+  to committed `f94148a` in a separate review worktree with independently
+  generated Prisma client. `npm run db:validate`, `db:generate`, `verify`
+  passed (86 files/1,653 tests, fake evals and build). `test:migrations`
+  passed seeded guards, before/after catalog tests and schema round-trip;
+  `db:deploy`/`test:integration` passed only in the task-created synthetic
+  database (31 files, 244 passed / one existing skip).
+- Disposition **not ready for human review**: migration gate requires
+  unrelated baseline drift; function oracle derives from the same migration
+  and accepts a no-op guard mutation; privacy prose omits raw-key identifying
+  text and actual Prisma failing-row error logging; explicit inventory
+  Prettier check fails. All captured keys are synthetic, no production
+  exposure is established. Shared logging changes require their own scope.
+- Controlled probes independently reproduced the empty-diff gate rejection,
+  catalog false-negative (behavioral test correctly fails), and successful
+  household cascade under a RESTRICT variant. Prisma rejected a historical
+  unlinked teaching row without persisting partial new DDL on this path.
+  Do not silently change the accepted proposal's counterfactual assertion;
+  a reviewed disposition/addendum is needed.
+- Report: `docs/course-progression-review/teaching-t2a-20261010-review.md`;
+  packet/index updated for bounded Sonnet R1–R4 correction, then GPT
+  changed-hash re-review. Human migration/privacy gates, concurrency,
+  production probes, D-143/D-144 and all serving gates remain outstanding.
+  No main schema/migration import, commit, push, real provider or browser.
+- Removed the task-owned review container (including its clone/scratch DBs)
+  and temporary mutation/shim fixtures; retained pinned review worktree and
+  synthetic evidence logs. No background task remains active.
+
 ## 2026-10-10 — Reviewed session checkpoints authorized for local commits
 
 - Owner accepted the recommended coherent-batch sequence: commit completed

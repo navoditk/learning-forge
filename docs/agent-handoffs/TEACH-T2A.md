@@ -1,6 +1,6 @@
 # TEACH-T2A
 
-Phase: **AWAITING_REVIEW / ISOLATED DRAFT ONLY**.
+Phase: **CORRECTING / ISOLATED DRAFT ONLY**.
 
 ## Owner authorization
 
@@ -61,8 +61,9 @@ explicit catalog checks. State what remains unverified. Freeze allowlisted
 patch/artifacts with SHA-256, preserve inputs and release only worker claim.
 Return evidence to GPT reviewer; do not integrate or claim reviewed down.sql.
 
-Next: **GPT read-only implementation review**, then human migration/privacy
-approval before integration. No next-stage writer or serving work.
+Next: **Sonnet bounded corrections T2A-R1–R4**, then GPT changed-hash
+re-review and human migration/privacy approval before integration.
+No next-stage writer or serving work.
 
 ## Frozen implementation returned
 
@@ -88,3 +89,48 @@ reviewed.
 Worker removed its named disposable container and released its task claim.
 No background worker remains active. Local checkpoint commits exclude this
 entire isolated schema/migration draft.
+
+## Independent review returned
+
+Review: `docs/course-progression-review/teaching-t2a-20261010-review.md`.
+Disposition: **not ready for human review**. Frozen full patch SHA-256:
+`f4affa3ef31e70c2fa413e7fcc514ed4f2e6fafb62cdf98d968f304f1379d820`.
+Reviewer GPT-6.1 Sol applied the unchanged patch to committed baseline
+`f94148a` in current session `files/teaching-t2a-review`, supplying the missing
+catalog/T1 dependencies without modifying the original implementation.
+Full verify passed (1,653 tests); integration passed (244, one existing skip);
+PG16 migration/seeded/catalog/down/reapply passed.
+
+Corrections: remove the migration gate's requirement for unrelated baseline
+drift; make function expectations independent of the migration under test;
+truthfully disclose raw operation-text/privacy and error-log limitations with
+a first-write redaction gate; fix explicit privacy-document formatting.
+Controlled catalog mutation incorrectly passed while the existing behavioral
+test correctly failed. The RESTRICT cascade counterfactual also passed in a
+synthetic variant; preserve proposal bytes and record a reviewed disposition.
+No production exposure is established; all observed log keys were synthetic.
+No shared-logging runtime edit is authorized by this review alone.
+
+Original draft/patch preserved. Next eligible role is bounded Sonnet
+correction, not main integration or a human approval request yet.
+
+## Correction authorization
+
+Owner's 2026-10-10 "proceed, if recommended go aheat and commit/push as needed"
+authorizes R1–R4 corrections and independent changed-hash review. The
+integrator may commit reviewed status/handoff records; T2a implementation
+still cannot enter main before human migration/privacy approval.
+Push is held pending the known remote `/resources` mobile accessibility
+CI failures; this task does not silently expand into that UI fix.
+
+Correction worktree: current session `files/teaching-t2a-corrections`,
+detached `f94148a` plus original frozen patch; complete committed catalog/T1
+dependencies and independent copied node_modules are supplied.
+Original implementation/review worktrees remain frozen.
+Allowlist remains the 14 original paths, plus directly necessary drift-gate
+helper/tests, independent catalog expectation fixture and a proposal-evidence
+disposition addendum. Do not mutate accepted proposal bytes or shared logs.
+R3 in this increment is honest documentation/model comments plus an explicit
+first-write diagnostic-redaction gate. No shared runtime logging change,
+UUIDv4 tightening, writer, route, key digest substitution or new enum.
+Any runtime diagnostics implementation needs its own approved scope.

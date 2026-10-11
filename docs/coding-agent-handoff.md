@@ -26,8 +26,11 @@ Use `docs/course-progression-decisions.md` for exact scope and
 Active packet: `docs/agent-handoffs/TEACH-T2A.md`, isolated schema/privacy-
 coverage/migration draft and disposable local scratch validation authorized
 on 2026-10-10. T2 proposal/review accepted, D-145–D-147 approved. Sonnet
-returned a frozen 14-file draft in its isolated worktree; no worker is running.
-GPT independent and human migration review are required before main
+returned a frozen 14-file draft. GPT review returned **changes requested**:
+three majors and one minor; see
+`docs/course-progression-review/teaching-t2a-20261010-review.md`.
+Bounded Sonnet corrections are now authorized and assigned in isolation,
+followed by GPT changed-hash re-review. Human migration review is required before main
 integration. At a new session, inspect files,
 claim a bounded role and confirm its scope before implementation. The local
 resource-browser server is not needed; do not restart it.
@@ -51,6 +54,13 @@ uncommitted/untracked dependencies before work begins. Record that effective
 baseline in its packet. Startup commit/push and later reviewed checkpoint
 local commits are separately authorized; **no push of the later checkpoints**
 or commit of T2a implementation is authorized by that sequence.
+
+The later owner "proceed ... commit/push as needed" permits reviewed
+checkpoint/status commits and a recommended push, but does not clear human
+migration gates. Push is currently held: the latest remote CI run
+`38108327463` at startup commit `d70287d` fails two `/resources` mobile
+WCAG target-size tests (70 passed, one skipped); the earlier main run also
+failed. No T2a schema change is a fix for that unrelated UI blocker.
 
 Local checkpoint commits make reviewed course/T1 code and linked records
 resolvable locally, but are not on origin until a separately approved push.
@@ -76,7 +86,7 @@ bounded model only for a separately allocated task or quota fallback.
 | ID / next bounded task                                                                 | State and prerequisite                                                                                                                                        | Executor → reviewer                                                                           |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | TEACH-T2-PROPOSAL: writer-free delivery context/event persistence and privacy proposal | **Proposal + independent review complete; accepted by owner**; D-145–D-147 approved                                                                           | Copilot Opus 5.5 → GPT-6.1 Sol; native relay uses Opus → GPT-6-Sol                            |
-| TEACH-T2/T3 implementation                                                             | Needs proposal acceptance, migration/privacy review and consumed export/audit choices D-143/D-144; T1 does not approve migrations                             | Claude Code Sonnet → Codex GPT-6-Sol                                                          |
+| TEACH-T2/T3 implementation                                                             | T2a review requests R1–R4 corrections; then independent re-review and human migration/privacy approval. D-143/D-144 remain open before writers                | Claude Code Sonnet → Codex GPT-6-Sol                                                          |
 | TEACH-T4 interlock/serving                                                             | Needs D-100/D-102/D-140/D-141, complete exposure/assignment/result participation, activation protocol, shadow/permanent enforcement, content and manual gates | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
 | BANK-CONTRACT: remaining bank kind, manifest and historical resolution                 | Needs one bounded scope; D-75 covers only shared catalog access                                                                                               | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
 | COMPLETION-CONTRACT: ordinary completion/practice sufficiency                          | Open per-program choices, D-31 skip and completion/mastery separation preserved; no silent threshold defaults                                                 | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |

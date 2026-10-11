@@ -156,7 +156,11 @@ with noted risks: `docs/teaching-persistence-privacy-proposal.md` and
 Owner accepted the proposal and authorized isolated T2a implementation and
 disposable local scratch validation only. Sonnet returned a frozen draft under
 `docs/agent-handoffs/TEACH-T2A.md`; GPT independent and human migration
-review precede integration; no worker is running. No production access, deployment, data writer
+review precede integration. GPT T2a review returned **changes requested**
+(three majors, one minor), recorded in
+`docs/course-progression-review/teaching-t2a-20261010-review.md`.
+Next is bounded Sonnet correction and changed-hash re-review, not human
+approval yet; no worker is running. No production access, deployment, data writer
 or content approval is inferred.
 Bank-resolution and completion remain
 separately scoped increments.
