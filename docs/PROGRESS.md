@@ -271,6 +271,43 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — C5: parent-facing step-up/override UI built
+
+- Closes the "Build the parent-facing screens for the D-70 step-up and
+  override APIs" gap `docs/course-progression-handoff.md` had tracked
+  as still open - the routes (`src/app/api/progression/step-up`,
+  `.../override`) existed and were tested, but nothing in the UI called
+  them.
+- New `src/app/components/needs-help-override.tsx`: a two-step flow
+  matching the server's own two-call contract (password
+  re-verification, independent of and strictly before the override
+  reason, so a wrong password never reaches the override endpoint with
+  a reason attached). Moves focus to each newly-revealed form's first
+  field (E8); uses `role="alert"`/`role="status"` for error/success
+  announcements.
+- `src/progression/pilot-progress.ts`'s `getPilotProgression` now
+  exposes each lesson's `skillRefs` - the override API takes a skill
+  ref, not a lesson ref, and this was previously missing from the
+  payload entirely, so the parent UI had no way to call it without a
+  second lookup. New integration test
+  (`pilot-progress-skill-refs.test.ts`) proves every pilot lesson
+  resolves to a real, well-formed skill ref.
+- Wired into `src/app/parent/page.tsx`: shows the override control only
+  when `lesson.remediationStatus === 'NEEDS_HELP'`, refreshes course
+  progress on success via the existing fetch, extracted into
+  `loadCourseProgress`.
+- **Not yet built**: Playwright E2E coverage for the full flow. Standing
+  up a real `NEEDS_HELP` state requires driving several consecutive
+  failed pilot-skill assessments (D-69's stranding threshold) through
+  the browser, or a test-only DB seed seam - a nontrivial fixture in
+  its own right, flagged rather than skipped silently. C5's own
+  accessibility-scan requirement for this new surface is also still
+  open.
+- Verification: `npx tsc --noEmit`, `npm run lint`, `npm run build`,
+  `npm run verify` (1532 tests), and `DATABASE_URL=<local scratch> npm
+run test:integration` (30 files, 189 tests passed, 1 intentionally
+  skipped) all pass clean.
+
 ## 2026-10-10 — C4 steps 5-6 built, tested, off by default (step 4 deferred)
 
 - Product owner chose option 3 after the step-4-migration sequencing

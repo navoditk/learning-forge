@@ -15,6 +15,13 @@ export type PilotProgression = {
       completionStatus: string;
       remediationStatus: string;
       latestAssessment?: { outcome: string; resultId: string; scoredAt: string };
+      /**
+       * D-70's override API takes a skill ref, not a lesson ref - any skill
+       * this lesson claims works, since applyNeedsHelpOverride resolves the
+       * lesson(s) a skill belongs to internally. Exposed so the parent UI
+       * can call it without a second lookup.
+       */
+      skillRefs: Array<{ code: string; version: string }>;
     }>;
   }>;
 };
@@ -89,6 +96,7 @@ export async function getPilotProgression(identity: {
           completionStatus: state?.completionStatus ?? 'NOT_STARTED',
           remediationStatus: state?.remediationStatus ?? 'NONE',
           latestAssessment: latestResults.get(`${ref.code}@${ref.version}`),
+          skillRefs: lesson?.skillRefs ?? [],
         };
       }),
     })),

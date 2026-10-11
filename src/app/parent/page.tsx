@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
 import { ProgramSwitcher } from '../components/program-switcher';
+import { NeedsHelpOverride } from '../components/needs-help-override';
 
 const DELETION_CONFIRMATION_PHRASE = 'DELETE';
 
@@ -51,6 +52,7 @@ type CourseProgress = {
       completionStatus: string;
       remediationStatus: string;
       latestAssessment?: { outcome: string; resultId: string; scoredAt: string };
+      skillRefs: Array<{ code: string; version: string }>;
     }>;
   }>;
 };
@@ -71,6 +73,16 @@ export default function ParentPage() {
   const [deletionComplete, setDeletionComplete] = useState(false);
   const [courseProgress, setCourseProgress] = useState<CourseProgress>();
 
+  function loadCourseProgress() {
+    if (!progressionReleaseGateOpen) return;
+    fetch('/api/progression/pilot')
+      .then(async (result) => {
+        if (!result.ok) return;
+        setCourseProgress(await result.json());
+      })
+      .catch(() => undefined);
+  }
+
   useEffect(() => {
     fetch('/api/phase1/parent')
       .then(async (result) => {
@@ -78,14 +90,7 @@ export default function ParentPage() {
         setEvidence(await result.json());
       })
       .catch((reason: Error) => setError(reason.message));
-    if (progressionReleaseGateOpen) {
-      fetch('/api/progression/pilot')
-        .then(async (result) => {
-          if (!result.ok) return;
-          setCourseProgress(await result.json());
-        })
-        .catch(() => undefined);
-    }
+    loadCourseProgress();
   }, []);
 
   async function loadDigest() {
@@ -222,6 +227,13 @@ export default function ParentPage() {
                         Assessment: {lesson.latestAssessment.outcome.toLocaleLowerCase()} on{' '}
                         {new Date(lesson.latestAssessment.scoredAt).toLocaleDateString()}.
                       </span>
+                    )}
+                    {lesson.remediationStatus === 'NEEDS_HELP' && lesson.skillRefs[0] && (
+                      <NeedsHelpOverride
+                        lessonTitle={lesson.title}
+                        skillRef={lesson.skillRefs[0]}
+                        onApplied={loadCourseProgress}
+                      />
                     )}
                   </li>
                 ))}
