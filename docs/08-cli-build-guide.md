@@ -11,6 +11,14 @@ claims, frozen task packets and required terminal-switch messages live in
 executor finishes a bounded role and names the other client for independent
 review. Keep the wrappers thin and the procedure tool-neutral.
 
+The resume index's ordered relay is checked before continuation work.
+If the wrong client is opened, it must name the required client/native role
+and packet with **SWITCH TO**, then stop instead of skipping ahead. At a
+human gate, either client requests approval and stops. Native reviewers
+retain read-only permissions; the named parent/integrator runs authorized
+synthetic validation separately. Frozen local handoffs live in common Git
+metadata so same-machine continuation does not require Copilot session APIs.
+
 ## Instruction entry points
 
 | Environment           | Repository entry point                                 | Shared procedure                                 |

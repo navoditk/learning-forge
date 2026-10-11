@@ -15,6 +15,21 @@ Implement the repository incrementally from the approved documents in `docs/`. O
   any normal request such as "continue" triggers this intake.
   For a different explicit user task, use the index as context without
   replacing that task with the progression backlog or its approval request.
+- For continuation requests, enforce the index's **ordered relay** before
+  claiming work, launching a role worker or editing. Re-read the active
+  packet's phase, next client/role, frozen hash and gates even in a delegated
+  native role. If this is the wrong client, report **SWITCH TO** with the
+  required client/role and packet, then stop; do not skip ahead to another
+  backlog item, substitute a same-family review or change assignments.
+  `AWAITING_HUMAN` means request the named approval and stop in either client.
+  An active claim means wait for its owner, not duplicate or steal the work.
+  Explicit unrelated user tasks remain allowed within their own scope.
+- At a quota-conserving handoff, freeze work and preserve the allowlisted
+  patch/evidence in common Git metadata as the packet specifies. Do not wait
+  for the last credit, start a fleet, poll a worker or repeat completed
+  research/full suites merely to populate a handoff. Route subsequent work to
+  the assigned native client; its quota and billing are separate and not
+  inferred from Copilot's remaining allowance.
 - Project defaults and native `forge-implementer`, `forge-expert` and
   `forge-reviewer` roles select models without launch flags. Use the
   appropriate configured role for substantial work: Sonnet for defined

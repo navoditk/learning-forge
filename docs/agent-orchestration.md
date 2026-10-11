@@ -265,6 +265,34 @@ missing evidence and recovery action. Do not say "switch" as a substitute for
 an approval. The human runs the terminal command; agents cannot transfer live
 chat context or switch another client's account/session automatically.
 
+### Wrong-client and quota-conserving intake
+
+For continuation, `docs/coding-agent-handoff.md` supplies the ordered relay
+and the active packet supplies its current phase and next client/role.
+Check both before claiming work or dispatching a native agent. A mismatched
+client reports the terminal-switch message above and stops; it does not
+skip ahead, reassign itself, redo the author's work or substitute a
+same-family review. Human gates stop either client. Running claims are
+wait conditions, never grounds for duplicate work or automatic cleanup.
+
+Historical documents in an isolated baseline are not the live routing
+index. Read the control checkout's current index/packet (the repository
+from which the terminal was launched); use the isolated baseline only for
+the pinned implementation/specification being reviewed.
+
+At a quota-conserving checkpoint, finish/freeze the bounded in-flight role,
+persist allowlisted evidence in common Git metadata and assign the next
+native role before credits run out. Do not consume the remainder on a fleet,
+repeat research or speculative tasks. Copilot quota does not reveal or
+govern native Claude Code/Codex quota. Markdown instructions route cooperating
+agents; they do not enforce permissions, switch accounts/models or prove
+native role discovery.
+
+Configured read-only reviewers remain read-only. Their named parent/
+integrator performs authorized synthetic validation separately, then supplies
+frozen source and independent results. Permission failures are recorded as
+missing evidence, not solved by weakening the reviewer's sandbox.
+
 ## Portable discovery
 
 ### Observed client verification (2026-10-09)

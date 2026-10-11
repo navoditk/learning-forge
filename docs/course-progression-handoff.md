@@ -159,8 +159,11 @@ disposable local scratch validation only. Sonnet returned a frozen draft under
 review precede integration. GPT T2a review returned **changes requested**
 (three majors, one minor), recorded in
 `docs/course-progression-review/teaching-t2a-20261010-review.md`.
-Next is bounded Sonnet correction and changed-hash re-review, not human
-approval yet; no worker is running. No production access, deployment, data writer
+Sonnet returned the frozen corrected 18-file patch `77cd03a7...e46bae6`;
+supplied verify/migration/integration evidence passed. **Codex changed-hash
+review is next**, not human approval yet; no worker is running. Use the
+packet's common-Git artifact bundle and `docs/coding-agent-handoff.md` ordered
+relay; these worker results are not independent re-review. No production access, deployment, data writer
 or content approval is inferred.
 Bank-resolution and completion remain
 separately scoped increments.

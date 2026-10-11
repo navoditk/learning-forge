@@ -1,6 +1,14 @@
 # TEACH-T2A
 
-Phase: **CORRECTING / ISOLATED DRAFT ONLY**.
+Phase: **AWAITING_REVIEW / CORRECTED ISOLATED DRAFT ONLY**.
+
+Next client: **Codex**.
+Next role: **parent synthetic validator/integrator, then read-only
+`forge-reviewer` (`gpt-6-sol`)**.
+Author family: **Claude**, runtime executor `claude-sonnet-5.5`.
+Stop after: **changed-hash review report**. If changes, assign Claude Code
+Sonnet correction; if ready, set `AWAITING_HUMAN` and request migration/privacy
+approval. Claude Code opened now must advise switching to Codex and stop.
 
 ## Owner authorization
 
@@ -61,8 +69,8 @@ explicit catalog checks. State what remains unverified. Freeze allowlisted
 patch/artifacts with SHA-256, preserve inputs and release only worker claim.
 Return evidence to GPT reviewer; do not integrate or claim reviewed down.sql.
 
-Next: **Sonnet bounded corrections T2A-R1–R4**, then GPT changed-hash
-re-review and human migration/privacy approval before integration.
+Next: **Codex changed-hash review of returned R1–R4 corrections**, then
+human migration/privacy approval before integration.
 No next-stage writer or serving work.
 
 ## Frozen implementation returned
@@ -134,3 +142,85 @@ R3 in this increment is honest documentation/model comments plus an explicit
 first-write diagnostic-redaction gate. No shared runtime logging change,
 UUIDv4 tightening, writer, route, key digest substitution or new enum.
 Any runtime diagnostics implementation needs its own approved scope.
+
+## Frozen corrected patch and native recovery
+
+Sonnet runtime task `331942d3-8422-4d04-870c-8e35376ed4a3` returned the
+correction packet; client task metadata confirms `claude-sonnet-5.5`.
+No active worker or scratch container remains. These results are **supplied
+worker evidence, not a completed independent re-review**:
+
+- Base: detached `f94148a`, complete committed catalog/T1 dependencies.
+  Current main may be newer; do not silently change the review baseline.
+- Total corrected patch: **18 files**, SHA-256
+  `77cd03a76a7d5c1f0776a4f3e752bd099264f57d033c534d04c230480e46bae6`.
+  Includes original implementation, drift classifier/contract tests,
+  independently pinned functions and a proposal-evidence addendum.
+- Reported `npm run verify`: 87 files, 1,666 tests passed.
+  `npm run test:migrations`: seeded guards, seven catalog cases before/after,
+  supported drift and schema round-trip passed.
+  `npm run test:integration`: 244 passed, one existing skip; teaching counts
+  zero afterward. Explicit changed-doc formatting passed.
+- R1 now accepts valid empty diff and only exact known baseline renames;
+  owned-index removal is reported as a detected mutant. R2 independently
+  pins five function bodies/digests and reports no-op co-change detection.
+  R3 is truthful disclosure/first-write gate only, **no redaction code**.
+  R4 formatting and the NO ACTION/RESTRICT addendum are reported corrected.
+  Accepted proposal/contract/T1 bytes are unchanged.
+
+The integrator copied eight exact allowlisted files outside Copilot session
+storage, preserving originals, and verified source/copy hashes:
+
+```text
+<resolved-common-git-dir>/agent-handoffs/TEACH-T2A/
+  teaching-t2a-corrected.patch
+  hashes.txt
+  owned-paths.txt
+  evidence-report.md
+  verify.log
+  migrations.log
+  integration.log
+  migrations-owned-mutation.log
+```
+
+Resolve the directory with
+`git rev-parse --path-format=absolute --git-common-dir`. On this checkout it
+is `/Users/navoditkaushik/GitHub/learning-forge/.git`.
+Files are local, not tracked or transferred by clone/push. They contain the
+synthetic task evidence, not main `.env`, private banks or child data.
+Same-machine Claude Code/Codex can resume without Copilot session APIs.
+For another machine, stop and obtain explicit safe-bundle transfer approval.
+
+Existing corrected worktree can be located through `git worktree list`:
+`files/teaching-t2a-corrections` under the original session directory.
+If unavailable, reconstruct from `f94148a` in a new uniquely owned isolated
+worktree and apply the common-Git patch after checking its SHA-256 and
+`git apply --check`. Verify all owned files, including untracked additions.
+Do not copy whole session directories or reuse a shared generated Prisma
+client. Preserve the immutable original bundle if corrections are requested;
+return a new named patch/hash and update this packet.
+
+## Next review requirements
+
+Read the original T2A-R1–R4 review and the supplied evidence report, then
+review the changed scope against approved T2a boundaries. Verify the drift
+classifier's empty/known/unexpected-output behavior and owned-object
+falsification, independent pinned function bodies/digests and co-change
+detection, truthful personal-data/error-log disclosure and first-write gate,
+formatting, and the evidence addendum without mutating the accepted proposal.
+Do not treat worker passing logs as independent validation.
+
+The Codex parent runs relevant synthetic validation in a task-created local
+PG16 environment with explicit connection, never ambient/main `.env`:
+`npm run db:validate`, `npm run db:generate`, `npm run verify`,
+`npm run test:migrations`, `npm run db:deploy`, `npm run test:integration`,
+and explicit changed-doc Prettier/whitespace checks. Respect normal
+permissions. On macOS use command-local libpq PATH; if tsx hits the socket
+path limit, create a short task-owned `TMPDIR` and clean only that directory.
+The read-only `forge-reviewer` consumes frozen source/independent evidence
+without doing database setup or writing the worktree.
+
+Integrator records actual reviewer model/family, reviewed full hash, results,
+R1–R4 dispositions and residual risks in the review report, PROGRESS and index.
+Then release only its own claims and give the next terminal/approval step.
+No paid Copilot review worker or implementation fleet is needed for this relay.

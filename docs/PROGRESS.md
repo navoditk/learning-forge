@@ -1,5 +1,35 @@
 # Progress
 
+## 2026-10-10 — Quota-conserving native relay; corrected T2a ready for Codex review
+
+- Owner requested conserving the remaining Copilot allowance and clear
+  Claude Code/Codex ordering with wrong-client switch instructions.
+  No new Copilot research/implementation fleet or paid review worker is
+  launched. Native continuation can begin before quota exhaustion.
+- Sonnet correction task returned and stopped; runtime metadata confirms
+  `claude-sonnet-5.5`. Frozen total 18-file patch on `f94148a`:
+  `77cd03a76a7d5c1f0776a4f3e752bd099264f57d033c534d04c230480e46bae6`.
+  Supplied results: verify 87 files/1,666 tests; PG16 migration/seeded/pinned
+  catalog/drift/reapply passed; integration 244 passed/one existing skip;
+  explicit changed-doc formatting passed. **Not independently re-reviewed.**
+- Verified patch hash/reverse-apply and copied eight allowlisted patch/hash/
+  evidence files into common Git metadata `agent-handoffs/TEACH-T2A/`,
+  verifying byte identity and preserving originals. This local bundle survives
+  Copilot session cleanup and is accessible to native clients on this machine;
+  it is not a clone/push transfer or a reviewed migration commit.
+- AGENTS, resume index, TEACH-T2A packet, progression handoff and CLI guide
+  now require client/phase/role ordering. **Codex is next** for changed-hash
+  review; opening Claude Code now must advise switching, not redo correction
+  or self-review. Changes return to Claude Sonnet; ready review stops for
+  human migration/privacy approval before Claude integration. Parent validation
+  and read-only native reviewer permissions remain separate.
+- Ordered later recommendations: scoped mobile-accessibility CI repair and
+  independent review before push, lifecycle L2 gates, blocked Python evidence/
+  corrections, mechanical source index, then gated shared contracts/content/
+  release. These are dependencies, not new implementation approvals.
+  Another session's D-148 commit and older progress edits are preserved.
+  Push still held; no T2a schema import, deployment, real provider or new server.
+
 ## 2026-10-10 — T2a corrections authorized; push held on existing CI failure
 
 - Owner authorized proceeding with bounded R1–R4 correction and independent

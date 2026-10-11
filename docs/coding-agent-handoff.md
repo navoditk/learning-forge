@@ -5,6 +5,61 @@ Read `AGENTS.md`, then the terminal-handoff procedure and approved native
 model mappings in `docs/agent-orchestration.md`. This index is a checkpoint,
 not an approval register or an automatic task scheduler.
 
+## Ordered relay and quota-conserving plan
+
+**Current next client: Codex. Next task: TEACH-T2A corrected-patch review.**
+Sonnet corrections have returned frozen; no worker is running. Do not spend
+the remaining Copilot allowance on new research or implementation fleets.
+Preserve it for narrow coordinator/status work and unforeseen recovery;
+native continuation can begin before Copilot is fully exhausted.
+No numeric credit estimate guarantees completion, and native client limits
+are independent of Copilot usage.
+
+For every continuation turn, read the active packet before dispatch:
+
+- `AWAITING_REVIEW`, Claude-authored patch: Codex `forge-reviewer`,
+  `gpt-6-sol`. Claude Code must advise switching to Codex and stop.
+- `CHANGES_REQUESTED`: Claude Code `forge-implementer`, `sonnet`, for
+  bounded corrections; Codex must advise switching and stop. A substantive
+  unresolved design is assigned to Claude `forge-expert`, `opus`, only after
+  its scope is approved.
+- `AWAITING_HUMAN`: either client requests the exact named approval and
+  stops. Neither switching tools nor passing tests clears it.
+- `READY_TO_INTEGRATE`: the packet's named integrator validates/applies only
+  the approved frozen patch. A changed patch goes back to independent review.
+- A claimed/running phase: wait for the named owner. A missing artifact,
+  unsupported model or unknown author family is `BLOCKED`, not permission
+  to substitute. Finish one role; update the packet/index and name the next
+  terminal. Never silently take a later backlog task.
+
+Use this order. Later rows are recommendations, **not implementation approval**:
+
+| Order | Bounded task                                          | Client / role                                                                                          | Prerequisite and stop                                                                                                                                                   |
+| ----- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | TEACH-T2A corrected patch review                      | Codex parent validates; `forge-reviewer` / `gpt-6-sol` reviews                                         | Exact `77cd03a7...e46bae6` patch and packet; report only. If changes, return to Claude Sonnet; if ready, stop for human approval                                        |
+| 2     | T2a migration/privacy decision                        | Human; either client presents reviewed `migration.sql`, `down.sql`, privacy and residual-risk evidence | No main schema integration before explicit approval                                                                                                                     |
+| 3     | Approved T2a integration                              | Claude Code integrator / `sonnet`                                                                      | Exact approved patch only, isolated synthetic validation; changed code needs Codex re-review; no writer or serving                                                      |
+| 4     | Existing `/resources` mobile accessibility CI blocker | Claude Code `forge-implementer` / `sonnet`, then Codex `forge-reviewer` / `gpt-6-sol`                  | Obtain bounded UI scope first; targeted browser/accessibility evidence and independent review; do not suppress the failing checks                                       |
+| 5     | Reviewed commit/push checkpoint                       | Named integrator, normally Claude Code                                                                 | Preserve unrelated work; green relevant CI/local evidence, explicit commit/push scope and publication/deployment gates. T2a stays excluded if human approval is missing |
+| 6     | Lifecycle L2 prerequisite/probe decisions             | Claude Code `forge-expert` / `opus`, then Codex `forge-reviewer`                                       | Existing writer-free proposal, named open decisions and synthetic probe authorization; human migration/privacy approval before Sonnet implementation                    |
+| 7     | Blocked Python increment                              | Claude Code Sonnet corrections; Codex independent review                                               | First resolve execution evidence, persistence/route-test gaps and authorized synthetic environment; no broad authoring                                                  |
+| 8     | Six approved source-reference integrations            | Claude Code `forge-implementer` / `sonnet`, then Codex `forge-reviewer`                                | Narrow mechanical documentation scope; no repeat research or content authoring                                                                                          |
+| 9     | Shared bank/completion/teaching-serving contracts     | Claude Code `forge-expert` / `opus`, then Codex `forge-reviewer`                                       | One contract at a time, approved source/design scope and consumed decisions; T3/T4 choices are still open                                                               |
+| 10    | First-unit content, then runtime/UI release           | Claude Code Opus authoring; Sonnet implementation; Codex review after each frozen increment            | Scoped D-61/content/store/volume approvals, human content and release gates; no automatic authoring from the roadmap                                                    |
+
+Codex's configured reviewer is read-only. The Codex parent/integrator runs
+authorized synthetic validation with normal permission prompts in its own
+scratch environment, then supplies frozen source/results to that reviewer.
+Do not relax the reviewer's sandbox for database setup or let the reviewer
+modify source. If permissions prevent validation, report the missing evidence.
+
+Wrong-order response must name **SWITCH TO: Codex, forge-reviewer** or
+**SWITCH TO: Claude Code, forge-implementer/forge-expert**, the task packet,
+one bounded next action and the stop condition. Launch plain `codex` or
+`claude`; "continue" is enough if idle. No pasted task instructions or model
+launch flags are required by the repository procedure. This is instruction
+routing, not a technical enforcement layer or an automatic live-model switch.
+
 ## Checkpoint and authority
 
 As of 2026-10-10, teaching T1 is integrated after Sonnet 5.5 implementation
@@ -16,8 +71,9 @@ The five AMC 8, MOEMS, Kangaroo, MATHCOUNTS and Spelling first-unit designs
 are accepted; the shared catalog foundation is integrated. They are not
 active courses and no full-course content-authoring packet is authorized.
 
-The decision matrix has 80 approved choices (D-01–D-75, D-139/D-142 and
-D-145–D-147) and 67 open choices.
+Read current counts and scopes from the decision matrix, not an old snapshot
+here. Another session recorded D-148's narrow private assessment-drafting
+exception; it does not authorize this teaching task or general course authoring.
 Contract acceptance and D-139/D-142 approve T1 only.
 Use `docs/course-progression-decisions.md` for exact scope and
 `docs/course-progression-review/manual-gate-record.md` for release authority.
@@ -29,8 +85,8 @@ on 2026-10-10. T2 proposal/review accepted, D-145–D-147 approved. Sonnet
 returned a frozen 14-file draft. GPT review returned **changes requested**:
 three majors and one minor; see
 `docs/course-progression-review/teaching-t2a-20261010-review.md`.
-Bounded Sonnet corrections are now authorized and assigned in isolation,
-followed by GPT changed-hash re-review. Human migration review is required before main
+Bounded Sonnet corrections have returned as an 18-file frozen patch; Codex
+changed-hash review is now the next role. Human migration review is required before main
 integration. At a new session, inspect files,
 claim a bounded role and confirm its scope before implementation. The local
 resource-browser server is not needed; do not restart it.
@@ -64,7 +120,9 @@ failed. No T2a schema change is a fix for that unrelated UI blocker.
 
 Local checkpoint commits make reviewed course/T1 code and linked records
 resolvable locally, but are not on origin until a separately approved push.
-The unreviewed T2a Prisma/migration draft remains isolated and excluded.
+The corrected, not-yet-re-reviewed T2a Prisma/migration draft remains isolated
+and excluded. Its patch/evidence is copied and hash-verified under common Git
+metadata `agent-handoffs/TEACH-T2A/`; see the packet for full hash and recovery.
 Geography/Olympiad prerequisite drafts and their advisory reports remain
 uncommitted because original-author provenance is unresolved; their references
 describe pending local artifacts, not portable approved inputs. Older
@@ -86,7 +144,7 @@ bounded model only for a separately allocated task or quota fallback.
 | ID / next bounded task                                                                 | State and prerequisite                                                                                                                                        | Executor → reviewer                                                                           |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | TEACH-T2-PROPOSAL: writer-free delivery context/event persistence and privacy proposal | **Proposal + independent review complete; accepted by owner**; D-145–D-147 approved                                                                           | Copilot Opus 5.5 → GPT-6.1 Sol; native relay uses Opus → GPT-6-Sol                            |
-| TEACH-T2/T3 implementation                                                             | T2a review requests R1–R4 corrections; then independent re-review and human migration/privacy approval. D-143/D-144 remain open before writers                | Claude Code Sonnet → Codex GPT-6-Sol                                                          |
+| TEACH-T2/T3 implementation                                                             | R1–R4 correction patch returned; Codex review next, then human migration/privacy approval. D-143/D-144 remain open before writers                             | Claude Code Sonnet → Codex GPT-6-Sol                                                          |
 | TEACH-T4 interlock/serving                                                             | Needs D-100/D-102/D-140/D-141, complete exposure/assignment/result participation, activation protocol, shadow/permanent enforcement, content and manual gates | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
 | BANK-CONTRACT: remaining bank kind, manifest and historical resolution                 | Needs one bounded scope; D-75 covers only shared catalog access                                                                                               | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
 | COMPLETION-CONTRACT: ordinary completion/practice sufficiency                          | Open per-program choices, D-31 skip and completion/mastery separation preserved; no silent threshold defaults                                                 | Opus design → Sonnet implementation → Codex GPT-6-Sol review                                  |
@@ -145,8 +203,8 @@ duplicate the work or run a same-family independent review.
 
 **Current intake result:** T1 is complete; TEACH-T2-PROPOSAL now has
 writer-free proposal/review accepted and D-145–D-147 approved. TEACH-T2A
-isolated draft/scratch validation has returned from Sonnet; do not
-duplicate it or touch production. Review and human migration approval
+isolated correction/scratch validation has returned from Sonnet; do not
+duplicate it or touch production. Codex review and human migration approval
 must precede integration.
 When an integrator assigns an approved packet, it records its path and
 eligible next role in this index so the other terminal needs only "continue".
