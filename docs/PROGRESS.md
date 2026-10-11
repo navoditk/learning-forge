@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-10-11 — Pushed main to origin (`d70287d..ccd6192`)
+
+- On the owner's explicit request, Claude Code Sonnet pushed local `main` to
+  origin: 16 commits, including earlier local checkpoints (T2a schema and
+  migration `56ea7b3`/`c248254`, Grade 6 D-148 docs, teaching/recall/catalog
+  checkpoints) as well as the resources nav, status-test, docs and reviewer
+  mapping commits (`a02bbfa`..`ccd6192`). An earlier note that `main` was four
+  commits ahead was wrong; it was 16.
+- Push triggers `ci.yml` and `curriculum-site.yml` (GitHub Pages deploy). CI
+  results were not available at the time of this entry; the prior remote
+  failure was two `/resources` mobile target-size tests, which the local
+  browser suites now pass. Check the run before relying on it, and review what
+  the Pages deploy published. Not pushed: the four untracked Geography/Olympiad
+  dossier files (unresolved provenance).
+- Gates unchanged: teaching first-write/serving/release, production migration
+  and deployment approvals remain closed; the push does not clear them.
+
 ## 2026-10-11 — Browser suites run green on committed HEAD `2e6012f` (local evidence)
 
 - Claude Code Sonnet integrator ran the browser suites in a task-created
