@@ -1,11 +1,14 @@
 # UI-3 recall cards — proposed specification
 
-**Status: PROPOSED, not approved. Specification only.** Nothing here is
-implemented. No code, schema, dependency, test, migration, content, card text,
-or flag exists as a result of this document. Model: Claude Sonnet 5.5
-(approved UI-design model, `docs/ui-implementation-playbook.md`). An
-independent review and human decisions (section 12) are required before any
-increment starts. Where this document disagrees with
+**Status: partially approved; disconnected contract foundation implemented.**
+ADR-0014 records the approved choices, including R8/R9/R10. The strict draft,
+public payload and explicit projection have synthetic tests and independent
+review. No delivery route, learner write, migration, real cards, flag wiring
+or renderer is implemented. The original specification was authored by
+Claude Sonnet 5.5; remaining runtime proposals require their own review.
+See `docs/ui-recall-delivery-preflight.md` for current lifecycle and
+coordination blockers. Historical inventory below predates the foundation.
+Where this document disagrees with
 `docs/course-progression-decisions.md`, the decisions record governs.
 
 Scope: optional recall-only "self-check" cards for vocabulary, notation, and
@@ -195,15 +198,14 @@ state is never consulted. Actor scope: the rule applies to the learner whoever
 initiated the session (learner session, parent-initiated, override); a parent
 or operator action never lifts it.
 
-Proposed active lifecycle, so suppression is not permanent. A session is
-**active** from its persisted start until it has `endedAt` set, or, if never
-ended, until it exceeds an approved server-owned inactivity bound (value human
-decided under R7; no number proposed here). An assignment is active until it
-reaches a terminal state (`assessment-state.ts`, `assessment-submission.ts`).
-Ended sessions and terminal assignments never suppress. If a lifecycle state
-cannot be determined (missing `endedAt` semantics, ambiguous status), treat it
-as active but only for as long as the approved bound allows; if no bound is
-approved, the stop condition below applies instead of suppressing forever.
+Approved R7 supersedes the original skill-scoped lifecycle proposal above:
+**any persisted unfinished learner session**, regardless of skill or kind,
+suppresses delivery until `endedAt` is set. There is no inactivity timeout.
+Non-terminal assignments also suppress. Ended sessions and terminal
+assignments do not suppress, but must not permit protected continuations.
+Missing or ambiguous lifecycle state fails closed. The current absent
+abandoned-session terminal path and ended-session continuation gaps block
+delivery, as recorded in `docs/ui-recall-delivery-preflight.md`.
 
 **Stop condition:** if the linkage or the lifecycle above cannot be established
 from existing persisted data and relationships, the proposal stops: suppression
@@ -442,15 +444,25 @@ Evidence commands remain the existing ones from
 `docs/ui-implementation-playbook.md` (`npm test`, `npm run format:check &&
 npm run lint && npm run typecheck`, `npm run build`, `npm run test:e2e`,
 `npm run test:integration`, `npm run verify`). Nothing in this list has been
-run for UI-3; none can pass until implemented.
+run for delivery or the renderer. The disconnected contract foundation's
+7 contract tests and full verify evidence are recorded in `docs/PROGRESS.md`;
+the remaining named tests are proposals, not existing validation.
 
-## 12. Approval decision table (pending; not progression authority)
+## 12. Approval decision table (partial approval; not progression authority)
+
+The product owner's 2026-10-10 approvals are recorded in
+`docs/adr/0014-recall-card-foundation.md`. That ADR supplies the approved
+contract choices and technical text limits; the options below remain a
+design inventory, not additional approvals. R8, R9 and R10 were subsequently
+approved in the same ADR; concrete implementation and lifecycle/coordination
+proof remain required before delivery.
 
 Existing decisions govern and are only referenced: `D-61` (authoring pause and
 gate set), delayed-check source/delay (`D-63` and its recorded parameter),
 `D-50`/`D-66` (private held-out boundary), and the C4/C5 release gates. The
-rows below are **new product/contract choices pending human decision**; no
-recommendation here is normative.
+rows below preserve the original **option inventory**. ADR-0014, not this
+historical table, determines which choices are approved; unresolved
+implementation details are listed in the delivery preflight.
 
 | #   | Decision needed                                                                                                         | Options                                                                                                                                                               | Blocks                      |
 | --- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
@@ -495,5 +507,8 @@ recommendation here is normative.
 7. **Opt-in rollout**, per program/household, only after steps 5-6 and explicit
    human release approval.
 
-Current status: step 1 pending. UI-3 is **specified (proposed) only**. It is not
-implemented, and it is gated by step 2 and `D-61`.
+Current status: specification review completed; partial human decisions are
+recorded in ADR-0014. The contract-only foundation is authorized. No delivery
+or renderer is implemented; further infrastructure requires the remaining
+decisions and reviewed coordination. D-61 still gates real authoring, not
+disconnected synthetic contract tests.
