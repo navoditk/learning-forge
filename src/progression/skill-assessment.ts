@@ -3,7 +3,7 @@ import type { Prisma, PrismaClient } from '@prisma/client';
 import type { ProgressionPolicyProfile } from '../contracts/policy';
 import type { AssessmentBank, Ref } from '../contracts/progression';
 import { contentCatalog, contentSkillCode } from '../content/catalog';
-import { PILOT_ASSESSMENT_BANKS, PILOT_LESSONS } from '../curriculum/pilot-catalog';
+import { COURSE_CATALOG } from '../curriculum/course-catalog';
 import { delayedCheckEligibility } from './delay-window';
 import type { ExposureEvent } from './exposure';
 
@@ -13,9 +13,9 @@ type Database = PrismaClient | Prisma.TransactionClient;
 
 /** Pilot skills an authored lesson claims, at the version the lesson pins. */
 export function pilotSkillRef(skillCode: string, skillVersion: string): Ref | undefined {
-  return PILOT_LESSONS.flatMap((lesson) => lesson.skillRefs).find(
-    (ref) => ref.code === skillCode && ref.version === skillVersion,
-  );
+  return COURSE_CATALOG.lessons
+    .flatMap((lesson) => lesson.skillRefs)
+    .find((ref) => ref.code === skillCode && ref.version === skillVersion);
 }
 
 /** Dedicated held-out bank metadata for a skill-targeted assessment (D-50, D-63). */
@@ -24,7 +24,7 @@ export function skillAssessmentBank(
   skillRef: Ref,
 ): AssessmentBank | undefined {
   const suffix = kind === 'DELAYED_CHECK' ? 'delayed-check-bank' : 'review-bank';
-  return PILOT_ASSESSMENT_BANKS.find(
+  return COURSE_CATALOG.banks.find(
     (bank) =>
       bank.code === `${skillRef.code}-${suffix}` &&
       bank.targetRef.code === skillRef.code &&
@@ -313,9 +313,7 @@ async function delayedCheckRemediationStart(
 }
 
 function lessonsClaimingSkill(skillRef: Ref) {
-  return PILOT_LESSONS.filter((lesson) =>
-    lesson.skillRefs.some((ref) => ref.code === skillRef.code && ref.version === skillRef.version),
-  );
+  return COURSE_CATALOG.lessonsClaimingSkill(skillRef);
 }
 
 async function skillNeedsHelp(

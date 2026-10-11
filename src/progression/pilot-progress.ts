@@ -1,5 +1,5 @@
 import { prisma } from '../server/prisma';
-import { PILOT_LESSONS, PILOT_UNITS } from '../curriculum/pilot-catalog';
+import { COURSE_CATALOG } from '../curriculum/course-catalog';
 
 export type PilotProgression = {
   program: { code: string; version: string; label: string };
@@ -30,8 +30,11 @@ export async function getPilotProgression(identity: {
   householdId: string;
   learnerProfileId: string;
 }): Promise<PilotProgression> {
-  const lessonCodes = PILOT_LESSONS.map((lesson) => lesson.code);
-  const unitCodes = PILOT_UNITS.map((unit) => unit.code);
+  const units = COURSE_CATALOG.unitsOfProgram('grade-6-math');
+  const lessonCodes = units
+    .flatMap((unit) => COURSE_CATALOG.lessonsOfUnit(unit))
+    .map((lesson) => lesson.code);
+  const unitCodes = units.map((unit) => unit.code);
   const [lessonStates, unitStates, assignments] = await Promise.all([
     prisma.learnerLessonState.findMany({
       where: {
@@ -79,15 +82,13 @@ export async function getPilotProgression(identity: {
   }
   return {
     program: { code: 'grade-6-math', version: '1.0.0', label: 'Grade 6 Math' },
-    units: PILOT_UNITS.map((unit) => ({
+    units: units.map((unit) => ({
       code: unit.code,
       version: unit.version,
       title: unit.title,
       status: statesByUnit.get(`${unit.code}@${unit.version}`)?.completionStatus ?? 'NOT_STARTED',
       lessons: unit.lessonRefs.map((ref) => {
-        const lesson = PILOT_LESSONS.find(
-          (candidate) => candidate.code === ref.code && candidate.version === ref.version,
-        );
+        const lesson = COURSE_CATALOG.lessonByRef(ref);
         const state = statesByLesson.get(`${ref.code}@${ref.version}`);
         return {
           code: ref.code,

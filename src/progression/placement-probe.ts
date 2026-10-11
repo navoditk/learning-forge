@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import type { HeldOutAssessmentBank, PlacementProbeItem } from '../assessment/store';
 import type { Ref, Unit } from '../contracts/progression';
 import { servableContentCatalog } from '../content/catalog';
-import { PILOT_LESSONS, PILOT_UNITS } from '../curriculum/pilot-catalog';
+import { COURSE_CATALOG } from '../curriculum/course-catalog';
 
 const PLACEMENT_PROBE_SUFFIX = '-placement-probe';
 
@@ -13,9 +13,7 @@ export function placementProbeBankRef(unit: Pick<Unit, 'code' | 'version'>): Ref
 
 /** The unit's lessons in authored order. */
 export function unitLessons(unit: Pick<Unit, 'lessonRefs'>) {
-  return unit.lessonRefs.flatMap((ref) =>
-    PILOT_LESSONS.filter((lesson) => lesson.code === ref.code && lesson.version === ref.version),
-  );
+  return COURSE_CATALOG.lessonsOfUnit(unit);
 }
 
 /**
@@ -98,7 +96,7 @@ export function placementProbeBank(unit: Unit): HeldOutAssessmentBank | undefine
 /** Resolves a placement-probe bank reference to its pilot unit's projection. */
 export function placementProbeBankFor(ref: Ref): HeldOutAssessmentBank | undefined {
   if (!ref.code.endsWith(PLACEMENT_PROBE_SUFFIX)) return undefined;
-  const unit = PILOT_UNITS.find(
+  const unit = COURSE_CATALOG.units.find(
     (candidate) =>
       placementProbeBankRef(candidate).code === ref.code && candidate.version === ref.version,
   );

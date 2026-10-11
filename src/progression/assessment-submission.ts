@@ -25,7 +25,7 @@ import { resolvePinnedPolicyProfile } from './artifacts';
 import { isSkillStranded } from './skill-assessment';
 import { assessmentPasses } from './assessment-scoring';
 import { deriveHighestAssistance } from './assistance';
-import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
+import { COURSE_CATALOG } from '../curriculum/course-catalog';
 
 type SelectedItem = { id: string; version: string; hash: string; ordinal: number };
 
@@ -410,11 +410,10 @@ export async function submitAssessmentItem(
       const required = requiredCount(assignment.requiredCount);
       const lesson =
         assignment.kind === 'LESSON_ASSESSMENT'
-          ? PILOT_LESSONS.find(
-              (candidate) =>
-                candidate.code === assignment.targetCode &&
-                candidate.version === assignment.targetVersion,
-            )
+          ? COURSE_CATALOG.lessonByRef({
+              code: assignment.targetCode,
+              version: assignment.targetVersion,
+            })
           : undefined;
       const outcome = assessmentPasses({
         kind: assignment.kind,

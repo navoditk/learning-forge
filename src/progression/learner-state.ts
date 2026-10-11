@@ -6,7 +6,7 @@ import {
   UnitCompletionStatus,
 } from '@prisma/client';
 
-import { PILOT_LESSONS, PILOT_UNITS } from '../curriculum/pilot-catalog';
+import { COURSE_CATALOG } from '../curriculum/course-catalog';
 import { advanceReviewSchedule } from './review-schedule';
 import { lessonStatusAfterPlacement, placementLessonIndex } from './placement';
 
@@ -89,12 +89,7 @@ export async function applyReviewLapse(
       data: { independentDelayedCheck: false },
     });
 
-    for (const lesson of PILOT_LESSONS.filter((candidate) =>
-      candidate.skillRefs.some(
-        (candidateSkill) =>
-          candidateSkill.code === skillRef.code && candidateSkill.version === skillRef.version,
-      ),
-    )) {
+    for (const lesson of COURSE_CATALOG.lessonsClaimingSkill(skillRef)) {
       const state = await transaction.learnerLessonState.findUnique({
         where: {
           learnerProfileId_lessonCode_lessonVersion: {
@@ -187,11 +182,7 @@ export async function applyDelayedCheckOutcome(
   // The passing delayed check is the reassessment that clears lapse
   // remediation (§6.8). Remediation on a lesson that is not yet complete comes
   // from its own lesson assessment and is left for that reassessment.
-  for (const lesson of PILOT_LESSONS.filter((candidate) =>
-    candidate.skillRefs.some(
-      (skill) => skill.code === input.skillRef.code && skill.version === input.skillRef.version,
-    ),
-  )) {
+  for (const lesson of COURSE_CATALOG.lessonsClaimingSkill(input.skillRef)) {
     await transaction.learnerLessonState.updateMany({
       where: {
         learnerProfileId: input.learnerProfileId,
@@ -281,9 +272,10 @@ export async function applyPilotLessonAssessmentOutcome(
     now: Date;
   },
 ): Promise<void> {
-  const lesson = PILOT_LESSONS.find(
-    (candidate) => candidate.code === input.lessonCode && candidate.version === input.lessonVersion,
-  );
+  const lesson = COURSE_CATALOG.lessonByRef({
+    code: input.lessonCode,
+    version: input.lessonVersion,
+  });
   if (!lesson) return;
   const current = await transaction.learnerLessonState.findUnique({
     where: {
@@ -371,9 +363,7 @@ export async function applyPilotLessonAssessmentOutcome(
     });
   }
 
-  const unit = PILOT_UNITS.find((candidate) =>
-    candidate.lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
-  );
+  const unit = COURSE_CATALOG.unitOfLesson(lesson);
   if (!unit) return;
   const currentUnit = await transaction.learnerUnitState.findUnique({
     where: {
@@ -445,9 +435,7 @@ export async function applyPilotUnitAssessmentOutcome(
     now: Date;
   },
 ): Promise<void> {
-  const unit = PILOT_UNITS.find(
-    (candidate) => candidate.code === input.unitCode && candidate.version === input.unitVersion,
-  );
+  const unit = COURSE_CATALOG.unitByRef({ code: input.unitCode, version: input.unitVersion });
   if (!unit) return;
 
   const current = await transaction.learnerUnitState.findUnique({
@@ -461,12 +449,12 @@ export async function applyPilotUnitAssessmentOutcome(
   });
   if (!current) return;
 
-  const practiceContentIds = PILOT_LESSONS.filter((lesson) =>
-    unit.lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
-  ).flatMap((lesson) => lesson.practiceContentRefs.map((ref) => ref.id));
-  const unitSkillCodes = PILOT_LESSONS.filter((lesson) =>
-    unit.lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
-  ).flatMap((lesson) => lesson.skillRefs.map((ref) => ref.code));
+  const practiceContentIds = COURSE_CATALOG.lessonsListedByUnit(unit).flatMap((lesson) =>
+    lesson.practiceContentRefs.map((ref) => ref.id),
+  );
+  const unitSkillCodes = COURSE_CATALOG.lessonsListedByUnit(unit).flatMap((lesson) =>
+    lesson.skillRefs.map((ref) => ref.code),
+  );
   const [priorPracticeAttempts, priorTeachingOrPracticeEvents] = await Promise.all([
     transaction.attempt.count({
       where: {
@@ -517,9 +505,7 @@ export async function applyPilotUnitAssessmentOutcome(
     outcome: input.outcome,
   };
   for (const lessonRef of unit.lessonRefs) {
-    const lesson = PILOT_LESSONS.find(
-      (candidate) => candidate.code === lessonRef.code && candidate.version === lessonRef.version,
-    );
+    const lesson = COURSE_CATALOG.lessonByRef(lessonRef);
     if (!lesson) continue;
     const key = {
       learnerProfileId_lessonCode_lessonVersion: {
@@ -604,11 +590,7 @@ export async function markSkillNeedsHelp(
     policyProfileCode: input.policyProfileCode,
     policyProfileVersion: input.policyProfileVersion,
   };
-  for (const lesson of PILOT_LESSONS.filter((candidate) =>
-    candidate.skillRefs.some(
-      (skill) => skill.code === input.skillRef.code && skill.version === input.skillRef.version,
-    ),
-  )) {
+  for (const lesson of COURSE_CATALOG.lessonsClaimingSkill(input.skillRef)) {
     await transaction.learnerLessonState.upsert({
       where: {
         learnerProfileId_lessonCode_lessonVersion: {
@@ -687,11 +669,7 @@ export async function applyNeedsHelpOverride(
     where: { actorUserId: input.actorUserId, reauthAt: input.reauthAt },
   });
   if (reused > 0) return { applied: false, reasonCode: 'REAUTH_ALREADY_USED' };
-  const lessons = PILOT_LESSONS.filter((candidate) =>
-    candidate.skillRefs.some(
-      (skill) => skill.code === input.skillRef.code && skill.version === input.skillRef.version,
-    ),
-  );
+  const lessons = COURSE_CATALOG.lessonsClaimingSkill(input.skillRef);
   const needsHelp = await transaction.learnerLessonState.count({
     where: {
       learnerProfileId: input.learnerProfileId,
@@ -750,9 +728,7 @@ export async function applyPlacementOutcome(
     policyProfileVersion: string;
   },
 ): Promise<{ lessonCode: string; lessonVersion: string } | undefined> {
-  const unit = PILOT_UNITS.find(
-    (candidate) => candidate.code === input.unitCode && candidate.version === input.unitVersion,
-  );
+  const unit = COURSE_CATALOG.unitByRef({ code: input.unitCode, version: input.unitVersion });
   if (!unit) return undefined;
   // D-71: one placement per unit. A concurrent second probe is scored but
   // never places again.
@@ -764,9 +740,7 @@ export async function applyPlacementOutcome(
     },
   });
   if (existing > 0) return undefined;
-  const lessons = unit.lessonRefs.flatMap((ref) =>
-    PILOT_LESSONS.filter((lesson) => lesson.code === ref.code && lesson.version === ref.version),
-  );
+  const lessons = COURSE_CATALOG.lessonsOfUnit(unit);
   if (lessons.length === 0) return undefined;
   const placedIndex = placementLessonIndex(
     lessons.map((lesson) => lesson.skillRefs.map((ref) => ref.code)),
