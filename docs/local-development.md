@@ -58,6 +58,19 @@ compares the resulting schema:
 npm run test:migrations
 ```
 
+The command also runs the teaching-delivery guard phases in its scratch
+database before the empty-schema cycle: a seeded probe (synthetic evidence must
+make `down.sql` and every `TRUNCATE` form refuse, then be erased by `DELETE`)
+and a `pg_catalog` assertion (`tests/migrations/teaching-catalog-objects.test.ts`)
+for the CHECKs, triggers, foreign-key actions and the five trigger function
+bodies (pinned in `tests/migrations/teaching-pinned-functions.ts`, not read from
+the migration) that Prisma does not diff. A separate Prisma drift step accepts an
+empty diff and tolerates only the listed pre-existing index renames in
+`scripts/classify-prisma-drift.ts`. Those
+`tests/migrations` files are not part of `npm test` or `npm run
+test:integration`; this script is their only runner, and it needs `psql`,
+`pg_dump` and a disposable PostgreSQL server.
+
 Use only a disposable local PostgreSQL connection for this command. It must
 never be pointed at production or a database containing learner evidence.
 

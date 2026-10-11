@@ -204,77 +204,83 @@ enum ShadowActualBehavior {
 }
 
 model Household {
-  id                     String                  @id @default(uuid())
-  createdAt              DateTime                @default(now())
-  updatedAt              DateTime                @updatedAt
-  users                  User[]
-  learners               LearnerProfile[]
-  consentRecords         ConsentRecord[]
-  sessions               Session[]
-  attempts               Attempt[]
-  tutorInteractions      TutorInteraction[]
-  traces                 TutorTrace[]
-  masteryEstimates       MasteryEstimate[]
-  assessmentAssignments  AssessmentAssignment[]
-  assessmentResults      AssessmentResult[]
-  activeAssessmentLeases ActiveAssessmentLease[]
-  learnerPlacements      LearnerPlacement[]
-  learnerUnitStates      LearnerUnitState[]
-  learnerLessonStates    LearnerLessonState[]
-  unlockGrants           UnlockGrant[]
-  skipRecords            SkipRecord[]
-  overrideRecords        OverrideRecord[]
-  reviewSchedules        ReviewSchedule[]
-  learningEvents         LearningEvent[]
-  shadowDecisions        ShadowDecision[]
+  id                       String                    @id @default(uuid())
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
+  users                    User[]
+  learners                 LearnerProfile[]
+  consentRecords           ConsentRecord[]
+  sessions                 Session[]
+  attempts                 Attempt[]
+  tutorInteractions        TutorInteraction[]
+  traces                   TutorTrace[]
+  masteryEstimates         MasteryEstimate[]
+  assessmentAssignments    AssessmentAssignment[]
+  assessmentResults        AssessmentResult[]
+  activeAssessmentLeases   ActiveAssessmentLease[]
+  learnerPlacements        LearnerPlacement[]
+  learnerUnitStates        LearnerUnitState[]
+  learnerLessonStates      LearnerLessonState[]
+  unlockGrants             UnlockGrant[]
+  skipRecords              SkipRecord[]
+  overrideRecords          OverrideRecord[]
+  reviewSchedules          ReviewSchedule[]
+  learningEvents           LearningEvent[]
+  shadowDecisions          ShadowDecision[]
+  teachingDeliveryContexts TeachingDeliveryContext[]
 }
 
 model User {
-  id                     String          @id @default(uuid())
-  householdId            String
-  role                   UserRole
+  id                       String                    @id @default(uuid())
+  householdId              String
+  role                     UserRole
   // Sign-in credentials. Only ever populated for PARENT-role users: ADR-0008
   // decided there is no separate learner login, so LEARNER-role users keep
   // these null.
-  email                  String?         @unique
-  passwordHash           String?
+  email                    String?                   @unique
+  passwordHash             String?
   // D-72: consecutive failed password checks and the resulting lock.
-  failedPasswordAttempts Int             @default(0)
-  passwordLockedUntil    DateTime?
-  createdAt              DateTime        @default(now())
-  household              Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile         LearnerProfile?
+  failedPasswordAttempts   Int                       @default(0)
+  passwordLockedUntil      DateTime?
+  createdAt                DateTime                  @default(now())
+  household                Household                 @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile           LearnerProfile?
+  teachingDeliveryContexts TeachingDeliveryContext[]
 
+  @@unique([id, householdId, role])
   @@index([householdId, role])
 }
 
 model LearnerProfile {
-  id                     String                  @id @default(uuid())
-  userId                 String                  @unique
-  householdId            String
-  gradeLevel             Int
-  createdAt              DateTime                @default(now())
-  updatedAt              DateTime                @updatedAt
-  user                   User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  household              Household               @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  consentRecords         ConsentRecord[]
-  sessions               Session[]
-  attempts               Attempt[]
-  tutorInteractions      TutorInteraction[]
-  traces                 TutorTrace[]
-  masteryEstimates       MasteryEstimate[]
-  assessmentAssignments  AssessmentAssignment[]
-  assessmentResults      AssessmentResult[]
-  activeAssessmentLeases ActiveAssessmentLease[]
-  learnerPlacements      LearnerPlacement[]
-  learnerUnitStates      LearnerUnitState[]
-  learnerLessonStates    LearnerLessonState[]
-  unlockGrants           UnlockGrant[]
-  skipRecords            SkipRecord[]
-  overrideRecords        OverrideRecord[]
-  reviewSchedules        ReviewSchedule[]
-  learningEvents         LearningEvent[]
-  shadowDecisions        ShadowDecision[]
+  id                       String                    @id @default(uuid())
+  userId                   String                    @unique
+  householdId              String
+  gradeLevel               Int
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
+  user                     User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  household                Household                 @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  consentRecords           ConsentRecord[]
+  sessions                 Session[]
+  attempts                 Attempt[]
+  tutorInteractions        TutorInteraction[]
+  traces                   TutorTrace[]
+  masteryEstimates         MasteryEstimate[]
+  assessmentAssignments    AssessmentAssignment[]
+  assessmentResults        AssessmentResult[]
+  activeAssessmentLeases   ActiveAssessmentLease[]
+  learnerPlacements        LearnerPlacement[]
+  learnerUnitStates        LearnerUnitState[]
+  learnerLessonStates      LearnerLessonState[]
+  unlockGrants             UnlockGrant[]
+  skipRecords              SkipRecord[]
+  overrideRecords          OverrideRecord[]
+  reviewSchedules          ReviewSchedule[]
+  learningEvents           LearningEvent[]
+  shadowDecisions          ShadowDecision[]
+  teachingDeliveryContexts TeachingDeliveryContext[]
+
+  @@unique([id, householdId])
 }
 
 model ConsentRecord {
@@ -695,19 +701,73 @@ model ReviewSchedule {
 }
 
 model LearningEvent {
-  id               String            @id @default(uuid())
-  householdId      String
-  learnerProfileId String
-  skillCode        String
-  skillVersion     String
-  contentId        String?
-  contentVersion   String?
-  kind             LearningEventKind
-  occurredAt       DateTime          @default(now())
-  household        Household         @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  learnerProfile   LearnerProfile    @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  id                String                   @id @default(uuid())
+  householdId       String
+  learnerProfileId  String
+  skillCode         String
+  skillVersion      String
+  contentId         String?
+  contentVersion    String?
+  kind              LearningEventKind
+  occurredAt        DateTime                 @default(now())
+  // T2a draft: nullable link to the immutable teaching delivery context. The
+  // composite FK is MATCH SIMPLE, so the migration adds CHECKs that close the
+  // nullable-column escape and tie teaching kinds to a context.
+  deliveryContextId String?
+  household         Household                @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  learnerProfile    LearnerProfile           @relation(fields: [learnerProfileId], references: [id], onDelete: Cascade)
+  deliveryContext   TeachingDeliveryContext? @relation(fields: [deliveryContextId, householdId, learnerProfileId, skillCode, skillVersion, contentId, contentVersion], references: [id, householdId, learnerProfileId, skillCode, skillVersion, itemId, itemVersion], onDelete: NoAction, onUpdate: NoAction)
 
+  @@unique([deliveryContextId, kind])
   @@index([learnerProfileId, skillCode, occurredAt])
+}
+
+// T2a draft: immutable record of one server delivery of a teaching item to an
+// authenticated parent session (D-139/D-142). Holds identities, versions and
+// digests; no teaching body or answer is stored. The linked household, learner,
+// parent actor, activity and version pins are personal household data. D-146
+// keeps operationKey a raw client string (UUIDv4 is only a proposal for a future
+// reviewed request boundary), so it may carry identifying or learner free text.
+// Real writes and serving are blocked until a separately approved, tested
+// diagnostics-redaction policy covers ORM/app errors and database logs; this
+// model does not prove that keys are never logged.
+// deliveredAt deliberately has no default: the writer supplies the clock.
+model TeachingDeliveryContext {
+  id                       String                  @id
+  householdId              String
+  learnerProfileId         String
+  actorUserId              String
+  actorRole                UserRole
+  operationKey             String
+  activityKind             ProgressionActivityKind
+  programCode              String
+  programVersion           String
+  unitCode                 String
+  unitVersion              String
+  lessonCode               String
+  lessonVersion            String
+  skillCode                String
+  skillVersion             String
+  itemId                   String
+  itemVersion              String
+  authoredHash             String
+  canonicalHash            String
+  teachingCatalogCode      String
+  teachingCatalogVersion   String
+  accessPolicyCode         String
+  accessPolicyVersion      String
+  policyProfileCode        String
+  policyProfileVersion     String
+  retryWindowPolicyCode    String
+  retryWindowPolicyVersion String
+  deliveredAt              DateTime
+  household                Household               @relation(fields: [householdId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  learnerProfile           LearnerProfile          @relation(fields: [learnerProfileId, householdId], references: [id, householdId], onDelete: Cascade, onUpdate: NoAction)
+  actor                    User                    @relation(fields: [actorUserId, householdId, actorRole], references: [id, householdId, role], onDelete: NoAction, onUpdate: NoAction)
+  learningEvents           LearningEvent[]
+
+  @@unique([learnerProfileId, operationKey])
+  @@unique([id, householdId, learnerProfileId, skillCode, skillVersion, itemId, itemVersion])
 }
 
 model ShadowDecision {

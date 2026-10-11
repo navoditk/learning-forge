@@ -43,6 +43,7 @@ export const HOUSEHOLD_DATA_MODEL_COVERAGE = {
     'OverrideRecord',
     'ReviewSchedule',
     'LearningEvent',
+    'TeachingDeliveryContext',
     'ShadowDecision',
     'AuditLog',
   ],
@@ -70,6 +71,7 @@ export const HOUSEHOLD_DATA_MODEL_COVERAGE = {
     'OverrideRecord',
     'ReviewSchedule',
     'LearningEvent',
+    'TeachingDeliveryContext',
     'ShadowDecision',
     // Not erased - see deleteHouseholdData: anonymized in place instead, so
     // the audit trail itself survives the household it refers to.
@@ -79,6 +81,46 @@ export const HOUSEHOLD_DATA_MODEL_COVERAGE = {
   // deleted with a household. They contain no learner or household data.
   global: ['ContentArchive'],
 } as const;
+
+/**
+ * Interim, empty-table-only export allowlist (T2a). Open decision D-143 will
+ * settle whether `operationKey` is exported; until then it is omitted, which is
+ * not the final approved branch. Explicit selection (never `true`) keeps a
+ * later column from being exported silently. No writer exists yet.
+ */
+export const TEACHING_DELIVERY_CONTEXT_EXPORT_FIELDS = [
+  'id',
+  'householdId',
+  'learnerProfileId',
+  'actorUserId',
+  'actorRole',
+  'activityKind',
+  'programCode',
+  'programVersion',
+  'unitCode',
+  'unitVersion',
+  'lessonCode',
+  'lessonVersion',
+  'skillCode',
+  'skillVersion',
+  'itemId',
+  'itemVersion',
+  'authoredHash',
+  'canonicalHash',
+  'teachingCatalogCode',
+  'teachingCatalogVersion',
+  'accessPolicyCode',
+  'accessPolicyVersion',
+  'policyProfileCode',
+  'policyProfileVersion',
+  'retryWindowPolicyCode',
+  'retryWindowPolicyVersion',
+  'deliveredAt',
+] as const;
+
+const TEACHING_DELIVERY_CONTEXT_EXPORT_SELECT = Object.fromEntries(
+  TEACHING_DELIVERY_CONTEXT_EXPORT_FIELDS.map((field) => [field, true]),
+) as { [Field in (typeof TEACHING_DELIVERY_CONTEXT_EXPORT_FIELDS)[number]]: true };
 
 export function isHouseholdDeletionConfirmed(confirmation: unknown): boolean {
   return confirmation === HOUSEHOLD_DELETION_CONFIRMATION_PHRASE;
@@ -235,6 +277,7 @@ export async function exportHouseholdData(prisma: DatabaseClient, householdId: s
       overrideRecords: true,
       reviewSchedules: true,
       learningEvents: true,
+      teachingDeliveryContexts: { select: TEACHING_DELIVERY_CONTEXT_EXPORT_SELECT },
       shadowDecisions: true,
     },
   });
@@ -275,7 +318,10 @@ export async function deleteHouseholdData(
     await transaction.activeAssessmentLease.deleteMany({ where: { householdId } });
     await transaction.assessmentAssignment.deleteMany({ where: { householdId } });
     await transaction.shadowDecision.deleteMany({ where: { householdId } });
+    // Events first, then contexts: the deferred pair triggers pass because both
+    // rows are gone at commit.
     await transaction.learningEvent.deleteMany({ where: { householdId } });
+    await transaction.teachingDeliveryContext.deleteMany({ where: { householdId } });
     await transaction.reviewSchedule.deleteMany({ where: { householdId } });
     await transaction.overrideRecord.deleteMany({ where: { householdId } });
     await transaction.skipRecord.deleteMany({ where: { householdId } });

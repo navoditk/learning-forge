@@ -4,10 +4,12 @@ import { AssessmentKind, Prisma, ProgressionTargetKind } from '@prisma/client';
 
 import { prisma } from '../../src/server/prisma';
 import {
+  TEACHING_DELIVERY_CONTEXT_EXPORT_FIELDS,
   deleteHouseholdData,
   exportHouseholdData,
   isHouseholdDeletionConfirmed,
 } from '../../src/server/household-data';
+import { createPair, seedHousehold } from './teaching-delivery-fixtures';
 
 describe('household deletion confirmation phrase', () => {
   it('only accepts the exact confirmation phrase', () => {
@@ -171,6 +173,7 @@ describe('household export and deletion', () => {
       overrideRecords: [],
       reviewSchedules: [],
       learningEvents: [],
+      teachingDeliveryContexts: [],
       shadowDecisions: [],
     });
     expect(JSON.stringify(exported.assessmentAssignments)).not.toContain(
@@ -217,5 +220,50 @@ describe('household export and deletion', () => {
       expect(await delegate.count({ where: { householdId } }), model.name).toBe(0);
     }
     expect(await deleteHouseholdData(prisma, householdId)).toBe(false);
+  });
+});
+
+describe('household export and deletion with teaching delivery evidence', () => {
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
+
+  it('exports the common-field allowlist without operationKey or any body field', async () => {
+    const household = await seedHousehold(prisma);
+    const context = await createPair(prisma, household, {
+      operationKey: 'opaque-export-secret-key',
+    });
+    try {
+      const exported = await exportHouseholdData(prisma, household.householdId);
+      expect(exported.teachingDeliveryContexts).toHaveLength(1);
+      const [row] = exported.teachingDeliveryContexts;
+      expect(Object.keys(row).sort()).toEqual([...TEACHING_DELIVERY_CONTEXT_EXPORT_FIELDS].sort());
+      expect(row).not.toHaveProperty('operationKey');
+      expect(JSON.stringify(exported)).not.toContain('opaque-export-secret-key');
+      expect(Object.keys(row).some((key) => /body|answer|text|explanation|title/i.test(key))).toBe(
+        false,
+      );
+      expect(row.id).toBe(context.id);
+      expect(exported.learningEvents).toEqual([
+        expect.objectContaining({ deliveryContextId: context.id, kind: 'TEACHING_VIEWED' }),
+      ]);
+    } finally {
+      await deleteHouseholdData(prisma, household.householdId);
+    }
+  });
+
+  it('deleteHouseholdData erases contexts and linked events, then a second call is a no-op', async () => {
+    const household = await seedHousehold(prisma);
+    await createPair(prisma, household);
+    await createPair(prisma, household);
+    expect(await deleteHouseholdData(prisma, household.householdId, household.parentId)).toBe(true);
+    expect(
+      await prisma.teachingDeliveryContext.count({ where: { householdId: household.householdId } }),
+    ).toBe(0);
+    expect(
+      await prisma.learningEvent.count({ where: { householdId: household.householdId } }),
+    ).toBe(0);
+    expect(await prisma.household.count({ where: { id: household.householdId } })).toBe(0);
+    expect(await deleteHouseholdData(prisma, household.householdId)).toBe(false);
   });
 });
