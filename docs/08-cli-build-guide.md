@@ -4,6 +4,13 @@ Use the same repository rules, task boundaries, and durable checkpoints in
 Claude Code, Codex, and Copilot CLI. No tool is the required primary builder.
 Change tools at a documented checkpoint, not halfway through unrecorded work.
 
+For quota exhaustion or multiple open terminals, start at
+`docs/coding-agent-handoff.md`. The human-operated relay, atomic advisory
+claims, frozen task packets and required terminal-switch messages live in
+`docs/agent-orchestration.md`. One integrator owns shared changes; an
+executor finishes a bounded role and names the other client for independent
+review. Keep the wrappers thin and the procedure tool-neutral.
+
 ## Instruction entry points
 
 | Environment           | Repository entry point                                 | Shared procedure                                 |
@@ -18,9 +25,10 @@ and instruction precedence can differ. If discovery is unavailable, explicitly
 ask the agent to read `AGENTS.md` before starting.
 
 The `.github/agents/` profiles are Copilot-specific model/tool wrappers, not
-portable native subagent definitions. In Claude Code or Codex, follow the
-same role's playbook directly; do not assume its model identifiers, tool
-aliases, or skill discovery work unchanged. See `docs/curriculum-agents.md`.
+portable native subagent definitions. Thin native forge roles now live in
+`.claude/agents/` and `.codex/agents/` and select approved client-specific
+models while following the same playbooks. Do not assume Copilot's model
+identifiers or tool aliases work unchanged. See `docs/curriculum-agents.md`.
 
 Shared skill bodies are also exposed through `.claude/skills` and
 `.agents/skills`; verify discovery in your client before relying on it.
@@ -50,6 +58,11 @@ claude
 
 Portable resumption prompt:
 
+Normally no prompt needs pasting: launch plain `claude` or `codex` and say
+"continue" if the client waits for input. Project instructions route intake
+to `docs/coding-agent-handoff.md`; native forge roles select worker models.
+The longer prompts below are recovery fallbacks, not the required workflow.
+
 > Read AGENTS.md and README.md. Inspect the branch and worktree. Read the latest dated entries and the Resume here and Current status sections of docs/PROGRESS.md. For course progression, start at docs/course-progression-handoff.md and follow its reading order; check the decision matrix and manual gate record. Report the current checkpoint, remaining gates, and the smallest next task without changing code or inferring approval.
 
 Implementation prompt after task approval:
@@ -58,12 +71,13 @@ Implementation prompt after task approval:
 
 ## Per-issue loop
 
-```bash
-git switch main
-git pull --ff-only
-git switch -c feature/<short-issue-name>
-# Launch claude, codex, or copilot.
-```
+Inspect `git status --short`, HEAD and existing claims first. The current
+checkout may contain uncommitted accepted work; do not switch/pull over it.
+For an isolated writer, have the integrator create a worktree from the pinned
+base and supply any allowlisted uncommitted dependencies. A clean worktree
+does not inherit this checkout's dirty source, docs or tests. Then launch
+the approved native role/model and follow its packet. Do not edit another
+terminal's checkout or assume all open terminals are authorized writers.
 
 Prompt pattern:
 
@@ -76,6 +90,9 @@ git status
 git diff --check
 git diff
 ```
+
+Also list and review untracked files: `git diff` omits them. The handoff
+packet must include every in-scope new file and its hash.
 
 Ask the agent:
 
@@ -104,3 +121,14 @@ At phase boundaries, give the reviewer the same approved docs and exact scope:
 ## Context handoff
 
 Before ending any substantial session, require `docs/PROGRESS.md` to contain current branch, completed work, verification commands/results, decisions/ADRs, known issues, uncommitted changes, and the next exact prompt. This is the durable context; chat history is not.
+
+In concurrent work the integrator records this checkpoint from worker reports;
+workers never race to edit shared PROGRESS or the resume index. Link the
+frozen task packet and finish with the required switch/approval/block label.
+Closing or changing a client does not commit or transfer local artifacts.
+
+Instruction-discovery references checked for this relay:
+[Codex AGENTS.md](https://developers.openai.com/codex/guides/agents-md/) and
+[Claude Code project memory/imports](https://code.claude.com/docs/en/memory).
+Client updates and local overrides can alter discovery; verify the loaded
+rules rather than relying on a prior session's result.

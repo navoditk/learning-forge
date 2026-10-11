@@ -123,6 +123,148 @@ one owner and serialize those edits.
    otherwise use separately launched sessions/worktrees and the same packets.
    No vendor-specific orchestration is required to understand or resume work.
 
+## Human-operated terminal handoffs
+
+Use `docs/coding-agent-handoff.md` as the cross-client resume index. This
+procedure adds no task, model, spending or release authorization. Existing
+playbooks and the decision matrix remain authoritative.
+
+### Routing and stop conditions
+
+No launch flags or pasted role prompt are required in clients that load the
+project configuration. `AGENTS.md` routes the first task turn through the
+resume index. Claude defaults to Sonnet and Codex to native GPT Sol.
+Each client has native `forge-implementer`, `forge-expert` and
+`forge-reviewer` role definitions with explicit model selection. Delegate
+one bounded substantive role when the parent is not the correct executor;
+never run a fleet or duplicate parent/worker work for model routing.
+The command flags in the table are diagnostic/fallback equivalents, not
+required launch arguments. Review still goes to the other model family.
+
+Root instructions load as context; they neither synthesize a user turn nor
+change a running parent's model. A waiting client needs only "continue",
+not a pasted packet. If no approved packet is assigned, intake stops at its
+approval request. Configuration may require project trust or be overridden
+by higher-priority settings; missing discovery/model evidence blocks dispatch.
+
+| Work                                                | Preferred native executor             | Next terminal                                                 |
+| --------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------- |
+| Defined implementation or UI                        | Claude Code `--model sonnet`          | Codex `-m gpt-6-sol` for independent review                   |
+| Research, curriculum authoring or unresolved design | Claude Code `--model opus`            | Codex `-m gpt-6-sol` for independent review                   |
+| Approved bounded implementation allocated to Codex  | Codex `-m gpt-5.6-luna`               | Claude Code `--model opus` for independent review             |
+| Approved research/design allocated to Codex         | Codex `-m gpt-6-sol`                  | Claude Code `--model opus` for independent review             |
+| Integration and deterministic validation            | One explicitly claimed client/session | Human gate or next scoped packet; not another automatic agent |
+
+These are the existing approved native mappings, not claims of cost or
+quality equivalence. For defined implementation prefer Sonnet per the owner's
+later instruction. Verify alias resolution/model-list selection and successful
+turn metadata as described below; unknown identity cannot clear review.
+If the reviewer authored any section, route that section to the other family
+and record split authorship. A correction by the original author goes back
+to the same reviewer for changed-scope review, not a new full audit.
+
+Finish the assigned role, not the whole backlog. At completion, quota/access
+failure or an approval boundary, persist the packet before stopping. Do not
+repeatedly retry a depleted client, start a fleet, run paid smoke tests or
+change subscriptions to continue. A quota failure can route execution to
+an already-approved role-appropriate alternative, but never erase human gates.
+Estimate neither remaining provider capacity nor credits from token totals.
+If interrupted before checkpointing, resume by inspecting the actual files,
+not treating the last success message as proof.
+
+### Ownership with several terminals open
+
+- The human designates one integrator for the active batch. Other terminals
+  are scoped workers or read-only reviewers; idle terminals are not owners.
+- Before writing, acquire an advisory atomic directory claim in the common
+  Git metadata directory (resolve it with
+  `git rev-parse --path-format=absolute --git-common-dir`).
+  Store claims under `agent-claims/`: `integrator.lock` for the integrator,
+  `<task-id>.lock` for a worker. Acquire with a single `mkdir`, not a
+  check-then-create; failure means **do not write**. Record task, client/model,
+  role, worktree, owned paths and start time in that claim, without secrets.
+  The integrator claim does not block independent workers' task claims.
+- Claims are advisory coordination for cooperating local sessions, not
+  authorization, a distributed lock or protection against other editors.
+  The packet's owned paths and existing repository rules still govern.
+- Each writer uses a distinct worktree and explicit owned paths. Shared
+  schemas, registries, source indexes, decision matrix and integration/status
+  edits are serialized by the integrator. Workers return a patch/report;
+  they do not update shared PROGRESS/handoff files. A reviewer must not read
+  a patch while its author is changing it.
+  Before assignment the integrator checks active claims for overlapping
+  owned paths; different task IDs do not make shared-file edits independent.
+- The author marks the artifact frozen and stops writing before review.
+  Corrections reopen that same worker role; freeze and repin afterward.
+  Reviewers report without editing, installing or mutating the worktree.
+- After checkpointing, release only the claim the session owns; remove its
+  named metadata files and then the empty directory. Never auto-steal claims
+  by age. For a stale claim, the human confirms the former owner has stopped
+  before authorizing targeted cleanup. Never clear other claims or worktrees.
+- Integration checks the frozen hash and current base, applies only the
+  reviewed patch, resolves collisions without overwriting existing work, and
+  validates the integrated tree. Shared database/browser/build jobs must
+  not run concurrently against shared state; use the documented synthetic
+  isolation and preserve any required approval.
+
+### Durable task packet
+
+The integrator maintains one small packet per actual assigned task under
+`docs/agent-handoffs/<task-id>.md`, referenced by the resume index. This
+location is for safe task metadata, never raw child data, credentials,
+private assessment items, full logs or proprietary source text. Do not create
+packets for every hypothetical backlog item.
+
+Every packet records:
+
+1. Task ID, phase (`SCOPING`, `IMPLEMENTING`, `AWAITING_REVIEW`,
+   `CHANGES_REQUESTED`, `AWAITING_HUMAN`, `READY_TO_INTEGRATE`, `DONE` or
+   `BLOCKED`), claimed role/client/model and owned files.
+2. Exact approved scope and approval citations; prohibited actions and
+   remaining human gates. Planning permission is not implementation approval.
+3. Main HEAD, worktree HEAD and **effective uncommitted baseline**: an
+   allowlisted overlay/patch and untracked inputs with file hashes if needed.
+   `git diff` alone omits untracked files. New worktrees and fresh clones
+   do not inherit the coordinator's uncommitted state.
+4. Required docs and artifacts, repository-relative where possible; frozen
+   patch/specification hash, changed-file list and original author model
+   provenance. Include enough evidence to recreate the result locally.
+5. Exact commands and results, what was not run and why, findings and
+   dispositions. Do not infer runtime correctness from a proposal.
+6. One bounded next action, its eligible client/model, stop condition and
+   copy-paste prompt.
+
+Large local patches and sanitized command output may live under
+`agent-handoffs/` in the resolved common Git metadata directory; record their
+resolved paths and hashes in the packet. They are local artifacts, not in
+GitHub and not transferred with a clone. Do not relocate or delete existing
+session artifacts until their needed contents have been verified in the
+new handoff. If moving machines, the human explicitly approves either a
+reviewed commit/push or transfer of an allowlisted non-sensitive patch/input
+bundle. Never copy `.env`, whole session folders or private banks.
+
+### Required terminal-switch message
+
+End a role with one of these labels and fill in every field:
+
+```text
+SWITCH TO: <Claude Code or Codex>, <configured forge role>
+ROLE: <read-only reviewer / original-author corrections / integrator>
+TASK: <task ID and packet path>
+ARTIFACT: <frozen patch/spec path and SHA-256>
+DO NOW: <one bounded action>
+STOP AFTER: <report / corrected patch / integrated validation>
+START: <plain claude or codex; "continue" if idle>
+RECOVERY PROMPT: <only if instruction discovery fails; reference packet and authority>
+```
+
+For an undecided parameter, write `WAITING FOR HUMAN APPROVAL`, identify only
+the consumed decision IDs and recommendation, and stop before implementing
+them. For a missing artifact/model/permission, write `BLOCKED`, identify the
+missing evidence and recovery action. Do not say "switch" as a substitute for
+an approval. The human runs the terminal command; agents cannot transfer live
+chat context or switch another client's account/session automatically.
+
 ## Portable discovery
 
 ### Observed client verification (2026-10-09)
@@ -198,9 +340,15 @@ playbook directly. The `.github/agents/` profiles are Copilot-specific; do not
 copy their tool aliases or model IDs into another client's config blindly.
 
 Use the role table above and the playbook as a native task packet in Claude
-Code/Codex. Select an available approved model explicitly and record its actual
-identity. See [Claude skills](https://code.claude.com/docs/en/skills),
+Code/Codex. The project role selects its approved model; record the actual
+identity and do not require launch flags. See [Claude skills](https://code.claude.com/docs/en/skills),
 [Codex skills](https://developers.openai.com/codex/skills), and
 [Copilot CLI](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli)
 for client discovery and controls. Instruction files guide behavior; they do
 not enforce model availability, quotas, permissions, or review independence.
+
+Native configuration references:
+[Claude model settings](https://code.claude.com/docs/en/model-config),
+[Claude custom subagents](https://code.claude.com/docs/en/sub-agents),
+[Codex project configuration](https://developers.openai.com/codex/config-basic)
+and [Codex custom agents](https://developers.openai.com/codex/subagents).

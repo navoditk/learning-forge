@@ -42,6 +42,13 @@ directly; `CLAUDE.md` imports it for Claude Code, and
 `.github/copilot-instructions.md` points Copilot to it. Use
 `docs/08-cli-build-guide.md` for portable startup and resumption prompts.
 
+For continuing after a client quota limit, or coordinating Claude Code and
+Codex in separate terminals, launch plain `claude` or `codex` and say
+"continue" if idle. Instructions read `docs/coding-agent-handoff.md` and
+native forge roles select worker models without launch flags or pasted
+handoff prompts. Agents finish one claimed role and name the next terminal;
+one integrator owns shared edits and approval gates survive every switch.
+
 ## Curriculum agents
 
 For approved model allocation, independent review, parallel task ownership,

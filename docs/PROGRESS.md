@@ -1,5 +1,76 @@
 # Progress
 
+## 2026-10-10 — Portable startup iteration prepared for commit and push
+
+- Owner explicitly authorized commit/push of the current iteration. Scope:
+  root instruction wrappers, README/CLI/relay documentation, resume index,
+  eight native role/default configs and only this iteration's progress entries.
+  Unrelated source, curriculum, teaching/lifecycle foundations and older
+  uncommitted progress changes are preserved outside this commit.
+- Remote/main matched local main at `9420fa1` before committing. Startup
+  configuration and documentation checks passed; native role dispatch still
+  requires verification in the chosen client. This commit does not transfer
+  the full dirty course/T1 state or authorize T2 work.
+
+## 2026-10-10 — Zero-parameter native intake and role models configured
+
+- Added project defaults (`.claude/settings.json` Sonnet,
+  `.codex/config.toml` native GPT Sol) and three thin native forge roles per
+  client: implementer, expert and read-only opposite-family reviewer.
+  Approved native model mappings are unchanged; permissions are not relaxed.
+- AGENTS and Claude entry point automatically read the resume index on the
+  first task turn. Plain `claude` / `codex` plus "continue" if idle requires
+  no pasted handoff instructions or launch-model flags. Native worker
+  dispatch selects the role model; instructions cannot mutate a running
+  parent's model or synthesize paid work at terminal startup.
+- Intake has no approved next task packet yet: T1 is complete, writer-free
+  T2 proposal scope remains to be authorized. No new runtime task, migration
+  or fleet is approved by automatic routing.
+- Installed versions inspected without model calls: Claude Code 2.1.286,
+  Codex CLI 0.155.1. Official native configuration/agent documentation
+  consulted. Static format/config checks apply; actual project trust,
+  discovery and response-model verification remain client runtime checks.
+- Validation passed: Python JSON/TOML parsing and eight-config role/model/
+  reviewer-restriction assertions; targeted Prettier (11 files);
+  `git diff --check`. `codex debug prompt-input` confirmed the new root
+  intake instructions load without inference. It does not expose the native
+  agent registry; a separate description-presence assertion failed because
+  that output contains instruction messages rather than the role registry.
+  Therefore native role discovery/dispatch is **not yet runtime verified**.
+  No paid smoke test, production/provider/database/server operation,
+  runtime source change, commit or push.
+- Next progression issue is still writer-free TEACH-T2-PROPOSAL with explicit
+  scope approval. First native use should verify project trust, role discovery
+  and response-model evidence; report a configuration block if absent rather
+  than executing on a wrong model. Temporary prompt-debug artifact removed.
+
+## 2026-10-10 — Human-operated Claude Code/Codex relay documented
+
+- Added `docs/coding-agent-handoff.md` with the current effective dirty
+  checkout, T1 evidence, outstanding work/dependencies, existing approved
+  native model selections and pasteable resume/role prompts. No new backlog
+  task or runtime stage is authorized by this handoff.
+- Extended `docs/agent-orchestration.md` with explicit executor-to-other-family
+  review routing, bounded role stop conditions, advisory atomic local claims,
+  frozen hashed task packets, one integrator and quota/approval/block messages.
+  Root AGENTS and thin Claude/Copilot wrappers point every client to it.
+- Updated README and the CLI guide; replaced unsafe unconditional switch/pull
+  examples with dirty-baseline/isolation instructions. New worktrees/clones
+  do not inherit accepted uncommitted source or untracked artifacts.
+- Confirmed official instruction discovery documentation: Codex reads AGENTS
+  by hierarchy; Claude supports CLAUDE imports/AGENTS. The existing wrapper
+  setup is retained. No native paid smoke tests or agent fleet was launched.
+  Instructions/claims are advisory, not hard permissions or automatic
+  inter-terminal context transfer.
+- Targeted Prettier on all eight changed files passed; `git diff --check`
+  passed. Read-only audit confirmed required handoff inputs and all five
+  startup links exist, and the accepted contract hash is unchanged. No commit,
+  push, database/provider/server or runtime changes. The integrator releases
+  its own local handoff claim after validation.
+- Next action in either client: use the resume prompt to inspect authority
+  and scope the writer-free T2 proposal. Actual T2 work still needs explicit
+  issue scope; migration execution, privacy choices and writers remain gated.
+
 ## 2026-10-10 — Remaining 4 of 5 draft assessment-content batches completed
 
 - Continued from the prior entry's first batch (Ratios extension) and

@@ -6,6 +6,25 @@ Implement the repository incrementally from the approved documents in `docs/`. O
 
 ## Starting or resuming in any coding agent
 
+- Automatically read `docs/coding-agent-handoff.md` at the first task turn;
+  do not require the human to paste a resumption prompt. Resolve the next
+  assigned packet from that index, verify its approval and actual client
+  identity, then perform only its eligible role. If no approved packet is
+  assigned, ask for the smallest missing scope/approval instead of picking
+  and executing a backlog item. A bare CLI launch may wait for a user turn;
+  any normal request such as "continue" triggers this intake.
+  For a different explicit user task, use the index as context without
+  replacing that task with the progression backlog or its approval request.
+- Project defaults and native `forge-implementer`, `forge-expert` and
+  `forge-reviewer` roles select models without launch flags. Use the
+  appropriate configured role for substantial work: Sonnet for defined
+  Claude implementation, Opus for unresolved Claude design/authoring, and
+  the approved native GPT roles for Codex. One bounded role worker at a time,
+  not a fleet; do simple work directly only if the current model fits.
+  The parent orchestrates and does not duplicate the worker's task.
+  Instructions cannot change an already-running parent model. If custom
+  role tools/config are unavailable or overridden, report the block rather
+  than pretending a switch happened or using an inappropriate model.
 - This file is the shared rulebook for Codex, Claude Code, and Copilot.
   `CLAUDE.md` and `.github/copilot-instructions.md` are thin entry points,
   not separate policies. See `docs/08-cli-build-guide.md` for portable startup.
@@ -27,6 +46,19 @@ Implement the repository incrementally from the approved documents in `docs/`. O
 - Select one named issue-sized task. Changing tools does not change its scope
   or approval requirements. Finish with a durable checkpoint in
   `docs/PROGRESS.md`, including remaining gates and the exact next task.
+- When using multiple terminals or changing providers, read
+  `docs/coding-agent-handoff.md` and the terminal-handoff procedure in
+  `docs/agent-orchestration.md`. Claim one bounded role before writing; only
+  the claimed integrator edits shared status/registers or applies patches.
+  Task workers return evidence to the integrator instead of editing PROGRESS.
+- At a review boundary, quota limit or blocked gate, write a resumable packet
+  and end with **SWITCH TO**, **WAITING FOR HUMAN APPROVAL**, or **BLOCKED**,
+  naming the target client/native role and exact artifact/packet. Record the
+  eligible next role in the resume index; a copy-paste prompt is a recovery
+  fallback only, not required for the next terminal's "continue".
+  Do not start the next stage or silently substitute a same-family reviewer.
+  Verify loaded instructions and actual model selection in every new client;
+  neither Copilot chat memory nor native agent configuration is the handoff.
 
 ## Required workflow
 
