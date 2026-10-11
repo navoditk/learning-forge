@@ -29,6 +29,15 @@ new policy. Escalate a bounded task when concrete failures require it.
 
 ## Actual-model independence
 
+On 2026-10-10 the owner approved updating the native Codex `forge-reviewer`
+role to `gpt-6.1-sol`, available in the owner's current client. This supersedes
+the earlier `gpt-6-sol` reviewer mapping for future reviews only; historical
+review identity and availability evidence below remain unchanged. The parent
+default and expert/implementer roles are unchanged. Reasoning effort remains
+client-controlled. Restart or reload an existing client before dispatch and
+verify effective worker selection; an unavailable model blocks dispatch rather
+than authorizing silent fallback.
+
 Before a review starts, record the executor and reviewer tool, actual model ID,
 model family, revision/commit or patch identifier, and how identity was verified
 (client metadata or confirmed model selection, not the model's self-report).
@@ -149,8 +158,8 @@ by higher-priority settings; missing discovery/model evidence blocks dispatch.
 
 | Work                                                | Preferred native executor             | Next terminal                                                 |
 | --------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------- |
-| Defined implementation or UI                        | Claude Code `--model sonnet`          | Codex `-m gpt-6-sol` for independent review                   |
-| Research, curriculum authoring or unresolved design | Claude Code `--model opus`            | Codex `-m gpt-6-sol` for independent review                   |
+| Defined implementation or UI                        | Claude Code `--model sonnet`          | Codex `forge-reviewer` / `gpt-6.1-sol` for independent review |
+| Research, curriculum authoring or unresolved design | Claude Code `--model opus`            | Codex `forge-reviewer` / `gpt-6.1-sol` for independent review |
 | Approved bounded implementation allocated to Codex  | Codex `-m gpt-5.6-luna`               | Claude Code `--model opus` for independent review             |
 | Approved research/design allocated to Codex         | Codex `-m gpt-6-sol`                  | Claude Code `--model opus` for independent review             |
 | Integration and deterministic validation            | One explicitly claimed client/session | Human gate or next scoped packet; not another automatic agent |
