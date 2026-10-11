@@ -229,50 +229,79 @@
     "accessibleAlternative": "Read aloud or display: A cyclist travels eighteen miles in two hours. Ask for the number of miles traveled in one, three, and four hours, and the unit rate in miles per hour."
   },
   {
-    "id": "v2-rate-percent-discount",
+    "id": "v2-rate-percent-and-conversion",
     "version": "candidate-content-1",
-    "title": "Finding a sale price with percent",
+    "title": "Scaling a recipe with percent and unit conversion",
     "skillCode": "rate-and-proportional-reasoning",
     "mode": "core",
     "difficulty": "developing",
-    "standards": ["6.RP.A.3"],
+    "standards": ["6.RP.A.3", "6.RP.A.3c", "6.RP.A.3d"],
     "prerequisiteSkillCodes": ["ratio-language-and-meaning"],
     "observableEvidence": [
-      "Finds a percent of a quantity in a real-world price context by converting the percent to a decimal or fraction before multiplying."
+      "Converts a measurement to a different unit using a ratio, then finds a percent of that converted quantity to scale a real-world recipe."
     ],
-    "prompt": "A backpack normally costs $40. It is on sale for 75% of the original price. What is the sale price?",
-    "solutionRepresentation": "75% is 0.75. Multiplying, 40 × 0.75 = $30.",
-    "solutionMethod": "Convert the percent to a decimal (or fraction out of 100) before multiplying by the original price.",
+    "prompt": "A fruit punch recipe calls for 2 quarts of orange juice. You want to make 150% of the recipe for a party. How many cups of orange juice do you need?",
+    "solutionRepresentation": "2 quarts is 8 cups (1 quart = 4 cups). 150% of 8 cups is 1.5 × 8 = 12 cups.",
+    "solutionMethod": "Convert the quart amount to cups using the unit ratio, then multiply by the decimal form of the percent to scale the recipe.",
     "deterministicValidator": {
-      "type": "numeric",
-      "canonicalAnswer": "$30",
-      "acceptedAnswers": ["30", "$30", "30 dollars"],
-      "equivalenceNotes": "Accept with or without the dollar sign or the word dollars."
+      "type": "composite",
+      "canonicalAnswer": "2 quarts is 8 cups; 150% of 8 cups is 12 cups",
+      "acceptedAnswers": ["2 quarts is 8 cups; 150% of 8 cups is 12 cups"],
+      "equivalenceNotes": "Accept equivalent wording that converts 2 quarts to 8 cups and scales that to 12 cups at 150%.",
+      "parts": [
+        {
+          "accepted": [
+            "2 quarts is 8 cups",
+            "2 quarts equals 8 cups",
+            "8 cups in 2 quarts",
+            "2 quarts = 8 cups"
+          ]
+        },
+        {
+          "accepted": [
+            "150% of 8 cups is 12 cups",
+            "150 percent of 8 cups is 12 cups",
+            "1.5 times 8 cups is 12 cups"
+          ]
+        }
+      ]
     },
-    "answerFormat": "A dollar amount equal to 30.",
-    "misconceptionCodes": ["treats-percent-value-as-whole-number-without-dividing-by-100"],
+    "answerFormat": "The converted cup amount, then the scaled amount in cups.",
+    "misconceptionCodes": [
+      "treats-percent-value-as-whole-number-without-dividing-by-100",
+      "skips-unit-conversion-before-scaling"
+    ],
     "misconceptionDistractors": [
       {
-        "answer": "$3,000",
+        "answer": "2 quarts is 8 cups; 150 of 8 cups is 1200 cups",
         "misconceptionCode": "treats-percent-value-as-whole-number-without-dividing-by-100",
-        "rationale": "Multiplies 40 by 75 directly instead of converting 75% to 0.75 first, giving a price many times larger than the original."
+        "rationale": "Multiplies by 150 directly instead of converting 150% to the decimal 1.5 first, giving an amount many times too large."
+      },
+      {
+        "answer": "2 quarts is 2 cups; 150% of 2 cups is 3 cups",
+        "misconceptionCode": "skips-unit-conversion-before-scaling",
+        "rationale": "Treats the quart amount as if it were already in cups without converting, so the scaling step is done correctly but starting from the wrong quantity."
       }
     ],
     "hintSteps": [
       {
         "order": 1,
         "assistanceLevel": "small_strategic_hint",
-        "prompt": "A percent must be converted to a decimal or a fraction out of 100 before it can be multiplied by a price.",
-        "question": "What decimal is equivalent to 75%?"
+        "prompt": "Before scaling the recipe, rewrite the quart amount in cups using the conversion 1 quart = 4 cups.",
+        "question": "How many cups are in 2 quarts?"
       },
       {
         "order": 2,
         "assistanceLevel": "multiple_hints_representation",
-        "prompt": "75 is not the number you multiply by directly - only its decimal form should be multiplied by the price.",
-        "question": "Is the number you multiply by the price 75, or its decimal form?"
+        "prompt": "150% means one and a half times the original amount - convert it to a decimal before multiplying.",
+        "question": "What decimal is equivalent to 150%?"
       }
     ],
-    "forbiddenLeakagePatterns": ["$30", "30 dollars"],
+    "forbiddenLeakagePatterns": [
+      "8 cups in 2 quarts",
+      "150% of 8 cups is 12 cups",
+      "1.5 times 8 cups is 12 cups"
+    ],
     "provenance": {
       "origin": "llm_drafted",
       "licenseStatus": "owned"
@@ -282,8 +311,8 @@
       "reviewer": "Pending human educator/content-owner review",
       "originalityStatement": "New candidate item drafted from first principles for this repository; it does not reproduce or paraphrase proprietary or contest material."
     },
-    "accessibilityNotes": "Give the original price and percent in linear text; no price-tag image is required.",
-    "accessibleAlternative": "Read aloud or display: A backpack costs forty dollars and is on sale for seventy-five percent of that price. Ask for the sale price."
+    "accessibilityNotes": "Give the recipe amount, percent, and target unit in linear text; no measuring-cup image is required.",
+    "accessibleAlternative": "Read aloud or display: A recipe calls for two quarts of orange juice. Ask how many cups are needed to make one hundred fifty percent of the recipe."
   },
   {
     "id": "v2-multi-digit-division-leftovers",
@@ -2507,7 +2536,7 @@
     "title": "Composite garden area",
     "skillCode": "polygon-area",
     "mode": "core",
-    "difficulty": "foundational",
+    "difficulty": "developing",
     "standards": ["6.G.A.1"],
     "prerequisiteSkillCodes": [],
     "observableEvidence": [
@@ -2564,7 +2593,7 @@
     "title": "Area of a parallelogram sign",
     "skillCode": "polygon-area",
     "mode": "core",
-    "difficulty": "developing",
+    "difficulty": "foundational",
     "standards": ["6.G.A.1"],
     "prerequisiteSkillCodes": [],
     "observableEvidence": [

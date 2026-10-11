@@ -271,6 +271,35 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — Grade 6 Math v2 candidate, Revision 20: 6.RP.A.3d closed, deeper m5/m7 audit
+
+- **`6.RP.A.3d` closed** - previously structurally blocked by the
+  two-records-per-skill limit. Fixed by combining two sub-parts into one
+  item instead: `v2-rate-percent-discount` replaced by
+  `v2-rate-percent-and-conversion` (convert 2 quarts to 8 cups, then find
+  150% of that), covering percent (`6.RP.A.3c`) and unit conversion
+  (`6.RP.A.3d`) together. All four `6.RP.A.3` sub-parts are now covered
+  by this skill's two records. Added `skips-unit-conversion-before-
+scaling` (54 codes, in sync). Verified against the real
+  `matchesAcceptedAnswer` (exact, reworded, both missing-clause
+  rejections, both distractor rejections).
+- **m5 deeper pass:** heuristic-scanned every skill's pair for
+  difficulty-band inversions, manually judged each flagged pair. Found
+  and fixed one genuine inversion: `polygon-area`'s decomposition item
+  (the skill's own defining technique) was labeled easier than its
+  single-formula sibling - swapped.
+- **m7 deeper pass:** checked for numeric-value equivalence between
+  distractors and canonical answers (catching notation differences a
+  literal substring scan would miss), not just string overlap. Found 11
+  matches; all were either the misconception itself (reversed order,
+  swapped base/exponent, wrong unit type on an unchanged number) or a
+  genuinely different pedagogical claim once read in context. No fix
+  made - still not claimed exhaustive.
+- Verification: `npx tsx experiments/grade-6-math-v2/validate.ts`, `npm
+run format:check`, `npm run lint`, `npx tsc --noEmit`, `npm run
+content:validate` (50 tests), and `npm run verify` (1524 tests +
+  build) all pass clean.
+
 ## 2026-10-10 — Anthropic spend limit set; cost-estimate math recorded
 
 - Product owner asked why an Anthropic spend limit was needed once

@@ -662,3 +662,76 @@ build) all passed. Additionally, a standalone script against the real
 canonical answer matches, every pre-authored `acceptedAnswers` entry still
 matches, and every `misconceptionDistractors` answer does not match -
 zero failures across all three checks.
+
+## Revision 20 — 6.RP.A.3d closed; deeper m5/m7 audit
+
+1. **`6.RP.A.3d` (unit conversion) closed.** Previously documented as
+   structurally blocked by the validator's two-records-per-skill limit
+   (parts a/b/c already split across the skill's two items, with no room
+   for a fourth sub-part). Resolved by combining two sub-parts into one
+   item instead of adding a third: `v2-rate-percent-discount` is replaced
+   by `v2-rate-percent-and-conversion` (a recipe-scaling problem: convert
+   2 quarts to 8 cups, then find 150% of that - 12 cups), covering
+   `6.RP.A.3c` (percent) and `6.RP.A.3d` (unit conversion) in one coherent
+   real-world context rather than two separate items. Uses `parts` (2
+   clauses), verified against the real `matchesAcceptedAnswer` the same
+   way as prior composite migrations (exact match, reworded-complete
+   match, both missing-clause rejections, both distractor rejections).
+   Added `skips-unit-conversion-before-scaling`, a new misconception code
+   for treating a measurement as already being in the target unit
+   without converting, to the skill and the glossary (54 codes, still in
+   sync). All four `6.RP.A.3` sub-parts (a/b via the Revision 17 table
+   item, c/d via this item) are now covered by this skill's two records.
+2. **m5, deeper pass.** Heuristic-scanned every skill's two-item pair for
+   difficulty-band inversions (composite-part counts and prompt length as
+   proxies, then manually judged every flagged pair against actual
+   conceptual complexity and the skill's own stated technique). Found
+   one genuine inversion: `polygon-area`'s `v2-polygon-area-garden`
+   (composite rectangle-plus-triangle decomposition - the skill's own
+   titled technique, "composing and decomposing polygons," and the one
+   that tests the decomposition-specific
+   `counts-an-overlapping-region-twice-when-decomposing` misconception)
+   was labeled `foundational`, easier than `v2-polygon-area-roof` (a
+   single parallelogram-formula lookup testing the more basic
+   `reports-perimeter-value-as-the-area` confusion) at `developing`.
+   Swapped: garden is now `developing`, roof is now `foundational`. Six
+   other heuristically-flagged pairs were individually reviewed and
+   found to be correctly ordered (the heuristic's proxies don't capture
+   true difficulty, e.g. a short ordering prompt can be harder than a
+   longer composite one) - not changed.
+3. **m7, deeper pass.** The prior audit scanned for literal string/
+   substring overlap between a distractor and its canonical answer and
+   found nothing. This pass instead checked for _numeric_ equivalence
+   (parsing fractions/decimals/integers out of both strings and comparing
+   the resulting value sets) to catch a distractor that states the same
+   underlying value in different notation - the actual shape an m7 bug
+   would take. Found 11 matches, all false positives or intentional
+   design once read in context: several are the misconception itself
+   (reversed ratio order, swapped base/exponent, wrong unit _type_ on an
+   unchanged number - e.g. "2 square meters" vs "2 cubic meters," exactly
+   the mislabeling error the item names), and one
+   (`v2-variables-in-context-workshops`'s "w means workshops" vs "w is
+   the number of workshops") is a real, substantively different
+   pedagogical claim (naming the activity vs. naming the countable
+   quantity), not a phrasing duplicate. No fix made; still not provably
+   exhaustive, since a subtler case may exist a human reviewer would
+   catch that neither script-based pass can.
+
+**Explicitly still not fixed:**
+
+- The 3 order-dependent lists and 1 single-expression item from
+  Revision 19 remain without `parts`, by design.
+- m5 and m7 are more thoroughly audited than before but not claimed
+  exhaustive - pedagogical judgment calls aren't fully mechanizable.
+
+All 48 records remain `pending_review`; this remediation does not
+constitute human review or approval.
+
+**Validation evidence:** `npx tsx experiments/grade-6-math-v2/validate.ts`
+(54 glossary-synced codes, 48 records), `npm run format:check`, `npm run
+lint`, `npx tsc --noEmit`, `npm run content:validate` (50 tests), and
+`npm run verify` (1524 tests + production build) all passed. The new
+`v2-rate-percent-and-conversion` composite answer was verified against the
+real `matchesAcceptedAnswer` function (exact match, reworded-complete
+match, both missing-clause rejections, both misconception-distractor
+rejections) - zero failures.

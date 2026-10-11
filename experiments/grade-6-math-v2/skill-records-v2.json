@@ -26,7 +26,8 @@
     "misconceptionCodes": [
       "divides-quantities-in-reversed-order-for-unit-rate",
       "uses-addition-instead-of-multiplication-for-scaling",
-      "treats-percent-value-as-whole-number-without-dividing-by-100"
+      "treats-percent-value-as-whole-number-without-dividing-by-100",
+      "skips-unit-conversion-before-scaling"
     ],
     "difficultyBands": ["developing", "challenging"],
     "masteryCheckRule": "Require one unit-rate item and one novel proportional application with a stated unit or context interpretation. Also require one independent, unassisted delayed check; assisted attempts alone do not establish secure mastery."
