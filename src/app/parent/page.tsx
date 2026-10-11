@@ -72,6 +72,7 @@ export default function ParentPage() {
   const [deletionPending, setDeletionPending] = useState(false);
   const [deletionComplete, setDeletionComplete] = useState(false);
   const [courseProgress, setCourseProgress] = useState<CourseProgress>();
+  const [overrideStatusMessage, setOverrideStatusMessage] = useState('');
 
   function loadCourseProgress() {
     if (!progressionReleaseGateOpen) return;
@@ -232,7 +233,10 @@ export default function ParentPage() {
                       <NeedsHelpOverride
                         lessonTitle={lesson.title}
                         skillRef={lesson.skillRefs[0]}
-                        onApplied={loadCourseProgress}
+                        onApplied={(message) => {
+                          setOverrideStatusMessage(message);
+                          loadCourseProgress();
+                        }}
                       />
                     )}
                   </li>
@@ -240,6 +244,7 @@ export default function ParentPage() {
               </ul>
             </article>
           ))}
+          {overrideStatusMessage && <p role="status">{overrideStatusMessage}</p>}
         </section>
       )}
       <section aria-labelledby="digest-heading">

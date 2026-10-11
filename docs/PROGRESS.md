@@ -271,6 +271,56 @@ docs/ui-recall-cards-design.md docs/development-expansion-plan.md` passed;
   `DATABASE_URL=<local scratch> npm run test:integration` (27 files, 171
   tests passed, 1 intentionally skipped) all pass clean.
 
+## 2026-10-10 — C5: Playwright/accessibility coverage for the override UI; found and fixed a real bug
+
+- Built the Playwright E2E coverage flagged as missing in the prior entry.
+  Standing up a real `NEEDS_HELP` state needs several consecutive failed
+  pilot-skill assessments (D-69's stranding threshold) - slow and tests
+  the stranding threshold, not this UI - so added
+  `playwright/seed-needs-help.ts`, seeding `LearnerLessonState` directly
+  the same way `global-setup.ts` already touches Prisma directly from
+  Playwright infra (never from inside a `.spec.ts` file).
+- New `tests/browser/needs-help-override.spec.ts` (6 tests): the control
+  shows only for the lesson that needs help, focus moves into each
+  revealed form (E8), a wrong password is rejected with `role="alert"`
+  and never reaches the override endpoint, the reason field is required,
+  a successful override shows a `role="status"` confirmation and the
+  control disappears, keyboard-only activation works, cancel is a true
+  no-op, and axe finds no WCAG AA violations in any of the three UI
+  states (closed, password step, reason step).
+- **Found a real bug while writing the first passing version of this
+  test, not a test artifact:** the success confirmation message lived in
+  `NeedsHelpOverride`'s own local state, but that component's render
+  condition in the parent is the exact state change a successful
+  override causes (`remediationStatus` leaving `NEEDS_HELP`) - so React
+  unmounts it immediately on success, destroying the message before a
+  real user could ever see it. Fixed by moving the message to the
+  parent (`onApplied(message: string)` instead of `onApplied()`), which
+  owns a state slot that survives the child unmounting.
+- Also hit two real Playwright locator ambiguities worth noting: the
+  button text uses curly quotes (`&ldquo;`/`&rdquo;`) that must match
+  exactly in `getByRole` name matching, and `getByLabel('Reason')`
+  without `{ exact: true }` also matches the unrelated "Ratios and
+  proportional reasoning" heading (substring match on "reason").
+- Also found and fixed an unrelated environmental blocker: a stale
+  `next-server` process had been running on port 3000 for over an hour
+  without `DATABASE_URL` in its own environment, so local Playwright
+  runs (which reuse whatever's already on that port) were silently
+  failing login in `global-setup.ts` for _any_ spec, not just the new
+  one. Confirmed with the product owner before stopping it, then all
+  specs passed normally.
+- Verification: full `npx playwright test` (73 tests) - 71 passed, 1
+  skipped, 1 failed (`resources.spec.ts`'s "external links are labelled"
+  test - the other concurrent session's in-progress feature, untouched
+  here). `npx tsc --noEmit`, `npm run lint`, `npm run verify` (1532
+  tests), and `DATABASE_URL=<local scratch> npm run test:integration`
+  (30 files, 189 tests, 1 intentionally skipped) all pass clean.
+- **C5 is now substantially complete** for the pilot unit: read-only
+  progress panel, step-up/override UI, and accessibility/keyboard/focus
+  coverage for all of it. Still open: the rest of course-progression's
+  own stage dependencies (C4's real cutover, then D-stages for the other
+  four domains).
+
 ## 2026-10-10 — C5: parent-facing step-up/override UI built
 
 - Closes the "Build the parent-facing screens for the D-70 step-up and

@@ -22,14 +22,21 @@ export function NeedsHelpOverride({
 }: {
   lessonTitle: string;
   skillRef: SkillRef;
-  onApplied: () => void;
+  /**
+   * Called with a confirmation message on success. The caller, not this
+   * component, must store and display it: a successful override changes
+   * `remediationStatus` away from `NEEDS_HELP`, which is this component's
+   * own render condition in the parent - it unmounts on success, taking
+   * any of its own local state with it before the message could ever be
+   * seen.
+   */
+  onApplied: (message: string) => void;
 }) {
   const [step, setStep] = useState<'closed' | 'password' | 'reason'>('closed');
   const [password, setPassword] = useState('');
   const [reason, setReason] = useState('');
   const [stepUpToken, setStepUpToken] = useState('');
   const [error, setError] = useState('');
-  const [statusMessage, setStatusMessage] = useState('');
   const [pending, setPending] = useState(false);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const reasonInputRef = useRef<HTMLInputElement>(null);
@@ -37,7 +44,6 @@ export function NeedsHelpOverride({
 
   function openPasswordStep() {
     setError('');
-    setStatusMessage('');
     setStep('password');
     // Focus moves to the first field of the newly-revealed form (E8).
     requestAnimationFrame(() => passwordInputRef.current?.focus());
@@ -94,9 +100,8 @@ export function NeedsHelpOverride({
         setError(body.error ?? 'The override could not be applied.');
         return;
       }
-      setStatusMessage(`${lessonTitle} is no longer marked as needing help.`);
       cancel();
-      onApplied();
+      onApplied(`${lessonTitle} is no longer marked as needing help.`);
     } catch {
       setError('The override could not be applied. Please try again.');
     } finally {
@@ -173,7 +178,6 @@ export function NeedsHelpOverride({
         </form>
       )}
       {error && <p role="alert">{error}</p>}
-      {statusMessage && <p role="status">{statusMessage}</p>}
     </div>
   );
 }
