@@ -69,6 +69,22 @@ describe('splitTableRow', () => {
 });
 
 describe('parseSourceRegister (fixture)', () => {
+  it.each(['*', '_'])('preserves citation metadata with %s emphasis', (marker) => {
+    const register = parseSourceRegister(
+      [
+        '## Synthetic research',
+        '| Authority and role | Source | Claim |',
+        '|---|---|---|',
+        `| Primary | ${marker}School Handbook${marker}, Alpha Org; copyright 2030; https://example.com/handbook | Format. |`,
+      ].join('\n'),
+    );
+    expect(register.sources[0]).toMatchObject({
+      title: 'School Handbook',
+      issuer: 'Alpha Org',
+      dateNotes: 'copyright 2030',
+    });
+  });
+
   it('inherits dossier title, date, and status without leaking other prose', () => {
     expect(parsed.dossiers.map((d) => [d.slug, d.date, d.statusClass])).toEqual([
       ['alpha-contest-research', '2030-01-02', 'pending'],
@@ -295,12 +311,15 @@ describe('authoritative register (docs/curriculum-sources.md)', () => {
 
   it('labels pending dossiers as pending and exposes no learner lesson content', () => {
     const pending = register.dossiers.filter((d) => d.statusClass === 'pending').map((d) => d.slug);
-    expect(pending).toEqual(
-      expect.arrayContaining([
-        'iac-national-geography-bee-grade-6-research',
-        'science-olympiad-division-b-2027-research',
-      ]),
-    );
+    expect(pending).toContain('introductory-python-prerequisite-sources');
+    expect(
+      register.dossiers.find((d) => d.slug === 'science-olympiad-division-b-2027-research')
+        ?.statusClass,
+    ).toBe('approved');
+    expect(
+      register.dossiers.find((d) => d.slug === 'iac-national-geography-bee-grade-6-research')
+        ?.statusClass,
+    ).toBe('approved');
     expect(register.dossiers.every((d) => (d.statusText ?? '').length <= 300)).toBe(true);
   });
 

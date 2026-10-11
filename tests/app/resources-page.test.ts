@@ -32,11 +32,21 @@ describe('/resources page markup', () => {
   });
 
   it('marks pending dossiers and states the adult-reference policy', async () => {
-    const html = await render({ dossier: 'iac-national-geography-bee-grade-6-research' });
+    const html = await render({ dossier: 'introductory-python-prerequisite-sources' });
     expect(html).toContain('Research pending content-owner review');
     expect(html).toContain('not a list of recommended learner activities');
     expect(html).toContain('not reviewed for children');
     expect(html).toContain('answer keys, may include solutions');
+  });
+
+  it.each([
+    'iac-national-geography-bee-grade-6-research',
+    'science-olympiad-division-b-2027-research',
+    'grade-6-school-science-prerequisite-sources',
+  ])('marks approved %s research without claiming lesson approval', async (dossier) => {
+    const html = await render({ dossier });
+    expect(html).toContain('Research approved by the content owner (research only, not a lesson)');
+    expect(html).not.toContain('Research pending content-owner review');
   });
 
   it('escapes hostile search text and shows an empty state', async () => {

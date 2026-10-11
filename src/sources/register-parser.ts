@@ -145,7 +145,7 @@ function findUrls(text: string): FoundUrl[] {
 
 function maskForEmphasis(text: string): string {
   return text
-    .replace(/\*\*/g, '  ')
+    .replace(/\*\*|__/g, '  ')
     .replace(/`[^`]*`/g, (code) => ' '.repeat(code.length))
     .replace(/\[[^\]]*\]\([^)]*\)/g, (link) => ' '.repeat(link.length));
 }
@@ -157,8 +157,8 @@ interface Italic extends Span {
 function findItalics(cell: string): Italic[] {
   const masked = maskForEmphasis(cell);
   const italics: Italic[] = [];
-  for (const match of masked.matchAll(/(?<![*\w])\*(?=\S)([^*\n]+?)(?<=\S)\*(?!\w)/g)) {
-    const text = toPlainText(match[1]);
+  for (const match of masked.matchAll(/(?<![*_\w])([*_])(?=\S)([^*\n]+?)(?<=\S)\1(?!\w)/g)) {
+    const text = toPlainText(match[2]);
     if (text) italics.push({ start: match.index, end: match.index + match[0].length, text });
   }
   return italics;

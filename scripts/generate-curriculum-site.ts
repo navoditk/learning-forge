@@ -23,10 +23,11 @@ import { contentCatalog } from '../src/content/catalog';
 import { svgDataUri } from '../src/content/figure';
 import {
   publishableContentProjection,
+  publishableSkillProjection,
   type CurriculumSiteContentItem,
 } from '../src/content/publication';
 import { skillCatalog } from '../src/curriculum/catalog';
-import { PROGRAM_ROSTER } from '../src/curriculum/program-roster';
+import { PROGRAM_ROSTER, type ProgramRosterEntry } from '../src/curriculum/program-roster';
 
 const DOMAIN_LABELS: Record<CurriculumDomain, string> = {
   'ratios-and-proportional-reasoning': 'Ratios & Proportional Reasoning',
@@ -111,12 +112,20 @@ function renderContentItem(item: ContentRecord): string {
     </li>`;
 }
 
-function renderSkill(skill: Skill, items: readonly ContentRecord[]): string {
+function renderSkill(
+  skill: Skill,
+  items: readonly ContentRecord[],
+  publishedSkillCodes: ReadonlySet<string>,
+): string {
   const anchor = slugify(skill.code);
   const prerequisites =
     skill.prerequisiteSkillCodes.length > 0
       ? skill.prerequisiteSkillCodes
-          .map((code) => `<a href="#skill-${slugify(code)}">${escapeHtml(code)}</a>`)
+          .map((code) =>
+            publishedSkillCodes.has(code)
+              ? `<a href="#skill-${slugify(code)}">${escapeHtml(code)}</a>`
+              : 'Prerequisite pending publication',
+          )
           .join(', ')
       : 'None';
 
@@ -162,14 +171,25 @@ function renderSkill(skill: Skill, items: readonly ContentRecord[]): string {
     </article>`;
 }
 
-export function buildBody(content: readonly CurriculumSiteContentItem[] = contentCatalog): {
+export function buildBody(
+  content: readonly CurriculumSiteContentItem[] = contentCatalog,
+  skills: readonly Skill[] = skillCatalog,
+  programs: readonly ProgramRosterEntry[] = PROGRAM_ROSTER,
+): {
   title: string;
   stats: string;
   body: string;
 } {
-  const publishableContent = publishableContentProjection(content);
+  const publishedSkills = publishableSkillProjection(skills, content, programs);
+  const publishedSkillCodes = new Set(publishedSkills.map((skill) => skill.code));
+  const publishableContent = publishableContentProjection(content).filter((item) => {
+    const ref = 'skillRef' in item ? item.skillRef : { code: item.skillCode, version: '1.0.0' };
+    return publishedSkills.some(
+      (skill) => skill.code === ref.code && (skill.version ?? '1.0.0') === ref.version,
+    );
+  });
   const byProgram = new Map<string, Skill[]>();
-  for (const skill of skillCatalog) {
+  for (const skill of publishedSkills) {
     const bucket = byProgram.get(skill.program) ?? [];
     bucket.push(skill);
     byProgram.set(skill.program, bucket);
@@ -186,10 +206,10 @@ export function buildBody(content: readonly CurriculumSiteContentItem[] = conten
   const reviewedCount = publishableContent.filter(
     (item) => item.review.status === 'reviewed',
   ).length;
-  const standardsCovered = new Set(skillCatalog.flatMap((skill) => skill.standards));
+  const standardsCovered = new Set(publishedSkills.flatMap((skill) => skill.standards));
 
   const statsHtml = `
-    <div class="stat"><span class="stat-value">${skillCatalog.length}</span><span class="stat-label">Skills</span></div>
+    <div class="stat"><span class="stat-value">${publishedSkills.length}</span><span class="stat-label">Skills</span></div>
     <div class="stat"><span class="stat-value">${publishableContent.length}</span><span class="stat-label">Problems</span></div>
     <div class="stat"><span class="stat-value">${standardsCovered.size}</span><span class="stat-label">Standards covered</span></div>
     <div class="stat"><span class="stat-value">${reviewedCount}/${publishableContent.length}</span><span class="stat-label">Human-reviewed</span></div>`;
@@ -197,7 +217,7 @@ export function buildBody(content: readonly CurriculumSiteContentItem[] = conten
   const navSections: string[] = [];
   const programSections: string[] = [];
 
-  for (const roster of PROGRAM_ROSTER) {
+  for (const roster of programs) {
     const programAnchor = slugify(roster.code);
     const skills = byProgram.get(roster.code) ?? [];
 
@@ -211,14 +231,11 @@ export function buildBody(content: readonly CurriculumSiteContentItem[] = conten
       programSections.push(`
         <section class="program-section program-section-empty" id="program-${programAnchor}">
           <h1>${escapeHtml(roster.label)} <span class="badge badge-pending">Coming soon</span></h1>
-          <p class="page-intro">This program isn't authored yet. It'll appear here with its own skill graph and sample problems once it is.</p>
+          <p class="page-intro">This program is not available yet. Its approved curriculum will appear here after review and release.</p>
         </section>`);
       continue;
     }
 
-    const pendingProgramBadge = roster.available
-      ? ''
-      : '<span class="badge badge-pending">Draft — pending human approval</span>';
     const byDomain = new Map<CurriculumDomain, Skill[]>();
     for (const skill of skills) {
       const bucket = byDomain.get(skill.domain) ?? [];
@@ -250,7 +267,9 @@ export function buildBody(content: readonly CurriculumSiteContentItem[] = conten
           <summary><span>${escapeHtml(DOMAIN_LABELS[domain])}</span></summary>
           <div class="domain-body">
             ${domainSkills
-              .map((skill) => renderSkill(skill, contentBySkill.get(skill.code) ?? []))
+              .map((skill) =>
+                renderSkill(skill, contentBySkill.get(skill.code) ?? [], publishedSkillCodes),
+              )
               .join('')}
           </div>
         </details>`);
@@ -259,7 +278,7 @@ export function buildBody(content: readonly CurriculumSiteContentItem[] = conten
     navSections.push(`
       <li class="nav-program">
         <details${roster.code === 'grade-6-math' ? ' open' : ''}>
-          <summary>${escapeHtml(roster.label)} ${pendingProgramBadge}</summary>
+          <summary>${escapeHtml(roster.label)}</summary>
           <a class="nav-section-link" href="#program-${programAnchor}">View program</a>
           <ul>${domainNav.join('')}</ul>
         </details>
@@ -267,12 +286,7 @@ export function buildBody(content: readonly CurriculumSiteContentItem[] = conten
 
     programSections.push(`
       <section class="program-section" id="program-${programAnchor}">
-        <h1>${escapeHtml(roster.label)} ${pendingProgramBadge}</h1>
-        ${
-          roster.available
-            ? ''
-            : '<p class="page-intro">This authored draft is pending independent review and human content-owner approval and is not learner-servable.</p>'
-        }
+        <h1>${escapeHtml(roster.label)}</h1>
         ${domainSections.join('')}
       </section>`);
   }
@@ -475,7 +489,5 @@ if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) 
   mkdirSync(outDir, { recursive: true });
   writeFileSync(new URL('index.html', outDir), buildFullDocument(), 'utf8');
 
-  console.log(
-    `Wrote curriculum site (${skillCatalog.length} skills, ${publishableContentProjection(contentCatalog).length} problems) to dist/curriculum-site/index.html`,
-  );
+  console.log('Wrote curriculum site to dist/curriculum-site/index.html');
 }
