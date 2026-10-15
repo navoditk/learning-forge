@@ -57,7 +57,7 @@ export const DeterministicValidatorPartSchema = z
   })
   .strict();
 
-export const DeterministicValidatorSchema = z
+export const LegacyDeterministicValidatorSchema = z
   .object({
     type: z.enum(['numeric', 'text', 'ratio', 'percent', 'multiple_choice', 'composite']),
     canonicalAnswer: z.string().trim().min(1).max(200),
@@ -82,6 +82,158 @@ export const DeterministicValidatorSchema = z
       });
     }
   });
+
+/**
+ * Opt-in structured multi-field response mode (RAT-SCORE-IMPL-CORE; accepted
+ * contract docs/structured-response-scoring-contract.md sections 2.2 and
+ * 2.7, decisions D-154 to D-163). A structured validator is a separate
+ * alternative selected by `type: 'structured'`; the legacy alternative above
+ * is unchanged and `parts` is forbidden on the structured one (strict).
+ *
+ * This schema enforces shape-level rules only (patterns, lengths, counts,
+ * uniqueness, selector membership, mode identity). The semantic load rules
+ * (value bounds, representability, derived answer equality) live in
+ * `validateStructuredValidatorRules` (src/content/structured-response.ts) and
+ * run from `validateContentCatalog`.
+ */
+export const STRUCTURED_RESPONSE_MODE_ID = 'structured-fields';
+export const STRUCTURED_RESPONSE_MODE_VERSION = '1';
+
+export const STRUCTURED_REPRESENTATIONS = [
+  'integer',
+  'decimal',
+  'fraction',
+  'mixed-number',
+] as const;
+
+const StructuredFieldKeySchema = z.string().regex(/^[a-z][a-z0-9-]{0,39}$/);
+const StructuredLabelSchema = z.string().trim().min(1).max(120);
+
+export const StructuredNumberFieldSchema = z
+  .object({
+    key: StructuredFieldKeySchema,
+    kind: z.literal('number'),
+    label: StructuredLabelSchema,
+    unitLabel: z.string().trim().min(1).max(40).optional(),
+    representations: z.array(z.enum(STRUCTURED_REPRESENTATIONS)).min(1).max(4),
+    simplestForm: z.boolean(),
+    // PRIVATE. Exact rational; bounds are checked by the catalog load rules.
+    correctValue: z.string().min(1).max(40),
+  })
+  .strict()
+  .superRefine((field, context) => {
+    if (new Set(field.representations).size !== field.representations.length) {
+      context.addIssue({
+        code: 'custom',
+        path: ['representations'],
+        message: 'Structured field representations must be unique',
+      });
+    }
+  });
+
+export const StructuredChoiceFieldSchema = z
+  .object({
+    key: StructuredFieldKeySchema,
+    kind: z.literal('choice'),
+    label: StructuredLabelSchema,
+    options: z
+      .array(
+        z
+          .object({
+            id: z.string().regex(/^[a-z0-9][a-z0-9-]{0,39}$/),
+            label: StructuredLabelSchema,
+          })
+          .strict(),
+      )
+      .min(2)
+      .max(8),
+    // PRIVATE. Must be one of options[].id.
+    correctOptionId: z.string().min(1).max(40),
+  })
+  .strict();
+
+export const StructuredFieldSchema = z.discriminatedUnion('kind', [
+  StructuredNumberFieldSchema,
+  StructuredChoiceFieldSchema,
+]);
+
+export const StructuredValidatorSchema = z
+  .object({
+    type: z.literal('structured'),
+    responseMode: z
+      .object({
+        id: z.literal(STRUCTURED_RESPONSE_MODE_ID),
+        version: z.literal(STRUCTURED_RESPONSE_MODE_VERSION),
+      })
+      .strict(),
+    canonicalAnswer: z.string().trim().min(1).max(200),
+    acceptedAnswers: z.array(z.string().trim().min(1).max(200)).min(1).max(20),
+    equivalenceNotes: z.string().trim().min(1).max(500),
+    fields: z.array(StructuredFieldSchema).min(1).max(6),
+  })
+  .strict()
+  .superRefine((validator, context) => {
+    const duplicate = (values: readonly string[]) => new Set(values).size !== values.length;
+    if (duplicate(validator.fields.map((field) => field.key))) {
+      context.addIssue({
+        code: 'custom',
+        path: ['fields'],
+        message: 'Structured field keys must be unique',
+      });
+    }
+    if (duplicate(validator.fields.map((field) => field.label))) {
+      context.addIssue({
+        code: 'custom',
+        path: ['fields'],
+        message: 'Structured field labels must be unique',
+      });
+    }
+    validator.fields.forEach((field, index) => {
+      if (field.kind !== 'choice') return;
+      const ids = field.options.map((option) => option.id);
+      if (duplicate(ids)) {
+        context.addIssue({
+          code: 'custom',
+          path: ['fields', index, 'options'],
+          message: 'Structured option ids must be unique',
+        });
+      }
+      if (duplicate(field.options.map((option) => option.label))) {
+        context.addIssue({
+          code: 'custom',
+          path: ['fields', index, 'options'],
+          message: 'Structured option labels must be unique',
+        });
+      }
+      if (!ids.includes(field.correctOptionId)) {
+        context.addIssue({
+          code: 'custom',
+          path: ['fields', index, 'correctOptionId'],
+          message: 'correctOptionId must be one of the field option ids',
+        });
+      }
+    });
+    if (
+      validator.acceptedAnswers.length !== 1 ||
+      validator.acceptedAnswers[0] !== validator.canonicalAnswer
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['acceptedAnswers'],
+        message: 'A structured validator must list exactly its canonicalAnswer as accepted',
+      });
+    }
+  });
+
+export const DeterministicValidatorSchema = z.discriminatedUnion('type', [
+  LegacyDeterministicValidatorSchema,
+  StructuredValidatorSchema,
+]);
+
+export type LegacyDeterministicValidator = z.infer<typeof LegacyDeterministicValidatorSchema>;
+export type StructuredValidator = z.infer<typeof StructuredValidatorSchema>;
+export type StructuredField = z.infer<typeof StructuredFieldSchema>;
+export type DeterministicValidator = z.infer<typeof DeterministicValidatorSchema>;
 
 export const ContestFormatSchema = z
   .object({

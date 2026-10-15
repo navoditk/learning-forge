@@ -136,6 +136,7 @@ import {
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
 import { validateItemReadinessRefs } from '../curriculum/progression-catalog';
 import { programsByCode } from '../curriculum/program-registry';
+import { validateStructuredValidatorRules } from './structured-response';
 
 const rawContent = [
   ratioLanguage1,
@@ -307,6 +308,18 @@ function validateParsedContentCatalog(
     // assessment, and review records carry the deterministic validator and
     // remain subject to the contest/content safety checks below.
     if (!('deterministicValidator' in item)) continue;
+    // Opt-in structured response mode: load-time semantic rules
+    // (docs/structured-response-scoring-contract.md 2.7). Shape-level rules
+    // already ran in the schema; v1 excludes contest formats.
+    if (item.deterministicValidator.type === 'structured') {
+      if (item.mode === 'contest') {
+        throw new Error(`${item.id} must not use a structured validator in contest mode`);
+      }
+      const violations = validateStructuredValidatorRules(item.deterministicValidator);
+      if (violations.length > 0) {
+        throw new Error(`${item.id} has an invalid structured validator: ${violations.join('; ')}`);
+      }
+    }
     if (skill.program === 'math-kangaroo-6' && item.mode === 'contest') {
       if (!item.contestFormat) {
         throw new Error(`${item.id} requires Math Kangaroo contest-format metadata`);

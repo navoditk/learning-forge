@@ -24,11 +24,21 @@ import {
   type CourseRoute,
 } from './course-route';
 import {
+  buildStructuredResponse,
   DiagnosticPlanSchema,
   LearnerProgressSchema,
+  missingFieldErrors,
+  parseRefusal,
   PlanSchema,
   ReviewQueueSchema,
   SessionSchema,
+  structuredErrorsFromFields,
+  structuredErrorsFromRefusal,
+  FIELD_ERROR_MESSAGES,
+  summarizeStructuredValues,
+  type ResponseSpec,
+  type StructuredErrorState,
+  type StructuredValues,
 } from './learner-data';
 import { buildChapters, chapterForSkill, nextChapterDomain } from './learner-chapters';
 import { useProgramResource } from './use-program-resource';
@@ -89,6 +99,12 @@ export default function Home() {
   const [hintCount, setHintCount] = useState(0);
   const [check, setCheck] = useState<AttemptResult>();
   const [error, setError] = useState('');
+  // Structured items keep one string per field key in ephemeral UI state only;
+  // nothing here is derived from the server's answer or persisted client-side.
+  const [fieldValues, setFieldValues] = useState<StructuredValues>({});
+  const [structuredError, setStructuredError] = useState<StructuredErrorState>();
+  const [errorFocusTick, setErrorFocusTick] = useState(0);
+  const [pendingAction, setPendingAction] = useState<'submit' | 'check'>();
   const [courseProgress, setCourseProgress] = useState<CourseProgress>();
   const [mode, setMode] = useState<ActivityMode>('practice');
   const [hintPending, setHintPending] = useState(false);
@@ -97,6 +113,14 @@ export default function Home() {
   const [pendingFocus, setPendingFocus] = useState<FocusTarget>();
   const hintButtonRef = useRef<HTMLButtonElement>(null);
   const responseInputRef = useRef<HTMLInputElement>(null);
+  const summaryRef = useRef<HTMLDivElement>(null);
+  // Synchronous guard: state updates are async, so a fast double activation
+  // could otherwise send two submissions before the pending state renders.
+  // Holds the activity generation that owns the in-flight mutation/hint, so an
+  // abandoned activity's late request never blocks or clears a newer one.
+  const mutationInFlight = useRef<number | undefined>(undefined);
+  const hintInFlight = useRef<number | undefined>(undefined);
+  const activeSessionIdRef = useRef<string | undefined>(undefined);
   const program = route.program;
   const selectedProgramRef = useRef(program);
   selectedProgramRef.current = program;
@@ -130,6 +154,7 @@ export default function Home() {
   const loadReviewQueue = reviewResource.load;
 
   const session = sessionState?.program === program ? sessionState.data : undefined;
+  activeSessionIdRef.current = session?.sessionId;
   const sessionStatus = sessionState?.program === program ? sessionState.status : 'loading';
 
   useEffect(() => {
@@ -140,6 +165,11 @@ export default function Home() {
     if (!hintPending) hintButtonRef.current?.focus();
   }, [hintPending]);
 
+  useEffect(() => {
+    // The error summary is the focus target after a refusal (contract A-5).
+    if (errorFocusTick > 0) summaryRef.current?.focus();
+  }, [errorFocusTick]);
+
   const resetActivityState = useCallback(() => {
     setError('');
     setAttempt(undefined);
@@ -147,6 +177,12 @@ export default function Home() {
     setHintCount(0);
     setCheck(undefined);
     setResponse('');
+    setFieldValues({});
+    setStructuredError(undefined);
+    // A request still in flight for the previous activity no longer owns the
+    // pending state of this one.
+    setPendingAction(undefined);
+    setHintPending(false);
   }, []);
 
   // Reads the address bar (initially, and on back/forward). Anything that is
@@ -424,50 +460,148 @@ export default function Home() {
     review: '/api/phase1/review-attempt',
   };
 
+  const showStructuredErrors = useCallback((next: StructuredErrorState) => {
+    setStructuredError(next);
+    setErrorFocusTick((tick) => tick + 1);
+  }, []);
+
+  const changeField = useCallback((key: string, value: string) => {
+    setFieldValues((current) => ({ ...current, [key]: value }));
+    // Editing a field clears its own message and any general message; other
+    // fields keep theirs so their invalid state stays announced.
+    setStructuredError((current) => {
+      if (!current) return current;
+      const items = current.items.filter((item) => item.key !== undefined && item.key !== key);
+      return items.length > 0 ? { items } : undefined;
+    });
+  }, []);
+
+  // Every mutation is bound to the activity it was sent from: session id,
+  // program and the activity-request generation. The binding is re-verified
+  // after EVERY await, immediately before state is committed, so a late
+  // response (success, refusal or error, including body parsing) for activity
+  // A can never attach an attempt, check result, completion, tutor message or
+  // hint count to activity B.
+  function bindOperation(sentSessionId: string) {
+    const generation = sessionSequence.current;
+    const sentProgram = program;
+    return {
+      generation,
+      isCurrent: () =>
+        activeSessionIdRef.current === sentSessionId &&
+        selectedProgramRef.current === sentProgram &&
+        sessionSequence.current === generation,
+    };
+  }
+
+  // Reads a refusal from a non-OK structured response. The wording shown is
+  // this app's own format guidance, mapped from public codes only.
+  async function refusalFor(spec: ResponseSpec, result: Response) {
+    let body: unknown;
+    try {
+      body = await result.json();
+    } catch {
+      body = undefined;
+    }
+    return structuredErrorsFromRefusal(spec, parseRefusal(body));
+  }
+
   async function submitAttempt(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!session) return;
+    if (!session || mutationInFlight.current === sessionSequence.current) return;
+    const spec = session.content.responseSpec;
+    const sentSessionId = session.sessionId;
     setError('');
-    if (!response.trim()) {
-      setError('Enter an answer before submitting.');
-      responseInputRef.current?.focus();
-      return;
+    setStructuredError(undefined);
+    let body: Record<string, unknown>;
+    if (spec) {
+      const missing = missingFieldErrors(spec, fieldValues);
+      if (missing.length > 0) {
+        showStructuredErrors(structuredErrorsFromFields(spec, missing));
+        return;
+      }
+      body = {
+        sessionId: sentSessionId,
+        structuredResponse: buildStructuredResponse(spec, fieldValues),
+      };
+    } else {
+      if (!response.trim()) {
+        setError('Enter an answer before submitting.');
+        responseInputRef.current?.focus();
+        return;
+      }
+      body = { sessionId: sentSessionId, learnerResponse: response };
     }
-    const result = await fetch(submitEndpoint[mode], {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: session.sessionId, learnerResponse: response }),
-    });
-    if (!result.ok) {
-      setError('That answer could not be submitted. Check your connection and try again.');
-      responseInputRef.current?.focus();
-      return;
-    }
-    setAttempt(await result.json());
-    if (mode === 'diagnostic') {
-      // A diagnostic item is a single independent probe with no tutoring
-      // loop - once it's answered, refresh both lists so the assessed
-      // skill drops out of the placement queue and the regular plan
-      // reflects the new (still-unconfirmed) mastery estimate.
-      loadDiagnosticPlan(program);
-      loadPlan(program);
-    }
-    if (mode === 'review') {
-      // A review is also a single independent probe - refresh the queue
-      // (it drops off whether it passed or, on decay, comes back later)
-      // and the plan (a failed review can send the skill back to practice).
-      loadReviewQueue(program);
-      loadPlan(program);
-    }
-    if (mode === 'review' || mode === 'diagnostic') {
-      // Both are the only paths that can move a skill's confirmed status,
-      // so both are the only paths that need to refresh the progress view.
-      loadProgress(program);
+    const operation = bindOperation(sentSessionId);
+    mutationInFlight.current = operation.generation;
+    setPendingAction('submit');
+    try {
+      const result = await fetch(submitEndpoint[mode], {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!operation.isCurrent()) return;
+      if (!result.ok) {
+        if (spec) {
+          // A refusal is not an attempt: nothing is recorded, advanced or
+          // scored, and the entered values stay for a retry.
+          const refusal = await refusalFor(spec, result);
+          if (!operation.isCurrent()) return;
+          showStructuredErrors(refusal);
+        } else {
+          setError('That answer could not be submitted. Check your connection and try again.');
+          responseInputRef.current?.focus();
+        }
+        return;
+      }
+      const recorded: AttemptResult = await result.json();
+      if (!operation.isCurrent()) return;
+      setAttempt(recorded);
+      if (mode === 'diagnostic') {
+        // A diagnostic item is a single independent probe with no tutoring
+        // loop - once it's answered, refresh both lists so the assessed
+        // skill drops out of the placement queue and the regular plan
+        // reflects the new (still-unconfirmed) mastery estimate.
+        loadDiagnosticPlan(program);
+        loadPlan(program);
+      }
+      if (mode === 'review') {
+        // A review is also a single independent probe - refresh the queue
+        // (it drops off whether it passed or, on decay, comes back later)
+        // and the plan (a failed review can send the skill back to practice).
+        loadReviewQueue(program);
+        loadPlan(program);
+      }
+      if (mode === 'review' || mode === 'diagnostic') {
+        // Both are the only paths that can move a skill's confirmed status,
+        // so both are the only paths that need to refresh the progress view.
+        loadProgress(program);
+      }
+    } catch {
+      // Transport or body failure: nothing is invented; entries are kept.
+      if (!operation.isCurrent()) return;
+      if (spec) {
+        showStructuredErrors(structuredErrorsFromRefusal(spec, undefined));
+      } else {
+        setError('That answer could not be submitted. Check your connection and try again.');
+        responseInputRef.current?.focus();
+      }
+    } finally {
+      // Only the operation that still owns the pending state clears it; a
+      // late finish of an abandoned activity must not clear a newer one's.
+      if (mutationInFlight.current === operation.generation) {
+        mutationInFlight.current = undefined;
+        setPendingAction(undefined);
+      }
     }
   }
 
   async function requestHint() {
-    if (!attempt || hintPending) return;
+    if (!attempt || !session || hintPending) return;
+    const spec = session.content.responseSpec;
+    const operation = bindOperation(session.sessionId);
+    hintInFlight.current = operation.generation;
     setHintPending(true);
     try {
       const result = await fetch('/api/phase1/hint', {
@@ -475,41 +609,99 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           attemptId: attempt.attemptId,
-          learnerMessage: response,
+          learnerMessage: spec ? summarizeStructuredValues(spec, fieldValues) : response,
         }),
       });
+      if (!operation.isCurrent()) return;
       if (!result.ok) {
         setError('The tutor could not respond.');
         return;
       }
-      setTutor(await result.json());
+      const tutorResult: TutorResult = await result.json();
+      if (!operation.isCurrent()) return;
+      setTutor(tutorResult);
       setHintCount((count) => count + 1);
+    } catch {
+      if (!operation.isCurrent()) return;
+      setError('The tutor could not respond.');
     } finally {
-      setHintPending(false);
+      if (hintInFlight.current === operation.generation) {
+        hintInFlight.current = undefined;
+        setHintPending(false);
+      }
     }
   }
 
   async function submitIndependentCheck() {
-    if (!session) return;
-    const result = await fetch('/api/phase1/check', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: session.sessionId, learnerResponse: response }),
-    });
-    if (!result.ok) {
-      setError('Complete a tutor step before starting an independent check.');
-      return;
+    if (!session || mutationInFlight.current === sessionSequence.current) return;
+    const spec = session.content.responseSpec;
+    const sentSessionId = session.sessionId;
+    setError('');
+    setStructuredError(undefined);
+    let body: Record<string, unknown>;
+    if (spec) {
+      const missing = missingFieldErrors(spec, fieldValues);
+      if (missing.length > 0) {
+        showStructuredErrors(structuredErrorsFromFields(spec, missing));
+        return;
+      }
+      body = {
+        sessionId: sentSessionId,
+        structuredResponse: buildStructuredResponse(spec, fieldValues),
+      };
+    } else {
+      body = { sessionId: sentSessionId, learnerResponse: response };
     }
-    const checkResult: AttemptResult = await result.json();
-    setCheck(checkResult);
-    if (checkResult.correctness === 'CORRECT') {
-      setSessionState((current) =>
-        current?.data ? { ...current, data: { ...current.data, completed: true } } : current,
-      );
+    const operation = bindOperation(sentSessionId);
+    mutationInFlight.current = operation.generation;
+    setPendingAction('check');
+    try {
+      const result = await fetch('/api/phase1/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!operation.isCurrent()) return;
+      if (!result.ok) {
+        const refusal = spec ? await refusalFor(spec, result) : undefined;
+        if (!operation.isCurrent()) return;
+        // Only a format refusal is shown as such; any other failure keeps the
+        // existing tutor-step guidance.
+        if (refusal && result.status !== 404) {
+          showStructuredErrors(refusal);
+        } else {
+          setError('Complete a tutor step before starting an independent check.');
+        }
+        return;
+      }
+      const checkResult: AttemptResult = await result.json();
+      if (!operation.isCurrent()) return;
+      setCheck(checkResult);
+      if (checkResult.correctness === 'CORRECT') {
+        setSessionState((current) =>
+          current?.data?.sessionId === sentSessionId
+            ? { ...current, data: { ...current.data, completed: true } }
+            : current,
+        );
+      }
+      loadPlan(program);
+      loadProgress(program);
+      loadCourseProgress();
+    } catch {
+      // Transport or body failure: no result or completion is invented and
+      // the entries stay so the learner can retry.
+      if (!operation.isCurrent()) return;
+      if (spec) {
+        showStructuredErrors({ items: [{ message: FIELD_ERROR_MESSAGES.checkFailed }] });
+      } else {
+        setError(FIELD_ERROR_MESSAGES.checkFailed);
+      }
+    } finally {
+      if (mutationInFlight.current === operation.generation) {
+        mutationInFlight.current = undefined;
+        setPendingAction(undefined);
+      }
     }
-    loadPlan(program);
-    loadProgress(program);
-    loadCourseProgress();
   }
 
   if (!urlReady)
@@ -652,6 +844,11 @@ export default function Home() {
             hintPending={hintPending}
             hintButtonRef={hintButtonRef}
             responseInputRef={responseInputRef}
+            fieldValues={fieldValues}
+            onFieldChange={changeField}
+            structuredError={structuredError}
+            summaryRef={summaryRef}
+            pendingAction={pendingAction}
             onSubmitAttempt={submitAttempt}
             onRequestHint={requestHint}
             onSubmitIndependentCheck={submitIndependentCheck}

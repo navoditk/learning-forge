@@ -5,20 +5,57 @@ import {
   getCurrentAssessmentItem,
   submitAssessmentItem,
   AssessmentSubmissionError,
+  StructuredResponseRefusedError,
+  structuredRefusalPayload,
+  type SubmitAssessmentItemInput,
 } from '../../../../../progression/assessment-submission';
 import { requireHouseholdContext } from '../../../../../server/household-context';
 import { isProgressionReleaseGateOpen } from '../../../../../progression/release-gates';
 import { AssessmentStoreUnavailableError } from '../../../../../assessment/store';
+import { parseStructuredResponseRequest } from '../../../../../content/structured-response';
 import { projectAssessmentSubmissionResponse } from '../../../../../progression/assessment-response';
 
-const RequestSchema = z
+const BaseRequestShape = {
+  assignmentId: z.string().uuid(),
+  sessionId: z.string().uuid(),
+  ordinal: z.number().int().positive(),
+};
+
+const LegacyRequestSchema = z
+  .object({ ...BaseRequestShape, learnerResponse: z.string().trim().min(1).max(1000) })
+  .strict();
+
+const StructuredRequestSchema = z
   .object({
-    assignmentId: z.string().uuid(),
-    sessionId: z.string().uuid(),
-    ordinal: z.number().int().positive(),
-    learnerResponse: z.string().trim().min(1).max(1000),
+    ...BaseRequestShape,
+    structuredResponse: z
+      .unknown()
+      .refine((value) => parseStructuredResponseRequest(value) !== null),
   })
   .strict();
+
+type SubmissionBody = Pick<SubmitAssessmentItemInput, 'assignmentId' | 'sessionId' | 'ordinal'> &
+  (
+    | { learnerResponse: string; structuredResponse?: undefined }
+    | { structuredResponse: unknown; learnerResponse?: undefined }
+  );
+
+/** Tier 1 (contract 3.1): exactly one of `learnerResponse` or `structuredResponse`, both strict. */
+function parseSubmissionBody(body: unknown): SubmissionBody | null {
+  if (typeof body !== 'object' || body === null || Array.isArray(body)) return null;
+  const record = body as Record<string, unknown>;
+  const hasLegacy = record.learnerResponse !== undefined;
+  const hasStructured = record.structuredResponse !== undefined;
+  if (hasLegacy === hasStructured) return null;
+  if (hasLegacy) {
+    const parsed = LegacyRequestSchema.safeParse(body);
+    return parsed.success ? parsed.data : null;
+  }
+  const parsed = StructuredRequestSchema.safeParse(body);
+  return parsed.success
+    ? { ...parsed.data, structuredResponse: parsed.data.structuredResponse }
+    : null;
+}
 
 export async function POST(request: Request) {
   if (!isProgressionReleaseGateOpen()) {
@@ -36,8 +73,8 @@ export async function POST(request: Request) {
       { status: 401 },
     );
   }
-  const parsed = RequestSchema.safeParse(await request.json());
-  if (!parsed.success) {
+  const parsed = parseSubmissionBody(await request.json());
+  if (!parsed) {
     return NextResponse.json(
       { error: 'Invalid assessment submission', reasonCode: 'INVALID_REQUEST' },
       { status: 400 },
@@ -45,13 +82,15 @@ export async function POST(request: Request) {
   }
   try {
     return NextResponse.json(
-      projectAssessmentSubmissionResponse(
-        await submitAssessmentItem({ ...identity, ...parsed.data }),
-      ),
+      projectAssessmentSubmissionResponse(await submitAssessmentItem({ ...identity, ...parsed })),
     );
   } catch (error) {
     if (error instanceof AssessmentStoreUnavailableError) {
       return NextResponse.json({ error: error.message, reasonCode: error.code }, { status: 503 });
+    }
+    if (error instanceof StructuredResponseRefusedError) {
+      const { status, body } = structuredRefusalPayload(error);
+      return NextResponse.json(body, { status });
     }
     if (error instanceof AssessmentSubmissionError) {
       const status = error.code === 'ASSESSMENT_NOT_FOUND' ? 404 : 409;

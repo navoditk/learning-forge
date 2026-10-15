@@ -7,9 +7,17 @@ import {
   ProgressionActivityKind,
 } from '@prisma/client';
 
-import type { AssessmentContentItem } from '../contracts/progression';
 import { createAssessmentStore, type AssessmentStore } from '../assessment/store';
 import { matchesAcceptedAnswer, normalizeAnswer } from '../content/answer-matching';
+import {
+  evaluateStructuredSubmission,
+  projectResponseSpec,
+  type FieldError,
+  REFUSAL_HTTP_STATUS,
+  type RefusalCode,
+  type StructuredEvaluation,
+} from '../content/structured-response';
+import type { LegacyDeterministicValidator } from '../contracts/content';
 import { prisma } from '../server/prisma';
 import { isTerminalAssessmentStatus, transitionAssessmentRun } from './assessment-state';
 import {
@@ -39,11 +47,122 @@ export class AssessmentSubmissionError extends Error {
       | 'DUPLICATE_ITEM_SUBMISSION'
       | 'VERSION_MISMATCH'
       | 'ASSESSMENT_EXPIRED'
+      | 'NOT_CURRENT_ITEM'
       | 'INVALIDATION_NOT_ALLOWED',
     message: string,
   ) {
     super(message);
   }
+}
+
+/**
+ * Structured-response refusal (contract 3.3a tiers 1, 3 and 4). Carries only
+ * a code and per-field `{ key, code }` entries: never submitted values,
+ * labels, options, correct values or correctness. Shared by the Phase 1
+ * practice paths and the assessment submission path.
+ */
+export class StructuredResponseRefusedError extends Error {
+  constructor(
+    readonly code: RefusalCode,
+    readonly fieldErrors?: FieldError[],
+  ) {
+    super(REFUSAL_MESSAGES[code]);
+  }
+}
+
+/** Item-independent, correctness-free wording (contract A-6). */
+const REFUSAL_MESSAGES: Record<RefusalCode, string> = {
+  INVALID_REQUEST: 'The response could not be read.',
+  RESPONSE_MODE_MISMATCH: 'The response format does not match this question.',
+  UNSUPPORTED_RESPONSE_MODE: 'The response format is not supported.',
+  MALFORMED_RESPONSE: 'Check the answer fields and try again.',
+};
+
+/** Public refusal body: `error`, `reasonCode` and, for tier 4 only, `fieldErrors` (PA-4g). */
+export function structuredRefusalPayload(error: StructuredResponseRefusedError) {
+  return {
+    status: REFUSAL_HTTP_STATUS[error.code],
+    body: {
+      error: error.message,
+      reasonCode: error.code,
+      ...(error.fieldErrors
+        ? { fieldErrors: error.fieldErrors.map(({ key, code }) => ({ key, code })) }
+        : {}),
+    },
+  };
+}
+
+/**
+ * The response part of a submission request: exactly one of a legacy
+ * `learnerResponse` string or a `structuredResponse` object (contract 3.1).
+ */
+export type SubmissionResponse =
+  | { learnerResponse: string; structuredResponse?: undefined }
+  | { structuredResponse: unknown; learnerResponse?: undefined };
+
+/** Builds the body for the pure evaluator with only the keys actually present. */
+export function responseBodyOf(input: {
+  learnerResponse?: unknown;
+  structuredResponse?: unknown;
+}): Record<string, unknown> {
+  const body: Record<string, unknown> = {};
+  if (input.learnerResponse !== undefined) body.learnerResponse = input.learnerResponse;
+  if (input.structuredResponse !== undefined) body.structuredResponse = input.structuredResponse;
+  return body;
+}
+
+const SHAPE_ONLY_VALIDATOR: LegacyDeterministicValidator = {
+  type: 'text',
+  canonicalAnswer: 'shape',
+  acceptedAnswers: ['shape'],
+  equivalenceNotes: 'Tier 1 request-shape check only.',
+};
+
+/**
+ * Tier 1 (contract 3.3a): item-independent request shape. Throws
+ * `INVALID_REQUEST` for both/neither response fields, a non-string legacy
+ * value, a bad structured envelope, or unknown top-level response keys.
+ */
+export function assertResponseBodyShape(body: Record<string, unknown>): void {
+  const shape = evaluateStructuredSubmission(SHAPE_ONLY_VALIDATOR, body);
+  if (shape.status === 'refused' && shape.code === 'INVALID_REQUEST') {
+    throw new StructuredResponseRefusedError('INVALID_REQUEST');
+  }
+}
+
+/** Result of scoring a submission body against a resolved item (contract 3.5, 3.6). */
+export type ScoredResponse = {
+  correctness: Correctness;
+  learnerResponse: string;
+  normalizedResponse: string;
+};
+
+/**
+ * Opt-in structured dispatch before any legacy matcher call: a refusal throws,
+ * a structured item scores through the pure mode-1 scorer, and a legacy item
+ * with a legacy body continues on the unchanged legacy matcher.
+ */
+export function scoreSubmission(
+  evaluation: StructuredEvaluation,
+  validator: Parameters<typeof matchesAcceptedAnswer>[0],
+): ScoredResponse {
+  if (evaluation.status === 'refused') {
+    throw new StructuredResponseRefusedError(evaluation.code, evaluation.fieldErrors);
+  }
+  if (evaluation.status === 'scored') {
+    return {
+      correctness: evaluation.correctness,
+      learnerResponse: evaluation.learnerResponse,
+      normalizedResponse: evaluation.normalizedResponse,
+    };
+  }
+  return {
+    correctness: matchesAcceptedAnswer(validator, evaluation.learnerResponse)
+      ? 'CORRECT'
+      : 'INCORRECT',
+    learnerResponse: evaluation.learnerResponse,
+    normalizedResponse: normalizeAnswer(evaluation.learnerResponse),
+  };
 }
 
 function sessionKindForAssessment(kind: AssessmentKind): ProgressionActivityKind {
@@ -63,13 +182,6 @@ function attemptContextForAssessment(kind: AssessmentKind): AttemptContext {
     case 'REVIEW':
       return 'REVIEW';
   }
-}
-
-function score(
-  item: Pick<AssessmentContentItem, 'deterministicValidator'>,
-  response: string,
-): Correctness {
-  return matchesAcceptedAnswer(item.deterministicValidator, response) ? 'CORRECT' : 'INCORRECT';
 }
 
 function selectedItems(value: Prisma.JsonValue): SelectedItem[] {
@@ -153,8 +265,96 @@ export type SubmitAssessmentItemInput = {
   assignmentId: string;
   sessionId: string;
   ordinal: number;
-  learnerResponse: string;
-};
+} & SubmissionResponse;
+
+type SubmissionAssignment = Prisma.AssessmentAssignmentGetPayload<{
+  include: { runState: true; lease: true; sessions: true };
+}>;
+
+/** The ordinal `getCurrentAssessmentItem` serves: first selected item not yet submitted. */
+function currentSelectedItem(
+  items: SelectedItem[],
+  submitted: ReadonlySet<number>,
+): SelectedItem | undefined {
+  return items.find((candidate) => !submitted.has(candidate.ordinal));
+}
+
+type SubmissionState =
+  | {
+      kind: 'expired';
+      now: Date;
+      assignment: SubmissionAssignment;
+      run: NonNullable<SubmissionAssignment['runState']>;
+    }
+  | {
+      kind: 'open';
+      now: Date;
+      assignment: SubmissionAssignment;
+      run: NonNullable<SubmissionAssignment['runState']>;
+      session: SubmissionAssignment['sessions'][number];
+      submitted: number[];
+    };
+
+/**
+ * Tier 2 (contract 3.3a) authority, lifecycle and current-item checks, in the
+ * exact order the transaction has always applied them. Shared by the read-only
+ * preflight and the transactional recheck so the two cannot drift. Performs no
+ * writes. `structuredItem` adds only the new `NOT_CURRENT_ITEM` condition;
+ * legacy submissions keep today's behavior.
+ */
+function checkSubmissionState(
+  assignment: SubmissionAssignment | null,
+  input: { sessionId: string; ordinal: number },
+  structuredItem: boolean,
+): SubmissionState {
+  if (!assignment || !assignment.runState) {
+    throw new AssessmentSubmissionError('ASSESSMENT_NOT_FOUND', 'Assessment assignment not found.');
+  }
+  const run = assignment.runState;
+  const session = assignment.sessions.find((candidate) => candidate.id === input.sessionId);
+  if (!session) {
+    throw new AssessmentSubmissionError('ASSESSMENT_NOT_FOUND', 'Assessment session not found.');
+  }
+  if (session.endedAt) {
+    throw new AssessmentSubmissionError('SESSION_ENDED', 'The assessment session has ended.');
+  }
+  if (session.activityKind !== sessionKindForAssessment(assignment.kind)) {
+    throw new AssessmentSubmissionError(
+      'SESSION_KIND_MISMATCH',
+      'Assessment session kind does not match.',
+    );
+  }
+  if (isTerminalAssessmentStatus(run.status)) {
+    throw new AssessmentSubmissionError(
+      'RUN_NOT_ACTIVE',
+      'The assessment run is already terminal.',
+    );
+  }
+  const now = new Date();
+  if (now >= run.expiresAt) return { kind: 'expired', now, assignment, run };
+  const submitted = Array.isArray(run.submittedOrdinals)
+    ? run.submittedOrdinals.filter((value): value is number => typeof value === 'number')
+    : [];
+  if (submitted.includes(input.ordinal)) {
+    throw new AssessmentSubmissionError(
+      'DUPLICATE_ITEM_SUBMISSION',
+      'This item was already submitted.',
+    );
+  }
+  if (structuredItem) {
+    const current = currentSelectedItem(
+      selectedItems(assignment.selectedItems),
+      new Set(submitted),
+    );
+    if (current?.ordinal !== input.ordinal) {
+      throw new AssessmentSubmissionError(
+        'NOT_CURRENT_ITEM',
+        'This is not the current assessment item.',
+      );
+    }
+  }
+  return { kind: 'open', now, assignment, run, session, submitted };
+}
 
 export type CurrentAssessmentItemInput = {
   householdId: string;
@@ -208,9 +408,7 @@ export async function getCurrentAssessmentItem(
         )
       : [],
   );
-  const selected = selectedItems(assignment.selectedItems).find(
-    (candidate) => !submittedOrdinals.has(candidate.ordinal),
-  );
+  const selected = currentSelectedItem(selectedItems(assignment.selectedItems), submittedOrdinals);
   if (!selected) {
     throw new AssessmentSubmissionError('VERSION_MISMATCH', 'Assessment item is not available.');
   }
@@ -238,8 +436,16 @@ export async function getCurrentAssessmentItem(
       accessibilityNotes: item.accessibilityNotes,
       accessibleAlternative: item.accessibleAlternative,
       figure: item.figure,
+      // Structured items only (contract 3.2): built by allowlist copy, so no
+      // private selector or canonical answer can reach the learner.
+      ...responseSpecProjection(item.deterministicValidator),
     },
   };
+}
+
+function responseSpecProjection(validator: Parameters<typeof projectResponseSpec>[0]) {
+  const responseSpec = projectResponseSpec(validator);
+  return responseSpec ? { responseSpec } : {};
 }
 
 export async function submitAssessmentItem(
@@ -247,6 +453,9 @@ export async function submitAssessmentItem(
   store: AssessmentStore = createAssessmentStore(),
   database: PrismaClient = prisma,
 ) {
+  // Tier 1: item-independent request shape (contract 3.3a).
+  const responseBody = responseBodyOf(input);
+  assertResponseBodyShape(responseBody);
   const assignmentSnapshot = await database.assessmentAssignment.findFirst({
     where: {
       id: input.assignmentId,
@@ -284,9 +493,37 @@ export async function submitAssessmentItem(
     );
   }
 
+  // Tier 2 read-only preflight (contract 3.3a), after the pinned item is
+  // resolved and before any item-dependent evaluation. An authority,
+  // lifecycle, duplicate or current-item failure throws here, so no later
+  // tier is evaluated after an earlier failure.
+  const structuredItem = item.deterministicValidator.type === 'structured';
+  const preflight = checkSubmissionState(
+    await database.assessmentAssignment.findFirst({
+      where: {
+        id: input.assignmentId,
+        householdId: input.householdId,
+        learnerProfileId: input.learnerProfileId,
+      },
+      include: { runState: true, lease: true, sessions: true },
+    }),
+    input,
+    structuredItem,
+  );
+  // Tiers 3 and 4: a pure function of (validator, response), evaluated only
+  // for an open run. An expired run skips them and enters the existing
+  // transactional path, which records the expiry (the only permitted write).
+  let evaluation =
+    preflight.kind === 'open'
+      ? evaluateStructuredSubmission(item.deterministicValidator, responseBody)
+      : undefined;
+  if (evaluation?.status === 'refused') {
+    throw new StructuredResponseRefusedError(evaluation.code, evaluation.fieldErrors);
+  }
+
   const submissionResult = await database.$transaction(
     async (transaction) => {
-      const assignment = await transaction.assessmentAssignment.findFirst({
+      const foundAssignment = await transaction.assessmentAssignment.findFirst({
         where: {
           id: input.assignmentId,
           householdId: input.householdId,
@@ -294,49 +531,25 @@ export async function submitAssessmentItem(
         },
         include: { runState: true, lease: true, sessions: true },
       });
-      if (!assignment || !assignment.runState) {
-        throw new AssessmentSubmissionError(
-          'ASSESSMENT_NOT_FOUND',
-          'Assessment assignment not found.',
+      // Tier 5: every tier 2 condition is re-checked under the transaction.
+      const state = checkSubmissionState(foundAssignment, input, structuredItem);
+      const assignment = state.assignment;
+      if (state.kind === 'expired') {
+        await expireAssessment(
+          transaction,
+          assignment.id,
+          state.run.id,
+          assignment.lease?.id,
+          state.now,
         );
-      }
-      const run = assignment.runState;
-      const session = assignment.sessions.find((candidate) => candidate.id === input.sessionId);
-      if (!session) {
-        throw new AssessmentSubmissionError(
-          'ASSESSMENT_NOT_FOUND',
-          'Assessment session not found.',
-        );
-      }
-      if (session.endedAt) {
-        throw new AssessmentSubmissionError('SESSION_ENDED', 'The assessment session has ended.');
-      }
-      if (session.activityKind !== sessionKindForAssessment(assignment.kind)) {
-        throw new AssessmentSubmissionError(
-          'SESSION_KIND_MISMATCH',
-          'Assessment session kind does not match.',
-        );
-      }
-      if (isTerminalAssessmentStatus(run.status)) {
-        throw new AssessmentSubmissionError(
-          'RUN_NOT_ACTIVE',
-          'The assessment run is already terminal.',
-        );
-      }
-      const now = new Date();
-      if (now >= run.expiresAt) {
-        await expireAssessment(transaction, assignment.id, run.id, assignment.lease?.id, now);
         return { expired: true as const };
       }
-      const submitted = Array.isArray(run.submittedOrdinals)
-        ? run.submittedOrdinals.filter((value): value is number => typeof value === 'number')
-        : [];
-      if (submitted.includes(input.ordinal)) {
-        throw new AssessmentSubmissionError(
-          'DUPLICATE_ITEM_SUBMISSION',
-          'This item was already submitted.',
-        );
-      }
+      const { run, session, submitted, now } = state;
+      // Nothing has been written yet: a refusal rolls back and writes nothing.
+      // Normally already evaluated after the preflight; evaluated here only if
+      // the run was expired at preflight but open at the recheck.
+      evaluation ??= evaluateStructuredSubmission(item.deterministicValidator, responseBody);
+      const scored = scoreSubmission(evaluation, item.deterministicValidator);
       const nextStatus =
         run.status === 'PENDING' ? transitionAssessmentRun('PENDING', 'START') : run.status;
       const attempt = await transaction.attempt.create({
@@ -346,9 +559,9 @@ export async function submitAssessmentItem(
           sessionId: session.id,
           contentKey: item.id,
           contentVersion: item.version,
-          learnerResponse: input.learnerResponse,
-          normalizedResponse: normalizeAnswer(input.learnerResponse),
-          correctness: score(item, input.learnerResponse),
+          learnerResponse: scored.learnerResponse,
+          normalizedResponse: scored.normalizedResponse,
+          correctness: scored.correctness,
           scoringMethod: 'DETERMINISTIC',
           attemptNumber:
             (await transaction.attempt.count({ where: { sessionId: session.id } })) + 1,

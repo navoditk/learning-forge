@@ -1,9 +1,14 @@
 import { AssistanceLevel, Correctness, Prisma } from '@prisma/client';
+import { z } from 'zod';
 
 import { contentCatalog, contentSkillCode, servableContentCatalog } from '../content/catalog';
 import { resolveHistoricalContent as resolveArchivedHistoricalContent } from '../content/archive';
 import { resolveActive } from '../content/resolvers';
-import { matchesAcceptedAnswer, normalizeAnswer } from '../content/answer-matching';
+import {
+  evaluateStructuredSubmission,
+  parseStructuredResponseRequest,
+  projectResponseSpec,
+} from '../content/structured-response';
 import {
   CurriculumProgram,
   NotifierPort,
@@ -21,7 +26,13 @@ import { planNextActivities } from '../planner';
 import { loadPolicyArtifacts } from '../progression/artifacts';
 import { deriveHighestAssistance } from '../progression/assistance';
 import { applyReviewLapse } from '../progression/learner-state';
-import { recordStrandedSkill } from '../progression/assessment-submission';
+import {
+  assertResponseBodyShape,
+  recordStrandedSkill,
+  responseBodyOf,
+  scoreSubmission,
+  type SubmissionResponse,
+} from '../progression/assessment-submission';
 import { pilotSkillRef } from '../progression/skill-assessment';
 import { buildShadowDecision, persistShadowNonEnforcing } from '../progression/shadow';
 import {
@@ -63,6 +74,8 @@ export type HouseholdIdentity = {
   actorRole?: 'PARENT' | 'OPERATOR';
 };
 export type SessionActivityKind = Extract<ActivityKind, 'PRACTICE' | 'PLACEMENT' | 'REVIEW'>;
+/** A practice-path response: a legacy string or a structured body, exactly one (contract 3.1). */
+export type Phase1ResponseInput = SubmissionResponse;
 export type Phase1ShadowPersistence = (write: () => Promise<unknown>) => Promise<boolean>;
 
 function resolveContent(contentId?: string) {
@@ -85,6 +98,44 @@ async function requireHistoricalContent(contentId: string, contentVersion?: stri
   return item;
 }
 
+const LegacyAttemptBodySchema = z.object({
+  sessionId: z.string().uuid(),
+  learnerResponse: z.string().trim().min(1).max(1000),
+});
+
+const StructuredAttemptBodySchema = z
+  .object({
+    sessionId: z.string().uuid(),
+    structuredResponse: z
+      .unknown()
+      .refine((value) => parseStructuredResponseRequest(value) !== null),
+  })
+  .strict();
+
+/**
+ * Tier 1 (contract 3.1, 3.3a) for the four Phase 1 attempt routes: exactly one
+ * of a legacy `learnerResponse` string (unchanged limits and non-strict
+ * object) or a strict `structuredResponse`. Returns null for any shape error,
+ * which the route reports as its existing 400.
+ */
+export function parsePhase1AttemptBody(
+  body: unknown,
+): ({ sessionId: string } & Phase1ResponseInput) | null {
+  if (typeof body !== 'object' || body === null || Array.isArray(body)) return null;
+  const record = body as Record<string, unknown>;
+  const hasLegacy = record.learnerResponse !== undefined;
+  const hasStructured = record.structuredResponse !== undefined;
+  if (hasLegacy === hasStructured) return null;
+  if (hasLegacy) {
+    const parsed = LegacyAttemptBodySchema.safeParse(body);
+    return parsed.success ? parsed.data : null;
+  }
+  const parsed = StructuredAttemptBodySchema.safeParse(body);
+  return parsed.success
+    ? { sessionId: parsed.data.sessionId, structuredResponse: parsed.data.structuredResponse }
+    : null;
+}
+
 const DEFAULT_PROGRAM: CurriculumProgram = 'grade-6-math';
 
 function programCatalog(program: CurriculumProgram) {
@@ -100,10 +151,6 @@ function programCatalog(program: CurriculumProgram) {
 export const phase1Content = resolveContent();
 
 const assistanceWeights = [1, 0.9, 0.75, 0.55, 0.35, 0.1];
-
-function scoreAnswer(content: typeof phase1Content, answer: string): Correctness {
-  return matchesAcceptedAnswer(content.deterministicValidator, answer) ? 'CORRECT' : 'INCORRECT';
-}
 
 function assistanceIndexFromDatabase(level: AssistanceLevel): number {
   return assistanceIndex(level.toLocaleLowerCase() as Parameters<typeof assistanceIndex>[0]);
@@ -262,9 +309,18 @@ export async function startSession(
       prompt: content.prompt,
       accessibilityNotes: content.accessibilityNotes,
       figure: content.figure,
+      // Structured items only (contract 3.2, A-9): the public field
+      // descriptor plus the complete text alternative. Legacy presentation is
+      // unchanged: neither key is present.
+      ...structuredPresentation(content),
     },
     ...state,
   };
+}
+
+function structuredPresentation(content: typeof phase1Content) {
+  const responseSpec = projectResponseSpec(content.deterministicValidator);
+  return responseSpec ? { responseSpec, accessibleAlternative: content.accessibleAlternative } : {};
 }
 
 /**
@@ -426,7 +482,6 @@ async function createAttempt(
   identity: HouseholdIdentity,
   input: {
     sessionId: string;
-    learnerResponse: string;
     context: 'PRACTICE' | 'MASTERY_CHECK' | 'DIAGNOSTIC';
     independentDelayedCheck: boolean;
     // A spaced review of already-confirmed mastery: unlike an initial
@@ -436,9 +491,12 @@ async function createAttempt(
     // must never regress a confirmed skill just because of one lower-
     // assistance slip, so this defaults to false everywhere else.
     reviewDecay?: boolean;
-  },
+  } & Phase1ResponseInput,
   persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
+  // Tier 1 (contract 3.3a): item-independent request shape.
+  const responseBody = responseBodyOf(input);
+  assertResponseBodyShape(responseBody);
   const session = await prisma.session.findFirst({
     where: {
       id: input.sessionId,
@@ -451,7 +509,12 @@ async function createAttempt(
     session.targetCode ?? session.contentKey,
     session.targetVersion,
   );
-  const correctness = scoreAnswer(content, input.learnerResponse);
+  // Tiers 3 and 4, after the existing session and item resolution (tier 2) and
+  // before anything is written: a refusal throws and leaves no row behind.
+  const { correctness, learnerResponse, normalizedResponse } = scoreSubmission(
+    evaluateStructuredSubmission(content.deterministicValidator, responseBody),
+    content.deterministicValidator,
+  );
   const independentCheckPassed = input.independentDelayedCheck && correctness === 'CORRECT';
   // attemptNumber is derived from a count-then-create, which races under
   // concurrent/duplicate submissions (e.g. a double-clicked submit button).
@@ -470,8 +533,8 @@ async function createAttempt(
           sessionId: input.sessionId,
           contentKey: content.id,
           contentVersion: content.version,
-          learnerResponse: input.learnerResponse,
-          normalizedResponse: normalizeAnswer(input.learnerResponse),
+          learnerResponse,
+          normalizedResponse,
           correctness,
           scoringMethod: 'DETERMINISTIC',
           attemptNumber,
@@ -567,7 +630,7 @@ async function createAttempt(
 
 export async function recordAttempt(
   identity: HouseholdIdentity,
-  input: { sessionId: string; learnerResponse: string },
+  input: { sessionId: string } & Phase1ResponseInput,
   persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
   return createAttempt(
@@ -651,9 +714,11 @@ export async function getDiagnosticPlan(
 
 export async function recordDiagnosticAttempt(
   identity: HouseholdIdentity,
-  input: { sessionId: string; learnerResponse: string },
+  input: { sessionId: string } & Phase1ResponseInput,
   persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
+  // Tier 1 precedes every authority and lifecycle check (contract 3.3a).
+  assertResponseBodyShape(responseBodyOf(input));
   const session = await prisma.session.findFirst({
     where: {
       id: input.sessionId,
@@ -750,9 +815,11 @@ export async function getTutorContext(identity: HouseholdIdentity, attemptId: st
 
 export async function recordIndependentCheck(
   identity: HouseholdIdentity,
-  input: { sessionId: string; learnerResponse: string },
+  input: { sessionId: string } & Phase1ResponseInput,
   persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
+  // Tier 1 precedes every authority and lifecycle check (contract 3.3a).
+  assertResponseBodyShape(responseBodyOf(input));
   const session = await prisma.session.findFirst({
     where: {
       id: input.sessionId,
@@ -854,9 +921,11 @@ export async function getReviewQueue(
 
 export async function recordReviewAttempt(
   identity: HouseholdIdentity,
-  input: { sessionId: string; learnerResponse: string },
+  input: { sessionId: string } & Phase1ResponseInput,
   persistShadow: Phase1ShadowPersistence = persistShadowNonEnforcing,
 ) {
+  // Tier 1 precedes every authority and lifecycle check (contract 3.3a).
+  assertResponseBodyShape(responseBodyOf(input));
   const session = await prisma.session.findFirst({
     where: {
       id: input.sessionId,

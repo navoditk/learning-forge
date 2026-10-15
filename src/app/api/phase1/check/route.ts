@@ -1,18 +1,16 @@
 import { NextResponse } from 'next/server';
-import { z } from 'zod';
 
-import { recordIndependentCheck } from '../../../../phase1/service';
+import { parsePhase1AttemptBody, recordIndependentCheck } from '../../../../phase1/service';
+import {
+  StructuredResponseRefusedError,
+  structuredRefusalPayload,
+} from '../../../../progression/assessment-submission';
 import { requireHouseholdContext } from '../../../../server/household-context';
 
-const CheckRequestSchema = z.object({
-  sessionId: z.string().uuid(),
-  learnerResponse: z.string().trim().min(1).max(1000),
-});
-
 export async function POST(request: Request) {
-  const parsed = CheckRequestSchema.safeParse(await request.json());
-  if (!parsed.success)
-    return NextResponse.json({ error: 'Invalid mastery check' }, { status: 400 });
+  // Tier 1: exactly one of learnerResponse or structuredResponse (contract 3.1).
+  const parsed = parsePhase1AttemptBody(await request.json());
+  if (!parsed) return NextResponse.json({ error: 'Invalid mastery check' }, { status: 400 });
 
   let identity;
   try {
@@ -22,8 +20,12 @@ export async function POST(request: Request) {
   }
 
   try {
-    return NextResponse.json(await recordIndependentCheck(identity, parsed.data));
-  } catch {
+    return NextResponse.json(await recordIndependentCheck(identity, parsed));
+  } catch (error) {
+    if (error instanceof StructuredResponseRefusedError) {
+      const { status, body } = structuredRefusalPayload(error);
+      return NextResponse.json(body, { status });
+    }
     return NextResponse.json({ error: 'Independent check is not available' }, { status: 404 });
   }
 }

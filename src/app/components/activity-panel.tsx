@@ -2,6 +2,8 @@ import { FormEvent, RefObject } from 'react';
 import Image from 'next/image';
 
 import { svgDataUri, type ContentFigure } from '../../content/figure';
+import type { ResponseSpec, StructuredErrorState, StructuredValues } from '../learner-data';
+import { StructuredResponseFields } from './structured-response-fields';
 
 export type Session = {
   sessionId: string;
@@ -18,6 +20,9 @@ export type Session = {
     prompt: string;
     accessibilityNotes: string;
     figure?: ContentFigure;
+    // Present only when the server declares a structured item (contract 3.2).
+    responseSpec?: ResponseSpec;
+    accessibleAlternative?: string;
   };
 };
 
@@ -46,6 +51,11 @@ export function ActivityPanel({
   hintPending,
   hintButtonRef,
   responseInputRef,
+  fieldValues,
+  onFieldChange,
+  structuredError,
+  summaryRef,
+  pendingAction,
   onSubmitAttempt,
   onRequestHint,
   onSubmitIndependentCheck,
@@ -63,10 +73,16 @@ export function ActivityPanel({
   hintPending: boolean;
   hintButtonRef: RefObject<HTMLButtonElement | null>;
   responseInputRef: RefObject<HTMLInputElement | null>;
+  fieldValues: StructuredValues;
+  onFieldChange: (key: string, value: string) => void;
+  structuredError?: StructuredErrorState;
+  summaryRef: RefObject<HTMLDivElement | null>;
+  pendingAction?: 'submit' | 'check';
   onSubmitAttempt: (event: FormEvent<HTMLFormElement>) => void;
   onRequestHint: () => void;
   onSubmitIndependentCheck: () => void;
 }) {
+  const spec = session.content.responseSpec;
   return (
     <article className="activity-panel" aria-labelledby="activity-heading">
       <h3 id="activity-heading">{session.content.title}</h3>
@@ -102,26 +118,50 @@ export function ActivityPanel({
           <figcaption>{session.content.figure.caption}</figcaption>
         </figure>
       )}
+      {session.content.accessibleAlternative && (
+        <section className="text-alternative" aria-labelledby="text-alternative-heading">
+          <h4 id="text-alternative-heading">Text version of this question</h4>
+          <p>{session.content.accessibleAlternative}</p>
+        </section>
+      )}
       <p>
         <small>{session.content.accessibilityNotes}</small>
       </p>
-      <form onSubmit={onSubmitAttempt}>
-        <label htmlFor="learner-response">Your answer</label>
-        <input
-          id="learner-response"
-          name="learnerResponse"
-          ref={responseInputRef}
-          value={response}
-          onChange={(event) => {
-            setResponse(event.target.value);
-            if (error) setError('');
-          }}
-          autoComplete="off"
-          aria-invalid={error ? 'true' : undefined}
-          aria-describedby={error ? 'learner-response-error' : undefined}
-        />
-        <button type="submit">Submit answer</button>
-      </form>
+      {spec ? (
+        <form onSubmit={onSubmitAttempt} aria-busy={pendingAction ? true : undefined} noValidate>
+          <StructuredResponseFields
+            spec={spec}
+            title={session.content.title}
+            values={fieldValues}
+            onChange={onFieldChange}
+            errors={structuredError}
+            summaryRef={summaryRef}
+          />
+          <button type="submit" aria-disabled={pendingAction ? true : undefined}>
+            {pendingAction === 'submit' ? 'Submitting…' : 'Submit answer'}
+          </button>
+        </form>
+      ) : (
+        <form onSubmit={onSubmitAttempt}>
+          <label htmlFor="learner-response">Your answer</label>
+          <input
+            id="learner-response"
+            name="learnerResponse"
+            ref={responseInputRef}
+            value={response}
+            onChange={(event) => {
+              setResponse(event.target.value);
+              if (error) setError('');
+            }}
+            autoComplete="off"
+            aria-invalid={error ? 'true' : undefined}
+            aria-describedby={error ? 'learner-response-error' : undefined}
+          />
+          <button type="submit" aria-disabled={pendingAction ? true : undefined}>
+            {pendingAction === 'submit' ? 'Submitting…' : 'Submit answer'}
+          </button>
+        </form>
+      )}
       {error && (
         <p role="alert" id="learner-response-error">
           {error}
@@ -168,8 +208,12 @@ export function ActivityPanel({
             </p>
           )}
           {tutor && (
-            <button type="button" onClick={onSubmitIndependentCheck}>
-              Start independent check
+            <button
+              type="button"
+              onClick={onSubmitIndependentCheck}
+              aria-disabled={pendingAction ? true : undefined}
+            >
+              {pendingAction === 'check' ? 'Checking…' : 'Start independent check'}
             </button>
           )}
           {check && (

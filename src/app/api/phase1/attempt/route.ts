@@ -1,17 +1,16 @@
 import { NextResponse } from 'next/server';
-import { z } from 'zod';
 
-import { recordAttempt } from '../../../../phase1/service';
+import { parsePhase1AttemptBody, recordAttempt } from '../../../../phase1/service';
+import {
+  StructuredResponseRefusedError,
+  structuredRefusalPayload,
+} from '../../../../progression/assessment-submission';
 import { requireHouseholdContext } from '../../../../server/household-context';
 
-const AttemptRequestSchema = z.object({
-  sessionId: z.string().uuid(),
-  learnerResponse: z.string().trim().min(1).max(1000),
-});
-
 export async function POST(request: Request) {
-  const parsed = AttemptRequestSchema.safeParse(await request.json());
-  if (!parsed.success) return NextResponse.json({ error: 'Invalid attempt' }, { status: 400 });
+  // Tier 1: exactly one of learnerResponse or structuredResponse (contract 3.1).
+  const parsed = parsePhase1AttemptBody(await request.json());
+  if (!parsed) return NextResponse.json({ error: 'Invalid attempt' }, { status: 400 });
 
   let identity;
   try {
@@ -21,8 +20,12 @@ export async function POST(request: Request) {
   }
 
   try {
-    return NextResponse.json(await recordAttempt(identity, parsed.data));
-  } catch {
+    return NextResponse.json(await recordAttempt(identity, parsed));
+  } catch (error) {
+    if (error instanceof StructuredResponseRefusedError) {
+      const { status, body } = structuredRefusalPayload(error);
+      return NextResponse.json(body, { status });
+    }
     return NextResponse.json({ error: 'Session not found' }, { status: 404 });
   }
 }
