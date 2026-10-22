@@ -1,0 +1,31 @@
+{
+  "id": "ratio-tables-teaching-1",
+  "version": "content-1",
+  "title": "Ratio tables: scale by multiplying",
+  "role": "teaching",
+  "skillRef": {
+    "code": "ratio-tables",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Extends a ratio table using a consistent scale factor to find a missing quantity."
+  ],
+  "explanation": "A ratio table lists equivalent ratios. Each row describes the same relationship.\n\nExample: a soup recipe uses 3 carrots for every 2 potatoes.\nCarrots: 3, 6, 9, 15\nPotatoes: 2, 4, 6, 10\nFrom 3 and 2 to 6 and 4, both numbers were multiplied by 2. From 3 and 2 to 15 and 10, both numbers were multiplied by 5.\n\nThe rule: multiply (or divide) both quantities in a row by the same number. Multiply both numbers, not just one of them. Adding the same amount to both does not keep the ratio: adding 4 to both 3 and 2 gives 7 carrots for 6 potatoes, which is fewer carrots for each potato.\n\nWhen the factor is not a whole number, use a helpful row in between. To go from 6 carrots and 4 potatoes to 15 carrots, divide both numbers by 2 to get 3 and 2, then multiply both by 5 to get 15 and 10.\n\nA unit row is often useful. Dividing 3 and 2 by 2 gives 1.5 carrots for 1 potato. Dividing 3 and 2 by 3 gives 1 carrot for 2/3 of a potato. Keep track of which quantity is \"for one.\"\n\nComparing two ratios: scale both tables until one quantity is the same, then compare the other quantity. Recipe A uses 3 carrots for every 2 potatoes. Recipe B uses 4 carrots for every 3 potatoes. With 6 potatoes, Recipe A uses 9 carrots and Recipe B uses 8 carrots, so Recipe A has more carrots for each potato.",
+  "workedExample": "Team A scores 3 goals in every 4 games. Complete the table for 8, 12 and 20 games.\nGames: 4, 8, 12, 20\nGoals: 3, 6, 9, 15\n8 games = 4 × 2, so goals = 3 × 2 = 6. 12 games = 4 × 3, so goals = 3 × 3 = 9. 20 games = 4 × 5, so goals = 3 × 5 = 15.\nTeam B scores 5 goals in every 8 games. At 8 games, Team A has 6 goals and Team B has 5 goals, so Team A scores at the higher rate.",
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (RC-T2 TA-1, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge teaching record for RAT-CONTENT RC-T2 (D-218). Explanation, worked example, contexts and numbers written from first principles; reproduces no textbook, contest or standards text and reuses no practice item's numbers or context."
+  },
+  "accessibilityNotes": "The tables are written as labelled text rows, not as an image. No color or position carries meaning.",
+  "accessibleAlternative": "Read aloud or display: A ratio table lists equivalent ratios. For 3 carrots for every 2 potatoes, the rows are 3 and 2, 6 and 4, 9 and 6, 15 and 10. Multiply or divide both numbers by the same number; never add the same amount. Use an in-between row when the factor is not whole. To compare two ratios, make one quantity the same. Worked example: 3 goals in every 4 games gives 6, 9 and 15 goals for 8, 12 and 20 games, which beats 5 goals in 8 games."
+}

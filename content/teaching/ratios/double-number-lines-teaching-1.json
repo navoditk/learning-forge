@@ -1,0 +1,38 @@
+{
+  "id": "double-number-lines-teaching-1",
+  "version": "content-1",
+  "title": "Reading a double number line",
+  "role": "teaching",
+  "skillRef": {
+    "code": "double-number-lines",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Matches corresponding values on two number lines using a constant scale factor."
+  ],
+  "explanation": "A double number line is two number lines drawn one above the other. Values that line up go together in the same ratio. Both lines start at 0, and 0 always lines up with 0.\n\nThe figure shows fabric that costs the same amount for each meter. The top line is meters of fabric and the bottom line is the cost in dollars. The aligned pairs are 0 meters and 0 dollars, 1 meter and 3 dollars, 4 meters and 12 dollars, 5 meters and 15 dollars, and 8 meters and 24 dollars.\n\nThe rule: when you move along the lines, both values are multiplied by the same number. 5 meters is 5 times 1 meter, so its cost is 5 times 3 dollars, which is 15 dollars.\n\nA good first step is to find the mark for 1 (the unit rate), then multiply.\n\nCommon mistakes:\n- Adding the same amount to both lines. Going from 1 meter to 4 meters adds 3 meters, but the cost does not just add 3 dollars; it is multiplied by 4.\n- Using the scale in the wrong direction, such as dividing when you should multiply.\n- Reading a value from the wrong line. Check which line the question asks about.",
+  "workedExample": "Fabric costs 3 dollars per meter. How much do 8 meters cost, and how many meters can you buy with 12 dollars?\nCost of 8 meters: 8 is 8 times 1, so the cost is 8 × 3 = 24 dollars. On the figure, 24 dollars lines up with 8 meters.\nMeters for 12 dollars: 12 dollars is 4 times 3 dollars, so the length is 4 × 1 = 4 meters. On the figure, 12 dollars lines up with 4 meters.\nCheck: every aligned pair has a cost that is 3 times the meters.",
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 240\" role=\"img\"><rect width=\"560\" height=\"240\" fill=\"#ffffff\"/><text x=\"60\" y=\"34\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Meters of fabric</text><text x=\"60\" y=\"226\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Cost in dollars</text><line x1=\"40\" y1=\"90\" x2=\"520\" y2=\"90\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"40\" y1=\"170\" x2=\"520\" y2=\"170\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"81\" x2=\"60\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"161\" x2=\"60\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"60\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><text x=\"60\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><line x1=\"115\" y1=\"81\" x2=\"115\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"115\" y1=\"161\" x2=\"115\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"115\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">1</text><text x=\"115\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">3</text><line x1=\"280\" y1=\"81\" x2=\"280\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"280\" y1=\"161\" x2=\"280\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"280\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4</text><text x=\"280\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">12</text><line x1=\"335\" y1=\"81\" x2=\"335\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"335\" y1=\"161\" x2=\"335\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"335\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">5</text><text x=\"335\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">15</text><line x1=\"500\" y1=\"81\" x2=\"500\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"500\" y1=\"161\" x2=\"500\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"500\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">8</text><text x=\"500\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">24</text></svg>",
+    "altText": "A double number line. The top line is labeled Meters of fabric and has marks at 0, 1, 4, 5 and 8. The bottom line is labeled Cost in dollars. Directly below the top marks it shows 0 below 0, 3 below 1, 12 below 4, 15 below 5 and 24 below 8.",
+    "caption": "Meters of fabric and their cost at 3 dollars per meter.",
+    "width": 560,
+    "height": 240
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (RC-T2 TA-1, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge teaching record for RAT-CONTENT RC-T2 (D-218). Explanation, worked example, contexts and numbers written from first principles; reproduces no textbook, contest or standards text and reuses no practice item's numbers or context."
+  },
+  "accessibilityNotes": "The figure is fully described in its text alternative and every aligned pair is also listed in the explanation, so the record can be used without seeing the figure. No color carries meaning.",
+  "accessibleAlternative": "Read aloud or display: A double number line shows meters of fabric on top and cost in dollars on the bottom. Aligned pairs: 0 meters and 0 dollars, 1 meter and 3 dollars, 4 meters and 12 dollars, 5 meters and 15 dollars, 8 meters and 24 dollars. Moving along the lines multiplies both values by the same number. Worked example: 8 meters cost 24 dollars, and 12 dollars buy 4 meters."
+}

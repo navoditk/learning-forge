@@ -2165,7 +2165,71 @@ is deployed; a later RC-5 run preserves the `content-2` snapshots. Record the
 sequence in the deployment runbook. No archive code change; archive drift
 stays a failure; production execution remains owner-only.
 
-There are 221 decisions: D-01 through D-75, D-139, D-142, D-145–D-221 approved;
+### D-222 — RC-T2 teaching content: four records accepted (TA-1)
+
+Delegated decision (D-212/D-219), Codex `gpt-6.1-sol` (verified; report
+`agent-handoffs/RAT-CONTENT/teaching-A-rev1/review-r1-report.md`
+`5879c9e4682eb1b933ac29ed68d2656050c791a280c060bfc4efb71578074ca0`). ACCEPTED
+for dormant storage and validation only (D-218): `ratio-language-teaching-1`,
+`ratio-tables-teaching-1`, `double-number-lines-teaching-1`,
+`percent-applications-teaching-1` (all `content-1`, teaching-A-rev1 bodies).
+Before application, review metadata becomes `status: "reviewed"`,
+`reviewer: "Codex gpt-6.1-sol delegated sign-off (RC-T2 TA-1, 2026-10-22)"`,
+`reviewedAt: "2026-10-22"`; provenance stays `llm_drafted`.
+`unit-rates-teaching-1` is not accepted (RCT2-R1: reuses a registered
+practice context) pending correction and re-review.
+
+### D-223 — `unit-rates-teaching-1` accepted (TA-2)
+
+Delegated decision (D-212/D-219), Codex `gpt-6.1-sol` (verified; report
+`agent-handoffs/RAT-CONTENT/teaching-A-rev2/review-r2-report.md`
+`7ba45f62c7ebc941c5535263d6f37b6d414ec760fbe1b9deef40c85b76548fbb`): ACCEPT
+`unit-rates-teaching-1@content-1` (teaching-A-rev2, laundromat context;
+RCT2-R1 closed) for dormant storage and validation only (D-218). With D-222
+all five Ratios teaching records are accepted.
+
+### D-224 — Mechanical review-metadata completion for `unit-rates-teaching-1` (TA-3)
+
+Same report: APPROVE. The integrator set only its `review` to `status:
+"reviewed"`, `reviewer: "Codex gpt-6.1-sol delegated sign-off (RC-T2 TA-2,
+2026-10-22)"`, `reviewedAt: "2026-10-22"` (body identical with `review`
+removed; originality text unchanged; new sha256
+`8ddf3e2d41237b8d1699ac2779c94031336b3603c4dc1082333bb474540fed0a`) and its
+one `PINNED_SHA256` entry, on top of `rct2-combined.patch`
+`e17b0bd00a2b29775dc1a8356103be30d93bef150d54ad2583eab6aeec1edec8`; then
+isolated validation and commit/push under D-219.
+
+### D-225 — CI verify-job timeout 10 → 20 minutes (CI-1)
+
+Same report: APPROVE the exact patch
+`agent-handoffs/DELIVERY-COORDINATOR/ci-timeout/ci-timeout.patch`
+(`69daa89c940f3aa0ef443a00093f8738427f81d96a133be7baf6349e3500dbe2`). Run
+39737356330 on `930dbaf` was cancelled by the 10-minute limit during browser
+journeys after a slow Playwright install; the last green run took 9m37s. No
+CI step or assertion changes.
+
+### D-226 — RC-5 e2e regression fix approved (E2E-1)
+
+Delegated decision (D-212/D-219), Codex `gpt-6.1-sol` (verified; report
+`agent-handoffs/RAT-CONTENT/rc5-e2e/rev1/review-r1-report.md`
+`4b3642a27ed8b59ef4cd34da8e6e557d5f7d70f0dd4165c96a53fb162976ff20`): APPROVE
+`e2e-fix.patch`
+(`4f0cd41d9cd313e55b437226af4579329d6d6f07b352e7a17c6852e6fdfe653a`). The
+blank-answer accessibility test in `tests/browser/keyboard-navigation.spec.ts`
+accepts only reviewed, core, non-structured Ratio-language items and completes
+the served item with its own canonical answer; every accessibility assertion
+is unchanged. RC-5 changed no `src/` behaviour.
+
+### D-227 — Topic-card "last plan item wins" kept for now (E2E-2)
+
+Same report: option (a). Current behaviour (`buildActionBySkillCode`,
+`src/app/learner-chapters.ts:159-165`, overwrites per plan item, so a skill
+with two core plan items shows the second) is retained. Follow-up logged:
+define topic-card selection explicitly and add dedicated selection tests in a
+separately reviewed UX patch (first-item-wins would change learner-facing
+behaviour).
+
+There are 227 decisions: D-01 through D-75, D-139, D-142, D-145–D-227 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

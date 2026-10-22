@@ -1,0 +1,31 @@
+{
+  "id": "ratio-language-teaching-1",
+  "version": "content-1",
+  "title": "What a ratio tells you",
+  "role": "teaching",
+  "skillRef": {
+    "code": "ratio-language",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.RP.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "States a ratio relationship using 'for every' or 'to' language and identifies the two quantities being compared."
+  ],
+  "explanation": "A ratio compares two quantities. A bag has 6 red marbles and 8 yellow marbles. The ratio of red marbles to yellow marbles is 6 to 8.\n\nWays to write it: 6:8, 6 to 8, or 6/8. All of them say \"for every 6 red marbles, there are 8 yellow marbles.\"\n\nOrder matters. Red to yellow is 6:8, but yellow to red is 8:6. Write the quantity that is named first in the question first in the ratio.\n\nPart-to-part and part-to-whole. Red to yellow compares one part with another part. Red to all the marbles compares one part with the whole bag. To find the whole, add the parts: 6 + 8 = 14 marbles, so red to all the marbles is 6:14. Be careful with fraction notation: 6/8 can name the red-to-yellow ratio, but red marbles are 6/14 of the bag, not 6/8 of it.\n\nSimplest form. Divide both numbers by their greatest common factor. 6:8 becomes 3:4 after dividing both numbers by 2. It describes the same relationship: for every 3 red marbles there are 4 yellow marbles.\n\nA ratio is not a count and not a difference. 3:4 does not mean the bag holds exactly 3 red marbles. It also does not mean there is always 1 more yellow marble than red. A bag with 12 red and 16 yellow marbles has the same ratio, 3:4, but it has 4 more yellow marbles than red. To make an equivalent ratio, multiply both numbers by the same number; adding the same amount to both numbers changes the ratio.",
+  "workedExample": "A class has 12 students who walk to school and 9 students who ride the bus. Every student does exactly one of these.\nStep 1. Walkers to bus riders: 12:9. Both numbers divide by 3, so the simplest form is 4:3. For every 4 walkers there are 3 bus riders.\nStep 2. Bus riders to walkers: reverse the order to get 3:4.\nStep 3. Walkers to all students: the whole class is 12 + 9 = 21 students. Walkers to all students is 12:21, which simplifies to 4:7.\nCheck: 4 + 3 = 7, so in every group of 7 students, 4 walk and 3 ride the bus.",
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (RC-T2 TA-1, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge teaching record for RAT-CONTENT RC-T2 (D-218). Explanation, worked example, contexts and numbers written from first principles; reproduces no textbook, contest or standards text and reuses no practice item's numbers or context."
+  },
+  "accessibilityNotes": "Plain text only; no image, table or color carries meaning. Ratios are written with colons and also in words so a screen reader can read them either way.",
+  "accessibleAlternative": "Read aloud or display: A ratio compares two quantities in a stated order, for example 6 red marbles to 8 yellow marbles, written 6:8, 6 to 8 or 6/8. Reversing the order changes the ratio. Part-to-part compares two parts; part-to-whole compares a part with the total. Simplify by dividing both numbers by a common factor. Worked example: 12 walkers and 9 bus riders give 4:3, the reverse 3:4, and walkers to all 21 students 4:7."
+}

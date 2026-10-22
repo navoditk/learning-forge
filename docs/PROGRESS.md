@@ -1,5 +1,45 @@
 # Progress
 
+## 2026-10-22 — E2E fix, teaching records and CI timeout committed
+
+- Codex `gpt-6.1-sol` approved the e2e fix (D-226) and kept topic-card
+  "last plan item wins" with a logged follow-up (D-227). Isolated validation
+  10 (now including Playwright): e2e 110 passed/1 skipped, integration 337,
+  eval 17; verify first hit three agent-tooling timeouts after a ~15-minute
+  host stall (relay profile, delivery-accept, delivery-dispatch) and passed
+  on rerun (2690 + build). Committed and pushed with the five teaching
+  records (D-222–D-224) and the CI timeout (D-225). Ledger 69/180.
+- Follow-ups: topic-card selection semantics (D-227); RAT-INTEGRATE scope
+  (lesson/unit versions, OC-3) next.
+
+## 2026-10-22 — Main CI red after RC-5: e2e regression found and routed
+
+- CI on `930dbaf`: first attempt cancelled by the 10-minute timeout, rerun
+  failed waiting for the dev server (runner slowness). Local sanitized e2e
+  (`DELIVERY-COORDINATOR/claude-window-20261020/e2e-1/`): 109 passed, 1
+  failed: `keyboard-navigation.spec.ts:40` expects "Garden rows" but the
+  Ratio-language topic now opens on newly registered `ratio-language-3`.
+- Process gap (integrator): RC-5 validation omitted `npm run test:e2e`, which
+  AGENTS.md requires for learner-facing changes. The isolated validation
+  script now runs Playwright with a synthetic DB. Fix dispatched to Sonnet
+  (ledger 68/180); teaching commit held until main is green.
+
+## 2026-10-22 — All five Ratios teaching records accepted (D-223–D-225)
+
+- Codex `gpt-6.1-sol` accepted unit-rates-teaching-1 (D-223) and approved the
+  mechanical metadata completion (D-224) and a CI timeout of 20 minutes
+  (D-225; run 39737356330 timed out in browser journeys). Five dormant
+  teaching records plus pinned validation test applied; ledger 67/180.
+- Delegated decisions (owner may override): D-209, D-220–D-225.
+
+## 2026-10-22 — Four teaching records accepted by delegated review (D-222)
+
+- Codex `gpt-6.1-sol` accepted ratio-language, ratio-tables,
+  double-number-lines and percent-applications teaching records (dormant
+  only); unit-rates needs a new context (RCT2-R1). Opus correcting (ledger
+  66/180). Delegated decisions so far (owner may override): D-209, D-220,
+  D-221, D-222.
+
 ## 2026-10-22 — All 22 Ratios practice items registered (RC-5)
 
 - RC-5 rev2 passed Codex `gpt-6.1-sol` re-review and was applied to main

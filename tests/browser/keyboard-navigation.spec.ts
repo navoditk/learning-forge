@@ -1,4 +1,29 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 import { expect, test } from '@playwright/test';
+
+/**
+ * Core Ratio language records with a single free-text answer (legacy
+ * validator), read from the registered content files. The topic card serves
+ * whichever of these the planner selects, so the test must not hard-code one.
+ */
+function ratioLanguageTextItems(): { title: string; answer: string }[] {
+  const dir = join(process.cwd(), 'content', 'ratios');
+  return readdirSync(dir)
+    .filter((name) => /^ratio-language-\d+\.json$/.test(name))
+    .map((name) => JSON.parse(readFileSync(join(dir, name), 'utf8')))
+    .filter(
+      (item) =>
+        item.mode === 'core' &&
+        item.review?.status === 'reviewed' &&
+        item.deterministicValidator?.type !== 'structured',
+    )
+    .map((item) => ({
+      title: item.title as string,
+      answer: item.deterministicValidator.canonicalAnswer as string,
+    }));
+}
 
 test.describe('keyboard operability', () => {
   test('learner can complete the core loop using only the keyboard', async ({ page }) => {
@@ -49,7 +74,19 @@ test.describe('keyboard operability', () => {
       .getByRole('navigation', { name: 'Course table of contents' })
       .getByRole('button', { name: 'Ratio language' })
       .click();
-    await expect(page.getByRole('heading', { name: 'Garden rows' })).toBeVisible();
+    // Which core Ratio language item the topic serves is the planner's choice
+    // (catalog order, two per skill); accept any registered single-answer
+    // item and use that item's own canonical answer from its content file.
+    const candidates = ratioLanguageTextItems();
+    expect(candidates.length).toBeGreaterThan(0);
+    const served = page.getByRole('heading', {
+      name: new RegExp(
+        `^(${candidates.map((c) => c.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})$`,
+      ),
+    });
+    await expect(served).toBeVisible();
+    const servedTitle = ((await served.textContent()) ?? '').trim();
+    const answer = candidates.find((candidate) => candidate.title === servedTitle)!.answer;
 
     const input = page.getByLabel('Your answer');
     await page.getByRole('button', { name: 'Submit answer' }).click();
@@ -67,7 +104,7 @@ test.describe('keyboard operability', () => {
 
     // Correcting the input clears the error without a page reload, and the
     // activity can still be completed normally afterwards.
-    await input.fill('2:3');
+    await input.fill(answer);
     await expect(page.locator('#learner-response-error')).toHaveCount(0);
     await expect(input).not.toHaveAttribute('aria-invalid');
     await page.getByRole('button', { name: 'Submit answer' }).click();

@@ -107,9 +107,3 @@ describe('import scanner regression cases (in-memory sources)', () => {
     ).toBe(false);
   });
 });
-
-describe('no serving artifacts exist for teaching', () => {
-  it('has no content/teaching records in the tree', () => {
-    expect(existsSync(resolve(ROOT, 'content/teaching'))).toBe(false);
-  });
-});

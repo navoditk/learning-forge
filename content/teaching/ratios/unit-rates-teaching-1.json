@@ -1,0 +1,31 @@
+{
+  "id": "unit-rates-teaching-1",
+  "version": "content-1",
+  "title": "Unit rates: how much for one",
+  "role": "teaching",
+  "skillRef": {
+    "code": "unit-rates",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.2", "6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Computes a unit rate from a ratio and applies it to answer a related quantity question."
+  ],
+  "explanation": "A rate compares two different kinds of quantities, such as dollars and cups, or kilometers and hours. A unit rate tells how much of one quantity goes with exactly 1 of the other quantity. The word \"per\" means \"for each one.\"\n\nFinding a unit rate: divide. If 4 cups of yogurt cost 6 dollars, the cost per cup is 6 ÷ 4 = 1.5 dollars per cup (one dollar and fifty cents).\n\nEvery rate has two unit rates. The same yogurt price gives 4 ÷ 6 = 2/3 of a cup per dollar. Both are correct, but they answer different questions, so read the question to decide which quantity is the \"one.\" Dividing by the total of both numbers (6 ÷ 10) does not give a rate.\n\nUnit rates can be fractions. If 2 pizzas are shared equally by 5 friends, each friend gets 2 ÷ 5 = 2/5 of a pizza. A unit rate can be less than 1.\n\nAlways say the units. \"1.5\" alone is not a full answer; \"1.5 dollars per cup\" is.\n\nUsing a unit rate: multiply. At 1.5 dollars per cup, 10 cups cost 10 × 1.5 = 15 dollars.\n\nComparing: find each unit rate in the same units, then compare. Comparing total prices is not fair when the amounts are different, and subtracting the totals first does not give a per-item difference.\n\nConverting units: a conversion rate is a unit rate. Since 1 kilogram = 1,000 grams, 3 kilograms = 3 × 1,000 = 3,000 grams. To change grams back to kilograms, divide by 1,000.",
+  "workedExample": "Laundromat A charges 20 dollars to wash 5 loads of laundry. Laundromat B charges 28 dollars to wash 8 loads. Which laundromat has the lower price per load?\nLaundromat A: 20 ÷ 5 = 4 dollars per load.\nLaundromat B: 28 ÷ 8 = 3.5 dollars per load.\nLaundromat B is cheaper by 4 − 3.5 = 0.5 dollars (50 cents) per load.\nCheck with the other unit rate: Laundromat A gives 5 ÷ 20 = 1/4 load per dollar and Laundromat B gives 8 ÷ 28 = 2/7 load per dollar. Since 2/7 is more than 1/4, Laundromat B washes more for each dollar, which agrees.",
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (RC-T2 TA-2, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge teaching record for RAT-CONTENT RC-T2 (D-218). Explanation, worked example, contexts and numbers written from first principles; reproduces no textbook, contest or standards text and reuses no practice item's numbers or context."
+  },
+  "accessibilityNotes": "Plain text only; no image or color carries meaning. Money is written as dollars in words; division and multiplication use the ÷ and × symbols with spaces so a screen reader announces them.",
+  "accessibleAlternative": "Read aloud or display: A unit rate is the amount for exactly 1 of the other quantity. Find it by dividing, for example 6 dollars for 4 cups is 1.5 dollars per cup. Each rate has two unit rates, such as 2/3 cup per dollar. Unit rates can be fractions, like 2/5 pizza per friend. Always give units. Multiply by a unit rate to scale. Compare unit rates, not totals. Conversion: 1 kilogram is 1,000 grams. Worked example: a laundromat at 4 dollars per load versus one at 3.5 dollars per load."
+}

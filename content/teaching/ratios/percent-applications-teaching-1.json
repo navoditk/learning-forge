@@ -1,0 +1,31 @@
+{
+  "id": "percent-applications-teaching-1",
+  "version": "content-1",
+  "title": "Percent, fractions and decimals",
+  "role": "teaching",
+  "skillRef": {
+    "code": "percent-applications",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Converts between a percent, fraction, and decimal to solve a part-whole problem."
+  ],
+  "explanation": "Percent means \"per hundred,\" or out of 100. 45% means 45 out of every 100. That is the fraction 45/100 and the decimal 0.45.\n\nConverting:\n- Percent to decimal: divide by 100. 45% = 0.45, 7% = 0.07, and 120% = 1.2.\n- Decimal to percent: multiply by 100. 0.3 = 30%.\n- Percent to fraction: write it over 100 and simplify. 45% = 45/100 = 9/20.\n- Fraction to percent: find an equivalent fraction with denominator 100. 3/4 = 75/100 = 75%.\n\nFinding a part: 20% of 45. Since 20% = 1/5, find 45 ÷ 5 = 9. Or use the decimal: 0.2 × 45 = 9.\n\nFinding the whole: 16 is 25% of what number? Since 25% = 1/4, the whole is 4 × 16 = 64. Check: 25% of 64 is 16.\n\nCommon mistakes:\n- Putting the decimal point in the wrong place. 7% is 0.07, not 0.7.\n- Treating the percent as the answer. 20% of 45 is 9, not 20.\n- Finding the wrong part. If 20% of 45 students wear glasses, then 9 wear glasses and 36 do not.\n- Multiplying the part by the percent number. To find the whole from 16 and 25%, divide by 1/4 (or multiply by 4), not 16 × 25.",
+  "workedExample": "A theater has 120 seats, and 45% of them are in the balcony. How many balcony seats are there, and how many seats are not in the balcony?\nStep 1. Convert: 45% = 45/100 = 9/20 = 0.45.\nStep 2. Part: 120 ÷ 20 = 6, and 6 × 9 = 54 balcony seats. Check with the decimal: 0.45 × 120 = 54.\nStep 3. The rest: 120 − 54 = 66 seats are not in the balcony. That is 100% − 45% = 55% of the seats, and 0.55 × 120 = 66 agrees.",
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (RC-T2 TA-1, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge teaching record for RAT-CONTENT RC-T2 (D-218). Explanation, worked example, contexts and numbers written from first principles; reproduces no textbook, contest or standards text and reuses no practice item's numbers or context."
+  },
+  "accessibilityNotes": "Plain text only; no image or color carries meaning. The percent sign is used together with the word percent in the explanation so a screen reader announces it.",
+  "accessibleAlternative": "Read aloud or display: Percent means out of 100; 45 percent is 45/100 or 0.45. Divide a percent by 100 to get a decimal and multiply a decimal by 100 to get a percent. Write a percent over 100 and simplify to get a fraction. Find a part by taking that fraction of the whole: 20 percent of 45 is 9. Find a whole from a part: 16 is 25 percent of 64. Worked example: 45 percent of 120 seats is 54 seats, and 66 seats are not in the balcony."
+}

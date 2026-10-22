@@ -2,7 +2,22 @@
 
 ## Live relay
 
-- Phase: **RC-5 DONE (applied, committed); RC-T2 IN_PROGRESS** (2026-10-22).
+- Phase: **RC-T2 DONE — 5/5 teaching ACCEPTED (D-222, D-223), applied**
+  (2026-10-22). Opus teaching-A-rev2 (verified 377/377; freeze
+  `7d4bb9d3...9e43`; combined `e17b0bd0...dec8`). Codex `gpt-6.1-sol` round 2
+  READY_WITH_RISKS (`teaching-A-rev2/review-r2-report.md` `7ba45f62...8fbb`):
+  TA-2 accept, TA-3 mechanical metadata completion (D-224), CI-1 timeout
+  10→20 (D-225). Applied to main with iso-validation-9; committed/pushed
+  under D-219. Dormant: no serving, grants or lesson refs (OC-3/OC-5 open).
+  Ratios practice + teaching content complete; next RAT-INTEGRATE (lesson
+  and unit versions) scope.
+- Earlier phase: **RC-T2 4/5 teaching ACCEPTED (D-222); unit-rates correction
+  IN_PROGRESS** (2026-10-22). Sonnet tests (verified 59/59; combined
+  `feb086ff...a715`, verify 2690). Codex `gpt-6.1-sol` (verified)
+  `teaching-A-rev1/review-r1-report.md` `5879c9e4...a074`: no math errors;
+  RCT2-R1 minor (unit-rates reuses mc6 pencil-store context). Opus resumed for
+  teaching-A-rev2 with D-222 metadata and re-pinned tests (ledger 66/180).
+- Earlier phase: **RC-5 DONE (applied, committed); RC-T2 IN_PROGRESS** (2026-10-22).
   Sonnet rev2 (verified 146/146 + one 429 stop; combined `2da36c43...91df`):
   1049 vectors scored (42 G-MC), sensitivity control. Codex `gpt-6.1-sol`
   round 2 (verified) READY_WITH_RISKS, approved for local application
