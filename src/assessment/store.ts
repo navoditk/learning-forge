@@ -1,7 +1,7 @@
 import type { AssessmentContentItem, Ref } from '../contracts';
 import type { ReviewContentItem } from '../contracts/progression';
 import { createPrivateAssessmentPackageStoreFromEnvironment } from './private-package-store';
-import { placementProbeBankFor } from '../progression/placement-probe';
+import { isPlacementProbeBankRef, placementProbeBankFor } from '../progression/placement-probe';
 
 /**
  * A reviewed public practice item projected for a placement probe (D-64).
@@ -69,14 +69,20 @@ function createHeldOutStore(): AssessmentStore {
 }
 
 /**
- * Placement probes (D-64) resolve to the public practice projection; every
- * other bank comes only from the held-out store, which fails closed.
+ * Placement probes (D-64) resolve only from the committed public snapshot
+ * (H-1) and fail closed without it; every other bank comes only from the
+ * held-out store, which also fails closed.
  */
 export function createAssessmentStore(): AssessmentStore {
   const heldOut = createHeldOutStore();
   return {
     async getBank(ref) {
-      return placementProbeBankFor(ref) ?? heldOut.getBank(ref);
+      if (isPlacementProbeBankRef(ref)) {
+        const probe = placementProbeBankFor(ref);
+        if (!probe) throw new AssessmentStoreUnavailableError();
+        return probe;
+      }
+      return heldOut.getBank(ref);
     },
   };
 }

@@ -8,9 +8,13 @@ import { servableContentCatalog } from '../../src/content/catalog';
 import { canonicalDigest } from '../../src/curriculum/catalog-registration-checks';
 import { COURSE_CATALOG } from '../../src/curriculum/course-catalog';
 import { PILOT_UNITS } from '../../src/curriculum/pilot-catalog';
+import MANIFEST from '../../src/curriculum/grade-6-math-structure-manifest.json';
+import COMMITTED_SNAPSHOT from '../../src/curriculum/probe-snapshots/ratios-and-proportional-reasoning-placement-probe@1.0.0.json';
 import {
   matchesPlacementProbeRequirement,
   placementProbeBank,
+  placementProbeBankFor,
+  placementProbeBankRef,
 } from '../../src/progression/placement-probe';
 import {
   admitNewPlacementProbe,
@@ -96,6 +100,49 @@ describe('live equivalence on the pilot unit', () => {
     );
     expect(result.snapshot.contentHash).toBe(live.contentHash);
     expect(result.snapshot.bankRef).toEqual({ code: live.code, version: live.version });
+  });
+});
+
+describe('committed unit 1.0.0 snapshot parity (RI-2, scope 2.6)', () => {
+  const PARITY_HASH = 'sha256:b8b89cf2c1e036ed51c819bd95ba97188e7d3b532feb7684f34a95c9996e090e';
+  const unit = PILOT_UNITS[0]!;
+  const entry = MANIFEST.probeSnapshots[0] as ProbeManifestEntry;
+  const liveLookup: ProbeLookup = (ref) => {
+    const item = servableContentCatalog.find((c) => c.id === ref.id && c.version === ref.version);
+    if (!item) return undefined;
+    const bytes = readFileSync(join(process.cwd(), 'content', 'ratios', `${ref.id}.json`));
+    return {
+      item: item as never,
+      rawSha256: createHash('sha256').update(bytes).digest('hex'),
+      servable: true,
+    };
+  };
+
+  it('the committed snapshot verifies against its manifest entry', () => {
+    expect(MANIFEST.probeSnapshots).toHaveLength(1);
+    const verified = verifyProbeSnapshot(COMMITTED_SNAPSHOT, entry);
+    expect(verified.ok).toBe(true);
+  });
+
+  it('its contentHash equals the pinned parity hash and the live probe hash', () => {
+    expect(COMMITTED_SNAPSHOT.contentHash).toBe(PARITY_HASH);
+    expect(placementProbeBank(unit)!.contentHash).toBe(PARITY_HASH);
+  });
+
+  it('its projections deep-equal the live items, in the same key order', () => {
+    const live = placementProbeBank(unit)!;
+    const projections = COMMITTED_SNAPSHOT.items.map((item) => item.projection);
+    expect(projections).toEqual(JSON.parse(JSON.stringify(live.items)));
+    expect(JSON.stringify(projections)).toBe(JSON.stringify(live.items));
+    const resolved = placementProbeBankFor(placementProbeBankRef(unit))!;
+    expect(JSON.stringify(resolved)).toBe(JSON.stringify(live));
+  });
+
+  it('it is exactly what the builder produces from the registered bytes today', () => {
+    const rebuilt = buildPlacementProbeSnapshot(unit, COURSE_CATALOG, liveLookup);
+    if (!rebuilt.ok) throw new Error(rebuilt.reason);
+    expect(rebuilt.snapshotDigest).toBe(entry.sha256);
+    expect(JSON.parse(JSON.stringify(rebuilt.snapshot))).toEqual(COMMITTED_SNAPSHOT);
   });
 });
 

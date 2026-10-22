@@ -1,5 +1,16 @@
 # Progress
 
+## 2026-10-22 — RI-2 committed: live placement snapshots
+
+- RI-2 rev2 passed Codex re-review; isolated validation 12 fully green incl.
+  e2e. Committed and pushed under D-219. RI-3 next. Ledger 85/180.
+
+## 2026-10-22 — RI-2 reviewed: replay fix routed back
+
+- CI green on `72d7dd7` (RI-1). RI-2 (live placement snapshots) review found
+  that withdrawing a pinned item would block replay of an existing placement
+  assignment; Sonnet correcting. Delegated rulings D-244–D-247. Ledger 84/180.
+
 ## 2026-10-22 — RI-1 committed: versioned catalog selection live
 
 - RI-1 (P-A live: active program/lesson selection, extension stub retired;

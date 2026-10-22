@@ -601,10 +601,18 @@ describe('grade-6-math structure manifest', () => {
     );
   });
 
-  it('MF-4 has no duplicate entries and no probe snapshots in IMPL-1', () => {
+  it('MF-4 has no duplicate entries and exactly the unit 1.0.0 probe snapshot (RI-2)', () => {
     const keys = manifest.records.map(entryKey);
     expect(new Set(keys).size).toBe(keys.length);
-    expect(manifest.probeSnapshots).toEqual([]);
+    expect(manifest.probeSnapshots).toEqual([
+      {
+        bankCode: 'ratios-and-proportional-reasoning-placement-probe',
+        bankVersion: '1.0.0',
+        unitCode: 'ratios-and-proportional-reasoning',
+        unitVersion: '1.0.0',
+        sha256: 'ccf3bf56c544196d2f98c0526b591c62945cf9b56eab716775c4d4eb0d14be43',
+      },
+    ]);
   });
 
   it('MF-5 excludes other programs and the disconnected domain catalogs', () => {

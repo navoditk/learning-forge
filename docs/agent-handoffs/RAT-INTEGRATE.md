@@ -2,7 +2,22 @@
 
 ## Live relay
 
-- Phase: **RI-1 DONE (applied, committed); RI-2 next** (2026-10-22). Sonnet
+- Phase: **RI-1, RI-2 DONE (committed); RI-3 next** (2026-10-22). RI-2 rev2
+  (Sonnet verified 96/96) `ri2/rev2/ri2.patch`
+  `a7d8cb596300bf97ee9d1233c7b84870cc388db6606ad69be4519ddb03c050a5`; Codex
+  round 2 READY_WITH_RISKS (`review-r2-report.md` `6bc05dc3...a607`).
+  `iso-validation-12` all exit 0 (verify 2703, integration 352+1, eval 17,
+  e2e 110+1). Open gates: D-242 mounted e2e (owner), D-246 successor
+  placement case in RI-5.
+- Earlier phase: **RI-1 DONE (72d7dd7, CI green); RI-2 rev1 CHANGES_REQUESTED; rev2
+  IN_PROGRESS** (2026-10-22). Sonnet `a66ff2d7b5d2815c7` (verified 73/73)
+  `ri2/rev1/ri2.patch` `943ebd60...f0f2` (verify 2703, integration 351+1,
+  eval 17, e2e 110+1; parity hash `b8b89cf2...090e`). Codex
+  `review-r1-report.md` `80afef84...9ff1`: RI2-R1 major (new-placement
+  admission blocks historical replay), RI2-R2 minor (no fetch coverage).
+  Rulings D-244–D-247 (incl. RI-5 allowlist for `placement-probe.ts`).
+  Ledger 84/180.
+- Earlier phase: **RI-1 DONE (applied, committed); RI-2 next** (2026-10-22). Sonnet
   rev2 (verified 92/92 + one 429 stop) `ri1/rev2/ri1.patch`
   `ad3f35a2699f870927c0d19fca15139a2ecfc4c3e5c74b691101fe19b2811bcf` (20
   files). Codex round 2 READY_WITH_RISKS (`review-r2-report.md`

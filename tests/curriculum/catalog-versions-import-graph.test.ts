@@ -85,8 +85,13 @@ const NEW_MODULES = [
 ];
 const DORMANT = [...NEW_MODULES, curriculum('grade-6-math-structure-manifest.json')];
 // RI-1 (P-A live, D-229): catalog-versions is now imported by the production
-// course catalog. The registration checks and the snapshot module stay dormant.
+// course catalog. The registration checks stay dormant. RI-2 (H-1 live, D-229):
+// the live placement probe is the only importer of the snapshot module and the
+// structure manifest.
+const PLACEMENT_PROBE = resolve(sourceRoot, 'progression', 'placement-probe.ts');
 const ALLOWED_EDGES = new Set([
+  `${PLACEMENT_PROBE}->${SNAPSHOT_MODULE}`,
+  `${PLACEMENT_PROBE}->${curriculum('grade-6-math-structure-manifest.json')}`,
   `${curriculum('course-catalog.ts')}->${curriculum('catalog-versions.ts')}`,
   `${curriculum('catalog-registration-checks.ts')}->${curriculum('catalog-versions.ts')}`,
   `${SNAPSHOT_MODULE}->${curriculum('catalog-registration-checks.ts')}`,

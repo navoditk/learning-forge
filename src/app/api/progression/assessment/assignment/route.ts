@@ -14,7 +14,11 @@ import {
   resolvePinnedPolicyProfile,
 } from '../../../../../progression/artifacts';
 import { policyHash } from '../../../../../progression/policy';
-import { placementProbeBank } from '../../../../../progression/placement-probe';
+import {
+  admittedPlacementProbeBank,
+  placementProbeBankFor,
+  placementProbeBankRef,
+} from '../../../../../progression/placement-probe';
 import {
   latestSkillOverrideAt,
   pilotSkillRef,
@@ -209,6 +213,40 @@ async function resolvePlan(
   }
   if (body.kind === 'PLACEMENT' && unit) {
     // D-64: the probe projects reviewed public practice items; D-68 places.
+    // H-1: the bank is the unit's committed snapshot, admitted per version.
+    // D-54 / H-1: a retried placement request replays its own assignment from
+    // the verified historical snapshot, before the new-placement refusals
+    // (one per unit, current admission). The shared helper still rejects a
+    // request that does not match the stored assignment.
+    const existing = await prisma.assessmentAssignment.findUnique({
+      where: {
+        learnerProfileId_idempotencyKey: { learnerProfileId, idempotencyKey: body.idempotencyKey },
+      },
+      select: { kind: true, targetKind: true, targetCode: true, targetVersion: true },
+    });
+    if (
+      existing &&
+      existing.kind === 'PLACEMENT' &&
+      existing.targetKind === 'UNIT' &&
+      existing.targetCode === unit.code &&
+      existing.targetVersion === unit.version
+    ) {
+      const historical = placementProbeBankFor(placementProbeBankRef(unit));
+      if (!historical) {
+        return conflict('Placement probe is not available', 'ASSESSMENT_STORE_UNAVAILABLE', 503);
+      }
+      return {
+        targetRef: { code: unit.code, version: unit.version },
+        bank: {
+          code: historical.code,
+          version: historical.version,
+          contentHash: historical.contentHash,
+          itemCount: historical.items.length,
+          coveredSkillRefs: historical.items.map((item) => item.skillRef),
+        },
+        skillCodes: lessonSkillCodes(unit.lessonRefs),
+      };
+    }
     // D-71: one placement per unit.
     const placed = await prisma.learnerPlacement.count({
       where: { learnerProfileId, unitCode: unit.code, unitVersion: unit.version },
@@ -216,7 +254,7 @@ async function resolvePlan(
     if (placed > 0) {
       return conflict('Placement is already recorded for this unit', 'PLACEMENT_ALREADY_RECORDED');
     }
-    const probe = placementProbeBank(unit);
+    const probe = admittedPlacementProbeBank(unit);
     if (!probe) {
       return conflict('Placement probe is not available', 'ASSESSMENT_STORE_UNAVAILABLE', 503);
     }

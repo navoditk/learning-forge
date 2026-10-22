@@ -11,7 +11,11 @@ import {
 } from '../../src/progression/learner-state';
 import { submitAssessmentItem } from '../../src/progression/assessment-submission';
 import { resolvePinnedPolicyProfile } from '../../src/progression/artifacts';
-import { placementProbeBank } from '../../src/progression/placement-probe';
+import {
+  placementProbeBank,
+  placementProbeBankFor,
+  placementProbeBankRef,
+} from '../../src/progression/placement-probe';
 import { policyHash } from '../../src/progression/policy';
 import { deleteHouseholdData } from '../../src/server/household-data';
 import { prisma } from '../../src/server/prisma';
@@ -25,6 +29,9 @@ import { POST } from '../../src/app/api/progression/assessment/assignment/route'
 
 const unit = PILOT_UNITS[0]!;
 const profileRef = { code: 'grade-6-math-default', version: '1.1.0' };
+// H-1: learner-facing probes resolve from the committed snapshot, whose
+// projection equals the live composition (parity is asserted below).
+const snapshotBank = () => placementProbeBankFor(placementProbeBankRef(unit))!;
 
 describe('placement probes (D-64, D-68)', () => {
   let householdId: string;
@@ -58,7 +65,7 @@ describe('placement probes (D-64, D-68)', () => {
   async function probe(correctSkills: readonly string[]) {
     run += 1;
     const profile = resolvePinnedPolicyProfile(profileRef);
-    const bank = placementProbeBank(unit)!;
+    const bank = snapshotBank();
     const store = createAssessmentStore();
     const { assignment } = await createAssessmentAssignment(
       {
@@ -297,7 +304,8 @@ describe('placement probes (D-64, D-68)', () => {
         },
       },
     });
-    const bank = placementProbeBank(unit)!;
+    const bank = snapshotBank();
+    expect(JSON.stringify(bank)).toBe(JSON.stringify(placementProbeBank(unit)));
     expect(stored.requiredCount).toBe(bank.items.length);
     expect((stored.selectedItems as { id: string }[]).map(({ id }) => id)).toEqual(
       bank.items.map((item) => item.id),

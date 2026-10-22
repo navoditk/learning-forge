@@ -2296,7 +2296,30 @@ Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
 - **D-243 RI1-R2 scope amendment:** `src/curriculum/program-roster.ts` joins
   RI-1's edit allowlist, limited to consuming the active projection.
 
-There are 243 decisions: D-01 through D-75, D-139, D-142, D-145–D-243 approved;
+### D-244 to D-247 — RAT-INTEGRATE RI-2 rulings
+
+Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a162b2-c31e-7960-ad17-714911a0f2fe`; report
+`agent-handoffs/RAT-INTEGRATE/ri2/rev1/review-r1-report.md`
+`80afef84357f41b6d4f4e373ca598094be8f0f45acd04ebdffc435b8ef569ff1`) on
+`ri2.patch` `943ebd6097c78acfc932c5fd266fce8aac7027c2c92a0f0fc47fb8ed39e0f0f2`
+(CHANGES_REQUESTED: RI2-R1 major, RI2-R2 minor).
+
+- **D-244 RI2-D1:** accept using the reviewed loaded record plus the lesson
+  registration pin as `rawSha256` for new-placement admission under the
+  static reviewed deployment model; same-version byte edits must keep failing
+  validation.
+- **D-245 RI2-D2:** accept passing an empty `projectionDigest` to
+  `admitNewPlacementProbe` after `resolveHistoricalProbeBank` has verified the
+  digest chain; it is not verification evidence.
+- **D-246 RI2-D3:** accept partial PH-2 coverage until RI-5; the
+  successor-positive route/store integration case is required before RI-5
+  acceptance. RI-5 allowlist amended to include `src/progression/placement-probe.ts`,
+  limited to registering the second committed snapshot.
+- **D-247 RI2-D4:** accept exact-first-ref placement selection (matches H-1
+  and PH-5; current placement preserved).
+
+There are 247 decisions: D-01 through D-75, D-139, D-142, D-145–D-247 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

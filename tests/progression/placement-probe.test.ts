@@ -5,7 +5,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 import { createAssessmentStore } from '../../src/assessment/store';
-import { contentCatalog } from '../../src/content/catalog';
+import { contentCatalog, servableContentCatalog } from '../../src/content/catalog';
 import { PILOT_UNITS } from '../../src/curriculum/pilot-catalog';
 import {
   AssessmentAssignmentError,
@@ -14,6 +14,7 @@ import {
 } from '../../src/progression/assessment-assignment';
 import { lessonStatusAfterPlacement, placementLessonIndex } from '../../src/progression/placement';
 import {
+  admittedPlacementProbeBank,
   matchesPlacementProbeRequirement,
   placementProbeBank,
   placementProbeBankFor,
@@ -128,6 +129,51 @@ describe('placement probe bank (D-64)', () => {
     await expect(
       store.getBank({ code: 'ratio-language-lesson-bank', version: '1.0.0' }),
     ).rejects.toMatchObject({ code: 'ASSESSMENT_STORE_UNAVAILABLE' });
+  });
+
+  it('resolves a placement-probe reference only from its committed snapshot (H-1)', async () => {
+    const ref = placementProbeBankRef(unit);
+    expect(JSON.stringify(placementProbeBankFor(ref))).toBe(
+      JSON.stringify(placementProbeBank(unit)),
+    );
+    // A probe reference without a snapshot never falls back to the held-out store or live data.
+    await expect(
+      createAssessmentStore().getBank({ ...ref, version: '9.9.9' }),
+    ).rejects.toMatchObject({ code: 'ASSESSMENT_STORE_UNAVAILABLE' });
+  });
+
+  it('PH-5 never falls through to a later ref when the first ref is not servable', () => {
+    const first = unitLessons(unit)[0]!.practiceContentRefs[0]!;
+    const later = unitLessons(unit)[0]!.practiceContentRefs[1]!;
+    const index = servableContentCatalog.findIndex((item) => item.id === first.id);
+    expect(servableContentCatalog.some((item) => item.id === later.id)).toBe(true);
+    const [removed] = servableContentCatalog.splice(index, 1);
+    try {
+      expect(placementProbeBank(unit)).toBeUndefined();
+      expect(admittedPlacementProbeBank(unit)).toBeUndefined();
+      // The snapshot (historical resolution) is independent of servability.
+      expect(placementProbeBankFor(placementProbeBankRef(unit))).toBeDefined();
+    } finally {
+      servableContentCatalog.splice(index, 0, removed!);
+    }
+    expect(admittedPlacementProbeBank(unit)?.contentHash).toBe(
+      placementProbeBank(unit)?.contentHash,
+    );
+  });
+
+  it('refuses a new placement when a lesson pin no longer equals the snapshot hash', () => {
+    const lesson = unitLessons(unit)[0]!;
+    const original = lesson.practiceContentRefs[0]!;
+    const repinned = { ...original, hash: `sha256:${'0'.repeat(64)}` };
+    const mutable = lesson as { practiceContentRefs: unknown[] };
+    const saved = mutable.practiceContentRefs;
+    mutable.practiceContentRefs = [repinned, ...saved.slice(1)];
+    try {
+      expect(admittedPlacementProbeBank(unit)).toBeUndefined();
+    } finally {
+      mutable.practiceContentRefs = saved;
+    }
+    expect(admittedPlacementProbeBank(unit)).toBeDefined();
   });
 
   it('matches placement only to unit targets and applies no reassessment limits', () => {
