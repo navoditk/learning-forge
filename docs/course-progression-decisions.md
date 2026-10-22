@@ -2339,7 +2339,31 @@ Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
 - **D-251 RI3-D4:** `private-package-store.ts` importing the lazy
   `COURSE_CATALOG_INDEX` proxy is accepted under D-241.
 
-There are 251 decisions: D-01 through D-75, D-139, D-142, D-145–D-251 approved;
+### D-252 to D-256 — RAT-INTEGRATE RI-4 rulings
+
+Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a162b2-c31e-7960-ad17-714911a0f2fe`; report
+`agent-handoffs/RAT-INTEGRATE/ri4/rev1/review-r1-report.md`
+`7b39bded4c84bc4fefe9c26f84ac7665a898b47db64db3c631bdb75363d1ba3e`) on
+`ri4.patch` `941b6cab6f3f456d4b39759d3a9fd86450106abb19c93dd0d205eb54d0c65a35`
+(CHANGES_REQUESTED: RI4-R1, RI4-R2 minor).
+
+- **D-252:** the constructed V-2 negative-control hash is rejected; use the
+  exact draft hash
+  `f57e6fab12e1ddc2567915ca7cd597a9fbc744d7fe32a7456fd2ff3c22fdcd88` (RI4-R1).
+- **D-253:** the teaching-ref guard may use the TypeScript AST directly,
+  conditional on detecting assignment destructuring (RI4-R2).
+- **D-254:** the single-version golden rendered once from the baseline with a
+  `toLocaleDateString` stub is accepted (independently re-rendered by the
+  reviewer); `React.createElement` panel tests in `.test.ts` are accepted.
+- **D-255:** browser coverage of the history view is deferred to RI-5; the
+  history, keyboard and axe cases are mandatory RI-5 gates before activation.
+- **D-256 (D-236 timing):** the staged 2.0.0 lesson/unit/program structure
+  is accepted now; the review-metadata stamp is deferred to RI-5, applied
+  once after verifying the accepted structure and pins are unchanged (amends
+  scope §6 timing). Accepts no unresolved bank metadata or registration.
+
+There are 256 decisions: D-01 through D-75, D-139, D-142, D-145–D-256 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

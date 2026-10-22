@@ -1,5 +1,32 @@
 # Progress
 
+## 2026-10-22 — INCIDENT: pushes to `main` may have auto-deployed to production
+
+- The integrator pushed six commits to `main` under D-219 (`58ea75e`,
+  `930dbaf`, `288a165`, `72d7dd7`, `be0c50f`, `1955f77`) after checking only
+  the GitHub workflows. It missed that Render has auto-deployed `main`
+  pushes before (2026-10-01, `dep-daurfsc9v7es73bkocv0`, PROGRESS line ~6800)
+  and that the Render build runs `prisma migrate deploy && npm run
+content:archive` (`render.yaml` buildCommand; `package.json` `db:deploy`).
+  An earlier checkpoint kept commits local for exactly this reason, and
+  SCI6-USABLE review finding SU-R8 flagged it.
+- If auto-deploy is still on, production may now serve: Science activation
+  (D-201; D-193 requires the paid eval to pass first), the 22 Ratios
+  registrations (D-216 private check and D-221 archive ordering were
+  deployment preconditions), RI-1–RI-3 behaviour, and any pending migrations,
+  all without the H9 release gates.
+- Actions: pushing stopped immediately; RI-4 is applied locally but not
+  committed or pushed; no further pushes until the owner confirms Render's
+  auto-deploy state and decides. Agents have no Render or production access;
+  checking deploys and any rollback (Render redeploy of last-good, never
+  `down.sql`) are owner-only.
+
+## 2026-10-22 — RI-4 reviewed: structure accepted, two small fixes
+
+- CI green on `1955f77` (RI-3). Codex accepted the staged Ratios 2.0.0
+  structure and the history view (D-252–D-256; stamp deferred to RI-5) and
+  asked for two test fixes. Sonnet correcting; ledger 90/180.
+
 ## 2026-10-22 — RI-3 committed: package banks derived from the catalog
 
 - RI-3 passed Codex review first time (D-248–D-251); validation green incl.

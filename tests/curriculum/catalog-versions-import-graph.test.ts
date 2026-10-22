@@ -6,6 +6,11 @@ import { describe, expect, it } from 'vitest';
 import { COURSE_CATALOG, COURSE_CATALOG_INDEX } from '../../src/curriculum/course-catalog';
 import RESERVED_LABELS from '../../src/curriculum/grade-6-math-reserved-labels.json';
 import {
+  RATIOS_UNIT_2_LESSONS,
+  RATIOS_UNIT_2_PROGRAM,
+  RATIOS_UNIT_2_UNIT,
+} from '../../src/curriculum/ratios-unit-2-catalog';
+import {
   itemRef,
   probeItemId,
   probeLesson,
@@ -78,10 +83,13 @@ function resolveModule(from: string, specifier: string): string | undefined {
 
 const curriculum = (name: string): string => resolve(sourceRoot, 'curriculum', name);
 const SNAPSHOT_MODULE = resolve(sourceRoot, 'progression', 'placement-probe-snapshot.ts');
+// RI-4: the staged Ratios 2.0.0 records are dormant until RI-5 registers them.
+const STAGED_CATALOG = curriculum('ratios-unit-2-catalog.ts');
 const NEW_MODULES = [
   curriculum('catalog-versions.ts'),
   curriculum('catalog-registration-checks.ts'),
   SNAPSHOT_MODULE,
+  STAGED_CATALOG,
 ];
 const DORMANT = [...NEW_MODULES, curriculum('grade-6-math-structure-manifest.json')];
 // RI-1 (P-A live, D-229): catalog-versions is now imported by the production
@@ -126,6 +134,7 @@ const ALLOWED_CLOSURE_FILES = new Set(
     'program-registry.ts',
     'grade-6-math-active-selection.json',
     'grade-6-math-reserved-labels.json',
+    'ratios-unit-2-catalog.ts',
   ]
     .map(curriculum)
     .concat(SNAPSHOT_MODULE),
@@ -174,6 +183,15 @@ describe('catalog versioning dormancy', () => {
     expect(offending).toEqual([]);
   });
 
+  it('IG-1s no production file imports the staged Ratios 2.0.0 catalog (RI-4)', () => {
+    const importers = productionEdges()
+      .filter(({ to }) => to === STAGED_CATALOG)
+      .map(({ from }) => relative(repoRoot, from));
+    expect(importers).toEqual([]);
+    expect(DORMANT).toContain(STAGED_CATALOG);
+    for (const edge of ALLOWED_EDGES) expect(edge.endsWith(`->${STAGED_CATALOG}`)).toBe(false);
+  });
+
   it('IG-1p the allowlisted edge exists, so the guard is not vacuous', () => {
     const edges = productionEdges().map(({ from, to }) => `${from}->${to}`);
     for (const edge of ALLOWED_EDGES) expect(edges).toContain(edge);
@@ -215,8 +233,20 @@ describe('catalog versioning dormancy', () => {
     for (const lesson of COURSE_CATALOG_INDEX.lessons) {
       for (const skill of lesson.skillRefs) add(skill.code);
     }
+    // RI-4 staged records (not indexed): their codes are real structure codes
+    // too, including the bank codes they reference.
+    for (const record of [RATIOS_UNIT_2_PROGRAM, RATIOS_UNIT_2_UNIT, ...RATIOS_UNIT_2_LESSONS]) {
+      add(record.code);
+    }
+    for (const lesson of RATIOS_UNIT_2_LESSONS) {
+      add(lesson.assessmentBankRef.code);
+      for (const skill of lesson.skillRefs) add(skill.code);
+    }
+    add(RATIOS_UNIT_2_UNIT.assessmentBankRef!.code);
     expect(real.has('grade-6-math')).toBe(true);
     expect(real.has('double-number-lines-lesson')).toBe(true);
+    expect(real.has('percent-applications-lesson-bank')).toBe(true);
+    expect(real.has('ratios-proportional-reasoning-unit-bank')).toBe(true);
     expect(SV_ALL_RECORDS.length).toBeGreaterThan(0);
     for (const record of SV_ALL_RECORDS) {
       expect(real.has(record.code), record.code).toBe(false);

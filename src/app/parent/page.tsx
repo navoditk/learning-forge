@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
 import { ProgramSwitcher } from '../components/program-switcher';
-import { NeedsHelpOverride } from '../components/needs-help-override';
+import { ParentCourseProgress } from '../components/parent-course-progress';
+import type { CourseProgress } from '../course-progress-view';
 import { hasScienceEvidence, SCIENCE_EVIDENCE_NOTE } from '../parent-claims';
 
 const DELETION_CONFIRMATION_PHRASE = 'DELETE';
@@ -40,22 +41,6 @@ type Digest = {
   totalAttempts: number;
   totalCorrect: number;
   skills: DigestSkillSummary[];
-};
-
-type CourseProgress = {
-  units: Array<{
-    code: string;
-    title: string;
-    status: string;
-    lessons: Array<{
-      code: string;
-      title: string;
-      completionStatus: string;
-      remediationStatus: string;
-      latestAssessment?: { outcome: string; resultId: string; scoredAt: string };
-      skillRefs: Array<{ code: string; version: string }>;
-    }>;
-  }>;
 };
 
 const progressionReleaseGateOpen =
@@ -209,45 +194,14 @@ export default function ParentPage() {
         </section>
       )}
       {progressionReleaseGateOpen && courseProgress && (
-        <section aria-labelledby="course-progress-heading">
-          <h2 id="course-progress-heading">Course progression</h2>
-          <p>
-            Completion history and current remediation are shown separately from mastery evidence.
-          </p>
-          {courseProgress.units.map((unit) => (
-            <article key={unit.code} aria-labelledby={`${unit.code}-heading`}>
-              <h3 id={`${unit.code}-heading`}>{unit.title}</h3>
-              <p>Unit status: {unit.status.toLocaleLowerCase().replaceAll('_', ' ')}</p>
-              <ul>
-                {unit.lessons.map((lesson) => (
-                  <li key={lesson.code}>
-                    <strong>{lesson.title}</strong>:{' '}
-                    {lesson.completionStatus.toLocaleLowerCase().replaceAll('_', ' ')}; remediation{' '}
-                    {lesson.remediationStatus.toLocaleLowerCase().replaceAll('_', ' ')}.
-                    {lesson.latestAssessment && (
-                      <span>
-                        {' '}
-                        Assessment: {lesson.latestAssessment.outcome.toLocaleLowerCase()} on{' '}
-                        {new Date(lesson.latestAssessment.scoredAt).toLocaleDateString()}.
-                      </span>
-                    )}
-                    {lesson.remediationStatus === 'NEEDS_HELP' && lesson.skillRefs[0] && (
-                      <NeedsHelpOverride
-                        lessonTitle={lesson.title}
-                        skillRef={lesson.skillRefs[0]}
-                        onApplied={(message) => {
-                          setOverrideStatusMessage(message);
-                          loadCourseProgress();
-                        }}
-                      />
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-          {overrideStatusMessage && <p role="status">{overrideStatusMessage}</p>}
-        </section>
+        <ParentCourseProgress
+          courseProgress={courseProgress}
+          overrideStatusMessage={overrideStatusMessage}
+          onOverrideApplied={(message) => {
+            setOverrideStatusMessage(message);
+            loadCourseProgress();
+          }}
+        />
       )}
       <section aria-labelledby="digest-heading">
         <h2 id="digest-heading">Weekly digest</h2>

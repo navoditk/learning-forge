@@ -2,7 +2,24 @@
 
 ## Live relay
 
-- Phase: **RI-1, RI-2, RI-3 DONE (committed); RI-4 next** (2026-10-22).
+- Phase: **PART A DONE (RI-1..RI-4); RI-4 committed locally, NOT pushed;
+  HOLD on push incident** (2026-10-22). RI-4 rev3 (Sonnet verified 125/125)
+  `ri4/rev3/ri4.patch`
+  `268e3d214f88888dd2625a5e39f5e0b8f85ed7b8b5791e52f919ace49af4fefa`; Codex
+  round 3 READY_WITH_RISKS (`review-r3-report.md` `79912aad...e6f1`; RI4-R2
+  recurred once, closed with cause checkpoint). `iso-validation-14` all exit
+  0 (verify 2753, integration 355+1, eval 17, e2e 110+1). RI-5 waits for the
+  owner (RAT-PACKAGE, 93 private items; D-242 mounted e2e; D-255 browser
+  history/keyboard/axe; D-256 stamp). Pushes held: see PROGRESS incident.
+- Earlier phase: **RI-1..RI-3 DONE (1955f77, CI green); RI-4 rev1 CHANGES_REQUESTED
+  (minor); rev2 IN_PROGRESS** (2026-10-22). Sonnet `ad4182ff866269276`
+  (verified 109/109) `ri4/rev1/ri4.patch` `941b6cab...5a35` (14 files; verify
+  2749, integration 355+1, eval 17, e2e 110+1 unchanged). Codex
+  `review-r1-report.md` `7b39bded...ba3e`: RI4-R1 (constructed V-2 hash),
+  RI4-R2 (guard misses assignment destructuring). Rulings D-252–D-256: staged
+  2.0.0 structure accepted; review stamp deferred to RI-5; browser history,
+  keyboard and axe cases mandatory at RI-5. Ledger 90/180.
+- Earlier phase: **RI-1, RI-2, RI-3 DONE (committed); RI-4 next** (2026-10-22).
   RI-3 (Sonnet `ad32a914d4a76b89f` verified 32/32) `ri3/rev1/ri3.patch`
   `f22771a2f2634bf0c9f65a3901a104c8b98516ad34d6ed7303b8cab5530614a2`; Codex
   READY_WITH_RISKS first round, no findings (`review-r1-report.md`

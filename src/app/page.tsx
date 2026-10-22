@@ -42,21 +42,8 @@ import {
 } from './learner-data';
 import { buildChapters, chapterForSkill, nextChapterDomain } from './learner-chapters';
 import { useProgramResource } from './use-program-resource';
-
-type CourseProgress = {
-  units: Array<{
-    code: string;
-    title: string;
-    status: string;
-    lessons: Array<{
-      code: string;
-      title: string;
-      completionStatus: string;
-      remediationStatus: string;
-      latestAssessment?: { outcome: string; scoredAt: string };
-    }>;
-  }>;
-};
+import { CourseProgressPanel } from './components/course-progress-panel';
+import type { CourseProgress } from './course-progress-view';
 
 // `origin` records whether the session was requested as the default landing
 // activity or by opening a specific topic, so returning to the default route
@@ -735,41 +722,7 @@ export default function Home() {
 
   const pilotProgressPanel =
     progressionReleaseGateOpen && courseProgress && activeChapter?.domain === PILOT_UNIT_DOMAIN ? (
-      <section aria-labelledby="course-progress-heading" className="pilot-progress-panel">
-        <h3 id="course-progress-heading">Course progress</h3>
-        <p>
-          <small>
-            Completion and mastery are tracked separately. Assessment results appear here only after
-            they are recorded.
-          </small>
-        </p>
-        {courseProgress.units.map((unit) => (
-          <article key={unit.code} aria-labelledby={`${unit.code}-heading`}>
-            <h4 id={`${unit.code}-heading`}>{unit.title}</h4>
-            <p>Unit status: {unit.status.toLocaleLowerCase().replaceAll('_', ' ')}</p>
-            <ol>
-              {unit.lessons.map((lesson) => (
-                <li key={lesson.code}>
-                  <strong>{lesson.title}</strong> —{' '}
-                  {lesson.completionStatus.toLocaleLowerCase().replaceAll('_', ' ')}
-                  {lesson.remediationStatus !== 'NONE' && (
-                    <span>
-                      {' '}
-                      ({lesson.remediationStatus.toLocaleLowerCase().replaceAll('_', ' ')})
-                    </span>
-                  )}
-                  {lesson.latestAssessment && (
-                    <span>
-                      {' '}
-                      Latest assessment: {lesson.latestAssessment.outcome.toLocaleLowerCase()}.
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </article>
-        ))}
-      </section>
+      <CourseProgressPanel courseProgress={courseProgress} />
     ) : undefined;
 
   const topicCrumbs = activeChapter
