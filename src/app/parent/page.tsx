@@ -6,6 +6,7 @@ import { signOut } from 'next-auth/react';
 
 import { ProgramSwitcher } from '../components/program-switcher';
 import { NeedsHelpOverride } from '../components/needs-help-override';
+import { hasScienceEvidence, SCIENCE_EVIDENCE_NOTE } from '../parent-claims';
 
 const DELETION_CONFIRMATION_PHRASE = 'DELETE';
 
@@ -191,6 +192,7 @@ export default function ParentPage() {
               ))}
             </ul>
           )}
+          {hasScienceEvidence(evidence.mastery) && <p>{SCIENCE_EVIDENCE_NOTE}</p>}
           <h3>Recent attempts</h3>
           {evidence.attempts.length === 0 ? (
             <p>No attempts yet.</p>

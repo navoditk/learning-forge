@@ -1,0 +1,110 @@
+{
+  "id": "sci6-cell-as-a-system-2",
+  "version": "1.0.0",
+  "title": "Claim and evidence from two model runs",
+  "role": "practice",
+  "skillRef": { "code": "sci6-cell-as-a-system", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["MS-LS1-2"],
+  "observableEvidence": [
+    "Selects a claim about how cell parts work together and the provided model result that best supports that claim."
+  ],
+  "prompt": "A student already ran a computer model of a plant cell with four labeled parts: cell membrane, chloroplasts, mitochondria and nucleus. The light was on in both runs. Here are the results.\n\nRun 1, nothing changed: the cell membrane let in the materials the chloroplasts need. The chloroplasts made food, the mitochondria released energy from it, and the cell grew.\n\nRun 2, one change: the cell membrane was set to keep out every material. Soon the chloroplasts stopped making food, even though the light was on and the chloroplasts themselves were not changed. Then the cell stopped growing.\n\nChoose the claim these runs best support, and the result that is the best evidence for that claim. You may explain your thinking to yourself; only your two choices are checked.",
+  "solutionRepresentation": "Claim: Parts depend on each other, so one problem affects the whole cell. Evidence: In Run 2, blocking the membrane also stopped food-making. Only the membrane was changed in Run 2, yet the chloroplasts, which were not changed, stopped making food and the whole cell stopped growing. That spread from one part to another part is what the claim describes. Run 1 alone shows a working cell but no change to compare. A list of the labeled parts describes the model; it is not a result. The membrane does not make food; it lets in the materials the chloroplasts need.",
+  "solutionMethod": "Find the run where exactly one part was changed, note which other parts were affected, choose the claim that explains that spread, then choose the result that shows the spread rather than a description of the model or a run with no change.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": { "id": "structured-fields", "version": "1" },
+    "canonicalAnswer": "Claim: Parts depend on each other, so one problem affects the whole cell; Evidence: In Run 2, blocking the membrane also stopped food-making",
+    "acceptedAnswers": [
+      "Claim: Parts depend on each other, so one problem affects the whole cell; Evidence: In Run 2, blocking the membrane also stopped food-making"
+    ],
+    "equivalenceNotes": "Structured single-choice fields. Both fields must match their correct options; there is no partial credit. Any explanation the learner writes or says is unscored practice.",
+    "fields": [
+      {
+        "key": "claim",
+        "kind": "choice",
+        "label": "Claim",
+        "options": [
+          {
+            "id": "parts-alone",
+            "label": "Each part works alone, so one part can fail without harming others"
+          },
+          {
+            "id": "chloroplasts-only",
+            "label": "The chloroplasts are the only part the cell needs"
+          },
+          {
+            "id": "parts-depend",
+            "label": "Parts depend on each other, so one problem affects the whole cell"
+          },
+          { "id": "membrane-makes-food", "label": "The cell membrane is the part that makes food" }
+        ],
+        "correctOptionId": "parts-depend"
+      },
+      {
+        "key": "evidence",
+        "kind": "choice",
+        "label": "Evidence",
+        "options": [
+          { "id": "run-1-grew", "label": "In Run 1, the cell grew" },
+          { "id": "four-parts", "label": "The model has four labeled parts" },
+          {
+            "id": "run-2-spread",
+            "label": "In Run 2, blocking the membrane also stopped food-making"
+          },
+          { "id": "light-on", "label": "The light was on in both runs" }
+        ],
+        "correctOptionId": "run-2-spread"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "parts-work-independently",
+    "single-part-runs-cell",
+    "needed-input-confused-with-maker",
+    "true-statement-is-evidence",
+    "model-description-as-evidence"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A claim about how parts work together needs a result where changing one part changed a different part.",
+      "question": "In which run was exactly one part changed?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make a table with three columns: run, what was changed, and what else changed as a result. Fill it in for both runs. Then test each claim: does it fit what happened in both runs? Last, ask whether each evidence choice is a result or just a description of the model.",
+      "question": "Which claim fits a result where one part's problem reached a part that was not changed?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: in a bike model, the chain is removed, and the back wheel stops turning even though the wheel itself is fine. A good claim is that bike parts rely on one another. Good evidence is the result after the chain was removed, not a list of the bike's parts and not a ride where nothing was changed.",
+      "question": "Which run in the cell model is like removing the chain, and what did it show?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Claim: Parts depend on each other, so one problem affects the whole cell; Evidence: In Run 2, blocking the membrane also stopped food-making",
+    "Parts depend on each other, so one problem affects the whole cell",
+    "depend on each other",
+    "In Run 2, blocking the membrane also stopped food-making",
+    "blocking the membrane also stopped"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (chat approval 2026-10-16)",
+    "reviewedAt": "2026-10-16",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SCI6-DRAFT. Original virtual model runs, claims, evidence options and hints inside the MS-LS1-2 assessment boundary (parts' relationship to the whole cell, no biochemistry); cites the code only and reproduces no standards or assessment text."
+  },
+  "accessibilityNotes": "All information is in text; there is no figure. The two runs are separate short paragraphs that start with the run number. No answer depends on color, position or drag interaction. Each response is a labelled radio group; any explanation is optional and unscored.",
+  "accessibleAlternative": "A student already ran a computer model of a plant cell with four parts: cell membrane, chloroplasts, mitochondria, nucleus. Light was on in both runs. Run 1, no change: the membrane let in materials the chloroplasts need; the chloroplasts made food; the mitochondria released energy from it; the cell grew. Run 2: the membrane was set to keep out every material; soon the chloroplasts, which were not changed, stopped making food; then the cell stopped growing. Question 1, Claim. Options: Each part works alone, so one part can fail without harming others; The chloroplasts are the only part the cell needs; Parts depend on each other, so one problem affects the whole cell; The cell membrane is the part that makes food. Question 2, Evidence. Options: In Run 1, the cell grew; The model has four labeled parts; In Run 2, blocking the membrane also stopped food-making; The light was on in both runs.",
+  "itemReadinessRefs": []
+}

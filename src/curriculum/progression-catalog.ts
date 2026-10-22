@@ -46,6 +46,7 @@ export function validateProgressionCatalog(
   lessons: readonly Lesson[],
   banks: readonly AssessmentBank[],
 ): void {
+  indexRefs(programs, 'program');
   const unitsByRef = indexRefs(units, 'unit');
   const lessonsByRef = indexRefs(lessons, 'lesson');
   const banksByRef = indexRefs(banks, 'assessment bank');

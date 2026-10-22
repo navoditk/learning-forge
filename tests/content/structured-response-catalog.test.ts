@@ -69,11 +69,14 @@ describe('valid complete fixtures load (contract 5.2: each passes 2.2, 2.5a and 
     });
   }
 
-  it('the live catalog is unchanged: 128 legacy practice records, none structured', () => {
-    expect(contentCatalog).toHaveLength(128);
-    expect(contentCatalog.some((item) => item.deterministicValidator.type === 'structured')).toBe(
-      false,
+  it('the live catalog keeps 128 legacy records non-structured; only the 6 Science records are structured', () => {
+    expect(contentCatalog).toHaveLength(134);
+    const structured = contentCatalog.filter(
+      (item) => item.deterministicValidator.type === 'structured',
     );
+    expect(structured).toHaveLength(6);
+    expect(structured.every((item) => item.id.startsWith('sci6-'))).toBe(true);
+    expect(contentCatalog.filter((item) => !item.id.startsWith('sci6-'))).toHaveLength(128);
     expect(() => validateContentCatalog()).not.toThrow();
   });
 

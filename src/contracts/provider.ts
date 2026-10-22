@@ -2,11 +2,17 @@ import { z } from 'zod';
 
 import type { TutorAuthorization } from './tutor';
 
+export const TutorSubjectFramingSchema = z.enum(['math', 'science']);
+
+export type TutorSubjectFraming = z.infer<typeof TutorSubjectFramingSchema>;
+
 export interface TutorMoveInput {
   prompt: string;
   learnerMessage: string;
   authorization: TutorAuthorization;
   redactedSkillContext: string;
+  /** Selects a prompt template only; never sent to the provider as data. */
+  subjectFraming?: 'math' | 'science';
 }
 
 export interface ScoringInput {

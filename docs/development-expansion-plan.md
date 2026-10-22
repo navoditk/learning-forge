@@ -14,7 +14,177 @@ The manual gate record now records the independent-review acceptance dated
 2026-10-10; representative shadow review and explicit C4 authorization remain
 outstanding. Use the gate record, not this summary, for authority.
 
+## Delivery-first successors and proposed parallel lanes — 2026-10-13
+
+**2026-10-14 execution checkpoint:** CORE, PATHS and the first PRACTICE-FIRST
+UI slice are accepted/integrated locally, not deployed. Catalog design is
+with its original Opus author for R-1/R-2 corrections. IC-6–IC-8 are approved;
+IC-9 and C-7 remain pending. Do not repeat completed UI or research work.
+
+The owner's **"go ahead"** is recorded as D-167. Concrete successor packets
+now exist: [PRACTICE-RELEASE](agent-handoffs/PRACTICE-RELEASE.md) for a
+queued Sonnet existing-content release-readiness turn, and
+[SCI6-FIRST-UNIT](agent-handoffs/SCI6-FIRST-UNIT.md) for a separate Opus
+first-unit preparation turn that may run alongside lane A. Science domain
+and school-program configuration gaps must be resolved before real records
+are authored/registered. These tasks return exact execution/content/release
+approval scopes; they do not lift D-61 or deploy. The current resume index
+assigns the lanes. Historical proposal language below is superseded only
+for this explicitly authorized preparation.
+
+The owner selected staged delivery: rich Grade 6 practice first, complete
+taught/assessed units next, then more subjects. This section records the
+delivery sequence now; it is not execution, concurrency, authoring, private
+access, commit/push or release authorization. It supersedes historical
+next-task recommendations below, not accepted contracts or approval gates.
+
+### Preserve the current boundary
+
+`RAT-SCORE-IMPL-PATHS` remains with the original Sonnet executor for R-1/R-2
+corrections, closure evidence and refreeze, then Codex changed-scope review.
+Only after that review is ready may the owner accept/apply the exact patch.
+Do not interrupt its worker, duplicate its owned paths or change its frozen
+inputs for this planning update. The active packet, not this dated snapshot,
+supplies its current phase.
+
+At that human boundary, the integrator should present ready successor scopes
+alongside exact patch acceptance, with separate permissions and exclusions.
+Do not request approval for undefined content volumes or unreviewed future
+artifacts. Scope preparation can precede PATHS completion if independently
+authorized and claimed; dependent implementation cannot.
+
+### Learner-visible milestones
+
+| Milestone         | Smallest useful deliverable                                                                                                                                                                               | Remaining scope and evidence                                                                                                                                                                                                                                         |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PRACTICE-FIRST    | A bounded learner-application increment using the existing course overview, topic navigation and reviewed practice; Grade 6 Math first, existing enrichment/Spelling only where readiness is demonstrated | Define exact programs/item versions, meaningful available actions, incomplete-coverage labels and legacy scoring disposition; reuse existing UI, not another prototype; cross-family review, browser/accessibility/tutor evidence and applicable human release gates |
+| RATIOS-COMPLETE   | The accepted five-skill Ratios unit with its explicitly selected teaching/assessment scope                                                                                                                | Remaining IC-6–IC-9 choices, scoped authoring/storage permissions, catalog/history contracts, reviewed public content/private package, integration and applicable shadow/manual activation gates                                                                     |
+| NEXT-SUBJECT-UNIT | One usable unit from an approved school-subject dossier, rendered through the shared interface                                                                                                            | Owner selects subject and exact unit/skills/roles/volumes/store; scoped D-61 exception, schema/validator readiness, independent content review, human content approval, integration and release                                                                      |
+| UNIT-EXPANSION    | Additional Math domains and further subject units                                                                                                                                                         | Repeat bounded coverage-driven increments; reuse verified drafts and structures; no full-course completeness claim until coverage evidence supports it                                                                                                               |
+
+PRACTICE-FIRST targets the learner application, not just source listings or
+GitHub Pages publication. The packet must distinguish code integration,
+application deployment and learner release. Preserve default landing behavior
+unless an explicit UX change is approved. Browsing a topic must not authorize
+an activity; use server-offered actions and existing program policies.
+Do not turn practice progress into assessed mastery or enable C4/C5 implicitly.
+
+Do not require optional recall/flash-card lifecycle or full teaching serving
+for a practice-only scope that does not consume them. Structured activities
+require accepted PATHS wiring and their own UI/content approval; a genuinely
+independent legacy-practice scope may proceed without those only if its
+scoring risks and access behavior are explicitly resolved for release.
+The 23 legacy UNMET cases are not repaired by the new scorer alone.
+
+### Proposed staffing, not dispatch authorization
+
+| Lane / responsibility                 | Proposed client and role                                                                                                   | Isolation and stop                                                                                                                                                                                                                     |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A — Engineering and practice delivery | Claude Code `forge-implementer` / Sonnet 5.5, followed by separately authorized UI/implementation packets                  | Finish active corrections first; own only packet-listed code/tests in an isolated worktree; do not claim content or shared registers                                                                                                   |
+| B — One new-subject content unit      | Separate Claude Code `forge-expert` / Opus 5.5 after scope approval; Science recommended, Social Studies alternative       | Both school dossiers have approved research; do not repeat it. Exact unit scope, schema compatibility and authoring exception remain pending; draft only allowlisted original content, keep it pending review, no runtime registration |
+| Independent review                    | Codex `forge-reviewer` / `gpt-6.1-sol`, fresh context for each frozen packet                                               | Review ready artifacts from either lane; prioritize next-release blockers. No review before freeze and no author reviewing its own output                                                                                              |
+| Coordination / integration            | This Copilot session can prepare scopes; one explicitly claimed integrator applies accepted work and updates shared status | No duplicate implementation or new fleet; serialize registry/schema/catalog/status edits and task-owned database work                                                                                                                  |
+
+Recommend at most two execution workers, one per approved lane. This is not
+an approved spending/concurrency ceiling or permission to start lane B.
+If only one Claude terminal is available, a separately scoped worker is an
+alternative only after explicit approval and isolation. Do not run authors
+and reviewers against evolving bytes; reviews can overlap unrelated work,
+not the reviewed packet's corrections.
+
+The owner specifically requested appropriate models for parallelization.
+Use the approved allocation in `docs/agent-orchestration.md`: Sonnet for
+defined implementation/UI, Opus for curriculum correctness and unresolved
+design, GPT-6.1 Sol for independent review of both Claude-authored lanes.
+This Copilot session handles bounded coordination, not duplicate premium
+authoring. A complex engineering design gap needs a bounded Opus scope,
+not silent policy design by an implementation worker.
+
+Native Claude profiles select `sonnet` and `opus`; those aliases do not prove
+an effective version. Before dispatch, record actual model ID/family from
+client metadata, role and verified selection in each packet. If selection
+is unavailable, overridden or unknown, block dispatch rather than claiming
+the expected model ran. Do not change a running parent or substitute another
+model silently. Approved quota fallback still requires observed
+unavailability and preserved cross-family review. Existing role configs
+remain unchanged.
+
+### Next consolidated scope request
+
+Follow **Delivery exit rules** in `docs/agent-orchestration.md`: one
+comprehensive review and consolidated correction, then targeted verification.
+Keep optional improvements out of the current acceptance criteria. Repeated
+failure of a required finding triggers root-cause escalation, not automatic
+broad re-review; ready unchanged artifacts go to acceptance/integration.
+These rules preserve real safety/correctness and human release gates.
+
+The integrator prepares one compact request with: exact PATHS acceptance
+when ready; a bounded PRACTICE-FIRST execution scope; and subject/unit
+selection plus any fully specified NEXT-SUBJECT-UNIT preparation/authoring
+scope. List recommendations, evidence, owned paths, dependencies, model
+roles, stop conditions and exclusions per decision. Batch ready remaining
+Ratios choices where their tradeoffs are specified; leave unresolved choices
+pending rather than inventing defaults.
+
+No successor packet is assigned by this plan alone. Before dispatch, create
+its normal task packet and add its lane assignment to the resume index.
+Until then, bare "continue" follows the existing PATHS relay, not a proposed
+lane. A second lane must never steal the active claim or silently become
+an alternative task when the current client is at a review/approval gate.
+
+## Deferred review: concept clips — 2026-10-15
+
+**CONCEPT-CLIPS — backlog only.** The owner requested adding this idea for
+later review, inspired by [Concept Clips, middle-school section](https://shalinichitrapu.github.io/concept-clips/#middle).
+Revisit after the first usable curriculum releases; it is not a prerequisite
+for PRACTICE-RELEASE, Ratios or the first Science unit. No worker, source
+dossier approval, content authoring, model call, implementation or release is
+authorized by this entry. Do not add it to active lane intake.
+
+Review a small optional teaching enhancement: short, scene-based visual
+explanations linked to selected approved skills through a "See the concept"
+action. Proposed flow: explanation -> prediction/observation -> practice ->
+independent check. Candidate pilot: one Math concept such as double number
+lines or fraction division, and one Science concept such as cell structures.
+Exact topics and scope remain unselected; the reference site's broad
+"middle school" grouping is not proof of Grade 6 alignment.
+
+At that later review, evaluate:
+
+- One reusable React/SVG player with versioned, reviewed scene/caption data,
+  rather than a video-production platform or live AI-generated executable
+  animations. Use allowlisted renderers, not arbitrary scripts in content.
+- Fit with existing teaching-content, storage and authorized exposure
+  contracts; generic instructional examples must not reveal active problem
+  solutions or held-out assessment content. Watching/replaying is engagement,
+  not mastery evidence, and must not unlock progression.
+- Keyboard/focus and pause/step/replay controls, captions and complete text
+  alternatives, reduced-motion/static paths, mobile layouts and light/dark
+  contrast. Narration is optional and needs its own privacy/provider review.
+- Original scripts and artwork. The linked site is inspiration, not a
+  verified reuse license or approved source for curriculum content; verify
+  rights before reusing any external code, script or asset.
+- A bounded original two-clip pilot, only if the review recommends proceeding
+  and the owner approves its exact authoring/implementation scope. Evaluate
+  learner explanation/application and misconception correction, not views
+  or completion alone.
+
+Keep future review proportional: one scoped decision on whether this adds
+learning value, followed by the normal content/accessibility/release gates
+if selected. Do not create a new broad architecture or review program now.
+
 ## Issue-sized work packets
+
+**2026-10-11 Grade 6 Math consolidation priority:** the owner requested one
+comprehensive Grade 6 Math curriculum from current production, disconnected
+domain Unit/Lesson catalogs, the isolated v2 candidate and D-148 private
+assessment drafts. `docs/grade-6-math-integration-plan.md` is the shared staged
+plan. Complete the current L2a design review boundary, then scope
+MATH6-RECONCILE (Claude Opus document inventory/crosswalk -> Codex GPT-6.1 Sol
+review) before optional program breadth. Owner curriculum-version/first-unit
+decisions follow; authoring, private-package access, integration and release
+are separately gated. Do not treat all L2/L3 work as a prerequisite for
+document reconciliation or reuse historical drafts as reviewed content.
 
 **2026-10-10 course-extension checkpoint:** five reviewed first-unit designs
 are accepted and integrated (AMC 8, MOEMS, Kangaroo, MATHCOUNTS and Spelling).

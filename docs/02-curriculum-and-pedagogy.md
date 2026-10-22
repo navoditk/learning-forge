@@ -51,6 +51,13 @@ official competition material, or make any program learner-available.
 
 ## Accepted first-unit course designs
 
+The Grade 6 consolidation plan is
+`docs/grade-6-math-integration-plan.md` (owner planning request, 2026-10-11).
+It reconciles current reviewed practice, disconnected domain courses, the
+experimental v2 candidate and private D-148 drafts into one versioned course
+through a standards/skill/role crosswalk and unit-sized review increments.
+This is not candidate promotion, new content permission or learner release.
+
 On 2026-10-10 the owner accepted independently reviewed first-unit designs for
 AMC 8, MOEMS, Math Kangaroo, MATHCOUNTS and Spelling Bee under D-75. These
 extend existing practice catalogs into proposed Unit/Lesson courses; they are

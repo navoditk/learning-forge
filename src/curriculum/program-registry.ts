@@ -3,6 +3,20 @@ import { PILOT_PROGRAM_UNIT_REFS } from './pilot-catalog';
 
 const policy = (code: string, version = '1.0.0') => ({ code, version });
 
+const placeholderProgram = (code: string, label: string) => ({
+  code,
+  version: '1.0.0',
+  label,
+  available: false,
+  subjectKind: 'enrichment-non-graded' as const,
+  skillCodePrefix: null,
+  progressionMode: 'skill-graph-only' as const,
+  unitRefs: [],
+  accessPolicyRef: policy(`${code}-access`),
+  legacyCompatibilityPolicyRef: null,
+  defaultPolicyProfileRef: policy(`${code}-default`),
+});
+
 const rawProgramRegistry = [
   {
     code: 'grade-6-math',
@@ -84,25 +98,26 @@ const rawProgramRegistry = [
     legacyCompatibilityPolicyRef: null,
     defaultPolicyProfileRef: policy('scripps-spelling-bee-6-default'),
   },
-  ...[
-    ['grade-6-ela', 'Grade 6 ELA'],
-    ['grade-6-science', 'Grade 6 Science'],
-    ['grade-6-social-studies', 'Grade 6 Social Studies'],
-    ['international-geography-bee-6', 'International Geography Bee (Grade 6)'],
-    ['science-olympiad-division-b', 'Science Olympiad Division B (Grade 6)'],
-  ].map(([code, label]) => ({
-    code,
+  placeholderProgram('grade-6-ela', 'Grade 6 ELA'),
+  // Own entry (SCI6-PREREQ, D-172): a graded, skill-graph-only program with its
+  // own skill-code prefix. Available (SU-H5 activation, D-188): the Cells unit
+  // is practice only, and the label says so.
+  {
+    code: 'grade-6-science',
     version: '1.0.0',
-    label,
-    available: false,
-    subjectKind: 'enrichment-non-graded' as const,
-    skillCodePrefix: null,
+    label: 'Grade 6 Science (Cells unit, practice only)',
+    available: true,
+    subjectKind: 'graded-academic' as const,
+    skillCodePrefix: 'sci6-',
     progressionMode: 'skill-graph-only' as const,
     unitRefs: [],
-    accessPolicyRef: policy(`${code}-access`),
+    accessPolicyRef: policy('grade-6-science-access'),
     legacyCompatibilityPolicyRef: null,
-    defaultPolicyProfileRef: policy(`${code}-default`),
-  })),
+    defaultPolicyProfileRef: policy('grade-6-science-default'),
+  },
+  placeholderProgram('grade-6-social-studies', 'Grade 6 Social Studies'),
+  placeholderProgram('international-geography-bee-6', 'International Geography Bee (Grade 6)'),
+  placeholderProgram('science-olympiad-division-b', 'Science Olympiad Division B (Grade 6)'),
 ] as const;
 
 export const PROGRAM_REGISTRY: readonly Program[] = rawProgramRegistry.map((program) =>

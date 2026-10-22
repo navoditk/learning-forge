@@ -43,6 +43,7 @@ export async function runEvalCatalog(
       learnerMessage: lastLearnerMessage(testCase),
       redactedSkillContext: `content:${testCase.problem.contentId}; history:${testCase.learnerHistory.length} synthetic entries`,
       state: testCase.allowedPolicyState,
+      subjectFraming: testCase.subjectFraming,
       ...testCase.policyContext,
       protectedTokens: [
         testCase.problem.canonicalAnswer,

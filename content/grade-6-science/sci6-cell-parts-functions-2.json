@@ -1,0 +1,96 @@
+{
+  "id": "sci6-cell-parts-functions-2",
+  "version": "1.0.0",
+  "title": "Root cell and leaf cell models",
+  "role": "practice",
+  "skillRef": { "code": "sci6-cell-parts-functions", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MS-LS1-2"],
+  "observableEvidence": [
+    "Compares two provided cell models that differ by one part and selects the part, and the reason, that accounts for a described difference in what the whole cell can do."
+  ],
+  "prompt": "A scientist made models of two cells from the same plant.\n\nCell X (from a root) has: cell wall, cell membrane, nucleus, mitochondria.\n\nCell Y (from a leaf) has: cell wall, cell membrane, nucleus, mitochondria, chloroplasts.\n\nThe scientist's notes say: when kept in light, Cell Y made its own food. Cell X did not make its own food in light; it got food that other parts of the plant had made.\n\nWhich part best explains this difference, and what is the best reason?",
+  "solutionRepresentation": "Chloroplasts; only Cell Y's model has this part. The two models list the same parts except one: Cell Y also has chloroplasts. A part that both cells have (cell wall, cell membrane, nucleus, mitochondria) is present in Cell X too, so on its own it cannot explain why only Cell Y makes food in light. In this model, chloroplasts are the part that lets a cell use light to make food; mitochondria, which both cells have, help the cell use food for energy instead.",
+  "solutionMethod": "List the parts of each model side by side, cross out every part both models share, and connect the one remaining part to the described difference in what the whole cell can do.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": { "id": "structured-fields", "version": "1" },
+    "canonicalAnswer": "Part that explains the difference: Chloroplasts; Best reason: Only Cell Y's model has this part",
+    "acceptedAnswers": [
+      "Part that explains the difference: Chloroplasts; Best reason: Only Cell Y's model has this part"
+    ],
+    "equivalenceNotes": "Structured single-choice fields. Both fields must match their correct options; there is no partial credit.",
+    "fields": [
+      {
+        "key": "part",
+        "kind": "choice",
+        "label": "Part that explains the difference",
+        "options": [
+          { "id": "cell-wall", "label": "Cell wall" },
+          { "id": "mitochondria", "label": "Mitochondria" },
+          { "id": "nucleus", "label": "Nucleus" },
+          { "id": "chloroplasts", "label": "Chloroplasts" }
+        ],
+        "correctOptionId": "chloroplasts"
+      },
+      {
+        "key": "reason",
+        "kind": "choice",
+        "label": "Best reason",
+        "options": [
+          { "id": "only-cell-y", "label": "Only Cell Y's model has this part" },
+          { "id": "both-models", "label": "Both models have this part" },
+          { "id": "largest-part", "label": "It is the largest part of the cell" },
+          { "id": "controls-everything", "label": "It controls everything the cell does" }
+        ],
+        "correctOptionId": "only-cell-y"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "shared-part-explains-difference",
+    "chloroplasts-and-mitochondria-confused",
+    "nucleus-does-every-job",
+    "largest-part-is-most-important"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A difference in what two cells can do usually comes from a difference in their parts.",
+      "question": "Which parts appear in both models, and which part does not?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make two columns, one for each model. Cross out every part that is in both columns. A part that both cells have is in the root cell too, so it cannot by itself explain why only the leaf cell makes food in light.",
+      "question": "What is left after you cross out the shared parts?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: two bikes are the same except that one also has a headlight. Only that bike can light up the road at night. The frame and wheels are on both bikes, so they cannot explain the difference; the headlight, found on just one bike, can.",
+      "question": "Which part plays the headlight role in the two cell models, and why?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Part that explains the difference: Chloroplasts; Best reason: Only Cell Y's model has this part",
+    "Chloroplasts",
+    "Only Cell Y's model has this part",
+    "Only Cell Y"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (chat approval 2026-10-16)",
+    "reviewedAt": "2026-10-16",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SCI6-DRAFT. Original paired models, notes, options and hints inside the MS-LS1-2 assessment boundary (part role for the whole cell, no biochemistry); cites the code only and reproduces no standards or assessment text."
+  },
+  "accessibilityNotes": "All information is in text; there is no figure. Both part lists are written out in the same order so they can be compared by listening. No answer depends on color, position or drag interaction. Each response is a labelled radio group.",
+  "accessibleAlternative": "Two cell models from the same plant. Cell X, from a root, has: cell wall, cell membrane, nucleus, mitochondria. Cell Y, from a leaf, has: cell wall, cell membrane, nucleus, mitochondria, chloroplasts. Notes: in light, Cell Y made its own food; Cell X did not make its own food in light and got food made by other parts of the plant. Question 1, Part that explains the difference. Options: Cell wall; Mitochondria; Nucleus; Chloroplasts. Question 2, Best reason. Options: Only Cell Y's model has this part; Both models have this part; It is the largest part of the cell; It controls everything the cell does.",
+  "itemReadinessRefs": []
+}

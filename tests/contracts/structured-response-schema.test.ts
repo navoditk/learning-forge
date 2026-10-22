@@ -130,8 +130,32 @@ describe('PA-5: legacy items still score through the unchanged matcher', () => {
   });
 
   it('every record in the live catalog still parses as a legacy validator with its parts intact', () => {
+    const SCIENCE_IDS = [
+      'sci6-cell-as-a-system-1',
+      'sci6-cell-as-a-system-2',
+      'sci6-cell-parts-functions-1',
+      'sci6-cell-parts-functions-2',
+      'sci6-cells-evidence-of-life-1',
+      'sci6-cells-evidence-of-life-2',
+    ];
+    // The six registered Grade 6 Science records are the only structured
+    // records; every other record must remain a legacy validator.
+    const structuredIds = contentCatalog
+      .filter((item) => item.deterministicValidator.type === 'structured')
+      .map((item) => item.id)
+      .sort();
+    expect(structuredIds).toEqual(SCIENCE_IDS);
+    for (const item of contentCatalog.filter((candidate) => SCIENCE_IDS.includes(candidate.id))) {
+      expect(
+        StructuredValidatorSchema.safeParse(item.deterministicValidator).success,
+        item.id,
+      ).toBe(true);
+    }
+    const legacyCatalog = contentCatalog.filter((item) => !SCIENCE_IDS.includes(item.id));
+    expect(legacyCatalog).toHaveLength(128);
+
     let withParts = 0;
-    for (const item of contentCatalog) {
+    for (const item of legacyCatalog) {
       expect(
         LegacyDeterministicValidatorSchema.safeParse(item.deterministicValidator).success,
         item.id,

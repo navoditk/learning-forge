@@ -8,6 +8,7 @@ import {
   validateTransitionContentCatalog,
 } from '../../src/content/catalog';
 import { skillCatalog } from '../../src/curriculum/catalog';
+import { PROGRAM_ROSTER } from '../../src/curriculum/program-roster';
 
 function skillCodeOf(item: { skillCode?: string; skillRef?: { code: string } }): string {
   return item.skillCode ?? item.skillRef?.code ?? '';
@@ -35,8 +36,8 @@ const legacyItem = (): ContentItem => {
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(contentCatalog).toHaveLength(128);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(128);
+    expect(contentCatalog).toHaveLength(134);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(134);
     expect(new Set(contentCatalog.map(skillCodeOf))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -47,10 +48,51 @@ describe('ratios content seed', () => {
 
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
-    expect(reviewedItems.length).toBe(128);
+    expect(reviewedItems.length).toBe(134);
     expect(pendingItems.length).toBe(0);
     expect(reviewedItems.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
     expect(contentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
+  });
+
+  it('registers exactly the six accepted Grade 6 Science practice records with the approved review metadata', () => {
+    const science = contentCatalog.filter((item) => item.id.startsWith('sci6-'));
+    expect(science.map((item) => item.id).sort()).toEqual([
+      'sci6-cell-as-a-system-1',
+      'sci6-cell-as-a-system-2',
+      'sci6-cell-parts-functions-1',
+      'sci6-cell-parts-functions-2',
+      'sci6-cells-evidence-of-life-1',
+      'sci6-cells-evidence-of-life-2',
+    ]);
+    for (const item of science) {
+      const candidate = item as unknown as {
+        role: string;
+        skillRef: { code: string; version: string };
+        itemReadinessRefs: unknown[];
+        provenance: { origin: string; licenseStatus: string };
+      };
+      expect(candidate.role).toBe('practice');
+      expect(candidate.skillRef.code).toBe(item.id.replace(/-\d$/, ''));
+      expect(candidate.skillRef.version).toBe('1.0.0');
+      expect(candidate.itemReadinessRefs).toEqual([]);
+      expect(candidate.provenance).toEqual({ origin: 'llm_drafted', licenseStatus: 'owned' });
+      expect(item.review.status).toBe('reviewed');
+      expect(item.review.reviewer).toBe('Product/content owner (chat approval 2026-10-16)');
+      expect(item.review.reviewedAt).toBe('2026-10-16');
+      expect(item.review.originalityStatement).toContain('SCI6-DRAFT');
+      expect(item.hintSteps.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('keeps the six Science records in the raw servable projection on an available program', () => {
+    // The raw servable projection is review-gated only; program availability is
+    // enforced by the roster/session start, not by this list.
+    const rawScience = servableContentCatalog.filter((item) => item.id.startsWith('sci6-'));
+    expect(rawScience).toHaveLength(6);
+    expect(servableContentCatalog).toHaveLength(134);
+    expect(PROGRAM_ROSTER.find((program) => program.code === 'grade-6-science')?.available).toBe(
+      true,
+    );
   });
 
   it('accepts the mechanically transformed AMC 8 coordinate-geometry practice batch', () => {

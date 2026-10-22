@@ -1,0 +1,76 @@
+{
+  "id": "sci6-cell-parts-functions-1",
+  "version": "1.0.0",
+  "title": "The gated layer in a cell model",
+  "role": "practice",
+  "skillRef": { "code": "sci6-cell-parts-functions", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MS-LS1-2"],
+  "observableEvidence": [
+    "Uses a provided cell model to select the main role an identified part plays for the whole cell, without biochemical detail."
+  ],
+  "prompt": "A class finished a model of a plant cell and wrote this description of its two outer layers.\n\nCell wall: the outermost layer. It is thick and stiff, and it keeps the same shape when the model is pressed.\n\nCell membrane: a thin, bendable layer just inside the cell wall. It has small gates. In the model, water and food materials pass through the gates into the cell, and waste passes out through them. Some other materials are kept out at the gates.\n\nBased on this model, what is the main job of the cell membrane for the whole cell?",
+  "solutionRepresentation": "The cell membrane controls what enters and leaves the cell. The model shows its gates letting some materials in and waste out while keeping other materials out, so it sorts what passes rather than letting everything through or blocking everything. Stiff support belongs to the cell wall, which is the thick, stiff outer layer in the model.",
+  "solutionMethod": "Match each described feature of the cell membrane in the model (thin, bendable, with gates that let some materials pass and keep others out) to a job for the whole cell, and rule out the job that belongs to the cell wall.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": { "id": "structured-fields", "version": "1" },
+    "canonicalAnswer": "Main job of the cell membrane: Controls what enters and leaves the cell",
+    "acceptedAnswers": ["Main job of the cell membrane: Controls what enters and leaves the cell"],
+    "equivalenceNotes": "Structured single-choice field. The field must match its correct option.",
+    "fields": [
+      {
+        "key": "membrane-job",
+        "kind": "choice",
+        "label": "Main job of the cell membrane",
+        "options": [
+          { "id": "controls-passage", "label": "Controls what enters and leaves the cell" },
+          { "id": "stiff-support", "label": "Keeps the cell stiff and supported" },
+          { "id": "blocks-everything", "label": "Keeps every material out of the cell" },
+          { "id": "lets-everything", "label": "Lets every material pass freely" }
+        ],
+        "correctOptionId": "controls-passage"
+      }
+    ]
+  },
+  "misconceptionCodes": ["membrane-and-wall-confused", "membrane-is-all-or-nothing"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Look closely at how the model describes the cell membrane, especially its gates.",
+      "question": "What happens to different materials when they reach the gates?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make a two-row table, one row for each outer layer. Write each layer's features: one is thick and stiff; the other is thin, bendable and has gates. Then write a job that fits each set of features.",
+      "question": "Which job in the answer list fits every feature you wrote for the thin layer, and which job fits the thick layer instead?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a school has strong outer walls and a front office. The walls hold the building up. The front office checks people, letting some come in or go out and turning others away. The walls support; the office sorts.",
+      "question": "Which layer of the model cell works like the front office, and what does that tell you about its job?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Main job of the cell membrane: Controls what enters and leaves the cell",
+    "Controls what enters and leaves the cell",
+    "enters and leaves"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (chat approval 2026-10-16)",
+    "reviewedAt": "2026-10-16",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SCI6-DRAFT. Original model description, options and hints inside the MS-LS1-2 assessment boundary (cell membrane structure and function, no biochemistry); cites the code only and reproduces no standards or assessment text."
+  },
+  "accessibilityNotes": "All information is in text; there is no figure. The model is described in words, and the answer does not depend on color, position or drag interaction. The response is one labelled radio group.",
+  "accessibleAlternative": "A class finished a model of a plant cell. Cell wall: the outermost layer; thick and stiff; keeps its shape when pressed. Cell membrane: a thin, bendable layer just inside the cell wall with small gates; water and food materials pass in through the gates, waste passes out, and some other materials are kept out. Question, Main job of the cell membrane: based on the model, what is the main job of the cell membrane for the whole cell? Options: Controls what enters and leaves the cell; Keeps the cell stiff and supported; Keeps every material out of the cell; Lets every material pass freely.",
+  "itemReadinessRefs": []
+}

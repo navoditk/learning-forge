@@ -28,23 +28,23 @@ authorization state.
 
 ## Components
 
-| Component | File | Role |
-|---|---|---|
-| `ChapterSidebar` | `src/app/components/chapter-sidebar.tsx` | Left table of contents: one disclosure per chapter, a progress badge, and a skill list with a status icon (locked/not started/practicing/confirmed). Collapses behind a toggle below ~860px. |
-| `ChapterView` | `src/app/components/chapter-view.tsx` | The main pane: chapter header, Back/Next pager across the chapter's skills, and the "chapter complete, continue to the next one" handoff. |
-| `ActivityPanel` | `src/app/components/activity-panel.tsx` | The practice/diagnostic/review loop itself (prompt, answer form, hint, independent check) — unchanged behavior, just extracted out of `page.tsx`. |
-| `ProgressBadge` | `src/app/components/progress-badge.tsx` | The small "n/total" bar reused in the sidebar and the chapter header. |
-| `ChapterIcon` | `src/app/components/chapter-icon.tsx` | A decorative color + glyph per domain, purely for quick visual recognition in the sidebar and chapter header. |
+| Component        | File                                     | Role                                                                                                                                                                                           |
+| ---------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ChapterSidebar` | `src/app/components/chapter-sidebar.tsx` | Left table of contents: one disclosure per chapter, a progress badge, and a skill list with a status icon (locked/not started/practicing/confirmed). Collapses behind a toggle below ~860px.   |
+| `ChapterView`    | `src/app/components/chapter-view.tsx`    | The main pane: chapter header, Back/Next pager across the chapter's skills, and the "chapter complete, continue to the next one" handoff.                                                      |
+| `ActivityPanel`  | `src/app/components/activity-panel.tsx`  | The practice/diagnostic/review loop itself (prompt, answer form, hint, independent check) — extracted from `page.tsx`; supports legacy or server-declared structured input as described below. |
+| `ProgressBadge`  | `src/app/components/progress-badge.tsx`  | The small "n/total" bar reused in the sidebar and the chapter header.                                                                                                                          |
+| `ChapterIcon`    | `src/app/components/chapter-icon.tsx`    | A decorative color + glyph per domain, purely for quick visual recognition in the sidebar and chapter header.                                                                                  |
 
 ### Course overview and topic detail (UI-1)
 
-| Piece | File | Role |
-|---|---|---|
-| `CourseOverview` | `components/course-overview.tsx` | Chapter sections with `ProgressBadge` and topic cards; Practice and Mastery are separate rows. A topic is a link only when the server plan offers it. |
-| `TopicDetail` | `components/topic-detail.tsx` | Status, availability note and a "Related skills" table from the catalog prerequisites. |
-| `CourseBreadcrumb`, `CourseLink` | `components/` | Breadcrumb with `aria-current="page"`; real anchors that use `pushState`. |
-| `course-route.ts` | `src/app/` | Strict URL parse/build/resolve. |
-| `use-program-resource.ts`, `learner-data.ts` | `src/app/` | Program-tagged, zod-validated loading that discards stale responses. |
+| Piece                                        | File                             | Role                                                                                                                                                  |
+| -------------------------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CourseOverview`                             | `components/course-overview.tsx` | Chapter sections with `ProgressBadge` and topic cards; Practice and Mastery are separate rows. A topic is a link only when the server plan offers it. |
+| `TopicDetail`                                | `components/topic-detail.tsx`    | Status, availability note and a "Related skills" table from the catalog prerequisites.                                                                |
+| `CourseBreadcrumb`, `CourseLink`             | `components/`                    | Breadcrumb with `aria-current="page"`; real anchors that use `pushState`.                                                                             |
+| `course-route.ts`                            | `src/app/`                       | Strict URL parse/build/resolve.                                                                                                                       |
+| `use-program-resource.ts`, `learner-data.ts` | `src/app/`                       | Program-tagged, zod-validated loading that discards stale responses.                                                                                  |
 
 URLs: `/` default activity; `?program=P&view=overview[&domain=D]`;
 `?program=P&domain=D&skill=S`. Unknown or mismatched links fall back to the
@@ -68,6 +68,69 @@ the code comments in `page.tsx` for why this, rather than a
 plan-recommendation guess, is what keeps the page's default landing
 activity deterministic.
 
+### Structured practice conventions (PRACTICE-FIRST)
+
+As built in owner-accepted revision 4 on 2026-10-14, patch
+`d184a9a5a079e43a02caa5c2da4aea5f603a8ff6e597e022b419da12f53a87ed`.
+Trace: `docs/practice-first-20261014-rev4-review.md`, accepted scoring contract
+`docs/structured-response-scoring-contract.md` §§3.2–3.4 and selected decisions
+D-155–D-163. This describes implementation; it grants no content or release
+approval. The default catalog has no registered structured practice records.
+
+- `ActivityPanel` renders `StructuredResponseFields` only when the validated
+  authorized Session supplies supported `responseSpec`. Legacy sessions keep
+  their string-answer form. `learner-data.ts` validates public descriptors;
+  private selectors and correct answers are not inputs to these controls.
+- The answer uses a fieldset and question-title legend. Each number has a
+  label, allowed-representation hint and optional unit; choice fields use
+  native radios inside a fieldset/legend with `role="radiogroup"`. Fields and
+  options retain server order and public keys/IDs; controls never score or
+  reveal per-field correctness. Complete server text alternatives accompany
+  subject figures when supplied.
+- For the single displayed activity, field-key IDs are `srn-` (number),
+  `srg-` (choice group), `srr-{fieldKey}-{optionId}` (radio), `srh-` (hint),
+  `sru-` (unit) and `sre-` (error). `structured-error-summary` is an alert,
+  programmatically focused on refusal; its links focus the number input or
+  first radio. Invalid number inputs and choice groups expose `aria-invalid`
+  with their error association; correction clears that field's displayed
+  invalid state.
+- Number controls remain text inputs. Integer-only descriptors use a numeric
+  input mode; decimal forms use decimal mode; fractions/mixed numbers require
+  text-capable mode for slash/space entry (`3/4`, `1 1/2`). Visible format hints
+  reflect only server-enumerated representations. Empty required fields can
+  receive local presence guidance; numeric correctness remains server-only.
+- Refusal codes map to fixed, answer-independent wording in
+  `FIELD_ERROR_MESSAGES`, never raw server text or entered values. Examples:
+  "Enter an answer for this part.", "Choose one of the choices." and
+  "The independent check could not be completed. Check your connection and
+  try again." Values survive recoverable failures for explicit retry. No
+  failed transport or format refusal invents an attempt, result, completion
+  or mastery evidence; successful feedback remains item-level.
+- Submission, hint and independent-check operations bind session ID, program
+  and activity-request generation. Bindings are rechecked after asynchronous
+  response/body operations before state commits; completion updates are keyed
+  to the sent session. A late response or error cannot update another
+  activity. Pending ownership is per activity, preventing double submission
+  without an older request clearing the new activity's pending state.
+- Structured text inputs use scoped `--color-control-border` normally and
+  `--color-danger-text` when invalid, preserving the thicker error boundary
+  and error text. Reviewed normal border ratios are approximately 4.53:1
+  light / 4.90:1 dark; enabled unfocused invalid ratios are 9.14:1 / 9.30:1
+  against fill and surrounding surface. These are scoped controls, not a
+  sitewide palette redesign. Focus and error linkage remain separate cues.
+
+Browser evidence covers loading, preserved entries, refusals/retry, keyboard
+focus, activity-switch/stale-body boundaries, narrow layouts and light/dark
+normal/invalid control contrast using synthetic structured sessions. It does
+not establish D-41 manual screen-reader acceptance, A-10 human copy/reading-
+level approval, real-device virtual-keyboard behavior, explicit 400% zoom or
+structured diagnostic/review browser journeys. These remain disclosed
+follow-ups/release evidence; nothing here marks them completed or waived.
+Existing advisory-blocked-topic and shared-household progress-display questions
+remain separate pre-existing product issues. Navigation/completion/mastery and
+C4/C5 server authority remain as documented above; no new content, assessment
+UI, exposure, activation or deployment follows from this UI integration.
+
 ## Visual language
 
 - Palette tokens live in `src/app/globals.css`'s `:root` (and its
@@ -81,7 +144,7 @@ activity deterministic.
   graphics contrast bar, not the text one. The five Grade 6 Math domains
   each get a bespoke color + glyph (`CHAPTER_COLOR`, the `GlyphFor` switch).
   Enrichment-program domains (`mk6-*`/`moems6-*`/`amc8-*`/`mc6-*`/`snsb6-*`)
-  get a color per *program* instead of per domain
+  get a color per _program_ instead of per domain
   (`PROGRAM_COLOR_BY_PREFIX`, matched by domain-code prefix), and a glyph
   chosen by keyword match on the domain code (`enrichmentGlyph`) from the
   same small shape vocabulary — e.g. any domain containing
@@ -94,7 +157,7 @@ activity deterministic.
   sitewide (and on `/parent`, `/help`) means changing the token once in
   `globals.css`, not thirty component files.
 - Every visual change here must stay inside `npx playwright test
-  tests/browser/accessibility.spec.ts`'s axe pass (WCAG 2.2 AA) — that's
+tests/browser/accessibility.spec.ts`'s axe pass (WCAG 2.2 AA) — that's
   the actual check, not a visual judgment call.
 
 ## Onboarding a new program's chapters
@@ -110,11 +173,11 @@ are worth doing so it doesn't look unfinished:
    human-readable title instead of the humanized domain code) and confirm
    where they land in `CurriculumDomainSchema`'s declared order (that order
    is the chapter order).
-2. For a brand-new *program* (a new prefix, e.g. a Geography Bee's
+2. For a brand-new _program_ (a new prefix, e.g. a Geography Bee's
    `geo6-*`), add one entry to `PROGRAM_COLOR_BY_PREFIX` in
    `chapter-icon.tsx` and, if none of `enrichmentGlyph`'s existing keyword
    matches fit, one more `if` there or a dedicated case in `GlyphFor`. For
-   one more domain under an *existing* program's prefix, nothing is
+   one more domain under an _existing_ program's prefix, nothing is
    needed — it inherits that program's color automatically, and its glyph
    resolves from the keyword match (or the star fallback if no keyword
    fits, which is a reasonable default, not a bug).
@@ -159,7 +222,7 @@ never reads or writes learner state.
   and say they leave Learning Forge and are not reviewed for children. `http:`
   and other schemes stay as text. No host is endorsed.
 - **Redaction.** `src/sources/redaction.ts` judges each address from the raw
-  register text *before* any text redaction, so an altered address is never
+  register text _before_ any text redaction, so an altered address is never
   shown as a different working destination. An address with credentials,
   tracking or sensitive query/fragment, encoded controls, or private paths is
   never a link: it is shown unlinked with only its scheme and host (or a fixed

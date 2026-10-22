@@ -3,6 +3,8 @@ import { z } from 'zod';
 
 import { getTutorContext, phase1Content, recordTutorResponse } from '../../../../phase1/service';
 import { contentSkillCode } from '../../../../content/catalog';
+import { skillsByCode } from '../../../../curriculum/catalog';
+import { SCIENCE_PROGRAM_CODE } from '../../../../curriculum/science-rules';
 import { requireHouseholdContext } from '../../../../server/household-context';
 import { createTutorModel, TutorHarness } from '../../../../tutor';
 import { TutorState } from '../../../../tutor/policy';
@@ -77,6 +79,10 @@ export async function POST(request: Request) {
       redactedSkillContext: `content:${context.content.id}; skill:${context.content.skillCode}`,
       state: context.state,
       mode: 'math_tutor',
+      subjectFraming:
+        skillsByCode.get(context.content.skillCode)?.program === SCIENCE_PROGRAM_CODE
+          ? 'science'
+          : 'math',
       genuineAttempt: true,
       priorHintCount: context.priorHintCount,
       attemptNumber: context.attemptNumber,

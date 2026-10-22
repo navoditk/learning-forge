@@ -58,6 +58,7 @@ const DOMAIN_LABELS: Record<CurriculumDomain, string> = {
   'snsb6-vocabulary': 'Vocabulary & Meaning',
   'snsb6-variants': 'Variants & Dictionary Labels',
   'snsb6-procedure': 'Oral-Round Procedure',
+  'sci6-life-science': 'Life Science',
 };
 
 const MODE_LABELS: Record<ContentItem['mode'], string> = {

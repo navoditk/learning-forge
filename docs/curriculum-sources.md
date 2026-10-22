@@ -189,7 +189,7 @@ whether the baseline maps it.
 | Domain                                | Code       | Candidate-authoring coverage expectation                                                                                                                                                                            | Frozen baseline                                                                 |
 | ------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | Ratios and Proportional Relationships | `6.RP.A.1` | Explain ratio concepts and ratio language in context.                                                                                                                                                               | Present                                                                         |
-| Ratios and Proportional Relationships | `6.RP.A.2` | Determine and interpret unit rates, including rates with fractions.                                                                                                                                                 | Present                                                                         |
+| Ratios and Proportional Relationships | `6.RP.A.2` | Determine and interpret unit rates, including rates with fractions; Grade 6 unit-rate expectations are limited to non-complex fractions (see the boundary note below).                                              | Present                                                                         |
 | Ratios and Proportional Relationships | `6.RP.A.3` | Use ratio/proportion reasoning for tables, equivalent ratios, unit rates, percentages, and conversions.                                                                                                             | Present                                                                         |
 | The Number System                     | `6.NS.A.1` | Interpret and compute division of fractions by fractions.                                                                                                                                                           | Present                                                                         |
 | The Number System                     | `6.NS.B.2` | Fluently divide multi-digit numbers using the standard algorithm.                                                                                                                                                   | Present                                                                         |
@@ -217,6 +217,18 @@ whether the baseline maps it.
 | Statistics and Probability            | `6.SP.A.3` | Recognize that a measure of center summarizes a distribution and that center/spread can vary.                                                                                                                       | Present                                                                         |
 | Statistics and Probability            | `6.SP.B.4` | Display numerical data in plots and describe the distribution in context.                                                                                                                                           | Present                                                                         |
 | Statistics and Probability            | `6.SP.B.5` | Summarize numerical data with context, measures of center/variation, and an overall description.                                                                                                                    | Present                                                                         |
+
+**6.RP.A.2 boundary note (RAT-SUBJECT-CORRECT, 2026-10-12).** The registered
+CDE standards PDF above limits Grade 6 unit-rate expectations to non-complex
+fractions (printed page 42, PDF page 49, as cited by the accepted advisory
+review `docs/grade-6-math-ratios-subject-review.md`, which retrieved that
+registered PDF). This clarification did not re-retrieve the PDF and performed
+no new research; the page citation rests on that accepted review. A
+non-complex fractional unit rate from whole-number quantities is within the
+summary; a unit rate formed from a ratio of fractional quantities (a complex
+fraction) is not required Grade 6 coverage. Only this summary is clarified:
+the dossier's approval status, scope, source register and other rows are
+unchanged.
 
 The two omissions are candidate-authoring decisions, not approved
 out-of-scope exclusions. Human review must decide whether to add explicit

@@ -121,6 +121,7 @@ const CHAPTER_LABELS: Record<string, string> = {
   'snsb6-vocabulary': 'Vocabulary',
   'snsb6-variants': 'Variants & Dictionary Judgment',
   'snsb6-procedure': 'Oral Round Procedure',
+  'sci6-life-science': 'Life Science',
 };
 
 // The curriculum's own declared domain order doubles as the default chapter

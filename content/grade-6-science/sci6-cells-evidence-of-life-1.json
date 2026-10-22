@@ -1,0 +1,97 @@
+{
+  "id": "sci6-cells-evidence-of-life-1",
+  "version": "1.0.0",
+  "title": "Three magnified pictures",
+  "role": "practice",
+  "skillRef": { "code": "sci6-cells-evidence-of-life", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["MS-LS1-1"],
+  "observableEvidence": [
+    "Decides which described, already-completed magnified picture is evidence that a sample is made of cells, and selects the observation that is the evidence."
+  ],
+  "prompt": "A science library shares three magnified pictures that a scientist took earlier. You only read about the pictures; you do not need any equipment.\n\nSample A: Many small cubes with flat sides and sharp corners. Every cube is the same shape. Each cube is clear and the same all the way through, with nothing different inside.\n\nSample B: Many tiny box-like units packed side by side. Each unit has a thin boundary around it. Inside each unit are smaller parts, including one darker round part.\n\nSample C: One smooth, even green surface. There are no separate units and no edges inside it.\n\nWhich sample's picture is evidence that the sample is made of cells, and which observation is that evidence?",
+  "solutionRepresentation": "Sample B. Cells are tiny units, each with its own boundary and parts inside. Sample B shows many tiny units, each with a boundary and smaller parts inside, which is what a sample made of cells looks like when magnified. Sample A repeats a neat shape, but each cube is the same all the way through with nothing inside, so the repeating shape is not cell evidence. Sample C is green, but it has no separate units at all; color alone is not cell evidence. Looking larger under magnification is true of every sample, so it is not evidence either.",
+  "solutionMethod": "List what each picture shows: separate units, a boundary around each unit, and parts inside. Choose the picture that shows all three, then choose the observation that names those features.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": { "id": "structured-fields", "version": "1" },
+    "canonicalAnswer": "Sample: Sample B; Evidence: Many tiny units, each with a boundary and parts inside",
+    "acceptedAnswers": [
+      "Sample: Sample B; Evidence: Many tiny units, each with a boundary and parts inside"
+    ],
+    "equivalenceNotes": "Structured single-choice fields. Both fields must match their correct options; there is no partial credit.",
+    "fields": [
+      {
+        "key": "sample",
+        "kind": "choice",
+        "label": "Sample",
+        "options": [
+          { "id": "sample-a", "label": "Sample A" },
+          { "id": "sample-b", "label": "Sample B" },
+          { "id": "sample-c", "label": "Sample C" }
+        ],
+        "correctOptionId": "sample-b"
+      },
+      {
+        "key": "evidence",
+        "kind": "choice",
+        "label": "Evidence",
+        "options": [
+          {
+            "id": "units-boundary-parts",
+            "label": "Many tiny units, each with a boundary and parts inside"
+          },
+          { "id": "repeating-shapes", "label": "Neat shapes that repeat again and again" },
+          { "id": "green-color", "label": "A green color" },
+          { "id": "looks-larger", "label": "It looks larger when magnified" }
+        ],
+        "correctOptionId": "units-boundary-parts"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "repeating-shape-means-cells",
+    "color-means-living",
+    "magnification-alone-is-evidence"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Cells are tiny units that make up living things. Think about what a picture would have to show if a sample were built from many of those units.",
+      "question": "What features would a picture of cells need to show?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make a short checklist for each picture: Are there separate units? Does each unit have its own edge? Is there anything inside each unit? Neat shapes and colors can also appear in things that are not made of cells.",
+      "question": "Which picture gets a yes for every item on your checklist?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a magnified picture of sand shows separate grains, but each grain is solid with nothing inside, so it is not cell evidence. A magnified picture of a mushroom slice shows many units, each with its own wall and smaller parts within it, so it is cell evidence.",
+      "question": "Which of the three pictures in this question matches the mushroom example, and what feature makes it match?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Sample: Sample B; Evidence: Many tiny units, each with a boundary and parts inside",
+    "Sample B",
+    "Many tiny units, each with a boundary and parts inside",
+    "boundary and parts inside"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (chat approval 2026-10-16)",
+    "reviewedAt": "2026-10-16",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SCI6-DRAFT. Original described pictures, options and hints; cites the MS-LS1-1 code only and does not reproduce standards, framework, textbook or assessment text."
+  },
+  "accessibilityNotes": "All information is in text; there is no figure. The three pictures are described in words, and no answer depends on color, position or drag interaction. Each response is a labelled radio group.",
+  "accessibleAlternative": "A scientist took three magnified pictures earlier. Sample A: many small cubes with flat sides and sharp corners, all the same shape, each clear and the same all the way through with nothing inside. Sample B: many tiny box-like units packed side by side; each unit has a thin boundary and smaller parts inside, including one darker round part. Sample C: one smooth, even green surface with no separate units. Question 1, Sample: which sample's picture is evidence that it is made of cells? Options: Sample A; Sample B; Sample C. Question 2, Evidence: which observation is that evidence? Options: Many tiny units, each with a boundary and parts inside; Neat shapes that repeat again and again; A green color; It looks larger when magnified.",
+  "itemReadinessRefs": []
+}

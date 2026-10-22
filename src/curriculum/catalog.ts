@@ -62,9 +62,13 @@ import snsb6HomophonesHomographs from '../../content/skills/snsb6-homophones-hom
 import snsb6VocabularyContext from '../../content/skills/snsb6-vocabulary-context.json';
 import snsb6VariantDictionaryJudgment from '../../content/skills/snsb6-variant-dictionary-judgment.json';
 import snsb6OralRoundProcedure from '../../content/skills/snsb6-oral-round-procedure.json';
+import sci6CellsEvidenceOfLife from '../../content/skills/sci6-cells-evidence-of-life.json';
+import sci6CellPartsFunctions from '../../content/skills/sci6-cell-parts-functions.json';
+import sci6CellAsASystem from '../../content/skills/sci6-cell-as-a-system.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { VersionedSkill, VersionedSkillSchema } from '../contracts/progression';
 import { validateProgramSkillInvariants } from './program-registry';
+import { validateScienceSkillRules } from './science-rules';
 import { topologicalOrder } from './topological-sort';
 
 const rawSkills = [
@@ -132,6 +136,9 @@ const rawSkills = [
   snsb6VocabularyContext,
   snsb6VariantDictionaryJudgment,
   snsb6OralRoundProcedure,
+  sci6CellsEvidenceOfLife,
+  sci6CellPartsFunctions,
+  sci6CellAsASystem,
 ] as const;
 
 export function topologicalSkillOrder(skills: readonly Skill[]): string[] {
@@ -160,6 +167,7 @@ export function validateSkillCatalog(items: readonly unknown[] = rawSkills): Ski
 
   topologicalSkillOrder(parsed);
   validateProgramSkillInvariants(parsed);
+  validateScienceSkillRules(parsed);
 
   return parsed;
 }

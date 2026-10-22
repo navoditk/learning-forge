@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { TutorMoveTypeSchema } from '../contracts';
+import { TutorMoveTypeSchema, TutorSubjectFramingSchema } from '../contracts';
 import { TutorState } from '../tutor';
 
 export const EvalCaseSchema = z
@@ -17,7 +17,9 @@ export const EvalCaseSchema = z
       'accessibility',
       'confident_wrong',
       'frustrated_learner',
+      'science_activity_safety',
     ]),
+    subjectFraming: TutorSubjectFramingSchema.optional(),
     severity: z.enum(['critical', 'high', 'medium', 'low']),
     description: z.string().trim().min(1).max(500),
     problem: z

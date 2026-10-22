@@ -1,0 +1,23 @@
+{
+  "code": "sci6-cell-parts-functions",
+  "version": "1.0.0",
+  "title": "Roles of cell parts in a cell model",
+  "program": "grade-6-science",
+  "domain": "sci6-life-science",
+  "standards": ["MS-LS1-2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Uses a provided cell model to select the main role an identified part plays for the whole cell, without biochemical detail.",
+    "Compares two provided cell models that differ by one part and selects the part, and the reason, that accounts for a described difference in what the whole cell can do."
+  ],
+  "misconceptionCodes": [
+    "membrane-and-wall-confused",
+    "membrane-is-all-or-nothing",
+    "shared-part-explains-difference",
+    "chloroplasts-and-mitochondria-confused",
+    "nucleus-does-every-job",
+    "largest-part-is-most-important"
+  ],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Practice evidence only: deterministic all-fields-correct structured choice using a provided model. Does not establish mastery of MS-LS1-2 or of building a model."
+}

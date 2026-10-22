@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "task": "DLV-DISPATCH-RUNBOOK",
+  "authority": "D-183 standing bounded execution; integrator-scoped G2/G3/G4 technical smoke after G1",
+  "ownedPath": "docs/dispatch-operator-runbook.md",
+  "requirements": [
+    "Write a concise operator runbook for the reviewed foreground, serial delivery dispatcher, grounded in docs/local-agent-relay.md, especially its Delivery dispatcher (C4) section.",
+    "Document read-only status, explicit hash-pinned enrollment, dry-run versus --execute, serial work, scoped ownership, native Claude author and independent Codex review, C3 receipt/publication, and dependency readiness.",
+    "Document the fixed aggregate budget formula: externalDebit plus C1 charged attempts; reservations and failures never refunded, automatic child renewal never resets the envelope.",
+    "Document one-signal drain, restart without duplicated reservations, two-signal abort, explicit interrupted/recovery handling, and never clearing STOP/PAUSED or stealing locks.",
+    "Distinguish local engineering acceptance and engineering_complete facts from protected human content/privacy/migration/manual/release/activation approvals.",
+    "State that execution depends on the active local machine/session and is not an always-on product service.",
+    "Use accurate command templates with E as a hash-named enrollment filename; do not include credentials, private paths, account information, child data or invented successful smoke/milestone claims.",
+    "Edit only the owned runbook. Do not create tests, change source/policy/status/claims/backlogs/facts/enrollments, execute native clients or model calls, or commit/push/deploy/activate.",
+    "This is documentation only, with host formatting checks. Run only permitted commands and report all uncertainty and failures; no additional test or tooling file is authorized.",
+    "Do not attempt prettier or other formatter commands through Bash; those are intentionally not granted by the adapter. Write valid formatted Markdown directly and let the host check it. No external tool-result reads."
+  ],
+  "dependent": {
+    "task": "DLV-DISPATCH-SMOKE-DEPENDENT",
+    "purpose": "Readiness witness only; do not execute it in this smoke",
+    "ownedPath": "docs/dispatch-smoke-followup.md"
+  },
+  "limits": {
+    "maximumNativeCalls": 4,
+    "maximumAuthors": 1,
+    "stopAtAnyHold": true,
+    "productBacklogNotEnrolled": true,
+    "scienceRemainsUnavailable": true
+  }
+}

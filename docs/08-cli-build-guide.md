@@ -11,6 +11,19 @@ claims, frozen task packets and required terminal-switch messages live in
 executor finishes a bounded role and names the other client for independent
 review. Keep the wrappers thin and the procedure tool-neutral.
 
+For automatic local wake-ups rather than typing `continue` at every
+handoff, use [the bounded local relay](local-agent-relay.md). It consumes
+explicit approved tickets; merely starting it does not authorize or enroll
+the backlog. D-183 separately authorizes delivery-level coordination for
+usable Grade 6 practice, complete Ratios and the first usable Science unit,
+including routine engineering acceptance after independent review and
+validation. Its first coordinator prototype remains isolated and blocked,
+not applied or running. The smaller C1 planner/durable controls are reviewed
+and applied, but model execution and journaled product integration still
+require C2/C3; no product-level watcher runs. The historical ticket watcher
+alone does not provide backlog planning. Human-only approval boundaries
+remain task stops, not reasons to halt unrelated eligible work.
+
 The resume index's ordered relay is checked before continuation work.
 If the wrong client is opened, it must name the required client/native role
 and packet with **SWITCH TO**, then stop instead of skipping ahead. At a
@@ -46,7 +59,13 @@ Start expansion work at `docs/development-expansion-plan.md`.
 
 ## Human/agent responsibility split
 
-Human approves product scope, child-facing behavior, architecture changes, content quality, privacy tradeoffs, releases, commits, and pushes. The agent inspects, proposes, implements bounded changes, writes tests/evals, runs verification, and updates progress.
+Human approves product scope, child-facing behavior, content quality, privacy
+tradeoffs, releases, commits and pushes. The agent inspects, proposes,
+implements bounded changes, writes tests/evals, runs verification and updates
+progress. Within the D-183 delivery mandate, routine technical design,
+independent review, correction and validated local engineering integration
+may continue under standing owner acceptance. That does not let a model
+approve content/privacy/migration/release gates or invent manual evidence.
 
 ## Existing repository setup
 

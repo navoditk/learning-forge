@@ -1,0 +1,104 @@
+{
+  "id": "sci6-cells-evidence-of-life-2",
+  "version": "1.0.0",
+  "title": "One cell, many cells, or no cells",
+  "role": "practice",
+  "skillRef": { "code": "sci6-cells-evidence-of-life", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MS-LS1-1"],
+  "observableEvidence": [
+    "Classifies described examples as made of one cell, made of many cells, or not made of cells, including microbes from the Archaea group and viruses."
+  ],
+  "prompt": "Read what scientists have already found out about three examples.\n\nExample A: A microbe from a hot spring. It belongs to the group called Archaea. A magnified picture shows that its whole body is a single tiny unit with a boundary around it. It takes in materials, grows, and splits into two new microbes.\n\nExample B: A leaf from a tree. A magnified picture shows thousands of tiny units packed together, each with its own boundary.\n\nExample C: A virus. It is a tiny package of genetic material inside a coat made of protein. It has no cell membrane, and it does not grow or take in materials. It can only be copied when it is inside a living cell.\n\nFor each example, choose whether it is made of one cell, made of many cells, or not made of cells.",
+  "solutionRepresentation": "Example A: One cell. Its whole body is a single unit with a boundary that takes in materials, grows and splits, so it is a living thing made of one cell. Microbes in the Archaea group are cells, even though they are tiny. Example B: Many cells. The leaf is made of thousands of units, each with its own boundary. Example C: Not made of cells. A virus has genetic material, which living cells also have, but it has no cell membrane, does not grow or take in materials, and can only be copied inside a living cell, so it is not a cell.",
+  "solutionMethod": "Use only the facts each description states. First, check whether it is stated to be built from units that each have their own boundary; a description that states there is no cell membrane is evidence against being a cell. Then count whether the whole thing is a single bounded unit or many joined units. A fact that is not mentioned is not evidence either way.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": { "id": "structured-fields", "version": "1" },
+    "canonicalAnswer": "Example A: One cell; Example B: Many cells; Example C: Not made of cells",
+    "acceptedAnswers": ["Example A: One cell; Example B: Many cells; Example C: Not made of cells"],
+    "equivalenceNotes": "Structured single-choice fields. All three fields must match their correct options; there is no partial credit.",
+    "fields": [
+      {
+        "key": "example-a",
+        "kind": "choice",
+        "label": "Example A",
+        "options": [
+          { "id": "one-cell", "label": "One cell" },
+          { "id": "many-cells", "label": "Many cells" },
+          { "id": "not-cells", "label": "Not made of cells" }
+        ],
+        "correctOptionId": "one-cell"
+      },
+      {
+        "key": "example-b",
+        "kind": "choice",
+        "label": "Example B",
+        "options": [
+          { "id": "one-cell", "label": "One cell" },
+          { "id": "many-cells", "label": "Many cells" },
+          { "id": "not-cells", "label": "Not made of cells" }
+        ],
+        "correctOptionId": "many-cells"
+      },
+      {
+        "key": "example-c",
+        "kind": "choice",
+        "label": "Example C",
+        "options": [
+          { "id": "one-cell", "label": "One cell" },
+          { "id": "many-cells", "label": "Many cells" },
+          { "id": "not-cells", "label": "Not made of cells" }
+        ],
+        "correctOptionId": "not-cells"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "microbes-are-not-cells",
+    "life-needs-many-cells",
+    "only-animals-have-cells",
+    "one-body-means-one-cell",
+    "virus-is-a-cell"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Start with what each description actually states. Look for units that each have their own boundary, like a cell membrane.",
+      "question": "Which details in each description tell you whether it is built from cell units at all?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Sort with two questions, using only stated facts. First: does the description state that it is built from units that each have their own boundary? If it states that there is no cell membrane, that is evidence it is not cellular. A fact that is simply not mentioned is not evidence either way. Second: if it is cellular, is the whole living thing a single unit, or lots of units joined together?",
+      "question": "What does each description state about units, boundaries and a cell membrane?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Different examples: a yeast microbe is described as a single unit with its own membrane that grows and forms new yeast by budding, so the whole living thing is a single cell-unit. A salt crystal in salty water also gets bigger, because dissolved salt attaches to its outer surface and repeats the same pattern. It is described as having no membrane and no parts inside, so it is not cellular. Being tiny, or getting bigger, does not decide the answer by itself.",
+      "question": "Using the same two questions and only the stated facts, how would you sort Examples A, B and C?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Example A: One cell; Example B: Many cells; Example C: Not made of cells",
+    "One cell",
+    "Many cells",
+    "Not made of cells"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (chat approval 2026-10-16)",
+    "reviewedAt": "2026-10-16",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SCI6-DRAFT. Original examples and wording within the California MS-LS1-1 clarification (domains of life; viruses are not cells); cites the code only and does not reproduce standards or assessment text."
+  },
+  "accessibilityNotes": "All information is in text; there is no figure. Each example is a separate labelled radio group with the same three options in the same order. No answer depends on color, position or drag interaction.",
+  "accessibleAlternative": "Example A: a microbe from a hot spring, in the group called Archaea; its whole body is a single tiny unit with a boundary; it takes in materials, grows and splits into two. Example B: a leaf from a tree; a magnified picture shows thousands of tiny units packed together, each with its own boundary. Example C: a virus; genetic material inside a protein coat; no cell membrane; it does not grow or take in materials; it can only be copied inside a living cell. For each of Example A, Example B and Example C, choose one option: One cell; Many cells; Not made of cells.",
+  "itemReadinessRefs": []
+}

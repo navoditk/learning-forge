@@ -1,5 +1,3337 @@
 # Progress
 
+## 2026-10-22 — Ratios registration decided and started (D-213–D-218)
+
+- D-212 rulebook edit applied at the owner's request; the permission
+  classifier still blocked sending decisions to Codex, so the owner decided
+  G-1..G-6 directly ("approve G-1 to G-6 as recommended"): D-213..D-218.
+- RC-5 registration dispatched to Sonnet in an isolated copy (ledger 58/180).
+  Deployment preconditions recorded: private non-reuse check (D-216),
+  ContentArchive capture (D-217); deployment stays owner-only.
+
+## 2026-10-22 — Teaching validator applied locally (RC-T1)
+
+- RC-T1 rev2 passed Codex `gpt-6.1-sol` re-review (READY_WITH_RISKS) and was
+  applied to the main tree (5 new files, uncommitted); isolated validation 7
+  green (verify 2647, integration 337, eval 17). Ledger 57/180.
+- Next: teaching D-61 exception (5 records) and RC-5 registration decisions,
+  waiting on the owner's D-212 rulebook edit (or owner answers).
+
+## 2026-10-22 — 100 more runs; model decisions requested in place of owner approvals (D-212)
+
+- Owner: "add 100 runs. do not block for human approval, instead use an
+  alternative model to review and make decisions." Cap 180 (56 used), window
+  to 2026-10-24T13:25:35Z. D-212 recorded: internal, reversible approval
+  gates go to verified Codex `gpt-6.1-sol` decisions; owner-only actions (paid
+  eval, manual a11y, production facts, private data, commit/push/deploy/
+  release) are worked around, not waited on.
+- The matching `AGENTS.md`/`docs/agent-orchestration.md` edit was denied by
+  the permission classifier (self-modification); owner to apply or permit.
+- Delegated decisions log (for owner override): D-209 (D-207 sign-off).
+
+## 2026-10-22 — Working window extended to 2026-10-24 (D-211)
+
+- Owner asked for 24-48 more hours: window end now 2026-10-24T13:25:35Z.
+  Invocation cap unchanged at 80 (56 used) until the owner names a number.
+
+## 2026-10-22 — All 22 Ratios practice drafts accepted
+
+- Owner "approved" → D-210 accepts double-number-lines-3/4 (draft-B-rev2).
+  With D-208/D-209 all 22 RAT-CONTENT practice drafts are accepted (D-209 veto
+  to 2026-10-29). RC-T1 rev1 got Codex CHANGES_REQUESTED (dormancy guard
+  bypasses); Sonnet rev2 running (ledger 56/80). RC-5 registration still
+  needs K-3/O-10, O-13 and the D-176 revisit.
+
+## 2026-10-22 — Ratios batch B complete pending two owner acceptances
+
+- draft-B-rev2 (CB-R1 widened legacy answer forms; CB-R2 existing
+  `reverses-scale`) and Sonnet harness rev4 passed Codex `gpt-6.1-sol` round 2
+  (READY_WITH_RISKS). Owner acceptance requested for DNL-3/DNL-4 (legacy
+  numeric, outside D-207). RC-T1 teaching validator dispatched (ledger 54/80).
+
+## 2026-10-22 — Ratios batch B reviewed; six items signed off (D-209)
+
+- Harness rev3 (Sonnet) runs both batches; its independent batch B key agrees.
+  Codex `gpt-6.1-sol`: all 8 answers correct; first D-207 delegated sign-off
+  accepted 6 items (D-209; owner veto until 2026-10-29T02:14Z; spot-check
+  percent-applications-3, -6, double-number-lines-6). CB-R1/CB-R2 routed to
+  the Opus author (ledger 51/80); DNL-3/4 acceptance stays with the owner.
+
+## 2026-10-22 — Ratios batch A accepted; model sign-off adopted
+
+- Owner reply "Approve D-207 as proposed and RC-4 all 14": D-207 delegates
+  in-scope dispositions and practice-item acceptance to verified cross-family
+  Codex sign-off (rulebook amended in `AGENTS.md` and
+  `docs/agent-orchestration.md`); D-208 accepts the 14 batch A items.
+- RC-2B (8 DNL/percent drafts) dispatched to the Opus author (ledger 48/80).
+  Registration (RC-5) still needs K-3/O-10, O-13 and the D-176 revisit.
+
+## 2026-10-22 — Ratios batch A passes review; awaiting item approval
+
+- Opus `draft-A-rev2` (one-line D-205 fix, verified 241/241 Opus) and the
+  harness fixes passed Codex `gpt-6.1-sol` re-review: READY_WITH_RISKS,
+  CA-R1–R4 closed (ledger 47/80). RC-4 per-item owner approval requested for
+  14 items (`RAT-CONTENT/rc4-request.md`). D-207 (model sign-off) proposed,
+  not adopted.
+
+## 2026-10-22 — Ratios review findings answered; correction running
+
+- Sonnet harness rev2 closed CA-R3/CA-R4 (verified 64/64 `claude-sonnet-5-5`;
+  `RAT-CONTENT/harness/rev2/`, 104/104 tests, 14 drafts pass).
+- Owner reply "approve CA-R1 (a) and CA-R2 (a)": D-205 narrows the
+  `ratio-tables-2@content-3` evidence statement; D-206 accepts depth mode for
+  `unit-rates-2@content-3`. Opus author `afdfd94645c36a78a` resumed for
+  `draft-A-rev2` (ledger 46/80). Next: one Codex changed-scope re-review of
+  CA-R1–R4, then RC-4 per-item content approval.
+- Owner also asked whether a cross-family model can sign off in place of
+  human approvals. Not adopted: proposed as a separate decision for the owner.
+
+## 2026-10-21 — Science switched on locally (D-201)
+
+- Owner approved Batch B: D-201 applied the reviewed SU-E3 patch to the local
+  main tree (Science available, label "Grade 6 Science (Cells unit, practice
+  only)"; uncommitted); D-202 one capped paid eval for the owner to run;
+  D-203 D-176/D-177 reaffirmed; D-204 smoke scope adopted.
+- Pending owner actions: SU-H6 manual accessibility pass, SU-H7 run and
+  report, H9a production facts. Release stays blocked (D-193).
+
+## 2026-10-21 — Science engineering complete; release decisions pending
+
+- SU-E3 activation candidate READY_WITH_RISKS (Codex `gpt-6.1-sol`, rerun
+  after the quota reset); AC-R1 cleanup wording annotated. Not applied.
+- All SCI6-USABLE engineering packets are reviewed; Science waits on the
+  owner's Batch B (SU-H5 onward). Ratios RC-2A drafting continues.
+
+## 2026-10-21 — Working window extended (D-200)
+
+- Owner extended the D-184 window to 2026-10-22T13:25:35Z with 30 more
+  runs (maximum 80; 42 used). Terms otherwise unchanged.
+- Running: SU-E3 Codex review (rerun after quota reset) and RAT-CONTENT RC-2A
+  Opus drafting.
+
+## 2026-10-21 — Ratios content approved; drafting started
+
+- Owner approved the RAT-CONTENT batch with engineering sign-off: D-194
+  (named D-61 exception, 22 public Ratios practice drafts), D-195 (sign-off and
+  D-61 applicability), D-196–D-199 (Q-2 a, Q-3 as listed, Q-4 a, Q-5 a).
+- RC-2A (pilot lessons, 14 drafts) dispatched to Opus in the bundle only; no
+  registration. SU-E3 review still waits on the Codex quota reset.
+
+## 2026-10-21 — SU-E3 candidate frozen; Codex quota reached
+
+- SU-E3 Science activation candidate frozen (not applied; main still
+  `available: false`): author verify 2,614 tests, integration 337/1 skip,
+  sanitized e2e 110/1 skipped/0 failed. Ownership amendment recorded for two
+  later SU-E1/E2 roster assertions.
+- Its Codex review stopped on the ChatGPT usage limit (retry after 9:34 PM
+  local); no verdict. No same-family substitute.
+- Lane A RAT-CONTENT awaits the owner batch. Ledger 40/50 (window to
+  2026-10-21T13:25:35Z). No commit, push or provider call.
+
+## 2026-10-21 — Science engineering packets accepted; Ratios content batch ready
+
+- Accepted locally (Codex `gpt-6.1-sol` verified; isolated validation, no
+  `.env`): SU-E4b capped real-eval selector (READY_WITH_RISKS; calls and
+  output tokens bounded, not dollars) and SU-E5 parent Science note
+  (READY_WITH_RISKS; sanitized e2e 105/1 skipped/0 failed with an ephemeral
+  per-run `AUTH_SECRET` mirroring CI). `iso-validation-5`: verify 2,614 tests,
+  integration 337 / 1 skipped, fake evals 17/17.
+- RAT-CONTENT scope rev2 READY_WITH_RISKS: owner batch Q-1–Q-5 plus the
+  engineering sign-off for a named D-61 exception (22 public practice
+  drafts) is pending. Packet `docs/agent-handoffs/RAT-CONTENT.md`.
+- Running: SU-E3 frozen Science activation candidate (not applied; SU-H5).
+- Process note: `RAT-CONTENT.md` was created before the integrator lock was
+  claimed (no concurrent claimant; recorded). Ledger 38/50. No commit, push
+  or provider call.
+
+## 2026-10-21 — Ratios catalog library done; Science tutor framing accepted
+
+- RAT-CATALOG-IMPL-2 accepted locally (Codex `gpt-6.1-sol` READY after two
+  minor test fixes and an integrator patch-header repair). RAT-CATALOG-IMPL
+  is DONE: dormant library only; RAT-INTEGRATE owner gates remain.
+- SU-E4 Science tutor framing accepted locally (READY after TF-R1 null-
+  framing fix) and applied to main after lane A's freeze.
+- Isolated validation of the combined tree (`iso-validation-3`): verify exit
+  0, 2,598 tests; integration 337 / 1 skipped; fake evals 6/6; no `.env`.
+- Running: SU-E4b (capped real-eval selector, no paid run). Next lane A:
+  RAT-CONTENT scope (doc-only) to frame the needed D-61 exception for the
+  owner. Ledger 29/50. No commit, push or provider call.
+
+## 2026-10-20 — IMPL-1 and SU-E1/E2 accepted locally; IMPL-2 and SU-E4 running
+
+- RAT-CATALOG-IMPL-1 rev2 READY (Codex `gpt-6.1-sol`, verified) after the
+  RI1-R1 sparse-array fix. SU-E1/E2 READY_WITH_RISKS after evidence recovery
+  (residual: one historical Prisma `.env` auto-load during the first SU-E2
+  migration, caused by integrator instructions; recorded).
+- Integrator isolated validation (snapshot without `.env`, sanitized env,
+  owned DB 55436, removed): `npm run verify` exit 0 (2,563 tests, lint,
+  build), integration 335 passed / 1 skipped, fake evals 3/3.
+- Accepted under D-183 standing acceptance; uncommitted in main tree.
+- Running: IMPL-2 (Sonnet, main tree) and SU-E4 (Sonnet, isolated copy,
+  applied after IMPL-2 closes). Ledger 21/50. No commit, push or provider call.
+
+## 2026-10-20 — Owner decisions recorded; IMPL-1 and SU-E1/E2 dispatched
+
+- Owner reply "approve all recommendations, R14(i)" recorded as D-186
+  (Ratios Q-0 A) and D-187–D-193 (Science H0 a, H1 b, H2 b, H3 a, H10 b,
+  H11 a; SU-R14 (i): no automatic tutor fallback, release blocked until the
+  capped paid eval passes).
+- Dispatched lane A RAT-CATALOG-IMPL-1 and lane B SU-E1 then SU-E2, both
+  Claude Code `forge-implementer` / Sonnet; next: Codex reviews. No commit,
+  push, provider call or production access.
+
+## 2026-10-20 — Scopes reviewed; owner decisions pending
+
+- RAT-CATALOG-IMPL scope rev3 READY_WITH_RISKS (gpt-6.1-sol verified;
+  RCI-R8 minor carried into IMPL-1). IMPL-1 awaits owner Q-0.
+- SCI6-USABLE scope rev3: eight findings closed; SU-R14 major (window rule
+  would silently switch owner H2 choice) escalated to owner per checkpoint;
+  SU-R15/R16 minor wording. Batch A plus SU-R14 pending owner.
+- Note: one rev2 lane A re-review ran on gpt-6-sol (resume dropped model);
+  treated advisory and superseded. D-184 ledger 12/50. No code, commit, push.
+
+## 2026-10-20 — D-184 first scopes reviewed; both corrections routed
+
+- Lane A RAT-CATALOG-IMPL scope rev1 (Opus 83/83, `22d6d4c5...788a`) and lane
+  B SCI6-USABLE scope rev1 (Opus 147/147, `c1a1e3ce...d135`) frozen and
+  verified. Independent `codex exec` gpt-6.1-sol reviews (model verified from
+  native session traces) both returned CHANGES_REQUESTED: RCI-R1–R5 and
+  SU-R1–R10. Reports saved under `docs/*-scope-20261020-review.md`.
+- Both corrections routed to the original Opus authors. New packets
+  `RAT-CATALOG-IMPL.md` and `SCI6-USABLE.md`; IC-9 annotated as decided by
+  D-176 in the design packet. D-184 ledger: 6/50 invocations.
+- No source, content, DB, provider, commit or push.
+
+## 2026-10-20 — D-184 Claude-coordinated window opened; smoke abandoned
+
+- Owner "approve both recommendations": D-184 opens a 24h / 50-call window
+  coordinated by Claude Code; D-185 abandons the held dispatcher protocol
+  smoke. Authorization and call ledger in common Git
+  `DELIVERY-COORDINATOR/claude-window-20261020/`.
+- Smoke outcome from preserved Copilot drafts: real Sonnet author, no
+  denials, independent Codex READY (zero findings) for runbook bundle
+  `02be5e5f...4338e`; G3 drain/restart proved; G4 accounting 42/100; G2
+  incomplete (`c3:backlog_format`). Runbook not applied.
+- Next: lane A RAT-CATALOG-IMPL scope (Opus), lane B first-usable-Science
+  gap scope (Opus). Human gates unchanged.
+
+## 2026-10-20 — Coordinator control switched to Claude Code; autopilot expired
+
+- Owner: Copilot monthly quota reached; switch control to Claude. Claude Code
+  (Opus integrator) archived the stale Copilot `integrator.lock` and claimed
+  integration. Evidence: common Git
+  `DELIVERY-COORDINATOR/standing-20261019/claude-takeover-20261020/`
+  (`takeover-checkpoint.json` `5fb76730...c334`).
+- Standing autopilot (D-183, 24h/100 calls) ended by deadline
+  `2026-10-20T02:51:33Z` with 42 calls charged; Copilot `run.json` unchanged
+  (`DISPATCHER_REAL_SMOKE_HELD`). Smoke format-recovery successor run
+  `b8804a76` expired unused; pause cleared; no native process active.
+  G2 publication/C3 COMPLETE, G3 and G4 unproved; preserved post-pause status
+  drafts remain unpublished.
+- No dispatch, native call, source edit, commit, push or deployment at
+  takeover. WAITING FOR HUMAN APPROVAL: new bounded Claude-coordinated window
+  and finish-or-abandon decision for the smoke.
+
+## 2026-10-19 — Lifecycle correction and dispatcher accepted locally; smoke next
+
+- Independent native Codex forty returned **READY, zero findings** for
+  two-file correction rev6 **`87ea7b3b...a5eaff4`**. C2L-01 through C2L-04
+  are closed; earlier comprehensive/changed reviews carry unchanged scope.
+  Same original Sonnet authored all corrections without execution.
+- Review thirty-four found close-before-poll retirement, finalizer-operation
+  isolation, failed-outcome preservation and listener disposal defects.
+  Same author thirty-five corrected all four; thirty-six closed three.
+  Recurring C2L-03 checkpoints preceded test-only thirty-seven (outcome
+  identity/undefined failures) and thirty-nine (SameValue/NaN).
+  Thirty-eight disclosed NaN as a first-pass review miss, not a new regression.
+  Every earlier failure, reading omission, source snapshot and review remains
+  preserved. No extra audit of closed C1/C3/C4 was substituted.
+- Parent safety preflight preceded each candidate execution. Rev6 scoped
+  formatting/types, six focused C2L-03 cases, **`npm run verify` with
+  2,444 tests/28 static pages**, and whitespace passed with full hashed logs.
+  Full verify includes all agent tests; duplicate standalone suites were
+  omitted only for the final one-comparison/test-only delta.
+- Exact reviewed patch applied locally at `20:14Z`. **Fresh main verification
+  also passed all four groups**, including formatting, documentation format,
+  **`npm run verify` (2,444 tests/build)** and whitespace. Both corrected
+  outputs, **849 unowned root pins**, HEAD/index, aliases and four unchanged
+  C4 outputs are intact. Original failed C4 application record is preserved,
+  not rewritten as a success; the coupled application/acceptance records
+  establish the validated successor.
+- **G1 complete:** `c2-stop-lifecycle-technical-acceptance.json` and
+  `dispatcher-technical-acceptance.json` record D-183 local engineering
+  acceptance at `20:18:51Z`. **40/100 external native calls ended**, unchanged
+  aggregate deadline `2026-10-20T02:51:33.003Z`. State
+  `DISPATCHER_ACCEPTED_APPLIED_SMOKE_NEXT` was the accepted checkpoint.
+  Separately enrolled the docs-class G2/G3/G4 protocol smoke at `20:23Z`:
+  `DLV-DISPATCH-RUNBOOK`, pinned scope
+  `docs/agent-handoffs/DELIVERY-PROTOCOL-SMOKE.json`, one unexecuted dependent,
+  at most four native calls, stop on any hold. Enrollment
+  `35bcc5ec...fb45564`, external debit40, C1 usage0 at enrollment.
+  First exact controller signal will drain its single author step; serial
+  one-step restarts must stop before the dependent. Root stays quiet during
+  flight. State `DISPATCHER_REAL_SMOKE_ENROLLED`; no operational claim until
+  real author/review/COMPLETE receipt/publication, drain/restart and aggregate
+  accounting are all proved. No product task or milestone completion implied.
+  Science remains unavailable; no staging/commit/push/deployment/activation
+  or protected human gate changes.
+
+## 2026-10-19 — Quota autoresume succeeded; lifecycle correction frozen for review
+
+- The single guarded timer resumed the **same original Sonnet session**
+  at `19:02Z`; invocation thirty-one returned at `19:04:23Z`, actual
+  `claude-sonnet-5-5`, strict output, zero denials and intact input/root/
+  unowned guards. The timer has finished; no quota wait remains. Original
+  failed call thirty, timer supersession and reading omissions are preserved.
+- Parent inspected all returned fixture/runner paths before execution.
+  First host formatting passed; typecheck failed on the fixture's missing
+  `NODE_ENV`. Same author thirty-two added exactly `NODE_ENV: 'test'`;
+  no casts or environment widening. Second host types passed, but focused
+  tests failed **107/108**: PF-01a let the exit gate race cancellation
+  observation. Both failed runs and complete logs remain unchanged.
+- `c2-stop-lifecycle-fixture-checkpoint.json` records the recurring ordering
+  cause. Same author thirty-three changed only PF-01a to acknowledge
+  `test_cancel` before its fixture can exit; all original assertions remain.
+  Parent rechecked that exact delta before host execution.
+- All six prospective host groups now pass: scoped Prettier, `tsc --noEmit`,
+  **108 focused tests**, **413 agent tests**, **`npm run verify` with 2,432
+  tests and 28 static pages**, and `git diff --check`. Complete stdout/stderr
+  and command exits are pinned, not retrospective author claims.
+  **854 unowned worker / 851 root pins**, HEAD/index/aliases/dependency link
+  remain intact. Frozen two-file patch **`56f405d5...c42bf37`** reconstructs
+  both outputs by actual `git apply --no-index`.
+- State `C2_STOP_LIFECYCLE_FROZEN_AWAITING_REVIEW`, **33/100 calls ended**;
+  next is the first comprehensive independent native Codex review of this
+  correction. Main source remains unchanged and C4 remains applied but
+  unaccepted. No real-client smoke/enrollment, protected human approval,
+  staging/commit/push/deployment/activation; Science stays unavailable.
+  Evidence: `c2-stop-lifecycle-rev3-manifest.json`, host logs and reconstruction
+  proof in common Git `agent-handoffs/DELIVERY-COORDINATOR/standing-20261019/`.
+
+## 2026-10-19 — Dispatcher applied; main validation blocked by C2 lifecycle
+
+- Native Codex twenty-seven returned **READY, zero required findings**;
+  C4-01 through C4-06 are closed. Approved rev2 `eb39b0d3...c30e9acb`
+  was applied locally at `15:24:50Z`, without staging. **C4 is not yet
+  technically accepted or operational**: `dispatcher-application.json`
+  remains `APPLIED_AWAITING_MAIN_CHECKS`; no technical acceptance exists.
+- First main formatting passed, but agent tests failed **380/381**:
+  unchanged C2-03 stop-during-final-check received a live stop control-lock
+  conflict instead of the expected held result. Original logs/application
+  were preserved. A single bounded unchanged-source diagnostic passed;
+  the full agent recheck passed **381/381**, but **`npm run verify` failed**
+  with **2,399/2,400 tests and one unhandled rejection**. The same C2-03
+  assertion received `kill EPERM`; the rejection originates at
+  `groupAlive` -> `terminateGroup` -> the stop timer. Build and final
+  acceptance checks did not follow the failed full suite.
+- No further validation retries. `c2-stop-lifecycle-checkpoint.json`
+  distinguishes captured failures from source-derived interleavings:
+  stop visibility can precede the nested stop CLI's control-lock cleanup;
+  a termination promise can reject before child close attaches its await.
+  Neither is asserted as proven attribution of the recorded run. All five
+  reviewed outputs, **846 unowned root hashes**, HEAD and index remain
+  unchanged. Original and recheck logs remain separate and immutable.
+- Native Opus twenty-eight returned an implementation-ready two-file
+  lifecycle contract. Actual **`claude-opus-5-5`**, session
+  `0d2b6b75-2ad3-45da-b8bd-17b96e4bc266`, strict output, zero denials,
+  pinned inputs/root/claim/HEAD/index guards passed. No source or tests ran.
+  The expert disclosed omitting some required policy/status reads; parent
+  cross-checked those records rather than calling transport full compliance.
+  Original report and parent `c2-stop-lifecycle-contract-annotations.json`
+  jointly govern: EPERM alone never authorizes a signal or proves absence,
+  close waits/finalization are bounded, fixture stop observation is gated,
+  callback errors preserve cleanup, and no assertion/permission weakening.
+- Isolated **two-file** Sonnet scope is pinned,
+  `scripts/delivery-accept.ts` and `tests/agents/delivery-accept.test.ts`.
+  Composite contract and **856-public-input baseline** are sealed; the old
+  integrator claim is preserved and only its matching scope was changed.
+  C1/C3/C4/guide/config remain frozen. Sonnet twenty-nine returned,
+  actual **`claude-sonnet-5-5`**, original session
+  `4a9608c2-9cd8-4fc4-940d-130bd3385454`, strict schema, zero denials,
+  unchanged unowned/root/input guards. It executed nothing and disclosed
+  its omitted README/handoff/PROGRESS reads. Raw source, hashes, report
+  and reading gap are preserved, not validation evidence.
+- Parent held **before any formatting/typecheck/test/fixture execution**:
+  PF-01 fixture finalization can discard still-pending work/ownership;
+  PF-02 signal checks can run beyond the fixed cleanup deadline;
+  PF-03 the real descendant readiness marker precedes TERM-handler
+  installation; PF-04 the defensive missing-pid setup branch lacks explicit
+  settlement. `c2-stop-lifecycle-preflight-checkpoint.json` pins the raw
+  return and all four source-derived findings, not an independent review.
+  **Same original Sonnet invocation thirty failed native first-party
+  API 429 / `usage_limit_reached` / session quota**, with **no source
+  changes**. Raw native result reports reset **12pm America/Los_Angeles**;
+  no reset date or capacity is guaranteed. Original failed process/output,
+  both source snapshots and all four unresolved findings are preserved.
+  Tools remain Read/Edit/Write/Glob/Grep only: **NO Bash or execution**.
+  Parent computes hashes,
+  formats, rechecks safety and captures focused/full checks, then native
+  Codex reviews the new correction. Existing C2-03 regex/no-publication
+  assertions stay intact, with additive coverage/strengthening only.
+  State `C2_STOP_LIFECYCLE_QUOTA_WAIT`, **30/100 consumed, all ended**.
+  `c2-stop-lifecycle-scope.json`, `c2-stop-lifecycle-baseline.json` and
+  `run.json` govern exact ownership, source and live phase.
+  Fixed deadline remains `2026-10-20T02:51:33.003Z`.
+- **One attached guarded wake-up is scheduled for
+  `2026-10-19T19:02:00.000Z` / 12:02 Pacific**, timer PID 16597.
+  No native call or reservation occurs before then. At wake, recheck
+  source/evidence/claim/state/aggregate guards and resume the same Sonnet
+  session once; renew only the expired child batch, never the aggregate.
+  Another quota/transport/identity/permission failure stops without retry.
+  `c2-stop-lifecycle-quota-checkpoint.json` and
+  `c2-stop-lifecycle-quota-wait-v2-process.json` govern. The initial timer
+  was retired before wake to add explicit fresh stop/pause/concurrent-
+  authority guards; its status/launcher remain preserved with
+  `c2-stop-lifecycle-quota-wait-supersession.json`. No native call or
+  reservation occurred during that replacement. This requires the
+  coordinating CLI session to stay open; no always-on service or model/
+  account substitution is implied.
+- No real-client smoke, root delivery backlog/enrollment/facts, pause clearing,
+  rollback, staging, commit, push, deployment, activation or human approval.
+  Science remains unavailable. Evidence and helpers remain in common Git
+  `agent-handoffs/DELIVERY-COORDINATOR/standing-20261019/`.
+
+## 2026-10-19 — Standing bounded autopilot; corrected dispatcher verification
+
+- Owner explicitly authorized **24 hours / 100 native invocations total,
+  with automatic batch renewal until the approved milestones finish or
+  either aggregate limit is reached**. Recorded start
+  `2026-10-19T02:51:33.003Z`, fixed deadline `2026-10-20T02:51:33.003Z`.
+  No routine eight-call reapproval inside this envelope; no aggregate
+  renewal. Reservations/failures count toward the same 100-call total.
+- Scope stays C3 and verified dispatcher wiring, then usable Grade 6
+  practice -> complete Ratios -> first usable Science unit. Native Opus
+  resolves C3's contract, native Sonnet implements a separately pinned
+  increment and independent native Codex reviews before D-183 local
+  acceptance. Preserve accepted C1/C2, old exhausted runs, every failure
+  and protected human gates. No blanket permissions, fleet or commit/
+  push/deployment/activation authorization.
+- Native Opus returned the C3 contract, but the first handoff failed
+  validation for one denied root-guide Read. The denied call was not
+  executed; original output/failure remains preserved. Host proved that
+  guide equals the accepted worker copy. An exact additional Read grant
+  and same-session bounded confirmation succeeded with no denials.
+  **Two of 100 calls consumed**. Contract and confirmation are separately
+  pinned; no source implementation or human approval is claimed by design.
+- Next is native Sonnet in a new isolated public baseline, owning only
+  `scripts/delivery-integrate.ts`, its agent test, the relay guide, and
+  narrowly coupled C2 exports/lock guard plus regression test. C1 state,
+  config/package files and unrelated source stay frozen. Copilot owns the
+  exact integrator claim; independent Codex review follows implementation.
+- The five-path C3 scope and **852 public-input baseline** are now frozen.
+  Native Sonnet implementation is active, **three of 100 calls consumed**,
+  with exact edit grants and literal validation commands only. Parent
+  coordinator/contract metadata and root checkout are not model-writable.
+  Author handoff, independent host checks/freeze and comprehensive native
+  Codex review remain pending; no C3 acceptance/application yet.
+- C3 author returned 61 new integration tests and reported 228 agent/
+  2,247 full tests/build passing. The wrapper held three denied tool attempts:
+  command-list shell inspection, its ungranted Read and an unlisted filtered
+  test. None executed; original failed handoff remains preserved.
+  Exact Read recovery resumed the same Sonnet read-only, confirmed no
+  source changes and completed without denials. **Four of 100 calls
+  consumed**. Independent host checks now enforce all 849 unowned worker/
+  844 unowned root pins, exact C2 exports/guard coupling and existing test/
+  guide preservation before freeze and five-file patch reconstruction.
+  Comprehensive independent native Codex review follows only after those
+  checks pass; no C3 technical acceptance or root application yet.
+- Independent host checks pass all five groups first pass: **228 agent/
+  2,247 full tests/build**, formatting, lint/types/migration check and
+  whitespace. All 849 unowned worker/844 unowned root pins, HEAD/index,
+  aliases/dependency link and five pre/post output hashes are intact;
+  C2 source is byte-exactly its two exports plus initial lock guard, with
+  prior tests/guide preserved. Frozen C3 rev1
+  `c0bd6865...89de3fcf` reconstructs all five outputs via actual
+  `git apply --no-index`. Comprehensive independent native Codex review
+  launched as call five of 100. Evidence:
+  `c3-rev1-manifest.json`, `c3-rev1-host-validation.json`,
+  `c3-rev1-patch-equivalence.json` and review/native logs in the standing packet.
+  Evidence: common Git
+  `agent-handoffs/DELIVERY-COORDINATOR/standing-20261019/`.
+  This is session-driven native coordination, not an always-on product
+  watcher. Stop/auth/quota controls still apply; Science remains unavailable.
+- Comprehensive native Codex review returned **three required majors**:
+  C3-01 publication ignores named-run/backlog authority; C3-02 recovery
+  adoption does not establish an exclusive live owner; C3-03 final snapshot
+  work separates authority validation from privileged root application.
+  All sixteen accepted C2 closures remain carried; no extra required minors.
+  Frozen rev1 remains isolated and unapplied despite its passing checks.
+  The **same original Sonnet session** is correcting all three together,
+  with the same five-path ownership and a 30-minute role limit.
+  **Six of 100 calls consumed**; fixed aggregate deadline unchanged.
+  `c3-correction-scope.json` and hash-pinned `c3-correction-inputs.json`
+  bind the review, prior patch, contract, exact permissions and prompt.
+  Required evidence includes inactive/stale publication byte preservation,
+  real two-process recovery contention, and post-snapshot revocation with
+  zero unauthorized application. Host rev2 checks/freeze/reconstruction
+  and independent changed-scope Codex verification follow. No C3
+  acceptance/application, new human approval or broader permissions.
+- Same original Sonnet returned the consolidated correction with **zero
+  permission denials**, reported 75 C3 tests/242 agent tests and 2,261 full
+  tests/build passing after its last edit. Native session/model and strict
+  output validation passed; this is author evidence, not acceptance.
+  Independent host rev2 checks are active against the original root
+  baseline, frozen rev1, pinned correction inputs and unchanged C2 coupling.
+  Six of 100 calls consumed. Only after host checks and actual patch
+  reconstruction pass will native Codex verify changed-scope closure.
+- Independent host rev2 checks passed all five groups, **242 agent/
+  2,261 full tests/build**, formatting/lint/types/migration check and
+  whitespace. All 849 unowned worker/844 unowned root pins, HEAD/index,
+  aliases/dependency link and exact unchanged C2 coupling remain intact.
+  Frozen rev2 `32440f2c...79c7c00` reconstructs all five outputs by actual
+  `git apply --no-index`. Independent native Codex changed-scope verification
+  of C3-01--03 and directly coupled regressions is active, **seven of 100
+  calls consumed**. Evidence: `c3-rev2-manifest.json`,
+  `c3-rev2-host-validation.json`, `c3-rev2-patch-equivalence.json` and
+  review/native logs in the same standing packet. No C3 acceptance or
+  root application before independent readiness.
+- Changed-scope native Codex **closed C3-01 and C3-03**, but retained
+  **C3-02, unresolved major**: guard installation can target a replacement
+  live outer-lock generation, and releasing the guard before outer cleanup
+  can leave an ownerless lock. Earlier real-process tests covered mid-work
+  contention, not these two ownership transitions. Automatic dispatch paused
+  for the required recurring-major cause analysis; the recorded checkpoint
+  consolidates both schedules and lifecycle correction without changing
+  scope or an approved choice. `c3-recovery-cause-checkpoint.json` and pinned
+  `c3-recovery-correction-inputs.json` authorize eligible resumption, not
+  technical acceptance.
+  Same original Sonnet is correcting **only C3-02 and coupled lifecycle
+  cleanup**, **eight of 100 calls consumed**. A new child batch was opened
+  automatically for a sufficient role window; aggregate usage/deadline did
+  not reset. C3-01/03 and all C2 closures remain carried. Retain rev1/rev2,
+  original failures and both reviews; no root C3 application. Host rev3
+  checks/freeze/reconstruction and changed-scope native Codex verification
+  follow this correction. No new owner approval or broader permissions.
+- Same original Sonnet returned the lifecycle correction, validated native
+  identity/output and **zero permission denials**. It reports 78 C3/
+  245 agent tests and a final 2,264-test/full build pass. Two initial C3
+  test failures were corrected; two earlier full verification attempts
+  failed unchanged C2 stop/control-lock and resistant-check/`EPERM` tests.
+  Those failures remain disclosed; the author's historical-race attribution
+  is not independently established. No C2 process-control edits.
+  The candidate binds external recovery markers to outer-lock generation,
+  revalidates after acquisition and retires the whole lock atomically while
+  retaining recovery ownership. Real-process installation/teardown barriers
+  supplement earlier contention tests. **Independent host rev3 checks are
+  active**, eight of 100 calls consumed. No C3 acceptance/application;
+  changed-scope Codex verification follows only after host success.
+- Independent host rev3 passed all five groups on its first run:
+  **245 agent/2,264 full tests/build**, formatting/lint/types/migration check
+  and whitespace. All 849 unowned worker/844 root pins, HEAD/index,
+  aliases/dependency link and exact unchanged C2 coupling are intact.
+  Frozen rev3 `d3956642...a875bcc` reconstructs all five outputs via actual
+  `git apply --no-index`. Native Codex changed-scope **C3-02 lifecycle
+  verification is active**, nine of 100 calls consumed. C3-01/03 and C2
+  closures remain carried; earlier author failures are not erased by this
+  pass. Evidence: `c3-rev3-manifest.json`, host validation, patch equivalence
+  and native review logs in the standing packet. No root application yet.
+- Native Codex closed **C3-02**, carrying closed C3-01/03 and all C2
+  findings. One directly affected **required minor C3-04** remains:
+  lifecycle tests can leave real child processes indefinitely blocked if
+  setup/assertions fail before barrier release. This does not prove the
+  cause of earlier C2 failures. `c3-fixture-cause-checkpoint.json` records
+  the bounded correction: child ownership registration, bounded waits,
+  guaranteed failure/timeout termination and reaping, and real failure-path
+  evidence for all three barriers. Same original Sonnet is correcting
+  **only `tests/agents/delivery-integrate.test.ts`**, invocation **ten of
+  100**. All four other owned files are frozen to rev3; edit/formatter
+  permissions are narrowed to the test. No runtime rework or broad review.
+  Host rev4 freeze/reconstruction and independent changed-scope C3-04
+  verification follow. No C3 acceptance/application yet.
+- Invocation ten **failed native Claude API 429 `usage_limit_reached`**,
+  without a completed author handoff. Original raw output/process failure
+  remain preserved, not relabeled. The fixture test contains partial edits,
+  frozen separately as `c3-fixture-partial-after-quota.test.ts`; all four
+  other owned files still match rev3 exactly. Do not run host acceptance
+  against the incomplete test.
+  Claude reported a session reset at **2026-10-19 06:10 UTC** (23:10 on
+  October 18 in America/Los_Angeles). One **attached, guarded same-author
+  resumption is scheduled for 06:12 UTC**, not an immediate retry or
+  provider substitution. `c3-fixture-quota-checkpoint.json` pins failure,
+  partial hash, reset interpretation and guards; the timer's process
+  record and `run.json` govern actual live state. No native author/reviewer
+  is active while waiting; ten of 100 calls remain consumed. Only actual
+  wake-time dispatch reserves call eleven, with the original aggregate
+  deadline and automatically renewed child batch if needed. If state,
+  claim, pins or budget change, or the provider blocks again, stop rather
+  than retrying blindly. No product watcher, protected-gate change or root
+  application; this timer depends on the current Copilot session.
+- The scheduled **06:12Z same-author resumption succeeded**, invocation
+  eleven, validated native Sonnet identity/output, no denials and all four
+  frozen owned hashes intact. Author reports 89 C3/256 agent tests and
+  2,275 full tests/build passing; two initial new after-retire assertions
+  were corrected and disclosed. Parent preflight **did not execute** that
+  candidate's tests: one synthetic cleanup-error case would send real
+  signals to invented group `-2000000`, assuming it cannot exist.
+  `c3-fixture-preflight-checkpoint.json` preserves the returned candidate
+  and requires a narrowly scoped mocked-signal correction before execution
+  or independent review. Same original Sonnet invocation **twelve of
+  100** is active, test-only permissions and four frozen files unchanged.
+  No new runtime issue, broader review, approval or root application.
+- Same original Sonnet returned the preflight correction, validated native
+  identity/output, no denials and unchanged four frozen owned files.
+  Parent inspected the specific negative test before execution: synthetic
+  signals now stay inside a scoped spy, expected TERM/KILL attempts are
+  asserted, and the spy/registry are restored in `finally`. Real owned-child
+  cleanup tests remain. Author reports 256 agent/2,275 full tests/build
+  passing after one failed full verification with truncated, unsaved output.
+  That failure is **unidentified**, not attributed to C2 or erased by the
+  rerun; its missing detailed output is an evidence gap.
+  **Independent host rev4 checks are active**, twelve of 100 calls
+  consumed, with complete parent logs and all frozen/pin/claim guards.
+  Changed-scope native C3-04 verification follows only on host success.
+- Independent host rev4 passed all five groups first attempt:
+  **256 agent/2,275 full tests/build**, formatting/lint/types/migration check
+  and whitespace. All 849 worker/844 root unowned pins, HEAD/index,
+  aliases/dependency link and four frozen owned files are unchanged.
+  Frozen rev4 `9f98630f...498ed08` reconstructs all five outputs by actual
+  `git apply --no-index`. Native Codex **C3-04-only verification is active**,
+  **thirteen of 100 calls consumed**. Earlier quota, preflight, test
+  failures and the unidentified/unsaved author failure remain disclosed;
+  this pass does not explain them. Runtime/C2 closures remain carried.
+  No C3 acceptance or root application before independent readiness.
+- Native Codex retained **C3-04, unresolved required minor**: ordinary
+  barrier failures and synthetic signal isolation are corrected, but
+  asynchronous spawn errors are unobserved, result deadlines can silently
+  swallow signal failures without settling, and cleanup can drop ownership
+  before `close`/stdio closure. The required recurring-minor cause checkpoint
+  consolidates these three directly coupled lifecycle paths; all runtime
+  and C2 findings remain closed.
+  Original Sonnet invocation **fourteen of 100** was dispatched, test-only,
+  with four other owned files frozen to rev4. Two literal redirected
+  verification commands were granted to capture separate ignored worktree
+  logs for parent preservation.
+  A parent launcher guard initially compared the old scope's rev3 patch
+  with rev4 and stopped **before reservation or native spawn**; original
+  failed launcher and cause are preserved, current checkpoint binding fixed.
+  No native call was charged until actual invocation fourteen.
+  Next: host rev5 checks/freeze/reconstruction and native changed-scope
+  C3-04 lifecycle verification. No runtime rework, broader approval or root
+  application.
+- Invocation fourteen returned the three-path fixture correction, but
+  **failed validation**: native Claude denied both exact verification
+  redirections despite their narrow allow entries. Neither executed and
+  neither named author log exists. Raw failure, report and all five returned
+  source outputs are preserved; no permission bypass or broader grants.
+  `c3-fixture-errors-permission-checkpoint.json` routes the original Sonnet
+  to **read-only confirmation fifteen**, which passed actual model/session,
+  strict output, zero denials and unchanged five-file hashes. It does not
+  relabel fourteen or recover missing author logs. The author discloses an
+  unchanged C2 stop/control-lock failure followed by an identical-source
+  agent-suite pass; cause remains unproven.
+  **Host rev5 validation is active**, capturing complete separate stdout/
+  stderr for the same five groups. Four non-fixture owned files still match
+  rev4; C3 remains isolated/unapplied. Fifteen of 100 native calls consumed,
+  fixed aggregate deadline unchanged. Next: freeze/reconstruct rev5 and
+  native Codex C3-04-only lifecycle verification.
+- **Host rev5 passed all five groups on its first attempt:** 262 agent
+  tests, 2,281 full tests/build, formatting/lint/types/migration check and
+  whitespace. Complete stdout/stderr are preserved and hashed; missing
+  author captures remain missing. All 849 unowned worker/844 root pins,
+  HEAD/index/aliases/dependency link and four non-fixture rev4 hashes are
+  intact. Frozen rev5 `e0acbb12...3854f4b` reconstructs all five reviewed
+  outputs with actual `git apply --no-index`.
+  **Independent native Codex C3-04 lifecycle verification is active,
+  sixteen of 100 calls consumed.** Runtime/C2 closures remain carried;
+  no C3 acceptance or root application before zero required findings.
+- Native Codex rev5 closed spawn-error observation, deadline-first result/
+  signal handling and successful delayed-close ownership. **C3-04 remains
+  required minor** for one coupled failure path: cleanup can report a close
+  failure and drop ownership without settling an outstanding result or
+  cancelling its timer; the later deadline can signal again without ownership.
+  `c3-fixture-result-cause-checkpoint.json` records the exact cleanup-before-
+  result counterexample and finalizer/timer-disposal correction before
+  eligible redispatch. Original Sonnet invocation **seventeen of 100** was
+  dispatched, test-only, four other outputs frozen to rev5, 20-minute role limit.
+  No denied redirection commands are granted/requested; parent host captures
+  full validation output. Next: host rev6, actual five-file reconstruction,
+  then C3-04 cleanup/result-only native Codex verification. Closed runtime/
+  C2 findings remain carried; no C3 root application or new owner approval.
+- Invocation seventeen returned the cleanup/result finalizer, no denials,
+  97 C3 tests and 264 agent tests after an unchanged C2 failure/identical-
+  source rerun. Its **final full verify failed exit 1**, with truncated
+  unsaved cause; no passing final full verify or causal explanation is
+  claimed. Native schema/model handoff success is not test success.
+  Parent pre-freeze inspection derived a directly coupled overlap:
+  a deadline termination already awaiting its grace can signal after
+  cleanup drops ownership, because the ownership check is only at entry.
+  This static schedule was **not executed**. All five returned outputs,
+  hashes and native failure/report are preserved; no host suite or paid
+  review was spent on this known-incomplete candidate.
+  `c3-fixture-race-cause-checkpoint.json` records the concrete unequal-grace
+  schedule and per-signal ownership correction. **Original Sonnet eighteen
+  was dispatched**, same test-only scope/four rev5-frozen outputs and 20-minute
+  limit. Child batch renewed automatically for sufficient role time;
+  aggregate deadline/count did not reset. Next: captured host rev6,
+  reconstruction and scoped Codex cleanup/result plus overlap verification.
+- Original Sonnet eighteen returned, validated same native model/session/
+  schema, no denials and four frozen files intact. The ownership guard is
+  inside each actual signal, including after awaits. Author reports a
+  fully mocked deterministic unequal-grace regression and an intended
+  mutation failure/revert, 265 agent tests and 2,284 full-test/build summary.
+  **Author full-verify exit status was not displayed**; its opening success
+  claim is not independent exit-zero evidence.
+  **Host rev6 validation is active**, with complete captured stdout/stderr
+  and actual exit statuses for all five groups, eighteen of 100 native
+  calls consumed. Freeze/reconstruction and Codex changed-scope verification
+  remain pending; C3 stays unapplied and all prior failures remain preserved.
+- **Host rev6 passed all five groups on the first attempt**, with complete
+  hashed logs and actual exit zero: 265 agent tests, 2,284 full tests/build,
+  formatting/lint/types/migration check and whitespace. All 849 unowned
+  worker/844 root pins, HEAD/index/aliases/dependency link and four frozen
+  rev5 non-fixture outputs remain intact. Rev6 `fb625bc3...5668542`
+  reconstructs all five outputs by actual patch application.
+  **Native Codex invocation nineteen is active**, verifying only C3-04
+  cleanup/result finalization, the coupled overlap and regressions.
+  Host success is independent evidence, not recovery of the author's
+  undisplayed exit status or historical failures. No root C3 application
+  before independent readiness with zero required findings.
+- Native Codex nineteen returned **READY, zero required findings**,
+  closing C3-04 cleanup/result finalization and overlapping termination.
+  Prior C3-01/02/03 and all C2 closures remain carried. Exact rev6
+  `fb625bc3...5668542` was applied locally under D-183, without staging;
+  fresh claim, root-before, frozen/evidence/native-proof and integrity
+  checks passed. **Main checkout validation is active**; local technical
+  acceptance is not persisted until those five groups and final integrity
+  checks pass. Nineteen of 100 native calls consumed. The next separate
+  increment is the native Opus dispatcher contract, not product activation.
+- **C3 is technically accepted and applied locally under D-183.**
+  Main checkout passed all five groups, **265 agent/2,284 full tests/build**,
+  with complete logs and actual exit zero. All five reviewed output hashes,
+  844 unowned root pins, HEAD/index/aliases and exact claim remain intact.
+  `c3-technical-acceptance.json`, `c3-application.json` and
+  `main-c3-validation.json` persist acceptance/application/evidence for
+  rev6 `fb625bc3...5668542`. No staging, commit, push, deployment or activation.
+  All failed runs, unknown/unconfirmed author verify results and carried
+  runtime limits remain preserved.
+  **Next assigned role: native Claude `forge-expert`/Opus, read-only
+  verified dispatcher contract**, then separately pinned Sonnet
+  implementation and independent Codex review. Nineteen of 100 calls
+  consumed before that dispatch; fixed aggregate deadline unchanged.
+  C3 closes integration/recovery, not product backlog dispatch or milestones.
+- **Native Opus invocation twenty is active**, a read-only dispatcher
+  contract with exact reference grants and pinned accepted C1/C2/C3 inputs.
+  No source implementation, tests, model subcalls or parent metadata writes
+  are permitted in that role. Contract must define serial selection ->
+  native acceptance -> journaled integration -> verified facts/dependent
+  advancement, binding budget/restart/stop/human-gate behavior and honest
+  native-adapter evidence limits. There is no root delivery backlog yet;
+  historical planner/prototype inputs are not enrolled for execution.
+  Next: freeze the returned contract, exact isolated Sonnet scope and
+  comprehensive independent Codex review. **Twenty of 100 calls consumed**;
+  fixed aggregate deadline remains `2026-10-20T02:51:33.003Z`.
+- Native Opus twenty returned the C4 dispatcher contract, verified actual
+  `claude-opus-5-5`, strict schema, no denials and unchanged pinned inputs.
+  It proposes exactly five owned paths: new dispatcher source/test, a guide
+  appendix, C2's optional task filter through three functions, and two
+  C1 forbidden-path strings. Existing test files and C3 remain frozen.
+  `dispatcher-contract-annotations.json` preserves the original report
+  while clarifying source-derived contradictions: orphan settlement never
+  refunds a reservation; zero-call progress need not renew a call-exhausted
+  but active run; recurring findings use the existing cause checkpoint, not
+  a shipping cap. Real smoke/enrollment is a separate future scoped act,
+  not authorized by the model or executed now.
+  **Next assigned role: native Sonnet, isolated C4 implementation**, then
+  comprehensive independent Codex review. Twenty of 100 calls consumed;
+  no product dispatcher is operational yet.
+- C4's composite contract and exact five-path scope are frozen.
+  Fresh worktree has **854 public regular inputs plus two preserved
+  portable aliases**, based on accepted C1/C2/C3 and the existing dirty
+  checkout; unexpected public paths were checked before overlay.
+  Only the parent's matching claim was re-scoped, with its old bytes
+  preserved. Main checkout/index and all prior work remain unchanged.
+  **Native Sonnet invocation twenty-one was launched**, 45-minute/200-turn
+  role limit, exact five-file writes and literal validation commands.
+  New source/test, append-only guide, C2 task-filter coupling and C1
+  forbidden-path entries only; no existing test, C3, config, policy,
+  content, real-client smoke or root enrollment writes.
+  Native identity/output/denial and source/root integrity guards precede
+  host validation, five-file freeze/reconstruction and comprehensive
+  independent Codex review. Twenty-one of 100 calls consumed; fixed
+  aggregate deadline unchanged. This is implementation, not operational
+  product autopilot.
+- Prepared separately named C4 host/freeze/reconstruction, independent
+  review and gated local integration helpers in the standing packet.
+  All three pass `node --check`; status-document Prettier and
+  `git diff --check` pass. These are syntax/format checks only:
+  none of the three helpers has executed, no C4 candidate is frozen,
+  reviewed or applied, and no additional native invocation was consumed.
+  Review checks fresh claim/baseline/root-before/HEAD/index and frozen
+  source; integration requires independent READY with zero findings,
+  exact patch/evidence and main-checkout validation before acceptance.
+  At that preparation checkpoint Sonnet twenty-one was still active; no root backlog,
+  enrollment, real protocol smoke or operational-autopilot claim follows.
+- Sonnet twenty-one returned the C4 implementation and reported 59 new
+  tests, 324 agent/2,343 full-test/build summaries; author final verify
+  exit remains **UNCONFIRMED**. Parent held the handoff before any host
+  suite/freeze/review: source inspection derived late-signal/result-timer,
+  failed-cleanup and detached-group ownership/reaping gaps in the new
+  test fixture. The author also admitted an unlisted `wc` command;
+  empty native denials do not establish narrower prompt compliance.
+  `dispatcher-preflight-checkpoint.json` records exact counterexamples
+  and the test-only correction; five returned outputs/hashes are preserved.
+  These are static counterexamples, not parent reproductions.
+- Same original C4 Sonnet session resumed as invocation twenty-two,
+  limited to the new test file, but failed actual first-party
+  **API 429 / `usage_limit_reached` / weekly limit**. No source changes;
+  all five returned hashes, baseline/root/HEAD/index and original
+  failure/raw output are preserved. No successful correction or author
+  report is claimed for this failed call.
+- State is **`DISPATCHER_QUOTA_WAIT`, 22/100 calls consumed**.
+  An attached, single guarded timer is running (PID 41773), with no native
+  worker or further reservation before its wake at
+  **`2026-10-19T14:02:00.000Z` / 07:02 America/Los_Angeles**.
+  This is the next occurrence of the provider's reported 7am clock plus
+  two minutes; no reset date was supplied, so capacity is not guaranteed.
+  Fresh state/claim/source/input/budget guards precede at most one
+  same-author 40-minute recovery. Another quota/transport/identity/
+  permission block stops, without retry loops or account/model
+  substitution. Fixed aggregate deadline/count remain unchanged.
+  Evidence: `dispatcher-quota-checkpoint.json`, partial snapshot,
+  `resume-dispatcher-after-quota.mjs`, `wait-dispatcher-quota.mjs` and
+  `dispatcher-quota-wait-process.json` in the standing packet.
+  Five current host/review/integration/recovery/wait helpers pass syntax
+  checks. Early dispatch was explicitly refused with the ledger
+  byte-unchanged and no new native reservation. Product C4 host suites,
+  freeze/reconstruction, independent review and acceptance remain pending;
+  no root backlog/enrollment/smoke or operational autopilot exists yet.
+- The single quota timer successfully resumed the **same Sonnet at
+  14:02Z / 07:02 Pacific**, invocation twenty-three, and completed normally
+  at 14:16Z. Native identity/schema/no-denial validation passed; four frozen
+  non-test outputs and all unowned/root pins remained intact. Author
+  reports 78 C4/343 agent/2,362 full-test/build summaries, but full-verify
+  exit remains unconfirmed and an external persisted tool-result Read was
+  admitted again. Invocation twenty-two remains a failed weekly API429;
+  no account/model substitution or quota bypass occurred.
+- Parent pre-host inspection derived a **remaining C4-PF-02**:
+  generic `setInterval` is not fixture provenance, and membership is
+  checked only before TERM, not again before a later post-await KILL.
+  `dispatcher-recurring-checkpoint.json` consolidates both concrete
+  counterexamples and recurring C4-PF-03 read-scope cause before redispatch.
+  All five twenty-three outputs/hashes and raw report/native evidence
+  are preserved. No host suite or paid independent review was spent on
+  this known-incomplete candidate.
+- **Same Sonnet invocation twenty-four is active**, 40-minute/200-turn,
+  test-only recurring provenance/per-signal membership correction.
+  State `DISPATCHER_RECURRING_CORRECTION_ACTIVE`, **24/100 calls consumed**;
+  fixed aggregate deadline unchanged. Four non-test outputs stay frozen.
+  Author runs only focused dispatcher tests and formatter/whitespace
+  checks; tool-result Reads are explicitly denied. Parent all five full
+  host validation groups, freeze/reconstruction and first comprehensive
+  Codex review still follow; this does not waive coverage or repair older
+  missing exits/deviations. The quota timer is complete, no longer waiting.
+- Sonnet twenty-four returned at **14:27Z**, with actual same-model/session,
+  schema/no-denial and frozen-source guards passed. Author reports 84
+  focused tests passing and no external tool-result Reads/full suites.
+  Two earlier focused failures and an earlier comment-only descendant
+  marker are disclosed: the old interval was commented out, so some
+  descendant-gone checks could pass trivially. Current block-comment
+  marker preserves a live interval; independent review must verify this,
+  not reinterpret older counts as proof of live-descendant coverage.
+- First parent host precheck failed **before any test execution**:
+  the exact validated `node_modules` symlink was omitted from inventory.
+  Failed helper and `dispatcher-host-precheck-failure.json` are preserved.
+  The correction permits only that already type/realpath-validated
+  literal link; all other inventory/baseline/root/HEAD/index/alias/claim
+  guards remain unchanged. No candidate edit or native call was consumed.
+  Original five host groups now run with complete separate logs; formatter,
+  guide formatter and agents have returned exit zero. Full verify,
+  whitespace, final integrity, five-output freeze/reconstruction and first
+  comprehensive independent Codex review remain pending. **24/100 calls
+  consumed**, fixed deadline unchanged; C4 is not accepted or operational.
+- **All five C4 host groups pass**, actual exit zero and complete hashed
+  stdout/stderr: code/guide formatting, **349 agent tests**, `npm run verify`
+  (**2,368 full tests**, lint/types/down-migration check and build/28 static
+  pages), and whitespace. This follows the preserved pre-test inventory
+  failure; it is not a retroactive passing first launch or repaired author
+  log. All 851 unowned worker/846 unowned root pins, HEAD/index/aliases/
+  dependency link and exact C1/C2 coupling/accepted guide prefix remain
+  intact. Five-file rev1 **`fd08e858...68df0ba`** is frozen/read-only and
+  reconstructs all five after hashes with actual `git apply --no-index`.
+  Evidence: `dispatcher-rev1-manifest.json`, full host logs/validation and
+  `dispatcher-rev1-patch-equivalence.json` in the standing packet.
+- **Native Codex invocation twenty-five is active**, first comprehensive
+  read-only review of all new C4 behavior/direct coupling and required
+  requirement/test evidence, 20-minute limit. Source/native/input/claim/
+  baseline/patch/proof guards passed before reservation; original failed
+  runs, read deviations and earlier missing author exits remain preserved.
+  State `DISPATCHER_COMPREHENSIVE_REVIEW_ACTIVE`, **25/100 calls consumed**;
+  same fixed aggregate deadline. No local C4 acceptance/application yet;
+  operational real-client enrollment/smoke and protected human gates remain.
+- First comprehensive native Codex review returned **changes requested:
+  three required majors and three required minors**, verified actual
+  `gpt-6.1-sol`, thread `01a15498-6a89-7a42-8614-509832c77b69`.
+  C4-01: adopted/renewed run deadlines can outlive the envelope.
+  C4-02: recovery precedence masks historical stop/envelope expiry.
+  C4-03: a pre-origin clock creates an excluded charged run.
+  C4-04: assertion failure restores real signals before synthetic cleanup.
+  C4-05: failed readiness publication can hide a live detached descendant.
+  C4-06: invalid PID/unexpected liveness errors are treated as death.
+  All six are static derived counterexamples, not reviewer executions.
+  Comprehensive requirement/test matrix and all preserved evidence are in
+  `dispatcher-rev1-review-result.json`; passing host tests do not make
+  rev1 eligible for integration.
+- Recorded **`dispatcher-review-correction-checkpoint.json`** before
+  redispatch, including recurring fixture causes and all six required
+  closures/valid positives. Original same-session Sonnet invocation
+  **twenty-six is active**, 40-minute/200-turn limit, dispatcher source/test
+  and necessary new-guide-appendix updates only. C1/C2 remain byte-exact
+  rev1; all existing tests/C3/config/policy/content/root paths stay frozen.
+  Synthetic and pre-readiness safety fixes must precede test execution.
+  Only focused author checks are permitted; parent owes all five full
+  rev2 host groups, five-output reconstruction and changed-scope native
+  Codex verification of every required finding and coupled regression.
+  State `DISPATCHER_AUTHOR_REVIEW_CORRECTION_ACTIVE`, **26/100 consumed**,
+  fixed deadline unchanged. Rev1/full host/review/failures remain preserved;
+  no C4 local application, real enrollment/smoke or human-gate release.
+- Original Sonnet twenty-six returned at **15:12Z**, verified native
+  same-model/session/schema/no-denial and frozen-scope/root guards passed.
+  Dispatcher source/test and one paragraph in the new guide appendix
+  changed; C1/C2 stay byte-exact rev1 and all existing tests/C3/root work
+  remain frozen. Author reports all six findings addressed with **116
+  focused tests passing**, and discloses an earlier six-test failure from
+  deliberately malformed child records interfering with cleanup, then
+  fixture cleanup in `finally`. Full author verify/lint/typecheck/build
+  and all-agent suites were not run; no persisted tool-result retrieval.
+  These are author reports, not independent closure of the six findings.
+- **All five full independent rev2 host groups are running** with complete
+  separate logs, original baseline/coupling/preservation checks and actual
+  five-output reconstruction still required. Rev1/full review/failed runs
+  remain untouched. State `DISPATCHER_REVIEW_CORRECTION_RETURNED`,
+  **26/100 calls consumed**, fixed deadline unchanged. Successful host
+  freeze is followed by one changed-scope Codex verification of all six
+  required findings and directly coupled regressions. No C4 application,
+  enrollment, real-client smoke or operational-autopilot claim.
+- **All five full rev2 host groups pass**, actual exit zero and complete
+  hashed logs: **381 agent/2,400 full tests/build** (28 static pages),
+  code/guide format, lint/types/down-migration check and whitespace.
+  All 851 unowned worker/846 unowned root pins, HEAD/index/aliases/dependency
+  link, exact C1/C2 coupling and accepted guide prefix remain intact.
+  Rev2 **`eb39b0d3...c30e9acb`** is frozen/read-only and actual
+  `git apply --no-index` reconstructs every one of the five after hashes.
+  Rev1/comprehensive review/all failures remain unchanged.
+  Evidence: `dispatcher-rev2-manifest.json`, complete host validation/logs
+  and `dispatcher-rev2-patch-equivalence.json`.
+- **Native Codex twenty-seven is active**, 20-minute read-only
+  changed-scope verification of C4-01 through C4-06 and directly coupled
+  regressions, not a repeat unchanged comprehensive audit.
+  State `DISPATCHER_COMPREHENSIVE_REVIEW_ACTIVE`, **27/100 consumed**,
+  fixed deadline unchanged. Independent finding closure/local C4
+  acceptance/application remain pending; no enrollment/smoke/human gate
+  or operational-autopilot claim follows from passing tests.
+
+## 2026-10-19 — C2 accepted/applied; bounded run ended, C3 deferred
+
+- Owner explicitly authorized **120 minutes / eight native invocations
+  under D-183: finish C2, then C3 if budget permits**. Prior exhausted runs,
+  all failed/frozen revisions and fifteen closed findings remain preserved.
+  Fixed deadline: `2026-10-19T03:13:55.131Z`; no automatic renewal.
+- Same original Sonnet corrected only C2-05 resolver fidelity.
+  The existing cause checkpoint governs: compiler-faithful extension
+  families, exact safe-wrong-sibling/unsafe-actual-dependency collision,
+  persistent hold/zero-call/B-continuation and valid-positive controls.
+  Require a cross-family collision matrix before independent changed-scope
+  Codex verification; no optional import support or process-control edits.
+- Original author completed resolver correction with compiler-oracle
+  cross-family collision controls and no denied calls. Frozen rev6
+  `488abd8e...18bc37be` independently passes host 157 agent/2,176 full
+  tests, formatting/types/lint/migration check/build and whitespace.
+  All 846 unowned worker pins, aliases/dependency link and owned pre/post
+  hashes are intact; C1 state/tests/tsconfig match rev5 and the five reviewed
+  control functions still match rev3 exactly. Actual patch application to
+  preserved before bytes reconstructs all six output hashes.
+  Independent changed-scope native Codex verification closed the exact
+  extension collision, but retained C2-05 for a **first-pass miss**:
+  ignored directory `package.json` can redirect the actual graph to unsafe
+  source while the scanner accepts a safe index. Production and oracle both
+  omitted metadata bytes. The required cause checkpoint is recorded in
+  `metadata-cause-checkpoint.json`; no broader assurance loop.
+  Same original Sonnet completed conservative explicit refusal of relevant
+  directory metadata, with a real metadata-reading compiler oracle,
+  persistent refusal/zero-call/B controls and metadata-free positives.
+  Rev7 `0e2490e6...6892d156` is frozen and all six outputs reconstructed.
+  Independent host agent checks pass 160 tests. First full verification
+  preserved one historical stop/lock-race failure (2,178 pass/one fail);
+  unchanged bytes then pass all five host groups, 2,179 full tests/build.
+  No process-control changes or suppressed failures. Native changed-scope
+  Codex closed the relative metadata counterexample but retained C2-05:
+  aliases containing dot/dot-dot/repeated separators probe noncanonical
+  metadata keys while compiler resolution normalizes them. This is an
+  incomplete metadata correction, not a request for new package support.
+  Required `alias-cause-checkpoint.json` records the mismatch and missing
+  alias controls. Same original Sonnet is correcting only normalization
+  with real-metadata oracle, persistent-hold/zero-call/B and valid alias
+  controls. Original author completed the alias correction with no denials.
+  Frozen rev8 `885d2dcd...ddeed4c1` passes all five independent host groups
+  first pass: 163 agent/2,182 full tests/build, formatting, lint/types/
+  migration check, baseline/control integrity and six-file reconstruction.
+  Native changed-scope Codex closed forward-slash alias cases but retained
+  C2-05 for compiler-recognized backslash separators: POSIX normalization
+  preserves them, so the metadata probe can miss the canonical graph.
+  Required `separator-cause-checkpoint.json` records the incomplete fix and
+  missing compiler/POSIX boundary check. Same original Sonnet is correcting
+  only that boundary, with valid escaped-source/real-metadata oracle,
+  persistent refusal/zero-call/B and existing positive controls.
+  Original author completed the separator correction with no denials;
+  its first verification found a new-test typing error, fixed before its
+  final checks. Frozen rev9 `5519c634...fc0d920a` independently passes all
+  five host groups first pass: 166 agent/2,185 full tests/build, formatting,
+  lint/types/migration check, baseline/control integrity and exact six-file
+  reconstruction. Final native Codex `gpt-6.1-sol` returned **ready, zero
+  findings**, closing C2-05 and retaining the other fifteen closures.
+  The exact six-file patch was technically accepted under D-183 and applied
+  locally without staging. Main checkout independently passes all five
+  groups: 166 agent/2,185 full tests/build, formatting, lint/types/migration
+  check and whitespace. All six after hashes, 841 unowned root pins,
+  HEAD/index and portable aliases remain intact. Evidence:
+  `rev9-review-result.json`, `c2-application.json`,
+  `main-c2-validation.json` and `c2-technical-acceptance.json`.
+  Eight of eight calls consumed; run ended, no active workers, further
+  dispatch or renewal. C3 is deferred: two slots before this
+  correction were insufficient for its design, implementation and review.
+  Current evidence: common Git
+  `agent-handoffs/DELIVERY-COORDINATOR/autopilot-20261019/`. Own exact
+  integrator claim released at terminal settlement. Root unowned and owned-before baselines and
+  isolated rev5 bytes were verified unchanged before launch.
+  Changed files: `scripts/delivery-accept.ts`,
+  `tests/agents/delivery-accept.test.ts`, `scripts/delivery-state.ts`,
+  `tests/agents/delivery-state.test.ts`, `tsconfig.json` and
+  `docs/local-agent-relay.md`; parent status/authority documentation updated.
+  Previously disclosed limits remain: no real-client C2 adapter smoke,
+  executable-mode preservation or authenticated whole-local-state protection;
+  historical process/lock race is not fixed. Database integration/browser
+  journeys were not run: this is synthetic tooling, not a persistence/UI
+  increment; tutor eval cases are included in `npm run verify`.
+  Next: separately scoped C3 journaled application/recovery and independent
+  review under a newly authorized bounded run, then dispatcher wiring.
+  C2 alone is not product-level delivery autopilot. Science stays unavailable.
+  No product-level watcher, human-gate change, private/production access,
+  blanket permissions, commit, push, deployment or activation.
+
+## 2026-10-18 — C2 follow-up ended blocked on import-resolution regression
+
+- Owner explicitly authorized **30 minutes / two native invocations** for
+  the remaining C2 fix and independent verification. This is a fresh bounded
+  run; the exhausted eight-call run and all three frozen revisions remain
+  unchanged. New deadline: `2026-10-18T05:20:27.839Z`.
+- Same original native Sonnet session
+  `53548c78-0744-4c8d-9c1f-d9348645732a` completed the declaration parser
+  fix; host checks pass 154 agent/2,173 full tests and verify/build.
+  Rev4 `d5f13f3f...aff321774` is preserved, not review-ready: the author also
+  changed two unrelated process-control paths. The integrator caught
+  `EPERM` being treated as proof that a process group is gone, without
+  verifying that assertion. Permission denial must not look like successful
+  termination. The added lock-retry change is also outside the narrow fix.
+  Independent review has **not** been launched on this known violation.
+  Evidence: `pre-review-scope-cause-checkpoint.json`. Next is same-author
+  removal of both control deltas to exact rev3 behavior, preserving the
+  parser/tests, then independent review. Two roles are needed; one call
+  remained authorized at that hold. The owner subsequently authorized **one
+  additional native invocation and a fresh 30-minute remaining window**.
+  Same Sonnet removed both control deltas. The host mechanically verified
+  all five affected function texts exactly match reviewed rev3 and
+  `retryLocked` is absent. Rev5 `92b34277...abd22a92` is separately frozen;
+  host checks pass 154 agent/2,173 full tests, formatting/types/lint/
+  migration check/build and whitespace, with all 846 unowned worker pins,
+  aliases/dependency link and owned pre/post hashes unchanged.
+  Actual patch reconstruction matches all six outputs.
+  Independent changed-scope native Codex verification confirmed restoration
+  and closed the declaration-emission defect, but returned **blocked**:
+  C2-05 now has a directly coupled `.cjs` resolution regression. With both
+  `driver.ts` and `driver.cts` present, an import of `./driver.cjs` can scan
+  the safe `.ts` sibling instead of the actual `.cts` dependency and miss
+  its unsupported persistence import. Fifteen original findings remain
+  closed; no C2 technical readiness or root application.
+  All three authorized calls are consumed. The final deadline remained
+  `2026-10-18T16:40:51.974Z`. Original authorization/hold evidence preserved;
+  no workers ran during the wait for that approval. All workers are now stopped.
+  Cause: optional extension-family support was expanded using generic
+  sibling precedence without compiler-faithful collision controls.
+  Installed TypeScript resolution independently confirms `.cjs` selects
+  `.cts` in an in-memory fixture; no candidate-code execution is claimed.
+  Final evidence: `rev5-review-result.json`, `final-resolution-mechanism.json`,
+  `terminal-cause-checkpoint.json`. Next is a narrowly scoped,
+  compiler-faithful resolver or conservative refusal with exact collision/
+  zero-call/persistent-hold/B-continuation and valid-positive tests, then
+  independent verification after sufficient explicit bounded authorization.
+  No further automatic correction/review loop or budget renewal.
+- Current evidence: common Git
+  `agent-handoffs/DELIVERY-COORDINATOR/c2-followup-20261018/`; the own
+  integrator claim is released at the terminal checkpoint.
+  No broad audit or parent implementation substitution.
+  No C2 source applied, no watcher or C3; no automatic renewal, owner-gate
+  changes, private/production access, commit, push, deployment or activation.
+
+## 2026-10-18 — C2 blocked on one regression; bounded native budget exhausted
+
+- Owner authorized another eight-native-invocation run under D-183 and
+  explicitly increased its runtime from 60 to 120 minutes. The prior
+  exhausted run and accepted C1/lint artifacts remain unchanged.
+- C2 execution/acceptance boundaries are the current increment. Native Opus
+  supplies a bounded contract, native Sonnet implements it in isolation,
+  and independent native Codex reviews the frozen patch. Advance to C3
+  only with enough remaining budget for implementation and review.
+- New run/evidence: common Git
+  `agent-handoffs/DELIVERY-COORDINATOR/c2-20261017/`. Copilot holds the exact
+  C2 integrator claim. The original native Sonnet has completed the isolated
+  six-file implementation. Independent native Codex returned
+  **changes requested: 15 majors and one minor (C2-01–C2-16)**.
+  The same original Sonnet completed one consolidated correction and
+  returned all sixteen closure rows, with no permission denials.
+  Independent changed-scope Codex verification closed twelve findings but
+  returned **blocked: C2-05, C2-07, C2-13 and C2-14 remain major/unresolved**.
+  After a recorded root-cause escalation checkpoint, the same Sonnet
+  completed a targeted correction of those four with exact negative and
+  positive-control evidence, no permission denials. Final native Codex
+  changed-scope verification closed C2-07/13/14 but retained **C2-05 as a
+  major regression**: the new scanner throws on valid declaration files.
+  Fifteen original findings are closed; technical readiness remains blocked.
+  All eight native invocations are consumed, despite wall-clock time remaining
+  before the original deadline `2026-10-18T03:56:06.780Z`.
+  The first Opus call timed out after emitting its full structured proposal
+  with `completed` instead of the required `complete`; strict enum repair
+  recovered the exact advisory report from the assigned native trace.
+  The transport failure and rejected response remain preserved, not passed.
+  Initial overlay preparation correctly rejected a portable skill alias;
+  that failed worktree is preserved. A fresh preparation pins 850 public
+  inputs and preserves only two exact unchanged HEAD-tracked skill aliases,
+  without traversing them or copying foreign worktrees/environment files.
+  The first author returned only the coupled C1 delta and 53 reported
+  passing C1 tests after 99 seconds, not at its 25-minute bound. That
+  incomplete handoff and both partial files are preserved. The same
+  verified Sonnet session completed the original unchanged C2 scope
+  inside its 40-minute role bound; no paid review of the unfinished boundary
+  was launched and no extra approval was inferred.
+- Frozen C2 rev1 patch `685d102d...a8ebe2` covers the new acceptance module
+  and 35 tests, coupled C1 continuation/current-authority APIs and eight
+  tests, the relay guide and the single TypeScript import-extension option.
+  Host checks independently pass: 121 agent tests, 97 files/2,140 full tests,
+  formatting (including ignored guide), lint, types, migration check, build
+  and whitespace. All 846 unowned public input hashes, both tracked aliases
+  and the declared dependency link are unchanged before/after checks.
+  One denied author Prettier combination remains preserved; permitted
+  formatting and independent host formatting passed. No denied call is
+  treated as executed. Real-client adapter smoke remains unverified.
+  Passing rev1 checks did not cover the review's acceptance-chain,
+  authority/control, scope-classification, bundle-integrity, descendant-
+  termination, native-evidence and persisted-continuation counterexamples.
+  The source-ancestor placeholder must become a real regression; fake
+  adapters must use synthetic login stores. All sixteen findings require
+  explicit closure and positive-control evidence before changed-scope
+  independent verification. Review, cause checkpoint, rev1 and failures
+  remain preserved. The first all-sixteen closure claim was incomplete;
+  only twelve findings are independently closed.
+  Corrected rev2 patch `d2ab1270...1f9e31f` is separately frozen: host
+  formatting, 142 agent tests, 2,161 full tests, types/lint/migration
+  check/build and whitespace pass. All 846 unowned baseline hashes, both
+  aliases, the dependency link, owned pre/post-check hashes and root owned
+  baselines remain intact. Actual `git apply --no-index` reconstructs all
+  six frozen output hashes. Evidence: `rev2-manifest.json`,
+  `rev2-host-validation.json`, `rev2-patch-equivalence.json` and
+  `correction-report.txt`; do not overwrite rev1 or treat self-reported
+  closure as independent acceptance.
+  Rev2's remaining counterexamples are opaque imports silently classified
+  supported, bundle-only resealing of host-check evidence, substituted prior
+  findings/incomplete follow-up closure context, and stripped continuation
+  identity or failed historical parents. The integrator recorded these
+  concrete causes and corrective scope in
+  `correction-targeted-cause-checkpoint.json` before resuming the eligible
+  author; no approved scope, owner choice or policy changed. Final
+  changed-scope verification began only after complete closure evidence.
+  Rev3 patch `2b0e33ee...6f1aba12` is separately frozen. Independent host
+  checks pass 152 agent/2,171 full tests, format/types/lint/migration
+  check/build and whitespace after the author's last lint-only edit;
+  all 846 unowned inputs, aliases, dependency link and owned pre/post-check
+  hashes remain intact. Actual patch reconstruction matches all six
+  frozen outputs. Those checks do not exercise the declaration-file regression.
+  The integrator independently confirmed its installed-compiler mechanism:
+  `transpileModule` throws `Output generation failed` for valid `.d.ts`
+  source while the ordinary `.ts` positive has zero diagnostics. This was
+  not candidate-code execution or a C2 dispatch test.
+  All eight native invocations are consumed; no automatic renewal and
+  no C3 in this run. No real-client adapter smoke has been performed.
+  Final cause/checkpoint: `final-regression-cause-checkpoint.json`,
+  `final-regression-reproduction.json`, `terminal-checkpoint.json`.
+  Next eligible work is the original Sonnet's parse-only diagnostics fix,
+  declaration-file profile/dispatch positives and existing opaque-import/
+  unrelated-task controls, followed by independent changed-scope Codex
+  verification. A fresh explicit bounded native budget is required before
+  another role launch; this is a spending stop, not routine patch reapproval.
+  All workers/watchers are stopped; the own integrator claim is released
+  at this checkpoint. Preserve all three revisions and review failures.
+  No C2 source is applied.
+  No product-level watcher, learner release or automatic renewal is claimed.
+- Existing human-only gates remain unchanged; no production/private data,
+  Science activation, deployment, commit or push is authorized.
+
+## 2026-10-17 — C1 delivery state accepted and applied under D-183
+
+- Owner **"go ahead"** authorizes the proposed smaller verified sequence and
+  a fresh bounded run; prior bootstrap evidence remains unchanged.
+- Original Opus session returned a tool-free C1 contract with verified actual
+  `claude-opus-5-5`. C1 owns only new `scripts/delivery-state.ts`,
+  `tests/agents/delivery-state.test.ts` and an accurate relay-guide section.
+  Fresh verified Sonnet completed C1 rev1, patch `72ad3d5b...167939`; all
+  846 unowned baseline hashes and the legacy relay/tests are unchanged.
+  Initial host checks passed targeted formatting, 56 agent tests, 2,075
+  full-unit tests, types, lint and build.
+- Verified fresh read-only Codex first review returned five majors/four
+  minors (C1-01–C1-09): protected ownership, current/transitive completion,
+  cached input revocation, persisted run/attempt consistency, complete writes,
+  cumulative import caps, imported dependencies/milestone reporting and
+  derived identifier bounds. One consolidated original-Sonnet correction
+  closed all nine on changed-scope verification. That verification found
+  C1-10, an explained first-pass miss in lock-owner initialization cleanup.
+  A narrow same-author fix added partial-write/fsync and foreign-replacement
+  regressions; final independent Codex verification is ready with no findings.
+  Exact owned-test selector was explicitly enumerated alongside
+  the full agent command; earlier denied calls remain preserved. No bare
+  Bash, global settings or unrelated access added.
+- C1 provides deterministic planning and durable bounded run/control state,
+  not model execution or source integration. C2 adds acceptance/permission/
+  credential/check boundaries; C3 adds journaled integration/recovery.
+  DC-01–DC-14 counterexamples are retained as staged acceptance cases, not
+  declared fixed by the new design. No product-autopilot or release claim.
+- Accepted/applied exact C1 rev3 patch `1fde1aa8...af65af` after checking
+  review/model proof, HEAD, target/unowned baselines and output hashes.
+  All three outputs match the frozen manifest; index and legacy relay are
+  preserved. Final isolated checks passed: 45 C1/78 agent/2,097 full tests,
+  formatting, typecheck, lint and build. Main `vitest run tests/agents`
+  passes 78 tests. Actual read-only C1 CLI planning leaves
+  PRACTICE-RELEASE-EXEC human-blocked and selects DLV-LINT-WORKTREES.
+- Completed that two-file cleanup under D-183: `eslint.config.mjs` and
+  `.prettierignore` exclude only foreign `.claude/worktrees`. Main checks
+  no longer scan those unrelated trees; no foreign files were edited.
+  Cross-family native Opus review of the simple GPT-authored patch is ready
+  with no findings, actual `claude-opus-5-5` verified. Optional Glob/Grep
+  denials remain recorded; successful approved Read calls cover all six
+  before/after/current files. The native fenced JSON was deterministically
+  extracted and strictly validated after its structured-output envelope was
+  missing; original output and repair proof remain preserved.
+  Main **`npm run verify` passes**, including formatting, default lint,
+  typecheck, down-migration checks, 2,097 tests and build. No database,
+  browser or live-provider checks were needed for this tooling-only scope.
+- Current run/evidence: common Git
+  `agent-handoffs/DELIVERY-COORDINATOR/increments-20261017/`; 60 minutes/eight
+  native invocations, all eight consumed, no automatic renewal. C1 and the
+  cleanup are accepted/applied and uncommitted; checkpoint releases the
+  integrator claim. C2 acceptance/runner boundaries are next, then C3
+  integration/recovery and real dispatcher wiring. No workers or watcher run.
+  No production/private data, content approval, activation, commit or push.
+
+## 2026-10-17 — Delivery coordination authorized; candidate blocked, not running
+
+- Owner clarified the goal is agents continuing together through a finished
+  product, selected usable Grade 6 practice -> complete Ratios -> first usable
+  Science unit, and delegated routine engineering acceptance. D-183 records
+  the standing mandate and retained human-only evidence/permissions.
+- Existing relay is a ticket executor with Science-specific unattended
+  permissions, not a backlog planner. Merely restarting it would do no new
+  work. Preserve its 12 consumed tickets/runs and completed Science result.
+- Claimed DELIVERY-COORDINATOR, preserved all nine existing owned files under
+  common Git `agent-handoffs/DELIVERY-COORDINATOR/bootstrap-20261017/`, and
+  completed a read-only native `forge-expert` design, actual
+  `claude-opus-5-5` verified from stdout. The inspection turn reached its
+  24-turn bound; preserved that failure and finalized the retained exact
+  session without further tools, permission widening or budget reset.
+  Sonnet's first implementation hit its 20-minute bound; preserved the partial
+  files and resumed exact session `c1e778e7...5808e`. Actual
+  `claude-sonnet-5-5` verified. Five-file patch `7f2480ee...16b54` is frozen
+  in the isolated worktree; all 846 unowned baseline inputs remain unchanged.
+  One narrower Vitest command was denied and remains recorded; the already
+  approved full agent selector passed without changing tool permissions.
+- Host validation of that frozen revision: 45 agent tests and 2,064 full-unit
+  tests passed; typecheck, lint and build passed. Targeted formatting failed
+  for `docs/delivery/backlog.json`. These results do not establish readiness.
+  Fresh native Codex review, verified `gpt-6.1-sol` and read-only, returned
+  13 majors and one minor covering scope-state initialization, control races,
+  artifact/gate/baseline binding, recovery, credentials, required checks,
+  resumability, symlink handling, lock cleanup and post-check integrity.
+  Candidate has NOT been applied or used for live delivery.
+- One consolidated correction with the same Sonnet author reached its
+  seven-minute bound without a completed handoff/closure table. Preserved
+  every current owned-file snapshot in `correction-timeout/` and recorded
+  `outcome.json`, phase BLOCKED_CORRECTIONS. Do not buy another review of an
+  unfinished correction. First-review DC-01–DC-14 remain unverified; none
+  may be recorded closed from partial source or old passing tests.
+- Cause checkpoint: the first increment combined planner/import state,
+  permissions, model/gate/artifact acceptance, transactional integration,
+  crash recovery and cross-run continuation. Its injected happy-path tests
+  did not cover the trust-boundary/cross-process counterexamples. Narrow the
+  implementation into verified increments rather than another broad patch
+  loop: (1) run/planner/import/control state, (2) frozen acceptance/permissions/
+  credential/required-check boundaries, (3) baseline-checked journaled
+  integration/recovery. Use the existing finding IDs and counterexamples.
+- Next eligible technical role: original native `forge-expert` Opus session
+  `d8e399de-13f7-4300-8b76-8a889487cbcd` for that bounded scope reduction,
+  then defined Sonnet increments and changed-scope Codex verification under
+  D-183. No routine engineering reapproval is needed; do not infer automatic
+  renewal of this nearly exhausted 60-minute/eight-invocation bootstrap
+  (six invoked). All native workers are stopped; no delivery watcher runs.
+- Verified main still has the original relay/guide bytes, no new coordinator/
+  test/backlog files applied, and all 13 accepted Science output hashes
+  unchanged. The prototype and all failures/reviews remain isolated.
+- No coordinator completion or learner release claimed. Existing content,
+  private-access, privacy, migration, manual accessibility and release gates
+  remain explicit; no production data, commit/push, deployment or activation.
+
+## 2026-10-17 — SCI6-REGISTER human accepted and applied to main
+
+- Owner **"accept and authorize"** accepts/applies exact independently reviewed
+  13-file patch `09bf08b8...ff968`; D-182 records the disposition. Verified
+  patch/review/native-model proof, matched all target baselines, applied
+  without staging, and matched all 13 final frozen hashes. Other 100 baseline
+  inputs unchanged at application; unrelated dirty work preserved.
+- Main runtime checks now show 67 skills/134 records: three Science skills,
+  six reviewed structured practice records and the existing 128 records.
+  Six Science records appear in raw reviewed projections; the public skill
+  projection remains 64, Science available:false with no Unit refs. No
+  schema, scorer, tutor, availability, release or policy changes.
+- `npm run verify`: formatting passed, lint blocked by pre-existing nested
+  `.claude/worktrees/` generated/source lint errors. No foreign worktree or
+  lint policy modified. Main-only
+  `npm run lint -- --ignore-pattern '.claude/worktrees/**'` passed;
+  `npm run typecheck` and `npm run db:check-down-migrations` passed.
+- `npm test`: 95 files/2,052 tests passed including contracts/fake evals.
+  `npm run build`: passed, all 28 static pages generated. Runtime count/
+  availability measurements and all 13 frozen hashes rechecked afterward.
+  DB/browser/provider checks not run: no persistence/served-flow change.
+- Evidence/snapshots/logs: common Git
+  `SCI6-REGISTER/applied-registration-20261017/`. Packet DONE, resume index
+  updated; relay stopped, no pending role or further review. Uncommitted;
+  no deploy/commit/push. Next recommended issue: separately scope Science
+  learner availability/readiness, not automatic activation or new authoring.
+
+## 2026-10-17 — SCI6-REGISTER independent review complete; human patch gate
+
+- Codex reviewer run `ceb1c523...dac0b1` completed. Pinned
+  `native-model.json` verifies thread `01a14af4...`, openai `gpt-6.1-sol`,
+  read-only; author was Sonnet only, so review is cross-family.
+- Reviewer-reported: 0 blocker/major/minor findings; 13-file patch
+  `09bf08b8...ff968` preserves 128 legacy records, adds 3 skills/6 records,
+  and leaves Science unavailable at program/site/session-start paths. Raw
+  servable/publishable projections now include the six Science records
+  (tested, no policy change). Author suites not rerun by reviewer or checkpoint.
+- Phase AWAITING_HUMAN: exact patch acceptance/application requested once;
+  nothing enqueued, applied, committed or pushed.
+- Operator verified both final receipts, the host native model proof and
+  all six original consumed-run fingerprints. The corrected native Node
+  inspection actually succeeded inside the Codex read-only invocation;
+  no permission expansion was needed. Parent's exact contract regression
+  check passed 11/11 tests. Closed the now-idle watcher cleanly at the human
+  gate after six of eight total invocations, within the original deadline.
+  No pending ticket, pause or stale watcher claim remains. Final outcome is
+  in common Git `SCI6-REGISTER/reviewer-adapter/outcome.json`.
+
+## 2026-10-17 — Read-only reviewer adapter repaired without permission expansion
+
+- SCI6-REGISTER's author completed and froze the 13-file patch
+  `09bf08b8...ff968`; worker reports full verify with 2,050 tests/build.
+  The first Codex invocation performed no substantive review because the
+  generic relay prompt required npm/tsx inspection (IPC denied) and
+  Claude-only Read/Grep/Glob tools. Preserve that consumed attempt: no
+  implementation findings or acceptance exist.
+- Corrected the native adapter within the existing technical mandate:
+  native read-only shell and native Node type stripping avoid the unnecessary
+  IPC listener. No socket allowance, sandbox widening, fallback model,
+  authoring restart or product/policy change. The frozen author worktree,
+  113-file baseline and patch are untouched.
+- The operator extracted only the blocked run's matching native session/turn
+  metadata, proving OpenAI GPT-6.1 Sol/read-only. The corrected helper
+  verifies its own CODEX_THREAD_ID/model/provider/sandbox; the host
+  independently records and pins minimal native-model.json after execution.
+  Unknown/substituted/non-read-only metadata fails closed; raw transcripts
+  are not copied into task evidence.
+- Validation: 33 targeted relay tests pass; `npm test` passes 95 files/2,049
+  tests; typecheck and scoped ESLint pass. Native Node host preflight verifies
+  the unchanged 113-file/13-owned-file state and actual prior Codex metadata.
+  The separate sandbox-debug wrapper could not resolve its required named
+  profile; no profile was invented or permissions changed. The real
+  `codex exec --sandbox read-only` invocation remains the execution check.
+- Same original 60-minute/eight-dispatch watcher remains active, with four
+  invocations used before this correction. Prepare a genuinely corrected
+  reviewer revision for the first substantive review; keep final exact
+  human patch acceptance and Science unavailability. No commit or push.
+- Corrected reviewer revision `05bb3966...6377e` is enrolled as
+  `ceb1c523...dac0b1`, pinning the unchanged 13-file author patch, corrected
+  adapter, native identity proof and preserved runs. Parent independently
+  ran `vitest run tests/contracts/structured-response-schema.test.ts` in the
+  frozen worktree: all 11 tests pass. Gracefully stopped the idle old-code
+  watcher for reload; no active client interrupted. Reload uses only the
+  four remaining invocations and minutes before the original
+  `2026-10-17T18:27:27.882Z` deadline, not a fresh 60-minute/eight-call budget.
+
+## 2026-10-17 — SCI6-REGISTER rev1 frozen; Codex review routed
+
+- Sonnet implementer run `10f2b632...` completed; native `stdout.log.modelUsage`
+  shows only `claude-sonnet-5-5`. Frozen once at
+  `.git/agent-handoffs/SCI6-REGISTER/rev1/7b11bef87aaa5204/`; patch SHA-256
+  `09bf08b8b4d7928b2c685e1049b728d143e65934bfdcc31a648e4cbbbb6ff968`
+  re-hashed and matching the manifest; 13 owned files vs the 113-file baseline.
+- Worker-reported (not re-run by checkpoint): targeted Vitest 459 pass; full
+  verify passed (2050 tests, build). Open for review: raw
+  `servableContentCatalog` now includes the 6 Science records; session-start
+  gating not traced.
+- Packet phase now AWAITING_REVIEW; one Codex GPT-6.1 Sol read-only review
+  enqueued. Gates retained: independent review, exact human patch acceptance.
+  Science stays unavailable; nothing applied, committed or pushed.
+- Next: Codex review result; if changes requested, return to Sonnet session
+  `4c794a9e...`; otherwise request exact human patch acceptance.
+
+## 2026-10-17 — Authorized exact contract-test and read-only checkpoint recovery
+
+- Owner explicitly authorizes the exact
+  `tests/contracts/structured-response-schema.test.ts` edit/freeze path,
+  checkpoint read-only assigned-worktree access, validation, preservation,
+  re-pinning, matched-pause cleanup and same-Sonnet resumption under D-182.
+  Keep 60 minutes/eight invocations including checkpoints; automatic fresh
+  Codex technical review/in-scope corrections, then exact human patch gate.
+  Science stays unavailable; no blanket permissions, policy change, commit
+  or push.
+- Added the single contract-test path, not its directory. Checkpoint access
+  resolves the immediate pinned worker ticket, verifies same task/profile
+  and registered isolated worktree, grants Read and explicitly denies Edit.
+  Both native clients retain the coordinator-root environment for trusted
+  inspection. Checkpoints read native stdout modelUsage, not receipt-only
+  or self-reported model identity.
+- Evidence: `vitest run tests/agents/local-agent-relay.test.ts` passes all
+  31 tests, including exact edit/freeze coverage, pinned-source rejection,
+  immediate-worker selection and read-only directory/settings assertions.
+  `npm test` passes 95 files/2,047 tests including fake tutor evals;
+  `npm run typecheck`, scoped ESLint and `git diff --check` pass.
+- Preserved all six consumed run fingerprints, the exact checkpoint-denial
+  pause and 12 partial owned-file hashes in the separate common Git
+  `SCI6-REGISTER/contract-test-recovery/` bundle. Verified all 113 historical
+  baseline pins; no partial implementation file reset or parent source edit.
+  Next: overlay only corrected tooling/authority, validate the prepared
+  worktree helpers, re-pin, clear only the matched pause and restart.
+  The coupled Science test, full isolated verification/build, freeze and
+  independent review are still pending, not implied by root tooling tests.
+- Corrected execution revision `7b11bef8...da909`, queue/run key
+  `10f2b632...a282b`, pins the new 113-file manifest
+  `b4a2f22b...2e342`. Only relay script/tests/operating guide and D-182
+  authority were overlaid; all 12 partial implementation hashes remain
+  identical. The actual managed `task-inspect` CLI succeeds in the
+  preserved worktree, and all 31 relay tests pass there too. Generated
+  checkpoint launch preflight confirms the exact worker directory,
+  explicit Read grant/Edit deny and native-metadata instruction without
+  invoking an extra model. Reconciliation/model proof and all preserved
+  evidence are under `contract-test-recovery/`; bounded activation next.
+- Activation verified: cleared only the byte-matched checkpoint pause after
+  rechecking every preserved run/partial-file hash, released the recovery
+  claim, and dry-run validated the corrected ticket. Started attached
+  `watch --execute --max-minutes 60 --max-dispatches 8`; verified live
+  watcher PID 65716 and managed Claude PID 65803 in the original session
+  with `sci6-register` permissions. Observation and limits are saved in
+  `contract-test-recovery/activation.json`. This is launch evidence, not
+  completion of the worker's tests, freeze or independent review.
+
+## 2026-10-16 — SCI6-REGISTER review date fixed; one contract test and checkpoint read gate
+
+- Same Sonnet resumed with approved reviewedAt2026-10-16 on6records. Worker
+  reports22files/459targeted tests pass; verify formatting/lint/types/down-
+  migration checks pass, then2,045tests pass/1fail. The legacy-only assertion
+  in tests/contracts/structured-response-schema.test.ts now sees valid6Science
+  structured records. File outside current edit/freeze allowlist; not edited.
+- Worker12owned partial file edits remain isolated; no freeze/rev1. Status
+  checkpoint recorded human gate, then native Read denied that exact worktree
+  contract-test path. Relay PAUSED.json set/watcher exited. Both worker and
+  checkpoint actual native stdout.modelUsage verified only Sonnet5.5, correcting
+  checkpoint's receipt-only unverified identity note; evidence/source hashes
+  saved in reviewedAt-resume/native-models-and-checkpoint-denial.json.
+- Consolidated minimum owner request in packet: own exact contract-test path
+  with preserved128legacy/6structured/9parts assertions, narrow checkpoint
+  Read, matched-pause reconciliation and bounded same-worker continuation.
+  Registration/content/date approvals stand; no broad policy change requested.
+- No source application/parent implementation, schema/scoring/availability/
+  release/DB/provider/private/commit/push. Pause and consumed runs preserved;
+  docs Prettier/git diff --check pass, own integrator claim released.
+
+## 2026-10-16 — SCI6-REGISTER reviewedAt run blocked on one out-of-scope test
+
+- Sonnet run `b9d94ddd...72333` returned blocked, no freeze. Worker-reported:
+  reviewedAt added; targeted Vitest 459/459; `verify` fails one test,
+  `tests/contracts/structured-response-schema.test.ts:132-148` (legacy-parse
+  assertion vs. six `structured` Science records), outside D-182 test paths and
+  the relay freeze allowlist. Not a production defect. Not re-verified by the
+  checkpoint; build step not reached.
+- WAITING FOR HUMAN APPROVAL (once): add only that test to owned scope and the
+  allowlist (recommended); then resume same Sonnet, verify, freeze, Codex
+  review, human patch acceptance. Nothing enqueued, no patch applied,
+  no availability/release/commit/push.
+
+## 2026-10-16 — SCI6-REGISTER reviewedAt extension approved; same worker resumes
+
+- Live relay checkpoint superseded prior startup issue: draft-7/permissions
+  already repaired under recorded owner authority. Current worker stopped
+  for required reviewedAt outside two-field packet, with8owned partial edits.
+- Owner "approve" selects recommended minimum date2026-10-16 on same6records;
+  D-182 extension recorded. No schema/content/exposure/availability change.
+  Same Sonnet session4c794a9e...b5a/worktree preserved; no duplicate work/reset.
+- Direct native stdout.modelUsage for3973e410...8f068 confirms only
+  claude-sonnet-5-5, superseding checkpoint identity-unverified note. Source
+  hash/minimal proof in reviewedAt-resume/; no full transcript copied.
+- New113input baseline preserves old frozen bytes except authorized decision
+  text;8partial file hashes preserved. Corrected substantive approved scope
+  gets new pinned execution revision; all consumed prior runs retained.
+  Resume via existing bounded watcher/permission profile, tests/freeze then
+  independent Codex review and separate human patch acceptance/application.
+- Targeted docs Prettier/git diff --check pass; no registration source edits
+  by parent/private/DB/provider/deployment/commit/push. No PAUSED file exists
+  to clear; human availability/release gates remain closed.
+
+## 2026-10-16 — Scoped native permissions approved; automatic technical flow
+
+- Owner explicitly answered true to task-specific worker/status-checkpoint
+  permissions and one further bounded recovery, retaining `dontAsk`,
+  read-only Codex and all D-182 exclusions. Follow-up asks for automatic
+  completion/model review: technical execution/review/correction may run
+  automatically, but no model may supply reserved human patch/content/
+  privacy/policy/release acceptance.
+- Added the closed SCI6-REGISTER permission preset and trusted inspection,
+  owned-file formatting, baseline-relative freeze and same-task routing
+  helpers. File grants cover only exact owned implementation/tests or
+  checkpoint status paths. No blanket Bash/Edit, arbitrary Node/Python,
+  permission bypass or global settings changes.
+- Separate `recovery-scoped-permissions/` baseline retains 113 pins and
+  updates only relay script/tests/operating guide; manifest
+  `a8648bb6...91b271`. Original baseline, draft-7 baseline, both consumed
+  tickets/runs and permission-pause evidence remain preserved.
+- Evidence: 27 relay tests pass, including owned/unowned scope checks,
+  deterministic patch application, freeze immutability and routing guards.
+  `npm test` passed 95 files/2,043 tests including fake evals;
+  `npm run typecheck` and scoped ESLint passed. Current packet/index name
+  only the authorized scoped recovery; no registration source changes by
+  the coordinator. Next: pin this exact launch, clear only its matched
+  pause and restart within 60 minutes/eight invocations.
+- Corrected execution revision `3d175a6c...32282e` is enqueued as
+  `3973e410...8f068`, resuming original verified Sonnet session with the
+  pinned permission profile. The exact `task-inspect` CLI entry point
+  succeeds in the prepared worktree with 113 baseline pins and no owned
+  drift; all 27 relay tests also pass there. Both earlier failed runs and
+  the matching permission-pause copy are fingerprinted in reconciliation.
+
+## 2026-10-16 — Recovered relay reached Sonnet; paused on tool permission
+
+- Executed the owner's explicit recovery: preserved original run hashes and
+  ticket, repinned only the three verified developer-tool corrections,
+  cleared only the matching old pause, dry-run validated the new ticket,
+  and restarted the 60-minute/eight-dispatch watcher. Verified live watcher
+  and managed Claude process; activation evidence saved in recovery bundle.
+- Native schema startup now works. Successful client result metadata
+  identifies `claude-sonnet-5-5`. The worker returned `blocked`: its first
+  Bash inspection/hash call was denied under `dontAsk` with no existing
+  allow rule. No permission workaround/expansion or further retry performed.
+- Reverified all 113 corrected worktree pins unchanged and no `rev1/`
+  implementation output. Watcher exited, claims released, new pause and
+  both consumed runs retained. Evidence: `recovery-draft7/permission-block.json`
+  and native run `ec6f8778...944d8`. Prior run hashes remain unchanged.
+- SCI6-REGISTER/index now BLOCKED on a scoped tool-permission decision:
+  necessary inspection/hash checks, approved validations, exact D-182 file
+  edits and evidence output only. D-182 is unchanged; no blanket Bash
+  access, bypass, source/content implementation, commit or push.
+
+## 2026-10-16 — Owner authorizes corrected SCI6-REGISTER relay recovery
+
+- Owner explicitly authorizes recovery under existing D-182: preserve the
+  failed run, incorporate the verified draft-7 correction, reconcile/repin,
+  clear the pause and restart bounded automation. No scope expansion,
+  permission bypass, commit or push.
+- Verified all 113 original pins against both prepared worktree and frozen
+  baseline before overlay. Created separate `SCI6-REGISTER/recovery-draft7/`
+  baseline; only relay script, relay tests and relay operating-guide hashes
+  change. All 113 revised worktree pins match manifest
+  `ba34548c...efd5a78`. Original baseline/manifest, ticket and consumed run
+  `c4fab13f...e1d6f` remain unchanged; old pause copied into recovery evidence.
+- Live packet/index route only the corrected Sonnet implementation launch,
+  then the existing Codex review and human patch acceptance. Root launch
+  readiness is not evidence of implementation completion or model identity.
+  No Science registration, availability, content or permission edits by
+  this recovery integrator. Bounded start: 60 minutes/eight invocations,
+  checkpoints included; any new failure must pause again.
+- Prepared-worktree relay regression run passed all 23 tests. Recovery docs
+  Prettier and `git diff --check` pass. Corrected execution revision
+  `9feb9bbb...04fdfd` is validated/enqueued as `ec6f8778...944d8`;
+  original consumed ticket remains in place. Reconciliation and preserved
+  pause are in the immutable `recovery-draft7/` bundle. Only the authorized
+  original pause may now be cleared for this bounded launch.
+
+## 2026-10-16 — SCI6-REGISTER relay attempt blocked before model execution
+
+- D-182 approved; exact pinned ticket enrolled, own integrator claim released.
+  Active watcher invoked native Claude, which exited1 rejecting launcher
+  --json-schema draft2020-12 declaration. No stdout/model identity or task
+  output. Relay recorded durable PAUSED.json, released task claim and exited.
+- Reclaimed integrator only after failure/claim release. All113prepared
+  worktree inputs unchanged; no registration source edits. Evidence run
+  c4fab13f64c586922283aa4f06925972816797ebdb946d536c86ded2289e1d6f and
+  SCI6-REGISTER/launch-failure-20261016.json. Frozen queue/run preserved.
+- Localized to z.toJSONSchema(ResultSchema) Claude invocation; local pure-Zod
+  reproduction confirms dialect. A targeted compatible-dialect repair plus
+  CLI argument regression test and authorized failed-attempt reconciliation
+  is next; not performed under Science-only scope. Actual repaired native
+  invocation not yet verified. No automatic retry or pause/stop clearing.
+- SCI6-REGISTER BLOCKED, D-182 approval retained. Local-relay owner-only
+  recovery rule named in packet; registration approval needs no repetition.
+  Targeted docs Prettier/git diff --check pass. No model/provider/DB/private/
+  deployment/release/commit/push work; own integrator claim released.
+
+## 2026-10-16 — SCI6-REGISTER execution approved and prepared for local relay
+
+- Owner "approve" accepts exact registration execution/metadata proposal;
+  D-182 records six human-attributed reviewed statuses,3skill/6content imports,
+  coupled tests, Science unavailable, no new content/policy/release. Future
+  patch acceptance/application remains separate after independent review.
+- Prepared SCI6-REGISTER IMPLEMENTING native forge-implementer/Sonnet,
+  isolated059c7f6+113pinned inputs including accepted9drafts/Science validators
+  and owner-added relay package/tests. No registration source edits by parent.
+- Owner-enabled watcher live; designated integrator enrolls one exact pinned
+  implementer ticket and releases own claim. Automatic status checkpoint may
+  verify output/model and route one authorized fresh Codex implementation
+  review; no automatic artifact acceptance/application or broad retries.
+- Targeted docs Prettier/git diff --check pass. No DB/provider/private/learner/
+  deployment/availability/commit/push work. Existing edits preserved. Relay
+  permission/model failure is a pause/block, never bypass or consumed retry.
+
+## 2026-10-16 — Bounded local Claude/Codex relay implemented
+
+- Owner requested a small local relay instead of manual terminal switching.
+  Added `scripts/local-agent-relay.ts`, `tests/agents/local-agent-relay.test.ts`,
+  `docs/local-agent-relay.md`, the `agents:relay` npm command and inclusion
+  of relay tests in `npm test`. Updated `AGENTS.md`, orchestration and the
+  CLI guide with the optional automation procedure.
+- Deterministic queue checks invoke no model while idle. Explicit pinned
+  tickets route isolated Sonnet/Opus writers and read-only GPT-6.1 Sol
+  review; each completion queues a status-only Sonnet checkpoint that may
+  publish one already-authorized successor. Human/model/review gates remain
+  authoritative; no product task is enrolled implicitly.
+- Singleton watcher, conservative foreign-claim deferral, task/revision/role
+  deduplication, frozen input/phase checks, structured results, process-group
+  interruption and durable failure pause prevent duplicate dispatch and
+  automatic retry loops. Default bounds: 60 minutes/eight invocations,
+  including checkpoints. No daemon or permission bypass installed.
+- Evidence: `vitest run tests/agents/local-agent-relay.test.ts` passed
+  22 tests, including real subprocess adapters with fake Claude/Codex,
+  author/checkpoint/review/human-gate handoff, stop/singleton/dispatch-ceiling
+  behavior and permission/malformed-output/quota/interruption failures.
+  `npm test` passed 95 files/2,038 tests including fake tutor evals;
+  `npm run typecheck`, scoped ESLint and `git diff --check` passed.
+  Targeted Prettier formatting applied; idle `status`/dry-run CLI checks pass.
+- Started an attached initial watcher with `npm run agents:relay -- watch
+--execute --max-minutes 60 --max-dispatches 8`; status and owner-process
+  liveness verified, zero queued tickets/zero client runs. It lasts only
+  within the current CLI session and bounds, not as a persistent service.
+- Limits: no live native-model call or real-client permission/model-identity
+  verification performed. Database/browser suites are not relevant to this
+  developer-only increment; no app runtime/content/persistence change.
+  Current queue is empty: SCI6-REGISTER still needs its exact execution
+  approval, then the designated integrator enrolls the eligible role.
+  No deployment, private access, paid tutor eval, commit or push.
+
+## 2026-10-16 — Science content accepted/applied; registration scope next
+
+- Owner "approve" selects SCI6-C-A1 human content acceptance and C-A2 exact
+  application. Verified base/freeze/patch/9absent targets/apply-check; applied
+  27247a47...c5f at D-174 paths, all9final hashes match. Six records retain
+  frozen llm_drafted/owned/pending_review; human acceptance recorded separately.
+- Actual-main scratch harness219checks/0failures,9negative controls, Science
+  unavailable and pending publication exclusion; in-memory fixtures removed.
+  Targeted9file Prettier and git diff --check pass. No full-suite repeat:
+  no production imports/runtime change. Evidence in common Git SCI6-DRAFT
+  applied-rev2 validation log/evidenceJSON. No DB/provider/private work.
+- SCI6-DRAFT DONE/uncommitted, no registration/availability/deploy/commit/push.
+  Next AWAITING_HUMAN exact SCI6-REGISTER execution/metadata proposal in packet:
+  human-attributed reviewed states,3skill/6content imports/coupled tests,
+  Science available:false; Sonnet implementation/Codex review then exact
+  patch acceptance. No new content/extra version or repeat content review.
+- Existing source/docs changes preserved; own integrator claim released after
+  checkpoint. Source/curriculum/scoring content unchanged outside9acceptedfiles.
+
+## 2026-10-16 — SCI6-DRAFT rev2 ready for exact human content gate
+
+- Same native forge-reviewer/gpt-6.1-sol verified Opus228/228,95baseline,
+  rev1 18/rev2 17freeze hashes and9file reconstruction. Report
+  docs/sci6-draft-20261016-rereview.md: R1/R2 closed, no new findings;
+  correct missing-evidence rule/crystal analogy/budding wording. Only one
+  item's method/hints changed; all keys/8otherfiles preserved.
+- Targeted actual validator checks134records/all27changed-item combinations
+  correct; author219harness supports, no full repeats. Earlier full79answer-
+  combination/source/9record review retained. Residual reading-level/
+  serializedpractice/unhinted/browser/tutor/release limits unchanged.
+- SCI6-DRAFT AWAITING_HUMAN. Ready SCI6-C-A1 exact content acceptance and
+  C-A2 exact9file patch27247a47...c5f application/targeted checks. Frozen
+  pending_review metadata retained, no automatic status change/registration/
+  availability/teaching/release. No further correction/assurance review.
+- Targeted report/status Prettier/git diff --check pass; apply-check only,
+  no drafts applied or imported, no DB/provider/commit/push. Existing edits
+  preserved; own integrator claim released after checkpoint.
+
+## 2026-10-15 — SCI6-DRAFT draft-rev2 frozen for changed-scope review
+
+- Original Opus author corrected R1 (absence-as-evidence guidance) and R2
+  (crystal analogy) in `sci6-cells-evidence-of-life-2` only; froze
+  draft-rev2 patch `27247a47...c5f`. Integrator verified Opus 228/228, both
+  freeze manifests, single changed file, scratch apply and live-main
+  apply-check. Author-reported harness 219/0 and sweep found no other
+  instance; extra yeast-budding accuracy edit flagged for the reviewer.
+- Next SWITCH TO same Codex forge-reviewer / gpt-6.1-sol changed-scope
+  closure check; then human content acceptance. Nothing applied, registered,
+  committed or pushed.
+
+## 2026-10-15 — SCI6-DRAFT rev1 review: keys correct, two guidance corrections
+
+- Fresh host-fixed forge-reviewer/gpt-6.1-sol with curriculum-review skill
+  verified Opus177/177,95baseline/18freeze hashes,9file reconstruction and
+  pinned CDE source. Full6item/3skill/18hint review; production grading of
+  all79legal combinations correct, author harness independently219pass.
+- Report docs/sci6-draft-20261015-review.md:1majorR1 leaf classification
+  guidance treats missing intake/growth observation as noncellular evidence;
+  1minorR2 crystal analogy implies growth without taking in material. Keys
+  correct, both guidance defects in cells-evidence-of-life-2. No full suites.
+- Packet CHANGES_REQUESTED,9drafts frozen/unapplied/pending_review. Next
+  SWITCH TO Claude Code forge-expert/Opus original aabc289e543351b98 R1/R2
+  corrections/refreeze, then same reviewer changed closure verification.
+  No new scope approval needed; human content/registration/availability/
+  teaching/release gates stay separate.
+- Targeted report/status Prettier and git diff --check passed. No content/code
+  application/private/learner/DB/provider/commit/push work. Existing edits
+  preserved; own integrator claim released after checkpoint.
+
+## 2026-10-15 — SCI6-DRAFT rev1 frozen for curriculum review
+
+- Integrator dispatched one Claude Code forge-expert author (agent
+  `aabc289e543351b98`, isolated worktree) for the nine approved Cells and
+  living systems drafts: 3 skills, 6 core single-choice practice records,
+  all `llm_drafted`/`owned`/`pending_review`.
+- Verified Opus 177/177 from client metadata; patch `9d0ceccb...f276` and
+  freeze manifest (18/18 OK); patch applied in scratch equals `final/`;
+  apply-check passes on live main (not applied). Author-reported harness 219
+  checks/0 failures with production validators; Q6 resolved from SCI6-S01
+  with pinned evidence, nothing blocked.
+- Next SWITCH TO fresh Codex forge-reviewer / gpt-6.1-sol curriculum review.
+  No content applied, registered or made available; no DB/provider, commit
+  or push.
+
+## 2026-10-15 — D-173 engineering sign-off recorded; SCI6-DRAFT authorized
+
+- Owner "approve" supplies explicit engineering-owner sign-off after accepted
+  U5 integration and applicable D-61 evidence. D-173 conditions satisfied for
+  exact approved3skills/6corepractice drafts; decision register and D-61 scoped
+  exception updated, no general pause lift or count/scope change.
+- Active laneB SCI6-DRAFT SCOPING, authorized/unclaimed. Next SWITCH TO
+  Claude Code forge-expert/Opus, isolated nineJSON drafts, then fresh Codex
+  curriculum review. Exact scope/source/response/safety/provenance/path limits
+  retained; Q6 approved-source precision check required before final freeze.
+- 95current public inputs plus original scope/integration evidence preserved
+  and hashed under common Git SCI6-DRAFT baseline. Includes accepted dirty
+  Science validators; clean HEAD alone insufficient. No author dispatched
+  from Codex, no content produced in this checkpoint.
+- Targeted Prettier/git diff --check pass. No code/private/learner/DB/provider/
+  deployment/commit/push work; existing changes preserved. Content acceptance,
+  registration/availability/teaching/release remain separate after review.
+
+## 2026-10-15 — SCI6-PREREQ accepted/integrated; engineering draft sign-off next
+
+- Owner "accept and approve" accepts exact rev3 and authorizes application/
+  integrated validation. Claimed integrator checked base/sixsource hashes/
+  twoabsent targets/patch/digests/apply-check; applied only8files931133dd...6fa7.
+  All8main hashes match reviewed bytes before/after; R1–R4 closed.
+- Main verify passed formatting but lint traversed foreign nested Claude
+  worktree .next output (1,309errors/7,582warnings). Left it/config untouched.
+  Own isolated059c7f6+8accepted files passed npm run verify exit0:94files/
+  2,016tests/build. Baseline Prisma edge warning only. Own checkout removed;
+  evidence/logs/final hashes in common Git SCI6-PREREQ bundle.
+- SCI6-PREREQ DONE/uncommitted. No Science records/availability/deploy,
+  private/learner/DB/provider/commit/push work. Targeted checkpoint docs
+  Prettier/git diff --check pass; unrelated edits preserved.
+- Applicable D-61/U5 integration evidence recorded in packet. Next named gate:
+  AWAITING_HUMAN D-173 engineering-owner sign-off for already-scoped3Science
+  skills/6corepractice drafts, then Claude forge-expert/Opus authoring and
+  independent Codex curriculum review. Artifact approval did not include
+  drafting sign-off. Content acceptance/registration/availability/release later.
+
+## 2026-10-15 — SCI6-PREREQ rev3 review ready; exact owner patch gate
+
+- Same native forge-reviewer/gpt-6.1-sol verified Sonnet187/187, rev3 hashes/
+  8digests,89preserved inputs and30committed baseline application files.
+  Report `docs/sci6-prereq-20261015-rev3-review.md`: R1/R2 preserved, R3/R4
+  closed; no new findings. No further correction/assurance round indicated.
+- Independent exact rev2/rev3 synthetic comparisons confirm before/after.
+  Author92targeted/41Science/2,016verify/build evidence corroborated, no
+  full-suite repeats. Per-probe author before quotes prior reviewer; noted
+  evidence qualification, independent confirmation obtained. Existing
+  versioned-catalog/unsupported-subset/build/content/release limits retained.
+- Packet AWAITING_HUMAN; exact8file patch931133dd...6fa7 unapplied. Ready
+  batch: SCI6-P-A1 exact artifact acceptance, SCI6-P-A2 application/integrated
+  database-free verification. D-173 drafting still conditional; no availability/
+  content/DB/provider/release/commit/push permission inferred.
+- Targeted checkpoint Prettier/git diff --check pass; frozen patches/baseline
+  hashes and live apply-check pass. No source edits/application; unrelated
+  changes preserved. Own integrator claim released after checkpoint.
+
+## 2026-10-15 — SCI6-PREREQ rev3 frozen for changed-scope review
+
+- User asked to fix R3/R4 together. Original Sonnet agent `a9d38f3dba6e4df62`
+  replaced regex SVG extraction with one lexical scanner (comments, CDATA,
+  PI, tags, character data in order; malformed input fails closed) and froze
+  full-replacement `rev3.patch` `931133dd...6fa7`; only `science-rules.ts`
+  and its test changed from rev2.
+- Integrator verified Sonnet 187/187, hashes, same 8-file set, apply-check on
+  the manifest baseline and live main working tree (`059c7f6`). Worker-
+  reported 92 targeted tests and verify 2,016 tests/build pass. Flagged for
+  review: R3/R4 probe before/after quoted from the re-review rather than
+  rerun; author's stricter fail-closed cases.
+- Next SWITCH TO same Codex forge-reviewer / gpt-6.1-sol changed-scope review
+  of R3/R4; then owner exact patch acceptance. Nothing applied, committed or
+  pushed; no DB/provider work.
+
+## 2026-10-15 — SCI6-PREREQ rev2 review: R1/R2 closed, lexical-context majors
+
+- Same native forge-reviewer/gpt-6.1-sol verified Sonnet152/152, rev1/rev2
+  hashes/8digests,89baseline inputs and30committed application files against
+  old baseline. Rev2 applies to current059c7f6. Report
+  `docs/sci6-prereq-20261015-rereview.md`: R1/R2 closed; R3 major regression
+  (comment syntax inside CDATA), R4 major first-pass miss (tag spellings in
+  CDATA/commented-out elements). Independent in-memory probes reproduce.
+- Recorded integrator accountability pause/cause/action and rounds in packet:
+  regex extraction lacks XML lexical context; review missed boundary cases.
+  One bounded original Sonnet correction, complete-label positive controls,
+  original closure preservation and rev3 freeze; no scope/choice change.
+- Next SWITCH TO Claude Code forge-implementer/Sonnet original agent
+  a9d38f3dba6e4df62, then same Codex changed review. Packet CHANGES_REQUESTED,
+  rev2 unapplied; human artifact acceptance and D-173 drafting gates open.
+- Author86targeted/2,010verify/build evidence inspected, no full-suite repeat.
+  Targeted checkpoint Prettier/git diff --check pass. No source application,
+  private/learner/DB/provider/deployment/release/commit/push. LaneA unchanged;
+  existing docs edits preserved; own integrator claim released after check.
+
+## 2026-10-15 — Practice release S0 recorded; accepted application committed locally
+
+- LaneA PRACTICE-RELEASE readiness bundle verified (Sonnet 240/240, hash
+  manifest `95b003f4...d298`, 69 live pins, spot checks hold). Owner chose
+  recommendations and delegated PR-2/PR-3: D-175 S0 defer deployment, D-176
+  IC-9 A, D-177 parts option (i), D-178 accept enrichment limits, D-179/D-180
+  owner manual checks and production facts, D-181 local commit.
+- Integrator verified the exact 30 accepted application files alone on a
+  clean HEAD worktree (`npm run verify`: 93 files, 1,975 tests, build pass)
+  and committed them locally as `059c7f6`. Docs/config remain uncommitted.
+  Not pushed; migration 0018, deployment and PR-10 not granted.
+- LaneB SCI6-PREREQ: user asked to fix R1/R2 together; correction routed to
+  original Sonnet agent `a9d38f3dba6e4df62` for full-replacement rev2 with
+  closure evidence, then same Codex changed-scope review. Note for later
+  application: main HEAD is now `059c7f6`, whose application files equal the
+  manifest baseline overlay.
+- SCI6-PREREQ rev2 frozen (`0c9db656...5d1b`): R1/R2 closed in
+  `science-rules.ts` plus tests only; verified Sonnet 152/152, hash, same file
+  set, apply-check. Worker-reported verify 2,010 tests/build pass. Next SWITCH
+  TO the same Codex forge-reviewer for changed-scope re-review.
+- Earlier this session the integrator removed another session's
+  `integrator.lock` in error (chained command after a failed mkdir) and
+  restored a placeholder; that owner resumed and released it.
+
+## 2026-10-15 — SCI6-PREREQ rev1 review requests consolidated P5 corrections
+
+- Fresh native forge-reviewer/gpt-6.1-sol verified Sonnet121/121, patch/scope/
+  manifest,89preserved inputs and8reconstructed final digests. Report
+  `docs/sci6-prereq-20261015-review.md`: R1 major XML rendered-label/plain-
+  alternative confusion; R2 minor label accepted across two fields. Both P5.
+- Reviewer independent in-memory synthetic catalog probes reproduce failures;
+  P1–P4/P6 no verified defects. Existing author80targeted/2,004verify/build
+  evidence inspected; tests omit new counterexamples. No full suites repeated.
+- SCI6-PREREQ CHANGES_REQUESTED, rev1 unapplied. Next SWITCH TO Claude Code
+  forge-implementer/Sonnet original agent a9d38f3dba6e4df62 for R1/R2 fixes,
+  regression controls/closure evidence/refreeze; same Codex changed review.
+  Human patch acceptance and U6/D-173 conditions remain open.
+- Shared documentation claim observed/respected until release; acquired own
+  integrator claim, later restored original ownership after another session
+  accidentally removed it and created a placeholder directing original owner
+  to resume. Recovery evidence in common Git SCI6-PREREQ bundle. Other edits
+  and laneA/deferred-concept-clips scopes preserved.
+- Targeted Prettier/git diff --check pass. No source/application/private/
+  learner/database/provider/release work, commit or push. Own claim released
+  after checkpoint; no additional approval requested for scoped corrections.
+
+## 2026-10-15 — Concept clips deferred for later review
+
+- Added CONCEPT-CLIPS to `docs/development-expansion-plan.md`, with the
+  owner's supplied reference, a proposed original Math/Science two-clip
+  pilot and later-review questions for teaching integration, accessibility,
+  rights, privacy, answer exposure and learning value.
+- Explicitly outside the current release critical path and active lanes.
+  No content, implementation, worker or review dispatch authorized; watching
+  is not mastery. Current release/Science prerequisite assignments unchanged.
+- Validation passed: targeted `prettier --check --ignore-path /dev/null`
+  for both changed Markdown files and `git diff --check`.
+  No runtime/database/provider work, commit or push.
+  Next: continue existing delivery lanes; revisit clips after initial usable
+  curriculum releases.
+
+## 2026-10-15 — Both lanes dispatched; SCI6-PREREQ rev1 awaiting Codex review
+
+- User asked to continue both assigned lanes. Integrator dispatched one
+  background Claude Code `forge-implementer` worker per lane in isolated
+  worktrees (two-worker limit kept): laneA PRACTICE-RELEASE readiness evidence
+  (still running, holds its own claim) and laneB SCI6-PREREQ P1–P6.
+- SCI6-PREREQ rev1 frozen: `rev1.patch` SHA `77be02fe...f03d`, 8 files.
+  Verified Sonnet from client metadata (121/121), hash, and apply-check on the
+  manifest baseline. Held once for incomplete intake; self-audit found no
+  correction. Worker-reported targeted tests (80), typecheck, lint,
+  curriculum:site and verify (2,004 tests/build) pass; build warning is the
+  pre-existing Prisma edge-runtime notice. Science stays unavailable; no
+  content/skill records, availability flip, DB, provider, commit or push.
+- Next laneB: SWITCH TO Codex `forge-reviewer` / `gpt-6.1-sol` fresh first
+  review of rev1; then owner exact patch acceptance. U6 drafting still gated.
+
+## 2026-10-15 — Both lanes approved; Ratios rev2 applied, Science prerequisites assigned
+
+- Owner **"approved both"** selects Ratios exact rev2 acceptance/application
+  with nonblocking R-3 acknowledged and all SCI6-U1–U7 recommendations.
+  U1–U7 dispositions separately recorded as D-168–D-174. D-173 is a conditional
+  D-61 exception; U5 integration/applicable evidence/engineering sign-off
+  remain unsatisfied. No future patch acceptance or release inferred.
+- Claimed integrator verified frozen Ratios hashes/base/target absence/
+  apply-check; applied exact one-document0dc5605e...acd8e. Main contract
+  SHA43afa38e...dc5b matches reviewed bytes. R-3 remains acknowledged; future
+  work uses membership criteria, never incorrect global inventory wording.
+- RAT-CATALOG-DESIGN DONE. Next laneA already-authorized PRACTICE-RELEASE
+  readiness preparation, Claude forge-implementer/Sonnet, no source edits.
+  SCI6-FIRST-UNIT DONE; next laneB SCI6-PREREQ exact P1–P6 implementation,
+  Claude forge-implementer/Sonnet then fresh Codex review/owner patch gate.
+  Effective baseline89inputs and exact approved scope copied/hashed in common
+  Git metadata; worker must isolate and verify actual Sonnet identity.
+- Targeted Prettier and git diff --check passed; no runtime suites needed for
+  document integration/checkpoint. No content/private/learner/database/
+  provider/deploy/release work, commit or push. Unrelated dirty edits preserved.
+  No workers launched here; next SWITCH TO Claude Code for assigned lanes.
+
+## 2026-10-14 — Both assigned Codex reviews complete; owner batch ready
+
+- User explicitly requested two parallel forge-reviewer/gpt-6.1-sol reviews.
+  Integrator reused original laneA reviewer for rev2 changed scope and
+  dispatched fresh laneB reviewer; reviewers changed no files. Integrator
+  recorded both reports/packets/index itself and preserved existing edits.
+- LaneA report `docs/rat-catalog-design-20261014-rereview.md`: R-1/R-2 closed
+  at document level; ready with nonblocking minor R-3 inventory wording
+  regression. Exact rev2 remains unapplied. Owner acceptance/application and
+  explicit R-3 disposition pending; no implementation evidence claimed.
+- LaneB report `docs/sci6-first-unit-20261014-review.md`: ready with noted
+  risks, no verified findings. Substantive pins match; three status-file pins
+  drifted since freeze. Q6 source precision, runtime/item quality and release
+  evidence remain future gates. SCI6-U1–U7 batch recorded, U6 conditional on
+  U5 integration/applicable evidence/engineering sign-off.
+- Both packets AWAITING_HUMAN, workers finished. Targeted report/handoff
+  Prettier and git diff --check pass; integrator frozen hashes/apply check
+  passed. No runtime suite/private/learner/DB/provider/deploy/release/commit/
+  push work. Next exact owner batch in packets; no further execution inferred.
+
+## 2026-10-15 — Lane B: SCI6-FIRST-UNIT scope rev1 ready for Codex review
+
+- Fresh Opus `forge-expert` (`claude-opus-5-5`, 172/172 records verified)
+  froze the Science first-unit scope bundle (`6ddacf23...bf04`): recommends
+  practice-only "Cells and living systems" (MS-LS1-1/LS1-2 components), three
+  `sci6-life-science` skills, six structured single-choice practice records,
+  prerequisite Sonnet packet P1–P6, and approval batch SCI6-U1–U7. Eight new
+  code gaps and explicit untested claims recorded. No content drafted.
+- Integrator verified five hashes, Prettier, 46/46 pinned inputs, cleanup.
+  Both lanes now await Codex review; no worker/claim active; integrator lock
+  released. No code/content/private/database/provider work, commit or push.
+- Next: **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` — lane A
+  changed review of RAT-CATALOG-DESIGN rev2 and, in a fresh context, lane B
+  comprehensive review of SCI6-FIRST-UNIT rev1.
+
+## 2026-10-15 — Lane A: RAT-CATALOG-DESIGN revision 2 ready for Codex changed review
+
+- Original Opus author (`claude-opus-5-5`, 165/165 records verified) froze
+  rev2 `43afa38e...dc5b` (702 lines; patch `0dc5605e...acd8e`). R-1: proposed
+  immutable public placement-probe snapshots (H-1) with fail-closed historical
+  resolution and later acceptance cases PH-1–PH-5. R-2: registered vs reserved
+  Git-exposed vs reference-only labels; validator satisfiability shown (RL-1).
+- Integrator verified hashes, one-file scope, apply-check, reconstruction,
+  Prettier, source pins and cleanup. Decision register drifted only by D-167
+  append; flagged non-substantive for reviewer. Unapplied; no commit/push.
+- Lane B (SCI6-FIRST-UNIT) worker still running. Next for lane A: **SWITCH TO
+  Codex** `forge-reviewer` / `gpt-6.1-sol` changed-scope review.
+
+## 2026-10-15 — Lane A corrections and lane B preparation dispatched
+
+- User asked to continue lane A and launch authorized lane B. Integrator
+  claimed `integrator.lock`; two workers, one per lane (limit reached).
+- Lane A: original RAT-CATALOG-DESIGN `forge-expert` (`claude-opus-5-5`)
+  resumed for review R-1 (major, historical placement via active content)
+  and R-2 (minor, retired stubs vs published index); rev2 then same Codex
+  changed review.
+- Lane B: fresh `forge-expert` (`claude-opus-5-5`, initial records verified)
+  for SCI6-FIRST-UNIT scope bundle under D-167 in an isolated worktree; then
+  fresh Codex review and exact approval batch. No content authoring.
+- No code/content/private/database/provider work, commit or push. Gates and
+  owner choices (C-7, IC-9, D-61 exception, release) unchanged.
+
+## 2026-10-14 — Concrete release and parallel Science preparation assigned
+
+- Owner replied "go ahead" to making delivery actionable. D-167 records
+  bounded preparation and at most two author/preparation workers, not
+  unspecified scoring choices, curriculum authoring or release permission.
+- Added `docs/agent-handoffs/PRACTICE-RELEASE.md`: queued Sonnet turn produces
+  existing-content readiness, exact missing evidence and consolidated
+  application-release permissions. No new UI or unchanged-byte assurance
+  review; do not mistake local integration/Pages for application deployment.
+- Added `docs/agent-handoffs/SCI6-FIRST-UNIT.md`: separate Opus lane may scope
+  one unit from approved Science research while Ratios correction/review
+  continues. Current program code exists but Science domains and school-course
+  registry configuration are missing. No content is drafted against those
+  incompatible contracts; the deliverable includes exact authoring and
+  prerequisite implementation options for the next batch.
+- Updated lane routing in the resume index and expansion plan. Lane A
+  retains original Opus catalog R-1/R-2 corrections and same-Codex changed
+  review. No task/hash/review bytes changed and no worker launched here.
+  One integrator owns shared files; writers use task-owned isolated worktrees.
+- Validation passed: targeted `prettier --check --ignore-path /dev/null`
+  for the six changed Markdown files and `git diff --check`; no
+  runtime/database/provider suites needed for packet-only changes.
+  No commit/push, private access, production or deployment work.
+- Next: existing Claude session continues catalog corrections; a separate
+  Claude session identifies B/SCI6-FIRST-UNIT and runs only its Opus scope.
+  Freeze outputs, review once comprehensively, then batch exact ready choices.
+
+## 2026-10-14 — RAT-CATALOG-DESIGN rev1 review requests two corrections
+
+- Fresh native forge-reviewer/gpt-6.1-sol confirmed Opus144/144 provenance,
+  five frozen hashes,25live/baseline inputs,37HEAD pins; three accepted dirty
+  source files preserve relevant lookups. Report
+  `docs/rat-catalog-design-20261014-review.md`: one major R-1 historical public
+  placement item resolution, one minor R-2 Git-label/runtime-index distinction.
+- Packet CHANGES_REQUESTED; rev1 unapplied. Next **SWITCH TO Claude Code
+  forge-expert / Opus**, original author consolidated R-1/R-2 corrections,
+  closure/self-audit and rev2 freeze; same Codex reviewer changed review after.
+- Targeted Prettier and git diff --check pass. No implementation/runtime
+  suites/private/database/provider work, commit or push. IC-9 and remaining
+  C-7/content/implementation/teaching/lifecycle/release gates unchanged.
+
+## 2026-10-14 — RAT-CATALOG-DESIGN revision 1 frozen; Codex review next
+
+- One Claude Code `forge-expert` (`claude-opus-5-5`, 144/144 records verified
+  from transcript metadata) authored `docs/grade-6-math-catalog-versioning.md`
+  rev1 (`6d4e9b30...2608`, 568 lines; patch `a07d1c82...3c1a`) with a
+  21-requirement self-audit. Proposes P-A program versioning, labels, history
+  resolution, M-C misconception handling and a test-only teaching loader; C-7
+  options A–D presented, none chosen. Seven code-derived conflicts recorded.
+- Integrator verified hashes, one-file scope, apply-check, empty-repo
+  reconstruction, Prettier, 25/25 inputs, claim/worktree cleanup. Reviewer
+  asked to confirm HEAD-byte pins against three dirty accepted source files.
+- Unapplied; no code/content/private/database/provider work, commit or push.
+- Next **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` fresh first
+  review; then owner acceptance/application.
+
+## 2026-10-14 — IC-6–IC-8 approved; RAT-CATALOG-DESIGN assigned
+
+- Owner replied **"approve"** to the ready batch: D-164 records extension
+  volume values only, D-165 separates teaching authoring/review from serving,
+  D-166 authorizes one-document catalog/version design. Each disposition is
+  separate. IC-9 A/B/C remains pending and does not block document design.
+- Active packet `docs/agent-handoffs/RAT-CATALOG-DESIGN.md` is SCOPING,
+  authorized and unclaimed; next **SWITCH TO Claude Code forge-expert / Opus**.
+  Exact public inputs and accepted dirty/untracked documents preserved in
+  common Git metadata with hashed manifest; one isolated author, then fresh
+  Codex forge-reviewer/gpt-6.1-sol review and human acceptance/application.
+- Documentation checks: targeted Prettier and git diff --check passed.
+  No code/content/private/database/provider work, commit or push. Existing
+  edits preserved. Legacy23 UNMET, C-7 selection, teaching adoption/serving,
+  content/D-61, catalog implementation, lifecycle and release gates remain.
+
+## 2026-10-14 — PRACTICE-FIRST integrated and conventions documented
+
+- Owner replied accept and authorize to exact rev4 application and separate
+  as-built presentation doc update. Claimed integrator verified53pins/7hashes/
+  patch/HEAD/apply-check, applied only d184a9a5...87ed. All7 UI hashes match
+  after validation; docs/learner-presentation-design.md conventions added,
+  preserving manual/copy/device/zoom/endpoint/live-content limits.
+- Integrated verify exit0:93files/1,975tests/build; e2e102pass/1existing skip
+  (2.7m), fakeeval3pass. Owned synthetic DB lf-practice-integrated-20261014
+  loopback55435/tmpfs removed; port3000free, existing DBs untouched. No real
+  learner/private/provider/deploy/release work, commit/push. UI support local
+  only; no new structured content registered or fullcurriculum claim.
+- PRACTICE-FIRST DONE/uncommitted. Checkpoint docs/whitespace pass, claim
+  released; unrelated edits preserved. Next ready IC-6–IC-9 batch scoped in
+  completed packet: extensionvolumes, teachingseparation, catalog-design doc
+  scope and explicit interim scoring choice. No next execution/secondlane
+  authorized; legacy23UNMET/manual/private/content/activation gates remain.
+
+## 2026-10-14 — PRACTICE-FIRST rev4 ready for owner gate
+
+- Same host-fixed forge-reviewer/gpt-6.1-sol verified original Sonnet168/168,
+  53pins/7frozenhashes/reconstruction. Report
+  docs/practice-first-20261014-rev4-review.md: ready,0blocker/major/minor;
+  R5closed/R1–R4preserved. No further unchanged-byte assurance review.
+- Invalid9.144608light/9.296243dark and normal4.534466/4.899778 confirmed
+  using code/calculation/obtainedPNG/author browser evidence. Author122/
+  verify1975build/e2e102+skip/fake3 inspected, no suite/DB/provider repeats.
+  Faded-button capture cause unverified, no demonstrated persistent defect.
+- Packet AWAITING_HUMAN, exact7file rev4 d184a9a5...87ed unapplied. Ready
+  batch: acceptance/application plus as-built one-file presentation conventions
+  documentation authorization, scope traceable to reviewed code, no new design.
+- Docs/whitespace pass, claim released. No code/private/database/provider
+  changes, commit/push. Manual/copy/keyboard/zoom/endpoints/livecontent and
+  legacy23UNMET/Ratios/release dispositions remain pending, not waived.
+
+## 2026-10-14 — PRACTICE-FIRST revision 4 closes R-5; Codex targeted review next
+
+- Original Sonnet `forge-implementer` (`claude-sonnet-5-5`, 168/168 records
+  verified) froze rev4 `d184a9a5...87ed`: one scoped CSS rule gives invalid
+  structured inputs a 9.14:1 light / 9.30:1 dark border (was 1.82/1.58), plus
+  two light/dark invalid-state browser tests that fail on rev3 CSS. Other
+  states measured ≥3:1. Five files identical to rev3.
+- Author: verify 1,975/0 lint/build; e2e 102 pass/1 existing skip on owned
+  disposable DB (removed); fake eval 3/3; `tests/app` 122.
+- Integrator reapplied rev4, matched 7 hashes, `tsc` clean, `tests/app` 122,
+  confirmed before-log failures; apply-check OK; cleanup confirmed. Dark
+  Submit-button capture fade flagged for reviewer. Unapplied; no commit/push.
+- Next **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` targeted changed
+  review; then owner acceptance/application.
+
+## 2026-10-14 — UI rev3 closes R1–R4; invalid-state contrast missed
+
+- Same host-fixed reviewer/gpt-6.1-sol verified Sonnet145/145 metadata,53pins/
+  7frozen reconstruction. Report docs/practice-first-20261014-rereview.md:
+  originalR1–R4closed;0blockers/majors,1required minorR5 first-pass miss.
+- Reviewer initially omitted invalid-input border calculation while checking
+  normal/error-text/focus. Enabled/unfocused error border1.817842light/
+  1.577740dark <3; present rev2, not regression. Cause/detection recorded.
+- Original Sonnet single scoped invalid CSS/browsercontrast/screenshots fix,
+  preserve normal4.534/4.900 and R1–R4closures, per-findingselfaudit/refreeze
+  rev4 then Codex targeted changed review. No broader assurance round.
+- Author122/1975build/e2e100+skip/fake3 evidence inspected; actual handler/
+  component/contrast and8uniquePNG checks obtained without suite/DB/provider.
+  Program-refresh caveat resolved; pre-existing/proposed-release gaps separate.
+- Packet CHANGES_REQUESTED, unapplied. Checkpoint docs/whitespace pass, claim
+  released. No code/private/database/provider work, commit/push. Next SWITCH
+  TO Claude Code, original forge-implementer/Sonnet.
+
+## 2026-10-14 — PRACTICE-FIRST revision 3 closes R-1–R-4; Codex changed review next
+
+- Original Sonnet `forge-implementer` (`claude-sonnet-5-5`, 145/145 records
+  verified from transcript metadata) froze rev3 `b125f455...efac`: operations
+  bound to session/program/activity and re-verified after every await (R-1);
+  visible announced retry on check/submit/hint transport failure (R-2);
+  choice-group `aria-invalid` (R-3); scoped structured input borders 4.53:1
+  light / 4.90:1 dark (R-4). Five files changed vs rev2; closure table in
+  `closure-evidence.rev3.txt`; targeted tests 10/12 fail on rev2 code.
+- Author: verify 1,975/0 lint warnings/build; e2e 100 pass/1 existing skip on
+  owned disposable DB (removed); fake eval 3/3; `tests/app` 122.
+- Integrator reapplied rev3 on HEAD + baseline, matched 7 hashes, `tsc` clean,
+  `tests/app` 122; apply-check OK; cleanup confirmed. Reviewer-attention notes
+  (radio outline, program-scoped refresh, duplicate screenshots, pre-existing
+  e2e household state display) recorded in packet. Unapplied; no commit/push.
+- Next **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` changed-scope UI
+  review; then owner acceptance/application.
+
+## 2026-10-14 — PRACTICE-FIRST first review requests consolidated fixes
+
+- Fresh host-enforced Codex forge-reviewer/gpt-6.1-sol verified actual Sonnet
+  117/117 metadata,53 copied/live pins,7 frozen hashes/reconstruction. Report
+  docs/practice-first-20261014-review.md:0 blockers/1 major/3 required minors.
+- R-1 stale body/hint/refusal responses can attach A result/completion to B;
+  R-2 check rejection invisible; R-3 radio invalid state absent; R-4 new input
+  boundary contrast <3:1 in both themes. Actual in-memory handler/component
+  counterexamples and contrast derived,8 PNGs/2 comparisons viewed.
+- Author1975/122/e2e90+skip/fake3 evidence inspected, no suite repeat. F1/F2
+  pre-existing product/table concerns separate, F3 intake audited; presentation
+  conventions doc update is nonblocking integrator/owner scope. Manual/real
+  keyboard/zoom/diagnostic-review browser/live-content limits remain explicit.
+- Packet CHANGES_REQUESTED: original Sonnet consolidatedR1–R4 owned UI/test
+  fixes, per-finding self-audit/closure and rev3 freeze then Codex changed
+  review. Rev2 unapplied; no worker/lane/release breadth authorized.
+- Checkpoint docs/whitespace passed, claim released. No code changes/database/
+  provider/private work, commit or push. Next SWITCH TO Claude Code, original
+  forge-implementer/Sonnet. Legacy23 UNMET/remaining IC/release gates separate.
+
+## 2026-10-13 — PRACTICE-FIRST revision 2 ready for Codex UI review
+
+- One Claude Code `forge-implementer` (`claude-sonnet-5-5`, 117/117 records
+  verified from transcript metadata) built the first structured practice UI
+  slice: rev2 `6d058bb9...e88c`, 7 owned files (5 `src/app`, 2 tests).
+  Server-declared structured mode only; labeled number/choice fields, text
+  alternative, focused error summary on format refusal, item-level feedback,
+  double-submit guard; legacy path unchanged. No server/content/schema change.
+- Integrator held rev1 (`de0a4c93...b99d`) before review because mandatory
+  intake docs were skipped and a blocked-topic notice appeared beside the
+  question. Resumed author audit: pre-existing server-issued landing behavior
+  (legacy screenshots byte-identical), two parity tests added; table word
+  breaks pre-existing. Source identical to rev1.
+- Author: verify 1,975/build, e2e 90 pass/1 existing skip on owned disposable
+  DB (removed), fake eval 3/3 (rev1). Integrator reconstructed 7 hashes, `tsc`
+  clean, `tests/app` 122, apply-check OK, cleanup confirmed.
+- Open: presentation-design doc conventions gap, pre-existing blocked-topic
+  display question, D-41 manual screen reader, A-10 copy reading level,
+  real-device keyboard. Unapplied; no commit or push.
+- Next **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` UI review; then
+  owner acceptance/application.
+
+## 2026-10-13 — PATHS applied; first practice UI slice authorized
+
+- Owner replied **accept and authorize** to exact PATHS rev2 including
+  nonblocking R-3 evidence limit and separate PRACTICE-FIRST UI slice. Claimed
+  integrator verified substantive baseline/patch/frozen15, apply-check passed,
+  applied only b100815f...577e; all15 hashes match before/after validation.
+- Integrated verify1955/build passes; disposable loopback synthetic DB
+  lf-paths-integrated-20261013 port55434/tmpfs with reviewed migrations and
+  public archive only: integration319 pass/1 existing skip, fakeeval3 pass.
+  Owned DB removed; existing development/review containers untouched. PATHS
+  DONE/uncommitted. Expected negative/shadow stderr retained, no suppression.
+- Active docs/agent-handoffs/PRACTICE-FIRST.md, IMPLEMENTING: authorized
+  Sonnet existing Grade6 structured practice UI/text/errors/states/browser
+  evidence then Codex UI review. Integrated baseline pinned; no worker active.
+- Docs/whitespace pass; claim released; unrelated work preserved. No new
+  content/assessment UI/private/production/provider/release/second lane, commit
+  or push. Legacy23 UNMET/IC-6–IC-9/manual release gates remain separate.
+- Next SWITCH TO Claude Code, PRACTICE-FIRST forge-implementer/Sonnet.
+
+## 2026-10-13 — PATHS revision 2 ready; practice UI successor scoped
+
+- Copilot delivery-plan claim released; checked Codex claim acquired. Same
+  host-selected forge-reviewer/gpt-6.1-sol verified original Sonnet145/145,
+  frozen15/reconstruction,29 copied/27 substantive live/15 dependencies;
+  AGENTS/orchestration planning changes disclosed. Report
+  `docs/rat-score-impl-paths-20261013-rereview.md`: ready with noted risks.
+- R-1/R-2 closed. R-3 newly observable minor/nonblocking: spy reset masks
+  ended/terminal call counts; static source proves ordering, executable proof
+  narrower. No runtime safety defect or extra assurance review needed.
+- Author1955/319+1skip/fake3/order5 and integrator353/tsc evidence retained,
+  no reruns. Packet AWAITING_HUMAN, exact rev2 patch unapplied. Ready batch:
+  acceptance/application including R-3 limit, bounded first PRACTICE-FIRST
+  UI slice using existing learner UI and synthetic structured fixtures only.
+  Owned paths/requirements/tests/exclusions recorded; no worker/lane approved.
+- Checkpoint formatting/whitespace passed; claim released. No code/runtime/
+  private/database/provider work, commit or push. Unready content-lane scopes
+  remain pending; IC-6–IC-9/release/legacy23 UNMET separate.
+
+## 2026-10-13 — Delivery-first successors and parallel-lane plan recorded
+
+- Recorded the owner's staged delivery priority in
+  `docs/development-expansion-plan.md`: bounded rich learner practice first,
+  complete Ratios next, one new-subject unit and then unit expansion. Reuse
+  existing UI/reviewed content; do not claim full teaching/assessment coverage
+  or require unused optional lifecycle features for ordinary practice.
+- Added proposed engineering/content lane responsibilities and consolidated
+  successor-scope request. Science is recommended, not selected. Approved
+  Science/Social Studies research is the baseline, not a new research task.
+  Exact unit/roles/volumes/store, authoring exceptions and release permissions
+  remain pending; no second worker, new authoring or deployment authorized.
+- At the owner's request, made allocation explicit: Sonnet 5.5 for defined
+  implementation/UI, Opus 5.5 for curriculum authoring/unresolved design,
+  Codex GPT-6.1 Sol for cross-family review. Native aliases require actual
+  model verification before dispatch; no role/model config changed.
+- Also made delivery review exits explicit: comprehensive first pass,
+  consolidated correction and targeted verification; no unchanged-byte
+  assurance rounds or review-the-review agents. A recurring required finding
+  of any severity triggers root-cause escalation. Optional improvements stay
+  in the backlog; real safety/correctness and human release gates remain.
+- Updated `docs/coding-agent-handoff.md`, `docs/agent-orchestration.md` and
+  `AGENTS.md` with assignment-aware routing for explicitly approved lanes.
+  Default remains the current PATHS relay. One integrator owns shared writes;
+  isolated worktrees carry only pinned allowlisted dependencies.
+- Preserved the PATHS correction/review sequence, frozen inputs and all
+  application gates. The native revision-2 checkpoint arrived during this
+  update and is preserved below; no task packet or runtime/content artifact
+  changed. Successors remain proposed, not automatically dispatched.
+- Validation passed: targeted `prettier --check --ignore-path /dev/null`
+  for the five changed Markdown files and `git diff --check`.
+  No runtime/database/provider suites needed.
+  No commit or push requested. Next: Codex changed review of PATHS revision 2
+  -> ready human acceptance and fully specified successor-scope batch.
+
+## 2026-10-13 — PATHS revision 2 closes R-1/R-2; Codex changed review next
+
+- Original Sonnet `forge-implementer` (`claude-sonnet-5-5`, 145/145 records
+  verified from transcript metadata) froze rev2 `b100815f...577e`: assessment
+  preflight now always precedes evaluation (expiry unevaluated); twelve-key
+  fixture uses 12 unique 64-char keys. Two files changed, one new order test;
+  12 files byte-identical to rev1. Closure table in `closure-evidence.rev2.txt`.
+- Author: order test 4/5 fail on rev1 code, 5/5 on rev2; verify 1,955;
+  integration 319 pass/1 existing skip on owned disposable DB (removed); fake
+  eval 3/3; no `prisma generate`.
+- Integrator reapplied rev2 on HEAD + baseline, matched 15 frozen hashes,
+  `tsc` clean, 353 non-database tests passed; apply-check on main OK; claim/
+  worktrees/container cleaned. Unapplied; no commit or push.
+- Next **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` changed-scope
+  review; then owner acceptance/application.
+
+## 2026-10-13 — PATHS first review requests two minor corrections
+
+- Fresh host-selected Codex `forge-reviewer` / `gpt-6.1-sol` independently
+  verified actual Sonnet120/120 metadata,29 baseline/15 dependency pins,
+  14 frozen hashes/reconstruction. Report
+  `docs/rat-score-impl-paths-20261013-review.md`: 0 blockers/majors,2 minors.
+- R-1 evaluator runs before required read-only lifecycle preflight; move shared
+  check ahead and preserve expiry/transactional semantics, prove non-invocation.
+  R-2 twelve-key fixture has ten unique keys; fix unique64-char keys/counts.
+- Author verify1955/integration314+1skip/fakeeval3 logs reviewed; no suite
+  repeats. Archive-only shadow warnings expected; practice evidence writes
+  nonvacuous. Future PATHS/UI/private/live evidence limits recorded honestly.
+- Packet CHANGES_REQUESTED, original Sonnet R-1/R-2 only then closure/refreeze
+  for Codex changed review. Patch unapplied; no wider scope. Checkpoint docs/
+  whitespace passed, claim released. No runtime/private/database/provider
+  work, commit or push. Next SWITCH TO Claude Code, original Sonnet role.
+
+## 2026-10-13 — PATHS revision 1 frozen; Codex review next
+
+- One Claude Code `forge-implementer` (`claude-sonnet-5-5`, 120/120 records
+  verified from transcript metadata) implemented RAT-SCORE-IMPL-PATHS rev1:
+  patch `6ed7d1b9...cdd7`, 14 owned files (7 `src`, 7 new tests/support).
+  No CORE/schema/catalog/matcher/UI/content change; no dependency gap.
+- Author: verify exit 0 (1,955 tests/build), integration 314 pass/1 existing
+  skip on owned disposable `lf-paths-pg` (removed), fake eval 3/3, five
+  mutation checks. PA-10/UI/private store/serving/release not claimed.
+- Integrator reapplied on HEAD + baseline, matched all 14 frozen hashes,
+  ran 289 non-database focused tests and `tsc` clean; `git apply --check`
+  on main OK; claim/worktrees/container cleaned; other containers untouched.
+  Deviations D1–D5 recorded in packet for reviewer attention.
+- Packet **AWAITING_REVIEW**, unapplied; no commit or push. Next **SWITCH TO
+  Codex** `forge-reviewer` / `gpt-6.1-sol`, then owner acceptance/application.
+
+## 2026-10-13 — CORE accepted/integrated; PATHS execution authorized
+
+- Owner replied **"accept and authorize"** to explicit batch: exact reviewed
+  CORE revision2 application plus separate PATHS scope. Claimed integrator
+  verified baseline/hash/apply-check, applied only `78c17d72...deb1`; all seven
+  main files match reviewed frozen bytes before/after verification. CORE DONE.
+- Initial sandboxed verify: 1,932 pass/9 existing subprocess failures. Required
+  outside-sandbox rerun **npm run verify exit 0**, 1,941 tests/build and all
+  format/lint/TypeScript/down gates pass. No test suppression/code correction;
+  existing Prisma Edge warning only. Legacy23 UNMET unchanged.
+- Active `docs/agent-handoffs/RAT-SCORE-IMPL-PATHS.md`, IMPLEMENTING: authorized
+  Sonnet services/routes/S-A persistence/projection/tests, synthetic local DB
+  integration and fake eval, then Codex review. No worker active; inputs/baseline
+  pinned. No UI/schema/content/private/production/provider/release scope.
+- Checkpoint docs/whitespace passed; claim released. Unrelated edits preserved;
+  no database/provider/private work, commit or push in integration. Next
+  **SWITCH TO Claude Code**, PATHS `forge-implementer` / Sonnet.
+
+## 2026-10-13 — CORE revision 2 ready; acceptance/PATHS batch
+
+- Same host-selected Codex `forge-reviewer` / `gpt-6.1-sol` independently
+  verified original Sonnet correction identity, substantive inputs/frozen
+  hashes and reconstruction. Report `docs/rat-score-impl-core-20261013-rereview.md`:
+  **ready for human review**, R-1 closed, 0 blockers/majors/minors.
+- Load-valid 669 fixture and negative/direct controls verified; six files
+  byte-identical. Author192/legacy83/verify1941 and integrator275/tsc evidence
+  retained; reviewer did not repeat suites. Existing later-scope limits remain.
+- Packet **AWAITING_HUMAN**, patch `78c17d72...deb1` unapplied. Ready batch:
+  exact CORE acceptance/application and separate RAT-SCORE-IMPL-PATHS scope
+  with synthetic integration/fake-eval gates, exclusions recorded in packet.
+- Checkpoint formatting/whitespace passed; claim released. No code/content/
+  runtime/private/database/provider work, commit or push. Legacy23 UNMET
+  unchanged. No PATHS execution authorized yet.
+
+## 2026-10-13 — CORE revision 2 closes R-1; Codex changed review next
+
+- Original Sonnet `forge-implementer` (`claude-sonnet-5-5`, verified from
+  transcript metadata) corrected only `tests/content/structured-response.test.ts`.
+  The 669-character envelope control now uses the derived canonical/accepted
+  fields and asserts load and CORRECT first, via a shared `expectLoadValid`
+  helper. Implementation byte-identical.
+- Rev2 patch `78c17d72...deb1`, closure `2340024b...17e4`; rev1 retained.
+  Author: 192/192 focused, legacy 83/83, verify 1,941 passed.
+- Integrator reapplied rev2, matched the frozen hashes, re-ran 275 focused
+  tests and `tsc` clean. Unapplied; no commit or push.
+- Next: **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` bounded
+  changed-scope review; then owner acceptance/application.
+
+## 2026-10-13 — CORE review requests one load-valid positive control
+
+- Fresh host-selected Codex `forge-reviewer` / `gpt-6.1-sol` independently
+  verified actual Sonnet identity, baseline/substantive/frozen hashes and
+  7-file reconstruction. Report `docs/rat-score-impl-core-20261013-review.md`:
+  0 blockers/majors, 1 minor; not ready until R-1 fixture correction.
+- 669-character positive control uses canonical x instead of its derived
+  rendering. Original Sonnet supplies derived canonical/accepted fields and
+  asserts schema/catalog/scoring success before length checks; bounded scope.
+- Author logs support 192 new/83 legacy/verify 1,941; prior integrator314/tsc
+  evidence attributed, no reviewer suite rerun. Mutation spot-check executable
+  evidence not preserved; PATHS/UI/private/runtime dispatch later scopes.
+- Packet **CHANGES_REQUESTED**, unapplied; original Sonnet correction,
+  self-audit/closure evidence, refreeze then Codex changed review. Checkpoint
+  formatting/whitespace passed; claim released. No code/content/runtime/private/
+  database/provider work, commit or push. Legacy23 UNMET unchanged.
+- Next **SWITCH TO Claude Code**, original `forge-implementer` / Sonnet.
+
+## 2026-10-13 — RAT-SCORE-IMPL-CORE frozen; Codex review next
+
+- Sonnet `forge-implementer` (`claude-sonnet-5-5`, verified from transcript
+  metadata; Opus parent coordinated only) froze a 7-file patch
+  `98fbabe1...bc20` (+3379/−1). It adds a pure structured scorer, schema union,
+  catalog §2.7 rules and tests. Matcher, content and legacy test unchanged.
+- 192 new tests; legacy 83/83; verify passed (1,941 tests). 461 adversarial
+  vectors with 0 reference disagreements; no contract contradiction.
+- Integrator reapplied the patch, matched the frozen hashes, re-ran 314 focused
+  tests and `tsc` clean. PATHS/UI requirements untested by scope. Unapplied;
+  no database/provider/private work, commit or push.
+- Next: **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` cross-family
+  review; then owner acceptance/application.
+
+## 2026-10-13 — Legacy test applied; CORE execution authorized
+
+- Owner replied **"yes"** to explicit two-gate batch: reviewed legacy-test
+  acceptance/application and separate CORE execution. Claimed integrator
+  verified seventeen inputs/patch/test/HEAD, apply-check passed; applied only
+  `20d5cd0b...74f0`, final test `8568e925...573d` matches reviewed bytes.
+- Focused Vitest in main **83/83 passed**. Full verify not repeated; reviewed
+  author 1,749-test/build evidence retained. Legacy 23 UNMET expectations
+  unchanged; RAT-SCORE-LEGACY **DONE**, uncommitted. No scoring repair yet.
+- Active `docs/agent-handoffs/RAT-SCORE-IMPL-CORE.md`, **IMPLEMENTING**:
+  authorized Claude Code `forge-implementer` / Sonnet, scoped validator/pure
+  scorer/helpers/catalog validation/tests then Codex cross-family review.
+  No worker active, CORE inputs pinned and allowlisted baseline preserved.
+- Checkpoint formatting/whitespace passed; claim released. Unrelated work
+  preserved; no route/UI/schema/content/private/database/provider work,
+  commit or push. Next **SWITCH TO Claude Code**, CORE Sonnet role.
+
+## 2026-10-13 — Legacy characterization ready; batched owner gate
+
+- Fresh host-selected Codex `forge-reviewer` / `gpt-6.1-sol` verified actual
+  Sonnet metadata, baseline/artifact hashes and patch reconstruction. Report
+  `docs/rat-score-legacy-20261013-review.md`: ready with noted risks, no
+  blocker/major/minor corrections. All nine items/56 rows/23 UNMET supported.
+- Author focused 83/83 and full verify 1,749 supported by hashed logs; prior
+  integrator focused run noted. No reviewer suite repeat. Existing V-7 defects
+  remain; mutation exercise untested, digest assertions sound by inspection.
+- Packet **AWAITING_HUMAN**, exact one-test acceptance/application and next
+  separate RAT-SCORE-IMPL-CORE execution scope presented as ready batch.
+  Test unapplied; CORE unapproved. Scope/exclusions recorded in packet.
+- Checkpoint formatting/whitespace checks passed; claim released. No code/
+  content changes, runtime/private/database/provider work, commit or push.
+  IC-6–IC-9 and later implementation/integration/release gates remain.
+
+## 2026-10-12 — RAT-SCORE-LEGACY test frozen; Codex review next
+
+- Sonnet `forge-implementer` (`claude-sonnet-5-5`, verified from transcript
+  metadata) froze one new test
+  `tests/content/legacy-parts-characterization.test.ts` (`8568e925...573d`,
+  patch `20d5cd0b...74f0`). Matcher, content and existing tests unchanged.
+- 56 rows; 23 UNMET (22 false accepts, 1 false reject), equal per row and
+  deduplicated; every observed outcome matched the frozen contract (no
+  divergence). Focused 83/83; `npm run verify` passed (1,749 tests).
+- Integrator verified hashes and scope, reapplied the patch and re-ran the
+  focused test (83/83). Drift mutation check untested. Unapplied; no
+  database/provider/private work, commit or push.
+- Next: **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` cross-family
+  review; then owner acceptance/application.
+
+## 2026-10-12 — RAT-SCORE-LEGACY authorized and assigned
+
+- Owner approved one-test characterization execution, then confirmed other
+  Learning Forge sessions stopped writing. Conflicting claim metadata/empty
+  directory removed with authorization; acquired fresh integrator claim.
+  Earlier claim metadata overwrite was a coordinator error; no documents/code
+  changed during the failed acquisition. Future writes require checked success.
+- Active `docs/agent-handoffs/RAT-SCORE-LEGACY.md`, **IMPLEMENTING**:
+  authorized Claude Code `forge-implementer` / Sonnet, one new test for nine
+  public parts items, frozen static outcomes and explicit UNMET evidence;
+  focused Vitest/database-free verify then Codex review. No worker active.
+- Inputs pinned and allowlisted baseline preserved. Handoff/checkpoint
+  formatting/whitespace passed, claim released; no test/code implementation
+  yet, runtime/private/database/provider work, commit or push.
+- Next **SWITCH TO Claude Code**, Sonnet implementer; no broader CORE/PATHS/UI
+  or content/release execution authorized. IC-6–IC-9 and later gates remain.
+
+## 2026-10-12 — Related ready approvals batched by default
+
+- Owner requested batching approvals where feasible. Added the shared
+  **Batched human approvals** procedure in `docs/agent-orchestration.md`,
+  with startup and resume pointers in `AGENTS.md` and
+  `docs/coding-agent-handoff.md`.
+- Present related ready choices once, with recommendations, tradeoffs,
+  evidence, scope and exclusions; accept all, a subset or overrides in one
+  interaction and record dispositions individually. Clarify ambiguous
+  responses only for affected choices; do not repeat unchanged confirmations.
+- Distinct design, integration, execution, private-content, migration,
+  provider and release gates remain explicit. No blanket future-artifact
+  approval, delayed ready work awaiting unrelated choices, retroactive
+  reapproval or new runtime authorization. Preserved concurrent scoring
+  decision records; this policy does not approve RAT-SCORE-LEGACY execution.
+- Validation passed: targeted `prettier --check --ignore-path /dev/null`
+  for the four changed Markdown files and `git diff --check`.
+  No runtime/database/provider validation needed; no commit or push requested.
+  Next: use one consolidated request at the next eligible human gate, then
+  execute only its explicitly approved scope.
+
+## 2026-10-12 — Remaining scoring OD-6–OD-9 recommendations approved
+
+- Owner replied **"approve"** to four recommendations together; recorded
+  **D-160–D-163**: number/single-choice fields, split implementation packets,
+  structured-only practice text alternative projection, held-out structured
+  items deferred until separate assessment UI scope. OD-1–OD-9 now selected.
+- Decision register, handoff and packet updated; targeted formatting/whitespace
+  checks passed, claim released. Contract bytes unchanged; no code/runtime/
+  private/database/provider work, commit or push. IC-6–IC-9 remain separate.
+- Next scope request **RAT-SCORE-LEGACY**, first packet in accepted contract
+  §8: one new characterization test, nine pinned public parts records and
+  matcher, synthetic database-free verify, Sonnet author then Codex review.
+  Concrete scope recorded in completed design packet; execution not approved
+  by design-choice batch. No broad implementation batch assigned.
+
+## 2026-10-12 — OD-5 grammar approved; remaining choices can be batched
+
+- Owner replied **"approve"** to pending OD-5 grammar; recorded **D-159**,
+  accepted contract §2.5 forms/limits. Contract bytes unchanged.
+- Owner asked about repeated approval prompts. Explained repository choice
+  gates versus CLI tool permissions; no permission settings changed. Present
+  remaining OD-6–OD-9 together instead of serial requests. No broader choice
+  or implementation authorization inferred.
+- Decision register, handoff and packet updated; targeted formatting and
+  whitespace checks passed, claim released. No code/runtime/private/database/
+  provider work, commit or push. IC-6–IC-9 and later gates remain separate.
+
+## 2026-10-12 — OD-4 item-level practice feedback approved
+
+- Owner replied **"approve"** to item-level correctness feedback only in v1
+  practice, without per-field correctness feedback; assessment unchanged.
+  Recorded **D-158 / OD-4**. D-156 format-only errors remain permitted;
+  tutoring/answer-release policy still governs help and exposure.
+- Decision register, handoff and packet updated; targeted Prettier/whitespace
+  checks passed, claim released. Contract bytes unchanged; no code/runtime/
+  private/database/provider work, commit or push.
+- Next owner choice **OD-5**, mode-1 numeral grammar per accepted contract
+  §2.5. OD-5–OD-9, IC-6–IC-9 and implementation/release gates remain.
+
+## 2026-10-12 — OD-3 no partial credit in structured v1 approved
+
+- Owner replied **"approve"** to every required field being correct for a
+  correct outcome; recorded **D-157 / OD-3**. Well-formed wrong values grade
+  incorrect, malformed fields follow D-156. No new weight, per-field mastery
+  evidence, legacy grading change or historical rescoring approved.
+- Decision register, handoff and packet updated; targeted Prettier/whitespace
+  checks passed, claim released. Contract bytes unchanged; no code/runtime/
+  private/database/provider work, commit or push.
+- Next owner choice **OD-4**, item-level correctness feedback only in v1
+  practice, versus per-field practice feedback (never assessment). OD-4–OD-9,
+  IC-6–IC-9 and later implementation/release gates remain separate.
+
+## 2026-10-12 — OD-2 malformed fields refused without attempt
+
+- Owner replied **"approve"** to well-typed malformed-input refusal with
+  answer-independent format feedback and no recorded attempt; recorded
+  **D-156 / OD-2**. Preserve accepted authority/lifecycle/duplicate precedence
+  and expiry path; valid well-formed wrong answers still reach grading.
+- Decision register, handoff and packet updated; targeted formatting and
+  whitespace checks passed, claim released. Contract bytes unchanged. No
+  code/runtime/private/database/provider work, commit or push.
+- Next owner choice **OD-3**, no partial credit in v1 (all fields correct),
+  versus PARTIAL requiring a new weight decision. OD-3–OD-9, IC-6–IC-9 and
+  later gates remain; no implementation packet approved.
+
+## 2026-10-12 — OD-1 structured storage S-A approved
+
+- Owner replied **"approved"** to JSON envelopes in existing attempt columns
+  without schema migration; recorded **D-155 / OD-1**. Contract revision 5
+  bytes remain frozen, decision register supplies approved disposition.
+- Shared handoff/packet updated; targeted Prettier and whitespace checks
+  passed, claim released. No code/schema/runtime/private/database/provider
+  work, commit or push. Implementation scope remains unapproved.
+- Next owner choice **OD-2**: well-typed malformed fields refused with
+  answer-independent format feedback and no attempt, versus recorded
+  incorrect. OD-2–OD-9, IC-6–IC-9 and later gates remain separate.
+
+## 2026-10-12 — Scoring contract revision 5 accepted and applied
+
+- Owner replied **"accept"** to exact revision-5 document acceptance and
+  one-file application. Claimed Codex integrator verified HEAD/target absence,
+  eleven baseline inputs and four frozen artifacts; apply-check passed and
+  applied only patch `a18f8525...2971`.
+- Main `docs/structured-response-scoring-contract.md` SHA-256
+  `dda20ea7beffde246fe6a1b95f461c3c7a7d790ef8d22f1d27040bd3b0b59898`
+  exactly matches reviewed bytes. RAT-SCORE-DESIGN **DONE**, uncommitted.
+  Targeted Prettier/whitespace checks passed; claim released.
+- Next smallest owner choice **OD-1**: storage S-A/S-B, recommended S-A
+  existing columns (contract §4.1). Accepted artifact does not approve REC/OD
+  values or implementation; OD-2–OD-9, IC-6–IC-9 and later gates separate.
+- Unrelated work preserved; no code/schema/runtime/private/database/provider
+  work, commit or push. No next execution packet assigned.
+
+## 2026-10-12 — Scoring revision 5 ready for human acceptance
+
+- Same host-selected Codex `forge-reviewer` / `gpt-6.1-sol` verified actual
+  Opus rev5 metadata, inputs/artifacts and reconstruction. Report
+  `docs/rat-score-design-20261012-rev5-review.md`: **ready for human review**,
+  0 blockers/majors/minors. R-4 whole-fixture closure verified; all prior fixes
+  preserved, no classified new finding.
+- Contract `dda20ea7...9898`, patch `a18f8525...2971`, closure
+  `908da290...675d`, manifest `79ee7808...945a` frozen/unapplied. Packet
+  **AWAITING_HUMAN**: exact document acceptance and one-file application.
+  Owner OD choices, implementation/content/release remain separately gated.
+- Checkpoint formatting/whitespace checks passed; claim released. No runtime
+  tests/probes, private/database/provider work, new research, commit or push.
+  Next named owner gate in either client; no further review prerequisite.
+
+## 2026-10-12 — RAT-SCORE-DESIGN revision 5 closes R-4 fixtures; Codex review next
+
+- Original Opus `forge-expert` fixed the unresolved R-4 finding: the PA-4a
+  selector variants now recompute the dependent private answers, and four
+  load-valid whole fixtures are derived with byte-identical projections. The
+  coupling sweep also fixed the sentinel variant and §5.2 fixture completeness.
+- Frozen contract `dda20ea7...9898` (994 lines), patch `a18f8525...2971`,
+  closure evidence `908da290...675d`, manifest `79ee7808...945a`. Unapplied.
+- Integrator verified hashes, reconstruction, `git apply --check`, hunk scope,
+  key strings and cleanup. No OD choice, code/content/runtime/private/
+  database/provider work, commit or push.
+- Next: **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` changed-scope
+  review of rev4→rev5.
+
+## 2026-10-12 — Scoring revision 4 closes R-3; one R-4 clarification remains
+
+- Same host-selected Codex `forge-reviewer` / `gpt-6.1-sol` verified Opus
+  audit metadata, hashes, reconstruction and closure derivations. Report
+  `docs/rat-score-design-20261012-rev4-review.md`: not ready; 0 blockers,
+  1 major, 0 minors. R-3 closed, R-1/R-2/R-5 preserved.
+- R-4 **Unresolved**, directly coupled selector-invariance fixtures invalid
+  unless private canonical/accepted answers are rederived. Cause: projection
+  equality checked without whole-fixture load validity. Recorded bounded
+  correction and escalation in packet; pause automatic review until closure.
+- **CHANGES_REQUESTED**, original Opus clarifies that one rule, derives both
+  valid selector variants, preserves earlier fixes and refreezes revision 5.
+  Contract unapplied; OD/implementation/release gates separate.
+- Targeted checkpoint formatting/whitespace checks passed; claim released.
+  No runtime/private/database/provider work, commit or push. Next **SWITCH TO
+  Claude Code**, original `forge-expert` / Opus executor.
+
+## 2026-10-12 — Author/reviewer accountability added to reduce review loops
+
+- Owner requested accountability for repeated correction/re-review cycles.
+  Examined RAT-SCORE-DESIGN initial and revision-2 reviews: the two residual
+  majors are incomplete R-3/R-4 closure (impossible positive control and a
+  leakage assertion rejecting a required public option ID), not unrelated
+  newly requested features. R-1/R-2/R-5 were closed in the reported design.
+- Added one shared contract to `docs/agent-orchestration.md`: requirement
+  evidence before freeze, root-cause/per-finding positive and negative closure
+  checks, comprehensive first-pass review, bounded re-review, explicit
+  unresolved/regression/first-pass-miss/newly-observable classification and
+  cause analysis before automatic dispatch when a major survives correction.
+  No hard cap, hidden findings, approval bypass or new self-review worker.
+- Wired AGENTS and all six native forge roles to the same procedure; updated
+  the resume index with the in-flight scoring checkpoint. Historical frozen
+  artifacts/accepted decisions are untouched; evidence can accompany the next
+  correction freeze without another planning document or broad audit.
+- Changes are instruction/configuration only, not guaranteed enforcement of
+  model accuracy. Existing human/cross-family/correctness/privacy/release gates
+  and worker allocations remain. Documentation/configuration validation applies;
+  no implementation, provider, database, extra agent, commit or push.
+
+## 2026-10-12 — RAT-SCORE-DESIGN revision 4 with closure evidence; Codex review next
+
+- Escalation checkpoint recorded in the packet (majors survived round 2; cause:
+  incomplete fix in an oversized contract, with new bounds and scans not tested
+  against its own acceptance cases). Integrator deviation: revision 3 was
+  dispatched before the checkpoint was recorded.
+- Original Opus `forge-expert` revision 3 (`0813caf3...f441`) corrected
+  residual R-3/R-4. Its closure self-audit then found three R-4-coupled defects
+  (missing `simplestForm` in SF-3/SF-5; sentinels contradicting §2.7;
+  under-specified number sentinel), fixed in revision 4 `31886e8a...04cb9`
+  (966 lines), patch `f978cf73...10ad`, closure evidence `3ef63d0e...fc0c`.
+- Integrator verified hashes, reconstruction, `git apply --check`, hunk scope,
+  cleanup, and independently recomputed key derivations. Unapplied; no OD
+  choice, code/content/runtime/private/database/provider work, commit or push.
+- Next: **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` changed-scope
+  review of rev2→rev4 and the closure evidence.
+
+## 2026-10-12 — Scoring revision 2 needs two acceptance-rule corrections
+
+- Same host-selected Codex `forge-reviewer` / `gpt-6.1-sol` verified Opus
+  revision metadata, inputs, hashes and reconstruction. Report:
+  `docs/rat-score-design-20261012-rereview.md`, **not ready for human review**.
+- R-1/R-2/R-5 resolved. Residual majors R-3 impossible PA-6 maximum-length
+  positive control; R-4 recursive scan rejects permitted public correct
+  option ID. Original Opus fixes these only and preserves earlier corrections.
+- Packet **CHANGES_REQUESTED**; revision 2 unapplied. Refreeze revision 3
+  for Codex changed review. No owner OD choices, implementation or release
+  approved. Targeted checkpoint formatting/whitespace checks passed, claim
+  released. No runtime/private/database/provider work, commit or push.
+- Next **SWITCH TO Claude Code**, original `forge-expert` / Opus executor.
+
+## 2026-10-12 — RAT-SCORE-DESIGN revision 2 frozen; Codex re-review next
+
+- Original Opus `forge-expert` corrected R-1–R-5 only: tiered authority/
+  lifecycle-before-field precedence, classifier-consistent V-7 generators,
+  representability/bounds/canonical rendering and S-A size, public choice
+  IDs vs private selector with per-projection redaction, mobile fraction entry.
+- Frozen contract `9c7f801d...c087` (902 lines), patch `fc372d1a...433a`,
+  manifest addendum `37621a4f...57db`; rev1 retained. Unapplied.
+- Integrator verified hashes, reconstruction, `git apply --check`, unchanged
+  §0/§1/§6, claim release and cleanup. No OD choice, code/schema/content/
+  runtime/private/database/provider work, commit or push.
+- Next: **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol` changed-scope
+  review; then owner acceptance/application.
+
+## 2026-10-12 — RAT-SCORE-DESIGN review requests bounded corrections
+
+- Fresh host-selected Codex `forge-reviewer` / `gpt-6.1-sol` independently
+  verified actual Opus metadata, substantive inputs, frozen hashes and
+  one-document reconstruction. Report `docs/rat-score-design-20261012-review.md`:
+  **not ready for human review**.
+- Four majors: authority/lifecycle checks before field errors; coherent V-7
+  generator outcomes; representable/bounded correct responses and storage
+  claims; public choice-ID/projection rules. One minor: mobile fraction entry.
+- Packet **CHANGES_REQUESTED**, original Claude Code `forge-expert` / Opus
+  R-1–R-5 corrections only then refreeze for Codex changed-scope review.
+  Owner OD choices, implementation and all other gates remain separate.
+- Checkpoint formatting/whitespace checks passed; claim released. Contract
+  unapplied, no code/content edits, runtime/private/database/provider work,
+  commit or push. Next **SWITCH TO Claude Code**, active scoring-design packet.
+
+## 2026-10-12 — RAT-SCORE-DESIGN contract frozen; Codex review next
+
+- Fresh Opus `forge-expert` authored `docs/structured-response-scoring-contract.md`
+  only: frozen `b15920c0...d6f1` (705 lines), patch `32d20f1f...42ef`,
+  manifest `5c3b39a9...8839`. Unapplied.
+- Recommends opt-in `structured-fields` v1, S-A storage, refusal of malformed
+  input, V-7 acceptance matrix and separate legacy characterization (14 known
+  failures UNMET); owner decisions OD-1–OD-9 listed, none inferred.
+- Integrator verified hashes, reconstruction, `git apply --check`, claim
+  release and worktree cleanup. No code/schema/content/runtime/private/
+  database/provider work, commit or push.
+- Next: **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol`, critical
+  scoring cross-family review; then owner acceptance/application.
+
+## 2026-10-12 — IC-5 structured scoring design approved and assigned
+
+- Owner replied **"approve"** to option C and document-only RAT-SCORE-DESIGN;
+  recorded **D-154 / IC-5 / O-9**. Active packet assigned to Claude Code
+  `forge-expert` / Opus for one contract, then Codex cross-family review.
+- Pin baseline and allowlisted dirty inputs; author claims isolated role,
+  returns frozen patch/evidence. No implementation, content edits, historical
+  rescoring or legacy parts changes authorized. V-7 acceptance and legacy
+  characterization stay separate; later migration/privacy gates remain.
+- Decision register, packet and handoff updated. Targeted Prettier/whitespace
+  checks passed; claim released. No runtime/private/database/provider work,
+  commit or push. IC-6–IC-9 and later gates remain separate.
+- Next: **SWITCH TO Claude Code**, `forge-expert` / Opus, RAT-SCORE-DESIGN.
+
+## 2026-10-12 — IC-4 new Ratios lesson versions approved
+
+- Owner replied **"approve"** to new Ratios lesson versions with corrected
+  references, preserving pilot `1.0.0` bytes. Recorded **D-153 / IC-4 / O-8**;
+  exact new labels/catalog changes remain separately scoped.
+- Decision register, shared handoff and completed packet updated. Targeted
+  Prettier and whitespace checks passed; claim released. No content/code,
+  runtime/private/database/provider work, commit or push.
+- Next owner choice/scope **IC-5**: option C opt-in structured multi-field
+  response contract and document-only RAT-SCORE-DESIGN, Opus author then
+  Codex cross-family review. No implementation, historical rescoring or
+  legacy matcher change authorized; IC-5–IC-9 and later gates remain.
+
+## 2026-10-12 — IC-3 representation and older-evidence treatment approved
+
+- Owner replied **"approve"** to option A: retain
+  `double-number-lines@1.0.0`, add actual representation tasks with reviewed
+  figures and complete text alternatives, explicitly accept that any older
+  arithmetic-only evidence continues counting alongside representation
+  evidence. Recorded **D-152 / IC-3 / O-3b**; existence of older evidence
+  unknown, no learner data queried or modified. TR-6 still awaits scoring.
+- Decision register, shared handoff and completed packet updated; targeted
+  Prettier and whitespace checks passed, claim released. No content/code,
+  runtime/private/database/provider work, commit or push.
+- Next owner choice **IC-4**: new Ratios lesson versions with correct
+  references, keeping pilot `1.0.0` bytes frozen (accepted plan §3.3).
+  No next execution packet approved; IC-4–IC-9 and later gates remain.
+
+## 2026-10-12 — IC-2 measurement-conversions home approved
+
+- Owner replied **"approve"** to placement under `unit-rates@1.0.0`;
+  recorded **D-151 / IC-2 / O-3a** in the decision register. Subject report
+  and corrected plan support this placement; changed skill evidence would
+  require owner reconsideration and version/evidence gates.
+- Shared handoff and completed correction packet updated; targeted Prettier
+  and whitespace checks passed, claim released. No content/code edits,
+  runtime/private/database/provider work, commit or push.
+- Next owner choice **IC-3**: double-number-line skill/version, actual figure
+  plus complete text alternative and explicit older-evidence disposition
+  (accepted plan §3.2). No next execution packet approved. IC-3–IC-9 and
+  later authoring/scoring/catalog/release gates remain separate.
+
+## 2026-10-12 — Ratios boundary correction accepted and applied
+
+- Owner replied **"accept"** to exact corrected-document acceptance and
+  reviewed two-file application. Claimed Codex integrator verified baseline
+  and frozen hashes, passed apply-check, applied only `6df95ab8...2921`.
+- Main plan `c31c21017e05abe02cb158d660de567cf2b7ba5b0e8e5d9bc4f6fa97a6be9fbe`
+  and register `ea36f47db15ced2722d8e4d05fae2cab5360a809d34a2ea05b5ae87694f09e46`
+  exactly match reviewed bytes. RAT-SUBJECT-CORRECT **DONE**, uncommitted.
+- Targeted Prettier and `git diff --check` passed; claim released. Unrelated
+  work preserved. No content/code, runtime/private/database/provider work,
+  commit or push.
+- Next smallest owner choice: **IC-2**, measurement-conversions home
+  `unit-rates@1.0.0`, supported by accepted subject report. No new execution
+  packet approved; IC-2–IC-9 and later authoring/scoring/catalog/release
+  gates remain separate.
+
+## 2026-10-12 — Ratios boundary correction ready for owner acceptance
+
+- Fresh host-selected Codex `forge-reviewer` / `gpt-6.1-sol` independently
+  verified actual Opus correction metadata, baseline/frozen hashes and both
+  patch reconstructions. Report `docs/rat-subject-correct-20261012-review.md`:
+  **ready for human review with noted risks**, no new correction.
+- TR-3/gap and source summary agree with accepted subject evidence; MV-4 is
+  informational resolution, IC-2–IC-9 and D-73 preserved. No repeated source
+  research/item review or runtime/private/database/provider work.
+- Packet **AWAITING_HUMAN**: exact two-document acceptance and baseline patch
+  `6df95ab8...2921` application. Plan/register remain unapplied. Checkpoint
+  Prettier and whitespace checks passed; claim released. No commit or push.
+
+## 2026-10-12 — RAT-SUBJECT-CORRECT frozen; Codex review next
+
+- Original Opus `forge-expert` corrected TR-3/unit-rate gap wording in the
+  plan and the 6.RP.A.2 register summary only, preserving D-73. Frozen plan
+  `c31c2101...9fbe`, register `ea36f47d...9e46`, baseline patch
+  `6df95ab8...2921`, HEAD variant `c6373058...a5e4`, manifest
+  `d0953459...d556`. Unapplied.
+- Integrator verified hashes, `git apply --check`, two-file scope, hunk
+  locations, claim release and worktree cleanup. CDE PDF not re-retrieved
+  (disclosed); MV-4 "resolved" marking flagged for reviewer attention.
+- Next: **SWITCH TO Codex** `forge-reviewer` / `gpt-6.1-sol`, changed-scope
+  review; then owner acceptance/application. No commit or push.
+
+## 2026-10-12 — Subject report accepted; boundary correction authorized
+
+- Owner replied **"accept"** to advisory RAT-SUBJECT report acceptance and
+  the named plan/source-register correction scope. RAT-SUBJECT **DONE**;
+  findings remain advisory, candidate reuse and IC-2–IC-9 remain unapproved.
+- Active `docs/agent-handoffs/RAT-SUBJECT-CORRECT.md`, **CHANGES_REQUESTED**:
+  original Claude Code `forge-expert` / Opus corrects TR-3/directly related
+  gap wording and registered 6.RP.A.2 summary only, preserving D-73. Inputs
+  pinned; freeze two-file patch then Codex review and owner application gate.
+- Checkpoint documentation formatting and whitespace checks passed; claim
+  released. Existing dirty work preserved. No authored correction applied,
+  content/code edits, runtime/private/database/provider work, commit or push.
+- Next: **SWITCH TO Claude Code**, original Opus role, active correction packet.
+
+## 2026-10-12 — RAT-SUBJECT review complete; boundary correction needed
+
+- Fresh host-selected Codex `forge-reviewer` / `gpt-6.1-sol` reviewed fifteen
+  pinned inputs and the existing registered CDE PDF; before/after hashes and
+  HEAD unchanged, actual Opus plan-author metadata verified. Report:
+  `docs/grade-6-math-ratios-subject-review.md`.
+- All fourteen canonical answers mathematically correct. TR-3 crosses the
+  non-complex-fraction Grade 6 boundary. Five major/two minor findings cover
+  that boundary, existing parts scoring and representation gaps, candidate
+  response/hint/distractor issues and ratio spacing. No adoption as written.
+- Packet **AWAITING_HUMAN**: accept advisory report and authorize original
+  Opus correction of plan TR-3/directly related gap wording and registered
+  RP.A.2 summary, then Codex review. No correction packet approved yet;
+  IC-2–IC-9, content/scorer/private/runtime/release gates remain separate.
+- Integrator recorded evidence; targeted formatting/whitespace checks passed.
+  Claim released. No content/code edits, runtime suites/probes, private/learner
+  access, database, paid-provider calls, commit or push.
+
+## 2026-10-12 — RAT-SUBJECT read-only review authorized
+
+- Owner replied **"authorized"** to the named existing-source subject scope.
+  Integrator claimed report/status paths and pinned all fifteen inputs in
+  `docs/agent-handoffs/RAT-SUBJECT.md`. One fresh native Codex
+  `forge-reviewer` / `gpt-6.1-sol` is assigned; phase **REVIEW_RUNNING**.
+- Covers fraction boundary, conversions, ratio notation, ten public items
+  and four candidate items; D-73 metadata only. No new research, private
+  access, content/code changes or later owner choices authorized.
+- Next: reviewer evidence, integrator report/checkpoint, then human report
+  acceptance and Ratios decisions. No commit or push.
+
+## 2026-10-12 — Accepted Ratios planning document applied
+
+- Owner replied **"accept"** to reviewed revision-3 acceptance/application.
+  Claimed Codex integrator passed apply-check and applied only patch
+  `4a31f4c4...5947`; resulting `docs/grade-6-math-ratios-plan.md` SHA-256
+  `a05d686563154f117593a3c5770ca1e0cd85f85de5bc32ca5db3fad9695e9467`
+  matches reviewed bytes exactly. MATH6-RATIOS-PLAN **DONE**, IC-1 accepted.
+- Documentation formatting/whitespace checks passed; unrelated work preserved.
+  No content/code/private/database/provider/runtime work, commit or push.
+  IC-2–IC-9, D-61 exceptions and all later implementation/release gates remain.
+- Next **RAT-SUBJECT scope request**: one read-only Codex subject check of
+  approved Ratios standards, ten public items, four candidate items and D-73
+  scope note, covering fraction boundary, conversions, ratio notation and
+  reuse suitability. Proposed report `docs/grade-6-math-ratios-subject-review.md`.
+  No execution packet approved yet; no new research or content edits.
+
+## 2026-10-12 — Ratios revision 3 ready for document acceptance
+
+- Same host-selected Codex `forge-reviewer` / GPT-6.1 Sol checked plan
+  `a05d6865...9467`, patch `4a31f4c4...5947`, manifest `0b4ca913...f34d`;
+  actual Opus provenance, inputs and reconstruction confirmed. Report:
+  `docs/math6-ratios-plan-20261012-rev3-review.md`.
+- Verdict **ready for human review with noted risks**: residual R-1 final-byte
+  freeze and IC-3 conditional evidence resolved; earlier fixes preserved.
+  No new correction. Frozen-document and checkpoint formatting/whitespace
+  checks passed. No runtime/probe/database/provider/private work.
+- Packet **AWAITING_HUMAN**, request exact plan acceptance and one-file
+  application. Plan unapplied; IC-1–IC-9 and subsequent content/scoring/
+  catalog/private/implementation/release choices remain separate. Existing
+  scoring defects and unverified learner/archive/private evidence remain.
+  No commit or push.
+
+## 2026-10-12 — MATH6-RATIOS-PLAN revision 3 frozen; Codex re-review next
+
+- Resumed original Opus `forge-expert` corrected residual R-1 (draft vs
+  registration hash, final reviewed-byte freeze, metadata-only change
+  handling) and conditional IC-3 wording only.
+- Frozen plan `a05d6865...9467` (696 lines), patch `4a31f4c4...5947`,
+  manifest `0b4ca913...f34d`; rev1/rev2 retained. Integrator verified hashes,
+  `git apply --check`, claim release, worktree removal and diff scope
+  (55+/18−). Plan unapplied.
+- No content/scorer/loader implementation, private access, database,
+  provider, runtime suite, commit or push.
+- Next: Codex `forge-reviewer` / `gpt-6.1-sol` changed-scope review of
+  revision 3. Owner choices IC-1–IC-9 and all later gates remain.
+
+## 2026-10-12 — Ratios revision 2 review requests final-byte freeze correction
+
+- Same host-selected Codex `forge-reviewer` / GPT-6.1 Sol reviewed revision
+  `44b0b9ec...f410`, patch `613d3d7a...528d`, manifest `450c5bf5...7e6a`;
+  actual Opus provenance, reconstruction and inputs confirmed. Report:
+  `docs/math6-ratios-plan-20261012-rereview.md`.
+- R-2 scoring gates and R-3 teaching approval resolved. Residual R-1 major:
+  freeze final reviewed bytes after approval metadata changes the draft hash.
+  IC-3 minor: conditional wording for uninspected learner evidence.
+- Packet **CHANGES_REQUESTED**; next **Claude Code forge-expert / Opus**,
+  original executor, these two document corrections only then Codex review.
+  Plan unapplied; targeted documentation checks passed. No content/code,
+  private/database/provider/probe/runtime work, commit or push. Later gates
+  remain separate.
+
+## 2026-10-12 — MATH6-RATIOS-PLAN revision 2 frozen; Codex re-review next
+
+- Codex `forge-reviewer` requested changes on plan `7183d813...cd1a`
+  (`docs/math6-ratios-plan-20261012-review.md`): R-1 major (no packet owned
+  content-catalog registration), R-2 major (legacy characterization versus V-7
+  acceptance), R-3 minor (teaching tied to IC-8 rather than IC-7).
+- The original Opus `forge-expert` returned revision 2 `44b0b9ec93de67878996ec5c10d67be80bd176694c3b324f63edf0b53d03f410`, patch `613d3d7a5fd3d770a2452f934bf16ba54bcf61bf0700bb4b45fc9c8e09d2528d`,
+  manifest addendum `450c5bf58ce78c6abd67d00fc05a2c53ac9d117b4a973b489e1a331acbaa7e6a`. Recommendations and packet order unchanged.
+  Integrator verified hashes, `git apply --check`, claim release and worktree
+  removal. Not applied; nothing committed.
+- Next: **SWITCH TO: Codex, forge-reviewer** (`gpt-6.1-sol`) changed-hash
+  review. Owner choices IC-1–IC-9, content, scorer, private access and
+  release remain later gates.
+
+## 2026-10-12 — Ratios plan review requests bounded document corrections
+
+- Fresh host-selected Codex `forge-reviewer` / `gpt-6.1-sol` verified Opus
+  provenance, frozen plan `7183d813...cd1a`, patch `e61dba3a...ff82`, manifest
+  `810f3e8f...3dad` and substantive inputs. Report:
+  `docs/math6-ratios-plan-20261012-review.md`.
+- Verdict **changes requested**: R-1 major missing content-catalog registration
+  ownership/validation; R-2 major legacy characterization versus full V-7
+  correctness acceptance; R-3 minor incorrect teaching approval reference.
+  Underlying inventory findings supported; no code/content repair authorized.
+- Packet **CHANGES_REQUESTED**, next **Claude Code forge-expert / Opus**,
+  original executor, one document correction then refreeze for Codex review.
+  Plan remains unapplied. Targeted documentation checks passed; no private,
+  database/provider/probe/runtime work, commit or push. Owner choices and
+  subsequent content/implementation/release gates remain separate.
+
+## 2026-10-12 — MATH6-RATIOS-PLAN frozen; Codex review next
+
+- Under owner-approved packet `MATH6-RATIOS-PLAN`, Claude Code Opus
+  `forge-expert` wrote `docs/grade-6-math-ratios-plan.md` in an isolated
+  worktree: frozen plan `7183d813950884d51e614eba7380543ff0f8e6f18d4d0615f75da005fb36cd1a`, patch `e61dba3a83d9ceadd0f9f4ce3851f6a7225b7ae92c8fa0769a83fca87b70ff82`, manifest `810f3e8f5dd3f2d0f99f0bad873b8985bd95671f99c7f9946bd6392c049b3dad`; **not applied**.
+  Integrator verified hashes, `git apply --check`, claim release and worktree
+  removal.
+- Recommendations (not approvals) for O-3 (Ratios), O-8, O-9, O-11, O-12; ten
+  ordered follow-on packets; immediate owner choices IC-1–IC-9; missing values
+  MV-1–MV-13. New static findings include in-place mutation of pilot lesson
+  `1.0.0` pins by `5a452de` and unmet D-36 pilot practice volume.
+- Next: **SWITCH TO: Codex, forge-reviewer** (`gpt-6.1-sol`). No content,
+  scorer, catalog, private access, commit or push authorized.
+
+## 2026-10-12 — Ratios first-unit planning scope approved
+
+- Owner replied **"approvd"** to proposed document-only MATH6-RATIOS-PLAN
+  scope. Packet now **IMPLEMENTING / UNCLAIMED**, assigned **Claude Code
+  forge-expert / Opus**, then Codex `forge-reviewer` / GPT-6.1 Sol.
+  Sole author-owned output `docs/grade-6-math-ratios-plan.md`.
+- Pinned unchanged HEAD `3e7c333` and five anchors including accepted
+  reconciliation `c80f184e...caec` and current decisions `e7cbd9f7...4511`
+  containing D-149/D-150. Worker must pin remaining consumed inputs and
+  freeze document/patch/evidence. Preserve all unrelated dirty work.
+- Next: **SWITCH TO: Claude Code, forge-expert / Opus**, execute this one
+  document and stop for frozen Codex review. No worker launched here.
+  O-3–O-18, content/private access, numeric defaults, implementation,
+  database/providers and release remain separate. No commit or push;
+  targeted documentation formatting and whitespace checks passed.
+
+## 2026-10-12 — Grade 6 target direction and Ratios first unit approved
+
+- Owner replied **"approved"** to O-1/O-2. Recorded D-149/D-150 in the
+  authoritative decision matrix: retain 27-code production structure with
+  versioned refinements and require an approved cross-version evidence rule;
+  select Ratios plus extension, the five named skills, as first unit.
+  Accepted reconciliation bytes remain unchanged.
+- Proposed next scope in `docs/agent-handoffs/MATH6-RATIOS-PLAN.md`,
+  **AWAITING_HUMAN**, not execution-approved: one Opus document turning
+  Ratios gaps and O-3/O-8/O-9/O-11/O-12 into choices and bounded packets,
+  then Codex review. Request this scope and stop; no worker started.
+- O-3–O-18, exact crosswalk/version/content choices, private access, D-61,
+  implementation and release remain separate. Preserved unrelated edits;
+  no content/code, database/provider work, commit or push. Targeted
+  documentation formatting and whitespace checks passed.
+
+## 2026-10-12 — Accepted MATH6 revision 3 document applied
+
+- Owner replied **"accept"** to exact reviewed report acceptance and
+  one-file application. Claimed Codex integrator passed `git apply --check`
+  and applied patch `786c905d...5436`; resulting
+  `docs/grade-6-math-reconciliation.md` SHA-256
+  `c80f184ee773887a71f6d004762d94ae7fce82872d2df0fa6fd0d489c365caec`
+  matches frozen revision 3 exactly. `MATH6-RECONCILE` is **DONE**.
+- Targeted documentation Prettier and `git diff --check` passed. Preserved
+  unrelated changes. No content/code, private access, database/provider work,
+  commit or push. Report acceptance leaves O-1–O-18 and later gates open.
+- Next: **MATH6-DECIDE owner checkpoint**, request O-1 target structure
+  (recommend retained 27-code production spine with versioned refinements,
+  no cross-version pooling without approved rule) and O-2 first unit
+  (recommend Ratios plus extension, five skills). No execution packet follows
+  until decisions and exact scope are recorded; other crosswalk, content,
+  volume, teaching, private and release choices remain separate.
+
+## 2026-10-12 — MATH6 revision 3 ready for owner document acceptance
+
+- Same host-selected Codex `forge-reviewer` / `gpt-6.1-sol` reviewed frozen
+  report `c80f184e...caec`, patch `786c905d...5436`, addendum
+  `af049906...37cc`. Actual Opus provenance and reconstruction confirmed;
+  R-4 and Ratios response-format qualification verified, earlier corrections
+  preserved. Report: `docs/math6-reconcile-20261012-rev3-review.md`.
+- Verdict **ready for human review with noted risks**, no new correction.
+  Hash/apply-check/whitespace/frozen-document formatting checks passed.
+  Probe numerical evidence remains author-reported; private/archive coverage
+  and live historical pooling remain unverified.
+- `MATH6-RECONCILE` is **AWAITING_HUMAN**: accept exact revision 3 and
+  authorize its one-file document application. Report remains unapplied;
+  O-1–O-18, target-version/first-unit decisions and content/private access,
+  implementation and release remain separate gates. No code, database,
+  provider, probe rerun, commit or push.
+
+## 2026-10-12 — MATH6-RECONCILE revision 3 frozen; Codex re-review next
+
+- Codex re-review of revision 2 verified R-1–R-3 and raised one minor R-4
+  (`docs/math6-reconcile-20261012-rereview.md`): identifying a polygon does not
+  elicit drawing it in the coordinate plane.
+- The original Opus `forge-expert` returned revision 3 `c80f184ee773887a71f6d004762d94ae7fce82872d2df0fa6fd0d489c365caec`, patch `786c905d30e817629a0cb09d9d3ed755b19af02db5e66323d43592ada8795436`,
+  manifest addendum `af049906e96f834237bd370a2f551d9438ac2416d27c82ca731bc8e94d0337cc`: R-4 corrected and the Ratios response-format
+  dependency made provisional. Integrator verified hashes, `git apply
+--check`, cleanup and that the rev2→rev3 diff contains only those changes.
+  Not applied; nothing committed.
+- Next: **SWITCH TO: Codex, forge-reviewer** (`gpt-6.1-sol`) changed-hash
+  review of revision 3. Acceptance, candidate adoption, content, private
+  access and release remain later gates.
+
+## 2026-10-12 — MATH6 revision 2 review requests one narrow correction
+
+- Same host-selected Codex `forge-reviewer` / `gpt-6.1-sol` checked changed
+  revision `f427777c...e1ca`, patch `858135e9...f1f5`, addendum
+  `13daf59f...3186` and actual Opus provenance. Prior matrix/placement/pooling
+  and execution-evidence corrections verified; matrix counts independently
+  match. Report: `docs/math6-reconcile-20261012-rereview.md`.
+- One minor R-4 remains: shape identification alone cannot close coordinate
+  polygon drawing/construction coverage. Ratios representation requirements
+  remain provisional pending approved task/response design. Packet is
+  **CHANGES_REQUESTED**; next **Claude Code forge-expert / Opus**, original
+  executor, bounded document correction then frozen Codex review.
+- Report remains unapplied. No content/runtime/private access, probe rerun,
+  database/provider work, commit or push. Targeted documentation checks
+  passed. Tool-permission bypass guidance was answered separately; no client
+  settings or repository authorization gates were changed.
+
+## 2026-10-12 — MATH6-RECONCILE revision 2 frozen; Codex re-review next
+
+- Codex `forge-reviewer` requested changes on revision 1
+  (`docs/math6-reconcile-20261012-review.md`): R-1 major (subcompetency
+  elicitation: number-line location, net representation, division algorithm),
+  R-2 and R-3 minor (placement selection wording, pooling stated as observed).
+- The original Opus `forge-expert` corrected only the report: revision 2
+  `f427777c9b055246098625e9145bb0cba59bee052810f5c05213f8ec7adae1ca`, patch `858135e9bbd1c19a31c5032be57dce8d65fd2c8d21dbf796aec05fb170edf1f5`, manifest addendum `13daf59fdc386343862a51b2576c186fe934b948394924346cedd70540bd3186`; revision-1 artifacts retained.
+  Coverage now 57 rows, 7 gaps in both sets, 1 partial; new owner decision
+  O-18. Recommendations unchanged. Integrator verified hashes, `git apply
+--check`, claim release and worktree removal. Not applied; nothing committed.
+- Next: **SWITCH TO: Codex, forge-reviewer** (`gpt-6.1-sol`) for changed-hash
+  review. Acceptance, candidate adoption, content, private access and release
+  remain later gates.
+
+## 2026-10-12 — MATH6 reconciliation review requests document corrections
+
+- Fresh native Codex `forge-reviewer`, host-selected `gpt-6.1-sol`, reviewed
+  frozen report `e419cea7...d3af`, patch `433e12eb...cf11` and manifest
+  `388025ce...a848`. Author runtime `claude-opus-5-5`, HEAD inputs and exact
+  reconstruction independently verified. Report:
+  `docs/math6-reconcile-20261012-review.md`.
+- Verdict **changes requested**: one major on omitted/overstated subcompetency
+  evidence, two minors on placement selection and unverified live pooling.
+  Underlying inventory/stale refs/code/prompt reuse findings are supported.
+  Scratch execution was a disclosed scope deviation; exact tallies remain
+  author-reported and static matcher vulnerability is independently supported.
+- `MATH6-RECONCILE` is **CHANGES_REQUESTED**. Next: **SWITCH TO: Claude Code,
+  forge-expert / Opus**, original executor, to correct only report claims and
+  dependent summaries within the approved scope; refreeze for Codex review.
+  Report remains unapplied. No content/scorer repair, private access, probe
+  rerun, implementation, database/provider work, commit, push or release.
+  Targeted documentation formatting/whitespace checks passed.
+
+## 2026-10-12 — MATH6-RECONCILE report frozen; Codex review next
+
+- Under owner-approved packet `MATH6-RECONCILE`, Claude Code Opus
+  `forge-expert` wrote `docs/grade-6-math-reconciliation.md` in an isolated
+  worktree. Frozen report `e419cea7465ca9615d8d6d76305622a52a1f66ab4b153fc551ad5b519edad3af`, patch `433e12ebdbef4e3698f4b3c850ee7d5349140d61088c3fcf6c460a1091f3cf11`, input manifest `388025ce112b8aff8e6369fcbb0453017bb4173ae8c1569b5624ec3a17cba848` in common
+  Git metadata; **not applied**. Integrator verified hashes, `git apply
+--check`, claim release and worktree removal.
+- Author-reported findings include stale wrapper version pins, placement-cap
+  overruns, candidate code/prompt collisions, a redefined skill code with a
+  reused item version, scorer false accepts on every `parts` validator, and
+  unapproved-looking 2026-10-09 item edits. Ratios-plus-extension is a
+  first-unit recommendation to test; owner decisions O-1–O-17 are open.
+- Deviation for review: the author executed a scratch copy of the answer
+  matcher on synthetic inputs, beyond the packet's read-only evidence wording.
+- Next: **SWITCH TO: Codex, forge-reviewer** (`gpt-6.1-sol`). No candidate
+  adoption, content, code, private access or release is authorized.
+
+## 2026-10-12 — MATH6-RECONCILE document scope approved
+
+- Owner replied **"approve"** to document-only inventory, skill/version
+  crosswalk and coverage proposal under the Grade 6 integration plan,
+  using Claude Opus then Codex review. Added approved packet
+  `docs/agent-handoffs/MATH6-RECONCILE.md`; sole author-owned output is
+  `docs/grade-6-math-reconciliation.md`.
+- Pinned HEAD `3e7c33372599d20c285656c3610ca6e47743240f` and eight anchor
+  input hashes. Relevant committed content/catalog/candidate/authority
+  inputs have no HEAD differences; dirty planning inputs are explicitly
+  pinned. Existing lifecycle and unrelated changes are preserved.
+- Next: **SWITCH TO: Claude Code, forge-expert / Opus**, one document worker
+  with actual client-model evidence; freeze report/patch/input manifest and
+  stop for Codex `forge-reviewer` / GPT-6.1 Sol. No worker started here.
+  Private access, content drafting, candidate adoption, first-unit selection,
+  policy/code changes and integration/release remain separate gates. No
+  database, provider, commit or push. Targeted documentation checks apply.
+
+## 2026-10-12 — Accepted L2a revision 4 documentation patch applied
+
+- Owner replied **"accept"** to exact revision-4 document acceptance and
+  one-file application. Claimed Codex integrator reverified unchanged frozen
+  patch `1798ad3b...d7df`, passed `git apply --check` and applied it only to
+  `docs/learner-session-l2-persistence-preflight.md`. Resulting SHA-256
+  `e2765511897b754988373ce552cb5ca20024581144a069abb39e82d6e08421dc`
+  matches the independently reviewed artifact byte for byte.
+- `LIFECYCLE-L2A-DESIGN` is **DONE**. Targeted documentation Prettier and
+  `git diff --check` passed. Unrelated Grade 6 planning changes are preserved;
+  no code, database, provider, commit or push. Migration/privacy choices,
+  L2a/L2b/L3 implementation and production/release gates remain closed.
+- Exact next task is a scope request for **MATH6-RECONCILE**, the document-only
+  inventory, skill/version crosswalk and coverage proposal specified in
+  `docs/grade-6-math-integration-plan.md`. Proposed executor Claude Code
+  `forge-expert` / Opus, then Codex `forge-reviewer` / GPT-6.1 Sol. No new
+  execution packet, content drafting or private-package access is authorized.
+
+## 2026-10-12 — L2a preflight revision 4 independently reviewed
+
+- Fresh Codex `forge-reviewer`, configured `gpt-6.1-sol`, reviewed frozen
+  preflight SHA-256 `e2765511...21dc` and patch `1798ad3b...d7df` against
+  migration `0018`, approved brief choices and reviewed G-12/G-13 evidence.
+  Actual author `claude-opus-5-5` independently confirmed from runtime
+  metadata; pinned hashes, all 30 manifest entries and patch reconstruction
+  match. Report: `docs/lifecycle-l2a-design-20261012-review.md`.
+- Verdict: **ready for human review with noted risks**; no new correction.
+  Existing minor R-01 evidence portability remains. Read-only hash/manifest,
+  apply-check, whitespace and frozen-document Prettier checks passed.
+- Packet `LIFECYCLE-L2A-DESIGN` is **AWAITING_HUMAN**: request acceptance
+  of the exact revision and application of its one-file documentation patch.
+  Main remains revision 3; frozen revision 4 is unapplied. Migration/privacy
+  choices and L2a/L2b/L3 implementation, production and release remain closed.
+  No code, database, provider, commit or push ran. Preserve concurrent Grade 6
+  planning edits; its MATH6-RECONCILE scope request follows this boundary.
+
+## 2026-10-11 — Comprehensive Grade 6 Math integration plan recorded
+
+- Owner requested integrating concurrent curriculum work into one comprehensive
+  Grade 6 Math plan. Added `docs/grade-6-math-integration-plan.md`, linking
+  live practice/skills, the Ratios pilot, disconnected Ratios/domain wrappers,
+  the v2 experimental candidate and D-148's private assessment drafts.
+  Updated the cross-client index, expansion plan and pedagogy entry point.
+- Verified repository inventory: 27 current Grade 6 skill records; candidate
+  24 skills/48 items, all candidate items `pending_review`. Production
+  `COURSE_CATALOG` still uses pilot records; existing domain wrappers are
+  reusable but disconnected. Private packages were not read; historical
+  package/experimental summaries are not treated as current evidence.
+- Finish the active L2a design review boundary, then request a document-only
+  MATH6-RECONCILE inventory/coverage/crosswalk packet (Claude Opus -> Codex
+  GPT-6.1 Sol), followed by owner target-version/first-unit decisions. Reuse
+  approved work, author only approved gaps, reconcile private banks, integrate
+  and release one unit at a time. All L2/L3 work is not a universal inventory/
+  draft prerequisite; actual release dependencies remain explicit.
+- Planning only: no content, runtime, catalog, schema, policy, private access,
+  provider or deployment change; no worker, commit or push. Existing dirty
+  lifecycle handoffs are preserved. D-61, private-content review, teaching
+  first-write/exposure and manual release gates are unchanged. Documentation
+  formatting and whitespace checks are the applicable validation.
+
+## 2026-10-11 — L2a preflight revision 4 returned; Codex review next
+
+- Under owner-approved packet `LIFECYCLE-L2A-DESIGN`, Claude Code Opus
+  `forge-expert` revised `docs/learner-session-l2-persistence-preflight.md`
+  in a scratch worktree against migration `0018` and the reviewed G-12/G-13
+  evidence. Frozen revision 4 SHA-256
+  `e2765511897b754988373ce552cb5ca20024581144a069abb39e82d6e08421dc`, patch
+  `1798ad3b9557d515195253e34fdcbec17271523b9512c82590bd9780bd0cd7df`
+  (+408/−160) in common Git metadata. Integrator verified hashes and
+  `git apply --check`; **not applied** to main pending review and acceptance.
+- Recommendations (not approvals): U1 `User @@unique([id, householdId])`;
+  V2 tenant representation; bare forward migration with explicit-transaction
+  `down.sql`. Open human choices listed in new §13.3. Claim released;
+  worktree removed; no database, probe or provider used.
+- Next: **SWITCH TO: Codex, forge-reviewer** (`gpt-6.1-sol`) for read-only
+  cross-family review of revision 4. Migration/privacy approval, L2a
+  authoring and all writer/production gates remain closed. Nothing committed.
+
+## 2026-10-11 — L2a preflight design correction authorized
+
+- Owner replied **"approved"** to a document-only Claude Code Opus correction
+  of the L2a preflight for committed migration `0018` and independently
+  reviewed G-12/G-13 results. Scope: resolve X-1–X-3, the `User`
+  composite-unique choice and the transaction-form recommendation, then
+  Codex cross-family review. Packet:
+  `docs/agent-handoffs/LIFECYCLE-L2A-DESIGN.md`.
+- Owned authoring path is only
+  `docs/learner-session-l2-persistence-preflight.md` (revision-3 SHA-256
+  `0c62b822...2e2b5`). Frozen decision brief `fbd345f3...b2fd` and probe
+  manifest `01492df6...9a3` are read-only inputs. Other dirty documents and
+  local Git-metadata evidence remain preserved. No design worker, database,
+  provider, code/schema edit or migration ran in this approval-record turn.
+- Next: **SWITCH TO: Claude Code, `forge-expert` / Opus** for the bounded
+  document correction, then Codex `forge-reviewer` of the new hash. L2a
+  migration/privacy review and implementation, L2b/L3 writers, production
+  work, commit, push and release remain separate gates.
+
+## 2026-10-11 — Lifecycle L2 probe evidence independently reviewed
+
+- Fresh Codex `forge-reviewer` (`gpt-6.1-sol`) reviewed the 30-file G-12/G-13
+  evidence bundle under `LIFECYCLE-L2-PROBES`; manifest SHA-256
+  `01492df6...9a3` and all entries match. Filtered runtime metadata links
+  the exact bundle/teardown result to actual `claude-sonnet-5-5`; cross-family
+  independence is satisfied. Report:
+  `docs/lifecycle-l2-probes-20261011-review.md`.
+- Verdict **ready for human review with noted risks**: G-12 migration
+  assertions and object checks support the explicit/bare observations and
+  nonempty down refusal on PG16.15/Prisma6.19.3; G-13 V1/V2 validate,
+  deploy and show no unexpected drift. No blocker or major result defect.
+  One minor evidence-portability finding remains: retained G-13 commands
+  abbreviate paths/context available only in local Claude runtime records.
+  The frozen bundle is unchanged; no probe rerun is needed. CHECK/trigger
+  negative-row behavior, down migration and production conditions remain
+  outside the evidence.
+- Packet and index are **AWAITING_HUMAN** for a bounded next L2a design/
+  authoring scope. Current L2a draft has `0018` conflicts X-1–X-3; human
+  migration/privacy review and implementation authorization remain separate.
+  This review ran no databases, providers or tests and authorized no code,
+  schema, production operation, commit, push or release.
+
+## 2026-10-11 — Lifecycle L2 G-12/G-13 synthetic probes executed
+
+- Claude Code Sonnet integrator (`claude-sonnet-5-5`) ran the owner-authorized
+  brief §7 probes under `docs/agent-handoffs/LIFECYCLE-L2-PROBES.md`:
+  `BASE_COMMIT` `3e7c333`, brief hash verified, own container
+  `postgres:16-alpine` (PG 16.15, `127.0.0.1:55433`), Prisma 6.19.3, one
+  isolated tree/database per case. Sanitized evidence and a SHA-256 manifest
+  (`01492df6...9a3`) are under `<git-common-dir>/agent-handoffs/LIFECYCLE-L2-PROBES/`.
+- G-12: baseline applied (19); explicit-boundary success clean with no nesting
+  warning; the explicit-boundary failure and the bare failure each left no
+  type or table (the explicit failure surfaced `current transaction is
+aborted` instead of the division-by-zero text); the `psql` down path exited
+  3 and kept the nonempty table. G-13: V1 and V2 both `prisma validate`, applied
+  (20 finished rows) and showed no unexpected drift (10 known baseline renames
+  only). Neither form is decided here; User needs a new
+  `@@unique([id, householdId])` at head.
+- No case skipped or invalid. Container and scratch removed; claim released;
+  other sessions' databases untouched. No repo file besides this packet, the
+  resume index and this entry changed; nothing committed or pushed.
+- Exact next task: Codex `forge-reviewer` (`gpt-6.1-sol`) independently
+  reviews the evidence, then human migration/privacy decisions. L2a/L2b/L3,
+  production backfill, commit, push and release remain separate gates.
+
+## 2026-10-11 — Lifecycle L2 owner choices and synthetic probes authorized
+
+- After Codex's revision-2 cross-family review, the owner replied **"approved
+  and authorized"** to the two-part request. This approves the recommended
+  choices pinned to brief SHA-256 `fbd345f3...b2fd`: H-01 option A;
+  H-02 (i)–(iv) option B; A-1 acknowledgement; C-1 broad S-07 backfill
+  reading. Exact scope and consequences are recorded in
+  `docs/agent-handoffs/LIFECYCLE-L2.md` and reviewed brief §§2–5.
+- The owner separately authorized only the reviewed brief §7 G-12/G-13
+  synthetic probes on disposable local PG16 scratch databases and a scratch
+  copy of `prisma/`, assigned to Claude Code Sonnet. New bounded packet:
+  `docs/agent-handoffs/LIFECYCLE-L2-PROBES.md`. No probes ran in this
+  approval-record turn; the frozen brief remains unchanged and uncommitted.
+- Exact next task: Claude Code Sonnet integrator claims the probe packet,
+  verifies the baseline and isolation, runs only the approved scratch cases,
+  preserves sanitized evidence and checkpoints results. L2a migration/privacy
+  review and implementation, L2b/L3 writers, production backfill, commit,
+  push and release remain separate gates.
+
+## 2026-10-11 — Lifecycle L2 revision-2 brief ready for owner decisions
+
+- Fresh Codex `forge-reviewer` (`gpt-6.1-sol`) re-reviewed exact corrected
+  brief SHA-256 `fbd345f3...b2fd` under `LIFECYCLE-L2`. Filtered client
+  metadata links revision-2 edits and the successful format/hash result to
+  actual `claude-opus-5-5`; cross-family independence is satisfied. Report:
+  `docs/lifecycle-l2-decision-20261011-rereview.md`.
+- All three prior findings are resolved: separate scratch migration trees and
+  attempted-migration checks for G-12/G-13; D-28 partial-write consequence;
+  kind-specific legacy resumption. No new in-scope blocker or major finding.
+  Verdict: **ready for human review with noted risks**. Read-only hash/source
+  checks and `git diff --check` passed. No probes, database operations,
+  provider calls or tests ran; transaction and Prisma/drift behavior remain
+  unverified, and production row populations/deployment overlap are unknown.
+- Packet and resume index are **AWAITING_HUMAN**. Exact next task: owner
+  approves, amends or rejects H-01, H-02 (i)–(iv), A-1 and C-1 draft choices
+  in the brief, and separately decides whether to authorize the bounded
+  G-12/G-13 synthetic probes. No L2a/L2b/L3 implementation, migration,
+  privacy, production, commit, push or release gate is cleared by this review.
+
+## 2026-10-11 — Lifecycle L2 brief corrected; Codex re-review next
+
+- Codex `forge-reviewer` (`gpt-6.1-sol`) requested changes on brief
+  `78c65659...35c8` (one major: probe cases shared a migration tree; two
+  minors: D-28 partial-write case, null-kind resume claim); report
+  `docs/lifecycle-l2-decision-20261011-review.md`.
+- The original Opus `forge-expert` corrected only the brief: new SHA-256
+  `fbd345f3d72bbf1ff7a554f0839402a005bf7af1cbe70f71b3359306df53b2fd`. Integrator verified hash, single-file scope and Prettier.
+  Recommendations unchanged; probe plan still unrun.
+- Next: **SWITCH TO: Codex, forge-reviewer** for changed-hash re-review. Owner
+  decisions (H-01/H-02/A-1/C-1) and probe authorization wait for it. Nothing
+  committed under this packet.
+
+## 2026-10-11 — Lifecycle L2 brief review requests corrections
+
+- Fresh Codex `forge-reviewer` (`gpt-6.1-sol`) independently reviewed the
+  frozen Opus brief SHA-256 `78c65659...35c8` under packet `LIFECYCLE-L2`.
+  Client runtime metadata linked the brief's Write and successful format/hash
+  calls to actual `claude-opus-5-5`; cross-family independence is satisfied.
+  Report: `docs/lifecycle-l2-decision-20261011-review.md`.
+- Verdict **changes requested**: one major G-12/G-13 probe isolation defect
+  (P12-3 would encounter P12-2's earlier failing migration), plus two minor
+  consequence errors (partial attempt/mastery writes can affect D-28; a
+  null-kind legacy row does not match the kind-specific resume query). The
+  reviewer verified hashes, code citations and `git diff --check`; no probes,
+  database operations, provider calls or test suites were run.
+- Packet and resume index route only bounded brief corrections to the
+  original Claude Code `forge-expert` / Opus. Exact next task: fix those three
+  findings in `docs/lifecycle-l2-decision-brief.md`, freeze a new hash, and
+  return to Codex cross-family review. No H-01/H-02/A-1/C-1 decision, probe,
+  migration/privacy, implementation, commit, push or release gate is cleared.
+
+## 2026-10-11 — Lifecycle L2 decision brief returned; Codex review next
+
+- Claude Code Opus `forge-expert` wrote `docs/lifecycle-l2-decision-brief.md`
+  (SHA-256 `78c65659e8a8b961f38c765b688fc204a4925af8b83f59f53bc04832456e35c8`, uncommitted) under packet `LIFECYCLE-L2`. Read-only work;
+  no database, probe or provider. Integrator verified hash, single-file scope,
+  Prettier and `git diff --check`.
+- Recommendations (not approvals): H-01 A; H-02 (i)–(iv) B; A-1 acknowledge;
+  C-1 broad reading; option D nowhere. Contradictions X-1–X-13 reported; the
+  L2a draft is stale against migration `0018` (X-1–X-3) and must be revised
+  under a later authorization. G-12/G-13 probe plan written, not run.
+- Next: **SWITCH TO: Codex, forge-reviewer** (`gpt-6.1-sol`) for read-only
+  cross-family review of that exact hash. Then owner decisions on
+  H-01/H-02/A-1/C-1 and probe authorization. No implementation authorized.
+
 ## 2026-10-11 — Pending Geography/Olympiad prerequisite documents checkpointed
 
 - Owner requested committing the four remaining untracked prerequisite
@@ -4401,6 +7733,279 @@ id@version` identities across banks, protecting no-reuse selection from
 
 ## Resume here
 
+**DELIVERY-COORDINATOR — 2026-10-19 (STANDING BOUNDED AUTOPILOT):**
+new explicit D-183 authorization covers 24 hours/100 native invocations,
+with automatic child-batch renewal until milestone completion or either
+aggregate limit. Start `2026-10-19T02:51:33.003Z`, deadline
+`2026-10-20T02:51:33.003Z`. Use common Git
+`agent-handoffs/DELIVERY-COORDINATOR/standing-20261019/authorization.json`
+and `run.json`; check aggregate usage before every dispatch. Do not request
+routine eight-call renewal or reopen previous exhausted budgets.
+C1/C2 remain accepted/applied. Native Opus C3 contract and exact-read
+confirmation are returned; original denied Read and failed handoff remain
+preserved. Native Sonnet C3 implementation and same-author exact-read
+handoff recovery are returned. Host checks pass 228 agent/2,247 full tests/
+build with baseline/coupling integrity and five-file reconstruction.
+Frozen C3 rev1 `c0bd6865...89de3fcf` received three required majors from
+comprehensive native Codex review. Original Sonnet returned C3-01--03
+corrections together: publication run/backlog authority, exclusive live
+recovery ownership, and post-snapshot authority before fresh/resumed
+application. Same native identity and zero denials. Independent host rev2
+checks pass 242 agent/2,261 full tests/build, integrity and exact C2 coupling;
+frozen `32440f2c...79c7c00` reconstructs all five outputs.
+Native changed-scope Codex closed C3-01/03 but retained C3-02 for incomplete
+ownership installation/teardown. Required recurring-major cause checkpoint
+is recorded; same original Sonnet returned the two exact lifecycle
+schedule corrections with zero denials. Author reports 245 agent/2,264 full
+tests/build passing after two failed full runs in unchanged C2 tests;
+preserve those failures without assuming their cause.
+Independent host rev3 checks pass all five groups, 245 agent/2,264 full
+tests/build plus integrity and exact C2 coupling. Frozen rev3
+`d3956642...a875bcc` reconstructs all five outputs. Native Codex closed
+C3-02 and retained only required minor C3-04, failure/timeout cleanup of
+real barrier-test children. Same original Sonnet test-only call ten failed
+native API 429 session quota after partial edits; raw failure/partial
+snapshot preserved. All runtime/guide/C2 bytes remain frozen to rev3.
+The scheduled **2026-10-19T06:12:00Z** same-author resumption returned
+successfully, call eleven, zero denials. Parent preflight held host execution
+for one invented-PID real-signal negative test. Original Sonnet call twelve
+returned the scoped mocked-signal correction, zero denials and four frozen
+owned files unchanged. Author reports 256 agent/2,275 full tests/build
+passing, but an earlier full verify failed with unidentified, unsaved
+truncated output; preserve that gap without inventing cause.
+Independent host rev4 checks pass all five groups, 256 agent/2,275 full
+tests/build, integrity and exact four-file freeze; rev4
+`9f98630f...498ed08` reconstructs all five outputs. Native Codex retained
+C3-04 for incomplete spawn-error/result-deadline/exit-before-close handling.
+Recurring-minor checkpoint is recorded; original Sonnet returned the test-only
+completion but invocation fourteen failed validation on both denied verify
+redirections. No named author logs exist. Failure/source/report preserved;
+same-author read-only confirmation fifteen passed without edits or denials.
+Host rev5 passed all five groups first attempt, 262 agent/2,281 full tests/
+build, with complete hashed parent stdout/stderr capture, not retrospective
+author-log recovery. Frozen rev5 `e0acbb12...3854f4b` reconstructs all five
+outputs; 849 worker/844 root pins and four non-fixture rev4 hashes intact.
+Native Codex rev5 closed spawn-error/deadline-first/successful delayed-close
+paths, retaining required minor C3-04: bounded cleanup failure leaves an
+outstanding result/timer able to signal later after ownership is dropped.
+Original Sonnet seventeen returned a finalizer but final full verify failed
+exit1 with unidentified truncated/unsaved cause. Parent pre-freeze inspection
+derived an already-started deadline termination signalling after cleanup
+drops ownership; no host/review was spent on that known-incomplete candidate.
+Returned source/hashes/report/failure preserved; required race checkpoint
+recorded. Original Sonnet eighteen returned per-signal ownership and mocked
+overlap evidence, native identity/schema/no-denial validation passed.
+Author reports 265 agent/2,284 full-test/build summary, but full-verify exit
+was not displayed; do not claim an independently confirmed author exit zero.
+Host rev6 passed all five groups first attempt, actual exit zero and complete
+hashed logs: 265 agent/2,284 full tests/build. Frozen rev6
+`fb625bc3...5668542` reconstructs all five outputs; 849 worker/844 root pins
+and four frozen rev5 non-fixture outputs remain intact. Native Codex nineteen returned READY/zero required findings, closing C3-04.
+Exact five-file rev6 is accepted/applied locally without staging; main checkout
+passed all five groups, 265 agent/2,284 full tests/build, and final integrity
+passed. Technical acceptance/application/main evidence are persisted.
+Native Opus dispatcher composite contract and exact five-path scope are
+frozen; native Sonnet twenty-one returned but was held before host execution
+for new-fixture lifecycle defects and an admitted unlisted command.
+Same-author test-only correction twenty-two failed actual weekly API429
+without source changes. The single timer successfully resumed the same
+Sonnet as twenty-three at `2026-10-19T14:02:00.000Z` / 07:02 Pacific.
+Twenty-three returned but was held before host for recurring group
+provenance/per-signal membership and another external tool-result Read.
+The cause checkpoint and all returned outputs are preserved.
+Parent host groups now all pass, 349 agent/2,368 full tests/build, after a
+preserved pre-test inventory failure and exact dependency-link fix.
+All baseline/root/coupling pins remain intact. Five-file C4 rev1
+`fd08e858...68df0ba` is frozen and reconstructs all five outputs.
+Native Codex twenty-five returned six required findings (three majors/
+three minors) in the complete first review; rev1 is not eligible to apply.
+Consolidated correction/recurring-fixture checkpoint is recorded.
+Same Sonnet twenty-six returned with all six corrections reported and
+116 focused tests passing; native/scope/root guards passed.
+All five independent rev2 host groups pass, 381 agent/2,400 full tests/
+build, and all five outputs reconstruct as frozen `eb39b0d3...c30e9acb`.
+Native Codex twenty-seven returned READY/zero findings; all six are closed.
+C4 rev2 is applied locally but not accepted or operational: first main agents
+failed C2-03 with a live stop control-lock conflict; one bounded unchanged
+diagnostic and 381-agent recheck passed, then full verify failed the same
+test with `kill EPERM` and one unhandled rejection (2,399/2,400 passed).
+Opus twenty-eight returned a verified read-only two-file contract; original
+report plus parent contract annotations govern. The isolated 856-input
+baseline and exact two-file scope are pinned. Sonnet twenty-nine returned
+verified/no denials, no execution; raw outputs are preserved. Parent held
+execution on four concrete fixture/deadline/setup preflight findings.
+Same original Sonnet thirty failed native API429 session quota with no
+source changes; all raw evidence and snapshots are preserved. The single
+guarded timer successfully resumed the same session at 19:02Z as thirty-one.
+It is finished, not still waiting. Exact type correction thirty-two and
+PF-01a acknowledged-cancellation correction thirty-three followed two
+preserved host failures. All six latest host groups pass: 108 focused/
+413 agent/2,432 full tests/build. Frozen two-file rev3 `56f405d5...c42bf37`
+reconstructs exactly, with 854 worker/851 root pins and HEAD/index intact.
+Subsequent comprehensive review34 and changed reviews36/38 required
+C2L-01..04 corrections; original Sonnet35/37/39 returned them under the
+same scope. Cause checkpoints and all failed/review records remain preserved.
+Native Codex40 returned READY0 on rev6 `87ea7b3b...a5eaff4`, closing every
+required finding. Exact patch applied locally; fresh main format/doc-format/
+verify (2,444 tests/build28)/whitespace all passed. Both correction and C4
+are accepted locally, with original failed C4 application retained unchanged.
+State subsequently `DISPATCHER_REAL_SMOKE_ENROLLED`: bounded docs-class
+G2/G3/G4 enrollment `35bcc5ec...fb45564`, 40 external calls ended and zero
+C1 calls at enrollment. G1 complete; smoke evidence pending, not operational
+yet. `real-smoke-scope.json` pins at most four calls, one author and one
+dependent readiness witness that must not execute. Root quiet during flight.
+`run.json`, `c2-stop-lifecycle-rev6-manifest.json`, coupled application and
+both technical acceptances govern. Do not rerun consumed helpers.
+Child batch renewed without resetting aggregate deadline/count. Parent pre-
+reservation guard failure is preserved and corrected, not counted as a
+native invocation.
+Check `run.json` for live phase; quota
+failure, partial snapshot and returned preflight candidate are preserved.
+Child batch renewed automatically,
+without resetting aggregate usage/deadline or five-path ownership.
+Next: verify the returned native Sonnet identity/schema/scope and unowned
+pins, format and inspect fixture safety before any test execution, then
+capture focused/full checks and obtain independent native Codex review.
+The first author is write-only with no shell.
+No weakening existing stop assertions or edits under the old C4 scope.
+Successful full main checks and integrity are still required for C4 technical
+acceptance; separately scoped real-protocol smoke remains later.
+C3 acceptance is complete, not product autopilot. Original denied tool
+attempts, failed runs and frozen rev1 remain preserved.
+Copilot holds the exact integrator claim; no duplicate worker or product watcher.
+Protected human gates and no commit/push/deployment remain unchanged.
+
+**DELIVERY-COORDINATOR — 2026-10-19 (C2 ACCEPTED/APPLIED, RUN ENDED):**
+native independent Codex `gpt-6.1-sol` returned ready with zero findings for
+rev9 `5519c634...fc0d920a`; all sixteen findings are closed. Exact six-file
+local integration under D-183 and main checks pass: 166 agent/2,185 full
+tests/build, formatting/lint/types/migration check/whitespace. Six output
+hashes, 841 unowned root pins, HEAD/index and aliases remain intact.
+Common Git `agent-handoffs/DELIVERY-COORDINATOR/autopilot-20261019/`
+contains the frozen patch, independent native identity/review, all prior
+failures/cause checkpoints, application and main validation/acceptance.
+Eight of eight calls consumed; own claim released, no workers/watchers or
+automatic renewal. C3 is next, not implemented: separately scope journaled
+application/recovery and preserve enough newly authorized native budget for
+design, implementation and independent review. No extra assurance audit of
+closed C2 bytes. Real C2 client adapter smoke, executable-mode preservation,
+whole-state rewriting and historical lock race remain disclosed limits.
+Science remains unavailable; no content/privacy/release gate change,
+commit/push/deployment/activation.
+
+**DELIVERY-COORDINATOR — 2026-10-18 (C2 FOLLOW-UP BLOCKED, RUN ENDED):**
+owner authorized a fresh 30-minute/two-native-call run, deadline
+`2026-10-18T05:20:27.839Z`. Scanner correction passes host 154 agent/
+2,173 full tests, but author introduced unrelated EPERM/lock-retry control
+changes. Integrator blocked known termination-success fallback before paid
+review. Next: original-author removal of those two deltas, then independent
+review. Owner explicitly added one native invocation and a fresh 30-minute
+remaining window, deadline `2026-10-18T16:40:51.974Z`. Same original Sonnet
+removed the two unrequested control deltas; five function texts match
+reviewed rev3 exactly and retryLocked is absent. Frozen rev5
+`92b34277...abd22a92` passes host 154 agent/2,173 full tests, verify/build,
+baseline integrity and six-file reconstruction. Independent Codex closed
+the declaration defect and confirmed restored controls, but retained C2-05
+for a new `.cjs` sibling-resolution regression that can miss a persistence
+dependency. The exact compiler mechanism is confirmed without candidate
+execution. Three of three calls consumed, no automatic renewal.
+All workers/watchers stopped; own integrator claim released.
+Next: narrowly correct compiler-faithful resolution or conservatively refuse
+the unsupported edge, add exact collision and valid-positive controls, then
+independent verification under a sufficient explicitly authorized budget.
+Original authorization, pre-review hold and frozen rev4 remain preserved.
+Use common Git `agent-handoffs/DELIVERY-COORDINATOR/c2-followup-20261018/`.
+Prior exhausted run, cause/reproducer, fifteen closed findings and frozen
+revisions remain preserved. No C2 root application or product watcher yet;
+no C3, new policy/scope, human-gate change, automatic renewal or commit/push.
+
+**DELIVERY-COORDINATOR — 2026-10-18 (C2 BLOCKED, RUN ENDED, D-183):** owner authorized
+a new 120-minute/eight-invocation run. Native Sonnet completed the six-file
+C2 candidate; independent host formatting, 121 agent tests, 2,140 full tests,
+types/lint/migration check/build and post-check baseline integrity pass.
+Frozen patch `685d102d...a8ebe2` is in common Git
+`agent-handoffs/DELIVERY-COORDINATOR/c2-20261017/`. Native Codex requested
+15 major/one minor corrections, C2-01–C2-16. Original Sonnet session
+`53548c78-0744-4c8d-9c1f-d9348645732a` completed the consolidated correction.
+Rev2 `d2ab1270...1f9e31f` passes independent host formatting, 142 agent/
+2,161 full tests and verify/build, baseline integrity and six-file patch
+reconstruction. Changed-scope Codex closed twelve findings but retained
+C2-05/07/13/14 as unresolved majors. Required cause checkpoint is recorded;
+the same original Sonnet completed those four targeted corrections. Separately
+frozen rev3 `2b0e33ee...6f1aba12` passes host 152 agent/2,171 full tests,
+verify/build, baseline integrity and six-file patch reconstruction after the
+last author edit. Final changed-scope Codex closed fifteen original findings
+but retained C2-05 as a major regression: emission-based syntax diagnostics
+throw on valid `.d.ts` files and can obstruct unrelated work. Compiler-level
+mechanism and final cause checkpoint are preserved; no candidate-code
+reproduction is claimed. All eight native invocations are consumed;
+no broad audit loop or automatic budget renewal.
+The fixed deadline is `2026-10-18T03:56:06.780Z`. C3 remains pending and will
+not start in this run. Preserve both frozen revisions and all review failures.
+Do not duplicate/review evolving bytes or integrate before findings close.
+Own C2 integrator claim is released; no workers/watchers run and no C2
+source is applied. Next is the original Sonnet's narrow declaration-file
+fix plus independent Codex verification after a fresh bounded budget.
+Human-only gates remain unchanged; see `terminal-checkpoint.json`.
+
+**Prior C1 checkpoint — 2026-10-17 (C1 DONE, D-183):** owner mandates
+milestone-level coordination and standing routine engineering acceptance
+for Grade 6 practice -> complete Ratios -> first usable Science unit.
+The failed broad prototype and DC-01–DC-14 remain preserved and unapplied.
+The narrower C1 planner/durable controls passed independent Codex review
+and are applied, exact patch `1fde1aa8...af65af`. Its live CLI bypasses the
+blocked release and selects an eligible task; the first lint/format cleanup
+also passed independent cross-family review and is accepted/applied.
+Main `npm run verify` passes 2,097 tests and build; 78 targeted agent tests
+pass. C2 acceptance/permissions/credential/check/runner boundaries are next,
+then C3 journaled integration/recovery and dispatcher wiring. D-183 routine
+engineering acceptance remains valid, but this run consumed eight of eight
+native invocations and is not automatically renewed. All workers and watchers
+are stopped; checkpoint releases the integrator claim. No product-level
+autopilot or learner release is claimed. See the latest dated entry and
+common Git `agent-handoffs/DELIVERY-COORDINATOR/increments-20261017/`.
+
+**SCI6-REGISTER checkpoint — 2026-10-17 (registration snapshot, DONE):** owner
+"accept and authorize" accepts/applies exact reviewed patch
+`09bf08b8...ff968`; all 13 main hashes match. Main unit/contract/fake eval
+suite 2,052 tests and build pass; types/down-migrations and main-only lint
+pass. At that checkpoint, standard verify lint was blocked by nested Claude
+worktrees; the subsequent D-183 cleanup above resolves that scan without
+editing those trees. Main registers 67 skills/134 records;
+Science remains unavailable. Relay stopped, nothing queued, no commit/push.
+Next issue is a separately scoped Science learner-availability/readiness
+proposal, not automatic release. Detail in
+`docs/agent-handoffs/SCI6-REGISTER.md`.
+
+**SCI6-REGISTER checkpoint — 2026-10-17 (superseded, adapter correction):** author patch
+`09bf08b8...ff968` is frozen; full isolated verify/build passed per author.
+First Codex invocation did no review because the generic tsx/Claude-tools
+prompt was incompatible with the native read-only shell. Corrected the
+adapter under the existing technical mandate without widening permissions:
+native Node baseline/own-thread inspection, native shell tools and host-pinned
+native-model.json. Matching native thread metadata verifies the prior
+GPT-6.1 Sol/read-only identity. Corrected first substantive review is next,
+within the same original watcher bounds; final exact human patch gate stands.
+See `docs/agent-handoffs/SCI6-REGISTER.md`.
+
+**SCI6-REGISTER checkpoint — 2026-10-17 (superseded adapter failure):** the Codex reviewer run
+`7a3d6dee...de1a` returned BLOCKED before any review. Its first command,
+`task-inspect`, failed with `listen EPERM` on the tsx IPC pipe in the temp
+dir, and it reported Read/Grep/Glob unavailable. No findings, no
+recommendation, no successor queued. The Codex stdout carries no model id, so
+GPT-6.1 Sol identity is unverified. Frozen patch `09bf08b8...ff968` is
+unchanged and nothing was applied. WAITING FOR OWNER: restore the reviewer's
+`sci6-register` profile, then authorize one fresh reviewer ticket. The human
+patch gate stands. Detail in `docs/agent-handoffs/SCI6-REGISTER.md`.
+
+**SCI6-REGISTER checkpoint — 2026-10-16 (historical):** the Sonnet implementer returned
+BLOCKED (nothing frozen, no successor). `ContentReviewSchema`
+(`src/contracts/content.ts:364-380`) requires `reviewedAt` for `reviewed`
+records, which D-182 does not authorize. Awaiting owner: approve adding
+`reviewedAt: "2026-10-16"` to the six records (recommended) or decline.
+Model identity for this run is unverified (no native metadata found). Detail
+in `docs/agent-handoffs/SCI6-REGISTER.md`.
+
 **Picking this repository up in a new session or a different CLI?** The active
 workstream is course progression, and its handoff is self-contained in
 `docs/course-progression-handoff.md`. It states the objective, current phase,
@@ -6004,6 +9609,12 @@ research — 2026-09-15` section in `docs/curriculum-sources.md`. The
 
 ## Current status
 
+- **Local Science registration accepted/applied (2026-10-17).** D-182 exact
+  13-file patch is applied and verified in this uncommitted checkout: 67
+  skills/134 records, including three Science skills/six reviewed practice
+  records. Science remains unavailable with no Unit/Lesson refs; raw reviewed
+  projections include its records, while the available-program projection
+  stays at 64 skills. This is not deployed or approved for release.
 - **Course progression: staged implementation checkpoint (2026-10-09).** A0,
   A1, A2, and Stage B are complete. C1–C3 persistence, export/deletion
   coverage, dual-write/shadow mode, progression endpoints, held-out package

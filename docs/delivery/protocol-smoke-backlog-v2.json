@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "tasks": [
+    {
+      "id": "DLV-DISPATCH-RUNBOOK",
+      "milestone": "PRACTICE-FIRST",
+      "kind": "implementation",
+      "role": "implementer",
+      "dependsOn": [],
+      "ownedPaths": ["docs/dispatch-operator-runbook.md"],
+      "gates": [],
+      "provenance": [
+        {
+          "path": "docs/agent-handoffs/DELIVERY-PROTOCOL-SMOKE.json",
+          "sha256": "5ce78b70ac3c4bd3be8d070abe79e7254b3b89daff65529d4e6135160ea8500e"
+        },
+        {
+          "path": "docs/local-agent-relay.md",
+          "sha256": "6400f199c76731fa3c0b2bf1135f8e0378957d2c9e25c0649409f82a3d13da24"
+        }
+      ]
+    },
+    {
+      "id": "DLV-DISPATCH-SMOKE-DEPENDENT",
+      "milestone": "PRACTICE-FIRST",
+      "kind": "implementation",
+      "role": "implementer",
+      "dependsOn": ["DLV-DISPATCH-RUNBOOK"],
+      "ownedPaths": ["docs/dispatch-smoke-followup.md"],
+      "gates": [],
+      "provenance": [
+        {
+          "path": "docs/agent-handoffs/DELIVERY-PROTOCOL-SMOKE.json",
+          "sha256": "5ce78b70ac3c4bd3be8d070abe79e7254b3b89daff65529d4e6135160ea8500e"
+        },
+        {
+          "path": "docs/local-agent-relay.md",
+          "sha256": "6400f199c76731fa3c0b2bf1135f8e0378957d2c9e25c0649409f82a3d13da24"
+        }
+      ]
+    }
+  ]
+}

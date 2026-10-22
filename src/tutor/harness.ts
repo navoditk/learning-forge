@@ -8,8 +8,10 @@ import {
   TutorMoveOutput,
   TutorMoveValidation,
   TutorTraceRecord,
+  TutorSubjectFramingSchema,
   validateTutorMove,
 } from '../contracts';
+import { SCIENCE_FALLBACK_MESSAGE, SCIENCE_PROHIBITED_ACTIVITY_PATTERNS } from './science-safety';
 import { authorizeTutorMove, PolicyContext, transitionTutorState, TutorState } from './policy';
 
 function wasSafetyFlagged(validation: TutorMoveValidation): boolean {
@@ -57,6 +59,10 @@ export class TutorHarness {
   constructor(private readonly model: TutorModel) {}
 
   async respond(input: TutorSessionInput): Promise<TutorResponse> {
+    // An unknown framing throws here, before any model call.
+    const subjectFraming = TutorSubjectFramingSchema.default('math').parse(input.subjectFraming);
+    const prohibitedActivityPatterns =
+      subjectFraming === 'science' ? SCIENCE_PROHIBITED_ACTIVITY_PATTERNS : [];
     const policyContext: PolicyContext = {
       state: input.state,
       mode: input.mode,
@@ -71,6 +77,7 @@ export class TutorHarness {
       learnerMessage: input.learnerMessage,
       authorization,
       redactedSkillContext: input.redactedSkillContext,
+      subjectFraming,
     };
     const attempt = async (): Promise<{
       result?: TutorModelResult;
@@ -81,7 +88,12 @@ export class TutorHarness {
         const result = await this.model.generateMove(modelInput);
         return {
           result,
-          validation: validateTutorMove(result.candidate, authorization, input.protectedTokens),
+          validation: validateTutorMove(
+            result.candidate,
+            authorization,
+            input.protectedTokens,
+            prohibitedActivityPatterns,
+          ),
           erroredOut: false,
         };
       } catch {
@@ -130,9 +142,12 @@ export class TutorHarness {
     if (validation.status === 'requires_fallback') {
       return {
         status: 'fallback',
-        fallbackMessage: authorization.canRevealAnswer
-          ? 'Let’s pause and try one small step together.'
-          : 'Let’s pause and try one small step together. What relationship do you notice?',
+        fallbackMessage:
+          subjectFraming === 'science'
+            ? SCIENCE_FALLBACK_MESSAGE
+            : authorization.canRevealAnswer
+              ? 'Let’s pause and try one small step together.'
+              : 'Let’s pause and try one small step together. What relationship do you notice?',
         nextState: input.state,
         masteryAdvanced: false,
         trace,

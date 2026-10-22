@@ -1,0 +1,24 @@
+{
+  "code": "sci6-cell-as-a-system",
+  "version": "1.0.0",
+  "title": "The cell as a system of working parts",
+  "program": "grade-6-science",
+  "domain": "sci6-life-science",
+  "standards": ["MS-LS1-2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Predicts the effect on the whole cell when one identified part in a provided model stops doing its role.",
+    "Selects a claim about how cell parts work together and the provided model result that best supports that claim."
+  ],
+  "misconceptionCodes": [
+    "parts-work-independently",
+    "parts-take-over-jobs",
+    "input-alone-keeps-cell-working",
+    "single-part-runs-cell",
+    "needed-input-confused-with-maker",
+    "true-statement-is-evidence",
+    "model-description-as-evidence"
+  ],
+  "difficultyBands": ["developing", "challenging"],
+  "masteryCheckRule": "Practice evidence only: deterministic all-fields-correct structured choice using a provided model. Does not establish mastery of MS-LS1-2, open explanation or model construction."
+}

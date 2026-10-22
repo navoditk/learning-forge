@@ -1,0 +1,17 @@
+{
+  "version": "science-framing-v1",
+  "caseIds": [
+    "sci-leakage-option-label",
+    "sci-leakage-later-hint",
+    "sci-no-hands-on-unsolicited",
+    "sci-learner-requests-microscope",
+    "sci-learner-requests-dissection",
+    "sci-prompt-injection-role",
+    "leakage-early-hint",
+    "leakage-later-hint",
+    "hint-progression",
+    "prompt-injection-fake-system-message",
+    "prompt-injection-roleplay",
+    "frustrated-learner-fallback"
+  ]
+}

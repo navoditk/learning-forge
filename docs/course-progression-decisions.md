@@ -708,6 +708,17 @@ uniform schema may be unpaused earlier, by explicit product-owner decision,
 once `D-58`/Stage A0 is done — that narrower option should be recorded here
 rather than assumed.
 
+**Scoped Science exception — approved conditional 2026-10-15; conditions
+satisfied for this bounded draft scope on 2026-10-15.** D-173/SCI6-U6 permits
+only three D-168 skills and six D-169 core practice drafts. Exact independently
+reviewed U5 rev3 was accepted/applied and passed integrated94files/2,016tests/
+build; applicable D-61 evidence is in SCI6-PREREQ. Owner replied **"approve"**
+to the explicit engineering-owner sign-off request after that evidence.
+Drafting may now start only within [SCI6-DRAFT](agent-handoffs/SCI6-DRAFT.md),
+Claude Opus in isolated bundle, llm_drafted/owned/pending_review. Independent
+cross-family review, human content approval, registration and release remain
+separate. This does not lift the general authoring pause.
+
 **Scoped Python exception — approved by product/content owner 2026-10-10.**
 In the focused Python decision form, the owner selected `approve-recommended`:
 Python 3.14; beginner-core `py6-print-output-reading`; exactly one
@@ -1299,7 +1310,840 @@ boundary update**, not a change to T1 or a runtime validation approval.
 | D-146 | Retain raw opaque operation token consistent with T1 string identity; never log the key; propose canonical lowercase UUIDv4 validation for the next reviewed boundary update; D-143 remains separate export choice                            | Digest storage requires a new independently reviewed binding/persistence contract and owner decision | APPROVED 2026-10-10 | Privacy + engineering owner, explicit approval form         | T2a raw-key representation only; future validation remains reviewed separately |
 | D-147 | Household-scoped personal activity/provenance audit retained until household erasure; document existing backup limitations; no new duration                                                                                                   | Another retention lifecycle requires separate privacy review and owner decision                      | APPROVED 2026-10-10 | Privacy owner, explicit approval form                       | T2a privacy-inventory/erasure contract; actual deletion tests still required   |
 
-There are 148 decisions: D-01 through D-75, D-139, D-142, D-145–D-148 approved;
+## K. Grade 6 reconciliation direction
+
+The owner accepted reviewed reconciliation revision 3, SHA-256
+`c80f184ee773887a71f6d004762d94ae7fce82872d2df0fa6fd0d489c365caec`,
+for documentation application. On 2026-10-12 the owner then replied
+**"approved"** to the separate two-choice MATH6-DECIDE request below.
+These are direction/first-unit decisions, not authoring or implementation
+authorization. The frozen reconciliation's proposed wording remains unchanged.
+
+| ID / source | Status              | Approved value                                                                                                                                       | Approver                       | Scope                                                                                                                    |
+| ----------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| D-149 / O-1 | APPROVED 2026-10-12 | Retain the existing 27-code production skill structure with versioned refinements; require an approved evidence rule before combining skill versions | Product/content owner, in chat | Target direction; no wholesale candidate adoption, exact crosswalk approval, evidence migration or numeric evidence rule |
+| D-150 / O-2 | APPROVED 2026-10-12 | Ratios plus extension, five skills: `ratio-language`, `unit-rates`, `ratio-tables`, `double-number-lines`, `percent-applications`                    | Product/content owner, in chat | First-unit selection; no content drafting, private access, catalog/version edit, activation or release                   |
+
+O-3–O-18 remain undecided by this request. D-61 and private/content/manual
+gates remain in force. In particular, unit/lesson/item versions, conversions
+placement, double-number-line representation, scoring remediation, extension
+volumes, teaching scope and private-bank merge require their bounded decisions
+and reviewed packets. Historical learner evidence must remain resolvable;
+this approval does not authorize querying or changing it.
+
+### Ratios immediate choice IC-2 — measurement-conversions home
+
+On 2026-10-12 the owner replied **"approve"** to the separate IC-2 request:
+measurement conversions under `unit-rates@1.0.0`, supported by the accepted
+RAT-SUBJECT report and corrected Ratios plan. This selects placement only.
+
+| ID / source         | Status              | Approved value                                                                                                             | Approver / evidence                                                                 | Boundary                                                                                                                                                                                                                                                                        |
+| ------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D-151 / IC-2 / O-3a | APPROVED 2026-10-12 | Home measurement-unit conversion tasks under `unit-rates@1.0.0`, using a stated conversion factor and explicit output unit | Product/content owner, in chat; accepted RAT-SUBJECT report and corrected plan §3.1 | No item authoring, reuse, scoring, catalog registration or activation approved; content review must verify existing skill evidence/misconception coverage. If a changed evidence statement requires a new skill version, return for owner reconsideration and D-149/D-57 gates. |
+
+### Ratios immediate choice IC-3 — representation and older evidence
+
+On 2026-10-12 the owner replied **"approve"** to the explicit IC-3 request:
+keep `double-number-lines@1.0.0`, add figure-based items with complete text
+alternatives, and accept the stated older-evidence limitation (plan §3.2,
+option A). No learner data was queried; existence of older evidence is unknown.
+
+| ID / source         | Status              | Approved value                                                                                                                                                                                                                                                                                                                                                                                | Approver / evidence                                                             | Boundary                                                                                                                                                                                                                                                                                                                 |
+| ------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| D-152 / IC-3 / O-3b | APPROVED 2026-10-12 | Keep `double-number-lines@1.0.0`; add actual paired-number-line representation tasks with reviewed static figures and complete text alternatives listing aligned pairs and blank positions. Explicitly accept that any older arithmetic-only item evidence continues counting toward the same skill alongside later representation evidence, without discounting, remapping or separating it. | Product/content owner, in chat; corrected plan §3.2 and accepted subject review | New lesson placement sources and threshold-counted items are representation tasks per plan; TR-6 awaits the separate scoring implementation. No new skill version or cross-version evidence rule selected. No content drafting, learner-history query/mutation, lesson/catalog change, activation or release authorized. |
+
+### Ratios immediate choice IC-4 — new lesson versions
+
+On 2026-10-12 the owner replied **"approve"** to the separate IC-4 request:
+new Ratios lesson versions with corrected references, preserving existing
+pilot `1.0.0` bytes. This selects the versioning approach only (plan §3.3).
+
+| ID / source        | Status              | Approved value                                                                                                                                                                                                                  | Approver / evidence                                 | Boundary                                                                                                                                                                                                                                                                                          |
+| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D-153 / IC-4 / O-8 | APPROVED 2026-10-12 | Use new Ratios lesson versions with corrected content-version references; preserve pilot lesson `1.0.0` bytes and document existing mislabeled references. Each new reference version must equal the referenced record version. | Product/content owner, in chat; corrected plan §3.3 | No in-place pilot rewrite, content edits, catalog registration or activation authorized. Exact new labels and extension replacement labels remain engineering choices in the separately approved catalog-design packet, constrained by bank target references. Preserve historical resolvability. |
+
+### Ratios immediate choice IC-5 — opt-in structured scoring design
+
+On 2026-10-12 the owner replied **"approve"** to option C and the named
+document-only RAT-SCORE-DESIGN scope: Opus-authored contract followed by
+Codex independent review. Implementation requires later approval.
+
+| ID / source        | Status              | Approved value                                                                                                                                                                                                                                                                                       | Approver / evidence                                      | Boundary                                                                                                                                                                                                                                                                                                                                 |
+| ------------------ | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D-154 / IC-5 / O-9 | APPROVED 2026-10-12 | Select opt-in structured multi-field responses, deterministic validation per labeled field and new item versions; authorize RAT-SCORE-DESIGN for response/validator contract, accessible learner input, practice and assessment grading, structured attempt storage and unknown-mode refusal design. | Product/content owner, in chat; corrected plan §3.4/§5.1 | One contract document, Claude Code forge-expert / Opus then Codex cross-family review. No implementation, content changes, historical rescoring, legacy parts semantics changes or other-domain migration. Separate full V-7 acceptance for new mode from legacy characterization; schema changes need later migration/privacy approval. |
+
+### Structured scoring OD-1 — existing-column storage
+
+On 2026-10-12 the owner replied **"approved"** to S-A: structured response
+JSON envelopes in existing attempt columns without a schema migration,
+per accepted contract §4.1. Implementation remains separately gated.
+
+| ID / source  | Status              | Approved value                                                                                                                                                                                                                                                  | Approver / evidence                                              | Boundary                                                                                                                                                                                                                                                                                                                 |
+| ------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| D-155 / OD-1 | APPROVED 2026-10-12 | Choose S-A JSON envelope storage in existing `Attempt.learnerResponse` and `Attempt.normalizedResponse` columns, with mode/version attribution and normalized numeric/option values as specified in accepted contract §4.1. No new columns or schema migration. | Product/engineering owner, in chat; accepted contract revision 5 | Only scored, non-refused structured responses are stored. No existing-row backfill/rewrite or historical rescoring; no provider disclosure. Implementation must verify envelope limits, historical resolution, export/erasure coverage under later authorized scope. No code, database operations or release authorized. |
+
+### Structured scoring OD-2 — malformed-input refusal
+
+On 2026-10-12 the owner replied **"approve"** to refusing well-typed but
+malformed field input with answer-independent format feedback and no recorded
+attempt, rather than marking it incorrect (accepted contract §3.3/§3.3a).
+
+| ID / source  | Status              | Approved value                                                                                                                                                                        | Approver / evidence                                                   | Boundary                                                                                                                                                                                                                                                                                                                                                   |
+| ------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D-156 / OD-2 | APPROVED 2026-10-12 | Refuse well-typed but malformed structured field input with format-only, answer-independent feedback and no recorded attempt; do not score it incorrect or generate mastery evidence. | Product/pedagogy owner, in chat; accepted scoring contract revision 5 | Preserve authorization/lifecycle/current-item/duplicate error precedence, existing expiry handling and transactional rechecks. Eligible format refusals make no submission writes or ordinal advance; valid well-formed wrong values remain grading inputs. No implementation, legacy semantics change, rescoring, database operation or release approved. |
+
+### Structured scoring OD-3 — no partial credit in v1
+
+On 2026-10-12 the owner replied **"approve"** to no partial credit in v1:
+every field must be correct for a correct outcome (accepted contract §2.6).
+
+| ID / source  | Status              | Approved value                                                                                                                                                                                                      | Approver / evidence                                                | Boundary                                                                                                                                                                                                                                           |
+| ------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D-157 / OD-3 | APPROVED 2026-10-12 | No partial credit for structured mode v1. All required fields must be correct for `CORRECT`; well-formed responses with any wrong field are `INCORRECT`. Malformed fields follow D-156 refusal rather than grading. | Product/pedagogy owner, in chat; accepted contract revision 5 §2.6 | No new PARTIAL weight, per-field mastery evidence, historical rescoring or legacy grading change. Existing approved outcome weights remain unchanged. Per-field correctness feedback remains separate OD-4; implementation and release unapproved. |
+
+### Structured scoring OD-4 — item-level practice feedback
+
+On 2026-10-12 the owner replied **"approve"** to item-level correctness
+feedback only in v1 practice, without per-field correctness feedback.
+Assessment feedback remains unchanged (accepted contract §3.4/§3.6).
+
+| ID / source  | Status              | Approved value                                                                                                                                                        | Approver / evidence                                                   | Boundary                                                                                                                                                                                                                                                                     |
+| ------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D-158 / OD-4 | APPROVED 2026-10-12 | Structured v1 practice gives item-level correctness feedback only; no per-field correctness feedback. Assessment retains its existing item-level feedback projection. | Product/pedagogy owner, in chat; accepted scoring contract revision 5 | D-156 permits answer-independent field-format errors, not per-field correctness disclosure. Existing tutoring/answer-release policy continues to govern help and answer exposure. No implementation, new evidence weights, assessment feedback change or release authorized. |
+
+### Structured scoring OD-5 — mode-1 numeral grammar
+
+On 2026-10-12 the owner replied **"approve"** to the pending explicit OD-5
+numeral grammar request. This approval selects accepted contract §2.5;
+it does not change client permission settings or delegate other choices.
+
+| ID / source  | Status              | Approved value                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Approver / evidence                                                        | Boundary                                                                                                                                                                                                                 |
+| ------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| D-159 / OD-5 | APPROVED 2026-10-12 | Mode-1 numeral grammar per accepted contract §2.5: nonnegative ASCII integer/decimal/fraction/mixed-number forms, a digit before decimal point, trailing decimal zeros and fraction spacing allowed; no signs, unit text, currency/percent symbols, thousands separators or Unicode numeral forms. Maximum 32 characters before trimming; digit runs up to nine digits, decimal fractional part up to six digits; nonzero fraction denominator and proper mixed fraction. | Product/pedagogy owner, in chat; accepted scoring contract revision 5 §2.5 | Only representations enumerated for each field accepted. Preserve classification order, D-156 format refusal and D-157 correctness/simplest-form rules. No legacy matcher changes, code or implementation authorization. |
+
+### Structured scoring OD-6–OD-9 — approved batch
+
+On 2026-10-12 the owner replied **"approve"** to the four recommendations
+presented together. This selects the remaining listed design choices;
+implementation authorization and independent review still follow.
+
+| ID / source  | Status              | Approved value                                                                                                                | Boundary                                                                                                                        |
+| ------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| D-160 / OD-6 | APPROVED 2026-10-12 | v1 field kinds: number and single choice only                                                                                 | No free-text, multi-select, unordered-set or tolerance mode. Existing numeral/representation and validation requirements apply. |
+| D-161 / OD-7 | APPROVED 2026-10-12 | Split implementation per accepted contract §8: legacy characterization, core scoring, submission/storage paths and learner UI | S-A selected, so no S-B schema packet. Each named execution scope and its review/integration gates still require authorization. |
+| D-162 / OD-8 | APPROVED 2026-10-12 | Add `accessibleAlternative` to practice projection for structured items; existing items handled under separate UI scope       | Does not authorize presentation changes for every legacy item or any code changes now.                                          |
+| D-163 / OD-9 | APPROVED 2026-10-12 | Defer held-out structured items until a separate assessment learner UI is scoped                                              | No private access, held-out content authoring/registration/serving or assessment UI execution approved.                         |
+
+Approver for D-160–D-163: product/pedagogy/engineering owner, in chat;
+evidence: accepted scoring contract revision 5 §8/§9.3 and explicit batch
+request. OD-1–OD-9 choices now selected; contract recommendations outside
+these explicit decisions and execution/release scopes remain separately gated.
+
+### Ratios IC-6–IC-8 — approved values and document-only design scope
+
+On 2026-10-14 the owner replied **"approve"** to the completed PRACTICE-FIRST
+packet's ready batch. IC-6–IC-8 recommendations are approved separately below.
+IC-9 remains pending: the response did not choose A, B or C. It does not block
+the authorized document-only catalog design.
+
+| ID / source            | Status              | Approved value                                                                                                                                                                                                                             | Boundary                                                                                                                                                                                                                                                                                                     |
+| ---------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| D-164 / IC-6 / O-11    | APPROVED 2026-10-14 | Extension targets: one teaching record per lesson, six practice items per lesson, nine lesson-bank items per lesson, three review items per skill and six delayed-check items per skill. Unit-bank count deferred.                         | Values only; existing pilot six-practice target unchanged. No content authoring, private access, bank merge, registration or serving authorization; named D-61 exceptions remain required. Optional second DNL teaching representation not selected.                                                         |
+| D-165 / IC-7 / O-12    | APPROVED 2026-10-14 | Option B: separate teaching authoring/review from serving. Teaching remains a content requirement for all five Ratios lessons.                                                                                                             | Approved storage path and scoped authoring/D-61 authorization required before records are authored/reviewed. Grade 6 teaching adoption and relevant T3/T4 serving decisions remain separate. Release claims must state teaching is not served until authorized. No teaching generation/serving approved now. |
+| D-166 / IC-8 remainder | APPROVED 2026-10-14 | Execute document-only RAT-CATALOG-DESIGN: one new docs/grade-6-math-catalog-versioning.md, Claude Code forge-expert/Opus authoring, then independent Codex review and human artifact acceptance/application. RAT-SUBJECT already complete. | Public code/schema and existing approved metadata only. Present C-7 options without selecting. No code/content/private-package access, database/provider work, catalog implementation or release. D-61 exception: none.                                                                                      |
+
+Approver: product/pedagogy/engineering owner, in chat; evidence: explicit
+IC-6–IC-8 recommendations and IC-9 A/B/C request in PRACTICE-FIRST, followed
+by the approval above. IC-9 interim risk concerning unit-rates-2@content-2
+and ratio-tables-2@content-2 remains pending; legacy false accepts unchanged.
+
+### D-167 — Concrete delivery packets and independent Science preparation
+
+On 2026-10-14 the owner replied **"go ahead"** to the recommendation to
+turn delivery lanes into concrete tasks. This authorizes bounded preparation
+recorded in `docs/agent-handoffs/PRACTICE-RELEASE.md` and
+`docs/agent-handoffs/SCI6-FIRST-UNIT.md`, not unspecified product choices.
+
+- Lane A retains its existing catalog correction/review assignment; a
+  subsequent separately claimed Sonnet turn prepares existing-content
+  application release evidence and the exact human permissions needed.
+- A separate Opus lane may prepare one Science first-unit scope against the
+  already approved dossier and current schemas, with Codex GPT-6.1 Sol review.
+  Maximum two concurrent author/preparation workers, one per lane; reviewers
+  are read-only and only review frozen artifacts. One shared integrator.
+- Preparation may propose exact unit/skills/roles/volumes and prerequisite
+  code changes but does not approve them. No new curriculum records, D-61
+  exception, private access, schema/catalog implementation, IC-9 or C-7
+  selection, teaching serving, learner-state changes, deployment, activation,
+  commit or push follows from this permission.
+
+Record future ready choices together with exact scope and evidence; do not
+ask the owner to reapprove this unchanged preparation permission.
+
+### Science first-unit SCI6-U1–U7 — approved batch
+
+On 2026-10-15 the owner replied **"approved both"** to the ready parallel
+review batch. Lane A separately accepted Ratios catalog design rev2 and exact
+patch application with nonblocking R-3 acknowledged (recorded in its packet).
+Lane B approves each recommendation below from frozen scope SHA-256
+`6ddacf238a3ad905af62790fa49467f170c80fb14a3cbb5f6463aef0d359bf04`,
+review `docs/sci6-first-unit-20261014-review.md`. No verified findings;
+source-precision Q6 and later runtime/content/release evidence remain required.
+
+| ID / source     | Status                          | Approved value                                                                                                                                                                                                                                       | Boundary                                                                                                                                                                                                                                                |
+| --------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D-168 / SCI6-U1 | APPROVED 2026-10-15             | Cells and living systems: partial MS-LS1-1/MS-LS1-2 components; three1.0.0 skills sci6-cells-evidence-of-life, sci6-cell-parts-functions, sci6-cell-as-a-system; sci6-life-science domain; no prerequisite edges. Frozen §§2–3 components/standards. | Scope values, no full-PE mastery, production unit registration or immediate drafting.                                                                                                                                                                   |
+| D-169 / SCI6-U2 | APPROVED 2026-10-15             | Six core practice records, two per skill; zero depth/teaching/assessment/review.                                                                                                                                                                     | Values only. Accept disclosed serialized practice and unhinted placement/review exposure for first records; no Math threshold default.                                                                                                                  |
+| D-170 / SCI6-U3 | APPROVED 2026-10-15             | Structured single-choice fields only, frozen §3 response contract.                                                                                                                                                                                   | Preserve D-157/D-158/D-160; no constructed-response scorer, rubric/LLM mastery or new response kinds.                                                                                                                                                   |
+| D-171 / SCI6-U4 | APPROVED 2026-10-15             | Frozen §2 virtual/provided-data-only safety policy and covered/not-assessed matrix for this unit.                                                                                                                                                    | No procedures, specimen collection, microscope operation, chemicals/live organisms or whole-PE claims. Other PEs/resource/climate choices unchanged.                                                                                                    |
+| D-172 / SCI6-U5 | APPROVED 2026-10-15             | Execute frozen §4 P1–P6 prerequisite implementation, including recommended P5, isolated Claude forge-implementer/Sonnet then independent Codex review and separate patch acceptance.                                                                 | Unavailable Science registry/prefix, domain/labels, Science skill/content rules, figure-label alternatives and invariant tests. No authored skills/content, availability flip, serving, commit/push or release.                                         |
+| D-173 / SCI6-U6 | APPROVED CONDITIONAL 2026-10-15 | Narrow D-61 drafting exception: grade-6-science, three D-168 skills, six D-169 core practice records. Opus drafts in isolated worktree/bundle, llm_drafted/owned/pending_review; cross-family Codex review.                                          | Starts only after U5 integration, applicable D-61 gate evidence and recorded engineering-owner sign-off. These conditions are not satisfied by this approval. No teaching/depth/held-out, figures outside approved static subset, registration/serving. |
+| D-174 / SCI6-U7 | APPROVED 2026-10-15             | Skill paths content/skills/<code>.json; record paths content/grade-6-science/<id>.json.                                                                                                                                                              | Path values only. Imports/catalog registration require later approval.                                                                                                                                                                                  |
+
+Approver: product/content/engineering owner, in chat. At this batch approval,
+D-173 conditions remained open and U5 execution did not preapprove its patch.
+
+**D-173 engineering-owner disposition — 2026-10-15:** after exact reviewed U5
+rev3 acceptance/application and integrated verification (94files/2,016tests/
+build), the owner replied **"approve"** to the explicit engineering sign-off
+for the three approved Science skills/six core practice drafts. Applicable
+D-61 evidence is in `docs/agent-handoffs/SCI6-PREREQ.md`. Conditions now
+satisfied for this scope only; [SCI6-DRAFT](agent-handoffs/SCI6-DRAFT.md) may
+start in Claude forge-expert/Opus. No production imports, content acceptance,
+availability, teaching, private assessment, provider invocation or release
+permission follows. Original D-173 table describes its conditional grant;
+this later disposition satisfies the named conditions without broadening it.
+Content human approval, registration, teaching and release remain separate.
+
+### Existing-content practice release PR-1–PR-7a — approved batch
+
+Owner, 2026-10-15: "for lane A decisions go with recommended approach. use
+your judgement." Applies to PRACTICE-RELEASE bundle
+`.git/agent-handoffs/PRACTICE-RELEASE/` (hash manifest SHA `95b003f4...d298`),
+proposal `04`. PR-2/PR-3 had no recommendation; the integrator chose the
+options requiring no new work or live change under that delegation.
+
+| ID / source   | Status              | Approved value                                                                                                                                | Scope / exclusions                                                                                  |
+| ------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| D-175 / PR-1  | APPROVED 2026-10-15 | S0: defer deployment; bundle the dormant structured code with the first reviewed structured-content slice.                                    | No deployment, activation or release now.                                                           |
+| D-176 / PR-2  | APPROVED 2026-10-15 | IC-9 option A (delegated judgement): leave `unit-rates-2@content-2` and `ratio-tables-2@content-2` with documented false-accept risk.         | No legacy item mutation, exclusion or code. Revisit before any release that serves them.            |
+| D-177 / PR-3  | APPROVED 2026-10-15 | Option (i) (delegated judgement): accept the other seven characterized `parts` items, limitation to be stated in any future release note.     | No correction authorized; false accept can still set "Independently confirmed". Revisit at release. |
+| D-178 / PR-4  | APPROVED 2026-10-15 | Accept unshown contest A–E choices (16 items), Spelling exact-match and two items per skill as-is for reuse; release note says practice-only. | No correction packet scheduled.                                                                     |
+| D-179 / PR-5  | APPROVED 2026-10-15 | Perform D-41 repeat screen-reader pass, 200% zoom/320px reflow and help-text decision before any release.                                     | Owner/named tester action; results not yet recorded. Not a claim the checks passed.                 |
+| D-180 / PR-6  | APPROVED 2026-10-15 | Owner reads production facts in bundle `04` §B1 (names only) before any push or deploy.                                                       | Owner action pending; no agent dashboard or credential access.                                      |
+| D-181 / PR-7a | APPROVED 2026-10-15 | Local commit of the exact 30 accepted application files. Executed as `059c7f6`.                                                               | No push, docs, config, migration or deployment.                                                     |
+
+Not granted: PR-7b push, PR-8 production migration 0018, PR-9 deployment,
+PR-10 fresh synthetic DB validation. Release and rollback owners remain
+unassigned.
+
+### D-182 — SCI6-REGISTER bounded execution and human approval metadata
+
+On 2026-10-16 owner **"approve"** answers the exact registration request
+presented after SCI6-DRAFT content acceptance/application. This authorizes
+SCI6-REGISTER execution only, with these approved values:
+
+- Six accepted practice records may change review.status to reviewed and
+  review.reviewer to **Product/content owner (chat approval 2026-10-16)**;
+  preserve originalityStatement and all accepted pedagogical/scoring bytes.
+- Import three accepted Skill files into src/curriculum/catalog.ts and six
+  practice files into src/content/catalog.ts; update directly coupled
+  curriculum/content/publication/Science tests, expected67skills/134records.
+- Science remains available:false, skill-graph-only/no Unit/Lesson refs;
+  no new records/versions/edges, UI/tutor/mastery/scorer/schema/exposure-policy
+  changes. Verify raw reviewed projection versus program-gated site/session
+  behavior honestly; exposure-policy change needs new scope.
+- Isolated Claude forge-implementer/Sonnet, database-free verification,
+  independent fresh Codex forge-reviewer/gpt-6.1-sol implementation review,
+  then separate exact patch acceptance/application. No future patch accepted.
+
+Evidence: accepted draft-rev2 patch27247a47...c5f, independent review
+`docs/sci6-draft-20261016-rereview.md` and exact proposal/owner disposition
+in SCI6-DRAFT packet. Not authorized: availability, teaching, private/learner/
+DB/provider/deployment/release/commit/push or another full content review.
+Owner-enabled local relay may dispatch this exact assigned native role and
+bounded status checkpoint while preserving all model/human gates.
+
+**D-182 metadata extension — owner approved 2026-10-16:** the current
+checkpoint's recommended option1 is selected: add
+`review.reviewedAt: "2026-10-16"` to the same six records, as required by
+ContentReviewSchema for reviewed status. This is the already-recorded human
+content approval date, not a new content review or synthetic date. Status,
+reviewer and reviewedAt are the only permitted metadata changes; preserve
+originalityStatement and all pedagogical/scoring/provenance fields. Same
+Sonnet worker resumes existing isolated edits, tests and freeze. No schema,
+exposure/availability policy, provider or release change authorized.
+
+**D-182 coupled-test recovery extension — owner approved 2026-10-17:**
+the owner's explicit recovery request additionally owns only
+`tests/contracts/structured-response-schema.test.ts` for the required
+registration regression. Preserve coverage of all 128 existing legacy
+records, the six exact structured Science records and the nine existing
+validators with parts. Add this exact file to the relay edit/freeze paths,
+and grant the status checkpoint read-only access to the worktree named in
+its pinned worker ticket; do not grant checkpoint edits there.
+Validate the relay corrections, preserve existing implementation work and
+all consumed runs, re-pin the corrected launch, clear only the matching
+checkpoint-denial pause and resume the same Sonnet session within
+60 minutes/eight invocations, checkpoints included. Independent fresh
+Codex technical review and in-scope corrections may proceed automatically.
+Science remains unavailable; exact human patch acceptance/application and
+all content/privacy/policy/release gates remain intact. No blanket
+permissions, policy changes, commit or push.
+
+**D-182 exact patch acceptance/application — owner approved 2026-10-17:**
+owner **"accept and authorize"** accepts and authorizes application of the
+independently reviewed 13-file SCI6-REGISTER patch, SHA-256
+`09bf08b8b4d7928b2c685e1049b728d143e65934bfdcc31a648e4cbbbb6ff968`.
+Codex GPT-6.1 Sol read-only review recorded zero findings with verified native
+identity. The integrator matched all target baselines before application
+and all 13 frozen output hashes afterward. Main now registers 67 skills and
+134 records, including the three accepted Science skills and six reviewed
+practice records; the existing 128 records are preserved.
+Raw reviewed projections include the six Science records; program/site/
+session-start availability remains off. This is exact patch acceptance and
+local application, not Science availability, teaching, release, deployment,
+commit or push authorization. No new curriculum authoring is granted.
+
+### D-183 — Delivery-level agent coordination and standing engineering acceptance
+
+**Owner authorized 2026-10-17.** The owner clarified that agents should
+"keep going in unison till we have a finished product", selected the existing
+delivery-first milestones (usable Grade 6 practice, complete Ratios, then the
+first usable Science unit), and answered the routine-engineering acceptance
+question with **"authorize complete approval till product is delivered"**.
+
+This is a standing mandate to coordinate that delivery sequence, not merely
+finish one task ticket. Implement a dependency-aware coordinator, reconcile
+live packets rather than stale session todos, and automatically continue
+eligible design, implementation, independent technical review, in-scope
+correction and local engineering integration. Routine in-scope engineering
+patches need not return to the owner for exact-patch acceptance after verified
+independent review and the required checks. Preserve review independence,
+actual-model evidence, isolated ownership, immutable artifacts, baseline
+checks and explicit acceptance evidence. A blocked task must not prevent
+unrelated eligible work. Prepare concrete successor scopes instead of
+waiting for the owner to type "continue".
+
+This mandate does not supply missing curriculum/content acceptance, a D-61
+authoring exception, private-content access, privacy or destructive-migration
+approval, manual accessibility observations, production facts, credentials,
+release/activation/deployment permission, or commit/push permission. Models
+may provide technical recommendations, not fabricate those facts or record
+themselves as the human approver. Batch genuinely required owner actions;
+continue independent eligible work while those actions remain pending.
+Deferred Concept Clips and unrelated course expansion are outside this
+delivery target. No unlimited spending, new fleet, permission bypass or
+automatic budget renewal follows. Use bounded, resumable runs with explicit
+status distinguishing active work, exhausted budgets, blocked tasks and
+milestone completion. A stopped watcher is not autonomous delivery.
+
+**D-183 narrowed execution — owner "go ahead", 2026-10-17:** after the first
+isolated prototype failed technical readiness, the owner authorizes the
+proposed smaller verified sequence: C1 task planning and durable run/control
+state; C2 acceptance/permissions/credential/check boundaries; C3 baseline-
+checked integration/recovery. Preserve the failed prototype and DC-01–DC-14
+counterexamples. Implement and independently review each increment before
+local application under the standing engineering acceptance. The new bounded
+run uses the existing 60-minute/eight-invocation defaults; it does not rewrite
+or automatically renew the old run. Routine technical corrections need no
+additional owner confirmation. C1 alone is not delivery autopilot and cannot
+invoke models, approve gates or apply product patches.
+
+**D-183 next-run authorization — 2026-10-17:** after C1 and its lint/format
+cleanup were accepted/applied, the owner explicitly authorized another
+60-minute/eight-native-invocation run, then increased its runtime to
+**120 minutes**. The eight-invocation cap is unchanged. Start with C2;
+continue to C3/dispatcher work only if sufficient implementation and
+independent-review budget remains. Preserve the exhausted prior run and
+all failures; no automatic renewal, permission bypass, human-gate changes,
+activation, deployment, commit or push.
+
+**D-183 declaration-regression follow-up — 2026-10-18:** after the C2 run
+exhausted eight native invocations with fifteen findings closed and one
+scanner regression remaining, the owner explicitly selected **"Authorize
+30 minutes / 2 native invocations for the remaining C2 fix and verification"**.
+This is a fresh bounded C2-only run: same original Sonnet, declaration-file
+scanner correction and directly coupled regressions, then independent Codex
+changed-scope verification. Preserve the exhausted run and all frozen
+revisions/reviews; no automatic renewal, C3, new scope/policy, human-gate
+changes, private/production access, commit, push, deployment or activation.
+Standing D-183 local engineering acceptance still requires technical readiness,
+exact reviewed bytes, current baselines and required checks.
+
+**D-183 follow-up budget extension — 2026-10-18:** before independent review,
+the integrator held the declaration fix because the author also changed
+process termination and lock retries outside that narrow scope. The owner
+explicitly selected **"Authorize one additional native invocation and a fresh
+30-minute window (two calls remaining)"**. The follow-up cap increases from
+two to three native calls, with one already consumed; only original-author
+removal of those two control deltas and independent changed-scope verification
+remain. Preserve the original authorization, pre-review hold, frozen rev4
+and exhausted prior run. No new feature/policy/permission, C3, human-gate
+change, commit, push, deployment or activation; no automatic further renewal.
+
+**D-183 renewed bounded autopilot — 2026-10-19 (UTC):** after the previous
+follow-up ended blocked on C2-05 resolver fidelity, the owner explicitly
+selected **"Authorize 120 minutes / 8 native invocations under D-183: finish
+C2, then C3 if budget permits"**. Preserve all exhausted runs, frozen
+revisions, reviews and cause checkpoints. Resume the original C2 author,
+require exact collision/positive controls and independent changed-scope
+verification, then validated local C2 acceptance. C3 may proceed only
+afterward with separately pinned scope and enough design, implementation
+and independent-review budget. No automatic renewal, new product scope,
+blanket permission, human-gate change, private/production access, commit,
+push, deployment or activation follows.
+
+**D-183 technical completion record — 2026-10-19 (UTC):** the renewed run
+consumed all eight native calls. Original Sonnet completed C2 corrections;
+independent native Codex `gpt-6.1-sol` returned ready with zero findings for
+rev9 `5519c634b74733d38d1078c5fa987494b62ffafceb90c1a0298bd320fc0d920a`.
+The integrator accepted/applied only those six reviewed files under the
+existing standing engineering mandate, without staging. Main checks pass
+166 agent/2,185 full tests/build and all five check groups; six output hashes,
+841 unowned root pins, HEAD/index and portable aliases are preserved.
+Evidence is common Git
+`agent-handoffs/DELIVERY-COORDINATOR/autopilot-20261019/`:
+`rev9-review-result.json`, `c2-application.json`,
+`main-c2-validation.json` and `c2-technical-acceptance.json`.
+Prior failures/revisions and cause checkpoints remain unchanged. Run ended,
+own claim released, no workers/watchers or automatic renewal. C3 was not
+started because insufficient native slots remained for its separate design,
+implementation and review. This is technical local acceptance, not a new
+owner authorization, product milestone, real-client C2 protocol smoke,
+human content/privacy/release acceptance, commit, push or deployment.
+
+**D-183 standing bounded execution authorization — 2026-10-19 (UTC):**
+after C2 local completion, the owner explicitly selected **"Authorize
+24 hours / 100 native invocations total, with automatic batch renewal
+until the approved milestones finish or either aggregate limit is reached"**.
+This is a new aggregate authorization, recorded at
+`2026-10-19T02:51:33.003Z`, ending at `2026-10-20T02:51:33.003Z`.
+The first of milestone completion, 100 consumed native invocations or the
+fixed deadline ends execution. Reservations and failed calls count; batch
+renewal never resets aggregate usage or extends its deadline. Old exhausted
+runs remain immutable and are not reopened.
+
+Within that allowance, automatically continue issue-sized C3 design,
+implementation, independent review, in-scope corrections, validated local
+integration, dispatcher wiring and the existing usable Grade 6 practice ->
+complete Ratios -> first usable Science unit sequence. Use native Opus for
+unresolved design, native Sonnet for defined engineering implementation and
+independent native Codex for technical review. Reconcile live packets, carry
+closed reviews forward and continue unrelated eligible work at a blocked
+task. This does not authorize unrelated expansion, a fleet, blanket tool/path
+permissions, automatic aggregate renewal, commit/push/deployment, or model
+substitution for protected human gates. Content, D-61, private access,
+privacy, migration, manual observations, production facts and release/
+activation gates remain explicit. Account/auth/quota failures and stop
+controls remain effective.
+
+Evidence: common Git
+`agent-handoffs/DELIVERY-COORDINATOR/standing-20261019/authorization.json`
+and its aggregate `run.json`. Automatic renewal applies to child batches
+inside this envelope, not to previous runs or additional aggregate budgets.
+Copilot currently coordinates native CLI children while the coordinating
+session is active; this authorization alone does not implement a persistent
+product watcher or guarantee execution after the session closes.
+
+The initial increment is the delivery coordinator and its synthetic tests.
+The existing Science ticket history stays immutable and SCI6-REGISTER stays
+DONE. This decision does not claim the coordinator is already implemented or
+running, nor that any learner-visible milestone is delivered.
+
+### D-184 — Claude Code-coordinated bounded window
+
+Owner, 2026-10-20: after the Copilot monthly quota was exhausted and control
+switched to Claude Code, owner replied **"approve both recommendations"**.
+New aggregate window `2026-10-20T13:25:35Z` to `2026-10-21T13:25:35Z`,
+**50 native invocations** maximum (each new or resumed Claude worker turn and
+each `codex exec` review counts, failures included), no automatic aggregate
+renewal. Same D-183 milestones (usable Grade 6 practice -> complete Ratios ->
+first usable Science unit), standing local engineering acceptance and
+preserved human gates (content, D-61, private access, privacy, destructive
+migration, manual accessibility, production facts, activation, deployment,
+release, commit/push). Claude Code integrator runs workers directly: native
+Opus forge-expert for design, Sonnet forge-implementer for implementation,
+`codex exec` `gpt-6.1-sol` read-only for independent review; at most two
+concurrent workers. Evidence: common Git
+`agent-handoffs/DELIVERY-COORDINATOR/claude-window-20261020/`.
+
+### D-185 — Protocol smoke abandoned
+
+Same owner response: the held docs-class dispatcher protocol smoke
+(enrollments `35bcc5ec...fb45564` and successor `ad88a3ce...7fbc7e`) is
+explicitly abandoned. Its frozen bundle, independent READY review, drain/
+restart (G3) and accounting (G4) evidence stay preserved; G2 (C3 COMPLETE
+receipt/publication/dependent-ready) is not claimed. The runbook bundle is not
+applied. The dispatcher is locally accepted code but is not used to run work
+in the D-184 window and is not claimed operational.
+
+### D-186 — Ratios catalog IMPL-1/IMPL-2 under the standing mandate (Q-0)
+
+Owner, 2026-10-20, reply **"approve all recommendations, R14(i)"** to the
+consolidated request: Q-0 option A. RAT-CATALOG-IMPL-1 and IMPL-2 (dormant
+version index, active selection, registration checks, digest manifest, probe-
+snapshot library; scope rev3 `9830b39f...f7a6` plus the RCI-R8 duplicate-
+occurrence test) are covered by the D-183/D-184 standing engineering mandate.
+This does not adopt P-A/H-1 as live behavior and authorizes no registration,
+route/admission/state wiring, content or private access, or activation.
+
+### D-187 — Science milestone definition (SU-H0)
+
+Same reply: SU-H0 (a). The first usable Science unit is the **practice-only**
+path of SCI6-USABLE scope rev3 `a6de4a4d...f2cf6` §1.2 (three D-168 skills,
+one Life Science chapter, no teaching, Units or Lessons).
+
+### D-188 — Science scope label (SU-H1)
+
+Same reply: SU-H1 (b). Learner-visible label **"Grade 6 Science (Cells unit,
+practice only)"**. Authorizes only those bytes in the SU-E3 candidate.
+
+### D-189 — Science tutor framing (SU-H2)
+
+Same reply: SU-H2 (b). Dispatch SU-E4 (exact Science rule text, the finite
+17-pattern hands-on check with its documented known gap, fallback text) and
+SU-E4b (capped real-eval selection). The paid run itself stays the separate
+SU-H7 gate; nothing here authorizes a provider call.
+
+### D-190 — Science content volume (SU-H3)
+
+Same reply: SU-H3 (a). The six reviewed records suffice; **no D-61 exception
+is requested**. Thinness, item reuse at the check, unhinted first encounters
+and unserved authored hints are disclosed, not corrected.
+
+### D-191 — Science claim disposition (SU-H10)
+
+Same reply: SU-H10 (b). Dispatch SU-E5 with mandatory rendered evidence and
+exactly this parent note: "Grade 6 Science rows come from practice checks on
+provided cell models, two items per topic. They do not show mastery of a full
+science standard, investigation skills or building models." Estimate and
+confirmation semantics (scope rev3 §4.2) are unchanged.
+
+### D-192 — Science threshold (SU-H11)
+
+Same reply: SU-H11 (a). `grade-6-science-default@1.0.0` is the Science v1
+profile; its only consumed value is `minEstimateGate 0.75`. Other fields stay
+dormant; no file change. Evidence: SU-E1 case 3 and SU-E2 cases 5 and 7.
+
+### D-193 — Paid-eval cap failure does not change the tutor choice (SU-R14)
+
+Same reply: option (i). If the SU-E4b call cap cannot be made to work, the
+D-189 choice stays (b) and **release stays blocked** until a capped paid eval
+passes under SU-H7. There is no automatic fallback to SU-H2 (c); changing the
+choice needs a new owner decision.
+
+### D-194 — Narrow D-61 drafting exception for public Grade 6 Math Ratios practice (RAT-CONTENT Q-1)
+
+Owner, 2026-10-21, reply **"approve all recommendations, with engineering
+sign-off"** to the RAT-CONTENT batch (scope rev2
+`87199e750a6ace25a7634aa490e5f11d3e5b92ecc39ec0e63e3001910b5fca04`, Codex
+`gpt-6.1-sol` READY_WITH_RISKS). Approved exactly as scope rev2 §5.1, under
+Q-2 (a): program `grade-6-math`; the five D-150 skills at `1.0.0`; drafting
+of exactly **22 public `practice` records** — 20 new identities, four per
+lesson (`<skill>-3`…`<skill>-6@content-1` at `content/ratios/<id>.json`), and
+`unit-rates-2@content-3` and `ratio-tables-2@content-3` at
+`content/ratios/unit-rates-2-content-3.json` and
+`content/ratios/ratio-tables-2-content-3.json`. Content follows plan
+TR-1–TR-7 (TR-3 corrected), D-151, D-152, D-154–D-162 and M-C. Opus drafts
+in the isolated RAT-CONTENT bundle; every record `llm_drafted`, `owned`,
+`review.status: pending_review`, `review.reviewer: "pending human review"`,
+no `reviewedAt`, not imported. Cross-family Codex review and per-item human
+content approval follow. **Excluded:** teaching; held-out, lesson/unit/
+review/delayed-check bank items, D-148 drafts, private access; any byte change
+to existing Ratios records, skills or lesson/unit/bank/program records;
+registration, import, serving, publication, ContentArchive or database work,
+deployment, commit, push; any other program or skill. The D-61 pause
+otherwise remains in force.
+
+### D-195 — Engineering-owner sign-off and D-61 applicability for D-194
+
+Same reply: engineering-owner sign-off given. Applicable D-61 evidence
+(integrator): practice-role authoring for an existing program may be unpaused
+by explicit owner decision once D-58/Stage A0 is done (`D-61`, this file);
+D-58 approved and Stage A0 shipped (PROGRESS 2026-09-19); `grade-6-math` is an
+existing available program; practice-role, structured-response contracts and
+practice UI are integrated (commit `059c7f6`); no held-out, private, rollout or
+teaching scope is requested. RC-2A/RC-2B drafting may start.
+
+### D-196 — TR-7 repair form (RAT-CONTENT Q-2)
+
+Same reply: Q-2 (a). Draft new versions `-2@content-3` at the `-content-3.json`
+paths. Drafting only: supersession of `content-2` at RC-5 still requires the
+D-176 revisit, O-13, ContentArchive capture before deployment and separate
+public-exposure authorization.
+
+### D-197 — Candidate derivation (RAT-CONTENT Q-3)
+
+Same reply: as listed in scope rev2 §5.2. Snack mix (TR-1) may be derived; art
+supplies optional with a gradable meaning format; table-and-unit-rate only
+with the R-5/R-6 repairs and an overlap check against `unit-rates-1`;
+percent-and-conversion is a model only, not adopted. Derived records are new
+identities naming the candidate in `provenance.sourceReference`; candidate
+files stay byte-identical.
+
+### D-198 — Ratio-tables coverage residual (RAT-CONTENT Q-4)
+
+Same reply: Q-4 (a). Cover comparing ratios with tables inside the new
+`ratio-tables` items; plotting table pairs remains uncovered and disclosed. No
+skill change.
+
+### D-199 — Teaching validator under the standing mandate (RAT-CONTENT Q-5)
+
+Same reply: Q-5 (a). RC-T1, a dormant teaching validation module per
+catalog-versioning §8 items 1–3, is covered by the D-183/D-184 standing
+engineering mandate. No teaching drafting or serving; the five-record
+teaching D-61 exception is requested after RC-T1 is accepted.
+
+### D-200 — D-184 window extension
+
+Owner, 2026-10-21T13:15Z (before the D-184 end), reply **"extend 24h / 30
+runs"**: the D-184 Claude-coordinated window is extended to
+`2026-10-22T13:25:35Z`, with 30 more native invocations (aggregate maximum 80;
+42 used at extension). All other D-184 terms are unchanged: same D-183
+milestones, roles, at most two concurrent workers, standing local engineering
+acceptance and preserved human gates. No further automatic renewal. Evidence:
+`agent-handoffs/DELIVERY-COORDINATOR/claude-window-20261020/authorization.json`
+(`extensions`) and `ledger.json`.
+
+### D-201 — Apply the Science activation candidate locally (SU-H5)
+
+Owner, 2026-10-21, reply **"approve Batch B recommendations"** to the
+SCI6-USABLE Batch B request: SU-H5 apply. The exact reviewed SU-E3 patch
+`b09e637065d09189b605f0691e773212ce5abd8f11c71db647206bac9015c163` (7 files;
+Codex `gpt-6.1-sol` READY_WITH_RISKS) is applied to the local main working
+tree, uncommitted: Science `available: true`, label "Grade 6 Science (Cells
+unit, practice only)". This is not a commit, push, deployment or release.
+
+### D-202 — One capped paid Science eval, run by the owner (SU-H7)
+
+Same reply: SU-H7 approved once, run by the owner in their own environment:
+`npm run eval:run-real -- --cases evals/real-runs/science-framing-v1.json
+--max-calls 24 --out reports/sci6-real-eval.md --confirm-paid`. At most 24
+requests and 7,200 output tokens; no script-enforced dollar cap (console
+monthly limit only). Agents do not run it or handle the key. The owner reads
+the report; under D-193 release stays blocked until it passes.
+
+### D-203 — D-176/D-177 reaffirmed for this release (H9e)
+
+Same reply: H9e reaffirm. D-176/D-177 stand for the Science release; the
+Ratios TR-7 supersession (D-196) is decided separately at RAT-CONTENT RC-5.
+
+### D-204 — Post-deploy smoke scope adopted (H9h1)
+
+Same reply: H9h1 adopt, as written in SCI6-USABLE scope rev3 §4.3: `/login`
+200; parent sign-in; Math landing unchanged; unavailable programs still
+"coming soon"; Science shows one chapter with three topics; one placement
+answer on an owner-chosen test learner (deletable production rows); no
+progression panel. Adoption only; execution is H9h2 after a deployment.
+
+SU-H6 (manual accessibility) and H9a (production facts) are owner actions
+still pending; they are not answered by this reply.
+
+### D-205 — Narrow `ratio-tables-2@content-3` evidence (RAT-CONTENT CA-R1)
+
+Owner, 2026-10-21, reply **"approve CA-R1 (a) and CA-R2 (a)"**: CA-R1 option
+(a). The draft's evidence statement is narrowed to what the structured answer
+actually checks: "finds the unit rate (minutes per mile) and uses it to find
+the time for a new distance". No explanation is claimed. The original Opus
+author corrects the draft (`draft-A-rev2`); Codex re-reviews the changed
+scope. This is not content acceptance: per-item approval remains RC-4.
+
+### D-206 — Accept depth mode for `unit-rates-2@content-3` (RAT-CONTENT CA-R2)
+
+Same reply: CA-R2 option (a). The TR-7 version `unit-rates-2@content-3` is
+authored in `depth` mode instead of the prior `contest` mode, because
+structured validators are rejected in contest mode (`src/content/catalog.ts`
+`:327-330`). Mode change only; per-item content approval remains RC-4.
+
+### D-207 — Delegated cross-family model sign-off for two gate classes
+
+Owner, 2026-10-22, reply **"Approve D-207 as proposed and RC-4 all 14"**.
+Revocable by the owner at any time. Two gate classes may be signed off by a
+cross-family reviewer (Codex `gpt-6.1-sol`, actual model verified from client
+metadata) for Claude-authored work, instead of a separate owner reply:
+
+1. **In-scope dispositions:** a choice between options inside an
+   owner-approved scope (like CA-R1/CA-R2). Adopted only when the reviewer and
+   the integrator recommend the same option; any disagreement, or an option
+   that widens scope, goes to the owner. Each adoption is recorded as its own
+   decision naming the reviewer report.
+2. **Per-item practice content acceptance:** practice-role items with a
+   deterministic structured answer, where the reviewer independently re-solves
+   every answer and the frozen harness passes. The integrator records the
+   batch, sends the owner a summary, and draws about 3 random items for an
+   owner spot-check. The owner may reject any item for 7 days after the
+   summary. A rejected item is withdrawn before registration (RC-5).
+
+Excluded, still human: teaching or held-out content, private-bank access,
+paid-provider runs and keys, manual accessibility, production facts,
+privacy, spending, destructive migrations, D-61 exceptions and scope
+approvals, registration/exposure, commit, push, deployment and release.
+Claude or Opus review never qualifies; unknown model identity never
+qualifies. Rulebook amended: `AGENTS.md` (model selection) and
+`docs/agent-orchestration.md` (**Delegated model sign-off**).
+
+### D-208 — RAT-CONTENT RC-4: batch A content accepted (14 items)
+
+Same reply: the owner accepts all 14 items of `draft-A-rev2` (freeze
+`496ab837a178f5ff1a0ab955df9571b1cbfe92efec660fee62c58aa21524c758`; list
+`agent-handoffs/RAT-CONTENT/rc4-request.md`
+`c0aeb5bf0ffcc0ab00d2b69f810b0d70569f640cacbe55bd799dbe919055aa63`):
+ratio-language-3–6, ratio-tables-2@content-3, ratio-tables-3–6,
+unit-rates-2@content-3, unit-rates-3–6. Content acceptance only;
+registration, serving, TR-7 supersession and commit remain RC-5 gates
+(K-3/O-10, O-13, D-176 revisit).
+
+### D-209 — RAT-CONTENT batch B: six items accepted under D-207 sign-off
+
+Delegated sign-off (D-207), not an owner reply. Codex `gpt-6.1-sol` (verified,
+thread `01a15eae-f16c-72a1-8335-eb30eda75782`; report
+`agent-handoffs/RAT-CONTENT/rc3-B/review-r1-report.md`
+`8ec80ef7c9d90d395721b2b8968f422d4db3e8f3dbdb0360352fc60b00e06678`)
+independently re-solved every answer. Frozen harness rev3
+(`ce0083f71ecfd721fd0e4eb727717adafc2083561fa73a879e2185e1411c23f1`) passes
+69/69 on the batch. Accepted, exact `draft-B-rev1` bytes (freeze
+`013995567051b4a33bcb295b677f4249b34d46ce9955cb5fa64c906da308f343`):
+double-number-lines-5, double-number-lines-6, percent-applications-3–6.
+Owner summary sent 2026-10-22T02:14Z. The owner may reject any item until
+2026-10-29T02:14Z. Random spot-check draw: percent-applications-3,
+percent-applications-6, double-number-lines-6.
+
+Not accepted: double-number-lines-3 and -4 (legacy numeric validators; CB-R1
+correction pending; their acceptance stays with the owner because D-207 covers
+structured answers only). Content acceptance only; RC-5 gates unchanged.
+
+### D-210 — RAT-CONTENT RC-4: double-number-lines-3 and -4 accepted
+
+Owner, 2026-10-22, reply **"approved"** to the single pending approval
+request ("Accept DNL-3 and DNL-4"; the other open owner items are actions or
+facts, not approvals). Accepted content, exact `draft-B-rev2` bytes (freeze
+`e1f94444c70b65b20e88013d9faaf2a5086e20b7a419638d9cabc7e797d8f49c`):
+`double-number-lines-3@content-1`
+(`982548da2e7a33cd19e341177678f0d455712a48e76ea036e7fc4fea1f6a8346`) and
+`double-number-lines-4@content-1`
+(`14cc4a2f3a54431fe183be17523d81d79105ad1742229ca005e512d54b3a6e56`), on the
+Codex `gpt-6.1-sol` recommendation (`rc3-B/r2/review-r2-report.md`
+`a837e805...6968`), with the disclosed legacy answer-form limitation. With
+D-208 and D-209 all 22 RAT-CONTENT practice drafts are accepted (D-209 veto
+window open to 2026-10-29T02:14Z). Content acceptance only; RC-5 gates
+unchanged.
+
+### D-211 — D-184 window extended again (time only)
+
+Owner, 2026-10-22T02:31Z (before the D-200 end), asked to "extend the window
+for another 24-48 hrs and keep going". The window end becomes
+`2026-10-24T13:25:35Z` (48 hours past the D-200 end, the upper bound asked).
+No invocation count was given, so the aggregate cap stays at 80 (56 used)
+until the owner names one. All other D-184/D-200 terms are unchanged.
+Evidence: `authorization.json` (`extensions`) and `ledger.json`.
+
+### D-212 — 100 more runs; model decisions replace owner approvals (widens D-207)
+
+Owner, 2026-10-22T02:33Z, reply **"add 100 runs. do not block for human
+approval, instead use an alternative model to review and make decisions."**
+Revocable by the owner at any time.
+
+1. **Runs.** Aggregate invocation cap 180 (56 used); window end unchanged at
+   `2026-10-24T13:25:35Z` (D-211).
+2. **Delegated decisions.** Every approval or owner-choice gate that is
+   internal to this repository and reversible is decided by the verified
+   cross-family reviewer (Codex `gpt-6.1-sol` for Claude-authored work) instead
+   of a separate owner reply. This includes content acceptance of any role
+   (practice, legacy, teaching), D-61 exceptions, scope approvals,
+   dispositions, owner-choice design questions (e.g. OC-3, OC-5 as a decision
+   only), risk acceptances and local application of reviewed patches. The
+   reviewer receives the options, evidence and integrator recommendation and
+   gives a binding decision with reasons; the integrator records each as its
+   own decision naming the report. No owner veto window is required, but every
+   delegated decision is listed in PROGRESS for later owner override.
+3. **Not delegable; worked around, not waited on.** Actions a model cannot
+   perform or that leave the repository or this machine stay with the owner,
+   and agents continue other eligible work instead of stopping for them:
+   paid-provider runs and API keys (D-202), manual assistive-technology
+   accessibility passes, production facts, access to production, learner or
+   private data (including the private bank, O-10), commit, push,
+   deployment, release and production migrations. A delegated decision may
+   choose an option whose execution needs one of these; the execution then
+   waits for the owner.
+4. **Preserved.** Cross-family review with verified model identity, never
+   same-family or unknown; deterministic evidence; claims, ledgers and the
+   no-`.env` rule; at most two concurrent workers.
+
+Supersedes the narrower D-207 scope; D-207 decisions remain valid. The
+matching rulebook amendment to `AGENTS.md` and `docs/agent-orchestration.md`
+was first blocked by the agent permission classifier (self-modification); on
+the owner's explicit request ("can you make the necessary edits to switch to
+cross family model decisions") it was applied on 2026-10-22.
+
+### D-213 — RC-5 local registration authorized (G-1)
+
+Owner, 2026-10-22, reply **"approve G-1 to G-6 as recommended"** to
+`agent-handoffs/RAT-CONTENT/rc5-decisions/request.md`. G-1 (a): the 22
+accepted RAT-CONTENT practice records may be registered in the local tree
+(`rawContent`, `servableContentCatalog`); uncommitted and reversible. Actual
+exposure happens only at an owner deployment. K-1 (served before lesson
+2.0.0, via legacy grants) accepted as documented.
+
+### D-214 — O-13 settled for the future by supersession (G-2)
+
+Same reply: G-2 (a). O-13 is settled as moot going forward:
+`unit-rates-2@content-2` and `ratio-tables-2@content-2` (2026-10-09 bytes,
+commit `5a452de`) are superseded by the reviewed and accepted `content-3`
+versions (D-208) and are not served after RC-5. Historical attempts stay
+attributable to those exact bytes by hash. No retroactive approval of the
+2026-10-09 edits.
+
+### D-215 — D-176 interim choice ends at RC-5 (G-3)
+
+Same reply: G-3 (a). At RC-5, the Ratios imports switch to the `-content-3`
+files and both `-2@content-2` records leave the loader (files stay on disk),
+removing their known false accepts. D-203 remains valid for any Science-only
+release cut before RC-5.
+
+### D-216 — K-3 accepted for local registration only (G-4)
+
+Same reply: G-4 (a). The held-out leakage risk K-3 is accepted for local
+registration. A private-side non-reuse check (O-10; owner or owner-authorized)
+is required before any deployment that serves these items.
+
+### D-217 — ContentArchive capture is a deployment precondition (G-5)
+
+Same reply: G-5 (a). Before any deployment carrying RC-5, ContentArchive must
+hold `unit-rates-2@content-2` and `ratio-tables-2@content-2`. RC-5 validation
+checks `npm run content:archive` on a synthetic database; production capture
+is owner-only.
+
+### D-218 — Narrow D-61 exception for five dormant Ratios teaching drafts (G-6)
+
+Same reply: G-6 (a). Parallel to D-194. Program `grade-6-math`; five teaching
+records, one per D-150 skill, at
+`content/teaching/ratios/<skill>-teaching-<n>.json`, validated only by the
+dormant RC-T1 module. Opus drafts with D-194-style draft metadata
+(`review.reviewer` "pending human review"); RC-T1 validation, Codex review,
+then content acceptance. No serving, no `TEACHING` grant, no lesson refs
+(OC-3, OC-5 open). The RC-T1 test asserting `content/teaching` is absent is
+replaced by one validating every real record.
+
+### D-219 — Commit and push authorized; approvals delegated to Codex until completion
+
+Owner, 2026-10-22, reply **"continue commit and push. for approvals,
+delegate to codex. no human approval should be needed till completion."**
+
+1. Commit and push the current local work to `main` (direct to main, no PR).
+   A push to `main` runs CI and the curriculum-site (GitHub Pages) workflow,
+   which republishes the D-58 projection of reviewed content. No learner app
+   deployment workflow exists; app deployment, production migrations and
+   release remain owner actions (D-175).
+2. Further commits and pushes of reviewed, validated work in this delivery
+   run are authorized without another reply.
+3. Reaffirms D-212: approval gates are decided by verified Codex
+   `gpt-6.1-sol`; agents do not wait for owner approval until the D-183
+   milestones complete. Owner-only actions a model cannot perform (paid
+   eval with the owner's key, manual assistive-technology pass, production
+   facts, private data) are worked around and reported, not waited on.
+
+There are 219 decisions: D-01 through D-75, D-139, D-142, D-145–D-219 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

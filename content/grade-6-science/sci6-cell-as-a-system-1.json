@@ -1,0 +1,89 @@
+{
+  "id": "sci6-cell-as-a-system-1",
+  "version": "1.0.0",
+  "title": "When the food-making part stops",
+  "role": "practice",
+  "skillRef": { "code": "sci6-cell-as-a-system", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["MS-LS1-2"],
+  "observableEvidence": [
+    "Predicts the effect on the whole cell when one identified part in a provided model stops doing its role."
+  ],
+  "prompt": "A computer model of a leaf cell gives each part one main role:\n\n- Chloroplasts use light to make food for the cell.\n- Mitochondria use that food to release energy that the cell's other parts need.\n- The cell membrane controls what enters and leaves the cell.\n- The nucleus holds instructions that direct the cell's activities.\n\nIn this model, the cell gets no food from outside. It must make all of its own food.\n\nA science class already ran the model with one change: the chloroplasts stopped working, while the light stayed on. What does the model predict for the whole cell over time?",
+  "solutionRepresentation": "Food runs low, so the cell has less energy for all its parts. In the model, the chloroplasts are the only source of food. The mitochondria need that food to release energy, and the other parts need that energy. When the chloroplasts stop, the effect passes along the chain to the whole cell. The light being on does not help, because the part that uses light has stopped, and no other part in the model takes over the job of making food.",
+  "solutionMethod": "Trace the chain of roles in the model from light to chloroplasts to food to mitochondria to energy for the other parts, then follow what happens further along the chain when its first link stops.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": { "id": "structured-fields", "version": "1" },
+    "canonicalAnswer": "Prediction for the whole cell: Food runs low, so the cell has less energy for all its parts",
+    "acceptedAnswers": [
+      "Prediction for the whole cell: Food runs low, so the cell has less energy for all its parts"
+    ],
+    "equivalenceNotes": "Structured single-choice field. The field must match its correct option.",
+    "fields": [
+      {
+        "key": "prediction",
+        "kind": "choice",
+        "label": "Prediction for the whole cell",
+        "options": [
+          {
+            "id": "only-chloroplasts",
+            "label": "Only the chloroplasts are affected; the rest works as before"
+          },
+          {
+            "id": "food-runs-low",
+            "label": "Food runs low, so the cell has less energy for all its parts"
+          },
+          { "id": "mitochondria-take-over", "label": "The mitochondria start making food instead" },
+          { "id": "light-keeps-going", "label": "Nothing changes, because the light is still on" }
+        ],
+        "correctOptionId": "food-runs-low"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "parts-work-independently",
+    "parts-take-over-jobs",
+    "input-alone-keeps-cell-working"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Follow the chain in the model: what does each part give to the next part?",
+      "question": "Which part depends on what the chloroplasts make?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Draw arrows for the model: light, then chloroplasts, then food, then mitochondria, then energy, then the other parts of the cell. Now block the arrow that leaves the chloroplasts. Remember that the model gives no other part the job of making food.",
+      "question": "What happens to each step further along the chain when that arrow is blocked?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: in a bakery, the oven bakes bread and the shop sells the bread. No bread comes from anywhere else. If the oven stops working, the shop soon has nothing to sell, even though the shop itself is not broken and the lights in the shop are still on.",
+      "question": "In the cell model, which parts are like the shop, and what happens to them over time?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Prediction for the whole cell: Food runs low, so the cell has less energy for all its parts",
+    "Food runs low, so the cell has less energy for all its parts",
+    "Food runs low",
+    "less energy for all its parts"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (chat approval 2026-10-16)",
+    "reviewedAt": "2026-10-16",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SCI6-DRAFT. Original virtual model, options and hints inside the MS-LS1-2 assessment boundary (each part's relationship to the whole cell, no biochemistry); cites the code only and reproduces no standards or assessment text."
+  },
+  "accessibilityNotes": "All information is in text; there is no figure. The model's roles are a short bulleted list that screen readers announce in order. No answer depends on color, position or drag interaction. The response is one labelled radio group.",
+  "accessibleAlternative": "A computer model of a leaf cell. Chloroplasts use light to make food for the cell. Mitochondria use that food to release energy that the other parts need. The cell membrane controls what enters and leaves. The nucleus holds instructions that direct the cell's activities. The cell gets no food from outside. A class already ran the model with the chloroplasts stopped and the light still on. Question, Prediction for the whole cell: what does the model predict over time? Options: Only the chloroplasts are affected; the rest works as before. Food runs low, so the cell has less energy for all its parts. The mitochondria start making food instead. Nothing changes, because the light is still on.",
+  "itemReadinessRefs": []
+}

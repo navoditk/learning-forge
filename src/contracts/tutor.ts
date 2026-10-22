@@ -78,6 +78,7 @@ export function validateTutorMove(
   candidate: unknown,
   authorization: TutorAuthorization,
   protectedTokens: readonly string[] = [],
+  prohibitedActivityPatterns: readonly RegExp[] = [],
 ): TutorMoveValidation {
   const parsed = TutorMoveOutputSchema.safeParse(candidate);
   if (!parsed.success) {
@@ -105,6 +106,9 @@ export function validateTutorMove(
   const responseText = `${move.learnerMessage} ${move.question}`;
   if (containsProtectedAnswer(responseText, protectedTokens)) {
     reasons.push('answer_leak_detected');
+  }
+  if (prohibitedActivityPatterns.some((pattern) => pattern.test(responseText))) {
+    reasons.push('prohibited_activity_detected');
   }
 
   return reasons.length > 0

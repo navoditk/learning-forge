@@ -11,10 +11,37 @@ const item = contentCatalog.find((candidate) => candidate.skillRef.code === skil
 const programs = [{ code: skill.program, label: 'Synthetic program', available: true }];
 
 describe('public curriculum skill projection', () => {
-  it('preserves the currently reviewed, available catalog', () => {
-    expect(publishableSkillProjection(skillCatalog, contentCatalog, PROGRAM_ROSTER)).toEqual(
-      skillCatalog,
+  it('projects all 67 catalog skills; the 64 non-Science members are unchanged', () => {
+    const nonScience = skillCatalog.filter((candidate) => candidate.program !== 'grade-6-science');
+    expect(nonScience).toHaveLength(64);
+    expect(skillCatalog).toHaveLength(67);
+    const projected = publishableSkillProjection(skillCatalog, contentCatalog, PROGRAM_ROSTER);
+    expect(projected).toEqual(skillCatalog);
+    expect(projected.filter((candidate) => candidate.program !== 'grade-6-science')).toEqual(
+      nonScience,
     );
+  });
+
+  it('withholds registered, reviewed Science skills when the program is injected as unavailable', () => {
+    // Negative control: a synthetic roster with Science unavailable.
+    const roster = PROGRAM_ROSTER.map((entry) =>
+      entry.code === 'grade-6-science' ? { ...entry, available: false } : entry,
+    );
+    const projected = publishableSkillProjection(skillCatalog, contentCatalog, roster);
+    expect(
+      skillCatalog.filter((candidate) => candidate.program === 'grade-6-science'),
+    ).toHaveLength(3);
+    expect(projected.some((candidate) => candidate.program === 'grade-6-science')).toBe(false);
+    const rendered = buildBody(contentCatalog, skillCatalog, roster);
+    expect(rendered.body).not.toContain('sci6-cells-evidence-of-life');
+    for (const title of [
+      'Evidence that living things are made of cells',
+      'Roles of cell parts in a cell model',
+      'The cell as a system of working parts',
+      'Three magnified pictures',
+    ]) {
+      expect(rendered.body).not.toContain(title);
+    }
   });
 
   it('withholds unavailable programs even when content is reviewed', () => {

@@ -126,6 +126,12 @@ import snsb6VariantDictionaryJudgment1 from '../../content/scripps-spelling-bee-
 import snsb6VariantDictionaryJudgment2 from '../../content/scripps-spelling-bee-6/snsb6-variant-dictionary-judgment-contest-2.json';
 import snsb6OralRoundProcedure1 from '../../content/scripps-spelling-bee-6/snsb6-oral-round-procedure-core-1.json';
 import snsb6OralRoundProcedure2 from '../../content/scripps-spelling-bee-6/snsb6-oral-round-procedure-contest-2.json';
+import sci6CellsEvidenceOfLife1 from '../../content/grade-6-science/sci6-cells-evidence-of-life-1.json';
+import sci6CellsEvidenceOfLife2 from '../../content/grade-6-science/sci6-cells-evidence-of-life-2.json';
+import sci6CellPartsFunctions1 from '../../content/grade-6-science/sci6-cell-parts-functions-1.json';
+import sci6CellPartsFunctions2 from '../../content/grade-6-science/sci6-cell-parts-functions-2.json';
+import sci6CellAsASystem1 from '../../content/grade-6-science/sci6-cell-as-a-system-1.json';
+import sci6CellAsASystem2 from '../../content/grade-6-science/sci6-cell-as-a-system-2.json';
 import {
   ContentRecordSchema,
   ContentRecord,
@@ -136,6 +142,7 @@ import {
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
 import { validateItemReadinessRefs } from '../curriculum/progression-catalog';
 import { programsByCode } from '../curriculum/program-registry';
+import { SCIENCE_PROGRAM_CODE, validateScienceContentRules } from '../curriculum/science-rules';
 import { validateStructuredValidatorRules } from './structured-response';
 
 const rawContent = [
@@ -267,6 +274,12 @@ const rawContent = [
   snsb6VariantDictionaryJudgment2,
   snsb6OralRoundProcedure1,
   snsb6OralRoundProcedure2,
+  sci6CellsEvidenceOfLife1,
+  sci6CellsEvidenceOfLife2,
+  sci6CellPartsFunctions1,
+  sci6CellPartsFunctions2,
+  sci6CellAsASystem1,
+  sci6CellAsASystem2,
 ] as const;
 
 function validateParsedContentCatalog(
@@ -319,6 +332,9 @@ function validateParsedContentCatalog(
       if (violations.length > 0) {
         throw new Error(`${item.id} has an invalid structured validator: ${violations.join('; ')}`);
       }
+    }
+    if (skill.program === SCIENCE_PROGRAM_CODE) {
+      validateScienceContentRules(item);
     }
     if (skill.program === 'math-kangaroo-6' && item.mode === 'contest') {
       if (!item.contestFormat) {

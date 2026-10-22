@@ -17,6 +17,17 @@
 > logic in the optional tenant CHECKs, L2a) and RR-2 (malformed-snapshot
 > flow and H-02 option A scope, L2b). Owner items H-01/H-02/A-1/C-1 are
 > preserved; G-12 and G-13 remain **untested** and are stated conditionally.
+> **Revision 4 (2026-10-11, document-only, packet
+> `docs/agent-handoffs/LIFECYCLE-L2A-DESIGN.md`):** re-pins L2a to committed
+> head `0018_add_teaching_delivery_context` (X-1/X-2), adopts the
+> recommendations below for the `User` composite target, the V2 relation
+> representation (X-3) and the transaction form, using the G-12/G-13 scratch
+> probe results. §0.1 separates **observed** probe results, **recommendations**
+> and **owner approvals**. Changed sections: header, §0.1 (new), §1, §2 fact 3,
+> §5, §6, §6.1, §6.2 (new), §8, §13 (owner-record note, §13.2 H-10/H-13,
+> §13.3 new), §14, §15, §16. Every L2b section (§3, §4, §7, §9–§12) is
+> unchanged in substance. Recommendations are not approvals; no L2a migration,
+> schema, privacy, writer or release approval exists.
 
 ## 0. Review disposition (R1–R7)
 
@@ -38,24 +49,83 @@ destructive testing, token/secret hygiene and set-once timestamps are
 **inherited invariants**, not new votes. Only genuinely new behavior is listed
 as a human blocker in §13.
 
+## 0.1 Revision 4: observed evidence, recommendations, owner approvals
+
+Inputs: reviewed decision brief `docs/lifecycle-l2-decision-brief.md`
+(SHA-256 `fbd345f3…b2fd`, §7 probe plan, §8 X-1–X-3, X-13), the G-12/G-13
+probe bundle `<git-common-dir>/agent-handoffs/LIFECYCLE-L2-PROBES/`
+(30 files, `MANIFEST.sha256` SHA-256 `01492df6…a3`, all entries re-verified
+for this revision) and its independent review
+`docs/lifecycle-l2-probes-20261011-review.md` (SHA-256 `ac59167a…a3c`,
+verdict "ready for human review with noted risks").
+
+### 0.1.1 Observed (scratch probe results; evidence, not approval)
+
+Environment for every observation: PostgreSQL **16.15**
+(`postgres:16-alpine`, task-owned container), Prisma CLI **6.19.3**,
+`BASE_COMMIT` `3e7c333`, baseline tree of 19 migration directories with head
+`0018_add_teaching_delivery_context`; each case had its own tree, database and
+shadow, and met the attempted-migration assertion.
+
+| Probe | Observation (from `p12_*.log`, `g13_*.log` and the packet results)                                                                                                                                                                                                                                                                                        |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P12-1 | Explicit `BEGIN`/`COMMIT`, success: exit 0; 20 finished rows; no nesting/transaction warning; probe table exists                                                                                                                                                                                                                                          |
+| P12-2 | Explicit `BEGIN`/`COMMIT`, failure: exit 1 with `current transaction is aborted, commands ignored until end of transaction block`; the original `division by zero` was **not** shown; the unfinished `_prisma_migrations` row has **empty** `logs`; no probe table or enum persisted                                                                      |
+| P12-3 | Bare file (no explicit boundary), failure: exit 1, Prisma `P3018` naming the migration and `SQLSTATE 22012 division by zero`; the same error text is in the unfinished row's `logs`; no probe table or enum persisted                                                                                                                                     |
+| P12-4 | `psql -v ON_ERROR_STOP=1 -f` on an explicit-boundary down with `LOCK … ACCESS EXCLUSIVE` and an emptiness guard: exit 3 (`refuse`); the table and its one synthetic row remained                                                                                                                                                                          |
+| G-13  | V1 (§5 rev 3, with `actorHouseholdId`/`clearHouseholdId`/`clearLearnerProfileId`) and V2 (without them) both: `prisma validate` exit 0; generated SQL contains no `LearnerProfile_id_householdId_key`, longest identifier 62 bytes; own `9100_*` migration deployed (20 finished rows); drift classifier: no unexpected drift (10 known baseline renames) |
+| G-13  | Both variants added `User @@unique([id, householdId])` (`User_id_householdId_key`) and `Session @@unique([id, householdId, learnerProfileId])`; V1 created 8 CHECKs, V2 6 CHECKs (no tenant CHECKs); each 6 FKs and 2 triggers. Object counts prove **creation only**                                                                                     |
+
+Not observed by any probe: negative-row behavior of any CHECK, FK or trigger
+(including the RR-1 partial-null fixtures); the real L2a `down.sql`; a failure
+after a down's drops begin; behavior of any file other than the probe files;
+production PostgreSQL version, index lock duration, row counts or deploy
+overlap. Probe review **R-01** (minor): retained G-13 logs abbreviate actual
+schema/migration/shadow paths and some environment/working-directory context;
+the exact commands live in the original local Claude runtime record. Wherever
+this revision relies on exact probe commands, that limit applies: a later
+migration reviewer on another machine needs a sanitized filtered runtime
+companion, or must confirm the local runtime record is still available.
+
+### 0.1.2 Recommendations of this revision (not approvals)
+
+| ID   | Recommendation                                                                                                                               | Alternative stated in  |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| X-1  | Pin L2a to head `0018` (19 directories); number assigned at merge (G-02)                                                                     | — (fact, §1)           |
+| X-2a | Reuse the existing `LearnerProfile_id_householdId_key`; L2a neither creates nor drops it                                                     | — (fact, §5, §6, §6.1) |
+| X-2b | **U1:** add `User @@unique([id, householdId])` (`User_id_householdId_key`), owned and dropped by L2a                                         | U2, §5.1               |
+| X-3  | **V2:** no duplicate tenant columns; actor/clear FKs reuse the row's `householdId`/`learnerProfileId`                                        | V1, §5.2               |
+| G-12 | Forward `migration.sql` in the **bare** form (no explicit `BEGIN`/`COMMIT`); `down.sql` keeps its **explicit** `BEGIN`/`LOCK`/guard/`COMMIT` | §6.2                   |
+
+### 0.1.3 Owner approvals (recorded elsewhere; quoted, not extended)
+
+- `docs/agent-handoffs/LIFECYCLE-L2.md` "Owner decision record (2026-10-11)":
+  H-01 option A; H-02 (i)–(iv) option B; A-1 acknowledged; C-1 broad S-07
+  reading. These govern **L2b only** and are not reopened here.
+- The same record authorized the G-12/G-13 scratch probes only.
+- `docs/agent-handoffs/LIFECYCLE-L2A-DESIGN.md`: the owner approved this
+  document-only revision only.
+- `docs/course-progression-review/manual-gate-record.md` has no L2 migration,
+  privacy or release entry. Nothing approves an L2a migration, schema,
+  privacy-inventory change, writer, backfill or release.
+
 ## 1. Scope and pinned baseline
 
-| Item                 | Value                                                                                                                                                                        |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Code baseline        | `HEAD 4f678f5` plus the uncommitted, approved L1 files (`src/contracts/session-lifecycle.ts`, `src/progression/session-lifecycle.ts`, their tests, the lifecycle design doc) |
-| Schema head          | `prisma/migrations/0017_add_audit_log` (18 directories; `0007` is duplicated: `0007_add_assessment_attempt_contexts`, `0007_add_shadow_request_context`)                     |
-| Next migration name  | **Not chosen.** Written as `<NNNN>_add_session_termination_records`. The number is assigned at merge time against whatever head exists then (see `scripts/db-rollback.sh`)   |
-| Concurrent migration | At preflight time no local worktree/branch and no open PR is ahead of `0017`. Re-check immediately before authoring the migration                                            |
-| Deploy model         | `npm run db:deploy` runs in Render `buildCommand` while the old instance still serves (`docs/architecture.md` §10.4) — old code can end sessions after the migration commits |
-| Database             | Postgres 16 locally (`docker-compose.yml`); production major version **unverified** (gate G-03)                                                                              |
+| Item                 | Value                                                                                                                                                                                                                        |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Code baseline        | Rev 4: committed `HEAD 3e7c333` (L1 contracts/helpers and the lifecycle design are committed there). Rev 1–3 pinned `4f678f5`; their line citations outside §5–§6.2 are not re-derived (brief X-4)                           |
+| Schema head          | Rev 4: `prisma/migrations/0018_add_teaching_delivery_context` (**19** directories; `0007` is duplicated: `0007_add_assessment_attempt_contexts`, `0007_add_shadow_request_context`). Rev 1–3's `0017`/18 is superseded (X-1) |
+| Next migration name  | **Not chosen.** Written as `<NNNN>_add_session_termination_records`. The number is assigned at merge time against whatever head exists then (see `scripts/db-rollback.sh`)                                                   |
+| Concurrent migration | Not re-checked by this document-only revision. Re-check `main`, all branches/worktrees and open PRs immediately before authoring the migration (G-02)                                                                        |
+| Deploy model         | `npm run db:deploy` (`prisma migrate deploy && npm run content:archive`) runs in Render `buildCommand` (`render.yaml:20`). Old-instance overlap is not provable from the repository (brief X-5); R4/C-1 assume it            |
+| Database             | Postgres 16 locally (`docker-compose.yml`); scratch probes ran on 16.15. Production major version **unverified** and not inferred from the probes (G-03)                                                                     |
 
-Migration transaction: no existing `migration.sql` contains an explicit
-`BEGIN` (the only `BEGIN` in `0001_init` is a PL/pgSQL body), `db:deploy` is
-`prisma migrate deploy`, and `scripts/test-migrations.sh` /
-`scripts/db-rollback.sh` apply files with `psql -f` without
-`--single-transaction`. This preflight therefore does **not** rely on any
-implicit wrapper; §6 drafts the boundary explicitly (G-12 verifies the Prisma
-interaction on scratch).
+Migration transaction (rev 4): no existing `migration.sql` in `0001`–`0018`
+contains an explicit `BEGIN` (the only `BEGIN` in `0001_init` is a PL/pgSQL
+body); `scripts/test-migrations.sh:72` and `scripts/db-rollback.sh:33` apply
+`down.sql` with `psql -v ON_ERROR_STOP=1 -f` and no `--single-transaction`;
+`0018/down.sql` has no transaction or `LOCK` (brief X-13). G-12 observations
+and the resulting forward/down recommendation are in §0.1.1 and §6.2.
 
 L2 per design §10 stage table: "Migration, `down.sql`, export/delete coverage,
 backfill, dual-write … inside a small transaction" — learner-visible change
@@ -70,8 +140,15 @@ not a new policy.
 2. Existing tenant FKs are single-column (`Session.householdId → Household`,
    `Session.learnerProfileId → LearnerProfile`, both `onDelete: Cascade`); no
    constraint proves the learner belongs to the household.
-3. `User` and `LearnerProfile` both carry `householdId`; neither has a
-   composite unique usable as a composite FK target.
+3. (Rev 4, re-derived at `3e7c333`.) `User` and `LearnerProfile` both carry
+   `householdId`. Migration `0018` already created
+   `LearnerProfile_id_householdId_key` (`0018/migration.sql:57`;
+   `prisma/schema.prisma:283` `@@unique([id, householdId])`), which T2a's
+   `TeachingDeliveryContext_learnerProfileId_householdId_fkey` uses and
+   `0018/down.sql:36` drops. `User` has only `@@unique([id, householdId,
+role])` (`User_id_householdId_role_key`, `0018/migration.sql:54`,
+   `schema.prisma:250`), not `[id, householdId]`. `Session` has no composite
+   unique. Rev 1–3's "neither has a composite unique" is superseded (X-2).
 4. Insert-only precedent: `0001_init` `prevent_attempt_update` trigger.
    Retention-guarded down precedent: `0017_add_audit_log/down.sql` raises if
    rows exist. Enum-value removal precedent: `0010/down.sql` type recreate.
@@ -148,7 +225,12 @@ not mastery evidence, not parent-display claims (S-14: export only), and are
 not read by R7, D-28, or mastery code in L2. The L1 layer-separation tests
 remain the guard; L2 adds a DB-boundary mapper in the persistence layer only.
 
-## 5. Proposed Prisma schema (draft — doc only)
+## 5. Proposed Prisma schema (draft — doc only; rev 4: V2 + U1, recommended)
+
+The draft below is the **recommended** V2 representation with the U1 `User`
+target. Its fields, relations, indexes and composite uniques match the G-13
+`g13_v2.schema.diff` models (the probe file omits these comments). It is a recommendation for
+migration review, not an approved schema.
 
 ```prisma
 enum SessionLifecycleOutcome {
@@ -176,22 +258,19 @@ model SessionTermination {
   outcome               SessionLifecycleOutcome
   assessmentRunStatus   AssessmentRunStatus?
   actorKind             SessionTerminationActorKind
-  actorUserId           String?
-  actorHouseholdId      String? // CHECK: null iff actorUserId null, else = householdId
-  clearRequestId        String?
-  clearHouseholdId      String? // CHECK: null iff clearRequestId null, else = householdId
-  clearLearnerProfileId String? // CHECK: null iff clearRequestId null, else = learnerProfileId
+  actorUserId           String? // FK with the row's own householdId (V2)
+  clearRequestId        String? // FK with the row's own householdId + learnerProfileId (V2)
   endedAt               DateTime
   createdAt             DateTime                    @default(now())
 
   session        Session              @relation("SessionTerminationSession", fields: [sessionId, householdId, learnerProfileId], references: [id, householdId, learnerProfileId], onDelete: Restrict, onUpdate: Restrict)
   learnerProfile LearnerProfile       @relation("SessionTerminationLearner", fields: [learnerProfileId, householdId], references: [id, householdId], onDelete: Restrict, onUpdate: Restrict)
-  actorUser      User?                @relation("SessionTerminationActor", fields: [actorUserId, actorHouseholdId], references: [id, householdId], onDelete: Restrict, onUpdate: Restrict)
-  clearRequest   SessionClearRequest? @relation("SessionTerminationClear", fields: [clearRequestId, clearHouseholdId, clearLearnerProfileId], references: [id, householdId, learnerProfileId], onDelete: Restrict, onUpdate: Restrict, map: "SessionTermination_clear_fkey")
+  actorUser      User?                @relation("SessionTerminationActor", fields: [actorUserId, householdId], references: [id, householdId], onDelete: Restrict, onUpdate: Restrict)
+  clearRequest   SessionClearRequest? @relation("SessionTerminationClear", fields: [clearRequestId, householdId, learnerProfileId], references: [id, householdId, learnerProfileId], onDelete: Restrict, onUpdate: Restrict, map: "SessionTermination_clear_fkey")
 
   @@index([householdId, learnerProfileId, endedAt])
-  @@index([actorUserId, actorHouseholdId])
-  @@index([clearRequestId, clearHouseholdId, clearLearnerProfileId], map: "SessionTermination_clear_idx")
+  @@index([actorUserId, householdId])
+  @@index([clearRequestId, householdId, learnerProfileId], map: "SessionTermination_clear_idx")
 }
 
 model SessionClearRequest {
@@ -216,28 +295,70 @@ model SessionClearRequest {
 
 // Additions to existing models (composite targets + back-relations only):
 // model Session        { … terminations SessionTermination[] @relation("SessionTerminationSession")
-//                        @@unique([id, householdId, learnerProfileId]) }
+//                        @@unique([id, householdId, learnerProfileId]) }      // new, owned by L2a
 // model LearnerProfile { … sessionTerminations  SessionTermination[]  @relation("SessionTerminationLearner")
-//                        sessionClearRequests SessionClearRequest[] @relation("SessionClearRequestLearner")
-//                        @@unique([id, householdId]) }
+//                        sessionClearRequests SessionClearRequest[] @relation("SessionClearRequestLearner") }
+//                        // existing @@unique([id, householdId]) from 0018 is reused, NOT redeclared
 // model User           { … actedSessionTerminations SessionTermination[]  @relation("SessionTerminationActor")
 //                        sessionClearRequests     SessionClearRequest[] @relation("SessionClearRequestActor")
-//                        @@unique([id, householdId]) }
+//                        @@unique([id, householdId]) }                         // U1: new, owned by L2a;
+//                        // the existing @@unique([id, householdId, role]) from 0018 stays unchanged
 ```
 
-Representation notes (engineering, verified by G-13 `prisma validate` and a
-`prisma migrate diff --from-migrations … --to-schema-datamodel …` zero-drift
-check on scratch at authoring; neither was run here because no schema file
-may be written):
+### 5.1 `User` composite FK target (X-2b): U1 recommended, U2 alternative
 
-- The `actorHouseholdId` / `clearHouseholdId` / `clearLearnerProfileId`
-  columns are a **candidate** representation, not a verified necessity. The
-  working assumption (unverified until G-13) is that Prisma requires an
-  optional relation's scalar fields to be all optional, so a nullable
-  composite FK reusing required `householdId` could not be an optional
-  Prisma relation. CHECKs (§6) pin them equal to the row tenant, so they add
-  no new data. If G-13 shows Prisma accepts the mixed form, drop them and
-  the corresponding CHECK branches.
+Both new tables need an FK that binds `actorUserId` to the row's household.
+`User.id` is the primary key, so any composite containing it is trivially
+unique; the index exists only as a composite FK target.
+
+| Option                                                                                                        | SQL consequence                                                                                                                                                                                                 | Prisma consequence                                                                                                                     | Down consequence                                                                                           | Evidence                                                     |
+| ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **U1 (recommended):** new `User @@unique([id, householdId])`                                                  | `CREATE UNIQUE INDEX "User_id_householdId_key" ON "User"("id","householdId")` — a second, redundant-in-uniqueness index on `User`; plain build takes a `SHARE` lock on `User` until its transaction ends (G-04) | One added `@@unique` on `User` beside the unchanged `[id, householdId, role]`; FKs `[actorUserId, householdId] → [id, householdId]`    | L2a `down.sql` drops `User_id_householdId_key` after both tables; `User_id_householdId_role_key` untouched | G-13 V1 and V2 both validated, deployed, no unexpected drift |
+| U2 (alternative): reuse 0018's `User_id_householdId_role_key` by adding `actorRole "UserRole"` to both tables | No new `User` index; two new columns; `CHECK ("actorRole" = 'PARENT')` (0018 `TeachingDeliveryContext` precedent); `SessionTermination` needs a nullable `actorRole` plus an all-null/all-set CHECK             | Three-field relations `[actorUserId, householdId, actorRole] → [id, householdId, role]`; nullable `actorRole` on the optional relation | Down drops only the new tables/columns; no `User` index change                                             | **Not probed**; needs its own validate/deploy/drift probe    |
+
+Recommendation **U1**, because it is the probed form, adds no stored column
+and keeps the optional actor relation free of a second nullable FK component
+(U2 would reintroduce an RR-1-style partial-null branch on `actorRole`). U2's
+benefit is DB-level enforcement that the actor is a `PARENT` user, which this
+preflight keeps in the adapter (§6 "Deliberately not in SQL") as in rev 3; if
+migration/privacy review wants that invariant in SQL, U2 is the route and it
+needs a fresh scratch probe and an RR-1-style negative-row test plan. A
+single-column `actorUserId → User.id` FK is **not** offered: it would drop
+the tenant binding R1 requires.
+
+### 5.2 Tenant representation (X-3): V2 recommended, V1 alternative
+
+G-13 observed that Prisma 6.19.3 validates, migrates and diffs both forms
+without unexpected drift (§0.1.1); rev 3's working assumption that Prisma
+requires the duplicate columns is **refuted for this version**, consistent with
+the committed `LearningEvent.deliveryContext` precedent
+(`prisma/schema.prisma:719`).
+
+- **V2 (recommended).** No `actorHouseholdId`, `clearHouseholdId` or
+  `clearLearnerProfileId`. Tenancy rationale: the actor and clear FKs reuse
+  the row's own `NOT NULL` `householdId`/`learnerProfileId`, so whenever
+  `actorUserId` or `clearRequestId` is non-null every FK column is non-null
+  and the `MATCH SIMPLE` FK is enforced. Same-tenant binding is structural,
+  not dependent on a CHECK; the RR-1 partial-null class disappears for these
+  FKs, and the two tenant CHECKs are deleted. The only null-skipped case is
+  `actorUserId`/`clearRequestId` itself null, which is the intended "no
+  actor/clear" state governed by `actor_user_presence`/`clear_presence`.
+  Privacy rationale: three fewer identifier columns per termination row, no
+  duplicated household/learner identifiers to export, inventory or erase.
+- **V1 (alternative).** Keep the three columns, their two tenant CHECKs and
+  all RR-1 partial-null fixtures (rev 3 text). Consequences: tenancy depends
+  on CHECK correctness that no probe has negative-tested; three more
+  exported/inventoried identifier columns carrying no new information; an
+  extra index width. Choose V1 only if review prefers separate optional FK
+  columns for some reason this preflight has not identified.
+- **Left for migration/privacy review under either form:** negative-row
+  behavior of every CHECK, FK and trigger (unprobed); whether Prisma's
+  checked create inputs permit nested `connect` for relations sharing
+  `householdId`, or writers must use scalar (unchecked) inputs — an L2a
+  typecheck question, not probed; export shape and inventory rows (§8).
+
+### 5.3 Other representation notes
+
 - `Session` back-relation is a list because the relation's scalar set
   `(sessionId, householdId, learnerProfileId)` is not itself unique; one row
   per session is enforced by `sessionId @unique`.
@@ -246,6 +367,7 @@ may be written):
 - Default Prisma names that would exceed PostgreSQL's 63-byte identifier
   limit use explicit `map:` names (`SessionTermination_clear_fkey`,
   `SessionTermination_clear_idx`); all other SQL names match Prisma defaults.
+  G-13 observed a longest generated identifier of 62 bytes in both forms.
 - Revision 1's `sessionIds TEXT[]` is removed: design §8 specifies
   `requestedCount`; the sessions actually ended by a clear are identified by
   their `SessionTermination.clearRequestId`, so no extra ID list is stored.
@@ -259,18 +381,19 @@ required, but the labels are not reopened.
 ## 6. Draft migration SQL (illustration — not a migration file)
 
 ```sql
--- <NNNN>_add_session_termination_records/migration.sql (DRAFT)
--- Explicit boundary: the whole migration commits or nothing does. G-12
--- confirms on scratch how `prisma migrate deploy` treats an explicit
--- BEGIN/COMMIT; if Prisma already wraps the file, the reviewed form drops these
--- two lines instead of nesting. Never rely on an unverified implicit wrapper.
-BEGIN;
+-- <NNNN>_add_session_termination_records/migration.sql (DRAFT, rev 4: V2 + U1)
+-- Bare form, no explicit BEGIN/COMMIT (recommendation §6.2): matches 0001-0018,
+-- and in G-12 (PG 16.15, Prisma 6.19.3) the bare failing file left no object
+-- while Prisma reported the original error. Atomicity of THIS file is not
+-- proven by that probe; the injected-forward-failure test (§6.1 (c), G-06)
+-- must show it before review clears the form.
 
--- Composite FK targets on existing tables. Plain CREATE UNIQUE INDEX holds a
--- SHARE lock (blocks INSERT/UPDATE/DELETE on that table) until COMMIT.
--- CONCURRENTLY cannot run inside a transaction block (H-13 / G-04).
-CREATE UNIQUE INDEX "LearnerProfile_id_householdId_key" ON "LearnerProfile"("id", "householdId");
-CREATE UNIQUE INDEX "User_id_householdId_key" ON "User"("id", "householdId");
+-- Composite FK targets on existing tables. LearnerProfile_id_householdId_key
+-- already exists (0018) and is reused: it is neither created nor dropped here.
+-- Plain CREATE UNIQUE INDEX holds a SHARE lock on its table (blocks writes)
+-- for as long as the enclosing transaction lasts; CONCURRENTLY cannot run in
+-- a transaction block (H-13 / G-04). Lock duration in production is unmeasured.
+CREATE UNIQUE INDEX "User_id_householdId_key" ON "User"("id", "householdId");  -- U1 (§5.1)
 CREATE UNIQUE INDEX "Session_id_householdId_learnerProfileId_key"
   ON "Session"("id", "householdId", "learnerProfileId");
 
@@ -317,10 +440,7 @@ CREATE TABLE "SessionTermination" (
   "assessmentRunStatus" "AssessmentRunStatus",
   "actorKind" "SessionTerminationActorKind" NOT NULL,
   "actorUserId" TEXT,
-  "actorHouseholdId" TEXT,
   "clearRequestId" TEXT,
-  "clearHouseholdId" TEXT,
-  "clearLearnerProfileId" TEXT,
   "endedAt" TIMESTAMP(3) NOT NULL,
   "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   -- Session attribution: the record names exactly the session's own triple.
@@ -335,28 +455,19 @@ CREATE TABLE "SessionTermination" (
     FOREIGN KEY ("learnerProfileId", "householdId")
     REFERENCES "LearnerProfile"("id", "householdId")
     ON DELETE RESTRICT ON UPDATE RESTRICT,
-  -- MATCH SIMPLE skips a FK when any column is NULL, and a CHECK that
-  -- evaluates to UNKNOWN is accepted. The tenant CHECKs below therefore test
-  -- every optional component with explicit IS NOT NULL before any equality,
-  -- so each branch is TRUE/FALSE (never UNKNOWN) and the optional FKs are
-  -- all-null or all-set and equal to the row tenant (RR-1).
-  CONSTRAINT "SessionTermination_actorUserId_actorHouseholdId_fkey"
-    FOREIGN KEY ("actorUserId", "actorHouseholdId")
+  -- V2 (§5.2): the optional actor/clear FKs reuse the row's own NOT NULL
+  -- householdId/learnerProfileId. MATCH SIMPLE skips a FK only when a column
+  -- is NULL, so these FKs are enforced whenever actorUserId/clearRequestId is
+  -- set, and bind actor and clear request to the row's own tenant. No tenant
+  -- duplicate columns and no tenant CHECKs exist (rev 3's actor_tenant and
+  -- clear_tenant are removed with V1's columns; RR-1 is closed structurally).
+  CONSTRAINT "SessionTermination_actorUserId_householdId_fkey"
+    FOREIGN KEY ("actorUserId", "householdId")
     REFERENCES "User"("id", "householdId") ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT "SessionTermination_clear_fkey"
-    FOREIGN KEY ("clearRequestId", "clearHouseholdId", "clearLearnerProfileId")
+    FOREIGN KEY ("clearRequestId", "householdId", "learnerProfileId")
     REFERENCES "SessionClearRequest"("id", "householdId", "learnerProfileId")
     ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT "SessionTermination_actor_tenant" CHECK (
-    ("actorUserId" IS NULL AND "actorHouseholdId" IS NULL)
-    OR ("actorUserId" IS NOT NULL AND "actorHouseholdId" IS NOT NULL
-        AND "actorHouseholdId" = "householdId")),
-  CONSTRAINT "SessionTermination_clear_tenant" CHECK (
-    ("clearRequestId" IS NULL AND "clearHouseholdId" IS NULL AND "clearLearnerProfileId" IS NULL)
-    OR ("clearRequestId" IS NOT NULL AND "clearHouseholdId" IS NOT NULL
-        AND "clearLearnerProfileId" IS NOT NULL
-        AND "clearHouseholdId" = "householdId"
-        AND "clearLearnerProfileId" = "learnerProfileId")),
   CONSTRAINT "SessionTermination_actor_user_presence" CHECK (
     ("actorUserId" IS NOT NULL) = ("actorKind" IN ('HOUSEHOLD_USER', 'STEP_UP_ADULT'))),
   CONSTRAINT "SessionTermination_clear_presence" CHECK (
@@ -380,10 +491,10 @@ CREATE TABLE "SessionTermination" (
 CREATE UNIQUE INDEX "SessionTermination_sessionId_key" ON "SessionTermination"("sessionId");
 CREATE INDEX "SessionTermination_householdId_learnerProfileId_endedAt_idx"
   ON "SessionTermination"("householdId", "learnerProfileId", "endedAt");
-CREATE INDEX "SessionTermination_actorUserId_actorHouseholdId_idx"
-  ON "SessionTermination"("actorUserId", "actorHouseholdId");
+CREATE INDEX "SessionTermination_actorUserId_householdId_idx"
+  ON "SessionTermination"("actorUserId", "householdId");
 CREATE INDEX "SessionTermination_clear_idx"
-  ON "SessionTermination"("clearRequestId", "clearHouseholdId", "clearLearnerProfileId");
+  ON "SessionTermination"("clearRequestId", "householdId", "learnerProfileId");
 
 CREATE FUNCTION prevent_session_record_update() RETURNS trigger AS $$
 BEGIN
@@ -394,22 +505,38 @@ CREATE TRIGGER "SessionTermination_immutable" BEFORE UPDATE ON "SessionTerminati
   FOR EACH ROW EXECUTE FUNCTION prevent_session_record_update();
 CREATE TRIGGER "SessionClearRequest_immutable" BEFORE UPDATE ON "SessionClearRequest"
   FOR EACH ROW EXECUTE FUNCTION prevent_session_record_update();
-
-COMMIT;
+-- No TRUNCATE guard is drafted; 0018 adds one for its evidence (brief X-13).
+-- Whether L2a adds statement-level TRUNCATE guards is a migration-review
+-- choice (§13.3), not decided here.
 ```
+
+Authoring note (rev 4): the reviewed file should follow `0018`'s layout —
+Prisma-generated statements (as in the G-13 `g13_v2.9100_migration.sql`
+output: tables with `CONSTRAINT "…_pkey"`, then indexes, then
+`ALTER TABLE … ADD CONSTRAINT … FOREIGN KEY`) followed by the hand-written
+CHECK, function and trigger SQL. The inline form above is an illustration of
+the same objects and names; statement order differs from the probed file and
+is a review item, not evidence.
 
 The `SCORED` arms exist for L3's scorer (SYSTEM) and the reviewed S-07
 operation (OPERATOR); no L2 runtime writer produces `SCORED`.
 
-Three-valued-logic audit (RR-1): every other CHECK is total over its inputs.
+Three-valued-logic audit (RR-1, rev 4 for V2): no tenant CHECK remains.
+Every optional FK has exactly one nullable column (`actorUserId` or
+`clearRequestId`); the other columns are `NOT NULL`, so no partial-null tenant
+row is representable. Every remaining CHECK is total over its inputs:
 `outcome` and `actorKind` are `NOT NULL`, and the remaining operands are
 `IS [NOT] NULL` tests, so `actor_user_presence`, `clear_presence` and
 `run_status_presence` evaluate only to TRUE/FALSE. In `outcome_actor`, the
 `ENDED_WITH_ASSIGNMENT` arm can be UNKNOWN only when `assessmentRunStatus`
 is NULL, and `run_status_presence` is then FALSE, so the row is rejected.
-`requestedCount` and `stepUpTokenDigest` are `NOT NULL`. A correctly
-specified `MATCH FULL` FK or equivalent total-boolean CHECKs are acceptable
-engineering alternatives; they may not admit any partial-null tenant row.
+`requestedCount` and `stepUpTokenDigest` are `NOT NULL`. This is source
+reasoning: G-13 created these CHECKs (V2: 6) but **no probe exercised a
+negative row**, so rejection is unverified until the §14 fixtures run. If V1
+is chosen instead, rev 3's two tenant CHECKs and all RR-1 partial-null
+fixtures return unchanged; a correctly specified `MATCH FULL` FK or
+equivalent total-boolean CHECKs remain acceptable alternatives that may not
+admit any partial-null tenant row.
 
 Deliberately **not** in SQL (enforced by the L2b adapter and named tests,
 §14; a constraint trigger is an engineering alternative that may not relax
@@ -422,13 +549,13 @@ No `endedAt <= createdAt` CHECK: `CURRENT_TIMESTAMP` is transaction start
 while `endedAt` is the app clock. `ON DELETE RESTRICT` (not Cascade) is
 intentional: a terminal record must never vanish as a side effect.
 
-### 6.1 Illustrative `down.sql` (scratch-only evidence)
+### 6.1 Illustrative `down.sql` (scratch-only evidence; rev 4)
 
 ```sql
--- Applied by `psql -v ON_ERROR_STOP=1 -f` (scripts/test-migrations.sh:46,
+-- Applied by `psql -v ON_ERROR_STOP=1 -f` (scripts/test-migrations.sh:72,
 -- scripts/db-rollback.sh:33) with no --single-transaction, so the boundary is
--- explicit. On any error psql stops and the open transaction rolls back on
--- disconnect: nothing is dropped and no row is lost.
+-- explicit (§6.2). On any error psql stops and the open transaction rolls back
+-- on disconnect: nothing is dropped and no row is lost.
 BEGIN;
 -- Documented lock order: child (SessionTermination) before parent
 -- (SessionClearRequest). ACCESS EXCLUSIVE blocks concurrent inserts between
@@ -450,27 +577,84 @@ DROP TABLE "SessionClearRequest";
 DROP TYPE "SessionTerminationActorKind";
 DROP TYPE "SessionLifecycleOutcome";
 DROP INDEX "Session_id_householdId_learnerProfileId_key";
-DROP INDEX "User_id_householdId_key";
-DROP INDEX "LearnerProfile_id_householdId_key";
+DROP INDEX "User_id_householdId_key";  -- U1: owned by this migration
+-- LearnerProfile_id_householdId_key is owned by 0018 and still used by
+-- TeachingDeliveryContext's FK; this down must NOT drop it (0018/down.sql:36
+-- drops it later in the reverse round trip). User_id_householdId_role_key is
+-- likewise 0018's and untouched.
 COMMIT;
 ```
 
 The `_prisma_migrations` row is deleted by the script in a separate command
-after `down.sql` succeeds (`scripts/test-migrations.sh:47`); a refused down
-leaves it intact. No `TraceOutcome` change is in this migration (§11).
+after `down.sql` succeeds (`scripts/test-migrations.sh:73–74`); a refused
+down leaves it intact. No `TraceOutcome` change is in this migration (§11).
+Round-trip ordering: the script applies every `down.sql` newest first
+(`scripts/test-migrations.sh:70–75`), so this down runs before `0018`'s; once
+both new tables are gone nothing L2a created depends on 0018's objects.
+
+Observed support (§0.1.1, P12-4): an explicit-boundary `psql -f` down with
+`LOCK` and an emptiness guard refused a nonempty synthetic table (exit 3) and
+preserved its row on PG 16.15. That probe used a one-table stand-in, not this
+file, and never reached a drop; it supports but does **not** clear G-05
+(line-by-line human down review) or G-06 (nonempty refusal of the real file,
+and failure after drops begin).
 
 Evidence required later (not run here): (a) round trip on the empty scratch
 DB via `npm run test:migrations` — forward → every `down.sql` in reverse →
 forward, identical `pg_dump`; (b) **synthetic** nonempty refusal: insert one
 synthetic termination on scratch, run this `down.sql`, assert it fails and the
 row, tables and types still exist; (c) injected forward failure (e.g. a
-deliberately failing final statement in a scratch-only copy) leaves no new
-index, type or table. `scripts/test-migrations.sh` covers (a) only; (b) and
-(c) need a reviewed harness. That script also calls `mktemp -d` (line 14);
-a reviewed project-local scratch directory accommodation is required before
-any run in an environment that forbids system temp paths. Production after
-the first write: **forward repair only**; no down, no audit destruction
-(S-12 inherited invariant).
+deliberately failing final statement in a scratch-only copy of the **bare**
+file, applied by `prisma migrate deploy`) leaves no new index, type or table,
+and Prisma's output and the unfinished row's `logs` name the injected error.
+Rev 4 note: `scripts/test-migrations.sh` now also runs a seeded-guard phase
+(`tests/migrations/teaching-seeded-guards.test.ts`, lines 52–57) that proves
+`0018`'s down refuses seeded evidence and then erases it before the
+empty-schema cycle; it is the harness precedent for (b), and an L2a seeded
+case must likewise leave zero rows before the round trip. (c) still needs a
+reviewed harness. The script still calls `mktemp -d` (line 14); a reviewed
+project-local scratch directory accommodation is required before any run in
+an environment that forbids system temp paths. Production after the first
+write: **forward repair only**; no down, no audit destruction (S-12 inherited
+invariant).
+
+### 6.2 Transaction form (rev 4 recommendation from G-12)
+
+**Observed** (§0.1.1): on PG 16.15 / Prisma 6.19.3, both the explicit-boundary
+and the bare probe files left no probe object after a mid-file failure. The
+explicit form produced no nesting warning on success, but its failure output
+was `current transaction is aborted…`, which **masked** the original
+`division by zero`, and the unfinished `_prisma_migrations` row had empty
+`logs`. The bare form's failure reported `P3018`, the migration name and
+`SQLSTATE 22012` in both the CLI output and `logs`.
+
+**Recommendation — forward `migration.sql`: bare form** (no `BEGIN`/`COMMIT`).
+Reasons: equal observed atomicity in the probe; the original error remains
+visible to the operator and in `_prisma_migrations.logs`, which forward repair
+and `prisma migrate resolve` depend on; and it matches all 19 existing
+migrations (brief X-13). Alternative: the explicit form (rev 3), also observed
+atomic, at the cost of masked errors and empty logs.
+
+**Recommendation — `down.sql`: explicit `BEGIN`/`LOCK`/guard/`COMMIT`** (§6.1).
+Reason: down files run through `psql -f` without `--single-transaction`
+(§1), so each statement of a bare down would commit separately; the explicit
+boundary is what makes a refused or failed down drop nothing. This diverges
+from `0018/down.sql`, which has no transaction or lock (X-13); L2a does not
+change `0018`.
+
+**Limits, stated without inference:**
+
+- Neither G-12 result proves behavior for arbitrary files. The probes were
+  three- and five-statement files; L2a's real file (indexes on existing
+  tables, enums, tables, CHECKs, a PL/pgSQL function, triggers) must pass
+  §6.1 (c) itself, and the result must be rechecked after any Prisma
+  upgrade. The probe did not establish **why** the bare file was atomic.
+- The nonempty-refusal observation (P12-4) does not clear down-migration
+  review: G-05 and G-06 remain open.
+- No production PostgreSQL version (G-03), index lock duration or row count
+  (G-04), or Render old/new instance overlap (X-5; R4/C-1 assumption) is
+  inferred from the scratch run.
+- Exact probe commands are subject to probe-review R-01 (§0.1.1).
 
 ## 7. SESSION_CLEAR token identity and consumption (design for L3; schema in L2a)
 
@@ -506,14 +690,15 @@ reauthAt])` is retained because design §8 names it; it is a second guard,
 
 ## 8. Privacy, export, delete coverage (must land with the schema, before any writer)
 
-| Concern           | L2a change                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Coverage list     | Add `SessionTermination` and `SessionClearRequest` to `HOUSEHOLD_DATA_MODEL_COVERAGE` (`src/server/household-data.ts` 21–81); DMMF coverage test enforces it                                                                                                                                                                                                                                                                              |
-| Export            | Explicit `select` for both; exclude `stepUpTokenDigest`; enums exported as labels; no display surface (S-14). Test the actual household-scoped export output (two synthetic households), not only DMMF list membership                                                                                                                                                                                                                    |
-| Delete order      | In `deleteHouseholdData`: `SessionTermination` → `SessionClearRequest` → existing Session/LearnerProfile/User deletes (RESTRICT FKs make order mandatory). Keep the existing AuditLog behaviour (`household-data.ts` 295–310: write `HOUSEHOLD_DELETE`, then anonymize household/user ids; never cascade-delete audit rows). Keep `deleteHouseholdEvidence` delegating to `deleteHouseholdData`                                           |
-| Privacy inventory | Add two rows to `docs/privacy-inventory.md` table (near the `OverrideRecord` row) — purpose, fields, retention = household lifetime, no free text                                                                                                                                                                                                                                                                                         |
-| Test cleanup      | Cascade-based cleanups will fail once records exist under RESTRICT: `tests/persistence/persistence.test.ts:53`, `tests/phase1/vertical-slice.test.ts:45`, `tests/phase1/safety-alert.test.ts:72`, `tests/phase1/tutor-usage.test.ts:33`, and the direct `session.deleteMany` at `tests/progression-integration/skill-assessment.test.ts:119` (its `afterAll` at :134 already uses the deletion service) → switch to `deleteHouseholdData` |
-| Secrets           | No raw tokens, no prompts, no free text in either table; fixtures use synthetic UUIDs (`00000000-0000-4000-8000-…`)                                                                                                                                                                                                                                                                                                                       |
+| Concern           | L2a change                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Coverage list     | Add `SessionTermination` and `SessionClearRequest` to `HOUSEHOLD_DATA_MODEL_COVERAGE` (`src/server/household-data.ts` 21–81); DMMF coverage test enforces it                                                                                                                                                                                                                                                                                       |
+| Export            | Explicit `select` for both; exclude `stepUpTokenDigest`; enums exported as labels; no display surface (S-14). Test the actual household-scoped export output (two synthetic households), not only DMMF list membership                                                                                                                                                                                                                             |
+| Delete order      | In `deleteHouseholdData`: `SessionTermination` → `SessionClearRequest` → existing Session/LearnerProfile/User deletes (RESTRICT FKs make order mandatory). Keep the existing AuditLog behaviour (`household-data.ts` 295–310: write `HOUSEHOLD_DELETE`, then anonymize household/user ids; never cascade-delete audit rows). Keep `deleteHouseholdEvidence` delegating to `deleteHouseholdData`                                                    |
+| Privacy inventory | Add two rows to `docs/privacy-inventory.md` table (near the `OverrideRecord` row) — purpose, fields, retention = household lifetime, no free text                                                                                                                                                                                                                                                                                                  |
+| Test cleanup      | Cascade-based cleanups will fail once records exist under RESTRICT: `tests/persistence/persistence.test.ts:53`, `tests/phase1/vertical-slice.test.ts:45`, `tests/phase1/safety-alert.test.ts:72`, `tests/phase1/tutor-usage.test.ts:33`, and the direct `session.deleteMany` at `tests/progression-integration/skill-assessment.test.ts:119` (its `afterAll` at :134 already uses the deletion service) → switch to `deleteHouseholdData`          |
+| Secrets           | No raw tokens, no prompts, no free text in either table; fixtures use synthetic UUIDs (`00000000-0000-4000-8000-…`)                                                                                                                                                                                                                                                                                                                                |
+| Rev 4 field set   | Under the recommended V2 (§5.2) the `SessionTermination` row carries no `actorHouseholdId`/`clearHouseholdId`/`clearLearnerProfileId`; export, inventory and erasure cover only the §5 fields. Under V1 those three columns join the export/inventory review. U1 adds no stored column; U2 would add `actorRole` to both tables (§5.1). Field set, export shape and retention wording remain for privacy review (G-07); nothing here approves them |
 
 ## 9. DB-boundary adapter and dual-write contract (L2b)
 
@@ -721,6 +906,14 @@ One issue per stage. No stage adds routes or UI.
 
 ### 13.1 Remaining human items (block **L2b only**; none blocks L2a)
 
+Rev 4 note: on 2026-10-11 the owner approved H-01 option A, H-02 (i)–(iv)
+option B, the A-1 acknowledgement and the C-1 broad reading, as recorded in
+`docs/agent-handoffs/LIFECYCLE-L2.md` "Owner decision record" against the
+reviewed decision brief (whose §8 also records L2b contradictions X-6–X-12
+that this revision does not address). The table below is the rev 3 option
+text, kept unchanged as the reviewed alternatives; those decisions govern
+L2b and are not reopened or extended by this revision.
+
 | ID   | Item                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Reviewed alternatives (no new numbers; no recommendation is an approval)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | H-01 | **Drain scope.** Design §3 inventory row ends "open unbound" sessions via `isUnboundSession`, which also matches kind-set rows with a null target or null profile pin (including PRACTICE) and unassigned PLACEMENT/REVIEW/assessment-kind rows (`src/progression/legacy-session-drain.ts` 5–27). Approved L1 `eventBindingRefusal` allows `OPERATOR_DRAIN` only for `LEGACY_UNBOUND`. Design fact 10 ("refuses any bound session") is inaccurate in L1 terms                                                                                                  | A. Narrow the drain to L1 `LEGACY_UNBOUND` (operator-only delta; rows outside scope stay open until C4 residue handling). B. Amend the L1 contract to accept `OPERATOR_DRAIN` for unassigned BOUND rows (changes approved L1 code and the matrix). Either way, H-01 must also state how drain interacts with D-28 (§9.4)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -730,21 +923,56 @@ One issue per stage. No stage adds routes or UI.
 
 ### 13.2 Settled as inherited or engineering (no new vote; still subject to migration/privacy/release review)
 
-| Rev-1 ID | Classification                                                                                                                                                                        |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| H-03     | Replaced by A-1                                                                                                                                                                       |
-| H-04     | Engineering de-duplication of the approved REVIEW one-shot: site #1 skips its end when `reviewDecay` (§9.4)                                                                           |
-| H-05     | Engineering cleanup: remove the synthetic pilot end and `closedSessionCount`; no label is needed                                                                                      |
-| H-06     | `learnerProfileId` on the clear request implements existing learner-scoped auth; reviewed in schema/privacy review                                                                    |
-| H-07     | Signed profile pin implements the approved D-47 lifetime (§7); no value or selection-policy change                                                                                    |
-| H-08     | The seven labels are S-approved L1 inputs; parity test + migration review only                                                                                                        |
-| H-09     | Withdrawn: L1 already defines unique, nonempty IDs without a maximum; `requestedCount` replaces the ID list; no cap invented                                                          |
-| H-10     | Prisma relations, `map:` names and zero drift are engineering obligations (§5, G-13)                                                                                                  |
-| H-11     | App enforcement + named tests for cross-table invariants (§6); a constraint trigger is an allowed engineering alternative that may not relax them                                     |
-| H-12     | `DISCARDED_SESSION_ENDED` deferred with its writer to L3 (§11)                                                                                                                        |
-| H-13     | Index lock window and transaction boundary are deployment engineering reviewed at G-04/G-12; real-data measurement is a separately authorized operation                               |
-| H-14     | Digest excluded from export as data minimization under existing privacy requirements; privacy review confirms the exact shape (G-07)                                                  |
-| R1/R6/R7 | Engineering corrections applied in §5–§7; inherited invariants (forward repair after first write, synthetic-only destructive tests, no raw token/secret anywhere) are not re-approved |
+| Rev-1 ID | Classification                                                                                                                                                                           |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| H-03     | Replaced by A-1                                                                                                                                                                          |
+| H-04     | Engineering de-duplication of the approved REVIEW one-shot: site #1 skips its end when `reviewDecay` (§9.4)                                                                              |
+| H-05     | Engineering cleanup: remove the synthetic pilot end and `closedSessionCount`; no label is needed                                                                                         |
+| H-06     | `learnerProfileId` on the clear request implements existing learner-scoped auth; reviewed in schema/privacy review                                                                       |
+| H-07     | Signed profile pin implements the approved D-47 lifetime (§7); no value or selection-policy change                                                                                       |
+| H-08     | The seven labels are S-approved L1 inputs; parity test + migration review only                                                                                                           |
+| H-09     | Withdrawn: L1 already defines unique, nonempty IDs without a maximum; `requestedCount` replaces the ID list; no cap invented                                                             |
+| H-10     | Prisma relations, `map:` names and zero drift are engineering obligations (§5, G-13). Rev 4: G-13 observed V1/V2 valid with no unexpected drift; V2/U1 recommended (§5.1–§5.2)           |
+| H-11     | App enforcement + named tests for cross-table invariants (§6); a constraint trigger is an allowed engineering alternative that may not relax them                                        |
+| H-12     | `DISCARDED_SESSION_ENDED` deferred with its writer to L3 (§11)                                                                                                                           |
+| H-13     | Index lock window and transaction boundary are deployment engineering reviewed at G-04/G-12; real-data measurement is a separately authorized operation. Rev 4 form recommendation: §6.2 |
+| H-14     | Digest excluded from export as data minimization under existing privacy requirements; privacy review confirms the exact shape (G-07)                                                     |
+| R1/R6/R7 | Engineering corrections applied in §5–§7; inherited invariants (forward repair after first write, synthetic-only destructive tests, no raw token/secret anywhere) are not re-approved    |
+
+### 13.3 Unresolved human migration/privacy choices for L2a (rev 4)
+
+None is approved by this document; each recommendation is engineering advice
+for the reviewer and the human.
+
+1. **Tenant representation** — V2 (recommended) or V1 (§5.2).
+2. **`User` FK target** — U1 new `User_id_householdId_key` (recommended) or
+   U2 reuse of `User_id_householdId_role_key` with an `actorRole` column and
+   DB-enforced `PARENT` role (unprobed) (§5.1).
+3. **Transaction form** — bare forward `migration.sql` and explicit-boundary
+   `down.sql` (recommended), or the explicit forward form (§6.2).
+4. **TRUNCATE guards** — whether L2a adds statement-level TRUNCATE guards as
+   `0018` does for its evidence (brief X-13); not drafted, no recommendation.
+5. **Lock window and server** — acceptance of the `SHARE` lock while
+   building `User_id_householdId_key` and
+   `Session_id_householdId_learnerProfileId_key` (G-04), and the production
+   PostgreSQL version (G-03); neither is inferred from scratch.
+6. **Down review** — line-by-line acceptance of `down.sql`, including its
+   divergence from `0018/down.sql` (no transaction there) (G-05, G-06).
+7. **Privacy** — inventory rows, field set (V1/V2, U1/U2), export shape with
+   the digest excluded, delete order and household-lifetime retention as in
+   design §8 (G-07, G-08).
+8. **Evidence portability (R-01)** — whether migration review accepts the
+   local Claude runtime record as a required input for exact G-13 commands
+   or requires a sanitized filtered runtime companion.
+
+Later executable gates (each after explicit L2a migration authorization, on
+the documented disposable local database with synthetic data only):
+`npm run verify`; `npm run test:integration` including the §14 CHECK/FK/
+trigger negative-row fixtures; `npm run test:migrations` (round trip, drift
+classifier, seeded nonempty refusal) plus the §6.1 (c) injected forward
+failure on the real bare file; a cross-family review of the L2a patch; G-14
+model identities. L2b, backfill, S-07 operation, L3, production migration and
+release each keep their own separate gates.
 
 ## 14. Test plan
 
@@ -772,18 +1000,26 @@ Integration (`npm run test:integration`, documented disposable local
 Postgres, synthetic data and fake tutor only, **after migration approval**;
 never before):
 
-- SQL catalog assertions: every CHECK, both triggers, all FKs with
-  `RESTRICT`, and the three composite unique indexes exist by name.
-- CHECK constraints: each illegal outcome/actor/status/clear/tenant-column
-  combination is rejected by Postgres.
-- **RR-1 SQL three-valued-logic fixtures** (each must be rejected, proving no
-  CHECK evaluates UNKNOWN and no FK is skipped): `actorUserId` set with
-  `actorHouseholdId` NULL (both for an existing other-household user and an
-  unknown id); `actorHouseholdId` set with `actorUserId` NULL;
-  `clearRequestId` set with each of `clearHouseholdId` /
-  `clearLearnerProfileId` NULL and with both NULL; any clear tenant column
-  set with `clearRequestId` NULL. Positive controls: all-null and all-set
-  matching rows are accepted.
+- SQL catalog assertions (rev 4, V2/U1): every CHECK (6), both triggers, all
+  FKs (6) with `RESTRICT`; the two L2a-owned composite unique indexes
+  (`User_id_householdId_key`, `Session_id_householdId_learnerProfileId_key`)
+  exist by name; `0018`'s `LearnerProfile_id_householdId_key` and
+  `User_id_householdId_role_key` are present and unchanged after both forward
+  and down. G-13 observed creation counts only; these assertions are still
+  required.
+- CHECK constraints: each illegal outcome/actor/status/clear combination is
+  rejected by Postgres (unverified by any probe).
+- **Tenant FK fixtures (V2)** (each must be rejected): `actorUserId` of a
+  user in another household; an unknown `actorUserId`; `clearRequestId` of a
+  request in another household or for another learner of the same household.
+  Positive controls: null actor/clear on SYSTEM/OPERATOR rows and same-tenant
+  actor/clear rows are accepted. **If V1 is chosen**, rev 3's RR-1
+  partial-null fixtures apply in full: `actorUserId` set with
+  `actorHouseholdId` NULL (existing other-household user and unknown id);
+  `actorHouseholdId` set with `actorUserId` NULL; `clearRequestId` set with
+  each of `clearHouseholdId` / `clearLearnerProfileId` NULL and with both
+  NULL; any clear tenant column set with `clearRequestId` NULL; all-null and
+  all-set matching positive controls.
 - **R1 pre-existing bad row:** create a synthetic Session whose
   `householdId` is household A and `learnerProfileId` is a learner of
   household B (allowed by today's single-column FKs); a SYSTEM termination
@@ -824,19 +1060,26 @@ never before):
   any selected end/record insert fails.
 
 Migration: `npm run test:migrations` on a disposable scratch DB (round trip,
-identical `pg_dump`), plus the reviewed nonempty-refusal and
-injected-forward-failure cases of §6.1. Nothing here was run.
+identical `pg_dump`, drift classifier), plus the reviewed nonempty-refusal and
+injected-forward-failure cases of §6.1; the round trip must show L2a's down
+leaves `0018`'s objects for `0018/down.sql`. Nothing here was run by this
+revision; the only executions to date are the G-12/G-13 scratch probes
+(§0.1.1).
 
 ## 15. Manual gate checklist
 
-- [ ] G-01 L2a: human migration + privacy review of this packet (no H item
-      blocks L2a). L2b: H-01, H-02, A-1, C-1 dispositioned (§13.1).
-- [ ] G-02 Re-check migration head on `main` and all open branches/PRs; assign
-      the number at merge time.
-- [ ] G-03 Confirm production Postgres version supports all used features.
-- [ ] G-04 Review the index-build write-lock window on `Session`/`User`/
-      `LearnerProfile`; any real-data row count is a separately authorized
-      operation.
+- [ ] G-01 L2a: human migration + privacy review of this packet, including
+      the §13.3 choices (no H item blocks L2a). L2b: H-01, H-02, A-1, C-1 —
+      owner-dispositioned 2026-10-11 (§13.1 note); L2b still needs its own
+      review and authorization.
+- [ ] G-02 Re-check migration head on `main` and all open branches/PRs
+      (rev 4 baseline: `0018`, 19 directories); assign the number at merge
+      time.
+- [ ] G-03 Confirm production Postgres version supports all used features
+      (scratch 16.15 is not evidence of production).
+- [ ] G-04 Review the index-build write-lock window on `Session` and `User`
+      (U1); `LearnerProfile` gets no new index in rev 4. Any real-data row
+      count is a separately authorized operation.
 - [ ] G-05 Human review of `migration.sql` and `down.sql` line by line.
 - [ ] G-06 Scratch evidence attached: round trip, nonempty refusal,
       injected forward failure (§6.1), with the reviewed `mktemp` accommodation.
@@ -847,22 +1090,27 @@ injected-forward-failure cases of §6.1. Nothing here was run.
 - [ ] G-10 Backfill and S-07 operation each get separate production
       approval; neither runs automatically.
 - [ ] G-11 Confirm L3 remains unauthorized.
-- [ ] G-12 **Untested.** On scratch, confirm how `prisma migrate deploy`
-      treats the explicit `BEGIN`/`COMMIT` and finalize the boundary form;
-      source review is not execution evidence.
-- [ ] G-13 **Untested.** `prisma validate` and a zero-drift
-      `prisma migrate diff` on scratch for the §5 relations, including whether the duplicate
-      tenant columns are required at all; until then §5 is a candidate
-      representation only. SQL-only CHECK/trigger catalog tests stay separate.
+- [ ] G-12 **Probes executed and independently reviewed (§0.1.1); form not
+      approved.** Human choice of the §6.2 recommendation (bare forward,
+      explicit down). Still open: §6.1 (c) on the real file, G-05/G-06, R-01
+      evidence portability.
+- [ ] G-13 **Probes executed and independently reviewed (§0.1.1);
+      representation not approved.** V1 and V2 both validated, deployed and
+      showed no unexpected drift; V2/U1 recommended (§5.1–§5.2). U2 would need
+      its own probe. CHECK/trigger negative-row behavior is unverified and
+      stays with the §14 SQL tests.
 - [ ] G-14 Coordinator records actual author/reviewer model ids from harness
       metadata.
 
 ## 16. Next issue
 
-**Human migration/privacy review of this revised preflight for L2a** (G-01
-L2a, G-02..G-08, G-12, G-13). After explicit migration approval: issue "L2a —
-session terminal record schema, privacy coverage and DB-boundary state mapper
-(no writers)". In parallel, the owner dispositions H-01, H-02, A-1 and C-1;
-L2b (step 1 then step 2) is a separate issue that cannot start before those
-decisions and a deployed L2a. This document stops at preparation and
+Rev 4: **Codex `forge-reviewer` cross-family review of this frozen
+revision** (packet `docs/agent-handoffs/LIFECYCLE-L2A-DESIGN.md`); a changed
+hash after review needs another review. Then **human migration/privacy
+review for L2a** (G-01 L2a with the §13.3 choices, G-02..G-08, G-12, G-13).
+After explicit migration approval: issue "L2a — session terminal record
+schema, privacy coverage and DB-boundary state mapper (no writers)". The
+owner has dispositioned H-01, H-02, A-1 and C-1 (§13.1 note); L2b (step 1
+then step 2) is a separate issue that cannot start before its own review,
+authorization and a deployed L2a. This document stops at preparation and
 authorizes nothing, including L3.

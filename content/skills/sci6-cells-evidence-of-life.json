@@ -1,0 +1,25 @@
+{
+  "code": "sci6-cells-evidence-of-life",
+  "version": "1.0.0",
+  "title": "Evidence that living things are made of cells",
+  "program": "grade-6-science",
+  "domain": "sci6-life-science",
+  "standards": ["MS-LS1-1"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Decides which described, already-completed magnified picture is evidence that a sample is made of cells, and selects the observation that is the evidence.",
+    "Classifies described examples as made of one cell, made of many cells, or not made of cells, including microbes from the Archaea group and viruses."
+  ],
+  "misconceptionCodes": [
+    "repeating-shape-means-cells",
+    "color-means-living",
+    "magnification-alone-is-evidence",
+    "microbes-are-not-cells",
+    "life-needs-many-cells",
+    "only-animals-have-cells",
+    "one-body-means-one-cell",
+    "virus-is-a-cell"
+  ],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Practice evidence only: deterministic all-fields-correct structured choice on provided descriptions. Does not establish mastery of MS-LS1-1 or of conducting an investigation."
+}

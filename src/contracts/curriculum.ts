@@ -36,6 +36,7 @@ export const CurriculumDomainSchema = z.enum([
   'snsb6-vocabulary',
   'snsb6-variants',
   'snsb6-procedure',
+  'sci6-life-science',
 ]);
 
 export type CurriculumDomain = z.infer<typeof CurriculumDomainSchema>;
