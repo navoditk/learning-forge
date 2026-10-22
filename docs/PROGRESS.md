@@ -1,5 +1,11 @@
 # Progress
 
+## 2026-10-22 — RI-3 committed: package banks derived from the catalog
+
+- RI-3 passed Codex review first time (D-248–D-251); validation green incl.
+  e2e (build needed one rerun after a Google Fonts fetch failure). Committed
+  and pushed. RI-4 next. Ledger 87/180.
+
 ## 2026-10-22 — RI-2 committed: live placement snapshots
 
 - RI-2 rev2 passed Codex re-review; isolated validation 12 fully green incl.

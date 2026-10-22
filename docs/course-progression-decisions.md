@@ -2319,7 +2319,27 @@ Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
 - **D-247 RI2-D4:** accept exact-first-ref placement selection (matches H-1
   and PH-5; current placement preserved).
 
-There are 247 decisions: D-01 through D-75, D-139, D-142, D-145–D-247 approved;
+### D-248 to D-251 — RAT-INTEGRATE RI-3 rulings
+
+Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a162b2-c31e-7960-ad17-714911a0f2fe`; report
+`agent-handoffs/RAT-INTEGRATE/ri3/rev1/review-r1-report.md`
+`920c16ab6349f192dab3ef32443d95914a1aaac3f5a73e77040f3bee735a3357`) on
+`ri3.patch` `f22771a2f2634bf0c9f65a3901a104c8b98516ad34d6ed7303b8cab5530614a2`
+(READY_WITH_RISKS, no findings).
+
+- **D-248 RI3-D1:** CE-4 cross-target exclusion is correctly omitted (scope
+  rev3 §2.7 under L-2, D-231); the integrator's dispatch wording does not
+  override the scope. The "lesson 2.0.0 refs never name a pilot `@1.0.0`
+  bank" assertion remains a required RI-4 gate.
+- **D-249 RI3-D2:** the never-reused rule is keyed on (bank code, item id),
+  ignoring item version.
+- **D-250 RI3-D3:** `deriveRequiredBanks` throws on an unrecognized
+  registered bank kind (fail-closed).
+- **D-251 RI3-D4:** `private-package-store.ts` importing the lazy
+  `COURSE_CATALOG_INDEX` proxy is accepted under D-241.
+
+There are 251 decisions: D-01 through D-75, D-139, D-142, D-145–D-251 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

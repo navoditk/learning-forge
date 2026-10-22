@@ -8,8 +8,8 @@ import {
   RefSchema,
   ReviewContentItemSchema,
 } from '../contracts/progression';
-import type { Ref } from '../contracts/progression';
-import { PILOT_LESSONS } from '../curriculum/pilot-catalog';
+import type { AssessmentBank, Lesson, Ref, Unit } from '../contracts/progression';
+import { COURSE_CATALOG_INDEX } from '../curriculum/course-catalog';
 import type { AssessmentStore, HeldOutAssessmentBank } from './store';
 
 export type RequiredBank = {
@@ -25,73 +25,55 @@ export type RequiredBank = {
   exclusiveSkills?: boolean;
 };
 
-const pilotSkillRefs = (codes: readonly string[]): readonly Ref[] =>
-  codes.map((code) => ({ code, version: '1.0.0' }));
+type BankDerivationInput = {
+  readonly lessons: readonly Pick<Lesson, 'assessmentBankRef'>[];
+  readonly units: readonly Pick<Unit, 'assessmentBankRef'>[];
+  readonly banks: readonly Pick<
+    AssessmentBank,
+    'code' | 'version' | 'targetRef' | 'coveredSkillRefs' | 'itemCount'
+  >[];
+};
 
-const GRADE_6_MATH_REQUIRED_BANKS: readonly RequiredBank[] = [
-  {
-    code: 'ratio-language-lesson-bank',
-    version: '1.0.0',
-    minimumItems: 9,
-    requiredSkillRefs: pilotSkillRefs(PILOT_LESSONS[0]!.skillRefs.map((ref) => ref.code)),
-  },
-  {
-    code: 'unit-rates-lesson-bank',
-    version: '1.0.0',
-    minimumItems: 9,
-    requiredSkillRefs: pilotSkillRefs(PILOT_LESSONS[1]!.skillRefs.map((ref) => ref.code)),
-  },
-  {
-    code: 'ratio-tables-lesson-bank',
-    version: '1.0.0',
-    minimumItems: 9,
-    requiredSkillRefs: pilotSkillRefs(PILOT_LESSONS[2]!.skillRefs.map((ref) => ref.code)),
-  },
-  {
-    code: 'ratios-proportional-reasoning-unit-bank',
-    version: '1.0.0',
-    minimumItems: 18,
-    requiredSkillRefs: pilotSkillRefs(
-      PILOT_LESSONS.flatMap((lesson) => lesson.skillRefs.map((ref) => ref.code)),
-    ),
-  },
-];
-
-const PILOT_SKILL_CODES = [
-  ...new Set(PILOT_LESSONS.flatMap((lesson) => lesson.skillRefs.map((ref) => ref.code))),
-];
+const refKey = (ref: { code: string; version: string }): string => `${ref.code}@${ref.version}`;
 
 /**
- * Skill-targeted banks: three review items per skill (D-50 as amended by D-67)
- * and a dedicated delayed-check bank of
- * delayedCheckItemsPerAttempt × (1 + maxReassessments) items per skill (D-63,
- * D-43, D-27).
+ * Derives the package bank list from every registered index bank (RI-3):
+ * `minimumItems` from `itemCount`, coverage from `coveredSkillRefs`, and the
+ * role from the bank kind. Lesson and unit banks are mandatory; skill review
+ * and delayed-check banks are optional, exclusive to their skill, and a review
+ * bank carries review items (D-50 as amended by D-67; D-63, D-43, D-27).
+ * Index order is preserved. A bank of no recognised kind fails closed, so a
+ * registered bank can never silently drop out of the integrity check.
  */
-const GRADE_6_MATH_SKILL_BANKS: readonly RequiredBank[] = PILOT_SKILL_CODES.flatMap((code) => [
-  {
-    code: `${code}-review-bank`,
-    version: '1.0.0',
-    minimumItems: 3,
-    requiredSkillRefs: pilotSkillRefs([code]),
-    optional: true,
-    exclusiveSkills: true,
-    itemRole: 'review' as const,
-  },
-  {
-    code: `${code}-delayed-check-bank`,
-    version: '1.0.0',
-    minimumItems: 6,
-    requiredSkillRefs: pilotSkillRefs([code]),
-    optional: true,
-    exclusiveSkills: true,
-  },
-]);
+export function deriveRequiredBanks(catalog: BankDerivationInput): readonly RequiredBank[] {
+  const lessonBanks = new Set(catalog.lessons.map((lesson) => refKey(lesson.assessmentBankRef)));
+  const unitBanks = new Set(
+    catalog.units.flatMap((unit) =>
+      unit.assessmentBankRef ? [refKey(unit.assessmentBankRef)] : [],
+    ),
+  );
+  return catalog.banks.map((bank): RequiredBank => {
+    const base = {
+      code: bank.code,
+      version: bank.version,
+      minimumItems: bank.itemCount,
+      requiredSkillRefs: bank.coveredSkillRefs,
+    };
+    const key = refKey(bank);
+    if (lessonBanks.has(key) || unitBanks.has(key)) return base;
+    if (bank.code === `${bank.targetRef.code}-review-bank`) {
+      return { ...base, optional: true, exclusiveSkills: true, itemRole: 'review' };
+    }
+    if (bank.code === `${bank.targetRef.code}-delayed-check-bank`) {
+      return { ...base, optional: true, exclusiveSkills: true };
+    }
+    throw new Error(`Registered assessment bank has no recognised kind: ${key}`);
+  });
+}
 
 /** Every bank the Grade 6 Math package may contain, with its constraints. */
-export const GRADE_6_MATH_PACKAGE_BANKS: readonly RequiredBank[] = [
-  ...GRADE_6_MATH_REQUIRED_BANKS,
-  ...GRADE_6_MATH_SKILL_BANKS,
-];
+export const GRADE_6_MATH_PACKAGE_BANKS: readonly RequiredBank[] =
+  deriveRequiredBanks(COURSE_CATALOG_INDEX);
 
 const PackageBankSchema = z
   .object({
@@ -159,12 +141,24 @@ function validatePackageIntegrity(
 ): void {
   const seenBanks = new Set<string>();
   const seenItems = new Set<string>();
+  const itemIdVersions = new Map<string, string>();
   for (const bank of banks) {
     const bankRef = `${bank.code}@${bank.version}`;
     if (seenBanks.has(bankRef)) throw new Error(`Duplicate private assessment bank: ${bankRef}`);
     seenBanks.add(bankRef);
 
     for (const item of bank.items) {
+      // Never-reused ids: across versions of one bank code an item id is
+      // served from exactly one version (D-231 L-2), so a later version
+      // cannot re-serve an earlier version's item.
+      const idKey = `${bank.code}\u0000${item.id}`;
+      const earlier = itemIdVersions.get(idKey);
+      if (earlier !== undefined && earlier !== bank.version) {
+        throw new Error(
+          `Private assessment item id is reused across versions of ${bank.code}: ${item.id} (${earlier}, ${bank.version})`,
+        );
+      }
+      itemIdVersions.set(idKey, bank.version);
       const itemRef = `${item.id}@${item.version}`;
       if (seenItems.has(itemRef)) {
         throw new Error(`Duplicate private assessment item: ${itemRef}`);

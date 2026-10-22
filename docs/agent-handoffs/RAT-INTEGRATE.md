@@ -2,7 +2,14 @@
 
 ## Live relay
 
-- Phase: **RI-1, RI-2 DONE (committed); RI-3 next** (2026-10-22). RI-2 rev2
+- Phase: **RI-1, RI-2, RI-3 DONE (committed); RI-4 next** (2026-10-22).
+  RI-3 (Sonnet `ad32a914d4a76b89f` verified 32/32) `ri3/rev1/ri3.patch`
+  `f22771a2f2634bf0c9f65a3901a104c8b98516ad34d6ed7303b8cab5530614a2`; Codex
+  READY_WITH_RISKS first round, no findings (`review-r1-report.md`
+  `920c16ab...3357`); rulings D-248–D-251. `iso-validation-13`: tests 2715,
+  integration 352+1, eval 17, e2e 110+1; build first failed fetching Google
+  Fonts (`next/font`), passed on rerun.
+- Earlier phase: **RI-1, RI-2 DONE (committed); RI-3 next** (2026-10-22). RI-2 rev2
   (Sonnet verified 96/96) `ri2/rev2/ri2.patch`
   `a7d8cb596300bf97ee9d1233c7b84870cc388db6606ad69be4519ddb03c050a5`; Codex
   round 2 READY_WITH_RISKS (`review-r2-report.md` `6bc05dc3...a607`).
