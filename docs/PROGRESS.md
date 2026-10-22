@@ -1,5 +1,37 @@
 # Progress
 
+## 2026-10-22 — RI-1 committed: versioned catalog selection live
+
+- RI-1 (P-A live: active program/lesson selection, extension stub retired;
+  no learner-visible change) passed Codex re-review and isolated validation
+  incl. e2e; committed and pushed under D-219. Known flake: agent-tooling
+  tests in `tests/agents/` stall under load (passed on rerun). Ledger 81/180.
+
+## 2026-10-22 — RI-1 reviewed: two majors routed back
+
+- Codex `gpt-6.1-sol` found RI-1 drops NEEDS_HELP updates on earlier-version
+  lesson rows and leaves the program roster unfiltered (both would surface
+  once two versions exist), plus weak replay tests. Delegated rulings
+  D-241–D-243. Sonnet correcting; ledger 80/180.
+
+## 2026-10-22 — RAT-INTEGRATE scope ready; RI-1 started
+
+- Scope rev3 passed Codex round 3 (READY); D-240 fixes the unit bank at six
+  items per skill. RI-1 (P-A live, extension stub retired) dispatched to
+  Sonnet in an isolated copy, with e2e required. Ledger 76/180.
+
+## 2026-10-22 — RAT-INTEGRATE scoped; design decided by delegated review
+
+- Opus scope rev1 split RAT-INTEGRATE into Part A (public, agents) and Part B
+  (private banks, owner). Codex `gpt-6.1-sol` decided D-228–D-239 (notably
+  OC-2 = L-2 new pilot bank versions) and requested scope fixes (history UI
+  ownership, bank exhaustion, packet paths). Opus rev2 running; ledger 72/180.
+
+## 2026-10-22 — Main CI green again (`288a165`)
+
+- CI run 39745502690 and curriculum-site run 39745502536 passed on
+  `288a165`. RAT-INTEGRATE scope (Opus) in progress; ledger 70/180.
+
 ## 2026-10-22 — E2E fix, teaching records and CI timeout committed
 
 - Codex `gpt-6.1-sol` approved the e2e fix (D-226) and kept topic-card

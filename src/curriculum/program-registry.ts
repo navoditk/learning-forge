@@ -1,4 +1,5 @@
 import { Program, ProgramSchema } from '../contracts/progression';
+import ACTIVE_SELECTION from './grade-6-math-active-selection.json';
 import { PILOT_PROGRAM_UNIT_REFS } from './pilot-catalog';
 
 const policy = (code: string, version = '1.0.0') => ({ code, version });
@@ -124,7 +125,25 @@ export const PROGRAM_REGISTRY: readonly Program[] = rawProgramRegistry.map((prog
   ProgramSchema.parse(program),
 );
 
-export const programsByCode = new Map(PROGRAM_REGISTRY.map((program) => [program.code, program]));
+/**
+ * Active-only projection (P-A, D-229): one program per code, the version the
+ * active selection names, in registry declaration order. The version index
+ * lives in `VERSIONED_COURSE_CATALOG`; this never lists a non-selected version.
+ */
+export function selectActivePrograms(
+  programs: readonly Program[],
+  selection: { programs: readonly { code: string; version: string }[] },
+): Program[] {
+  const keys = new Set(selection.programs.map((ref) => `${ref.code}@${ref.version}`));
+  return programs.filter((program) => keys.has(`${program.code}@${program.version}`));
+}
+
+export const ACTIVE_PROGRAMS: readonly Program[] = selectActivePrograms(
+  PROGRAM_REGISTRY,
+  ACTIVE_SELECTION,
+);
+
+export const programsByCode = new Map(ACTIVE_PROGRAMS.map((program) => [program.code, program]));
 
 export function validateProgramSkillInvariants(
   skills: readonly {

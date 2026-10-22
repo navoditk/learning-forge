@@ -30,6 +30,8 @@ export async function getPilotProgression(identity: {
   householdId: string;
   learnerProfileId: string;
 }): Promise<PilotProgression> {
+  const program = COURSE_CATALOG.programByCode('grade-6-math');
+  if (!program) throw new Error('Pilot program is unavailable');
   const units = COURSE_CATALOG.unitsOfProgram('grade-6-math');
   const lessonCodes = units
     .flatMap((unit) => COURSE_CATALOG.lessonsOfUnit(unit))
@@ -81,7 +83,7 @@ export async function getPilotProgression(identity: {
     });
   }
   return {
-    program: { code: 'grade-6-math', version: '1.0.0', label: 'Grade 6 Math' },
+    program: { code: program.code, version: program.version, label: 'Grade 6 Math' },
     units: units.map((unit) => ({
       code: unit.code,
       version: unit.version,

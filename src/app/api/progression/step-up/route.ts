@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 import { issueStepUpToken, verifyStepUpPassword } from '../../../../auth/step-up';
-import { programsByCode } from '../../../../curriculum/program-registry';
+import { COURSE_CATALOG } from '../../../../curriculum/course-catalog';
 import { resolvePinnedPolicyProfile } from '../../../../progression/artifacts';
 import { isProgressionReleaseGateOpen } from '../../../../progression/release-gates';
 import { requireHouseholdContext } from '../../../../server/household-context';
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
         { status: 403 },
       );
     }
-    const program = programsByCode.get('grade-6-math');
+    const program = COURSE_CATALOG.programByCode('grade-6-math');
     if (!program) throw new Error('Pilot program is unavailable');
     const profile = resolvePinnedPolicyProfile(program.defaultPolicyProfileRef);
     const stepUpToken = issueStepUpToken(

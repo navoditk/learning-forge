@@ -11,8 +11,12 @@ export type ProgramRosterEntry = {
   available: boolean;
 };
 
-import { PROGRAM_REGISTRY } from './program-registry';
+import type { Program } from '../contracts/progression';
+import { ACTIVE_PROGRAMS } from './program-registry';
 
-export const PROGRAM_ROSTER: readonly ProgramRosterEntry[] = PROGRAM_REGISTRY.map(
-  ({ code, label, available }) => ({ code, label, available }),
-);
+/** One entry per program code: the roster is built from the active projection. */
+export function buildProgramRoster(programs: readonly Program[]): ProgramRosterEntry[] {
+  return programs.map(({ code, label, available }) => ({ code, label, available }));
+}
+
+export const PROGRAM_ROSTER: readonly ProgramRosterEntry[] = buildProgramRoster(ACTIVE_PROGRAMS);

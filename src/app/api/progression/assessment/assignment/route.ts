@@ -26,12 +26,7 @@ import type { ProgressionPolicyProfile } from '../../../../../contracts/policy';
 import type { AssessmentBank } from '../../../../../contracts/progression';
 import { prisma } from '../../../../../server/prisma';
 import { skillsByCode } from '../../../../../curriculum/catalog';
-import {
-  PILOT_ASSESSMENT_BANKS,
-  PILOT_LESSONS,
-  PILOT_UNITS,
-} from '../../../../../curriculum/pilot-catalog';
-import { programsByCode } from '../../../../../curriculum/program-registry';
+import { COURSE_CATALOG, VERSIONED_COURSE_CATALOG } from '../../../../../curriculum/course-catalog';
 import { requireHouseholdContext } from '../../../../../server/household-context';
 import { isProgressionReleaseGateOpen } from '../../../../../progression/release-gates';
 import { projectAssessmentAssignmentResponse } from '../../../../../progression/assessment-response';
@@ -112,9 +107,11 @@ function conflict(error: string, reasonCode: string, status = 409) {
 function lessonSkillCodes(lessonRefs: readonly { code: string; version: string }[]): string[] {
   return [
     ...new Set(
-      PILOT_LESSONS.filter((lesson) =>
-        lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
-      ).flatMap((lesson) => lesson.skillRefs.map((skill) => skill.code)),
+      VERSIONED_COURSE_CATALOG.index.lessons
+        .filter((lesson) =>
+          lessonRefs.some((ref) => ref.code === lesson.code && ref.version === lesson.version),
+        )
+        .flatMap((lesson) => lesson.skillRefs.map((skill) => skill.code)),
     ),
   ];
 }
@@ -187,22 +184,29 @@ async function resolvePlan(
       reassessmentCountSince: await latestSkillOverrideAt(prisma, learnerProfileId, skillRef),
     };
   }
-  const lesson =
-    body.targetKind === 'LESSON'
-      ? PILOT_LESSONS.find(
-          (candidate) =>
-            candidate.code === body.targetCode && candidate.version === body.targetVersion,
-        )
-      : undefined;
-  const unit =
-    body.targetKind === 'UNIT'
-      ? PILOT_UNITS.find(
-          (candidate) =>
-            candidate.code === body.targetCode && candidate.version === body.targetVersion,
-        )
-      : undefined;
+  // Targets resolve from the version index; only active targets are admitted
+  // (C7-A, D-230). A retried request replays its assignment even after the
+  // target stopped being active, for every target kind (D-54).
+  const index = VERSIONED_COURSE_CATALOG.index;
+  const targetRef = { code: body.targetCode, version: body.targetVersion };
+  const lesson = body.targetKind === 'LESSON' ? index.lessonByRef(targetRef) : undefined;
+  const unit = body.targetKind === 'UNIT' ? index.unitByRef(targetRef) : undefined;
   const target = lesson ?? unit;
   if (!target) return conflict('Unknown pilot assessment target', 'VERSION_MISMATCH');
+  const active = lesson
+    ? VERSIONED_COURSE_CATALOG.isActiveLesson(lesson)
+    : VERSIONED_COURSE_CATALOG.isActiveUnit(target);
+  if (!active) {
+    const replay = await prisma.assessmentAssignment.findUnique({
+      where: {
+        learnerProfileId_idempotencyKey: { learnerProfileId, idempotencyKey: body.idempotencyKey },
+      },
+      select: { id: true },
+    });
+    if (!replay) {
+      return conflict('Assessment target is not an active course version', 'VERSION_MISMATCH');
+    }
+  }
   if (body.kind === 'PLACEMENT' && unit) {
     // D-64: the probe projects reviewed public practice items; D-68 places.
     // D-71: one placement per unit.
@@ -233,9 +237,7 @@ async function resolvePlan(
   if (!bankRef) {
     return conflict('Assessment bank is not configured', 'ASSESSMENT_STORE_UNAVAILABLE', 503);
   }
-  const bank = PILOT_ASSESSMENT_BANKS.find(
-    (candidate) => candidate.code === bankRef.code && candidate.version === bankRef.version,
-  );
+  const bank = index.bankByRef(bankRef);
   if (!bank) throw new Error('Assessment bank metadata is unavailable');
   return {
     targetRef: { code: target.code, version: target.version },
@@ -265,7 +267,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = RequestSchema.parse(await request.json());
-    const program = programsByCode.get('grade-6-math');
+    const program = COURSE_CATALOG.programByCode('grade-6-math');
     if (!program) throw new Error('Pilot program is unavailable');
     if (!assessmentKindMatchesTarget(body.kind, body.targetKind)) {
       return NextResponse.json(

@@ -2229,7 +2229,74 @@ define topic-card selection explicitly and add dedicated selection tests in a
 separately reviewed UX patch (first-item-wins would change learner-facing
 behaviour).
 
-There are 227 decisions: D-01 through D-75, D-139, D-142, D-145–D-227 approved;
+### D-228 to D-239 — RAT-INTEGRATE design decisions (scope rev1)
+
+Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a162b2-c31e-7960-ad17-714911a0f2fe`; report
+`agent-handoffs/RAT-INTEGRATE/review-rev1-report.md`
+`08a1377975d98ffe1588f32c479239f85d004dcda31f056f820a8bb1a555d105`) on scope
+rev1 (`64cc82bd44ef84666ca2c543be8eba2ee4bf0f2294ff39022223fecffe10bb8d`).
+Design choices only; they accept no implementation patch. "Conditional"
+decisions bind once the named scope findings are corrected and re-reviewed.
+
+- **D-228 RI-SPLIT:** S-a, split into Part A (public wiring and staging,
+  agents) and Part B (registration with private banks, owner-dependent).
+  Conditional on RI-R1–RI-R3 and the L-2 consequences.
+- **D-229 RI-PAH:** (a) adopt both P-A and H-1 live.
+- **D-230 C-7:** C7-A fresh start on new lesson versions, with mandatory
+  history and NEEDS_HELP override access; no migration. Conditional on RI-R1,
+  RI-R2.
+- **D-231 OC-2:** L-2 new pilot lesson-bank versions (27 new private items);
+  differs from the author and integrator recommendation (L-1) because L-1 can
+  exhaust banks under C7-A. Conditional on RI-R2 corrections; private
+  authoring stays owner-only.
+- **D-232 OC-3:** (c) lessons may pin refs to the five accepted teaching
+  records; amends D-218's "no lesson refs" for these records only; serving,
+  grant and publication exclusions stay. Conditional on RI-R6.
+- **D-233 OC-5:** (a) no curriculum-site teaching publication now.
+- **D-234 MV-2:** unit bank count 30 (authoring owner-only).
+- **D-235 RI-ORD:** (a) keep the pilot first refs and DNL-3 as the
+  representation source; not reliant on D-163.
+- **D-236 RI-STAMP:** (a) pending-review metadata first, delegated review
+  stamp after acceptance.
+- **D-237 RI-LABELS:** (a) bind the design labels, plus pilot lesson-bank
+  versions `@2.0.0` for L-2. Conditional on L-2 updates.
+- **D-238 RI-D227:** (a) topic-card selection follow-up stays separate.
+- **D-239 RI-MS:** (a) report actual staged completion and the private
+  registration dependency; continue eligible Science work; do not declare
+  Ratios complete prematurely.
+
+### D-240 — Ratios unit-bank composition: six per skill (MV-2-COMP)
+
+Delegated decision (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a162b2-c31e-7960-ad17-714911a0f2fe`; report
+`agent-handoffs/RAT-INTEGRATE/review-rev3-report.md`
+`b0c507374afd1f87f5903dc6a1a5e49158697561d45b7069b132025e7e9eadbc`): option
+(a), six items per skill for the D-234 total of 30; total private volume
+stays 93. Grants no private access or authoring. The same review found scope
+rev3 (`773c9cc2d8073b472538e6ca911879368c0bc5ec719b2e619c4daa60d0056faf`)
+READY, satisfying the D-228 condition (D-230–D-232, D-237 remain satisfied).
+
+### D-241 to D-243 — RAT-INTEGRATE RI-1 rulings
+
+Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a162b2-c31e-7960-ad17-714911a0f2fe`; report
+`agent-handoffs/RAT-INTEGRATE/ri1/rev1/review-r1-report.md`
+`3944b653183bab6034069a755f68c55aa72410720100182836bd270cf92a21a7`) on
+`ri1.patch` `dc686386f32bbb86c4de02c98c19bb53c87e216c5218f2558e716ad7e8380217`
+(CHANGES_REQUESTED: RI1-R1, RI1-R2 major; RI1-R3 minor).
+
+- **D-241 RI1-D1:** (a) accept the lazy memoized proxies for
+  `VERSIONED_COURSE_CATALOG`, `COURSE_CATALOG_INDEX` and `COURSE_CATALOG`
+  (cycle with `catalog-versions.ts`) for current read-only usage; no
+  general claim about mutation or freezing semantics.
+- **D-242 RI1-D2:** (a) the mounted-package e2e branch is skipped in agent
+  validation (needs the real hash-pinned package) and recorded as an
+  owner-run deployment precondition; no private access authorized.
+- **D-243 RI1-R2 scope amendment:** `src/curriculum/program-roster.ts` joins
+  RI-1's edit allowlist, limited to consuming the active projection.
+
+There are 243 decisions: D-01 through D-75, D-139, D-142, D-145–D-243 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

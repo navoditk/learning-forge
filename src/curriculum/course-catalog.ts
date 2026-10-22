@@ -9,6 +9,10 @@ import {
   ProgramSchema,
   UnitSchema,
 } from '../contracts/progression';
+import type { ActiveSelection, ReservedLabel, VersionedCourseCatalog } from './catalog-versions';
+import { createVersionedCourseCatalog } from './catalog-versions';
+import ACTIVE_SELECTION from './grade-6-math-active-selection.json';
+import RESERVED_LABELS from './grade-6-math-reserved-labels.json';
 import { PILOT_ASSESSMENT_BANKS, PILOT_LESSONS, PILOT_UNITS } from './pilot-catalog';
 import { PROGRAM_REGISTRY } from './program-registry';
 import { validateProgressionCatalog } from './progression-catalog';
@@ -126,10 +130,62 @@ export function createCourseCatalog(input: CourseCatalogInput): CourseCatalog {
   };
 }
 
-/** Production catalog: the program registry plus the unchanged Grade 6 pilot records. */
-export const COURSE_CATALOG: CourseCatalog = createCourseCatalog({
-  programs: PROGRAM_REGISTRY,
-  units: PILOT_UNITS,
-  lessons: PILOT_LESSONS,
-  banks: PILOT_ASSESSMENT_BANKS,
+/**
+ * Production catalog (P-A live, D-229): the version index over every
+ * registered record plus the committed active selection. `COURSE_CATALOG` is
+ * the active view, so code-keyed program lookups mean "currently selected";
+ * the index keeps every version resolvable for history. Single-version
+ * operation is unchanged: the active view equals the former catalog.
+ */
+let versionedCatalog: VersionedCourseCatalog | undefined;
+
+function buildVersionedCatalog(): VersionedCourseCatalog {
+  versionedCatalog ??= createVersionedCourseCatalog({
+    records: {
+      programs: PROGRAM_REGISTRY,
+      units: PILOT_UNITS,
+      lessons: PILOT_LESSONS,
+      banks: PILOT_ASSESSMENT_BANKS,
+    },
+    selection: ACTIVE_SELECTION as ActiveSelection,
+    reservedLabels: RESERVED_LABELS as readonly ReservedLabel[],
+  });
+  return versionedCatalog;
+}
+
+/**
+ * catalog-versions imports createCourseCatalog from this module, so the
+ * production catalog is built on first use. Building it at load would run
+ * before catalog-versions finished initializing whenever that module is the
+ * import entry point (a module cycle). The proxies are transparent.
+ */
+function lazy<T extends object>(resolve: () => T): T {
+  return new Proxy({} as T, {
+    get: (_target, key) => Reflect.get(resolve(), key),
+    has: (_target, key) => Reflect.has(resolve(), key),
+    ownKeys: () => Reflect.ownKeys(resolve()),
+    getOwnPropertyDescriptor: (_target, key) => {
+      const descriptor = Reflect.getOwnPropertyDescriptor(resolve(), key);
+      return descriptor ? { ...descriptor, configurable: true } : undefined;
+    },
+  });
+}
+
+export const VERSIONED_COURSE_CATALOG: VersionedCourseCatalog = lazy(buildVersionedCatalog);
+
+export const COURSE_CATALOG_INDEX: CourseCatalog = lazy(() => buildVersionedCatalog().index);
+
+let activeCatalog: CourseCatalog | undefined;
+
+export const COURSE_CATALOG: CourseCatalog = lazy(() => {
+  if (!activeCatalog) {
+    const view = buildVersionedCatalog().activeView();
+    // With one version per code the active programs are the registry itself;
+    // keep its identity so single-version consumers see the same array.
+    const unchanged =
+      view.programs.length === PROGRAM_REGISTRY.length &&
+      view.programs.every((program, i) => program === PROGRAM_REGISTRY[i]);
+    activeCatalog = unchanged ? { ...view, programs: PROGRAM_REGISTRY } : view;
+  }
+  return activeCatalog;
 });

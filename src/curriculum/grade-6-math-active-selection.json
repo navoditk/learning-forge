@@ -1,0 +1,75 @@
+{
+  "version": "1.0.0",
+  "programs": [
+    {
+      "code": "grade-6-math",
+      "version": "1.0.0"
+    },
+    {
+      "code": "math-kangaroo-6",
+      "version": "1.0.0"
+    },
+    {
+      "code": "moems-6",
+      "version": "1.0.0"
+    },
+    {
+      "code": "amc-8",
+      "version": "1.0.0"
+    },
+    {
+      "code": "mathcounts-6",
+      "version": "1.0.0"
+    },
+    {
+      "code": "scripps-spelling-bee-6",
+      "version": "1.0.0"
+    },
+    {
+      "code": "grade-6-ela",
+      "version": "1.0.0"
+    },
+    {
+      "code": "grade-6-science",
+      "version": "1.0.0"
+    },
+    {
+      "code": "grade-6-social-studies",
+      "version": "1.0.0"
+    },
+    {
+      "code": "international-geography-bee-6",
+      "version": "1.0.0"
+    },
+    {
+      "code": "science-olympiad-division-b",
+      "version": "1.0.0"
+    }
+  ],
+  "skillBanks": [
+    {
+      "code": "ratio-language-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "ratio-language-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "unit-rates-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "unit-rates-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "ratio-tables-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "ratio-tables-delayed-check-bank",
+      "version": "1.0.0"
+    }
+  ]
+}

@@ -3,8 +3,8 @@ import { dirname, extname, join, relative, resolve } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { COURSE_CATALOG } from '../../src/curriculum/course-catalog';
-import { RATIOS_EXTENSION_LESSONS } from '../../src/curriculum/ratios-extension-catalog';
+import { COURSE_CATALOG, COURSE_CATALOG_INDEX } from '../../src/curriculum/course-catalog';
+import RESERVED_LABELS from '../../src/curriculum/grade-6-math-reserved-labels.json';
 import {
   itemRef,
   probeItemId,
@@ -84,7 +84,10 @@ const NEW_MODULES = [
   SNAPSHOT_MODULE,
 ];
 const DORMANT = [...NEW_MODULES, curriculum('grade-6-math-structure-manifest.json')];
+// RI-1 (P-A live, D-229): catalog-versions is now imported by the production
+// course catalog. The registration checks and the snapshot module stay dormant.
 const ALLOWED_EDGES = new Set([
+  `${curriculum('course-catalog.ts')}->${curriculum('catalog-versions.ts')}`,
   `${curriculum('catalog-registration-checks.ts')}->${curriculum('catalog-versions.ts')}`,
   `${SNAPSHOT_MODULE}->${curriculum('catalog-registration-checks.ts')}`,
 ]);
@@ -116,6 +119,8 @@ const ALLOWED_CLOSURE_FILES = new Set(
     'progression-catalog.ts',
     'pilot-catalog.ts',
     'program-registry.ts',
+    'grade-6-math-active-selection.json',
+    'grade-6-math-reserved-labels.json',
   ]
     .map(curriculum)
     .concat(SNAPSHOT_MODULE),
@@ -187,16 +192,22 @@ describe('catalog versioning dormancy', () => {
     const add = (code: string): void => void real.add(code);
     for (const program of COURSE_CATALOG.programs)
       if (program.code === 'grade-6-math') add(program.code);
+    // Real structure codes: the indexed records plus the reserved labels
+    // (ID-2), whose lesson codes and skill codes (the code without "-lesson")
+    // were retired from the extension stub in RI-1.
     for (const record of [
-      ...COURSE_CATALOG.units,
-      ...COURSE_CATALOG.lessons,
-      ...COURSE_CATALOG.banks,
-      ...RATIOS_EXTENSION_LESSONS,
+      ...COURSE_CATALOG_INDEX.units,
+      ...COURSE_CATALOG_INDEX.lessons,
+      ...COURSE_CATALOG_INDEX.banks,
+      ...RESERVED_LABELS,
     ]) {
       add(record.code);
     }
-    for (const lesson of RATIOS_EXTENSION_LESSONS) add(lesson.assessmentBankRef.code);
-    for (const lesson of [...COURSE_CATALOG.lessons, ...RATIOS_EXTENSION_LESSONS]) {
+    for (const label of RESERVED_LABELS) {
+      add(label.code.replace(/-lesson$/u, ''));
+      add(`${label.code}-bank`);
+    }
+    for (const lesson of COURSE_CATALOG_INDEX.lessons) {
       for (const skill of lesson.skillRefs) add(skill.code);
     }
     expect(real.has('grade-6-math')).toBe(true);

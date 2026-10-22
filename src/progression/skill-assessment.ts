@@ -3,7 +3,7 @@ import type { Prisma, PrismaClient } from '@prisma/client';
 import type { ProgressionPolicyProfile } from '../contracts/policy';
 import type { AssessmentBank, Ref } from '../contracts/progression';
 import { contentCatalog, contentSkillCode } from '../content/catalog';
-import { COURSE_CATALOG } from '../curriculum/course-catalog';
+import { COURSE_CATALOG, VERSIONED_COURSE_CATALOG } from '../curriculum/course-catalog';
 import { delayedCheckEligibility } from './delay-window';
 import type { ExposureEvent } from './exposure';
 
@@ -11,25 +11,23 @@ export type SkillAssessmentKind = 'DELAYED_CHECK' | 'REVIEW';
 
 type Database = PrismaClient | Prisma.TransactionClient;
 
-/** Pilot skills an authored lesson claims, at the version the lesson pins. */
+/** Skills an active authored lesson claims, at the version the lesson pins. */
 export function pilotSkillRef(skillCode: string, skillVersion: string): Ref | undefined {
-  return COURSE_CATALOG.lessons
+  return VERSIONED_COURSE_CATALOG.index.lessons
+    .filter((lesson) => VERSIONED_COURSE_CATALOG.isActiveLesson(lesson))
     .flatMap((lesson) => lesson.skillRefs)
     .find((ref) => ref.code === skillCode && ref.version === skillVersion);
 }
 
-/** Dedicated held-out bank metadata for a skill-targeted assessment (D-50, D-63). */
+/**
+ * Dedicated held-out bank metadata for a skill-targeted assessment (D-50,
+ * D-63): the bank the active selection names, never chosen by array order.
+ */
 export function skillAssessmentBank(
   kind: SkillAssessmentKind,
   skillRef: Ref,
 ): AssessmentBank | undefined {
-  const suffix = kind === 'DELAYED_CHECK' ? 'delayed-check-bank' : 'review-bank';
-  return COURSE_CATALOG.banks.find(
-    (bank) =>
-      bank.code === `${skillRef.code}-${suffix}` &&
-      bank.targetRef.code === skillRef.code &&
-      bank.targetRef.version === skillRef.version,
-  );
+  return VERSIONED_COURSE_CATALOG.activeSkillBank(kind, skillRef);
 }
 
 function contentIdsForSkill(skillCode: string): string[] {

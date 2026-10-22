@@ -6,7 +6,7 @@ import {
   UnitCompletionStatus,
 } from '@prisma/client';
 
-import { COURSE_CATALOG } from '../curriculum/course-catalog';
+import { COURSE_CATALOG, VERSIONED_COURSE_CATALOG } from '../curriculum/course-catalog';
 import { advanceReviewSchedule } from './review-schedule';
 import { lessonStatusAfterPlacement, placementLessonIndex } from './placement';
 
@@ -590,25 +590,40 @@ export async function markSkillNeedsHelp(
     policyProfileCode: input.policyProfileCode,
     policyProfileVersion: input.policyProfileVersion,
   };
+  // C7-A (D-230): existing claiming rows are updated across every indexed
+  // version (completion status is preserved); absent rows are created only on
+  // active lessons.
   for (const lesson of COURSE_CATALOG.lessonsClaimingSkill(input.skillRef)) {
-    await transaction.learnerLessonState.upsert({
-      where: {
-        learnerProfileId_lessonCode_lessonVersion: {
+    const where = {
+      learnerProfileId_lessonCode_lessonVersion: {
+        learnerProfileId: input.learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+      },
+    };
+    if (VERSIONED_COURSE_CATALOG.isActiveLesson(lesson)) {
+      await transaction.learnerLessonState.upsert({
+        where,
+        create: {
+          householdId: input.householdId,
+          learnerProfileId: input.learnerProfileId,
+          lessonCode: lesson.code,
+          lessonVersion: lesson.version,
+          completionStatus: 'NOT_STARTED',
+          ...needsHelp,
+        },
+        update: needsHelp,
+      });
+    } else {
+      await transaction.learnerLessonState.updateMany({
+        where: {
           learnerProfileId: input.learnerProfileId,
           lessonCode: lesson.code,
           lessonVersion: lesson.version,
         },
-      },
-      create: {
-        householdId: input.householdId,
-        learnerProfileId: input.learnerProfileId,
-        lessonCode: lesson.code,
-        lessonVersion: lesson.version,
-        completionStatus: 'NOT_STARTED',
-        ...needsHelp,
-      },
-      update: needsHelp,
-    });
+        data: needsHelp,
+      });
+    }
   }
 }
 

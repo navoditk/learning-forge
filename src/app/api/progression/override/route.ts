@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 import { verifyStepUpToken } from '../../../../auth/step-up';
-import { programsByCode } from '../../../../curriculum/program-registry';
+import { COURSE_CATALOG } from '../../../../curriculum/course-catalog';
 import { resolvePinnedPolicyProfile } from '../../../../progression/artifacts';
 import { applyNeedsHelpOverride } from '../../../../progression/learner-state';
 import { isProgressionReleaseGateOpen } from '../../../../progression/release-gates';
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
         { status: 409 },
       );
     }
-    const program = programsByCode.get('grade-6-math');
+    const program = COURSE_CATALOG.programByCode('grade-6-math');
     if (!program) throw new Error('Pilot program is unavailable');
     const profileRef = program.defaultPolicyProfileRef;
     const profile = resolvePinnedPolicyProfile(profileRef);

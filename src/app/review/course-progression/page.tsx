@@ -1,10 +1,6 @@
 import Link from 'next/link';
 
-import {
-  PILOT_ASSESSMENT_BANKS,
-  PILOT_LESSONS,
-  PILOT_UNITS,
-} from '../../../curriculum/pilot-catalog';
+import { COURSE_CATALOG } from '../../../curriculum/course-catalog';
 
 const gates = [
   {
@@ -53,7 +49,9 @@ const privacyReviewItems = [
 ];
 
 export default function CourseProgressionReviewPage() {
-  const unit = PILOT_UNITS[0];
+  // Active view (P-A, D-229): the active Grade 6 Math program's units.
+  const unit = COURSE_CATALOG.unitsOfProgram('grade-6-math')[0];
+  const lessons = unit ? COURSE_CATALOG.lessonsOfUnit(unit) : [];
 
   return (
     <main>
@@ -81,11 +79,11 @@ export default function CourseProgressionReviewPage() {
       <section aria-labelledby="course-heading">
         <h2 id="course-heading">Pilot course</h2>
         <p>
-          <strong>{unit?.title ?? 'Grade 6 Math pilot unit'}</strong> — {PILOT_LESSONS.length}{' '}
-          lessons and {PILOT_ASSESSMENT_BANKS.length} server-side assessment-bank metadata records.
+          <strong>{unit?.title ?? 'Grade 6 Math pilot unit'}</strong> — {lessons.length} lessons and{' '}
+          {COURSE_CATALOG.banks.length} server-side assessment-bank metadata records.
         </p>
         <ol>
-          {PILOT_LESSONS.map((lesson) => (
+          {lessons.map((lesson) => (
             <li key={lesson.code}>
               <strong>{lesson.title}</strong> — {lesson.objectives.join(' ')}
             </li>

@@ -192,6 +192,10 @@ describe('step-up and NEEDS_HELP override routes', () => {
     expect(
       await post(override, 'override', request(await freshToken(), { skillCode: 'gcf-and-lcm' })),
     ).toMatchObject({ status: 409, body: { reasonCode: 'VERSION_MISMATCH' } });
+    // Skill refs resolve through the active lessons at the version they pin (RI-1).
+    expect(
+      await post(override, 'override', request(await freshToken(), { skillVersion: '2.0.0' })),
+    ).toMatchObject({ status: 409, body: { reasonCode: 'VERSION_MISMATCH' } });
   });
 
   it('re-checks the actor server-side', async () => {

@@ -2,7 +2,11 @@ import { createHash } from 'node:crypto';
 
 import { describe, expect, it } from 'vitest';
 
-import { COURSE_CATALOG, createCourseCatalog } from '../../src/curriculum/course-catalog';
+import {
+  COURSE_CATALOG,
+  COURSE_CATALOG_INDEX,
+  createCourseCatalog,
+} from '../../src/curriculum/course-catalog';
 import {
   PILOT_ASSESSMENT_BANKS,
   PILOT_LESSONS,
@@ -38,7 +42,12 @@ const multiProgramCatalog = createCourseCatalog({
 
 describe('production course catalog', () => {
   it('exposes the same pilot records, order and identity', () => {
-    expect(COURSE_CATALOG.programs).toBe(PROGRAM_REGISTRY);
+    // P-A live (RI-1): the production catalog is the active view over the
+    // version index. With one version per code it lists the same programs in
+    // the same order, and the index keeps the original record objects.
+    expect(COURSE_CATALOG.programs).toEqual([...PROGRAM_REGISTRY]);
+    expect(COURSE_CATALOG_INDEX.programs).toBe(PROGRAM_REGISTRY);
+    expect(COURSE_CATALOG_INDEX.units).toBe(PILOT_UNITS);
     expect(COURSE_CATALOG.units).toBe(PILOT_UNITS);
     expect(COURSE_CATALOG.lessons).toBe(PILOT_LESSONS);
     expect(COURSE_CATALOG.banks).toBe(PILOT_ASSESSMENT_BANKS);

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { programsByCode } from '../../src/curriculum/program-registry';
+import { PROGRAM_REGISTRY, programsByCode } from '../../src/curriculum/program-registry';
 import {
   PILOT_ASSESSMENT_BANKS,
   PILOT_LESSONS,
@@ -17,6 +17,8 @@ describe('Grade 6 Math pilot progression catalog', () => {
     expect(program.unitRefs).toEqual([
       { code: 'ratios-and-proportional-reasoning', version: '1.0.0' },
     ]);
+    // RI-1: programsByCode is the active-only projection of the registry.
+    expect(program).toBe(PROGRAM_REGISTRY.find((entry) => entry.code === 'grade-6-math'));
     expect(PILOT_LESSONS).toHaveLength(3);
     expect(PILOT_ASSESSMENT_BANKS.filter((bank) => bank.itemCount === 9)).toHaveLength(3);
     expect(PILOT_ASSESSMENT_BANKS.find((bank) => bank.itemCount === 18)?.code).toBe(
