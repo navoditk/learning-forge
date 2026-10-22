@@ -1,13 +1,33 @@
 import doubleNumberLines1 from '../../content/ratios/double-number-lines-1.json';
 import doubleNumberLines2 from '../../content/ratios/double-number-lines-2.json';
+import doubleNumberLines3 from '../../content/ratios/double-number-lines-3.json';
+import doubleNumberLines4 from '../../content/ratios/double-number-lines-4.json';
+import doubleNumberLines5 from '../../content/ratios/double-number-lines-5.json';
+import doubleNumberLines6 from '../../content/ratios/double-number-lines-6.json';
 import percentApplications1 from '../../content/ratios/percent-applications-1.json';
 import percentApplications2 from '../../content/ratios/percent-applications-2.json';
+import percentApplications3 from '../../content/ratios/percent-applications-3.json';
+import percentApplications4 from '../../content/ratios/percent-applications-4.json';
+import percentApplications5 from '../../content/ratios/percent-applications-5.json';
+import percentApplications6 from '../../content/ratios/percent-applications-6.json';
 import ratioLanguage1 from '../../content/ratios/ratio-language-1.json';
 import ratioLanguage2 from '../../content/ratios/ratio-language-2.json';
+import ratioLanguage3 from '../../content/ratios/ratio-language-3.json';
+import ratioLanguage4 from '../../content/ratios/ratio-language-4.json';
+import ratioLanguage5 from '../../content/ratios/ratio-language-5.json';
+import ratioLanguage6 from '../../content/ratios/ratio-language-6.json';
 import ratioTables1 from '../../content/ratios/ratio-tables-1.json';
-import ratioTables2 from '../../content/ratios/ratio-tables-2.json';
+import ratioTables2Content3 from '../../content/ratios/ratio-tables-2-content-3.json';
+import ratioTables3 from '../../content/ratios/ratio-tables-3.json';
+import ratioTables4 from '../../content/ratios/ratio-tables-4.json';
+import ratioTables5 from '../../content/ratios/ratio-tables-5.json';
+import ratioTables6 from '../../content/ratios/ratio-tables-6.json';
 import unitRates1 from '../../content/ratios/unit-rates-1.json';
-import unitRates2 from '../../content/ratios/unit-rates-2.json';
+import unitRates2Content3 from '../../content/ratios/unit-rates-2-content-3.json';
+import unitRates3 from '../../content/ratios/unit-rates-3.json';
+import unitRates4 from '../../content/ratios/unit-rates-4.json';
+import unitRates5 from '../../content/ratios/unit-rates-5.json';
+import unitRates6 from '../../content/ratios/unit-rates-6.json';
 import fractionDecimalOperations1 from '../../content/number-system/fraction-decimal-operations-1.json';
 import fractionDecimalOperations2 from '../../content/number-system/fraction-decimal-operations-2.json';
 import negativeNumbersAndAbsoluteValue1 from '../../content/number-system/negative-numbers-and-absolute-value-1.json';
@@ -148,14 +168,34 @@ import { validateStructuredValidatorRules } from './structured-response';
 const rawContent = [
   ratioLanguage1,
   ratioLanguage2,
+  ratioLanguage3,
+  ratioLanguage4,
+  ratioLanguage5,
+  ratioLanguage6,
   unitRates1,
-  unitRates2,
+  unitRates2Content3,
+  unitRates3,
+  unitRates4,
+  unitRates5,
+  unitRates6,
   ratioTables1,
-  ratioTables2,
+  ratioTables2Content3,
+  ratioTables3,
+  ratioTables4,
+  ratioTables5,
+  ratioTables6,
   doubleNumberLines1,
   doubleNumberLines2,
+  doubleNumberLines3,
+  doubleNumberLines4,
+  doubleNumberLines5,
+  doubleNumberLines6,
   percentApplications1,
   percentApplications2,
+  percentApplications3,
+  percentApplications4,
+  percentApplications5,
+  percentApplications6,
   fractionDecimalOperations1,
   fractionDecimalOperations2,
   negativeNumbersAndAbsoluteValue1,

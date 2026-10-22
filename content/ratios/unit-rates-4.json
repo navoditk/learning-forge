@@ -1,0 +1,86 @@
+{
+  "id": "unit-rates-4",
+  "version": "content-1",
+  "title": "Honey jar machine",
+  "role": "practice",
+  "skillRef": {
+    "code": "unit-rates",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.2"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Determines both unit rates for a ratio of whole numbers, including a non-complex fractional rate, and keeps each rate's meaning and units."
+  ],
+  "prompt": "A machine fills 7 jars of honey in 2 minutes at a steady rate. Find both unit rates. Type each as a fraction, a mixed number or a decimal where allowed, without units.",
+  "solutionRepresentation": "Jars per minute: 7 ÷ 2 = 7/2 = 3 1/2 jars each minute. Minutes per jar: 2 ÷ 7 = 2/7 of a minute for each jar. The two rates are reciprocals; each gives the amount for one unit of the other quantity.",
+  "solutionMethod": "For each rate, divide the quantity being counted by the quantity you want one of, then check that the two rates are reciprocals.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Jars filled per minute: 3 1/2 jars per minute; Minutes to fill one jar: 2/7 minutes per jar",
+    "acceptedAnswers": [
+      "Jars filled per minute: 3 1/2 jars per minute; Minutes to fill one jar: 2/7 minutes per jar"
+    ],
+    "equivalenceNotes": "Structured number fields. Jars per minute accepts a mixed number, fraction or decimal; minutes per jar accepts a fraction. Both must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "jars-per-minute",
+        "kind": "number",
+        "label": "Jars filled per minute",
+        "unitLabel": "jars per minute",
+        "representations": ["mixed-number", "fraction", "decimal"],
+        "simplestForm": false,
+        "correctValue": "7/2"
+      },
+      {
+        "key": "minutes-per-jar",
+        "kind": "number",
+        "label": "Minutes to fill one jar",
+        "unitLabel": "minutes per jar",
+        "representations": ["fraction"],
+        "simplestForm": false,
+        "correctValue": "2/7"
+      }
+    ]
+  },
+  "misconceptionCodes": ["reverses-rate"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "There are two different 'per one' questions here: per one minute and per one jar.",
+      "question": "For the first rate, which quantity is the 'one'?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Divide the quantity you are counting by the quantity you want one of.",
+      "question": "Which division gives jars for one minute, and which gives minutes for one jar?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 9 laps in 4 minutes gives 9/4 laps per minute and 4/9 minute per lap.",
+      "question": "How can you check that your two rates are reciprocals?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["3 1/2", "7/2", "2/7", "3.5"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Two labelled number fields, each stating its unit; no image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: A machine fills 7 jars of honey in 2 minutes. Enter the jars filled per minute, then the minutes it takes to fill one jar."
+}

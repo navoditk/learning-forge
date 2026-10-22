@@ -1,0 +1,98 @@
+{
+  "id": "percent-applications-6",
+  "version": "content-1",
+  "title": "Quiz score three ways",
+  "role": "practice",
+  "skillRef": {
+    "code": "percent-applications",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Converts a decimal to a percent and to a fraction in simplest form, and uses it to find the part of a whole."
+  ],
+  "prompt": "On a quiz with 40 questions, Ana answered 0.85 of the questions correctly. Write 0.85 as a percent and as a fraction in simplest form, then find how many questions Ana answered correctly. Type numbers only, without a % sign.",
+  "solutionRepresentation": "0.85 = 85/100, which is 85% and simplifies to 17/20 after dividing both terms by 5. The part is 17/20 of 40 = 40 ÷ 20 × 17 = 34 questions.",
+  "solutionMethod": "Read the decimal as hundredths for the percent, simplify the hundredths fraction, then take that fraction of the whole.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "0.85 as a percent: 85 percent; 0.85 as a fraction in simplest form: 17/20; Questions answered correctly: 34 questions",
+    "acceptedAnswers": [
+      "0.85 as a percent: 85 percent; 0.85 as a fraction in simplest form: 17/20; Questions answered correctly: 34 questions"
+    ],
+    "equivalenceNotes": "Structured number fields. The percent is entered without a % sign; the fraction must be in simplest form. All three must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "percent",
+        "kind": "number",
+        "label": "0.85 as a percent",
+        "unitLabel": "percent",
+        "representations": ["integer", "decimal"],
+        "simplestForm": false,
+        "correctValue": "85"
+      },
+      {
+        "key": "fraction",
+        "kind": "number",
+        "label": "0.85 as a fraction in simplest form",
+        "representations": ["fraction"],
+        "simplestForm": true,
+        "correctValue": "17/20"
+      },
+      {
+        "key": "questions",
+        "kind": "number",
+        "label": "Questions answered correctly",
+        "unitLabel": "questions",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "34"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "confuses-percent-and-decimal-place",
+    "treats-percent-as-whole",
+    "confuses-part-whole"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The digits after the decimal point tell how many hundredths there are.",
+      "question": "How many hundredths is 0.85?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Hundredths can be written as a percent and as a fraction over 100; then simplify the fraction by a common factor.",
+      "question": "Which number divides both the top and the bottom of the hundredths fraction?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 0.35 is 35 hundredths, which is 35% and 7/20, and 7/20 of 60 is 21.",
+      "question": "Is your number of questions a part of the 40 questions?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["85 percent", "17/20", "34"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (D-209, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch B (D-194). Context, numbers, figure, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Three labelled number fields; the percent field states its unit in words. No image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: A quiz has 40 questions and Ana answered 0.85 of them correctly. Enter 0.85 as a percent without the % sign, then as a fraction in simplest form, then the number of questions Ana answered correctly."
+}

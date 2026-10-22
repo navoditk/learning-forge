@@ -1,0 +1,106 @@
+{
+  "id": "ratio-tables-4",
+  "version": "content-1",
+  "title": "Which drink mix is stronger",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-tables",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Uses ratio tables to compare two ratios by scaling each to a common quantity."
+  ],
+  "prompt": "Mix A uses 3 scoops of drink powder for every 5 cups of water. Mix B uses 5 scoops for every 8 cups of water. Use ratio tables to find how many scoops each mix needs for 40 cups of water. Then decide which mix tastes stronger (more powder for the same water).",
+  "solutionRepresentation": "Mix A: 5 cups × 8 = 40 cups, so 3 × 8 = 24 scoops. Mix B: 8 cups × 5 = 40 cups, so 5 × 5 = 25 scoops. With the same 40 cups of water, Mix B uses more powder, so Mix B is stronger. Comparing differences (Mix A has 2 more cups than scoops, Mix B has 3) does not compare the ratios.",
+  "solutionMethod": "Scale each ratio by multiplication to the common water amount, then compare the scoops at that common amount.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Scoops in Mix A for 40 cups: 24 scoops; Scoops in Mix B for 40 cups: 25 scoops; Stronger mix: Mix B",
+    "acceptedAnswers": [
+      "Scoops in Mix A for 40 cups: 24 scoops; Scoops in Mix B for 40 cups: 25 scoops; Stronger mix: Mix B"
+    ],
+    "equivalenceNotes": "Structured fields: two whole numbers and a single choice. All three must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "mix-a-scoops",
+        "kind": "number",
+        "label": "Scoops in Mix A for 40 cups",
+        "unitLabel": "scoops",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "24"
+      },
+      {
+        "key": "mix-b-scoops",
+        "kind": "number",
+        "label": "Scoops in Mix B for 40 cups",
+        "unitLabel": "scoops",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "25"
+      },
+      {
+        "key": "stronger",
+        "kind": "choice",
+        "label": "Stronger mix",
+        "options": [
+          {
+            "id": "mix-a",
+            "label": "Mix A"
+          },
+          {
+            "id": "mix-b",
+            "label": "Mix B"
+          },
+          {
+            "id": "same",
+            "label": "They taste the same"
+          }
+        ],
+        "correctOptionId": "mix-b"
+      }
+    ]
+  },
+  "misconceptionCodes": ["adds-constant", "uses-additive-change"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "To compare two ratios fairly, make one quantity the same in both.",
+      "question": "Which amount of water do both mixes need to reach?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Extend each table by multiplying both numbers in its first row by the same factor until the water reaches 40 cups.",
+      "question": "What factor takes Mix A's water to 40 cups, and what factor takes Mix B's?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: paint P uses 1 can of red for every 2 cans of white, and paint Q uses 2 cans of red for every 3 cans of white. For 6 cans of white, P uses 3 cans of red and Q uses 4, so Q is redder.",
+      "question": "With the water equal, which mix has more scoops?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["24 scoops", "25 scoops", "Mix B is stronger"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Both ratios are given in text and the tables are entered as labelled number fields; the choice is a labelled radio group. No image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: Mix A uses 3 scoops of powder for every 5 cups of water. Mix B uses 5 scoops for every 8 cups. Enter the scoops each mix needs for 40 cups of water, then choose the stronger mix."
+}

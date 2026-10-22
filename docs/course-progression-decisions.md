@@ -2143,7 +2143,29 @@ delegate to codex. no human approval should be needed till completion."**
    eval with the owner's key, manual assistive-technology pass, production
    facts, private data) are worked around and reported, not waited on.
 
-There are 219 decisions: D-01 through D-75, D-139, D-142, D-145–D-219 approved;
+### D-220 — RC-5 ownership amendment for three count/fixture tests (DR-1)
+
+Delegated decision (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a15eae-f16c-72a1-8335-eb30eda75782`; `agent-handoffs/RAT-CONTENT/rc5/rev1/review-r1-report.md`
+`5b87a45c207edb6a65988d13b24430a5226deb38eabddf5a936bddded36f08d7`), matching
+the integrator recommendation: ACCEPT. RC-5 may change exactly the hunks in
+`rc5-unowned-test-fixes.patch`
+(`4c01137fbdf8daaeead138b02653361561c12dece0976dad93ad424d029dc05e`):
+`tests/contracts/structured-response-schema.test.ts` (counts),
+`tests/curriculum/science-rules.test.ts` (134→154, 136→156),
+`tests/phase1/composite-parts-grading.test.ts` (`ratio-tables-2` serves
+`content-3`; parts grading kept on the other two records). No broader
+assertion weakening is authorized.
+
+### D-221 — Pre-RC-5 ContentArchive run before deploying RC-5 (DR-2; amends D-217)
+
+Same delegated decision: ACCEPT. `content:archive` archives loader records
+only, so it must run from the pre-RC-5 build in each environment before RC-5
+is deployed; a later RC-5 run preserves the `content-2` snapshots. Record the
+sequence in the deployment runbook. No archive code change; archive drift
+stays a failure; production execution remains owner-only.
+
+There are 221 decisions: D-01 through D-75, D-139, D-142, D-145–D-221 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

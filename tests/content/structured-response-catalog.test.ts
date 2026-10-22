@@ -69,14 +69,28 @@ describe('valid complete fixtures load (contract 5.2: each passes 2.2, 2.5a and 
     });
   }
 
-  it('the live catalog keeps 128 legacy records non-structured; only the 6 Science records are structured', () => {
-    expect(contentCatalog).toHaveLength(134);
+  it('the live catalog keeps 131 legacy records non-structured; only the 6 Science and 17 Ratios records are structured', () => {
+    expect(contentCatalog).toHaveLength(154);
     const structured = contentCatalog.filter(
       (item) => item.deterministicValidator.type === 'structured',
     );
-    expect(structured).toHaveLength(6);
-    expect(structured.every((item) => item.id.startsWith('sci6-'))).toBe(true);
-    expect(contentCatalog.filter((item) => !item.id.startsWith('sci6-'))).toHaveLength(128);
+    expect(structured).toHaveLength(23);
+    const science = structured.filter((item) => item.id.startsWith('sci6-'));
+    expect(science).toHaveLength(6);
+    // The 17 other structured records are the accepted RAT-CONTENT Ratios records
+    // (ratios-content-registration.test.ts pins them by id, version and hash).
+    const ratios = structured.filter((item) => !item.id.startsWith('sci6-'));
+    expect(ratios).toHaveLength(17);
+    expect(
+      ratios.every((item) =>
+        /^(ratio-language|unit-rates|ratio-tables|double-number-lines|percent-applications)-\d$/.test(
+          item.id,
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      contentCatalog.filter((item) => item.deterministicValidator.type !== 'structured'),
+    ).toHaveLength(131);
     expect(() => validateContentCatalog()).not.toThrow();
   });
 

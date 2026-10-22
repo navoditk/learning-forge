@@ -258,11 +258,11 @@ describe('P3 Science skill rules', () => {
 });
 
 describe('P4 Science content rules', () => {
-  it('loads a valid synthetic Science record beside the 134 live records (128 existing + 6 Science)', () => {
-    expect(contentCatalog).toHaveLength(134);
+  it('loads a valid synthetic Science record beside the 154 live records (128 earlier + 6 Science + 20 Ratios)', () => {
+    expect(contentCatalog).toHaveLength(154);
     registerScienceSkill();
     const loaded = loadWith(scienceRecord('sci6-synthetic-1'), scienceRecord('sci6-synthetic-2'));
-    expect(loaded).toHaveLength(136);
+    expect(loaded).toHaveLength(156);
   });
 
   it('accepts depth mode and a pattern that is a case-insensitive substring', () => {

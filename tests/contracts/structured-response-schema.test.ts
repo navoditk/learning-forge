@@ -138,21 +138,24 @@ describe('PA-5: legacy items still score through the unchanged matcher', () => {
       'sci6-cells-evidence-of-life-1',
       'sci6-cells-evidence-of-life-2',
     ];
-    // The six registered Grade 6 Science records are the only structured
-    // records; every other record must remain a legacy validator.
+    // The six registered Grade 6 Science records and the 17 structured Grade 6
+    // Ratios records (RAT-CONTENT RC-5) are the only structured records; every
+    // other record must remain a legacy validator.
     const structuredIds = contentCatalog
       .filter((item) => item.deterministicValidator.type === 'structured')
       .map((item) => item.id)
       .sort();
-    expect(structuredIds).toEqual(SCIENCE_IDS);
-    for (const item of contentCatalog.filter((candidate) => SCIENCE_IDS.includes(candidate.id))) {
+    expect(structuredIds.filter((id) => id.startsWith('sci6-'))).toEqual(SCIENCE_IDS);
+    expect(structuredIds).toHaveLength(23);
+    const structuredSet = new Set(structuredIds);
+    for (const item of contentCatalog.filter((candidate) => structuredSet.has(candidate.id))) {
       expect(
         StructuredValidatorSchema.safeParse(item.deterministicValidator).success,
         item.id,
       ).toBe(true);
     }
-    const legacyCatalog = contentCatalog.filter((item) => !SCIENCE_IDS.includes(item.id));
-    expect(legacyCatalog).toHaveLength(128);
+    const legacyCatalog = contentCatalog.filter((item) => !structuredSet.has(item.id));
+    expect(legacyCatalog).toHaveLength(131);
 
     let withParts = 0;
     for (const item of legacyCatalog) {
@@ -168,7 +171,10 @@ describe('PA-5: legacy items still score through the unchanged matcher', () => {
         withParts += item.deterministicValidator.parts ? 1 : 0;
       }
     }
-    expect(withParts).toBe(9);
+    // Nine before RC-5; ratio-tables-2 and unit-rates-2 content-2 (the two
+    // `parts` items on the Ratios path) left the loader for their structured
+    // content-3 versions (D-215). The files stay on disk and keep their pins.
+    expect(withParts).toBe(7);
   });
 
   it('the nine legacy parts item files keep the contract 6.1 SHA-256 pins', () => {

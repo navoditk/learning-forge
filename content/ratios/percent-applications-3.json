@@ -1,0 +1,98 @@
+{
+  "id": "percent-applications-3",
+  "version": "content-1",
+  "title": "Soccer in the class survey",
+  "role": "practice",
+  "skillRef": {
+    "code": "percent-applications",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Converts a fraction to a percent and to a decimal, and uses it to find the part of a whole."
+  ],
+  "prompt": "In a school survey of 60 students, 11/20 of the students chose soccer as their favorite sport. Write 11/20 as a percent and as a decimal, then find how many students chose soccer. Type numbers only, without a % sign.",
+  "solutionRepresentation": "11/20 = 55/100, so it is 55% and 0.55. The part of the whole is 11/20 of 60 = 60 ÷ 20 × 11 = 33 students.",
+  "solutionMethod": "Rename the fraction with a denominator of 100 to read the percent, divide by 100 for the decimal, then take that fraction of the whole.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "11/20 as a percent: 55 percent; 11/20 as a decimal: 0.55; Students who chose soccer: 33 students",
+    "acceptedAnswers": [
+      "11/20 as a percent: 55 percent; 11/20 as a decimal: 0.55; Students who chose soccer: 33 students"
+    ],
+    "equivalenceNotes": "Structured number fields. The percent is entered without a % sign (whole number or decimal form); the decimal accepts decimal form only. All three must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "percent",
+        "kind": "number",
+        "label": "11/20 as a percent",
+        "unitLabel": "percent",
+        "representations": ["integer", "decimal"],
+        "simplestForm": false,
+        "correctValue": "55"
+      },
+      {
+        "key": "decimal",
+        "kind": "number",
+        "label": "11/20 as a decimal",
+        "representations": ["decimal"],
+        "simplestForm": false,
+        "correctValue": "11/20"
+      },
+      {
+        "key": "students",
+        "kind": "number",
+        "label": "Students who chose soccer",
+        "unitLabel": "students",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "33"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "confuses-percent-and-decimal-place",
+    "treats-percent-as-whole",
+    "confuses-part-whole"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A percent is a number out of 100.",
+      "question": "What number can you multiply 20 by to get 100?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Multiply the top and bottom of the fraction by that number, then read the percent. The decimal shows the same number of hundredths.",
+      "question": "How many hundredths is the percent, written as a decimal?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 1/4 is 25/100, which is 25% and 0.25, and 1/4 of 80 apples is 20 apples.",
+      "question": "Is your number of students a part of the 60 students, not the percent itself?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["55", "33"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (D-209, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch B (D-194). Context, numbers, figure, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Three labelled number fields; the percent field states its unit in words. No image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: 60 students took a school survey and 11/20 of them chose soccer. Enter 11/20 as a percent without the % sign, then 11/20 as a decimal, then the number of students who chose soccer."
+}

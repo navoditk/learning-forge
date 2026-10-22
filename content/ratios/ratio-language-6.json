@@ -1,0 +1,60 @@
+{
+  "id": "ratio-language-6",
+  "version": "content-1",
+  "title": "Coders and builders",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-language",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "States a part-to-part ratio in the requested order, which differs from the order the quantities are given, in simplest form."
+  ],
+  "prompt": "A robotics club has 20 members who build robots and 16 members who write code. Each member does only one of these jobs. What is the ratio of coders to builders? Write it in simplest form.",
+  "solutionRepresentation": "Coders come first: 16:20. Dividing both terms by 4 gives 4:5. Writing 5:4 would reverse the requested order.",
+  "solutionMethod": "Read the order from the question, not from the sentence that lists the counts, then simplify by the greatest common factor.",
+  "deterministicValidator": {
+    "type": "ratio",
+    "canonicalAnswer": "4:5",
+    "acceptedAnswers": ["4:5", "4 : 5", "4: 5", "4 :5", "4 to 5", "4/5"],
+    "equivalenceNotes": "Accept colon notation with or without spaces, 'to' notation, or fraction notation for the ratio in the requested order and in simplest form. The order is coders to builders; fraction notation writes the same ordered comparison. 5:4 is reversed and 16:20 is not simplified."
+  },
+  "misconceptionCodes": ["reversed-ratio", "does-not-simplify"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The question names the coders first, even though the builders are listed first.",
+      "question": "Which count belongs in the first position?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write the two counts in that order, then divide both by their greatest common factor.",
+      "question": "Which number divides both counts?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 12 swimmers and 9 runners give a runners-to-swimmers ratio of 9:12, which simplifies to 3:4.",
+      "question": "After simplifying, does the first number still stand for the coders?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["4:5", "4 : 5", "4 to 5", "4/5", "16:20"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "All counts are given in text; no image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: A robotics club has 20 builders and 16 coders, and each member has one job. Give the ratio of coders to builders in simplest form."
+}

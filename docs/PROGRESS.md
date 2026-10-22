@@ -1,5 +1,31 @@
 # Progress
 
+## 2026-10-22 — All 22 Ratios practice items registered (RC-5)
+
+- RC-5 rev2 passed Codex `gpt-6.1-sol` re-review and was applied to main
+  (catalog 154; `-content-3` replaces both `-2@content-2`). Isolated
+  validation 8 green: verify 2687 + build, integration 337, eval 17.
+  Committed and pushed under D-219. Not deployed; deployment needs the D-216
+  private check and the D-221 pre-RC-5 archive run (owner).
+- RC-T2: five dormant teaching drafts frozen (Opus); test update running
+  (Sonnet). Ledger 64/180.
+
+## 2026-10-22 — RC-5 reviewed: one fix, two delegated decisions
+
+- Codex `gpt-6.1-sol` review of RC-5 registration: bytes, attribution and
+  catalog verified; RC5-R1 (vectors generated but not scored) routed to
+  Sonnet (ledger 60/180). Delegated decisions (owner may override): D-220
+  three out-of-allowlist test hunks accepted; D-221 run `content:archive` on
+  the pre-RC-5 build before deploying RC-5.
+
+## 2026-10-22 — Delivery work committed and pushed (D-219)
+
+- Commit `58ea75e` pushed to `main` (with four earlier local commits). Remote
+  CI run 39715341349 and curriculum-site run 39715341356 both passed.
+- Not committed: `AGENTS.md`, `docs/agent-orchestration.md`, `.claude/agents/`,
+  `.codex/agents/` (permission classifier blocked committing agent-config
+  edits; left for the owner) and leftover `.claude/worktrees/`.
+
 ## 2026-10-22 — Ratios registration decided and started (D-213–D-218)
 
 - D-212 rulebook edit applied at the owner's request; the permission

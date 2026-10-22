@@ -1,0 +1,65 @@
+{
+  "id": "ratio-language-3",
+  "version": "content-1",
+  "title": "Pretzels in the snack mix",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-language",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "States a part-to-whole ratio in the requested order and in simplest form."
+  ],
+  "prompt": "A snack mix is made from 4 cups of pretzels and 8 cups of popcorn. Nothing else is in the mix. What is the ratio of cups of pretzels to cups of the whole snack mix? Write it in simplest form.",
+  "solutionRepresentation": "The whole mix is 4 + 8 = 12 cups. Pretzels to the whole mix is 4:12. Dividing both terms by 4 gives 1:3. (1:2 would compare pretzels with popcorn, a part-to-part ratio.)",
+  "solutionMethod": "Add the parts to find the whole, write the requested part first and the whole second, then divide both terms by their greatest common factor.",
+  "deterministicValidator": {
+    "type": "ratio",
+    "canonicalAnswer": "1:3",
+    "acceptedAnswers": ["1:3", "1 : 3", "1: 3", "1 :3", "1 to 3", "1/3"],
+    "equivalenceNotes": "Accept colon notation with or without spaces, 'to' notation, or fraction notation for the ratio in the requested order and in simplest form. The comparison is pretzels to the whole 12-cup mix; 1:2 (pretzels to popcorn) is not accepted."
+  },
+  "misconceptionCodes": [
+    "confuses-part-to-part-and-part-to-whole",
+    "does-not-simplify",
+    "reversed-ratio"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The question compares the pretzels with the whole mix, not with the popcorn.",
+      "question": "How many cups are in the whole snack mix?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write the cups of pretzels first and the total cups second, then look for a number that divides both terms.",
+      "question": "Which common factor makes both terms as small as possible?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a fruit bowl holds 2 apples and 6 pears. Apples to all the fruit is 2:8, which simplifies to 1:4 after dividing both terms by 2.",
+      "question": "Which two numbers belong in the pretzel ratio before you simplify?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["1:3", "1 : 3", "1 to 3", "1/3", "4:12"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "sourceReference": "Derived from experiments/grade-6-math-v2/content-records-v2.json v2-ratio-language-snack-mix@candidate-content-1 (file sha256 f24afa90548eb07935d378277bb6703701f3a4f738d4ce4147b008826b328a5a, commit d47f3a5); new ingredients and numbers (D-197).",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted Learning Forge practice record for RAT-CONTENT batch A (D-194), derived from the repository's own public candidate snack-mix item with new ingredients, numbers and hints; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "All quantities are given in text; no image, table or color is needed. A screen reader may read the colon as 'to' or 'colon'; either reading keeps the meaning.",
+  "accessibleAlternative": "Read aloud or display: A snack mix has 4 cups of pretzels and 8 cups of popcorn and nothing else. Give the ratio of cups of pretzels to cups of the whole mix in simplest form."
+}

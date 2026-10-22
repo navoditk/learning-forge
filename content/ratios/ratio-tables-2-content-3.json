@@ -1,0 +1,87 @@
+{
+  "id": "ratio-tables-2",
+  "version": "content-3",
+  "title": "Walking distance",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-tables",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "finds the unit rate (minutes per mile) and uses it to find the time for a new distance"
+  ],
+  "prompt": "At a steady pace, Jordan walks 3 miles in 48 minutes. Complete the equivalent table for 5 miles, then give the minutes-per-mile rate. Enter whole numbers.",
+  "solutionRepresentation": "48 ÷ 3 = 16 minutes per mile, so 5 miles takes 80 minutes.",
+  "solutionMethod": "Find the unit rate first, then multiply it by the new distance.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Minutes to walk 5 miles: 80 minutes; Minutes per mile: 16 minutes per mile",
+    "acceptedAnswers": [
+      "Minutes to walk 5 miles: 80 minutes; Minutes per mile: 16 minutes per mile"
+    ],
+    "equivalenceNotes": "Structured whole-number fields in the requested order (minutes for 5 miles, then minutes per mile). Both must be correct; no partial credit. Replaces the content-2 substring parts validator (TR-7).",
+    "fields": [
+      {
+        "key": "five-miles",
+        "kind": "number",
+        "label": "Minutes to walk 5 miles",
+        "unitLabel": "minutes",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "80"
+      },
+      {
+        "key": "per-mile",
+        "kind": "number",
+        "label": "Minutes per mile",
+        "unitLabel": "minutes per mile",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "16"
+      }
+    ]
+  },
+  "misconceptionCodes": ["uses-additive-change", "reverses-rate"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Look for a rate that works for one mile before scaling to five.",
+      "question": "What quantity could you find for one mile?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Use the table relationship 3 miles → 48 minutes and 1 mile → __ minutes.",
+      "question": "Which division finds the time for one mile?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Once you know the per-mile time, multiply by the target number of miles.",
+      "question": "What unit should your multiplication result have?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["80 minutes", "16 minutes per mile", "80", "16"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "sourceReference": "Repair version (TR-7, D-196) of content/ratios/ratio-tables-2.json, ratio-tables-2@content-2 (sha256 10ace306b5fd0cf77915510a45cbeb3bcadd7cbc7457d2f16879f03a92511b88); same task data and context, structured validator.",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted repair version for RAT-CONTENT batch A (D-194, D-196) of the reviewed original task ratio-tables-2@content-2. Task data, context, solution and hints are kept; the substring parts validator is replaced by two labelled structured fields that fix the order."
+  },
+  "accessibilityNotes": "Offer the table as labelled number fields and do not require interpreting a visual slope or color.",
+  "accessibleAlternative": "Read aloud or display: Jordan walks 3 miles in 48 minutes at a steady pace. Enter the number of minutes for 5 miles, then the number of minutes per mile."
+}

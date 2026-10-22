@@ -1,0 +1,84 @@
+{
+  "id": "ratio-tables-5",
+  "version": "content-1",
+  "title": "Paper chain links",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-tables",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Extends a ratio table using a consistent scale factor to find missing quantities."
+  ],
+  "prompt": "A class makes paper chains. 3 sheets of paper make 12 links. Complete the table: sheets 3, 5, 9; links 12, __, __.",
+  "solutionRepresentation": "12 ÷ 3 = 4 links for each sheet. 5 sheets make 5 × 4 = 20 links and 9 sheets make 9 × 4 = 36 links.",
+  "solutionMethod": "Find the links for one sheet, then multiply it by each number of sheets.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Links from 5 sheets: 20 links; Links from 9 sheets: 36 links",
+    "acceptedAnswers": ["Links from 5 sheets: 20 links; Links from 9 sheets: 36 links"],
+    "equivalenceNotes": "Structured whole-number fields, one per missing table entry. Both must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "five-sheets",
+        "kind": "number",
+        "label": "Links from 5 sheets",
+        "unitLabel": "links",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "20"
+      },
+      {
+        "key": "nine-sheets",
+        "kind": "number",
+        "label": "Links from 9 sheets",
+        "unitLabel": "links",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "36"
+      }
+    ]
+  },
+  "misconceptionCodes": ["adds-constant"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "In a ratio table, both rows change by multiplying, not by adding the same amount.",
+      "question": "How many links does one sheet make?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Find the links for 1 sheet, then multiply by each number of sheets.",
+      "question": "What is the links-per-sheet number for this chain?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: if 2 boxes hold 10 crayons, then 1 box holds 5 crayons, so 7 boxes hold 35 crayons.",
+      "question": "How many links do 5 sheets make?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["20", "36"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The table is given in text and the missing entries are labelled number fields; no image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: 3 sheets of paper make 12 chain links. Enter the links made from 5 sheets and from 9 sheets."
+}

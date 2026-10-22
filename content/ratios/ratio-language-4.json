@@ -1,0 +1,64 @@
+{
+  "id": "ratio-language-4",
+  "version": "content-1",
+  "title": "Science books on the shelf",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-language",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.RP.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "States a part-to-whole ratio in the requested order and in simplest form."
+  ],
+  "prompt": "A classroom shelf holds 9 mystery books and 6 science books, and no other books. What is the ratio of science books to all the books on the shelf? Write it in simplest form.",
+  "solutionRepresentation": "There are 9 + 6 = 15 books. Science books to all books is 6:15. Dividing both terms by 3 gives 2:5.",
+  "solutionMethod": "Find the total, put the science books first and the total second, then simplify by the greatest common factor.",
+  "deterministicValidator": {
+    "type": "ratio",
+    "canonicalAnswer": "2:5",
+    "acceptedAnswers": ["2:5", "2 : 5", "2: 5", "2 :5", "2 to 5", "2/5"],
+    "equivalenceNotes": "Accept colon notation with or without spaces, 'to' notation, or fraction notation for the ratio in the requested order and in simplest form. The comparison is science books to all 15 books; 2:3 (science to mystery) and 5:2 (reversed) are not accepted."
+  },
+  "misconceptionCodes": [
+    "confuses-part-to-part-and-part-to-whole",
+    "reversed-ratio",
+    "does-not-simplify"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Science books are one part of the shelf, and the comparison is with every book on the shelf.",
+      "question": "How many books are on the shelf in all?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write the science books first and the total second, then divide both terms by the same number.",
+      "question": "What is the greatest number that divides both terms?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a team has 4 girls and 8 boys. Girls to the whole team is 4:12, which simplifies to 1:3.",
+      "question": "Which part of the shelf comes first in your ratio?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["2:5", "2 : 5", "2 to 5", "2/5", "6:15"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "All counts are given in text; no image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: A shelf holds 9 mystery books and 6 science books and no other books. Give the ratio of science books to all books on the shelf in simplest form."
+}

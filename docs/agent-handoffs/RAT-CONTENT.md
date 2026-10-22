@@ -2,7 +2,26 @@
 
 ## Live relay
 
-- Phase: **RC-5 IN_PROGRESS** (2026-10-22). Owner "approve G-1 to G-6 as
+- Phase: **RC-5 DONE (applied, committed); RC-T2 IN_PROGRESS** (2026-10-22).
+  Sonnet rev2 (verified 146/146 + one 429 stop; combined `2da36c43...91df`):
+  1049 vectors scored (42 G-MC), sensitivity control. Codex `gpt-6.1-sol`
+  round 2 (verified) READY_WITH_RISKS, approved for local application
+  (`rc5/rev2/review-r2-report.md` `35f4ad52...a4a5`). Applied to main;
+  `iso-validation-8` all exit 0 (verify 2687 with build under NODE_ENV=test,
+  integration 337+1, eval 17, no `.env` load). Catalog 154. Deploy
+  preconditions: D-216 private check, D-221 pre-RC-5 archive run.
+  RC-T2: Opus `teaching-A-rev1` (verified 337/337; freeze `4e8c7d5a...ece9`,
+  5 `llm_drafted` records, all pass `validateTeachingRecords`); Sonnet
+  replacing the absence test (ledger 64/180); then Codex review and D-212
+  acceptance.
+- Earlier phase: **RC-5 rev1 CHANGES_REQUESTED; rev2 IN_PROGRESS** (2026-10-22).
+  Sonnet rev1 (verified 119/119; combined patch `0052944d...c45a`; catalog
+  154; verify 2683, integration 337+1). Codex `gpt-6.1-sol` (verified)
+  `rc5/rev1/review-r1-report.md` `5b87a45c...08d7`: RC5-R1 major (generated
+  vectors not scored); delegated decisions D-220 (DR-1, three test hunks) and
+  D-221 (DR-2, pre-RC-5 archive run before deploy). Sonnet resumed for rev2
+  (ledger 60/180).
+- Earlier phase: **RC-5 IN_PROGRESS** (2026-10-22). Owner "approve G-1 to G-6 as
   recommended" (`rc5-decisions/request.md`): D-213 local registration, D-214
   O-13 moot by supersession, D-215 D-176 ends at RC-5, D-216 K-3 accepted
   locally (private check before deployment), D-217 ContentArchive

@@ -400,7 +400,11 @@ const isKind =
   (o: Outcome): boolean =>
     o.kind === kind;
 
-export function generateVectors(name: string, validator: StructuredValidator): Vector[] {
+export function generateVectors(
+  name: string,
+  validator: StructuredValidator,
+  distractors: Record<string, string[]> = DISTRACTORS[name] ?? {},
+): Vector[] {
   const out: Vector[] = [];
   const base = baseFields(validator);
   const push = (
@@ -524,7 +528,7 @@ export function generateVectors(name: string, validator: StructuredValidator): V
         }
       }
       // G-MC
-      for (const distractor of DISTRACTORS[name]?.[f.key] ?? []) {
+      for (const distractor of distractors[f.key] ?? []) {
         const [dn, dd] = distractor.split('/');
         const num = B(dn);
         const den = dd === undefined ? B(1) : B(dd);

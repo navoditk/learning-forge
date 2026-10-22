@@ -1,0 +1,120 @@
+{
+  "id": "ratio-language-5",
+  "version": "content-1",
+  "title": "What a shelter ratio means",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-language",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.RP.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Identifies which quantities a ratio compares, in which order, and the part-to-whole fraction it implies."
+  ],
+  "prompt": "At an animal shelter, the ratio of cats to dogs is 5:3. Answer both questions about what this ratio means.",
+  "solutionRepresentation": "5:3 is cats to dogs, so for every 5 cats there are 3 dogs. One group that matches the ratio has 5 cats and 3 dogs, which is 8 animals, so cats are 5/8 of these cats and dogs. The ratio does not tell the exact counts or a fixed difference.",
+  "solutionMethod": "Match the first number to the first quantity named, then add the parts of one matching group to find the whole.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "What the ratio 5:3 tells you: For every 5 cats there are 3 dogs; Fraction of these cats and dogs that are cats: 5/8",
+    "acceptedAnswers": [
+      "What the ratio 5:3 tells you: For every 5 cats there are 3 dogs; Fraction of these cats and dogs that are cats: 5/8"
+    ],
+    "equivalenceNotes": "Structured single-choice fields. Each field must match its correct option; no partial credit.",
+    "fields": [
+      {
+        "key": "meaning",
+        "kind": "choice",
+        "label": "What the ratio 5:3 tells you",
+        "options": [
+          {
+            "id": "five-cats-per-three-dogs",
+            "label": "For every 5 cats there are 3 dogs"
+          },
+          {
+            "id": "five-dogs-per-three-cats",
+            "label": "For every 5 dogs there are 3 cats"
+          },
+          {
+            "id": "exact-counts",
+            "label": "The shelter has exactly 5 cats and 3 dogs"
+          },
+          {
+            "id": "two-more-cats",
+            "label": "There are always exactly 2 more cats than dogs"
+          }
+        ],
+        "correctOptionId": "five-cats-per-three-dogs"
+      },
+      {
+        "key": "cat-share",
+        "kind": "choice",
+        "label": "Fraction of these cats and dogs that are cats",
+        "options": [
+          {
+            "id": "five-eighths",
+            "label": "5/8"
+          },
+          {
+            "id": "five-thirds",
+            "label": "5/3"
+          },
+          {
+            "id": "three-eighths",
+            "label": "3/8"
+          },
+          {
+            "id": "three-fifths",
+            "label": "3/5"
+          }
+        ],
+        "correctOptionId": "five-eighths"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "reversed-ratio",
+    "confuses-part-to-part-and-part-to-whole",
+    "additive-ratio-scaling"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The first number in a ratio goes with the first quantity named.",
+      "question": "Which animal does the first number describe?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Picture one small group that matches the ratio, with some cats and some dogs together.",
+      "question": "How many animals are in that group, and how many of them are cats?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: if red beads to blue beads is 2:7, then for every 2 red beads there are 7 blue beads, and red beads are 2/9 of those beads.",
+      "question": "What do the two parts of the cat-and-dog group add up to?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["5/8", "For every 5 cats there are 3 dogs"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Both questions are labelled radio groups with text options; no image, color or position is needed.",
+  "accessibleAlternative": "Read aloud or display: At an animal shelter the ratio of cats to dogs is 5 to 3. First choose the statement that says what this ratio means. Then choose the fraction of these cats and dogs that are cats."
+}

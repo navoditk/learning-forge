@@ -36,8 +36,8 @@ const legacyItem = (): ContentItem => {
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(contentCatalog).toHaveLength(134);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(134);
+    expect(contentCatalog).toHaveLength(154);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(154);
     expect(new Set(contentCatalog.map(skillCodeOf))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -48,7 +48,7 @@ describe('ratios content seed', () => {
 
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
-    expect(reviewedItems.length).toBe(134);
+    expect(reviewedItems.length).toBe(154);
     expect(pendingItems.length).toBe(0);
     expect(reviewedItems.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
     expect(contentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
@@ -89,7 +89,7 @@ describe('ratios content seed', () => {
     // enforced by the roster/session start, not by this list.
     const rawScience = servableContentCatalog.filter((item) => item.id.startsWith('sci6-'));
     expect(rawScience).toHaveLength(6);
-    expect(servableContentCatalog).toHaveLength(134);
+    expect(servableContentCatalog).toHaveLength(154);
     expect(PROGRAM_ROSTER.find((program) => program.code === 'grade-6-science')?.available).toBe(
       true,
     );

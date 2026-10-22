@@ -1,0 +1,102 @@
+{
+  "id": "double-number-lines-6",
+  "version": "content-1",
+  "title": "Heartbeats double number line",
+  "role": "practice",
+  "skillRef": {
+    "code": "double-number-lines",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Completes several labeled positions on the second line of a double number line from a stated ratio that is not a unit rate."
+  ],
+  "prompt": "A resting heart beats at a steady rate of 12 beats every 10 seconds. On the double number line, the top line shows seconds with marks at 0, 10, 25, 40 and 55. The bottom line shows heartbeats: 0 is below 0 seconds and 12 is below 10 seconds. Box A is below 25 seconds, box B is below 40 seconds and box C is below 55 seconds. Find the number of heartbeats for each box.",
+  "solutionRepresentation": "12 beats in 10 seconds is 6 beats in 5 seconds. 25 seconds is 5 groups of 5 seconds, so A = 5 × 6 = 30. 40 seconds is 8 groups, so B = 48. 55 seconds is 11 groups, so C = 66.",
+  "solutionMethod": "Scale the stated pair down to a value that divides every top mark, then multiply both numbers by the same factor for each box.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Heartbeats in box A (25 seconds): 30 beats; Heartbeats in box B (40 seconds): 48 beats; Heartbeats in box C (55 seconds): 66 beats",
+    "acceptedAnswers": [
+      "Heartbeats in box A (25 seconds): 30 beats; Heartbeats in box B (40 seconds): 48 beats; Heartbeats in box C (55 seconds): 66 beats"
+    ],
+    "equivalenceNotes": "Structured whole-number fields, one per labeled box. All three must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "box-a",
+        "kind": "number",
+        "label": "Heartbeats in box A (25 seconds)",
+        "unitLabel": "beats",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "30"
+      },
+      {
+        "key": "box-b",
+        "kind": "number",
+        "label": "Heartbeats in box B (40 seconds)",
+        "unitLabel": "beats",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "48"
+      },
+      {
+        "key": "box-c",
+        "kind": "number",
+        "label": "Heartbeats in box C (55 seconds)",
+        "unitLabel": "beats",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "66"
+      }
+    ]
+  },
+  "misconceptionCodes": ["adds-scale", "multiplies-when-dividing"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Not every top mark is a whole number of 10-second groups, so look for a smaller group that fits all of them.",
+      "question": "What smaller number of seconds divides 25, 40 and 55 evenly?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Halve both numbers of the stated pair to get the beats for that smaller group, then multiply by how many groups fit in each box's seconds.",
+      "question": "How many of those smaller groups are in 25 seconds?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 9 laps every 6 minutes is 3 laps every 2 minutes, so 14 minutes (7 groups of 2) gives 21 laps.",
+      "question": "Do all three boxes keep the same beats-to-seconds relationship as 12 to 10?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["30", "48", "66"],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 240\" role=\"img\"><rect width=\"560\" height=\"240\" fill=\"#ffffff\"/><text x=\"60\" y=\"34\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Seconds</text><text x=\"60\" y=\"226\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Heartbeats</text><line x1=\"40\" y1=\"90\" x2=\"520\" y2=\"90\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"40\" y1=\"170\" x2=\"520\" y2=\"170\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"81\" x2=\"60\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"161\" x2=\"60\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"60\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><text x=\"60\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><line x1=\"140\" y1=\"81\" x2=\"140\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"140\" y1=\"161\" x2=\"140\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"140\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">10</text><text x=\"140\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">12</text><line x1=\"260\" y1=\"81\" x2=\"260\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"260\" y1=\"161\" x2=\"260\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"260\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">25</text><rect x=\"244\" y=\"183\" width=\"32\" height=\"26\" fill=\"#ffffff\" stroke=\"#2c534f\" stroke-width=\"2\"/><text x=\"260\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">A</text><line x1=\"380\" y1=\"81\" x2=\"380\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"380\" y1=\"161\" x2=\"380\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"380\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">40</text><rect x=\"364\" y=\"183\" width=\"32\" height=\"26\" fill=\"#ffffff\" stroke=\"#2c534f\" stroke-width=\"2\"/><text x=\"380\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">B</text><line x1=\"500\" y1=\"81\" x2=\"500\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"500\" y1=\"161\" x2=\"500\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"500\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">55</text><rect x=\"484\" y=\"183\" width=\"32\" height=\"26\" fill=\"#ffffff\" stroke=\"#2c534f\" stroke-width=\"2\"/><text x=\"500\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">C</text></svg>",
+    "altText": "A double number line. The top line is labeled Seconds and has marks at 0, 10, 25, 40 and 55. The bottom line is labeled Heartbeats. Below 0 is 0, below 10 is 12, below 25 is box A, below 40 is box B and below 55 is box C.",
+    "caption": "Seconds and heartbeats at a steady resting rate, with boxes A, B and C to fill in.",
+    "width": 560,
+    "height": 240
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (D-209, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch B (D-194). Context, numbers, figure, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The three answer fields are labelled with their box letter and seconds. Every aligned value and box position is stated in the prompt and the figure's text alternative. No color is used to carry meaning.",
+  "accessibleAlternative": "Read aloud or display: A heart beats 12 times every 10 seconds. On a double number line, seconds are on top (0, 10, 25, 40, 55) and heartbeats on the bottom (0 below 0, 12 below 10). Enter the heartbeats for box A (25 seconds), box B (40 seconds) and box C (55 seconds)."
+}

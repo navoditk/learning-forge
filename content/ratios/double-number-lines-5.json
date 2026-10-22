@@ -1,0 +1,102 @@
+{
+  "id": "double-number-lines-5",
+  "version": "content-1",
+  "title": "Sticker packs double number line",
+  "role": "practice",
+  "skillRef": {
+    "code": "double-number-lines",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Completes several labeled positions on the second line of a double number line from a stated ratio."
+  ],
+  "prompt": "Every pack of stickers has the same number of stickers, and 2 packs have 18 stickers in all. On the double number line, the top line shows packs with marks at 0, 1, 2, 3, 4 and 5. The bottom line shows stickers: 0 is below 0 packs and 18 is below 2 packs. Box A is below 1 pack, box B is below 3 packs and box C is below 5 packs. Find the number of stickers for each box.",
+  "solutionRepresentation": "18 ÷ 2 = 9 stickers in one pack. Box A (1 pack) is 9, box B (3 packs) is 3 × 9 = 27 and box C (5 packs) is 5 × 9 = 45.",
+  "solutionMethod": "Find the stickers for 1 pack, then multiply by the packs at each box.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Stickers in box A (1 pack): 9 stickers; Stickers in box B (3 packs): 27 stickers; Stickers in box C (5 packs): 45 stickers",
+    "acceptedAnswers": [
+      "Stickers in box A (1 pack): 9 stickers; Stickers in box B (3 packs): 27 stickers; Stickers in box C (5 packs): 45 stickers"
+    ],
+    "equivalenceNotes": "Structured whole-number fields, one per labeled box. All three must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "box-a",
+        "kind": "number",
+        "label": "Stickers in box A (1 pack)",
+        "unitLabel": "stickers",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "9"
+      },
+      {
+        "key": "box-b",
+        "kind": "number",
+        "label": "Stickers in box B (3 packs)",
+        "unitLabel": "stickers",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "27"
+      },
+      {
+        "key": "box-c",
+        "kind": "number",
+        "label": "Stickers in box C (5 packs)",
+        "unitLabel": "stickers",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "45"
+      }
+    ]
+  },
+  "misconceptionCodes": ["adds-scale", "multiplies-when-dividing"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Start with the box whose top value is smaller than 2 packs.",
+      "question": "What do you do to 2 packs to get 1 pack, and what must happen to the stickers?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once you know the stickers in one pack, each box is that number times the packs above it.",
+      "question": "How many packs are above box B and above box C?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: if 4 boxes hold 28 pencils, then 1 box holds 7 pencils and 6 boxes hold 42 pencils.",
+      "question": "Do your three boxes keep the same number of stickers for each pack?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["27", "45", "9 stickers"],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 240\" role=\"img\"><rect width=\"560\" height=\"240\" fill=\"#ffffff\"/><text x=\"60\" y=\"34\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Packs</text><text x=\"60\" y=\"226\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Stickers</text><line x1=\"40\" y1=\"90\" x2=\"520\" y2=\"90\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"40\" y1=\"170\" x2=\"520\" y2=\"170\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"81\" x2=\"60\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"161\" x2=\"60\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"60\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><text x=\"60\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><line x1=\"148\" y1=\"81\" x2=\"148\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"148\" y1=\"161\" x2=\"148\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"148\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">1</text><rect x=\"132\" y=\"183\" width=\"32\" height=\"26\" fill=\"#ffffff\" stroke=\"#2c534f\" stroke-width=\"2\"/><text x=\"148\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">A</text><line x1=\"236\" y1=\"81\" x2=\"236\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"236\" y1=\"161\" x2=\"236\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"236\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">2</text><text x=\"236\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">18</text><line x1=\"324\" y1=\"81\" x2=\"324\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"324\" y1=\"161\" x2=\"324\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"324\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">3</text><rect x=\"308\" y=\"183\" width=\"32\" height=\"26\" fill=\"#ffffff\" stroke=\"#2c534f\" stroke-width=\"2\"/><text x=\"324\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">B</text><line x1=\"412\" y1=\"81\" x2=\"412\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"412\" y1=\"161\" x2=\"412\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"412\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4</text><line x1=\"500\" y1=\"81\" x2=\"500\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"500\" y1=\"161\" x2=\"500\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"500\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">5</text><rect x=\"484\" y=\"183\" width=\"32\" height=\"26\" fill=\"#ffffff\" stroke=\"#2c534f\" stroke-width=\"2\"/><text x=\"500\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">C</text></svg>",
+    "altText": "A double number line. The top line is labeled Packs and has marks at 0, 1, 2, 3, 4 and 5. The bottom line is labeled Stickers and has a mark below each top mark. Below 0 is 0, below 1 is box A, below 2 is 18, below 3 is box B, below 4 is an unlabeled mark, and below 5 is box C.",
+    "caption": "Packs of stickers and the number of stickers, with boxes A, B and C to fill in.",
+    "width": 560,
+    "height": 240
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (D-209, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch B (D-194). Context, numbers, figure, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The three answer fields are labelled with their box letter and pack count. Every aligned value and box position is stated in the prompt and the figure's text alternative. No color is used to carry meaning.",
+  "accessibleAlternative": "Read aloud or display: 2 packs have 18 stickers in all, and every pack has the same number. On a double number line, packs 0 to 5 are on top and stickers on the bottom: 0 below 0 and 18 below 2. Enter the stickers for box A (1 pack), box B (3 packs) and box C (5 packs)."
+}

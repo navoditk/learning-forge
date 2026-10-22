@@ -71,13 +71,11 @@ describe('M2 composite parts grading', () => {
     expect(reordered.correctness).toBe('CORRECT');
   });
 
-  it('ratio-tables-2: exact pre-authored bare-number phrasing still works unchanged', async () => {
+  it('ratio-tables-2: the superseded parts version content-2 is no longer served; content-3 is (D-215)', async () => {
+    // RAT-CONTENT RC-5 replaced the content-2 `parts` record with the structured
+    // content-3 record. Its file stays on disk but leaves the loader; parts
+    // grading remains covered by the two records above.
     const session = await startSession(SYNTHETIC_IDENTITY, { contentId: 'ratio-tables-2' });
-    expect(session.content.version).toBe('content-2');
-    const attempt = await recordAttempt(SYNTHETIC_IDENTITY, {
-      sessionId: session.sessionId,
-      learnerResponse: '80, 16',
-    });
-    expect(attempt.correctness).toBe('CORRECT');
+    expect(session.content.version).toBe('content-3');
   });
 });

@@ -1,0 +1,97 @@
+{
+  "id": "unit-rates-3",
+  "version": "content-1",
+  "title": "Birdseed for each feeder",
+  "role": "practice",
+  "skillRef": {
+    "code": "unit-rates",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.2"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Determines a non-complex fractional unit rate from whole-number quantities and interprets it as the amount for one unit."
+  ],
+  "prompt": "A park worker pours 5 pounds of birdseed evenly into 8 bird feeders. Answer both parts. Type the amount as a fraction or a decimal, without units.",
+  "solutionRepresentation": "Each feeder gets 5 ÷ 8 = 5/8 pound (0.625 pound). The unit rate 5/8 pound per feeder is the amount of birdseed for 1 feeder. The reversed rate, 8/5 feeders per pound, would describe feeders for 1 pound.",
+  "solutionMethod": "Divide the birdseed by the number of feeders to get the amount for one feeder, then name what the rate counts per one unit.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Pounds of birdseed for each feeder: 5/8 pounds per feeder; What this unit rate tells you: The amount of birdseed that goes in 1 feeder",
+    "acceptedAnswers": [
+      "Pounds of birdseed for each feeder: 5/8 pounds per feeder; What this unit rate tells you: The amount of birdseed that goes in 1 feeder"
+    ],
+    "equivalenceNotes": "Structured fields: a number (fraction or decimal, any equivalent fraction accepted) and a single choice. Both must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "amount",
+        "kind": "number",
+        "label": "Pounds of birdseed for each feeder",
+        "unitLabel": "pounds per feeder",
+        "representations": ["fraction", "decimal"],
+        "simplestForm": false,
+        "correctValue": "5/8"
+      },
+      {
+        "key": "meaning",
+        "kind": "choice",
+        "label": "What this unit rate tells you",
+        "options": [
+          {
+            "id": "seed-per-feeder",
+            "label": "The amount of birdseed that goes in 1 feeder"
+          },
+          {
+            "id": "feeders-per-pound",
+            "label": "The number of feeders that 1 pound of birdseed fills"
+          },
+          {
+            "id": "seed-for-all",
+            "label": "The total birdseed for all 8 feeders"
+          }
+        ],
+        "correctOptionId": "seed-per-feeder"
+      }
+    ]
+  },
+  "misconceptionCodes": ["reverses-rate", "divide-by-total"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A unit rate tells how much goes with one of something.",
+      "question": "Is the question asking about one feeder or one pound?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Sharing equally means dividing the birdseed by the number of feeders, and the quotient can be a fraction less than 1.",
+      "question": "Which number is divided by which?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 3 liters of juice poured equally into 4 cups gives 3 ÷ 4 = 3/4 liter per cup.",
+      "question": "What division gives the birdseed for one feeder, and what are its units?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["5/8", "0.625", "5 ÷ 8"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The number field is labelled and states its unit; the choice is a labelled radio group with text options. No image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: 5 pounds of birdseed are poured evenly into 8 bird feeders. First enter the amount of birdseed for each feeder as a fraction or decimal. Then choose what this unit rate tells you."
+}

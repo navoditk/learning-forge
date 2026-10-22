@@ -1,0 +1,84 @@
+{
+  "id": "unit-rates-6",
+  "version": "content-1",
+  "title": "Ribbon by the yard",
+  "role": "practice",
+  "skillRef": {
+    "code": "unit-rates",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Converts a measurement with a stated conversion rate, then applies a unit price in the converted unit."
+  ],
+  "prompt": "Ribbon costs 2 dollars per yard. Use the conversion rate 1 yard = 3 feet. Priya needs 12 feet of ribbon. Answer both parts with whole numbers.",
+  "solutionRepresentation": "12 feet ÷ 3 feet per yard = 4 yards. 4 yards × 2 dollars per yard = 8 dollars. Pricing 12 feet as if they were yards would give 24 dollars.",
+  "solutionMethod": "Convert feet to yards with the stated rate, then multiply by the price for one yard.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Length of ribbon in yards: 4 yards; Cost of the ribbon: 8 dollars",
+    "acceptedAnswers": ["Length of ribbon in yards: 4 yards; Cost of the ribbon: 8 dollars"],
+    "equivalenceNotes": "Structured whole-number fields. Both must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "yards",
+        "kind": "number",
+        "label": "Length of ribbon in yards",
+        "unitLabel": "yards",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "4"
+      },
+      {
+        "key": "cost",
+        "kind": "number",
+        "label": "Cost of the ribbon",
+        "unitLabel": "dollars",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "8"
+      }
+    ]
+  },
+  "misconceptionCodes": ["reverses-rate", "omits-unit"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "First change the length into the unit that the price uses.",
+      "question": "Is a yard longer or shorter than a foot?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Since 3 feet make 1 yard, group the feet into sets of 3.",
+      "question": "How many groups of 3 feet are in Priya's length?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 15 feet of rope is 15 ÷ 3 = 5 yards; at 4 dollars per yard it costs 5 × 4 = 20 dollars.",
+      "question": "Once you know the yards, how do you use the price per yard?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["4 yards", "8 dollars"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Two labelled number fields, each stating its unit; dollars are written as a word, not a symbol. No image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: Ribbon costs 2 dollars per yard, and 1 yard equals 3 feet. Priya needs 12 feet. Enter the length in yards, then the cost in dollars."
+}

@@ -1,0 +1,75 @@
+{
+  "id": "ratio-tables-6",
+  "version": "content-1",
+  "title": "Gray and tan tiles",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-tables",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Extends a ratio table through an intermediate row when the scale factor is not a whole number."
+  ],
+  "prompt": "A tile pattern uses 9 gray tiles for every 6 tan tiles. A larger floor uses the same pattern with 10 tan tiles. Use a ratio table to find the number of gray tiles. Enter a whole number.",
+  "solutionRepresentation": "Divide both terms by 3: 3 gray tiles for 2 tan tiles. Multiply both by 5: 15 gray tiles for 10 tan tiles. Adding 4 to the gray tiles (because the tan tiles went up by 4) would give 13, which changes the ratio.",
+  "solutionMethod": "Scale down to a convenient row, then scale up to the needed row by multiplying both terms.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Gray tiles for 10 tan tiles: 15 gray tiles",
+    "acceptedAnswers": ["Gray tiles for 10 tan tiles: 15 gray tiles"],
+    "equivalenceNotes": "Structured whole-number field.",
+    "fields": [
+      {
+        "key": "gray",
+        "kind": "number",
+        "label": "Gray tiles for 10 tan tiles",
+        "unitLabel": "gray tiles",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "15"
+      }
+    ]
+  },
+  "misconceptionCodes": ["uses-additive-change"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The tan tiles do not go from 6 to 10 by a whole-number factor, so try a helpful row in between.",
+      "question": "How many gray tiles go with 2 tan tiles?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Divide both numbers by 3 to reach 2 tan tiles, then scale that row up to 10 tan tiles.",
+      "question": "What factor takes 2 tan tiles to 10?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 8 red beads for every 6 blue beads gives 4 red for 3 blue, so 9 blue beads go with 12 red beads.",
+      "question": "Does your answer keep the same gray-to-tan relationship as 9 to 6?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["15"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "All quantities are given in text; the tile pattern needs no picture, and the tile colors are only names.",
+  "accessibleAlternative": "Read aloud or display: A pattern uses 9 gray tiles for every 6 tan tiles. A floor with the same pattern has 10 tan tiles. Enter the number of gray tiles."
+}

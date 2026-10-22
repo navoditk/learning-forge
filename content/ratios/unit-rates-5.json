@@ -1,0 +1,75 @@
+{
+  "id": "unit-rates-5",
+  "version": "content-1",
+  "title": "Banner length in inches",
+  "role": "practice",
+  "skillRef": {
+    "code": "unit-rates",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Converts a measurement using a stated conversion rate and gives the result in the requested unit."
+  ],
+  "prompt": "Use the conversion rate 1 foot = 12 inches. A banner is 7 feet long. How long is the banner in inches? Type a whole number.",
+  "solutionRepresentation": "Each foot is 12 inches, so 7 feet is 7 × 12 = 84 inches.",
+  "solutionMethod": "Apply the stated rate: multiply the number of feet by the inches in one foot.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Banner length: 84 inches",
+    "acceptedAnswers": ["Banner length: 84 inches"],
+    "equivalenceNotes": "Structured whole-number field in inches.",
+    "fields": [
+      {
+        "key": "length",
+        "kind": "number",
+        "label": "Banner length",
+        "unitLabel": "inches",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "84"
+      }
+    ]
+  },
+  "misconceptionCodes": ["reverses-rate"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The conversion rate tells how many inches match one foot.",
+      "question": "Will the length in inches be a larger or a smaller number than the length in feet?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make a small table: 1 foot matches 12 inches, 2 feet match 24 inches, and the pattern continues.",
+      "question": "What do you multiply the number of feet by?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: with 1 yard = 3 feet, a 5-yard rope is 5 × 3 = 15 feet long.",
+      "question": "How many inches match 7 feet?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["84"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch A (D-194). Context, numbers, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "One labelled number field that states its unit; no image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: 1 foot equals 12 inches. A banner is 7 feet long. Enter its length in inches as a whole number."
+}

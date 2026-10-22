@@ -1,0 +1,87 @@
+{
+  "id": "percent-applications-4",
+  "version": "content-1",
+  "title": "Stamps from Canada",
+  "role": "practice",
+  "skillRef": {
+    "code": "percent-applications",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Converts a percent to a fraction in simplest form and uses it to find the part of a whole."
+  ],
+  "prompt": "A stamp collection has 80 stamps, and 15% of them are from Canada. Write 15% as a fraction in simplest form, then find how many stamps are from Canada.",
+  "solutionRepresentation": "15% = 15/100 = 3/20 after dividing both terms by 5. The part is 3/20 of 80 = 80 ÷ 20 × 3 = 12 stamps.",
+  "solutionMethod": "Write the percent over 100 and simplify, then take that fraction of the whole.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "15% as a fraction in simplest form: 3/20; Stamps from Canada: 12 stamps",
+    "acceptedAnswers": ["15% as a fraction in simplest form: 3/20; Stamps from Canada: 12 stamps"],
+    "equivalenceNotes": "Structured number fields. The fraction must be in simplest form (an equal unsimplified fraction scores incorrect). Both must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "fraction",
+        "kind": "number",
+        "label": "15% as a fraction in simplest form",
+        "representations": ["fraction"],
+        "simplestForm": true,
+        "correctValue": "3/20"
+      },
+      {
+        "key": "stamps",
+        "kind": "number",
+        "label": "Stamps from Canada",
+        "unitLabel": "stamps",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "12"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "confuses-percent-and-decimal-place",
+    "treats-percent-as-whole",
+    "confuses-part-whole"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Percent means out of 100, so the percent can be written as a fraction with 100 on the bottom.",
+      "question": "What number divides both the top and the bottom of that fraction?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "After simplifying, use the fraction to find a part of the whole collection.",
+      "question": "What is 80 divided by the bottom number of your simplified fraction?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 25% is 25/100, which simplifies to 1/4, and 1/4 of 60 marbles is 15 marbles.",
+      "question": "Is your stamp count smaller than the whole collection of 80?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["3/20", "12 stamps", "= 12"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (D-209, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch B (D-194). Context, numbers, figure, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Two labelled number fields; the percent sign appears only in the prompt and is read as 'percent'. No image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: A collection has 80 stamps and 15 percent are from Canada. Enter 15 percent as a fraction in simplest form, then the number of stamps from Canada."
+}

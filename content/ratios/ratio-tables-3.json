@@ -1,0 +1,96 @@
+{
+  "id": "ratio-tables-3",
+  "version": "content-1",
+  "title": "3D printer table",
+  "role": "practice",
+  "skillRef": {
+    "code": "ratio-tables",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Extends a ratio table using a consistent scale factor to find missing quantities."
+  ],
+  "prompt": "A 3D printer makes 14 small figures in 2 hours at a steady rate. Complete the ratio table (hours : figures) for 1 hour, 3 hours and 5 hours.",
+  "solutionRepresentation": "Halving the 2-hour row gives 1 hour : 7 figures. Multiplying that row by 3 gives 3 hours : 21 figures, and by 5 gives 5 hours : 35 figures. Every row keeps 7 figures for each hour.",
+  "solutionMethod": "Scale the known row down to 1 hour by dividing both quantities by 2, then multiply both quantities of that row by each needed factor.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Figures in 1 hour: 7 figures; Figures in 3 hours: 21 figures; Figures in 5 hours: 35 figures",
+    "acceptedAnswers": [
+      "Figures in 1 hour: 7 figures; Figures in 3 hours: 21 figures; Figures in 5 hours: 35 figures"
+    ],
+    "equivalenceNotes": "Structured whole-number fields, one per table row. All three must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "one-hour",
+        "kind": "number",
+        "label": "Figures in 1 hour",
+        "unitLabel": "figures",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "7"
+      },
+      {
+        "key": "three-hours",
+        "kind": "number",
+        "label": "Figures in 3 hours",
+        "unitLabel": "figures",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "21"
+      },
+      {
+        "key": "five-hours",
+        "kind": "number",
+        "label": "Figures in 5 hours",
+        "unitLabel": "figures",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "35"
+      }
+    ]
+  },
+  "misconceptionCodes": ["adds-constant", "uses-additive-change", "scales-one-row"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Every row of a ratio table keeps the same multiplicative relationship between hours and figures.",
+      "question": "How could you find the row for 1 hour from the row for 2 hours?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Once you have the 1-hour row, multiply both numbers in that row by the same factor to reach each other row.",
+      "question": "By what factor do you multiply the hours to go from 1 hour to 3 hours, and what must happen to the figures?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: if 10 cups fill 4 bottles, then 5 cups fill 2 bottles and 20 cups fill 8 bottles; both columns change by the same factor.",
+      "question": "Does your table give the same number of figures for each hour in every row?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["7 figures", "21", "35"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "sourceReference": "Derived from experiments/grade-6-math-v2/content-records-v2.json v2-rate-table-and-unit-rate@candidate-content-1 (file sha256 f24afa90548eb07935d378277bb6703701f3a4f738d4ce4147b008826b328a5a, commit d47f3a5); new context and numbers, table only, R-5/R-6 repairs (D-197).",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted Learning Forge practice record for RAT-CONTENT batch A (D-194), derived from the repository's own public candidate table-and-unit-rate item: new context and numbers (no cyclist, so no overlap with unit-rates-1), table rows only, hints that do not state the rate, distractors derived from named errors; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The table is presented as three labelled number fields named by their hours; no table image, color or position is needed.",
+  "accessibleAlternative": "Read aloud or display: A 3D printer makes 14 figures in 2 hours at a steady rate. Enter the figures made in 1 hour, in 3 hours and in 5 hours."
+}

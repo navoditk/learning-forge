@@ -1,0 +1,77 @@
+{
+  "id": "double-number-lines-4",
+  "version": "content-1",
+  "title": "Rice and bowls double number line",
+  "role": "practice",
+  "skillRef": {
+    "code": "double-number-lines",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Reads a double number line and supplies a missing top-line value from a bottom-line value, keeping the same scale factor between aligned marks."
+  ],
+  "prompt": "A cook uses the same recipe every time. The double number line shows cups of rice on the top line and bowls of food on the bottom line. The aligned marks are 0 cups and 0 bowls, 4 cups and 6 bowls, 10 cups and 15 bowls, and an empty box above 27 bowls. How many cups of rice belong in the box above 27 bowls?",
+  "solutionRepresentation": "Each aligned pair has cups equal to 2/3 of the bowls (4 is 2/3 of 6, and 10 is 2/3 of 15). So 27 bowls need 2/3 × 27 = 18 cups. Another route: 2 cups make 3 bowls, and 27 bowls is 9 groups of 3 bowls, so 9 × 2 = 18 cups.",
+  "solutionMethod": "Find the cups for a small number of bowls, then scale up to 27 bowls by the same factor on both lines.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "18",
+    "acceptedAnswers": [
+      "18",
+      "18 cups",
+      "18 cups of rice",
+      "18.0",
+      "18.00",
+      "18 cup",
+      "18.0 cups",
+      "eighteen",
+      "eighteen cups"
+    ],
+    "equivalenceNotes": "Accept the number of cups with or without the unit. Accepted forms: 18, 18.0, 18.00, 18 cups, 18 cup, 18 cups of rice, 18.0 cups, eighteen, eighteen cups. Letter case, repeated spaces and trailing punctuation are ignored by the matcher."
+  },
+  "misconceptionCodes": ["adds-scale", "reverses-scale", "confuses-input-output"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The missing value is on the top line, so work from the bottom line back to cups.",
+      "question": "Which bowls value is easiest to scale up to 27?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Halve the pair 4 cups and 6 bowls to get cups for 3 bowls, then multiply both numbers by the same factor.",
+      "question": "How many groups of 3 bowls are in 27 bowls?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: if 6 meters of string make 4 bracelets, then 3 meters make 2 bracelets, so 10 bracelets need 5 times 3 meters, which is 15 meters.",
+      "question": "Is your answer a number of cups or a number of bowls?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["18 cups", "= 18"],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 240\" role=\"img\"><rect width=\"560\" height=\"240\" fill=\"#ffffff\"/><text x=\"60\" y=\"34\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Cups of rice</text><text x=\"60\" y=\"226\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Bowls</text><line x1=\"40\" y1=\"90\" x2=\"520\" y2=\"90\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"40\" y1=\"170\" x2=\"520\" y2=\"170\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"81\" x2=\"60\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"161\" x2=\"60\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"60\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><text x=\"60\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><line x1=\"158\" y1=\"81\" x2=\"158\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"158\" y1=\"161\" x2=\"158\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"158\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4</text><text x=\"158\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6</text><line x1=\"304\" y1=\"81\" x2=\"304\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"304\" y1=\"161\" x2=\"304\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"304\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">10</text><text x=\"304\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">15</text><line x1=\"500\" y1=\"81\" x2=\"500\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"500\" y1=\"161\" x2=\"500\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><rect x=\"484\" y=\"55\" width=\"32\" height=\"26\" fill=\"#ffffff\" stroke=\"#2c534f\" stroke-width=\"2\"/><text x=\"500\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">?</text><text x=\"500\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">27</text></svg>",
+    "altText": "A double number line. The top line is labeled Cups of rice and the bottom line is labeled Bowls. Aligned marks: 0 cups above 0 bowls, 4 cups above 6 bowls, 10 cups above 15 bowls, and an empty box with a question mark above 27 bowls.",
+    "caption": "Cups of rice and bowls of food for the same recipe.",
+    "width": 560,
+    "height": 240
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-210 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch B (D-194). Context, numbers, figure, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Every aligned pair and the blank position are stated in the prompt and the figure's text alternative. No color is used to carry meaning.",
+  "accessibleAlternative": "Read aloud or display: A double number line shows cups of rice on top and bowls on the bottom. Aligned pairs: 0 cups with 0 bowls, 4 cups with 6 bowls, 10 cups with 15 bowls. The cups value above 27 bowls is missing. Find the number of cups above 27 bowls."
+}

@@ -1,0 +1,92 @@
+{
+  "id": "unit-rates-2",
+  "version": "content-3",
+  "title": "Comparing snack prices",
+  "role": "practice",
+  "skillRef": {
+    "code": "unit-rates",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.2", "6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Computes and compares rates using a common unit."],
+  "prompt": "A 6-pack of juice costs $4.20. A 10-pack costs $6.50. Which pack has the lower cost per bottle, and by how much per bottle? Enter the difference in dollars as a decimal, without the $ sign.",
+  "solutionRepresentation": "$4.20 ÷ 6 = $0.70; $6.50 ÷ 10 = $0.65; the 10-pack is lower by $0.05 per bottle.",
+  "solutionMethod": "Find each cost per bottle, compare the rates, and subtract the smaller rate from the larger one.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Pack with the lower cost per bottle: 10-pack; Difference in cost per bottle: 0.05 dollars per bottle",
+    "acceptedAnswers": [
+      "Pack with the lower cost per bottle: 10-pack; Difference in cost per bottle: 0.05 dollars per bottle"
+    ],
+    "equivalenceNotes": "Structured fields: choose the pack and enter the per-bottle difference in dollars as a decimal. Both must be correct; no partial credit. Replaces the content-2 substring parts validator (TR-7).",
+    "fields": [
+      {
+        "key": "pack",
+        "kind": "choice",
+        "label": "Pack with the lower cost per bottle",
+        "options": [
+          {
+            "id": "six-pack",
+            "label": "6-pack"
+          },
+          {
+            "id": "ten-pack",
+            "label": "10-pack"
+          }
+        ],
+        "correctOptionId": "ten-pack"
+      },
+      {
+        "key": "difference",
+        "kind": "number",
+        "label": "Difference in cost per bottle",
+        "unitLabel": "dollars per bottle",
+        "representations": ["decimal"],
+        "simplestForm": false,
+        "correctValue": "1/20"
+      }
+    ]
+  },
+  "misconceptionCodes": ["compares-total-cost", "subtracts-before-unit-rate"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Total price alone is not a fair comparison when pack sizes differ.",
+      "question": "What price would let you compare one bottle at a time?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make two expressions: 4.20 ÷ 6 and 6.50 ÷ 10.",
+      "question": "What do the two quotients represent?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Compare rates with the same unit, then find their difference.",
+      "question": "How will you verify both rates use dollars per one bottle?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["10-pack", "$0.05", "0.05", "$0.65"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "sourceReference": "Repair version (TR-7, D-196) of content/ratios/unit-rates-2.json, unit-rates-2@content-2 (sha256 ea3b8c81aadb70032a23df09ac64ff0c9769d9546df053805484755c54a0b0fc); same task data and context, structured validator.",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-208 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted repair version for RAT-CONTENT batch A (D-194, D-196) of the reviewed original task unit-rates-2@content-2. Task data, context, solution and hints are kept; the substring parts validator is replaced by structured fields and the mode is depth because structured validators are not allowed in contest mode."
+  },
+  "accessibilityNotes": "Use text labels alongside currency symbols in the prompt; the pack choice is a labelled radio group and the difference is a labelled number field stating its unit. No color coding is needed.",
+  "accessibleAlternative": "Read aloud or display: A 6-pack of juice costs $4.20 and a 10-pack costs $6.50. Choose the pack with the lower cost per bottle, then enter how much lower it is per bottle, in dollars, as a decimal."
+}

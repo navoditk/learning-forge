@@ -1,0 +1,80 @@
+{
+  "id": "double-number-lines-3",
+  "version": "content-1",
+  "title": "Toy robot double number line",
+  "role": "practice",
+  "skillRef": {
+    "code": "double-number-lines",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Reads a double number line and supplies the missing value that keeps the same scale factor between aligned marks."
+  ],
+  "prompt": "A toy robot rolls at a steady speed. The double number line shows seconds on the top line and meters on the bottom line. The aligned marks are 0 seconds and 0 meters, 3 seconds and 2 meters, 6 seconds and 4 meters, and 15 seconds above an empty box. What number of meters belongs in the box below 15 seconds?",
+  "solutionRepresentation": "From 3 seconds to 15 seconds the top value is multiplied by 5, so the bottom value is multiplied by 5 as well: 2 × 5 = 10 meters. Check: every aligned pair has meters equal to 2/3 of the seconds.",
+  "solutionMethod": "Find the factor that takes a known top value to 15, then multiply the aligned bottom value by the same factor.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "10",
+    "acceptedAnswers": [
+      "10",
+      "10 meters",
+      "10 m",
+      "10 meter",
+      "10.0",
+      "10.00",
+      "10m",
+      "10 metres",
+      "10.0 meters",
+      "10.0 m",
+      "ten",
+      "ten meters"
+    ],
+    "equivalenceNotes": "Accept the number of meters with or without the unit. Accepted forms: 10, 10.0, 10.00, 10 meters, 10 meter, 10 metres, 10 m, 10m, 10.0 meters, 10.0 m, ten, ten meters. Letter case, repeated spaces and trailing punctuation are ignored by the matcher."
+  },
+  "misconceptionCodes": ["adds-scale", "reverses-scale"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "On a double number line, aligned marks change by the same factor on both lines.",
+      "question": "What do you multiply 3 seconds by to get 15 seconds?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Multiply the meters aligned with 3 seconds by that same factor. Adding the same amount to both lines does not keep the speed steady.",
+      "question": "Which meters value is aligned with 3 seconds?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: if 4 minutes align with 6 liters, then 12 minutes (3 times 4) align with 3 times 6 liters, which is 18 liters.",
+      "question": "How can you check your answer against the pair 6 seconds and 4 meters?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["10 meters", "10 m", "= 10"],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 240\" role=\"img\"><rect width=\"560\" height=\"240\" fill=\"#ffffff\"/><text x=\"60\" y=\"34\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Seconds</text><text x=\"60\" y=\"226\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Meters</text><line x1=\"40\" y1=\"90\" x2=\"520\" y2=\"90\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"40\" y1=\"170\" x2=\"520\" y2=\"170\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"81\" x2=\"60\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"161\" x2=\"60\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"60\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><text x=\"60\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><line x1=\"148\" y1=\"81\" x2=\"148\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"148\" y1=\"161\" x2=\"148\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"148\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">3</text><text x=\"148\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">2</text><line x1=\"236\" y1=\"81\" x2=\"236\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"236\" y1=\"161\" x2=\"236\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"236\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6</text><text x=\"236\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4</text><line x1=\"500\" y1=\"81\" x2=\"500\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"500\" y1=\"161\" x2=\"500\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"500\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">15</text><rect x=\"484\" y=\"183\" width=\"32\" height=\"26\" fill=\"#ffffff\" stroke=\"#2c534f\" stroke-width=\"2\"/><text x=\"500\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">?</text></svg>",
+    "altText": "A double number line. The top line is labeled Seconds and has marks at 0, 3, 6 and 15. The bottom line is labeled Meters. Directly below the top marks it shows 0 below 0, 2 below 3, 4 below 6, and an empty box with a question mark below 15.",
+    "caption": "Seconds and meters for a toy robot rolling at a steady speed.",
+    "width": 560,
+    "height": 240
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Product/content owner (D-210 approval 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch B (D-194). Context, numbers, figure, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Every aligned pair and the blank position are stated in the prompt and the figure's text alternative, so the item can be solved without seeing the figure. No color is used to carry meaning.",
+  "accessibleAlternative": "Read aloud or display: A double number line shows seconds on top and meters on the bottom. Aligned pairs: 0 seconds with 0 meters, 3 seconds with 2 meters, 6 seconds with 4 meters. The value below 15 seconds is missing. Find the number of meters below 15 seconds."
+}

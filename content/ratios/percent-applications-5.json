@@ -1,0 +1,87 @@
+{
+  "id": "percent-applications-5",
+  "version": "content-1",
+  "title": "Posters sold so far",
+  "role": "practice",
+  "skillRef": {
+    "code": "percent-applications",
+    "version": "1.0.0"
+  },
+  "mode": "depth",
+  "difficulty": "challenging",
+  "standards": ["6.RP.A.3"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Converts a percent to a decimal and uses a known part and percent to find the whole."
+  ],
+  "prompt": "A school store has sold 28 posters so far. That is 40% of all the posters it had at the start. Write 40% as a decimal, then find how many posters the store had at the start.",
+  "solutionRepresentation": "40% = 0.40 = 0.4. If 0.4 of the whole is 28, the whole is 28 ÷ 0.4 = 70 posters. Check: 10% of 70 is 7, so 40% is 28.",
+  "solutionMethod": "Convert the percent to a decimal, then divide the known part by that decimal (or find 10% first and scale up to 100%).",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "40% as a decimal: 0.4; Posters at the start: 70 posters",
+    "acceptedAnswers": ["40% as a decimal: 0.4; Posters at the start: 70 posters"],
+    "equivalenceNotes": "Structured number fields. The decimal accepts decimal form only. Both must be correct; no partial credit.",
+    "fields": [
+      {
+        "key": "decimal",
+        "kind": "number",
+        "label": "40% as a decimal",
+        "representations": ["decimal"],
+        "simplestForm": false,
+        "correctValue": "2/5"
+      },
+      {
+        "key": "whole",
+        "kind": "number",
+        "label": "Posters at the start",
+        "unitLabel": "posters",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "70"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "confuses-percent-and-decimal-place",
+    "multiplies-part-and-percent",
+    "treats-percent-as-whole"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "28 posters is a part, and 40% tells what portion of the whole that part is.",
+      "question": "Is the number you need bigger or smaller than 28?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "40% is 4 groups of 10%. Find how many posters are in 10% first.",
+      "question": "If 4 groups of 10% are 28 posters, how many posters are in one group?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: if 15 tickets are 30% of a roll, then 10% is 5 tickets and 100% is 50 tickets.",
+      "question": "How many groups of 10% make the whole?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["70", "0.4"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol delegated sign-off (D-209, 2026-10-22)",
+    "reviewedAt": "2026-10-22",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for RAT-CONTENT batch B (D-194). Context, numbers, figure, hints and solution written from first principles; reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Two labelled number fields; the percent sign appears only in the prompt and is read as 'percent'. No image or color is needed.",
+  "accessibleAlternative": "Read aloud or display: A school store has sold 28 posters, which is 40 percent of the posters it started with. Enter 40 percent as a decimal, then the number of posters at the start."
+}
