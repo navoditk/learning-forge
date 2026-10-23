@@ -156,3 +156,87 @@ describe('chapterForSkill', () => {
     expect(chapterForSkill(chapters, 'not-a-real-skill')).toBeUndefined();
   });
 });
+
+describe('buildChapters action selection', () => {
+  const [A, B, C] = ['ratio-language', 'unit-rates', 'ratio-tables'] as const;
+  const skillsProgress: LearnerProgress = {
+    skills: [A, B, C].map((code) => ({
+      skillCode: code,
+      title: code.toUpperCase(),
+      domain: 'ratios-and-proportional-reasoning',
+      status: 'PRACTICING' as const,
+      summary: 'Practicing.',
+    })),
+    recentStrengths: [],
+  } as unknown as LearnerProgress;
+
+  const practice = (skillCode: string, n: number) => ({
+    contentId: `${skillCode}-${n}`,
+    skillCode,
+    title: `${skillCode} practice ${n}`,
+    skillTitle: skillCode,
+    reason: 'r',
+    estimatedMinutes: 5,
+  });
+  const probe = (skillCode: string, n: number) => ({
+    contentId: `${skillCode}-p${n}`,
+    skillCode,
+    title: `${skillCode} probe ${n}`,
+    skillTitle: skillCode,
+  });
+  const planOf = (items: ReturnType<typeof practice>[]) => ({
+    items,
+    totalMinutes: 0,
+    blockedSkills: [],
+    unavailableSkills: [],
+  });
+  const actionFor = (
+    items: ReturnType<typeof practice>[],
+    diag: ReturnType<typeof probe>[],
+    review: ReturnType<typeof probe>[],
+    code: string,
+  ) => {
+    const chapters = buildChapters(skillsProgress, planOf(items), { items: diag }, {
+      items: review,
+    } as never);
+    return chapters.flatMap((c) => c.items).find((i) => i.skillCode === code)?.action;
+  };
+
+  it('keeps the first practice item per skill, whatever the interleaving with other skills', () => {
+    const adjacent = [practice(A, 1), practice(A, 3), practice(B, 1)];
+    const interleaved = [practice(A, 1), practice(B, 1), practice(A, 3)];
+    for (const items of [adjacent, interleaved]) {
+      expect(actionFor(items, [], [], A)).toEqual({
+        contentId: `${A}-1`,
+        kind: 'practice',
+        label: `${A} practice 1`,
+      });
+      expect(actionFor(items, [], [], B)?.contentId).toBe(`${B}-1`);
+    }
+  });
+
+  it('lets review override practice', () => {
+    expect(actionFor([practice(A, 1)], [], [probe(A, 1)], A)).toEqual({
+      contentId: `${A}-p1`,
+      kind: 'review',
+      label: `${A} probe 1`,
+    });
+  });
+
+  it('lets diagnostic override both review and practice', () => {
+    expect(actionFor([practice(A, 1)], [probe(A, 9)], [probe(A, 1)], A)).toEqual({
+      contentId: `${A}-p9`,
+      kind: 'diagnostic',
+      label: `${A} probe 9`,
+    });
+  });
+
+  it('keeps the first item within review and within diagnostic', () => {
+    expect(actionFor([], [], [probe(A, 1), probe(A, 2)], A)?.contentId).toBe(`${A}-p1`);
+    expect(actionFor([], [probe(A, 1), probe(A, 2)], [], A)?.contentId).toBe(`${A}-p1`);
+  });
+
+  it('leaves skills without any item unaffected', () => {
+    expect(actionFor([practice(A, 1)], [], [], C)).toBeUndefined();
+  });
+});

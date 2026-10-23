@@ -1,5 +1,18 @@
 # Progress
 
+## 2026-10-23 — Topic cards show the planner's first item (D-258, D-259)
+
+- TOPIC-CARD (D-227 follow-up): first item per skill wins within a kind;
+  diagnostic > review > practice unchanged. Ratio language shows "Garden
+  rows"; Science cards show their `-1` items. Codex removed the browser-test
+  hunk to keep the accessibility test order-independent. Isolated validation
+  15 green (verify 2758, integration 355+1, eval 17, e2e 110+1); committed
+  and pushed under D-219/D-257. Ledger 95/180.
+- Agent-eligible D-183 work is now exhausted pending owner actions:
+  RAT-PACKAGE private banks (RI-5), SU-H7 paid eval, SU-H6 manual
+  accessibility, H9a production facts and H9 release record, D-216 private
+  non-reuse check, D-221 archive verification, D-242 mounted-package e2e.
+
 ## 2026-10-22 — Push incident resolved by owner (D-257)
 
 - Owner: "there are no live users. ok to deploy". Auto-deploys since

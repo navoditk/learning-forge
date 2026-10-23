@@ -147,9 +147,13 @@ function chapterOrder(domain: string): number {
 
 /**
  * Resolves, for each skill, the next actionable content item if one exists.
- * Priority is diagnostic (placement) > review (time-sensitive) > practice,
- * since a placement or review probe is more time-critical than open-ended
- * practice on the same skill.
+ *
+ * The plan, review queue and diagnostic plan are each priority-ordered, so
+ * within one kind the FIRST item for a skill is its next item and later items
+ * for the same skill are ignored. Across kinds the priority is diagnostic
+ * (placement) > review (time-sensitive) > practice, since a placement or
+ * review probe is more time-critical than open-ended practice on the same
+ * skill.
  */
 function buildActionBySkillCode(
   plan: Plan | undefined,
@@ -157,26 +161,27 @@ function buildActionBySkillCode(
   reviewQueue: ReviewQueue | undefined,
 ): Map<string, ChapterItemAction> {
   const actions = new Map<string, ChapterItemAction>();
-  for (const item of plan?.items ?? []) {
-    actions.set(item.skillCode, {
-      contentId: item.contentId,
-      kind: 'practice',
-      label: item.title,
-    });
-  }
-  for (const item of reviewQueue?.items ?? []) {
-    actions.set(item.skillCode, {
-      contentId: item.contentId,
-      kind: 'review',
-      label: item.title,
-    });
-  }
-  for (const item of diagnosticPlan?.items ?? []) {
-    actions.set(item.skillCode, {
-      contentId: item.contentId,
-      kind: 'diagnostic',
-      label: item.title,
-    });
+  // Lowest priority first; each kind overrides the previous kinds, but within
+  // a kind the first item per skill is kept.
+  const kinds: ReadonlyArray<{
+    kind: ChapterItemAction['kind'];
+    items: ReadonlyArray<{ skillCode: string; contentId: string; title: string }>;
+  }> = [
+    { kind: 'practice', items: plan?.items ?? [] },
+    { kind: 'review', items: reviewQueue?.items ?? [] },
+    { kind: 'diagnostic', items: diagnosticPlan?.items ?? [] },
+  ];
+  for (const { kind, items } of kinds) {
+    const firstInKind = new Map<string, ChapterItemAction>();
+    for (const item of items) {
+      if (firstInKind.has(item.skillCode)) continue;
+      firstInKind.set(item.skillCode, {
+        contentId: item.contentId,
+        kind,
+        label: item.title,
+      });
+    }
+    for (const [skillCode, action] of firstInKind) actions.set(skillCode, action);
   }
   return actions;
 }

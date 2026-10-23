@@ -2377,7 +2377,25 @@ Whether ContentArchive holds `unit-rates-2@content-2` and
 `ratio-tables-2@content-2` (D-221) depends on the deploy order and is
 unverified. Production facts and the H9 release record remain owner items.
 
-There are 257 decisions: D-01 through D-75, D-139, D-142, D-145–D-257 approved;
+### D-258 and D-259 — Topic-card selection (D-227 follow-up)
+
+Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a16690-ffda-7cc2-8cbd-e643c44a7c5a`; report
+`agent-handoffs/TOPIC-CARD/rev1/review-r1-report.md`
+`c94a3b4ad666bc202e75179c9e809e7b91173b0f142f02c0c6bcb9047c1bd0f6`):
+
+- **D-258 TC-1:** option (a). Within each kind the first item per skill
+  wins; across kinds diagnostic > review > practice is unchanged. Learner
+  effect: Ratio language shows "Garden rows" (`ratio-language-1`); the three
+  Science cards show their `-1` items; a core item now wins over a later
+  challenge item. Supersedes D-227's "keep last-wins".
+- **D-259 TC-2:** the keyboard accessibility e2e test stays order-independent
+  (D-226); the rev1 browser hunk is removed (TC-R1). Approved artifact
+  `topic-card-approved.patch`
+  `46b42fe308e6318036934d2e11a9c9a507f2c6b7c71c9d033f05f5e38500efa8`
+  (`src/app/learner-chapters.ts`, `tests/app/learner-chapters.test.ts`).
+
+There are 259 decisions: D-01 through D-75, D-139, D-142, D-145–D-259 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
