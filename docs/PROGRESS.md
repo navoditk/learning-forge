@@ -1,5 +1,12 @@
 # Progress
 
+## 2026-10-22 — Push incident resolved by owner (D-257)
+
+- Owner: "there are no live users. ok to deploy". Auto-deploys since
+  `58ea75e` accepted and `main` pushes authorized (D-257); D-193 paid eval,
+  D-216 private check and D-221 archive verification stay open as quality
+  items. Hold lifted; `54a7c80` (RI-4) pushed.
+
 ## 2026-10-22 — INCIDENT: pushes to `main` may have auto-deployed to production
 
 - The integrator pushed six commits to `main` under D-219 (`58ea75e`,

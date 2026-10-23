@@ -4,6 +4,61 @@ Tool-neutral entry point for bounded parallel development. Read `AGENTS.md`,
 then `docs/development-expansion-plan.md` for the current backlog. Procedures
 live in playbooks; native profiles are optional launch adapters.
 
+## Delivery coordination mandate — D-183
+
+On 2026-10-17 the owner selected the existing delivery-first milestones:
+usable Grade 6 practice, complete Ratios, then the first usable Science unit.
+The owner delegated routine technical acceptance through that delivery
+sequence. This is not limited to the completed SCI6-REGISTER chain.
+
+For an opted-in delivery run, reconcile live task packets and accepted
+contracts, select dependency-ready issue-sized work, prepare isolated
+ownership, and route the existing native design/implementation/independent
+review roles automatically. Reuse closed reviews and satisfied decisions.
+After required independent technical review and validation, an eligible
+engineering patch may be integrated locally under D-183 without asking the
+owner to accept every exact patch. Preserve frozen before/after hashes,
+review/model evidence and a durable integration result. A status-only
+checkpoint is still not an engineering integrator.
+
+Blocked tasks do not block unrelated eligible work. Prepare missing concrete
+scopes and batch real owner actions rather than asking for routine
+continuation. Do not treat an old session todo, proposed task, model confidence
+or passing transport as authorization or delivery evidence. Human content,
+privacy, migration, private-access, manual accessibility and release gates
+remain explicit, as do no commit/push/deployment and bounded spending.
+Record actual active, idle, blocked, budget-exhausted and delivered states;
+never describe an absent watcher as running autopilot.
+
+The first coordinator prototype remains isolated and BLOCKED_CORRECTIONS
+after independent review; it is not applied or running. The smaller C1
+planner/durable-control increment is independently ready and applied, but
+cannot invoke models or integrate product patches. C2 execution/acceptance
+boundaries are independently accepted and locally applied as of 2026-10-19;
+C3 journaled integration/recovery is accepted and applied locally. C4
+dispatcher rev2 and the separately reviewed C2 stop/process lifecycle
+correction are now accepted locally after fresh main validation
+(2,444 tests/build, 2026-10-19). G1 is complete; a separately enrolled
+real-native smoke, drain/restart and aggregate reconciliation still precede
+any operational claim.
+No broader product watcher runs. Follow the current resume index and cause checkpoint, not
+another broad correction/review loop. The existing single-task relay retains
+its documented ticket/profile limits until the new behavior is implemented
+and verified. D-183 does not enroll the whole backlog, renew exhausted run
+budgets or authorize an unlimited fleet.
+
+The owner's separate **2026-10-19 standing execution authorization** permits
+automatic child-batch renewal within one **24-hour / 100-native-invocation
+aggregate envelope**, ending at `2026-10-20T02:51:33.003Z` or earlier on
+milestone completion or the invocation ceiling. Do not request routine
+eight-call renewal while that envelope has capacity. Check the aggregate
+ledger before each reservation/spawn; reservations/failures consume capacity,
+and each new batch retains the original aggregate deadline and usage.
+Preserve exhausted batches rather than extending or resetting them.
+This does not alter independent review, scoped permissions, human-only
+gates, stop controls or no commit/push/deployment. The parent currently
+coordinates real native clients; an always-on product service is not implied.
+
 ## Approved model allocation
 
 Approved by the product owner in chat on 2026-10-09. Approval covers these
@@ -62,6 +117,178 @@ The single-provider exception was explicitly approved on 2026-10-09. If a
 premium executor cannot obtain a different capable reviewer within one
 provider, transfer review rather than downgrade a high-risk review.
 
+## Author and reviewer accountability
+
+Apply this contract to design, content and implementation packets in every
+client. It strengthens handoff evidence, not permission to run extra tools,
+spawn self-review agents, broaden scope or bypass independent/human gates.
+Use the existing packet, evidence bundle and review report; do not create
+another planning document for the checklist. Instructions improve consistency
+but do not guarantee model correctness.
+
+### Author handoff: demonstrate, do not assert
+
+Before freezing, return a compact requirements-to-evidence table: each owned
+requirement, artifact location, acceptance case and actual result, including
+untested or blocked claims. Exercise authorized positive, negative and exact
+boundary cases. In document-only work, manually derive concrete examples and
+counterexamples against the proposed rules; do not run unauthorized runtime
+tests or call an example executable evidence.
+
+Check contradictions across schemas, examples, error precedence, projections,
+limits, versions and acceptance criteria. A correct response must be
+representable; a leakage assertion must not reject a required public field;
+a claimed maximum needs a valid example or must be labelled conservative.
+Keep new rules minimal and remove redundant restatements. Do not submit an
+artifact known to violate its own required acceptance cases.
+
+For corrections, retain every finding ID and return:
+
+| Finding            | Root cause                                    | Changed locations                | Before/after evidence                         | Regression check                                 | Status                       |
+| ------------------ | --------------------------------------------- | -------------------------------- | --------------------------------------------- | ------------------------------------------------ | ---------------------------- |
+| Existing report ID | Why the defect occurred, not just the symptom | All coupled rules/examples/tests | Concrete derivation or authorized test result | Earlier fixes and directly affected requirements | Resolved, partial or blocked |
+
+"Resolved" requires evidence for the original counterexample and a valid
+positive control, not a rewritten paragraph or passing formatting. Inspect
+all references to the corrected rule, preserve earlier fixes and freeze exact
+bytes only after this self-audit. The author does this directly; it is not
+independent review and does not justify another model call.
+
+### Reviewer handoff: comprehensive first pass, bounded follow-up
+
+The first review covers the whole approved scope and returns all verified
+findings together, plus a coverage summary listing checked requirements and
+unverified areas. Do not drip-feed known findings. Every finding names the
+violated approved requirement or concrete correctness/safety failure,
+file/lines, counterexample, severity/confidence and acceptance condition for
+closure. Separate defects from missing evidence, optional preferences and
+new product requests. Do not turn stylistic preference into a blocking gate.
+
+Re-review the diff, original counterexamples, closure evidence and directly
+coupled regressions; do not restart an unrelated full audit. New real defects
+must still be reported. Classify each follow-up finding as:
+
+- **Unresolved:** the prior counterexample still fails or closure is incomplete.
+- **Regression:** the correction introduced or restored the failure.
+- **First-pass miss:** present in previously reviewed scope but not reported.
+- **Newly observable:** exposed by changed scope or previously unavailable evidence.
+
+Retain IDs for unresolved findings. For a first-pass miss, explain why it was
+missed and the specific check that now detects it. Do not infer reviewer
+failure for a genuinely newly observable issue. Optional polish is follow-up
+work unless an existing accessibility/product requirement makes it necessary.
+Only the appropriate human can accept residual risk; reviewers cannot downgrade
+a real correctness/safety issue merely to finish a round.
+
+### Integrator control: stop automatic review loops
+
+Require the evidence/closure table before paid independent review. If missing,
+return one consolidated request within the same approved scope; do not launch
+a review worker just to discover missing handoff fields. Preserve frozen
+artifacts and record rounds in the existing task packet:
+author/model/hash, blocker/major/minor counts, unresolved/regression/miss/new
+classification, validation limits and the learner-visible increment being
+unblocked. Do not invent time or cost metrics.
+
+If a blocker/major remains after a correction and its re-review, pause
+automatic dispatch. Record a short cause analysis and corrective action in
+the packet: incomplete fix, contradictory/oversized contract, missed review
+coverage or unavailable evidence. Use a concrete reproducer/derivation and
+consolidated correction scope; ask the owner if scope or an approved choice
+must change. Then resume the eligible role, not an unapproved replacement
+model or another broad review. This is an escalation checkpoint, not a
+hard round cap: unresolved safety/correctness gates still block release.
+
+### Delivery exit rules
+
+Target one comprehensive first review, one consolidated correction and one
+changed-scope verification per coherent frozen increment; this is the normal
+path, not a promise or a cap that permits shipping defects. Freeze the owned
+scope and acceptance criteria before review. New feature requests and
+optional improvements go to the backlog, not new acceptance criteria for
+the in-flight packet.
+
+Do not schedule an additional assurance review of unchanged bytes once the
+required findings and evidence are closed. If a required finding of any
+severity survives its correction and verification, use the same root-cause
+checkpoint above before another dispatch. Do not buy another broad review
+to compensate for an incomplete author self-check.
+
+The reviewer names which findings prevent readiness and why, rather than
+making every minor or preference an automatic new round. Eligible residual
+risks may be presented together for explicit human disposition; required
+safety, privacy, authorization, scoring, content and accessibility gates
+cannot be silently waived or downgraded. After the scoped review is ready,
+route directly to the existing acceptance/integration gate and next approved
+learner-visible increment. Avoid extra "review the review" agents.
+
+Accept existing completed reviews without retroactive re-audits. For an
+in-flight correction, attach this lightweight closure evidence at its next
+freeze; do not mutate the historical frozen inputs. Once required findings
+are closed, route to the existing human/integration gate and stop adding
+speculative prerequisites. Review throughput serves delivery; it is not a
+substitute for implementing the next approved learner-visible increment.
+
+## Delegated model sign-off
+
+D-207 (owner-revocable) lets a verified cross-family reviewer sign off two
+gate classes for Claude-authored work instead of a separate owner reply:
+in-scope dispositions where reviewer and integrator recommend the same
+option, and per-item acceptance of practice items with deterministic
+structured answers that the reviewer re-solves and the frozen harness
+passes. The integrator records each sign-off as its own decision, sends the
+owner a summary with about 3 random spot-check items, and withdraws any item
+the owner rejects within 7 days. Disagreement, scope widening, teaching or
+held-out content, private access, paid providers, manual accessibility,
+production facts, privacy, spending, destructive migrations, D-61 exceptions,
+registration/exposure, commit, push, deployment and release remain human
+gates. Same-family or unverified review never qualifies.
+
+D-212 (owner-revocable) widens this: every internal, reversible approval or
+owner-choice gate (content acceptance of any role, D-61 exceptions, scope
+approvals, dispositions, owner-choice design questions, risk acceptances,
+local patch application) is decided by the verified cross-family reviewer,
+given the options, evidence and integrator recommendation. The integrator
+records each decision separately and lists it in PROGRESS for later owner
+override; no veto window is required. Paid-provider runs and keys, manual
+assistive-technology passes, production facts, production/learner/private
+data access, commit, push, deployment, release and production migrations
+stay with the owner. Agents do not stop for them: they continue other
+eligible work and report what awaits the owner.
+
+## Batched human approvals
+
+Default to one consolidated approval request for related decisions that are
+ready for the appropriate human owner. Before asking, collect the ready
+choices in the current packet and directly related approved scope; do not
+prompt one by one when their options and evidence can already be presented
+together. Do not wait for an unrelated or blocked decision to become ready,
+reopen completed approvals, or bundle the entire backlog.
+
+Use the existing packet and decision register, not a new approval document.
+Present a compact table containing each decision ID, recommended option,
+material tradeoff, exact scope/artifact revision where applicable, readiness
+evidence and what it authorizes. State what remains excluded and any
+dependencies. Offer acceptance of all listed recommendations, a subset, or
+overrides in one interaction. A clearly framed batch may be accepted with one
+reply; do not demand a separate confirmation for each unchanged choice.
+If the response or batch is ambiguous, clarify only the affected decisions
+and leave them pending.
+
+Batching requests does not merge authorization gates. Design acceptance,
+patch application, bounded implementation, private-content access, migration,
+paid-provider use, deployment and release remain separately identified
+permissions. Each included gate must have its own required evidence,
+eligible approver and exact scope; do not obtain blanket approval for future
+unreviewed artifacts. A dependent gate whose evidence does not yet exist
+stays pending. If an approved choice changes reviewed bytes, obtain the
+required changed-scope review before crossing the next artifact gate.
+
+Record the human response and disposition against each approved decision,
+including scope, revision and conditions where applicable. Route only work
+explicitly authorized by that response. Approval of this batching procedure
+does not approve any pending product choice or execution packet.
+
 ## Quota fallback and alternatives
 
 The product owner approved Claude/GPT alternatives only; ask before using
@@ -105,6 +332,30 @@ its program's source dossier and reviewed revision. Shared schema, policy,
 program-registry, main-page UI, and migration work is NOT independent: assign
 one owner and serialize those edits.
 
+### Lane-specific continuation
+
+The staged delivery proposal lives in
+`docs/development-expansion-plan.md`, **Delivery-first successors and
+proposed parallel lanes**. It does not authorize a second lane or fleet.
+Default to the existing single active relay until the owner explicitly
+approves bounded concurrent scopes.
+
+For approved lanes, the integrator records each session's assignment,
+packet, phase, role, owned files/worktree, frozen inputs and remaining gates
+in the resume index. Apply the ordered relay within that assignment.
+One execution worker per lane; one shared integrator. Reassignments must be
+explicit. Never use another lane to bypass the assigned client's review,
+claim or human gate. Unassigned or ambiguous intake resolves assignment
+before claiming work; it is not an invitation to pick a backlog item.
+
+Use isolated worktrees with pinned allowlisted overlays: a new worktree does
+not inherit accepted dirty code or documents. Shared schemas, registries,
+catalog registration and status writes remain serialized. Cross-family
+review follows frozen outputs from either lane, without reviewing an
+author's still-changing bytes. Update administrative routing without changing
+historical frozen inputs; declare relevant instruction deltas at the next
+handoff instead of silently rebasing an in-flight packet.
+
 ## Fleet execution contract
 
 1. Coordinator defines a task packet: ID, program/scope, approved inputs,
@@ -133,6 +384,17 @@ one owner and serialize those edits.
    No vendor-specific orchestration is required to understand or resume work.
 
 ## Human-operated terminal handoffs
+
+### Optional local wake-up automation
+
+The owner approved implementing the bounded same-machine relay on 2026-10-16.
+See [Local agent relay](local-agent-relay.md) for explicit integrator-issued
+tickets, native CLI execution, automatic status checkpoints, operation and
+failure recovery. It replaces routine terminal wake-ups only; the ordered
+relay, exact approvals, frozen inputs, actual-model verification and
+human gates below are unchanged. No existing packet is enrolled implicitly.
+Workers do not poll each other. A deterministic watcher checks local tickets
+without model calls while idle; one claimed client runs at a time.
 
 Use `docs/coding-agent-handoff.md` as the cross-client resume index. This
 procedure adds no task, model, spending or release authorization. Existing

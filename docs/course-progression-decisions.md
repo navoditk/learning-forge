@@ -2363,7 +2363,21 @@ Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
   once after verifying the accepted structure and pins are unchanged (amends
   scope §6 timing). Accepts no unresolved bank metadata or registration.
 
-There are 256 decisions: D-01 through D-75, D-139, D-142, D-145–D-256 approved;
+### D-257 — Deployment from `main` accepted; no live users
+
+Owner, 2026-10-22, reply **"there are no live users. ok to deploy"** to the
+push-incident report. Any Render auto-deploys triggered by the pushes since
+`58ea75e` are accepted, and further pushes to `main` (which may auto-deploy
+and run `prisma migrate deploy && npm run content:archive`) are authorized
+during this delivery run. Basis: production has no live users. This accepts
+deploying the D-201 Science activation before the D-193 paid eval and the
+RC-5 Ratios registrations before the D-216 private check; those remain open
+release-quality items, not deployment blockers, while there are no users.
+Whether ContentArchive holds `unit-rates-2@content-2` and
+`ratio-tables-2@content-2` (D-221) depends on the deploy order and is
+unverified. Production facts and the H9 release record remain owner items.
+
+There are 257 decisions: D-01 through D-75, D-139, D-142, D-145–D-257 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
