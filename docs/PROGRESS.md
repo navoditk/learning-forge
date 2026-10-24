@@ -1,5 +1,34 @@
 # Progress
 
+## 2026-10-23 — All ten Ratios held-out banks accepted and stamped (D-265, D-266)
+
+- Codex `gpt-6.1-sol` accepted all ten corrected banks (93 items) and the
+  reviewed-mode stamp; the integrator built and validated the reviewed
+  package outside the repo (`~/learning-forge-private-drafts/rat-package-rev2-reviewed/`).
+  Bank hashes and counts are in D-266. Owner: merge the ten banks into the
+  private package, run the D-216 check and the D-242 mounted e2e. RI-5 next;
+  its push is held until the owner confirms the package is updated (CE-3).
+  Ledger 99/180.
+
+## 2026-10-23 — Private bank drafts: two banks accepted, eight corrected
+
+- Codex `gpt-6.1-sol` re-solved all 93 held-out answers (all correct) and
+  accepted the unit-rates and ratio-tables lesson banks (D-263); the other
+  eight need band fixes, D-152 figures for 24 DNL items, one distractor
+  explanation, and explicit draft/reviewed build modes (D-264). Opus
+  correcting outside the repo; ledger 98/180.
+
+## 2026-10-23 — Owner delegates three actions (D-260–D-262)
+
+- D-260 agent may run the capped paid eval: blocked in practice, because
+  `ANTHROPIC_API_KEY` is not in the agent shell and is only in `.env`, which
+  agents never read. The owner runs it with `!` in this session.
+- D-261 read-only Render facts: the Render CLI token is expired; the owner
+  must run `! render login`.
+- D-262 private bank drafts: Opus drafting 93 held-out items outside the repo
+  (`~/learning-forge-private-drafts/rat-package-rev1/`); Codex review next.
+  Ledger 96/180.
+
 ## 2026-10-23 — Topic cards show the planner's first item (D-258, D-259)
 
 - TOPIC-CARD (D-227 follow-up): first item per skill wins within a kind;

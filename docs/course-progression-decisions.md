@@ -2395,7 +2395,81 @@ Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
   `46b42fe308e6318036934d2e11a9c9a507f2c6b7c71c9d033f05f5e38500efa8`
   (`src/app/learner-chapters.ts`, `tests/app/learner-chapters.test.ts`).
 
-There are 259 decisions: D-01 through D-75, D-139, D-142, D-145–D-259 approved;
+### D-260 to D-262 — Owner delegates three owner actions to agents
+
+Owner, 2026-10-23, selected in reply to the integrator's question
+"Which should I try to do myself?":
+
+- **D-260 — Agent runs the capped paid Science eval (SU-H7).** Reverses
+  D-202's "agents do not run it or handle the key" for this one run only:
+  the integrator runs `npm run eval:run-real -- --cases
+evals/real-runs/science-framing-v1.json --max-calls 24 --out
+reports/sci6-real-eval.md --confirm-paid`. The script loads the key; the
+  integrator never prints, reads or copies it and never reads `.env`. At most
+  24 requests and 7,200 output tokens. Result recorded against D-193.
+- **D-261 — Read-only Render production facts (H9a).** The integrator may run
+  read-only Render CLI queries (deploy list, service info) if the CLI is
+  already authenticated. No deploys, redeploys, rollbacks, env changes,
+  shell or database access.
+- **D-262 — Agent-drafted private bank items (RAT-PACKAGE).** Opus may draft
+  the 93 held-out items for the ten D-237 banks, with Codex cross-family
+  review, stored outside the repository and never committed. Integration with
+  the existing private package location and the D-216 non-reuse check remain
+  owner actions.
+
+### D-263 and D-264 — RAT-PACKAGE draft rev1 rulings
+
+Delegated decisions (D-212/D-262), Codex `gpt-6.1-sol` (verified; thread
+`01a16c21-afb2-7d23-9df3-3523c5b3eab3`; report kept outside the repository
+at `~/learning-forge-private-drafts/rat-package-rev1/review/review-r1-report.md`
+`b05207fcb99470e30240d0b8084f36244cc3bc35870e442eb68163262f6686e2`) on the
+private draft package `1d7723a2d8fa205682f06691ca639bfc8c457e5b9631539c54fc583916114305`.
+All 93 answers independently re-solved correct; no item text is recorded here.
+
+- **D-263 PK-1:** ACCEPT `unit-rates-lesson-bank@2.0.0` and
+  `ratio-tables-lesson-bank@2.0.0` (rev1 bodies). REJECT the other eight banks
+  pending correction: 21 difficulty bands outside the pinned skills' bands,
+  24 double-number-line items missing D-152 static figures, one incorrect
+  distractor explanation.
+- **D-264 PK-2:** REJECT the proposed stamping procedure as written (the build
+  and validation scripts hard-code pending metadata); reviewer attribution is
+  acceptable once explicit draft/reviewed build and validation modes exist.
+
+### D-265 and D-266 — RAT-PACKAGE ten banks accepted and stamped
+
+Delegated decisions (D-212/D-262), Codex `gpt-6.1-sol` (verified; thread
+`01a16c21-afb2-7d23-9df3-3523c5b3eab3`; report outside the repository at
+`~/learning-forge-private-drafts/rat-package-rev2/review/review-r2-report.md`
+`e8b74c3ff28bd50d782f650e8fac180ca633b385cf464566b8dd8582aadefc93`) on draft
+rev2 `8b317fc48dc14bed880ebda8f074c15710cb9440c9d2e9ecfbdf9bbe11004c61`
+(READY; all r1 findings closed; 24 DNL figures independently checked).
+
+- **D-265 PK-1:** all ten banks ACCEPTED as held-out content (D-263 retained).
+- **D-266 PK-2:** reviewed-mode stamping approved with reviewer "Codex
+  gpt-6.1-sol delegated sign-off (RAT-PACKAGE PK-1, 2026-10-23)", reviewedAt
+  2026-10-23, tooling `build.ts` `f4c783e1...278b`, `validate.ts`
+  `5772eb27...718e`. Integrator ran both in reviewed mode; validation "ALL
+  CHECKS PASSED (reviewed mode)". Output, outside the repository:
+  `~/learning-forge-private-drafts/rat-package-rev2-reviewed/`
+  (`package-reviewed.json`
+  `fd4235c8a11fb06a3deb2dd0edac7e0713a10abd5a2ee3de9e9b31a51ba1da55`).
+  Bank metadata for RI-5 (`code@version`, `contentHash`, `itemCount`):
+  - `ratio-language-lesson-bank@2.0.0` `sha256:67ae5776597eed427ca08dff45db650d772a5cac6ce1a5d4f21591123b085da7` 9
+  - `unit-rates-lesson-bank@2.0.0` `sha256:9240bc30980cd51af4231a9171f59db207d682226083643dc276440cbadc61fa` 9
+  - `ratio-tables-lesson-bank@2.0.0` `sha256:b5fcc9dd5a03dbca7821f18a7692943b80c11c72f54c5f1f9f72c8eaf008a435` 9
+  - `double-number-lines-lesson-bank@1.0.0` `sha256:83035b4a12b73ddd64aa3cd77d4028341ddd5b0e5783894efd708176ec692001` 9
+  - `percent-applications-lesson-bank@1.0.0` `sha256:cc3740273ba24dde14f3f0cc53bb5da51d8a2c49230ba80f608dc94da0b9dc78` 9
+  - `ratios-proportional-reasoning-unit-bank@2.0.0` `sha256:416b8c02e1ca3e3cf71e5ccc75159ad98fe2fbf892c34ff01adf2cfdc53b82be` 30
+  - `double-number-lines-review-bank@1.0.0` `sha256:440f22d4bb5c1b61da4ec574c9145509a394354962ff8ddd9127d91ba1bde6a5` 3
+  - `double-number-lines-delayed-check-bank@1.0.0` `sha256:62cec320cb858e4cf256b87da6317ffa7dc9c7e9aec71072684ccda70758b8a1` 6
+  - `percent-applications-review-bank@1.0.0` `sha256:570faafaab2d72735f6bbc9accd4d9b364e7bf29837bd111fd8df13cfef6cdee` 3
+  - `percent-applications-delayed-check-bank@1.0.0` `sha256:ea15c2d57e42d62bd82b2190d4a8814c2fb722e87d473e9346dcb84eca8058f0` 6
+
+Still owner actions: merging these ten banks into the owner's private
+package (alongside the retained `@1.0.0` pilot banks), the D-216 check
+against owner-held private ids, and the D-242 mounted-package e2e run.
+
+There are 266 decisions: D-01 through D-75, D-139, D-142, D-145–D-266 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
