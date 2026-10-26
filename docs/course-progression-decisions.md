@@ -2469,7 +2469,15 @@ Still owner actions: merging these ten banks into the owner's private
 package (alongside the retained `@1.0.0` pilot banks), the D-216 check
 against owner-held private ids, and the D-242 mounted-package e2e run.
 
-There are 266 decisions: D-01 through D-75, D-139, D-142, D-145–D-266 approved;
+### D-267 — Delivery window reopened for 24 hours
+
+Owner, 2026-10-26T14:08:24Z, reply **"approved"** to the request "extend the window 24h"
+(the D-211 window had ended 2026-10-24T13:25:35Z). The window runs to
+`2026-10-27T14:08:24Z`; the invocation cap stays at 180 (100 used). D-212, D-219 and D-257
+terms continue for this window. Purpose: run RI-5; its push stays held until
+the owner confirms the private package holds the ten new banks (CE-3).
+
+There are 267 decisions: D-01 through D-75, D-139, D-142, D-145–D-267 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
