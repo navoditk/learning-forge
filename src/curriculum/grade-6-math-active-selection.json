@@ -3,7 +3,7 @@
   "programs": [
     {
       "code": "grade-6-math",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     {
       "code": "math-kangaroo-6",
@@ -69,6 +69,22 @@
     },
     {
       "code": "ratio-tables-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "double-number-lines-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "double-number-lines-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "percent-applications-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "percent-applications-delayed-check-bank",
       "version": "1.0.0"
     }
   ]

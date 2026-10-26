@@ -2477,7 +2477,35 @@ Owner, 2026-10-26T14:08:24Z, reply **"approved"** to the request "extend the win
 terms continue for this window. Purpose: run RI-5; its push stays held until
 the owner confirms the private package holds the ten new banks (CE-3).
 
-There are 267 decisions: D-01 through D-75, D-139, D-142, D-145–D-267 approved;
+### D-268 to D-271 — RAT-INTEGRATE RI-5 rulings
+
+Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a162b2-c31e-7960-ad17-714911a0f2fe`; report
+`agent-handoffs/RAT-INTEGRATE/ri5/rev1/review-r1-report.md`
+`ee858cfc69128c04b483f599913b8345c1ac9959bf4df6f067fc31cd7a11a4b7`) on
+`ri5.patch` `078e486f37ed9830423bd560dc5ab786e4a004363d9e161c323b7ae0dd629450`
+(CHANGES_REQUESTED: RI5-R1 major, in-flight completion not demonstrated).
+
+- **D-268 RI5-D1:** all twelve additional test-path amendments are accepted
+  (activation expectations, retained historical protections, filler banks
+  that keep feedback/leakage assertions).
+- **D-269 RI5-D2:** bank `originalityStatement` "Assessment items authored
+  for this repository and held privately (RAT-PACKAGE, D-265)" is accepted;
+  it does not claim human authorship.
+- **D-270 RI5-D3:** the S2 shortcut is insufficient; RI-5 must drive a valid
+  retained `1.0.0` assignment through same-key replay, fetch and submission
+  after activation, completing the historical lesson without crediting 2.0.0.
+- **D-271 RI5-D4:** stamping the five lessons and the unit satisfies D-256;
+  the program record needs no review field.
+
+CE-3 (confirmed): after RI-5 a mounted package must hold ten mandatory
+banks (`ratio-language`/`unit-rates`/`ratio-tables` lesson banks at
+`1.0.0` and `2.0.0`, `ratios-proportional-reasoning-unit-bank` at `1.0.0`
+and `2.0.0`, `double-number-lines-lesson-bank@1.0.0`,
+`percent-applications-lesson-bank@1.0.0`); the ten review/delayed-check
+banks are optional; installing all twenty is the deployment requirement.
+
+There are 271 decisions: D-01 through D-75, D-139, D-142, D-145–D-271 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

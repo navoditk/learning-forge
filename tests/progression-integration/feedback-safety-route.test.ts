@@ -7,7 +7,10 @@ import { AssessmentKind, ProgressionTargetKind } from '@prisma/client';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import type { AssessmentContentItem, Ref } from '../../src/contracts/progression';
-import { createPrivateAssessmentPackageStoreFromEnvironment } from '../../src/assessment/private-package-store';
+import {
+  GRADE_6_MATH_PACKAGE_BANKS,
+  createPrivateAssessmentPackageStoreFromEnvironment,
+} from '../../src/assessment/private-package-store';
 import { createInMemoryAssessmentStore } from '../../src/assessment/store';
 import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
 import { deleteHouseholdData } from '../../src/server/household-data';
@@ -113,12 +116,33 @@ describe('assessment feedback route safety', () => {
         ['ratio-language', 'unit-rates', 'ratio-tables'][index % 3],
       ),
     );
-    const packageBanks = [
+    const pilotPackageBanks = [
       { ...bankRef, items },
       { ...unitRatesBank, items: unitRatesItems },
       { ...ratioTablesBank, items: ratioTablesItems },
       { ...unitBank, items: unitItems },
     ];
+    // RI-5: the package must also hold every other mandatory bank (the six
+    // Ratios 2.0.0 banks); these fillers carry ordinary content, never asserted on.
+    const present = new Set(pilotPackageBanks.map((bank) => `${bank.code}@${bank.version}`));
+    const mandatoryFillers = GRADE_6_MATH_PACKAGE_BANKS.filter(
+      (bank) => !bank.optional && !present.has(`${bank.code}@${bank.version}`),
+    ).map((bank) => {
+      const skills = bank.requiredSkillRefs!;
+      return {
+        code: bank.code,
+        version: bank.version,
+        items: Array.from({ length: bank.minimumItems }, (_, index) =>
+          assessmentItem(
+            `filler-${bank.code}-${bank.version.replaceAll('.', '-')}-${index + 1}`,
+            `${index + 2}:${index + 3}`,
+            { code: bank.code, version: bank.version },
+            skills[index % skills.length]!.code,
+          ),
+        ),
+      };
+    });
+    const packageBanks = [...pilotPackageBanks, ...mandatoryFillers];
     const ratioLanguageContentHash = sha256(items);
     packageDirectory = await mkdtemp(join(tmpdir(), 'learning-forge-route-feedback-'));
     const packagePath = join(packageDirectory, 'assessment-package.json');

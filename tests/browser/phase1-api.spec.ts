@@ -101,10 +101,26 @@ test.describe('Phase 1 API route validation and error paths', () => {
     const progression = await request.get('/api/progression/pilot');
     expect(progression.status()).toBe(200);
     const body = await progression.json();
+    // RI-5: one active unit (2.0.0) with five lessons, plus an empty history.
     expect(body.units).toHaveLength(1);
-    expect(body.units[0].lessons).toHaveLength(3);
+    expect(body.units[0].version).toBe('2.0.0');
+    expect(body.units[0].lessons).toHaveLength(5);
+    expect(body.history).toEqual([]);
 
     const assignment = await request.post('/api/progression/assessment/assignment', {
+      data: {
+        kind: 'LESSON_ASSESSMENT',
+        targetKind: 'LESSON',
+        targetCode: 'ratio-language-lesson',
+        targetVersion: '2.0.0',
+        idempotencyKey: `e2e-${randomUUID()}`,
+      },
+    });
+    expect(assignment.status()).toBe(503);
+    expect((await assignment.json()).reasonCode).toBe('ASSESSMENT_STORE_UNAVAILABLE');
+
+    // C7-A (D-230): the earlier 1.0.0 target is no longer an active course version.
+    const earlier = await request.post('/api/progression/assessment/assignment', {
       data: {
         kind: 'LESSON_ASSESSMENT',
         targetKind: 'LESSON',
@@ -113,8 +129,8 @@ test.describe('Phase 1 API route validation and error paths', () => {
         idempotencyKey: `e2e-${randomUUID()}`,
       },
     });
-    expect(assignment.status()).toBe(503);
-    expect((await assignment.json()).reasonCode).toBe('ASSESSMENT_STORE_UNAVAILABLE');
+    expect(earlier.status()).toBe(409);
+    expect((await earlier.json()).reasonCode).toBe('VERSION_MISMATCH');
   });
 
   test('staging private package serves a real lesson assignment when explicitly mounted', async ({
@@ -130,7 +146,7 @@ test.describe('Phase 1 API route validation and error paths', () => {
         kind: 'LESSON_ASSESSMENT',
         targetKind: 'LESSON',
         targetCode: 'ratio-language-lesson',
-        targetVersion: '1.0.0',
+        targetVersion: '2.0.0',
         idempotencyKey: `private-package-${randomUUID()}`,
       },
     });

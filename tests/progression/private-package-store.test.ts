@@ -222,7 +222,7 @@ describe('private held-out assessment package store', () => {
 
   it('configures every Grade 6 Math skill bank as optional, exclusive, and role-typed', () => {
     const skillBanks = GRADE_6_MATH_PACKAGE_BANKS.filter((bank) => bank.optional);
-    expect(skillBanks).toHaveLength(6);
+    expect(skillBanks).toHaveLength(10);
     for (const bank of skillBanks) {
       expect(bank.exclusiveSkills).toBe(true);
       expect(bank.requiredSkillRefs).toHaveLength(1);
@@ -230,7 +230,7 @@ describe('private held-out assessment package store', () => {
         bank.code.endsWith('-review-bank') ? 'review' : 'assessment',
       );
     }
-    expect(GRADE_6_MATH_PACKAGE_BANKS.filter((bank) => !bank.optional)).toHaveLength(4);
+    expect(GRADE_6_MATH_PACKAGE_BANKS.filter((bank) => !bank.optional)).toHaveLength(10);
   });
 
   it('rejects a bank the configured shape does not name', async () => {

@@ -150,6 +150,7 @@ describe('P1 grade-6-science registry entry', () => {
   it('keeps the other four placeholders and the registry order unchanged', () => {
     expect(PROGRAM_REGISTRY.map((program) => program.code)).toEqual([
       'grade-6-math',
+      'grade-6-math', // 1.1.0 (RI-5); 1.0.0 retained
       'math-kangaroo-6',
       'moems-6',
       'amc-8',

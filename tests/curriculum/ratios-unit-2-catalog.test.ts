@@ -7,23 +7,30 @@ import { describe, expect, it } from 'vitest';
 import { servableContentCatalog } from '../../src/content/catalog';
 import type { ItemRef } from '../../src/contracts/progression';
 import {
+  checkClaimedSkillBanks,
   checkItemRefLabels,
   checkPlacementCapacity,
   itemRefLabelCheckBlocks,
   type ItemRecordLookup,
 } from '../../src/curriculum/catalog-registration-checks';
-import { COURSE_CATALOG_INDEX, createCourseCatalog } from '../../src/curriculum/course-catalog';
+import {
+  COURSE_CATALOG_INDEX,
+  VERSIONED_COURSE_CATALOG,
+  createCourseCatalog,
+} from '../../src/curriculum/course-catalog';
 import {
   PILOT_ASSESSMENT_BANKS,
   PILOT_LESSONS,
   PILOT_UNITS,
 } from '../../src/curriculum/pilot-catalog';
 import { PROGRAM_REGISTRY } from '../../src/curriculum/program-registry';
-import * as staged from '../../src/curriculum/ratios-unit-2-catalog';
 import {
+  RATIOS_UNIT_2_ASSESSMENT_BANKS,
   RATIOS_UNIT_2_LESSONS,
   RATIOS_UNIT_2_PROGRAM,
+  RATIOS_UNIT_2_PROGRAM_REF,
   RATIOS_UNIT_2_UNIT,
+  RATIOS_UNIT_2_UNIT_REF,
 } from '../../src/curriculum/ratios-unit-2-catalog';
 import {
   buildPlacementProbeSnapshot,
@@ -65,6 +72,9 @@ const lookup: ItemRecordLookup = (ref) => {
   return { version: parsed.version, rawSha256: createHash('sha256').update(bytes).digest('hex') };
 };
 
+const STRUCTURE_REVIEWER =
+  'Codex gpt-6.1-sol delegated sign-off (RAT-INTEGRATE RI-4 structure, D-256)';
+
 const SKILLS = [
   'ratio-language',
   'unit-rates',
@@ -74,7 +84,7 @@ const SKILLS = [
 ];
 
 describe('staged Ratios unit 2.0.0 records', () => {
-  it('has five lessons @2.0.0 in plan order with D-237 labels and pending review (D-236)', () => {
+  it('has five lessons @2.0.0 in plan order with D-237 labels and the D-256 reviewed stamp', () => {
     expect(RATIOS_UNIT_2_LESSONS.map(refKey)).toEqual(
       SKILLS.map((skill) => `${skill}-lesson@2.0.0`),
     );
@@ -86,7 +96,11 @@ describe('staged Ratios unit 2.0.0 records', () => {
       expect(lesson.skillRefs).toEqual([{ code: SKILLS[index], version: '1.0.0' }]);
       expect(lesson.policyProfileRef).toEqual({ code: 'grade-6-math-default', version: '1.1.0' });
       expect(lesson.provenance).toEqual({ origin: 'original', licenseStatus: 'owned' });
-      expect(lesson.review.status).toBe('pending_review');
+      expect(lesson.review).toMatchObject({
+        status: 'reviewed',
+        reviewer: STRUCTURE_REVIEWER,
+        reviewedAt: '2026-10-23',
+      });
       expect(lesson.practiceContentRefs).toHaveLength(6);
       expect(lesson.teachingContentRefs).toHaveLength(1);
     }
@@ -97,7 +111,11 @@ describe('staged Ratios unit 2.0.0 records', () => {
       'double-number-lines-lesson-bank@1.0.0',
       'percent-applications-lesson-bank@1.0.0',
     ]);
-    expect(RATIOS_UNIT_2_UNIT.review.status).toBe('pending_review');
+    expect(RATIOS_UNIT_2_UNIT.review).toMatchObject({
+      status: 'reviewed',
+      reviewer: STRUCTURE_REVIEWER,
+      reviewedAt: '2026-10-23',
+    });
   });
 
   it('reuses the pilot titles and objectives for the three pilot lessons', () => {
@@ -111,7 +129,8 @@ describe('staged Ratios unit 2.0.0 records', () => {
   it('D-248: no lesson 2.0.0 ref names a pilot @1.0.0 bank (CE-4 unreachable)', () => {
     for (const lesson of RATIOS_UNIT_2_LESSONS) {
       const ref = lesson.assessmentBankRef;
-      expect(COURSE_CATALOG_INDEX.bankByRef(ref), refKey(ref)).toBeUndefined();
+      // RI-5: the ref resolves to a registered new bank, never to a pilot @1.0.0 bank.
+      expect(COURSE_CATALOG_INDEX.bankByRef(ref), refKey(ref)).toBeDefined();
       expect(PILOT_ASSESSMENT_BANKS.some((bank) => refKey(bank) === refKey(ref))).toBe(false);
     }
     const pilotLessonBanks = PILOT_LESSONS.map((lesson) => lesson.assessmentBankRef.code);
@@ -227,7 +246,7 @@ describe('staged Ratios unit 2.0.0 records', () => {
     expect(typeof record.accessibleAlternative).toBe('string');
   });
 
-  it('banks are intentionally unresolved: exactly the ten D-237 labels, with no bank metadata', () => {
+  it('RI-5: the unresolved bank set is empty and the ten D-266 records are registered', () => {
     const missing = new Set<string>();
     const need = (ref: { code: string; version: string }) => {
       if (!COURSE_CATALOG_INDEX.bankByRef(ref)) missing.add(refKey(ref));
@@ -240,35 +259,96 @@ describe('staged Ratios unit 2.0.0 records', () => {
         need({ code: `${skill.code}-delayed-check-bank`, version: skill.version });
       }
     }
-    expect([...missing].sort()).toEqual(
+    expect([...missing]).toEqual([]);
+    expect(RATIOS_UNIT_2_ASSESSMENT_BANKS).toHaveLength(10);
+    // D-266 public metadata, verbatim.
+    expect(
+      RATIOS_UNIT_2_ASSESSMENT_BANKS.map((b) => [refKey(b), b.itemCount, b.contentHash]),
+    ).toEqual([
       [
         'ratio-language-lesson-bank@2.0.0',
+        9,
+        'sha256:67ae5776597eed427ca08dff45db650d772a5cac6ce1a5d4f21591123b085da7',
+      ],
+      [
         'unit-rates-lesson-bank@2.0.0',
+        9,
+        'sha256:9240bc30980cd51af4231a9171f59db207d682226083643dc276440cbadc61fa',
+      ],
+      [
         'ratio-tables-lesson-bank@2.0.0',
+        9,
+        'sha256:b5fcc9dd5a03dbca7821f18a7692943b80c11c72f54c5f1f9f72c8eaf008a435',
+      ],
+      [
         'double-number-lines-lesson-bank@1.0.0',
+        9,
+        'sha256:83035b4a12b73ddd64aa3cd77d4028341ddd5b0e5783894efd708176ec692001',
+      ],
+      [
         'percent-applications-lesson-bank@1.0.0',
+        9,
+        'sha256:cc3740273ba24dde14f3f0cc53bb5da51d8a2c49230ba80f608dc94da0b9dc78',
+      ],
+      [
         'ratios-proportional-reasoning-unit-bank@2.0.0',
+        30,
+        'sha256:416b8c02e1ca3e3cf71e5ccc75159ad98fe2fbf892c34ff01adf2cfdc53b82be',
+      ],
+      [
         'double-number-lines-review-bank@1.0.0',
+        3,
+        'sha256:440f22d4bb5c1b61da4ec574c9145509a394354962ff8ddd9127d91ba1bde6a5',
+      ],
+      [
         'double-number-lines-delayed-check-bank@1.0.0',
+        6,
+        'sha256:62cec320cb858e4cf256b87da6317ffa7dc9c7e9aec71072684ccda70758b8a1',
+      ],
+      [
         'percent-applications-review-bank@1.0.0',
+        3,
+        'sha256:570faafaab2d72735f6bbc9accd4d9b364e7bf29837bd111fd8df13cfef6cdee',
+      ],
+      [
         'percent-applications-delayed-check-bank@1.0.0',
-      ].sort(),
-    );
-    expect(missing.size).toBe(10);
-    // The module exports no bank record, so no bank hash or item count is fabricated.
-    for (const value of Object.values(staged)) {
-      expect(value).not.toHaveProperty('contentHash');
-      expect(value).not.toHaveProperty('itemCount');
+        6,
+        'sha256:ea15c2d57e42d62bd82b2190d4a8814c2fb722e87d473e9346dcb84eca8058f0',
+      ],
+    ]);
+    for (const bank of RATIOS_UNIT_2_ASSESSMENT_BANKS) {
+      expect(bank.review.status).toBe('reviewed');
+      expect(bank.review.reviewedAt).toBe('2026-10-23');
     }
-    // Registering the staged records as they are would fail closed.
+    // Negative control: dropping one bank makes registration fail closed.
     expect(() =>
       createCourseCatalog({
-        programs: [...PROGRAM_REGISTRY, RATIOS_UNIT_2_PROGRAM],
+        programs: PROGRAM_REGISTRY,
         units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT],
         lessons: [...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS],
-        banks: PILOT_ASSESSMENT_BANKS,
+        banks: [...PILOT_ASSESSMENT_BANKS, ...RATIOS_UNIT_2_ASSESSMENT_BANKS.slice(1)],
       }),
     ).toThrow();
+  });
+
+  it('V-11: zero violations on grade-6-math@1.1.0 over the production catalog', () => {
+    expect(checkClaimedSkillBanks(VERSIONED_COURSE_CATALOG, RATIOS_UNIT_2_PROGRAM_REF)).toEqual([]);
+  });
+
+  it('V-5: the real pilot 1.0.0 records are retained and unchanged by the 2.0.0 registration', () => {
+    for (const unit of PILOT_UNITS) expect(COURSE_CATALOG_INDEX.unitByRef(unit)).toBe(unit);
+    for (const lesson of PILOT_LESSONS) {
+      expect(COURSE_CATALOG_INDEX.lessonByRef(lesson)).toBe(lesson);
+      expect(VERSIONED_COURSE_CATALOG.isActiveLesson(lesson)).toBe(false);
+    }
+    for (const bank of PILOT_ASSESSMENT_BANKS) {
+      expect(COURSE_CATALOG_INDEX.bankByRef(bank)).toBe(bank);
+    }
+    for (const lesson of RATIOS_UNIT_2_LESSONS) {
+      expect(VERSIONED_COURSE_CATALOG.isActiveLesson(lesson)).toBe(true);
+    }
+    expect(VERSIONED_COURSE_CATALOG.isActiveUnit(RATIOS_UNIT_2_UNIT_REF)).toBe(true);
+    expect(VERSIONED_COURSE_CATALOG.isActiveUnit(PILOT_UNITS[0]!)).toBe(false);
   });
 
   it('the unit 2.0.0 snapshot builds with five items in lesson order', () => {

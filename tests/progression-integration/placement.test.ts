@@ -4,6 +4,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vites
 
 import { createAssessmentStore } from '../../src/assessment/store';
 import { PILOT_UNITS } from '../../src/curriculum/pilot-catalog';
+import { RATIOS_UNIT_2_UNIT } from '../../src/curriculum/ratios-unit-2-catalog';
 import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
 import {
   applyPilotLessonAssessmentOutcome,
@@ -273,7 +274,15 @@ describe('placement probes (D-64, D-68)', () => {
     process.env.COURSE_PROGRESSION_RELEASE_GATE_OPEN = 'true';
     delete process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH;
     vi.mocked(requireHouseholdContext).mockResolvedValue({ householdId, learnerProfileId });
-    const post = async (targetKind: string, targetCode: string, idempotencyKey: string) => {
+    // RI-5: unit 2.0.0 is the active version; 1.0.0 is history and no longer
+    // admits new assignments (C7-A, D-230).
+    const active = RATIOS_UNIT_2_UNIT;
+    const post = async (
+      targetKind: string,
+      targetCode: string,
+      idempotencyKey: string,
+      targetVersion = '2.0.0',
+    ) => {
       const response = await POST(
         new Request('http://localhost/api/progression/assessment/assignment', {
           method: 'POST',
@@ -282,7 +291,7 @@ describe('placement probes (D-64, D-68)', () => {
             kind: 'PLACEMENT',
             targetKind,
             targetCode,
-            targetVersion: '1.0.0',
+            targetVersion,
             idempotencyKey,
           }),
         }) as never,
@@ -293,7 +302,11 @@ describe('placement probes (D-64, D-68)', () => {
       status: 409,
       body: { reasonCode: 'KIND_TARGET_MISMATCH' },
     });
-    const created = await post('UNIT', unit.code, 'route-placement-unit');
+    expect(await post('UNIT', unit.code, 'route-placement-earlier', unit.version)).toMatchObject({
+      status: 409,
+      body: { reasonCode: 'VERSION_MISMATCH' },
+    });
+    const created = await post('UNIT', active.code, 'route-placement-unit');
     expect(created.status).toBe(201);
     expect(JSON.stringify(created.body)).not.toContain('canonicalAnswer');
     const stored = await prisma.assessmentAssignment.findUniqueOrThrow({
@@ -304,8 +317,8 @@ describe('placement probes (D-64, D-68)', () => {
         },
       },
     });
-    const bank = snapshotBank();
-    expect(JSON.stringify(bank)).toBe(JSON.stringify(placementProbeBank(unit)));
+    const bank = placementProbeBankFor(placementProbeBankRef(active))!;
+    expect(JSON.stringify(bank)).toBe(JSON.stringify(placementProbeBank(active)));
     expect(stored.requiredCount).toBe(bank.items.length);
     expect((stored.selectedItems as { id: string }[]).map(({ id }) => id)).toEqual(
       bank.items.map((item) => item.id),
@@ -315,18 +328,18 @@ describe('placement probes (D-64, D-68)', () => {
         householdId,
         learnerProfileId,
         programCode: 'grade-6-math',
-        programVersion: '1.0.0',
-        unitCode: unit.code,
-        unitVersion: unit.version,
+        programVersion: '1.1.0',
+        unitCode: active.code,
+        unitVersion: active.version,
         lessonCode: 'unit-rates-lesson',
-        lessonVersion: '1.0.0',
+        lessonVersion: '2.0.0',
         method: 'PLACEMENT_PROBE',
         policyProfileCode: profileRef.code,
         policyProfileVersion: profileRef.version,
         evidenceRefs: {},
       },
     });
-    expect(await post('UNIT', unit.code, 'route-placement-again')).toMatchObject({
+    expect(await post('UNIT', active.code, 'route-placement-again')).toMatchObject({
       status: 409,
       body: { reasonCode: 'PLACEMENT_ALREADY_RECORDED' },
     });

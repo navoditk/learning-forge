@@ -1,11 +1,22 @@
 import { PILOT_LESSONS } from '../src/curriculum/pilot-catalog';
+import { RATIOS_UNIT_2_LESSONS } from '../src/curriculum/ratios-unit-2-catalog';
 import { prisma } from '../src/server/prisma';
 import { E2E_TEST_PARENT_EMAIL } from './test-account';
 
-const RATIO_LANGUAGE_LESSON = PILOT_LESSONS.find(
-  (lesson) => lesson.code === 'ratio-language-lesson',
-);
-if (!RATIO_LANGUAGE_LESSON) throw new Error('ratio-language-lesson is missing from PILOT_LESSONS');
+/**
+ * The seeded lesson is `ratio-language-lesson` at a chosen version. Version
+ * `1.0.0` (the default) is no longer active after RI-5, so the seed exercises
+ * the earlier-version (history) override (CE-2); `2.0.0` is the active lesson.
+ */
+export type SeededLessonVersion = '1.0.0' | '2.0.0';
+
+function ratioLanguageLesson(version: SeededLessonVersion) {
+  const lesson = [...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS].find(
+    (candidate) => candidate.code === 'ratio-language-lesson' && candidate.version === version,
+  );
+  if (!lesson) throw new Error(`ratio-language-lesson@${version} is missing from the catalog`);
+  return lesson;
+}
 
 /**
  * Standing up a real D-69 NEEDS_HELP state means driving several
@@ -15,12 +26,12 @@ if (!RATIO_LANGUAGE_LESSON) throw new Error('ratio-language-lesson is missing fr
  * directly from Playwright infra (never from inside a .spec.ts file) to
  * provision the shared e2e account.
  */
-export async function seedNeedsHelpLesson(): Promise<{
+export async function seedNeedsHelpLesson(version: SeededLessonVersion = '1.0.0'): Promise<{
   skillCode: string;
   skillVersion: string;
   lessonTitle: string;
 }> {
-  const lesson = RATIO_LANGUAGE_LESSON!;
+  const lesson = ratioLanguageLesson(version);
   const policyProfileRef = lesson.policyProfileRef;
   if (!policyProfileRef) throw new Error(`${lesson.code} has no policyProfileRef`);
   const user = await prisma.user.findUniqueOrThrow({ where: { email: E2E_TEST_PARENT_EMAIL } });
@@ -52,8 +63,8 @@ export async function seedNeedsHelpLesson(): Promise<{
   return { skillCode: skillRef.code, skillVersion: skillRef.version, lessonTitle: lesson.title };
 }
 
-export async function clearNeedsHelpLesson(): Promise<void> {
-  const lesson = RATIO_LANGUAGE_LESSON!;
+export async function clearNeedsHelpLesson(version: SeededLessonVersion = '1.0.0'): Promise<void> {
+  const lesson = ratioLanguageLesson(version);
   const user = await prisma.user.findUnique({ where: { email: E2E_TEST_PARENT_EMAIL } });
   if (!user) return;
   const learnerProfile = await prisma.learnerProfile.findFirst({

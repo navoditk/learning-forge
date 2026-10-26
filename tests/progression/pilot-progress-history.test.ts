@@ -164,30 +164,29 @@ describe('pilot progress history projection (C7-A, D-230)', () => {
     });
   });
 
-  it('single-version operation: history is empty and the units are the active catalog', async () => {
+  it('RI-5 production catalog: unit 2.0.0 is active with five lessons and a 1.0.0 row is history', async () => {
     const real = { active: COURSE_CATALOG, index: COURSE_CATALOG_INDEX };
     db.lessonStates = [lessonRow('ratio-tables-lesson', '1.0.0', 'COMPLETE', 'NONE')];
     const projection = await getPilotProgression(identity);
-    expect(projection.history).toEqual([]);
     expect(projection.program).toEqual({
       code: 'grade-6-math',
-      version: '1.0.0',
+      version: '1.1.0',
       label: 'Grade 6 Math',
     });
     expect(projection.units).toHaveLength(1);
+    expect(projection.units[0]!.version).toBe('2.0.0');
     expect(projection.units[0]!.lessons.map((lesson) => lesson.code)).toEqual([
       'ratio-language-lesson',
       'unit-rates-lesson',
       'ratio-tables-lesson',
+      'double-number-lines-lesson',
+      'percent-applications-lesson',
     ]);
-    expect(projection.units[0]!.lessons[2]).toMatchObject({
-      completionStatus: 'COMPLETE',
-      version: '1.0.0',
-      skillRefs: [{ code: 'ratio-tables', version: '1.0.0' }],
-    });
-    expect(db.calls.find((call) => call.model === 'lesson')!.where.lessonCode).toEqual({
-      in: ['ratio-language-lesson', 'unit-rates-lesson', 'ratio-tables-lesson'],
-    });
+    expect(projection.units[0]!.lessons.every((lesson) => lesson.version === '2.0.0')).toBe(true);
+    expect(projection.history.map((unit) => unit.version)).toEqual(['1.0.0']);
+    expect(projection.history[0]!.lessons).toMatchObject([
+      { code: 'ratio-tables-lesson', completionStatus: 'COMPLETE', version: '1.0.0' },
+    ]);
     expect(await getPilotProgression(identity, real)).toEqual(projection);
   });
 

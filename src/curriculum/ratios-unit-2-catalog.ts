@@ -1,18 +1,21 @@
-import type { Lesson, Program, Ref, Unit } from '../contracts/progression';
-import { LessonSchema, ProgramSchema, UnitSchema } from '../contracts/progression';
+import type { AssessmentBank, Lesson, Program, Ref, Unit } from '../contracts/progression';
+import {
+  AssessmentBankSchema,
+  LessonSchema,
+  ProgramSchema,
+  UnitSchema,
+} from '../contracts/progression';
 
 /**
- * STAGED, NOT REGISTERED (RAT-INTEGRATE RI-4; D-228, D-231, D-232, D-235-D-237).
- * The five Grade 6 Ratios lesson `2.0.0` records, unit
- * `ratios-and-proportional-reasoning@2.0.0` and program `grade-6-math@1.1.0`.
+ * Ratios `2.0.0` records (RAT-INTEGRATE RI-4 staged, RI-5 registered; D-228,
+ * D-231, D-232, D-235-D-237, D-256, D-266): the five Grade 6 Ratios lesson
+ * `2.0.0` records, unit `ratios-and-proportional-reasoning@2.0.0`, program
+ * `grade-6-math@1.1.0` and the ten bank metadata records.
  *
- * Nothing in production imports this module (the import-graph test pins it),
- * and the records are not passed to `createCourseCatalog`: every lesson, unit
- * and skill bank ref below names a bank that has no metadata record yet. The
- * bank items are private and owner-held (O-10), so bank `itemCount` and
- * `contentHash` do not exist here and none is fabricated. RI-5 adds the ten
- * bank records from the owner-authorized RAT-PACKAGE output and registers
- * these records.
+ * Imported by the production course catalog and program registry (the
+ * import-graph test pins the importers). Bank items are private and
+ * owner-held (O-10); only the public metadata (`itemCount`, `contentHash`)
+ * from the owner-authorized RAT-PACKAGE output (D-266) lives here.
  *
  * Every practice ref is `id@version` plus `sha256:` and the SHA-256 of the
  * raw record file (V-2, `catalog-registration-checks.ts`); the first ref of
@@ -21,8 +24,8 @@ import { LessonSchema, ProgramSchema, UnitSchema } from '../contracts/progressio
  * nothing is published (D-165, D-233). Pilot lessons bind their own
  * `@2.0.0` lesson banks (L-2); no lesson here names a pilot `@1.0.0` bank.
  *
- * `review.status` is `pending_review` (D-236). After the exact structure bytes
- * are accepted, the delegated stamp is a metadata-only change.
+ * `review` is the D-256 metadata-only stamp applied after the accepted
+ * structure and pins were verified unchanged since RI-4.
  */
 
 const unitVersion = '2.0.0';
@@ -31,8 +34,9 @@ const skillVersion = '1.0.0';
 const policyProfileRef = { code: 'grade-6-math-default', version: '1.1.0' } satisfies Ref;
 const provenance = { origin: 'original' as const, licenseStatus: 'owned' as const };
 const review = {
-  status: 'pending_review' as const,
-  reviewer: 'Pending delegated structure review (D-236)',
+  status: 'reviewed' as const,
+  reviewer: 'Codex gpt-6.1-sol delegated sign-off (RAT-INTEGRATE RI-4 structure, D-256)',
+  reviewedAt: '2026-10-23',
   originalityStatement: 'Course structure authored for this repository from first principles.',
 };
 
@@ -316,3 +320,122 @@ export const RATIOS_UNIT_2_PROGRAM: Program = ProgramSchema.parse({
   legacyCompatibilityPolicyRef: { code: 'grade-6-math-legacy-compatibility', version: '1.0.0' },
   defaultPolicyProfileRef: policyProfileRef,
 });
+
+const bankReview = {
+  status: 'reviewed' as const,
+  reviewer: 'Codex gpt-6.1-sol delegated sign-off (RAT-PACKAGE PK-1, 2026-10-23)',
+  reviewedAt: '2026-10-23',
+  originalityStatement:
+    'Assessment items authored for this repository and held privately (RAT-PACKAGE, D-265).',
+};
+
+const lessonBank = (
+  code: string,
+  bankVersion: string,
+  lessonCode: string,
+  skill: string,
+  contentHash: string,
+): AssessmentBank =>
+  AssessmentBankSchema.parse({
+    code,
+    version: bankVersion,
+    targetRef: { code: lessonCode, version: unitVersion },
+    policyProfileRef,
+    coveredSkillRefs: [{ code: skill, version: skillVersion }],
+    itemCount: 9,
+    contentHash: `sha256:${contentHash}`,
+    provenance,
+    review: bankReview,
+  });
+
+const skillBank = (
+  skill: string,
+  suffix: 'review-bank' | 'delayed-check-bank',
+  itemCount: number,
+  contentHash: string,
+): AssessmentBank =>
+  AssessmentBankSchema.parse({
+    code: `${skill}-${suffix}`,
+    version: skillVersion,
+    targetRef: { code: skill, version: skillVersion },
+    policyProfileRef,
+    coveredSkillRefs: [{ code: skill, version: skillVersion }],
+    itemCount,
+    contentHash: `sha256:${contentHash}`,
+    provenance,
+    review: bankReview,
+  });
+
+/** D-266 public metadata, verbatim. Table order of scope section 2.4. */
+export const RATIOS_UNIT_2_ASSESSMENT_BANKS: readonly AssessmentBank[] = [
+  lessonBank(
+    'ratio-language-lesson-bank',
+    '2.0.0',
+    'ratio-language-lesson',
+    'ratio-language',
+    '67ae5776597eed427ca08dff45db650d772a5cac6ce1a5d4f21591123b085da7',
+  ),
+  lessonBank(
+    'unit-rates-lesson-bank',
+    '2.0.0',
+    'unit-rates-lesson',
+    'unit-rates',
+    '9240bc30980cd51af4231a9171f59db207d682226083643dc276440cbadc61fa',
+  ),
+  lessonBank(
+    'ratio-tables-lesson-bank',
+    '2.0.0',
+    'ratio-tables-lesson',
+    'ratio-tables',
+    'b5fcc9dd5a03dbca7821f18a7692943b80c11c72f54c5f1f9f72c8eaf008a435',
+  ),
+  lessonBank(
+    'double-number-lines-lesson-bank',
+    '1.0.0',
+    'double-number-lines-lesson',
+    'double-number-lines',
+    '83035b4a12b73ddd64aa3cd77d4028341ddd5b0e5783894efd708176ec692001',
+  ),
+  lessonBank(
+    'percent-applications-lesson-bank',
+    '1.0.0',
+    'percent-applications-lesson',
+    'percent-applications',
+    'cc3740273ba24dde14f3f0cc53bb5da51d8a2c49230ba80f608dc94da0b9dc78',
+  ),
+  AssessmentBankSchema.parse({
+    code: 'ratios-proportional-reasoning-unit-bank',
+    version: unitVersion,
+    targetRef: RATIOS_UNIT_2_UNIT_REF,
+    policyProfileRef,
+    coveredSkillRefs: RATIOS_UNIT_2_LESSONS.flatMap(({ skillRefs }) => skillRefs),
+    itemCount: 30,
+    contentHash: 'sha256:416b8c02e1ca3e3cf71e5ccc75159ad98fe2fbf892c34ff01adf2cfdc53b82be',
+    provenance,
+    review: bankReview,
+  }),
+  skillBank(
+    'double-number-lines',
+    'review-bank',
+    3,
+    '440f22d4bb5c1b61da4ec574c9145509a394354962ff8ddd9127d91ba1bde6a5',
+  ),
+  skillBank(
+    'double-number-lines',
+    'delayed-check-bank',
+    6,
+    '62cec320cb858e4cf256b87da6317ffa7dc9c7e9aec71072684ccda70758b8a1',
+  ),
+  skillBank(
+    'percent-applications',
+    'review-bank',
+    3,
+    '570faafaab2d72735f6bbc9accd4d9b364e7bf29837bd111fd8df13cfef6cdee',
+  ),
+  skillBank(
+    'percent-applications',
+    'delayed-check-bank',
+    6,
+    'ea15c2d57e42d62bd82b2190d4a8814c2fb722e87d473e9346dcb84eca8058f0',
+  ),
+];

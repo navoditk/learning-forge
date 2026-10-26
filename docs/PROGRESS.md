@@ -1,5 +1,23 @@
 # Progress
 
+## 2026-10-26 — Ratios integration complete locally; push held for the package
+
+- RI-5 passed Codex round 3 and isolated validation 16 (incl. e2e 117+1).
+  Committed locally only: pushing auto-deploys `grade-6-math@1.1.0`, which
+  needs the owner's private package to hold all 20 banks (D-271). Ledger
+  106/180.
+
+## 2026-10-26 — RI-5 in review; recurring major escalated
+
+- RI-5 rev1/rev2 (Sonnet) register the ten banks and activate
+  `grade-6-math@1.1.0`; Codex rulings D-268–D-271. RI5-R1 (in-flight 1.0.0
+  completion evidence) recurred in rev2: the synthetic bank reused the
+  production private-bank hash and bypassed loader validation (report
+  `ri5/rev2/review-r2-report.md` `7cbd91dd...9c4e`). Escalated to the owner
+  per the accountability rule; rev3 with loader-validated synthetic package
+  and cause checkpoint running. Ledger 105/180. No production code defect
+  found; push still held for CE-3.
+
 ## 2026-10-26 — Delivery window closed; RI-5 not completed
 
 - RI-5 (Sonnet, ledger 100/180) failed early on a weekly usage limit

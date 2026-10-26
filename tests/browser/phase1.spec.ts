@@ -106,7 +106,13 @@ test.describe('synthetic Phase 1 journeys', () => {
 
     await expect(page.getByRole('heading', { name: 'Parent evidence' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Course progression' })).toBeVisible();
-    await expect(page.getByText('Ratios and proportional reasoning')).toBeVisible();
+    // RI-5: the unit title may also appear in the earlier-versions section;
+    // scope to the active section.
+    await expect(
+      page
+        .locator('section[aria-labelledby="course-progress-heading"]')
+        .getByText('Ratios and proportional reasoning'),
+    ).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Learner' })).toBeVisible();
     await expect(page.getByText('Skill: unit-rates')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Recent attempts' })).toBeVisible();

@@ -183,12 +183,19 @@ describe('assignment route over a two-version catalog', () => {
     });
   });
 
-  it('still admits the real active pilot lesson', async () => {
-    expect(
-      await post(
-        lessonRequest({ code: 'ratio-language-lesson', version: '1.0.0' }, 'versions-key-0003'),
-      ),
-    ).toMatchObject({ status: 503, body: { reasonCode: 'ASSESSMENT_STORE_UNAVAILABLE' } });
+  it('admits the real active 2.0.0 lesson and refuses the retained 1.0.0 lesson (RI-5)', () => {
+    return (async () => {
+      expect(
+        await post(
+          lessonRequest({ code: 'ratio-language-lesson', version: '2.0.0' }, 'versions-key-0003'),
+        ),
+      ).toMatchObject({ status: 503, body: { reasonCode: 'ASSESSMENT_STORE_UNAVAILABLE' } });
+      expect(
+        await post(
+          lessonRequest({ code: 'ratio-language-lesson', version: '1.0.0' }, 'versions-key-0003b'),
+        ),
+      ).toMatchObject({ status: 409, body: { reasonCode: 'VERSION_MISMATCH' } });
+    })();
   });
 
   it('refuses a non-active lesson and unit version without a replay', async () => {

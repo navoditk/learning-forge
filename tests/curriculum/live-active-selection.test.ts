@@ -10,6 +10,7 @@ import {
   VERSIONED_COURSE_CATALOG,
 } from '../../src/curriculum/course-catalog';
 import { PILOT_ASSESSMENT_BANKS, PILOT_LESSONS } from '../../src/curriculum/pilot-catalog';
+import { RATIOS_UNIT_2_LESSONS } from '../../src/curriculum/ratios-unit-2-catalog';
 import { PROGRAM_ROSTER, buildProgramRoster } from '../../src/curriculum/program-roster';
 import {
   PROGRAM_REGISTRY,
@@ -27,23 +28,33 @@ import { pilotSkillRef, skillAssessmentBank } from '../../src/progression/skill-
 const curriculumFile = (name: string): unknown =>
   JSON.parse(readFileSync(join(process.cwd(), 'src', 'curriculum', name), 'utf8'));
 
+// RI-5 activation: grade-6-math@1.1.0 is the selected version; 1.0.0 stays in the index.
+const ACTIVE_REGISTRY = PROGRAM_REGISTRY.filter(
+  (program) => program.code !== 'grade-6-math' || program.version === '1.1.0',
+);
 const PILOT_SKILLS = ['ratio-language', 'unit-rates', 'ratio-tables'];
 
 describe('P-A live: committed active selection (RI-1)', () => {
   it('S-1 names every registry program exactly once at the registered version', () => {
     const selection = VERSIONED_COURSE_CATALOG.selection;
     expect(selection.programs).toHaveLength(11);
+    // RI-5: the registry lists grade-6-math twice (1.0.0 retained, 1.1.0 active).
+    expect(PROGRAM_REGISTRY).toHaveLength(12);
     expect(selection.programs).toEqual(
-      PROGRAM_REGISTRY.map(({ code, version }) => ({ code, version })),
+      ACTIVE_REGISTRY.map(({ code, version }) => ({ code, version })),
     );
+    expect(selection.programs[0]).toEqual({ code: 'grade-6-math', version: '1.1.0' });
     expect(new Set(selection.programs.map((ref) => ref.code)).size).toBe(11);
   });
 
   it('names one skill bank per skill-targeted pilot bank code', () => {
-    const skillBankCodes = PILOT_ASSESSMENT_BANKS.map((bank) => bank.code).filter((code) =>
-      /-(review|delayed-check)-bank$/u.test(code),
-    );
-    expect(skillBankCodes).toHaveLength(6);
+    const skillBankCodes = COURSE_CATALOG_INDEX.banks
+      .map((bank) => bank.code)
+      .filter((code) => /-(review|delayed-check)-bank$/u.test(code));
+    expect(
+      PILOT_ASSESSMENT_BANKS.filter((bank) => /-(review|delayed)/u.test(bank.code)),
+    ).toHaveLength(6);
+    expect(skillBankCodes).toHaveLength(10);
     expect(VERSIONED_COURSE_CATALOG.selection.skillBanks.map((ref) => ref.code)).toEqual(
       skillBankCodes,
     );
@@ -56,7 +67,7 @@ describe('P-A live: committed active selection (RI-1)', () => {
   });
 
   it('CE-5 registry, catalog and claims agree on the active program for every code', () => {
-    for (const program of PROGRAM_REGISTRY) {
+    for (const program of ACTIVE_REGISTRY) {
       expect(programsByCode.get(program.code), program.code).toBe(program);
       expect(COURSE_CATALOG.programByCode(program.code), program.code).toBe(program);
       expect(VERSIONED_COURSE_CATALOG.activeProgram(program.code), program.code).toBe(program);
@@ -64,14 +75,18 @@ describe('P-A live: committed active selection (RI-1)', () => {
     for (const skill of PILOT_SKILLS) {
       expect(isSkillClaimedByAuthoredUnit('grade-6-math', skill), skill).toBe(true);
     }
-    expect(COURSE_CATALOG.programs).toEqual([...PROGRAM_REGISTRY]);
+    expect(COURSE_CATALOG.programs).toEqual(ACTIVE_REGISTRY);
   });
 
-  it('single-version characterization: the active view equals the index and every pilot record is active', () => {
+  it('RI-5: the active view shares the index records; 2.0.0 is active and the pilot 1.0.0 records are history', () => {
     expect(COURSE_CATALOG.units).toBe(COURSE_CATALOG_INDEX.units);
     expect(COURSE_CATALOG.lessons).toBe(COURSE_CATALOG_INDEX.lessons);
     expect(COURSE_CATALOG.banks).toBe(COURSE_CATALOG_INDEX.banks);
     for (const lesson of PILOT_LESSONS) {
+      expect(VERSIONED_COURSE_CATALOG.isActiveLesson(lesson), lesson.code).toBe(false);
+      expect(COURSE_CATALOG_INDEX.lessonByRef(lesson), lesson.code).toBe(lesson);
+    }
+    for (const lesson of RATIOS_UNIT_2_LESSONS) {
       expect(VERSIONED_COURSE_CATALOG.isActiveLesson(lesson), lesson.code).toBe(true);
     }
     for (const unit of COURSE_CATALOG.unitsOfProgram('grade-6-math')) {
@@ -131,8 +146,8 @@ describe('P-A live: committed active selection (RI-1)', () => {
 });
 
 describe('active-only roster (RI-1, P-A)', () => {
-  it('lists one entry per registry program today', () => {
-    expect(PROGRAM_ROSTER.map((entry) => entry.code)).toEqual(PROGRAM_REGISTRY.map((p) => p.code));
+  it('lists one entry per active program (the registry holds grade-6-math twice)', () => {
+    expect(PROGRAM_ROSTER.map((entry) => entry.code)).toEqual(ACTIVE_REGISTRY.map((p) => p.code));
   });
 
   it('lists exactly the selected version of a two-version program, in either declaration order', () => {

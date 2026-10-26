@@ -57,9 +57,32 @@ const legacyList = (): RequiredBank[] => {
 };
 
 describe('package bank list derived from the catalog index (RI-3)', () => {
-  it('deep-equals the previously hardcoded list for the single-version catalog', () => {
-    expect(GRADE_6_MATH_PACKAGE_BANKS).toEqual(legacyList());
-    expect(deriveRequiredBanks(COURSE_CATALOG_INDEX)).toEqual(legacyList());
+  it('keeps the previously hardcoded pilot list as the first ten descriptors (retention)', () => {
+    expect(GRADE_6_MATH_PACKAGE_BANKS.slice(0, 10)).toEqual(legacyList());
+    expect(deriveRequiredBanks(COURSE_CATALOG_INDEX).slice(0, 10)).toEqual(legacyList());
+  });
+
+  it('RI-5: the live list has 20 descriptors, ten mandatory and ten optional (CE-3)', () => {
+    expect(GRADE_6_MATH_PACKAGE_BANKS).toHaveLength(20);
+    const label = (b: { code: string; version: string }) => `${b.code}@${b.version}`;
+    expect(GRADE_6_MATH_PACKAGE_BANKS.filter((b) => !b.optional).map(label)).toEqual([
+      'ratio-language-lesson-bank@1.0.0',
+      'unit-rates-lesson-bank@1.0.0',
+      'ratio-tables-lesson-bank@1.0.0',
+      'ratios-proportional-reasoning-unit-bank@1.0.0',
+      'ratio-language-lesson-bank@2.0.0',
+      'unit-rates-lesson-bank@2.0.0',
+      'ratio-tables-lesson-bank@2.0.0',
+      'double-number-lines-lesson-bank@1.0.0',
+      'percent-applications-lesson-bank@1.0.0',
+      'ratios-proportional-reasoning-unit-bank@2.0.0',
+    ]);
+    expect(GRADE_6_MATH_PACKAGE_BANKS.filter((b) => b.optional)).toHaveLength(10);
+    const unit2 = GRADE_6_MATH_PACKAGE_BANKS.find(
+      (b) => label(b) === 'ratios-proportional-reasoning-unit-bank@2.0.0',
+    );
+    expect(unit2?.minimumItems).toBe(30);
+    expect(unit2?.requiredSkillRefs).toHaveLength(5);
   });
 
   it('covers every registered index bank exactly once', () => {

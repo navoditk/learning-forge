@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "bankRef": {
+    "code": "ratios-and-proportional-reasoning-placement-probe",
+    "version": "2.0.0"
+  },
+  "unitRef": {
+    "code": "ratios-and-proportional-reasoning",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "projection": {
+        "id": "ratio-language-1",
+        "version": "content-1",
+        "hash": "sha256:e20f92b3041abe43b5cd7341cb4788bd24172c64f532272dda4d0692765c8b50",
+        "title": "Garden rows",
+        "role": "practice",
+        "skillRef": {
+          "code": "ratio-language",
+          "version": "1.0.0"
+        },
+        "prompt": "A community garden has 8 tomato plants and 12 pepper plants. What is the ratio of tomato plants to pepper plants? Write the ratio in simplest form.",
+        "deterministicValidator": {
+          "type": "ratio",
+          "canonicalAnswer": "2:3",
+          "acceptedAnswers": ["2:3", "2 to 3", "2/3"],
+          "equivalenceNotes": "Accept colon, words, or fraction notation when the order is tomato to pepper."
+        },
+        "accessibilityNotes": "Present the quantities in text and a labeled table; do not rely on color or spatial position alone.",
+        "accessibleAlternative": "Read aloud or display: There are 8 tomato plants and 12 pepper plants in a community garden. State the ratio of tomato plants to pepper plants in simplest form."
+      },
+      "projectionDigest": "9b649afe7c6ce668e3e62d7f0e7c6c0691c9dc37fddb54ba2c97a5062fc95e41"
+    },
+    {
+      "projection": {
+        "id": "unit-rates-1",
+        "version": "content-1",
+        "hash": "sha256:0aee4911fb0462915f7a58b646c7a95d65ff18c1cd5b03a86a060076dff99428",
+        "title": "Bicycle pace",
+        "role": "practice",
+        "skillRef": {
+          "code": "unit-rates",
+          "version": "1.0.0"
+        },
+        "prompt": "A cyclist travels 45 miles in 3 hours at a steady pace. What is the unit rate in miles per hour?",
+        "deterministicValidator": {
+          "type": "numeric",
+          "canonicalAnswer": "15 miles per hour",
+          "acceptedAnswers": ["15", "15 miles per hour", "15 mi/h"],
+          "equivalenceNotes": "Accept equivalent distance-per-hour units."
+        },
+        "accessibilityNotes": "Read units aloud in the prompt and keep the division expression available as selectable text.",
+        "accessibleAlternative": "Read aloud or display: A cyclist travels 45 miles in 3 hours at a steady pace. Find the unit rate by determining how many miles are traveled in 1 hour."
+      },
+      "projectionDigest": "68d7f0952e743b8ca973ba74a42ef6bbe856806310502c5e78067334abe4b685"
+    },
+    {
+      "projection": {
+        "id": "ratio-tables-1",
+        "version": "content-1",
+        "hash": "sha256:bba24d9e4e012194c65c81b5a35ad86e46b2f06404668c67524ffa60faa6848b",
+        "title": "Paint mixtures",
+        "role": "practice",
+        "skillRef": {
+          "code": "ratio-tables",
+          "version": "1.0.0"
+        },
+        "prompt": "A paint mixture uses 2 cups of blue paint for every 5 cups of white paint. Complete the table: blue cups 2, 4, 6; white cups 5, __, __.",
+        "deterministicValidator": {
+          "type": "composite",
+          "canonicalAnswer": "10 and 15",
+          "acceptedAnswers": ["10, 15", "10 and 15"],
+          "equivalenceNotes": "Accept the two missing white-paint values in left-to-right order."
+        },
+        "accessibilityNotes": "Render the table with explicit row and column headers and provide a linear text version for screen readers.",
+        "accessibleAlternative": "Read aloud or display: A paint mixture has a ratio of 2 cups of blue paint to 5 cups of white paint. Complete the white-paint entries that match blue amounts of 4 cups and 6 cups."
+      },
+      "projectionDigest": "b6d1196b99e01df9cbba4a46f4cc6e6f3c45cb38d6aabaadc58112a4cd3ffe65"
+    },
+    {
+      "projection": {
+        "id": "double-number-lines-3",
+        "version": "content-1",
+        "hash": "sha256:e11be05496438d2b2386f9c9e7ff6e4c671e61381f8435c97a1dedc0ca81dabb",
+        "title": "Toy robot double number line",
+        "role": "practice",
+        "skillRef": {
+          "code": "double-number-lines",
+          "version": "1.0.0"
+        },
+        "prompt": "A toy robot rolls at a steady speed. The double number line shows seconds on the top line and meters on the bottom line. The aligned marks are 0 seconds and 0 meters, 3 seconds and 2 meters, 6 seconds and 4 meters, and 15 seconds above an empty box. What number of meters belongs in the box below 15 seconds?",
+        "deterministicValidator": {
+          "type": "numeric",
+          "canonicalAnswer": "10",
+          "acceptedAnswers": [
+            "10",
+            "10 meters",
+            "10 m",
+            "10 meter",
+            "10.0",
+            "10.00",
+            "10m",
+            "10 metres",
+            "10.0 meters",
+            "10.0 m",
+            "ten",
+            "ten meters"
+          ],
+          "equivalenceNotes": "Accept the number of meters with or without the unit. Accepted forms: 10, 10.0, 10.00, 10 meters, 10 meter, 10 metres, 10 m, 10m, 10.0 meters, 10.0 m, ten, ten meters. Letter case, repeated spaces and trailing punctuation are ignored by the matcher."
+        },
+        "accessibilityNotes": "Every aligned pair and the blank position are stated in the prompt and the figure's text alternative, so the item can be solved without seeing the figure. No color is used to carry meaning.",
+        "accessibleAlternative": "Read aloud or display: A double number line shows seconds on top and meters on the bottom. Aligned pairs: 0 seconds with 0 meters, 3 seconds with 2 meters, 6 seconds with 4 meters. The value below 15 seconds is missing. Find the number of meters below 15 seconds.",
+        "figure": {
+          "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 240\" role=\"img\"><rect width=\"560\" height=\"240\" fill=\"#ffffff\"/><text x=\"60\" y=\"34\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Seconds</text><text x=\"60\" y=\"226\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">Meters</text><line x1=\"40\" y1=\"90\" x2=\"520\" y2=\"90\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"40\" y1=\"170\" x2=\"520\" y2=\"170\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"81\" x2=\"60\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"161\" x2=\"60\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"60\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><text x=\"60\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">0</text><line x1=\"148\" y1=\"81\" x2=\"148\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"148\" y1=\"161\" x2=\"148\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"148\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">3</text><text x=\"148\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">2</text><line x1=\"236\" y1=\"81\" x2=\"236\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"236\" y1=\"161\" x2=\"236\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"236\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6</text><text x=\"236\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4</text><line x1=\"500\" y1=\"81\" x2=\"500\" y2=\"99\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"500\" y1=\"161\" x2=\"500\" y2=\"179\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"500\" y=\"74\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">15</text><rect x=\"484\" y=\"183\" width=\"32\" height=\"26\" fill=\"#ffffff\" stroke=\"#2c534f\" stroke-width=\"2\"/><text x=\"500\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">?</text></svg>",
+          "altText": "A double number line. The top line is labeled Seconds and has marks at 0, 3, 6 and 15. The bottom line is labeled Meters. Directly below the top marks it shows 0 below 0, 2 below 3, 4 below 6, and an empty box with a question mark below 15.",
+          "caption": "Seconds and meters for a toy robot rolling at a steady speed.",
+          "width": 560,
+          "height": 240
+        }
+      },
+      "projectionDigest": "bd0c67ccd12b1f807fa169fb0712e9b5f40701988c14252981027178730371a6"
+    },
+    {
+      "projection": {
+        "id": "percent-applications-1",
+        "version": "content-1",
+        "hash": "sha256:7977fde3266e226a7b97007e88a0a940174b79c06f2ace01241af01f9d2cbf52",
+        "title": "Library attendance",
+        "role": "practice",
+        "skillRef": {
+          "code": "percent-applications",
+          "version": "1.0.0"
+        },
+        "prompt": "The library has 240 visitors this week. 35% attended a science program. How many visitors attended the science program?",
+        "deterministicValidator": {
+          "type": "percent",
+          "canonicalAnswer": "84 visitors",
+          "acceptedAnswers": ["84", "84 visitors"],
+          "equivalenceNotes": "Accept equivalent percent representations that produce 84 visitors."
+        },
+        "accessibilityNotes": "Use both percent and decimal notation in text and do not encode the portion with color or a chart alone.",
+        "accessibleAlternative": "Read aloud or display: The library had 240 visitors this week, and 35% of them attended a science program. Find how many visitors that percentage represents."
+      },
+      "projectionDigest": "3754ca76950619f354db30ab7ea5c3de4374281fcdc28692a5b5857d097c1375"
+    }
+  ],
+  "contentHash": "sha256:c1971b1fe6ede582e0e931453d6713e2094b04d53cdb4b2873601e100cfaa119"
+}

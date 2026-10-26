@@ -2,6 +2,16 @@
 
 ## Live relay
 
+- Phase: **RI-5 DONE — committed LOCALLY, push HELD (CE-3)** (2026-10-26).
+  RI-5 rev3 (Sonnet verified 199/199 + one 429 stop) `ri5/rev3/ri5.patch`
+  `0124c3467842a3e5fcab29dfb04563a4b197063a778ead099c82fb3d3ec1bee5` (31
+  files): ten bank records (D-266), `grade-6-math@1.1.0` active, D-256 stamp,
+  unit 2.0.0 snapshot, D-246 successor case, D-255 history e2e with keyboard
+  and axe. Codex round 3 READY_WITH_RISKS (`review-r3-report.md`
+  `56a16b3e...5496`); RI5-R1 recurred once (escalated), closed with cause
+  checkpoint. Rulings D-268–D-271. `iso-validation-16` all exit 0 (verify
+  2762, integration 362+1, eval 17, e2e 117+1). Push waits for the owner to
+  confirm the private package holds all 20 banks (D-271 CE-3 list).
 - Phase: **PART A DONE (RI-1..RI-4); RI-4 committed locally, NOT pushed;
   HOLD on push incident** (2026-10-22). RI-4 rev3 (Sonnet verified 125/125)
   `ri4/rev3/ri4.patch`

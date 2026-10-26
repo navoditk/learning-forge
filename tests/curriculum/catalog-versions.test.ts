@@ -9,6 +9,11 @@ import {
   PILOT_UNITS,
 } from '../../src/curriculum/pilot-catalog';
 import { PROGRAM_REGISTRY } from '../../src/curriculum/program-registry';
+import {
+  RATIOS_UNIT_2_ASSESSMENT_BANKS,
+  RATIOS_UNIT_2_LESSONS,
+  RATIOS_UNIT_2_UNIT,
+} from '../../src/curriculum/ratios-unit-2-catalog';
 import { isSkillClaimedByAuthoredUnit } from '../../src/curriculum/unit-claims';
 import {
   SV_BANKS,
@@ -39,7 +44,18 @@ const build = (
   reservedLabels?: Parameters<typeof createVersionedCourseCatalog>[0]['reservedLabels'],
 ) => createVersionedCourseCatalog({ records, selection, reservedLabels });
 
-const PILOT_SKILL_BANKS: Ref[] = ['ratio-language', 'unit-rates', 'ratio-tables'].flatMap((skill) =>
+// RI-5: grade-6-math@1.1.0 is the selected version; 1.0.0 stays registered.
+const ACTIVE_REGISTRY = PROGRAM_REGISTRY.filter(
+  (program) => program.code !== 'grade-6-math' || program.version === '1.1.0',
+);
+
+const PILOT_SKILL_BANKS: Ref[] = [
+  'ratio-language',
+  'unit-rates',
+  'ratio-tables',
+  'double-number-lines',
+  'percent-applications',
+].flatMap((skill) =>
   ['review-bank', 'delayed-check-bank'].map((suffix) => ({
     code: `${skill}-${suffix}`,
     version: '1.0.0',
@@ -48,16 +64,16 @@ const PILOT_SKILL_BANKS: Ref[] = ['ratio-language', 'unit-rates', 'ratio-tables'
 
 const combinedRecords = {
   programs: [...PROGRAM_REGISTRY, SV_PROGRAM_V1, SV_PROGRAM_V11],
-  units: [...PILOT_UNITS, SV_UNIT_V1, SV_UNIT_V2],
-  lessons: [...PILOT_LESSONS, ...SV_LESSONS_V1, ...SV_LESSONS_V2],
-  banks: [...PILOT_ASSESSMENT_BANKS, ...SV_BANKS],
+  units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, SV_UNIT_V1, SV_UNIT_V2],
+  lessons: [...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS, ...SV_LESSONS_V1, ...SV_LESSONS_V2],
+  banks: [...PILOT_ASSESSMENT_BANKS, ...RATIOS_UNIT_2_ASSESSMENT_BANKS, ...SV_BANKS],
 };
 const combinedSelection = () => {
   const base = selectionFor();
   return {
     ...base,
     programs: [
-      ...PROGRAM_REGISTRY.map(({ code, version }) => ({ code, version })),
+      ...ACTIVE_REGISTRY.map(({ code, version }) => ({ code, version })),
       ...base.programs,
     ],
     skillBanks: [...PILOT_SKILL_BANKS, ...base.skillBanks],
@@ -94,7 +110,7 @@ describe('duplicate program code@version', () => {
   it('DUP-3 leaves the production and existing multi-program records building', () => {
     const keys = PROGRAM_REGISTRY.map(key);
     expect(new Set(keys).size).toBe(keys.length);
-    expect(COURSE_CATALOG.programs).toBe(PROGRAM_REGISTRY);
+    expect(COURSE_CATALOG.programs).toEqual(ACTIVE_REGISTRY);
     expect(() => createCourseCatalog(combinedRecords)).not.toThrow();
   });
 
@@ -133,7 +149,7 @@ describe('active selection', () => {
     const active = versioned.activePrograms();
     const codes = active.map((program) => program.code);
     expect(new Set(codes).size).toBe(codes.length);
-    expect(codes).toEqual([...PROGRAM_REGISTRY.map((p) => p.code), SV_PROGRAM_CODE]);
+    expect(codes).toEqual([...ACTIVE_REGISTRY.map((p) => p.code), SV_PROGRAM_CODE]);
     expect(active.at(-1)).toBe(SV_PROGRAM_V11);
     expect(versioned.activeView().programs).toEqual(active);
   });
@@ -327,7 +343,7 @@ describe('version retention (V-5 mechanism, synthetic successor)', () => {
     for (const program of PROGRAM_REGISTRY) {
       expect(versioned.programByRef(program)).toBe(program);
     }
-    expect(versioned.activeProgram('grade-6-math')).toBe(PROGRAM_REGISTRY[0]);
+    expect(versioned.activeProgram('grade-6-math')).toBe(ACTIVE_REGISTRY[0]);
   });
 
   it('V5-2 resolves the 1.0.0 unit and lessons after 2.0.0 is active', () => {

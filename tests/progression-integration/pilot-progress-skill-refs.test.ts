@@ -148,7 +148,7 @@ describe('getPilotProgression skillRefs', () => {
       ]);
     });
 
-    it('single-version production catalog has no history even with a 1.0.0 row', async () => {
+    it('RI-5 production catalog: a 1.0.0 row is history while 2.0.0 is the active unit', async () => {
       await prisma.learnerLessonState.create({
         data: {
           householdId,
@@ -161,11 +161,17 @@ describe('getPilotProgression skillRefs', () => {
         },
       });
       const progression = await getPilotProgression({ householdId, learnerProfileId });
-      expect(progression.history).toEqual([]);
+      expect(progression.units[0]).toMatchObject({ version: '2.0.0' });
+      expect(progression.units[0]!.lessons).toHaveLength(5);
       expect(progression.units[0]!.lessons[2]).toMatchObject({
         code: 'ratio-tables-lesson',
-        completionStatus: 'IN_PROGRESS',
+        version: '2.0.0',
+        completionStatus: 'NOT_STARTED',
       });
+      expect(progression.history.map((unit) => unit.version)).toEqual(['1.0.0']);
+      expect(progression.history[0]!.lessons).toMatchObject([
+        { code: 'ratio-tables-lesson', version: '1.0.0', completionStatus: 'IN_PROGRESS' },
+      ]);
     });
   });
 });

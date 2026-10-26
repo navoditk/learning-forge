@@ -6,11 +6,15 @@ import { E2E_TEST_PARENT_PASSWORD } from '../../playwright/test-account';
 
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
+// RI-5: the seed's default lesson is ratio-language-lesson@1.0.0, an earlier
+// (history) version after activation (CE-2). The label is version-qualified.
+const earlierLabel = (title: string): string => `${title} (earlier version 1.0.0)`;
+
 test.describe('D-70 parent-facing step-up and override', () => {
   let lessonTitle: string;
 
   test.beforeAll(async () => {
-    ({ lessonTitle } = await seedNeedsHelpLesson());
+    ({ lessonTitle } = await seedNeedsHelpLesson('1.0.0'));
   });
 
   test.afterAll(async () => {
@@ -74,7 +78,9 @@ test.describe('D-70 parent-facing step-up and override', () => {
     await expect(submit).toBeEnabled();
     await submit.click();
 
-    await expect(page.getByRole('status')).toContainText(`${lessonTitle} is no longer marked`);
+    await expect(page.getByRole('status')).toContainText(
+      `${earlierLabel(lessonTitle)} is no longer marked`,
+    );
     await expect(
       page.getByRole('button', { name: `Clear “needs help” for ${lessonTitle}` }),
     ).toHaveCount(0);
@@ -123,5 +129,51 @@ test.describe('D-70 parent-facing step-up and override', () => {
     await expect(page.getByLabel('Reason', { exact: true })).toBeVisible();
     const reasonStepResults = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
     expect(reasonStepResults.violations).toEqual([]);
+  });
+});
+
+test.describe('D-70 override for the active 2.0.0 lesson (RI-5)', () => {
+  let lessonTitle: string;
+
+  test.beforeAll(async () => {
+    await clearNeedsHelpLesson('1.0.0');
+    ({ lessonTitle } = await seedNeedsHelpLesson('2.0.0'));
+  });
+
+  test.afterAll(async () => {
+    await clearNeedsHelpLesson('2.0.0');
+    await clearNeedsHelpLesson('1.0.0');
+  });
+
+  test.afterEach(async () => {
+    await seedNeedsHelpLesson('2.0.0');
+  });
+
+  test('the active lesson shows an unqualified override control and no earlier-version section', async ({
+    page,
+  }) => {
+    await page.goto('/parent');
+    await expect(
+      page.getByRole('button', { name: `Clear “needs help” for ${lessonTitle}`, exact: true }),
+    ).toBeVisible();
+    await expect(page.getByRole('button', { name: /^Clear “needs help” for/ })).toHaveCount(1);
+    await expect(page.getByRole('heading', { name: 'Earlier course versions' })).toHaveCount(0);
+  });
+
+  test('applies the override for the active lesson with a role=status confirmation', async ({
+    page,
+  }) => {
+    await page.goto('/parent');
+    await page
+      .getByRole('button', { name: `Clear “needs help” for ${lessonTitle}`, exact: true })
+      .click();
+    await page.getByLabel('Password').fill(E2E_TEST_PARENT_PASSWORD);
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await page
+      .getByLabel('Reason', { exact: true })
+      .fill('Reviewed the attempts together; learner understands now.');
+    await page.getByRole('button', { name: 'Clear “needs help”', exact: true }).click();
+    await expect(page.getByRole('status')).toContainText(`${lessonTitle} is no longer marked`);
+    await expect(page.getByRole('button', { name: /^Clear “needs help” for/ })).toHaveCount(0);
   });
 });

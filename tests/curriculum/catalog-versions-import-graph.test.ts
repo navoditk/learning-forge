@@ -83,7 +83,8 @@ function resolveModule(from: string, specifier: string): string | undefined {
 
 const curriculum = (name: string): string => resolve(sourceRoot, 'curriculum', name);
 const SNAPSHOT_MODULE = resolve(sourceRoot, 'progression', 'placement-probe-snapshot.ts');
-// RI-4: the staged Ratios 2.0.0 records are dormant until RI-5 registers them.
+// RI-5: the Ratios 2.0.0 records are live; only the course catalog and the
+// program registry import them (IG-1s). They stay a pure-data IG-5 module.
 const STAGED_CATALOG = curriculum('ratios-unit-2-catalog.ts');
 const NEW_MODULES = [
   curriculum('catalog-versions.ts'),
@@ -91,7 +92,10 @@ const NEW_MODULES = [
   SNAPSHOT_MODULE,
   STAGED_CATALOG,
 ];
-const DORMANT = [...NEW_MODULES, curriculum('grade-6-math-structure-manifest.json')];
+const DORMANT = [
+  ...NEW_MODULES.filter((path) => path !== STAGED_CATALOG),
+  curriculum('grade-6-math-structure-manifest.json'),
+];
 // RI-1 (P-A live, D-229): catalog-versions is now imported by the production
 // course catalog. The registration checks stay dormant. RI-2 (H-1 live, D-229):
 // the live placement probe is the only importer of the snapshot module and the
@@ -183,13 +187,17 @@ describe('catalog versioning dormancy', () => {
     expect(offending).toEqual([]);
   });
 
-  it('IG-1s no production file imports the staged Ratios 2.0.0 catalog (RI-4)', () => {
+  it('IG-1s only the course catalog and the program registry import the live Ratios 2.0.0 catalog (RI-5)', () => {
     const importers = productionEdges()
       .filter(({ to }) => to === STAGED_CATALOG)
-      .map(({ from }) => relative(repoRoot, from));
-    expect(importers).toEqual([]);
-    expect(DORMANT).toContain(STAGED_CATALOG);
-    for (const edge of ALLOWED_EDGES) expect(edge.endsWith(`->${STAGED_CATALOG}`)).toBe(false);
+      .map(({ from }) => relative(repoRoot, from))
+      .sort();
+    expect(importers).toEqual([
+      'src/curriculum/course-catalog.ts',
+      'src/curriculum/program-registry.ts',
+    ]);
+    expect(DORMANT).not.toContain(STAGED_CATALOG);
+    expect(NEW_MODULES).toContain(STAGED_CATALOG);
   });
 
   it('IG-1p the allowlisted edge exists, so the guard is not vacuous', () => {

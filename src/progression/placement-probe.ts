@@ -6,6 +6,7 @@ import { servableContentCatalog } from '../content/catalog';
 import { COURSE_CATALOG } from '../curriculum/course-catalog';
 import STRUCTURE_MANIFEST from '../curriculum/grade-6-math-structure-manifest.json';
 import RATIOS_UNIT_1_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/ratios-and-proportional-reasoning-placement-probe@1.0.0.json';
+import RATIOS_UNIT_2_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/ratios-and-proportional-reasoning-placement-probe@2.0.0.json';
 import {
   admitNewPlacementProbe,
   resolveHistoricalProbeBank,
@@ -19,7 +20,10 @@ const PLACEMENT_PROBE_SUFFIX = '-placement-probe';
  * H-1 (D-229): committed, immutable probe snapshots, one per registered unit
  * version. Historical resolution reads only these and the manifest anchor.
  */
-const PROBE_SNAPSHOTS: readonly unknown[] = [RATIOS_UNIT_1_PROBE_SNAPSHOT];
+const PROBE_SNAPSHOTS: readonly unknown[] = [
+  RATIOS_UNIT_1_PROBE_SNAPSHOT,
+  RATIOS_UNIT_2_PROBE_SNAPSHOT,
+];
 const PROBE_MANIFEST_ENTRIES = STRUCTURE_MANIFEST.probeSnapshots as readonly ProbeManifestEntry[];
 
 export function placementProbeBankRef(unit: Pick<Unit, 'code' | 'version'>): Ref {

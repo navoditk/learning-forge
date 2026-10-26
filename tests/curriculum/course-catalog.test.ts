@@ -13,6 +13,11 @@ import {
   PILOT_UNITS,
 } from '../../src/curriculum/pilot-catalog';
 import { PROGRAM_REGISTRY, programsByCode } from '../../src/curriculum/program-registry';
+import {
+  RATIOS_UNIT_2_ASSESSMENT_BANKS,
+  RATIOS_UNIT_2_LESSONS,
+  RATIOS_UNIT_2_UNIT,
+} from '../../src/curriculum/ratios-unit-2-catalog';
 import { isSkillClaimedByAuthoredUnit } from '../../src/curriculum/unit-claims';
 import {
   SYNTHETIC_BANKS,
@@ -35,28 +40,37 @@ const fixtureInput = {
 
 const multiProgramCatalog = createCourseCatalog({
   programs: [...PROGRAM_REGISTRY, SYNTHETIC_PROGRAM],
-  units: [...PILOT_UNITS, ...SYNTHETIC_UNITS],
-  lessons: [...PILOT_LESSONS, ...SYNTHETIC_LESSONS],
-  banks: [...PILOT_ASSESSMENT_BANKS, ...SYNTHETIC_BANKS],
+  units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, ...SYNTHETIC_UNITS],
+  lessons: [...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS, ...SYNTHETIC_LESSONS],
+  banks: [...PILOT_ASSESSMENT_BANKS, ...RATIOS_UNIT_2_ASSESSMENT_BANKS, ...SYNTHETIC_BANKS],
 });
 
 describe('production course catalog', () => {
   it('exposes the same pilot records, order and identity', () => {
-    // P-A live (RI-1): the production catalog is the active view over the
-    // version index. With one version per code it lists the same programs in
-    // the same order, and the index keeps the original record objects.
-    expect(COURSE_CATALOG.programs).toEqual([...PROGRAM_REGISTRY]);
+    // P-A live (RI-1) and RI-5 activation: the production catalog is the active
+    // view over the version index. The index keeps every registered version
+    // (program 1.0.0 and 1.1.0; pilot and Ratios 2.0.0 records); the pilot
+    // 1.0.0 records stay byte-identical (retention, CE-8).
     expect(COURSE_CATALOG_INDEX.programs).toBe(PROGRAM_REGISTRY);
-    expect(COURSE_CATALOG_INDEX.units).toBe(PILOT_UNITS);
-    expect(COURSE_CATALOG.units).toBe(PILOT_UNITS);
-    expect(COURSE_CATALOG.lessons).toBe(PILOT_LESSONS);
-    expect(COURSE_CATALOG.banks).toBe(PILOT_ASSESSMENT_BANKS);
+    expect(COURSE_CATALOG.programs).toEqual(
+      PROGRAM_REGISTRY.filter((p) => p.code !== 'grade-6-math' || p.version === '1.1.0'),
+    );
+    expect(COURSE_CATALOG_INDEX.units).toEqual([...PILOT_UNITS, RATIOS_UNIT_2_UNIT]);
+    expect(COURSE_CATALOG_INDEX.lessons).toEqual([...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS]);
+    expect(COURSE_CATALOG_INDEX.banks).toEqual([
+      ...PILOT_ASSESSMENT_BANKS,
+      ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
+    ]);
+    expect(COURSE_CATALOG.units).toBe(COURSE_CATALOG_INDEX.units);
+    expect(COURSE_CATALOG.lessons).toBe(COURSE_CATALOG_INDEX.lessons);
+    expect(COURSE_CATALOG.banks).toBe(COURSE_CATALOG_INDEX.banks);
+    expect(COURSE_CATALOG_INDEX.units.slice(0, PILOT_UNITS.length)).toEqual([...PILOT_UNITS]);
     const digest = createHash('sha256')
       .update(
         JSON.stringify({
-          units: COURSE_CATALOG.units,
-          lessons: COURSE_CATALOG.lessons,
-          banks: COURSE_CATALOG.banks,
+          units: PILOT_UNITS,
+          lessons: PILOT_LESSONS,
+          banks: PILOT_ASSESSMENT_BANKS,
         }),
       )
       .digest('hex');
@@ -65,10 +79,12 @@ describe('production course catalog', () => {
 
   it('keeps the registry refs and resolves them through the lookup seam', () => {
     const grade6 = programsByCode.get('grade-6-math');
+    expect(grade6?.version).toBe('1.1.0');
     expect(grade6?.unitRefs).toEqual([
-      { code: 'ratios-and-proportional-reasoning', version: '1.0.0' },
+      { code: 'ratios-and-proportional-reasoning', version: '2.0.0' },
     ]);
-    expect(COURSE_CATALOG.unitsOfProgram('grade-6-math')).toEqual([...PILOT_UNITS]);
+    expect(COURSE_CATALOG.unitsOfProgram('grade-6-math')).toEqual([RATIOS_UNIT_2_UNIT]);
+    expect(COURSE_CATALOG_INDEX.programs.filter((p) => p.code === 'grade-6-math')).toHaveLength(2);
     for (const unit of PILOT_UNITS) {
       expect(COURSE_CATALOG.unitByRef(unit)).toBe(unit);
       expect(COURSE_CATALOG.lessonsOfUnit(unit)).toEqual(

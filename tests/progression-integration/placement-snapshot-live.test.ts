@@ -52,6 +52,7 @@ import { GET as getCurrentItemRoute } from '../../src/app/api/progression/assess
 import { createAssessmentStore } from '../../src/assessment/store';
 import { contentCatalog, servableContentCatalog } from '../../src/content/catalog';
 import { PILOT_UNITS } from '../../src/curriculum/pilot-catalog';
+import { RATIOS_UNIT_2_UNIT } from '../../src/curriculum/ratios-unit-2-catalog';
 import { resolvePinnedPolicyProfile } from '../../src/progression/artifacts';
 import { createAssessmentAssignment } from '../../src/progression/assessment-assignment';
 import {
@@ -69,7 +70,10 @@ import { deleteHouseholdData } from '../../src/server/household-data';
 import { requireHouseholdContext } from '../../src/server/household-context';
 import { prisma } from '../../src/server/prisma';
 
+// The retained unit 1.0.0 is history after RI-5 (PH-0 to PH-4 finish its runs);
+// new placements go to the active unit 2.0.0 (PH-2, PH-5, RI2-R1).
 const unit = PILOT_UNITS[0]!;
+const activeUnit = RATIOS_UNIT_2_UNIT;
 const profileRef = { code: 'grade-6-math-default', version: '1.1.0' };
 const FIRST_ITEM = 'ratio-language-1';
 
@@ -197,7 +201,7 @@ describe('H-1 live: placement probe snapshots (PH-0 to PH-5)', () => {
     return { library, route: { status: response.status, body: (await response.json()) as never } };
   }
 
-  const postPlacement = async (idempotencyKey: string) => {
+  const postPlacement = async (idempotencyKey: string, target = activeUnit) => {
     const response = await POST(
       new Request('http://localhost/api/progression/assessment/assignment', {
         method: 'POST',
@@ -205,8 +209,8 @@ describe('H-1 live: placement probe snapshots (PH-0 to PH-5)', () => {
         body: JSON.stringify({
           kind: 'PLACEMENT',
           targetKind: 'UNIT',
-          targetCode: unit.code,
-          targetVersion: unit.version,
+          targetCode: target.code,
+          targetVersion: target.version,
           idempotencyKey,
         }),
       }) as never,
@@ -266,7 +270,7 @@ describe('H-1 live: placement probe snapshots (PH-0 to PH-5)', () => {
       status: 503,
       body: { reasonCode: 'ASSESSMENT_STORE_UNAVAILABLE' },
     });
-    expect(admittedPlacementProbeBank(unit)).toBeUndefined();
+    expect(admittedPlacementProbeBank(activeUnit)).toBeUndefined();
   });
 
   it('RI2-R1 a retried placement request replays after its first item is withdrawn', async () => {
@@ -329,8 +333,11 @@ describe('H-1 live: placement probe snapshots (PH-0 to PH-5)', () => {
     expect(stored.selectedItems).toEqual(assignment.selectedItems);
     expect(stored.curriculumSnapshotHash).toBe(assignment.curriculumSnapshotHash);
     expect(await prisma.learnerPlacement.count({ where: { learnerProfileId } })).toBe(0);
-    // New placements fail closed too.
-    expect(await postPlacement('ph4-new-placement')).toMatchObject({ status: 503 });
+    // New placements on the retained 1.0.0 unit are refused (non-active, fail closed).
+    expect(await postPlacement('ph4-new-placement', unit)).toMatchObject({
+      status: 409,
+      body: { reasonCode: 'VERSION_MISMATCH' },
+    });
   });
 
   it('PH-5 an unservable first ref refuses a new placement with no fall-through', async () => {
@@ -340,6 +347,7 @@ describe('H-1 live: placement probe snapshots (PH-0 to PH-5)', () => {
     retireServable(FIRST_ITEM);
     expect(servableContentCatalog.some((item) => item.id === 'ratio-language-2')).toBe(true);
     expect(placementProbeBank(unit)).toBeUndefined();
+    expect(placementProbeBank(activeUnit)).toBeUndefined();
     const assignmentsBefore = await prisma.assessmentAssignment.count({
       where: { learnerProfileId },
     });
