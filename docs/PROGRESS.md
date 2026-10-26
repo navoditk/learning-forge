@@ -1,5 +1,19 @@
 # Progress
 
+## 2026-10-26 — Delivery window closed; RI-5 not completed
+
+- RI-5 (Sonnet, ledger 100/180) failed early on a weekly usage limit
+  (429 `req_011CgM9RiphmwWchYD5y4X7r`) after starting the staged catalog edits
+  in `scratchpad/ri5-tree`; no bundle was produced and nothing was applied.
+  The usage limit reset on 2026-10-26, after the D-211 window ended
+  (2026-10-24T13:25:35Z), so no further native invocations are authorized.
+- State: `main` = `b375edb`, pushed, CI green through `aeceb1b`. Ratios
+  Part A (RI-1..RI-4), RC-5 registration, five dormant teaching records,
+  topic-card fix and ten accepted/stamped held-out banks (outside the repo)
+  are done. Remaining: RI-5 (needs a new window), owner package merge,
+  D-216, D-242, SU-H6, SU-H7 run (`! npx tsx --env-file=.env ...`), H9a
+  (`! render login`).
+
 ## 2026-10-23 — All ten Ratios held-out banks accepted and stamped (D-265, D-266)
 
 - Codex `gpt-6.1-sol` accepted all ten corrected banks (93 items) and the
