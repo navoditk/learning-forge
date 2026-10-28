@@ -2515,7 +2515,22 @@ require the new `2.0.0` banks are unavailable in production. Merging all
 twenty banks remains an open owner action, and this decision does not waive
 CE-3, D-216 or D-242.
 
-There are 272 decisions: D-01 through D-75, D-139, D-142, D-145–D-272 approved;
+### D-273 and D-274 — Window extension and SU-H7 rerun authorization
+
+Owner, 2026-10-28, reply **"extend window and approve the rerun"**:
+
+- **D-273:** the delivery window is extended 24 hours, to
+  2026-10-29T03:43:53Z. The run cap stays at 180. Scope: diagnose and fix the
+  SU-H7 failures recorded in PROGRESS on 2026-10-28 (two validation
+  fallbacks and the echoed learner text), with fake-tutor validation and
+  Codex review.
+- **D-274:** one more capped paid run of `science-framing-v1` on the same
+  terms as D-260 (at most 24 requests and 7,200 output tokens; the
+  integrator never reads `.env` or handles the key). It runs only after the
+  fix passes Codex review and isolated validation. The result is recorded
+  against D-193. A further run needs a new owner decision.
+
+There are 274 decisions: D-01 through D-75, D-139, D-142, D-145–D-274 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
