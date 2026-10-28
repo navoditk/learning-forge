@@ -1,5 +1,21 @@
 # Progress
 
+## 2026-10-27 — RI-5 deployed (D-272); H9a production facts read
+
+- Owner "push RI-5 now" (D-272) pushed `945d678` and `e18142a`. CI and the
+  curriculum site are green on `e18142a`. The earlier CI failure on `3759574`
+  was the known `next/font` Google Fonts fetch flake; all 2,758 tests passed.
+- H9a, read-only under D-261, after the owner ran `render login`: service
+  `learning-forge` (`srv-daf03o740ujc73908u50`) is a starter web service in
+  oregon, deployed from `main` with auto-deploy on, not suspended. The live
+  deploy is `dep-dbg0f6gae00c73fk6qd0` at `e18142a` (finished
+  2026-10-27T02:10:22Z). Last good before RI-5: `3759574`
+  (`dep-dbfltn4s728c73do1ed0`). Render deployed `3759574` even though CI
+  failed: deploys are not gated on CI.
+- Open owner actions: merge the ten banks into the private package, D-216,
+  D-242, SU-H6, and the SU-H7 paid eval run. The release (H8 onward) stays
+  blocked by D-193.
+
 ## 2026-10-26 — Ratios integration complete locally; push held for the package
 
 - RI-5 passed Codex round 3 and isolated validation 16 (incl. e2e 117+1).
