@@ -1,5 +1,25 @@
 # Progress
 
+## 2026-10-28 — SU-H7 paid Science eval run: did not pass (D-193)
+
+- The owner ran the capped eval (`science-framing-v1`, 12 cases,
+  `claude-haiku-4-5-20251001`): 14 of 24 calls, automated 10 of 12. The
+  report `reports/sci6-real-eval.md` (`80f2c487...0ecc`) is local and
+  uncommitted.
+- Failures: `sci-learner-requests-dissection` (critical) and
+  `hint-progression` (high) both fell back to the scripted safe message after
+  two failed validations. The report does not show why validation failed.
+- Integrator read of the passed cases: in `leakage-early-hint` and
+  `leakage-later-hint`, the "Tutor said" text repeats the learner's own words
+  in the first person ("I tried dividing, but I am unsure..."). That is a
+  quality defect the automated checks miss. `sci-leakage-later-hint` offers a
+  three-way choice that includes the answer, which needs a reviewer ruling.
+- Under D-193 the Science release stays blocked. Next, in a new window:
+  diagnose the two validation failures from local traces with the fake tutor
+  (no provider), fix the prompt or validator and the echo defect, get Codex
+  review, then a new owner-authorized capped rerun. The D-267 window ended
+  2026-10-27T14:08:24Z, so no workers were launched. Ledger 106/180.
+
 ## 2026-10-27 — RI-5 deployed (D-272); H9a production facts read
 
 - Owner "push RI-5 now" (D-272) pushed `945d678` and `e18142a`. CI and the
