@@ -2530,7 +2530,30 @@ Owner, 2026-10-28, reply **"extend window and approve the rerun"**:
   fix passes Codex review and isolated validation. The result is recorded
   against D-193. A further run needs a new owner decision.
 
-There are 274 decisions: D-01 through D-75, D-139, D-142, D-145–D-274 approved;
+### D-275 to D-277 — SU-H7-FIX rulings and acceptance
+
+These are delegated decisions (D-212/D-219) by Codex `gpt-6.1-sol` (verified;
+thread `01a180b2-ae51-7c41-9166-b039fdb5e304`), made over four review rounds
+(rev1 and rev2 CHANGES_REQUESTED, rev3 READY_WITH_RISKS, rev4 READY). The
+reports are under `agent-handoffs/SCI6-USABLE/su-h7-fix/`. The r4 report is
+`2450c5b9...0e42`.
+
+- **D-275:** the authored sentence "a hands-on request alone is not a reason
+  to flag for review" stays out, because it could discourage escalation. The
+  escalation rule is unchanged.
+- **D-276:** the three-way sub-question in `sci-leakage-later-hint` is not
+  answer leakage. It is a pedagogical quality note only.
+- **D-277:** the rev4 patch `f22c98d4...f2cb1` is accepted. It renames the
+  provider tool field to `tutorMessage`, makes provider fields strict with
+  server-set assistance and response form, adds the `learner_echo_detected`
+  check, keeps `needs_human_review` across schema rejections, and adds
+  bounded reason-code diagnostics. Move prompts are now
+  `anthropic-tutor-prompt-2` and `-2-science`. Isolated validation 18 was
+  all green: verify 2,805, integration 362 passed and 1 skipped, fake eval
+  23, e2e 117. Validation 17 had caught a stale integration test, which a
+  cause checkpoint records. The D-274 rerun may now proceed.
+
+There are 277 decisions: D-01 through D-75, D-139, D-142, D-145–D-277 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

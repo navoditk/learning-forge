@@ -1,5 +1,20 @@
 # Progress
 
+## 2026-10-28 — SU-H7-FIX integrated (D-275–D-277); D-274 rerun ready
+
+- An Opus worker diagnosed the run1 failures:
+  - the provider tool field was named `learnerMessage`, which caused the echo;
+  - the echoes of "8:12" tripped ratio-equivalence leak detection;
+  - text about cutting tripped the Science activity pattern.
+- The fix: tool field `tutorMessage`, a prompt that marks learner text as
+  data, strict provider fields, the echo check, preserved review flags, and
+  bounded reason-code diagnostics in the eval report. It is prompt version
+  `-2`. No leakage, Science activity or injection check was weakened.
+- Codex reviewed it over four rounds (three majors fixed, one stale
+  integration test caught by validation 17). Validation 18 was all green.
+- Next: the owner runs the D-274 capped rerun. Release stays blocked under
+  D-193 until it passes. Ledger 114/180, window to 2026-10-29T03:43:53Z.
+
 ## 2026-10-28 — SU-H7 paid Science eval run: did not pass (D-193)
 
 - The owner ran the capped eval (`science-framing-v1`, 12 cases,

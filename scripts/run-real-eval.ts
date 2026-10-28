@@ -26,8 +26,8 @@ import { runCappedEval, type CappedRunReport } from '../src/evaluation/capped-ru
 import { ANTHROPIC_MODEL_ID, AnthropicTutorModel } from '../src/tutor/anthropic-model';
 
 // Mirrors the adapter's constants (not exported there); the CLI test pins them against the adapter source.
-export const MATH_TEMPLATE_VERSION = 'anthropic-tutor-prompt-1';
-export const SCIENCE_TEMPLATE_VERSION = 'anthropic-tutor-prompt-1-science';
+export const MATH_TEMPLATE_VERSION = 'anthropic-tutor-prompt-2';
+export const SCIENCE_TEMPLATE_VERSION = 'anthropic-tutor-prompt-2-science';
 export const MAX_OUTPUT_TOKENS_PER_CALL = 300;
 
 const AllowlistSchema = z
@@ -118,6 +118,25 @@ export function renderPreflight(args: CliArgs, version: string, cases: readonly 
   ].join('\n');
 }
 
+/**
+ * SU-H7-FIX: one line per case listing each attempt's validation outcome as
+ * fixed reason codes plus schema paths/codes. No free-form text is rendered.
+ */
+export function renderAttempts(attempts: CappedRunReport['caseResults'][number]['attempts']) {
+  if (attempts.length === 0) return '(no attempt reached validation)';
+  return attempts
+    .map((attempt) => {
+      const detail =
+        attempt.status === 'validated'
+          ? 'validated'
+          : [...attempt.reasons, ...attempt.schemaIssues.map((issue) => `schema ${issue}`)].join(
+              ', ',
+            );
+      return `#${attempt.attempt} ${detail}`;
+    })
+    .join('; ');
+}
+
 export function renderMarkdown(report: CappedRunReport, adapter: string): string {
   const lines: string[] = [];
   lines.push(`# Real-adapter eval report`);
@@ -147,6 +166,7 @@ export function renderMarkdown(report: CappedRunReport, adapter: string): string
       lines.push(`- Automated failures: ${result.failures.join(', ')}`);
     }
     lines.push(`- Move type: \`${result.observedMoveType ?? '(no move returned)'}\``);
+    lines.push(`- Validation attempts: ${renderAttempts(result.attempts)}`);
     lines.push('');
     if (result.responseText) {
       lines.push(`**Tutor said:** ${result.responseText.learnerMessage}`);

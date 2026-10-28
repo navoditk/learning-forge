@@ -36,7 +36,7 @@ function validResponse() {
         type: 'tool_use',
         name: 'provide_tutor_move',
         input: {
-          learnerMessage: 'Let’s look at the model together.',
+          tutorMessage: 'Let’s look at the model together.',
           question: 'What do you notice about this part?',
           safetyFlags: ['none'],
           confidence: 0.6,

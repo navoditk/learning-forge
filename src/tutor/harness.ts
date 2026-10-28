@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import {
   createTutorTraceRecord,
+  describeTutorMoveSchemaIssues,
   TutorModel,
   TutorModelResult,
   TutorMoveInput,
@@ -55,8 +56,36 @@ export interface TutorResponse {
   safetyFlagged: boolean;
 }
 
+/**
+ * Per-attempt validation diagnostics (SU-H7-FIX). Only fixed reason codes and
+ * schema paths/codes: no learner text, model text or secrets. Delivered to an
+ * optional observer (the capped eval report); never added to TutorResponse,
+ * so the learner API and stored traces are unchanged.
+ */
+export interface TutorAttemptDiagnostic {
+  attempt: number;
+  status: TutorMoveValidation['status'];
+  reasons: string[];
+  schemaIssues: string[];
+}
+
+export interface TutorHarnessOptions {
+  onAttempt?: (diagnostic: TutorAttemptDiagnostic) => void;
+}
+
 export class TutorHarness {
-  constructor(private readonly model: TutorModel) {}
+  constructor(
+    private readonly model: TutorModel,
+    private readonly options: TutorHarnessOptions = {},
+  ) {}
+
+  private report(diagnostic: TutorAttemptDiagnostic): void {
+    try {
+      this.options.onAttempt?.(diagnostic);
+    } catch {
+      // Diagnostics must never change the learner-facing outcome.
+    }
+  }
 
   async respond(input: TutorSessionInput): Promise<TutorResponse> {
     // An unknown framing throws here, before any model call.
@@ -93,6 +122,7 @@ export class TutorHarness {
             authorization,
             input.protectedTokens,
             prohibitedActivityPatterns,
+            { learnerMessage: input.learnerMessage, problemPrompt: input.prompt },
           ),
           erroredOut: false,
         };
@@ -107,12 +137,28 @@ export class TutorHarness {
       }
     };
 
-    let attemptResult = await attempt();
+    let attemptIndex = 0;
+    const observedAttempt = async () => {
+      const outcome = await attempt();
+      attemptIndex += 1;
+      this.report({
+        attempt: attemptIndex,
+        status: outcome.validation.status,
+        reasons: outcome.validation.status === 'validated' ? [] : [...outcome.validation.reasons],
+        schemaIssues:
+          outcome.result && outcome.validation.status === 'requires_fallback'
+            ? describeTutorMoveSchemaIssues(outcome.result.candidate)
+            : [],
+      });
+      return outcome;
+    };
+
+    let attemptResult = await observedAttempt();
     let status: TutorResponse['status'] = 'validated';
     let safetyFlagged = wasSafetyFlagged(attemptResult.validation);
 
     if (attemptResult.validation.status === 'requires_fallback') {
-      attemptResult = await attempt();
+      attemptResult = await observedAttempt();
       safetyFlagged = safetyFlagged || wasSafetyFlagged(attemptResult.validation);
       status = attemptResult.validation.status === 'validated' ? 'repaired' : 'fallback';
     }

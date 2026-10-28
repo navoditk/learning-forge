@@ -1,5 +1,5 @@
 import type { TutorModel, TutorModelResult, TutorMoveInput } from '../contracts';
-import { TutorHarness } from '../tutor/harness';
+import { TutorHarness, type TutorAttemptDiagnostic } from '../tutor/harness';
 import { runEvalCatalog, type EvalCaseResult } from './runner';
 
 /**
@@ -20,6 +20,12 @@ export type CappedStopReason = 'CAP_BEFORE_CASE' | 'CAP_MID_CASE';
 export interface CappedCaseResult extends EvalCaseResult {
   /** True when the cap was reached during this case; such a case never counts as passed. */
   capInterrupted: boolean;
+  /**
+   * SU-H7-FIX: each harness attempt's validation status, fixed reason codes
+   * and schema paths/codes, so a fallback is diagnosable from the report.
+   * Contains no learner or model free-form text.
+   */
+  attempts: TutorAttemptDiagnostic[];
 }
 
 export interface CappedRunReport {
@@ -76,15 +82,19 @@ export async function runCappedEval(
       notRunCaseIds = cases.slice(index).map((entry) => entry.id);
       break;
     }
-    const report = await runEvalCatalog([testCase], new TutorHarness(counter));
+    const attempts: TutorAttemptDiagnostic[] = [];
+    const harness = new TutorHarness(counter, {
+      onAttempt: (diagnostic) => attempts.push(diagnostic),
+    });
+    const report = await runEvalCatalog([testCase], harness);
     const [result] = report.caseResults;
     if (capBreached) {
-      caseResults.push({ ...result, passed: false, capInterrupted: true });
+      caseResults.push({ ...result, passed: false, capInterrupted: true, attempts });
       stopReason = 'CAP_MID_CASE';
       notRunCaseIds = cases.slice(index + 1).map((entry) => entry.id);
       break;
     }
-    caseResults.push({ ...result, capInterrupted: false });
+    caseResults.push({ ...result, capInterrupted: false, attempts });
   }
 
   const passed = caseResults.filter((result) => result.passed && !result.capInterrupted).length;

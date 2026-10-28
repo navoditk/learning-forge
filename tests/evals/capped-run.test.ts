@@ -36,9 +36,11 @@ class ScriptedModel implements TutorModel {
   }
 }
 
-// Hashes of the SU-E4 rev2 versions (su-e4/rev2/file-hashes.sha256).
+// Hashes of the reviewed versions: runner.ts from SU-E4 rev2
+// (su-e4/rev2/file-hashes.sha256); harness.ts re-pinned by SU-H7-FIX rev1
+// (optional attempt-diagnostics observer and the learner-echo context).
 const REV2_HASHES: Record<string, string> = {
-  'src/tutor/harness.ts': '25b29431f17ef590b024e25c40f057688cd74c0b3a5a0ed67558269141b99351',
+  'src/tutor/harness.ts': 'bd516dc3a794445581172782e718828e3d13e0ce45c3c92e6a63b37c218a2df9',
   'src/evaluation/runner.ts': 'a09607816af021b575753d49c16ae78ad2e9bda935ad096d6018e42101de162f',
 };
 
@@ -88,7 +90,7 @@ describe('runCappedEval', () => {
     await expect(runCappedEval(allowed, new ScriptedModel(), { maxCalls: 0 })).rejects.toThrow();
   });
 
-  it('test 4: harness.ts and runner.ts are byte-identical to their SU-E4 rev2 versions', () => {
+  it('test 4: harness.ts and runner.ts are byte-identical to their reviewed versions', () => {
     for (const [path, expected] of Object.entries(REV2_HASHES)) {
       const actual = createHash('sha256').update(readFileSync(path)).digest('hex');
       expect(actual, path).toBe(expected);
