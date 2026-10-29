@@ -2576,7 +2576,20 @@ Follow-ups:
 The Science release stays blocked. D-274 is consumed; another paid run needs
 a new owner decision.
 
-There are 278 decisions: D-01 through D-75, D-139, D-142, D-145–D-278 approved;
+### D-279 and D-280 — Window extension and second SU-H7 rerun
+
+Owner, 2026-10-29, reply **"extend and approve"**:
+
+- **D-279:** the delivery window is extended 24 hours, to
+  2026-10-30T02:18:33Z. The run cap stays at 180. Scope: SU-H7-FIX2 (the
+  D-278 follow-ups) with Codex review and isolated validation.
+- **D-280:** one more capped paid run of `science-framing-v1` on the D-260
+  terms (at most 24 requests and 7,200 output tokens; the owner runs it via
+  `!`, and the integrator never reads `.env`). It runs only after SU-H7-FIX2
+  passes Codex review and isolated validation. The result is recorded against
+  D-193. A further run needs a new owner decision.
+
+There are 280 decisions: D-01 through D-75, D-139, D-142, D-145–D-280 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
