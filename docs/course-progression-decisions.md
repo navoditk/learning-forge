@@ -2589,7 +2589,37 @@ Owner, 2026-10-29, reply **"extend and approve"**:
   passes Codex review and isolated validation. The result is recorded against
   D-193. A further run needs a new owner decision.
 
-There are 280 decisions: D-01 through D-75, D-139, D-142, D-145–D-280 approved;
+### D-281 — Science tutor structural output contract (SU-H7-FIX2)
+
+This is a delegated design ruling (D-212) by Codex `gpt-6.1-sol` (verified;
+thread `01a18587-b7bf-7610-9679-de7f36882dc7`; ruling
+`su-h7-fix2/rev3/design-ruling.md` `abb87437...18c1`). Option-selection
+majors had recurred in three rounds, which shows that lexical
+selection-verb rules cannot terminate.
+
+- **Approach (a), structural fail-closed:**
+  - Both Science response fields are canonicalized.
+  - A move is rejected if it contains any standalone Latin letter (no article
+    allowlist), any numeric expression (digits, cardinal and ordinal words,
+    fractions, positions 1–8 and "last"), or any identifier alias
+    (`option`/`choice`/`letter`/`sample`/`cell`/`example`/`run` plus an
+    identifier, including joined forms).
+  - Existing checks are preserved. Label remapping is not pursued.
+- **Acceptance bar:** review of the selection design closes when a frozen,
+  versioned conformance corpus (the classes listed in the ruling, generated as
+  cross-products) and the prior closures pass. Later rounds may block only on
+  violations of this contract, regressions, or a distinct explicit
+  disclosure.
+- **Also required in rev4:**
+  - unary-sign normalization in the shared numeric detector;
+  - fake-tutor wording fixes (not exemptions), with service/route journey
+    tests for the two affected Science items and the affected Math paths.
+- The over-rejection is accepted for D-280. Release additionally needs usable
+  served behaviour on all six Science items. The residual risks (synonyms,
+  unlabeled paraphrase, Math option selection) stay subject to reading the
+  responses.
+
+There are 281 decisions: D-01 through D-75, D-139, D-142, D-145–D-281 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
