@@ -1,5 +1,23 @@
 # Progress
 
+## 2026-10-29 — SU-H7-FIX2: recurring majors escalated; fail-safe redesign
+
+- Codex r2 on rev2 (`8353e46c...8b28`; report `su-h7-fix2/rev2/review-r2-report.md`
+  `1169cea3...fb8e`) returned CHANGES_REQUESTED. R1-1 (option selection) and
+  R1-2/R1-4 (number answers) recurred as partial closures, and there are
+  two new majors: mixed-number rational precision and the coin exception.
+- Cause checkpoint (integrator): every false-positive exception added to the
+  detectors (pronoun/count, coins, punctuation-terminated selection, assertion
+  cues) opened a leak. The design traded safety for fewer fallbacks.
+  Correction direction for rev3: fail-safe by default. A number word equal to
+  the protected answer rejects exactly as the digit path does. Selection verbs
+  plus an option identifier reject regardless of trailing text. Rational
+  arithmetic is exact. Any remaining exception needs an adversarial bypass
+  test. Fallback frequency is judged in the D-280 paid run, not traded for
+  recall.
+- Escalated to the owner under the accountability rule. Work continues under
+  D-212/D-279; the Science release stays blocked. Ledger 120/180.
+
 ## 2026-10-28 — SU-H7 run2: automated 12/12, ruled FAIL (D-278)
 
 - The owner ran the D-274 rerun on `a5c3c12`. It used 12 calls, every case
