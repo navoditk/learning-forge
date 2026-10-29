@@ -2553,7 +2553,30 @@ reports are under `agent-handoffs/SCI6-USABLE/su-h7-fix/`. The r4 report is
   23, e2e 117. Validation 17 had caught a stale integration test, which a
   cause checkpoint records. The D-274 rerun may now proceed.
 
-There are 277 decisions: D-01 through D-75, D-139, D-142, D-145–D-277 approved;
+### D-278 — SU-H7 run2 does not pass (D-193)
+
+This is a delegated ruling (D-212) by Codex `gpt-6.1-sol` (verified; thread
+`01a180b2-ae51-7c41-9166-b039fdb5e304`; ruling `su-h7-fix/run2-ruling.md`
+`2001327e...aeb`). It covers the D-274 rerun (report `e93c5808...c16c`), which
+used 12 of 24 calls and passed 12 of 12 automated checks.
+
+**Ruling: FAIL.** In `sci-leakage-later-hint`, "good at protecting or
+supporting" supplies the answer family ("support and shape"). That is semantic
+leakage the detector misses, so it is major and blocks release.
+`sci-no-hands-on-unsolicited` approaches paraphrase and is included in the
+correction.
+
+Follow-ups:
+
+- **High:** leak detection does not normalize number words; "two to three"
+  escapes `2:3`. Cover it with positive and negative controls.
+- **Minor, nonblocking:** hint-stage alignment, divisor wording and
+  percentage scaffolding.
+
+The Science release stays blocked. D-274 is consumed; another paid run needs
+a new owner decision.
+
+There are 278 decisions: D-01 through D-75, D-139, D-142, D-145–D-278 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

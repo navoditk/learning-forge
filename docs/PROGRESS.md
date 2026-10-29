@@ -1,5 +1,16 @@
 # Progress
 
+## 2026-10-28 — SU-H7 run2: automated 12/12, ruled FAIL (D-278)
+
+- The owner ran the D-274 rerun on `a5c3c12`. It used 12 calls, every case
+  validated on the first attempt, and there were no echoes and no fallbacks.
+- Codex ruled FAIL. The Science hints leak the answer family through the
+  question ("protecting or supporting"). Separately, number-word answers
+  bypass the leak detector. The Science release stays blocked under D-193.
+- Next (SU-H7-FIX2): fix the semantic Science leakage at prompt and detector
+  level, add number-word normalization, Codex review, isolated validation.
+  After that, a new owner-authorized paid run.
+
 ## 2026-10-28 — SU-H7-FIX integrated (D-275–D-277); D-274 rerun ready
 
 - An Opus worker diagnosed the run1 failures:
