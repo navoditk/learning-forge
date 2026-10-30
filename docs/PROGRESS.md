@@ -1,5 +1,14 @@
 # Progress
 
+## 2026-10-30 — SCI6-STRUCT-DIAG approved (D-291); PRIVATE-MERGE in revision
+
+- D-291 has two parts: per-rejection token diagnostics, and a proposed
+  narrowing of the D-281 rules (Opus author, Codex ruling). No paid run is
+  included.
+- PRIVATE-MERGE rev1 got NOT_READY from Codex (4 majors: text in errors,
+  skipped-bank bypass, historical practice coverage, output file mode). rev2
+  is with the Sonnet author.
+
 ## 2026-10-30 — Six-item run 1 fails D-285 (D-290); cause checkpoint
 
 - Only 2 of 6 items got 2 of 2 real hints. The six served moves were safe and

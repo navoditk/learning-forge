@@ -2778,7 +2778,22 @@ catches. This is the third failed real run in the SU-H7/SCI6 line, so it is
 escalated to the owner with a cause checkpoint. The report is kept locally
 at `agent-handoffs/SCI6-USABLE/sci6-items-run1/` and is not committed.
 
-There are 290 decisions: D-01 through D-75, D-139, D-142, D-145–D-290 approved;
+### D-291 — SCI6-STRUCT-DIAG approved
+
+Owner, 2026-10-30, reply **"approve SCI6-STRUCT-DIAG"** to the D-290
+recommendation. Scope:
+
+1. Real-eval reports name the triggering token and rule for each rejected
+   attempt. This is local and uncommitted, like the reports themselves.
+2. A proposed narrowing of the D-281 numeric and alias rules. It must keep
+   blocking option or position references (for example "the second one") and
+   real answer leaks. It is measured with the fake tutor and synthetic
+   corpora, and Codex rules on it as a D-281 amendment.
+
+Opus authors (unresolved design); Codex reviews cross-family. No paid run is
+authorized: a confirming run needs a new owner authorization.
+
+There are 291 decisions: D-01 through D-75, D-139, D-142, D-145–D-291 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
