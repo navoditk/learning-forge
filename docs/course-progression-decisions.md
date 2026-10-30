@@ -2677,7 +2677,38 @@ Follow-ups:
 
 This is not release authorization.
 
-There are 284 decisions: D-01 through D-75, D-139, D-142, D-145–D-284 approved;
+### D-285 — Six-item Science usability eval prepared; acceptance criterion
+
+This is a delegated decision (D-212/D-219) by Codex `gpt-6.1-sol` (verified;
+thread `01a18ac6-2fbb-7700-b3f3-ef7396910be1`; r2 report
+`sci6-items-eval/rev2/review-r2-report.md` `07ebaebd...2fab`,
+READY_WITH_RISKS). The rev2 patch `8a6350d4...08c4` is accepted.
+
+- **What it adds:** 12 synthetic cases, early and later, for each of the six
+  catalog Science items. Each case uses a reachable served state and the
+  provider-visible `skill:<code>` context. Case text, options and wrong
+  selections are bound to the catalog.
+- **Allowlist and report:** allowlist `evals/real-runs/science-items-v1.json`,
+  plus per-item outcome tallies in the report.
+- **Validation:** isolated validation 25 passed verify 2,919, integration
+  367 passed and 1 skipped, fake eval 35 and e2e 117. Its build failed on the
+  known `next/font` fetch flake, and a rerun of the build passed.
+
+**Acceptance criterion, recorded before execution:**
+
+- All 12 cases complete without interruption.
+- Each item gets 2 of 2 validated served moves and zero fallbacks. A
+  repaired move counts if the final served move validates, and its
+  diagnostics are retained.
+- Expected hint stages, and no guided solution.
+- Every served response is read for usefulness, semantic disclosure,
+  activity safety and age suitability.
+- Every automated failure is preserved.
+
+The paid run (at most 24 requests and 7,200 output tokens) needs a scoped
+owner authorization.
+
+There are 285 decisions: D-01 through D-75, D-139, D-142, D-145–D-285 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

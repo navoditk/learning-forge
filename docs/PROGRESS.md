@@ -1,5 +1,16 @@
 # Progress
 
+## 2026-10-30 — Six-item Science usability eval ready (D-285)
+
+- SCI6-ITEMS-EVAL (Sonnet author, Codex review over two rounds) is
+  integrated: 12 catalog-bound cases with reachable served states, the
+  `science-items-v1` allowlist, and per-item fallback tallies. The acceptance
+  criterion was recorded before execution (D-285).
+- Next: the owner authorizes and runs the capped paid run. Then the
+  integrator reads every response and gets a Codex ruling against D-285. The
+  release remains blocked on that, SU-H6, the bank merge, D-216, D-242 and
+  H8+. Ledger 132/180.
+
 ## 2026-10-30 — SU-H7 paid eval satisfied (D-284)
 
 - D-280 run3 on `944b13b`: 14 calls, automated 11 of 12. Codex ruled

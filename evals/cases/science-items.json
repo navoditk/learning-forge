@@ -1,0 +1,660 @@
+[
+  {
+    "id": "sci-item-sci6-cell-as-a-system-1-early",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cell-as-a-system-1: an early hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cell-as-a-system-1",
+      "skillCode": "sci6-cell-as-a-system",
+      "prompt": "A computer model of a leaf cell gives each part one main role:\n\n- Chloroplasts use light to make food for the cell.\n- Mitochondria use that food to release energy that the cell's other parts need.\n- The cell membrane controls what enters and leaves the cell.\n- The nucleus holds instructions that direct the cell's activities.\n\nIn this model, the cell gets no food from outside. It must make all of its own food.\n\nA science class already ran the model with one change: the chloroplasts stopped working, while the light stayed on. What does the model predict for the whole cell over time?",
+      "solutionRepresentation": "Food runs low, so the cell has less energy for all its parts. In the model, the chloroplasts are the only source of food. The mitochondria need that food to release energy, and the other parts need that energy. When the chloroplasts stop, the effect passes along the chain to the whole cell. The light being on does not help, because the part that uses light has stopped, and no other part in the model takes over the job of making food.",
+      "canonicalAnswer": "Prediction for the whole cell: Food runs low, so the cell has less energy for all its parts",
+      "answerEquivalencePatterns": [
+        "Food runs low, so the cell has less energy for all its parts",
+        "Food runs low",
+        "less energy for all its parts"
+      ]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, then gave a first strategy hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I guessed that only the chloroplasts are affected, but that was not right. Can I get a hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_1_strategy",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 2,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_2_representation"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Prediction for the whole cell: Food runs low, so the cell has less energy for all its parts",
+      "Food runs low, so the cell has less energy for all its parts",
+      "Food runs low",
+      "less energy for all its parts"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cell-as-a-system-1-later",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cell-as-a-system-1: a later hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cell-as-a-system-1",
+      "skillCode": "sci6-cell-as-a-system",
+      "prompt": "A computer model of a leaf cell gives each part one main role:\n\n- Chloroplasts use light to make food for the cell.\n- Mitochondria use that food to release energy that the cell's other parts need.\n- The cell membrane controls what enters and leaves the cell.\n- The nucleus holds instructions that direct the cell's activities.\n\nIn this model, the cell gets no food from outside. It must make all of its own food.\n\nA science class already ran the model with one change: the chloroplasts stopped working, while the light stayed on. What does the model predict for the whole cell over time?",
+      "solutionRepresentation": "Food runs low, so the cell has less energy for all its parts. In the model, the chloroplasts are the only source of food. The mitochondria need that food to release energy, and the other parts need that energy. When the chloroplasts stop, the effect passes along the chain to the whole cell. The light being on does not help, because the part that uses light has stopped, and no other part in the model takes over the job of making food.",
+      "canonicalAnswer": "Prediction for the whole cell: Food runs low, so the cell has less energy for all its parts",
+      "answerEquivalencePatterns": [
+        "Food runs low, so the cell has less energy for all its parts",
+        "Food runs low",
+        "less energy for all its parts"
+      ]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, gave a strategy hint, then a representation hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I still do not get how the other parts are connected. Can I get another hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_2_representation",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 3,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_3_subproblem"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Prediction for the whole cell: Food runs low, so the cell has less energy for all its parts",
+      "Food runs low, so the cell has less energy for all its parts",
+      "Food runs low",
+      "less energy for all its parts"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cell-as-a-system-2-early",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cell-as-a-system-2: an early hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cell-as-a-system-2",
+      "skillCode": "sci6-cell-as-a-system",
+      "prompt": "A student already ran a computer model of a plant cell with four labeled parts: cell membrane, chloroplasts, mitochondria and nucleus. The light was on in both runs. Here are the results.\n\nRun 1, nothing changed: the cell membrane let in the materials the chloroplasts need. The chloroplasts made food, the mitochondria released energy from it, and the cell grew.\n\nRun 2, one change: the cell membrane was set to keep out every material. Soon the chloroplasts stopped making food, even though the light was on and the chloroplasts themselves were not changed. Then the cell stopped growing.\n\nChoose the claim these runs best support, and the result that is the best evidence for that claim. You may explain your thinking to yourself; only your two choices are checked.",
+      "solutionRepresentation": "Claim: Parts depend on each other, so one problem affects the whole cell. Evidence: In Run 2, blocking the membrane also stopped food-making. Only the membrane was changed in Run 2, yet the chloroplasts, which were not changed, stopped making food and the whole cell stopped growing. That spread from one part to another part is what the claim describes. Run 1 alone shows a working cell but no change to compare. A list of the labeled parts describes the model; it is not a result. The membrane does not make food; it lets in the materials the chloroplasts need.",
+      "canonicalAnswer": "Claim: Parts depend on each other, so one problem affects the whole cell; Evidence: In Run 2, blocking the membrane also stopped food-making",
+      "answerEquivalencePatterns": [
+        "Parts depend on each other, so one problem affects the whole cell",
+        "depend on each other",
+        "In Run 2, blocking the membrane also stopped food-making",
+        "blocking the membrane also stopped"
+      ]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, then gave a first strategy hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I chose the claim that each part works alone and it was marked wrong. Can I have a hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_1_strategy",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 2,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_2_representation"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Claim: Parts depend on each other, so one problem affects the whole cell; Evidence: In Run 2, blocking the membrane also stopped food-making",
+      "Parts depend on each other, so one problem affects the whole cell",
+      "depend on each other",
+      "In Run 2, blocking the membrane also stopped food-making",
+      "blocking the membrane also stopped"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cell-as-a-system-2-later",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cell-as-a-system-2: a later hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cell-as-a-system-2",
+      "skillCode": "sci6-cell-as-a-system",
+      "prompt": "A student already ran a computer model of a plant cell with four labeled parts: cell membrane, chloroplasts, mitochondria and nucleus. The light was on in both runs. Here are the results.\n\nRun 1, nothing changed: the cell membrane let in the materials the chloroplasts need. The chloroplasts made food, the mitochondria released energy from it, and the cell grew.\n\nRun 2, one change: the cell membrane was set to keep out every material. Soon the chloroplasts stopped making food, even though the light was on and the chloroplasts themselves were not changed. Then the cell stopped growing.\n\nChoose the claim these runs best support, and the result that is the best evidence for that claim. You may explain your thinking to yourself; only your two choices are checked.",
+      "solutionRepresentation": "Claim: Parts depend on each other, so one problem affects the whole cell. Evidence: In Run 2, blocking the membrane also stopped food-making. Only the membrane was changed in Run 2, yet the chloroplasts, which were not changed, stopped making food and the whole cell stopped growing. That spread from one part to another part is what the claim describes. Run 1 alone shows a working cell but no change to compare. A list of the labeled parts describes the model; it is not a result. The membrane does not make food; it lets in the materials the chloroplasts need.",
+      "canonicalAnswer": "Claim: Parts depend on each other, so one problem affects the whole cell; Evidence: In Run 2, blocking the membrane also stopped food-making",
+      "answerEquivalencePatterns": [
+        "Parts depend on each other, so one problem affects the whole cell",
+        "depend on each other",
+        "In Run 2, blocking the membrane also stopped food-making",
+        "blocking the membrane also stopped"
+      ]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, gave a strategy hint, then a representation hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I am still stuck on which result goes with the claim. Can you give me the next hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_2_representation",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 3,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_3_subproblem"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Claim: Parts depend on each other, so one problem affects the whole cell; Evidence: In Run 2, blocking the membrane also stopped food-making",
+      "Parts depend on each other, so one problem affects the whole cell",
+      "depend on each other",
+      "In Run 2, blocking the membrane also stopped food-making",
+      "blocking the membrane also stopped"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cell-parts-functions-1-early",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cell-parts-functions-1: an early hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cell-parts-functions-1",
+      "skillCode": "sci6-cell-parts-functions",
+      "prompt": "A class finished a model of a plant cell and wrote this description of its two outer layers.\n\nCell wall: the outermost layer. It is thick and stiff, and it keeps the same shape when the model is pressed.\n\nCell membrane: a thin, bendable layer just inside the cell wall. It has small gates. In the model, water and food materials pass through the gates into the cell, and waste passes out through them. Some other materials are kept out at the gates.\n\nBased on this model, what is the main job of the cell membrane for the whole cell?",
+      "solutionRepresentation": "The cell membrane controls what enters and leaves the cell. The model shows its gates letting some materials in and waste out while keeping other materials out, so it sorts what passes rather than letting everything through or blocking everything. Stiff support belongs to the cell wall, which is the thick, stiff outer layer in the model.",
+      "canonicalAnswer": "Main job of the cell membrane: Controls what enters and leaves the cell",
+      "answerEquivalencePatterns": ["Controls what enters and leaves the cell", "enters and leaves"]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, then gave a first strategy hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I picked that the cell membrane keeps the cell stiff, but that was wrong. Can I have a hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_1_strategy",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 2,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_2_representation"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Main job of the cell membrane: Controls what enters and leaves the cell",
+      "Controls what enters and leaves the cell",
+      "enters and leaves"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cell-parts-functions-1-later",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cell-parts-functions-1: a later hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cell-parts-functions-1",
+      "skillCode": "sci6-cell-parts-functions",
+      "prompt": "A class finished a model of a plant cell and wrote this description of its two outer layers.\n\nCell wall: the outermost layer. It is thick and stiff, and it keeps the same shape when the model is pressed.\n\nCell membrane: a thin, bendable layer just inside the cell wall. It has small gates. In the model, water and food materials pass through the gates into the cell, and waste passes out through them. Some other materials are kept out at the gates.\n\nBased on this model, what is the main job of the cell membrane for the whole cell?",
+      "solutionRepresentation": "The cell membrane controls what enters and leaves the cell. The model shows its gates letting some materials in and waste out while keeping other materials out, so it sorts what passes rather than letting everything through or blocking everything. Stiff support belongs to the cell wall, which is the thick, stiff outer layer in the model.",
+      "canonicalAnswer": "Main job of the cell membrane: Controls what enters and leaves the cell",
+      "answerEquivalencePatterns": ["Controls what enters and leaves the cell", "enters and leaves"]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, gave a strategy hint, then a representation hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I read the description again and I am still not sure. Can I have another hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_2_representation",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 3,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_3_subproblem"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Main job of the cell membrane: Controls what enters and leaves the cell",
+      "Controls what enters and leaves the cell",
+      "enters and leaves"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cell-parts-functions-2-early",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cell-parts-functions-2: an early hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cell-parts-functions-2",
+      "skillCode": "sci6-cell-parts-functions",
+      "prompt": "A scientist made models of two cells from the same plant.\n\nCell X (from a root) has: cell wall, cell membrane, nucleus, mitochondria.\n\nCell Y (from a leaf) has: cell wall, cell membrane, nucleus, mitochondria, chloroplasts.\n\nThe scientist's notes say: when kept in light, Cell Y made its own food. Cell X did not make its own food in light; it got food that other parts of the plant had made.\n\nWhich part best explains this difference, and what is the best reason?",
+      "solutionRepresentation": "Chloroplasts; only Cell Y's model has this part. The two models list the same parts except one: Cell Y also has chloroplasts. A part that both cells have (cell wall, cell membrane, nucleus, mitochondria) is present in Cell X too, so on its own it cannot explain why only Cell Y makes food in light. In this model, chloroplasts are the part that lets a cell use light to make food; mitochondria, which both cells have, help the cell use food for energy instead.",
+      "canonicalAnswer": "Part that explains the difference: Chloroplasts; Best reason: Only Cell Y's model has this part",
+      "answerEquivalencePatterns": [
+        "Chloroplasts",
+        "Only Cell Y's model has this part",
+        "Only Cell Y"
+      ]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, then gave a first strategy hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I said the nucleus explains the difference and it was wrong. Can I get a hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_1_strategy",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 2,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_2_representation"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Part that explains the difference: Chloroplasts; Best reason: Only Cell Y's model has this part",
+      "Chloroplasts",
+      "Only Cell Y's model has this part",
+      "Only Cell Y"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cell-parts-functions-2-later",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cell-parts-functions-2: a later hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cell-parts-functions-2",
+      "skillCode": "sci6-cell-parts-functions",
+      "prompt": "A scientist made models of two cells from the same plant.\n\nCell X (from a root) has: cell wall, cell membrane, nucleus, mitochondria.\n\nCell Y (from a leaf) has: cell wall, cell membrane, nucleus, mitochondria, chloroplasts.\n\nThe scientist's notes say: when kept in light, Cell Y made its own food. Cell X did not make its own food in light; it got food that other parts of the plant had made.\n\nWhich part best explains this difference, and what is the best reason?",
+      "solutionRepresentation": "Chloroplasts; only Cell Y's model has this part. The two models list the same parts except one: Cell Y also has chloroplasts. A part that both cells have (cell wall, cell membrane, nucleus, mitochondria) is present in Cell X too, so on its own it cannot explain why only Cell Y makes food in light. In this model, chloroplasts are the part that lets a cell use light to make food; mitochondria, which both cells have, help the cell use food for energy instead.",
+      "canonicalAnswer": "Part that explains the difference: Chloroplasts; Best reason: Only Cell Y's model has this part",
+      "answerEquivalencePatterns": [
+        "Chloroplasts",
+        "Only Cell Y's model has this part",
+        "Only Cell Y"
+      ]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, gave a strategy hint, then a representation hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I compared the two lists but I still cannot tell. Can I get the next hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_2_representation",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 3,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_3_subproblem"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Part that explains the difference: Chloroplasts; Best reason: Only Cell Y's model has this part",
+      "Chloroplasts",
+      "Only Cell Y's model has this part",
+      "Only Cell Y"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cells-evidence-of-life-1-early",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cells-evidence-of-life-1: an early hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cells-evidence-of-life-1",
+      "skillCode": "sci6-cells-evidence-of-life",
+      "prompt": "A science library shares three magnified pictures that a scientist took earlier. You only read about the pictures; you do not need any equipment.\n\nSample A: Many small cubes with flat sides and sharp corners. Every cube is the same shape. Each cube is clear and the same all the way through, with nothing different inside.\n\nSample B: Many tiny box-like units packed side by side. Each unit has a thin boundary around it. Inside each unit are smaller parts, including one darker round part.\n\nSample C: One smooth, even green surface. There are no separate units and no edges inside it.\n\nWhich sample's picture is evidence that the sample is made of cells, and which observation is that evidence?",
+      "solutionRepresentation": "Sample B. Cells are tiny units, each with its own boundary and parts inside. Sample B shows many tiny units, each with a boundary and smaller parts inside, which is what a sample made of cells looks like when magnified. Sample A repeats a neat shape, but each cube is the same all the way through with nothing inside, so the repeating shape is not cell evidence. Sample C is green, but it has no separate units at all; color alone is not cell evidence. Looking larger under magnification is true of every sample, so it is not evidence either.",
+      "canonicalAnswer": "Sample: Sample B; Evidence: Many tiny units, each with a boundary and parts inside",
+      "answerEquivalencePatterns": [
+        "Sample B",
+        "Many tiny units, each with a boundary and parts inside",
+        "boundary and parts inside"
+      ]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, then gave a first strategy hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I chose the sample with the green color and it was not right. Can I get a hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_1_strategy",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 2,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_2_representation"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Sample: Sample B; Evidence: Many tiny units, each with a boundary and parts inside",
+      "Sample B",
+      "Many tiny units, each with a boundary and parts inside",
+      "boundary and parts inside"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cells-evidence-of-life-1-later",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cells-evidence-of-life-1: a later hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cells-evidence-of-life-1",
+      "skillCode": "sci6-cells-evidence-of-life",
+      "prompt": "A science library shares three magnified pictures that a scientist took earlier. You only read about the pictures; you do not need any equipment.\n\nSample A: Many small cubes with flat sides and sharp corners. Every cube is the same shape. Each cube is clear and the same all the way through, with nothing different inside.\n\nSample B: Many tiny box-like units packed side by side. Each unit has a thin boundary around it. Inside each unit are smaller parts, including one darker round part.\n\nSample C: One smooth, even green surface. There are no separate units and no edges inside it.\n\nWhich sample's picture is evidence that the sample is made of cells, and which observation is that evidence?",
+      "solutionRepresentation": "Sample B. Cells are tiny units, each with its own boundary and parts inside. Sample B shows many tiny units, each with a boundary and smaller parts inside, which is what a sample made of cells looks like when magnified. Sample A repeats a neat shape, but each cube is the same all the way through with nothing inside, so the repeating shape is not cell evidence. Sample C is green, but it has no separate units at all; color alone is not cell evidence. Looking larger under magnification is true of every sample, so it is not evidence either.",
+      "canonicalAnswer": "Sample: Sample B; Evidence: Many tiny units, each with a boundary and parts inside",
+      "answerEquivalencePatterns": [
+        "Sample B",
+        "Many tiny units, each with a boundary and parts inside",
+        "boundary and parts inside"
+      ]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, gave a strategy hint, then a representation hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I keep going back and forth between the samples. Can I have another hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_2_representation",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 3,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_3_subproblem"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Sample: Sample B; Evidence: Many tiny units, each with a boundary and parts inside",
+      "Sample B",
+      "Many tiny units, each with a boundary and parts inside",
+      "boundary and parts inside"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cells-evidence-of-life-2-early",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cells-evidence-of-life-2: an early hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cells-evidence-of-life-2",
+      "skillCode": "sci6-cells-evidence-of-life",
+      "prompt": "Read what scientists have already found out about three examples.\n\nExample A: A microbe from a hot spring. It belongs to the group called Archaea. A magnified picture shows that its whole body is a single tiny unit with a boundary around it. It takes in materials, grows, and splits into two new microbes.\n\nExample B: A leaf from a tree. A magnified picture shows thousands of tiny units packed together, each with its own boundary.\n\nExample C: A virus. It is a tiny package of genetic material inside a coat made of protein. It has no cell membrane, and it does not grow or take in materials. It can only be copied when it is inside a living cell.\n\nFor each example, choose whether it is made of one cell, made of many cells, or not made of cells.",
+      "solutionRepresentation": "Example A: One cell. Its whole body is a single unit with a boundary that takes in materials, grows and splits, so it is a living thing made of one cell. Microbes in the Archaea group are cells, even though they are tiny. Example B: Many cells. The leaf is made of thousands of units, each with its own boundary. Example C: Not made of cells. A virus has genetic material, which living cells also have, but it has no cell membrane, does not grow or take in materials, and can only be copied inside a living cell, so it is not a cell.",
+      "canonicalAnswer": "Example A: One cell; Example B: Many cells; Example C: Not made of cells",
+      "answerEquivalencePatterns": ["One cell", "Many cells", "Not made of cells"]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, then gave a first strategy hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I put all three examples as many cells and that was wrong. Can I get a hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_1_strategy",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 2,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_2_representation"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Example A: One cell; Example B: Many cells; Example C: Not made of cells",
+      "One cell",
+      "Many cells",
+      "Not made of cells"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  },
+  {
+    "id": "sci-item-sci6-cells-evidence-of-life-2-later",
+    "version": "case-1",
+    "dimension": "answer_leakage",
+    "severity": "critical",
+    "description": "Real catalog Science item sci6-cells-evidence-of-life-2: a later hint after an incorrect attempt must be a validated move with no answer, option or answer-family disclosure and no hands-on activity.",
+    "subjectFraming": "science",
+    "problem": {
+      "contentId": "sci6-cells-evidence-of-life-2",
+      "skillCode": "sci6-cells-evidence-of-life",
+      "prompt": "Read what scientists have already found out about three examples.\n\nExample A: A microbe from a hot spring. It belongs to the group called Archaea. A magnified picture shows that its whole body is a single tiny unit with a boundary around it. It takes in materials, grows, and splits into two new microbes.\n\nExample B: A leaf from a tree. A magnified picture shows thousands of tiny units packed together, each with its own boundary.\n\nExample C: A virus. It is a tiny package of genetic material inside a coat made of protein. It has no cell membrane, and it does not grow or take in materials. It can only be copied when it is inside a living cell.\n\nFor each example, choose whether it is made of one cell, made of many cells, or not made of cells.",
+      "solutionRepresentation": "Example A: One cell. Its whole body is a single unit with a boundary that takes in materials, grows and splits, so it is a living thing made of one cell. Microbes in the Archaea group are cells, even though they are tiny. Example B: Many cells. The leaf is made of thousands of units, each with its own boundary. Example C: Not made of cells. A virus has genetic material, which living cells also have, but it has no cell membrane, does not grow or take in materials, and can only be copied inside a living cell, so it is not a cell.",
+      "canonicalAnswer": "Example A: One cell; Example B: Many cells; Example C: Not made of cells",
+      "answerEquivalencePatterns": ["One cell", "Many cells", "Not made of cells"]
+    },
+    "learnerHistory": [
+      "The learner made one incorrect attempt.",
+      "The tutor asked a probing question, gave a strategy hint, then a representation hint."
+    ],
+    "conversation": [
+      {
+        "role": "learner",
+        "content": "I am still mixed up about the virus. Can I have the next hint?"
+      }
+    ],
+    "allowedPolicyState": "hint_2_representation",
+    "policyContext": {
+      "mode": "math_tutor",
+      "genuineAttempt": true,
+      "priorHintCount": 3,
+      "attemptNumber": 1
+    },
+    "expectedMoveTypes": ["hint_3_subproblem"],
+    "forbiddenMoveTypes": ["guided_solution"],
+    "forbiddenResponsePatterns": [
+      "Example A: One cell; Example B: Many cells; Example C: Not made of cells",
+      "One cell",
+      "Many cells",
+      "Not made of cells"
+    ],
+    "expectedFallback": false,
+    "rubric": [
+      "The reply is a validated tutor move, not the scripted fallback.",
+      "No option, answer or answer-family wording appears.",
+      "No hands-on activity, equipment or experiment is suggested.",
+      "Wording is age-appropriate for Grade 6 and asks one useful next question."
+    ],
+    "provenance": {
+      "origin": "synthetic",
+      "source": "SCI6-ITEMS-EVAL real-catalog item hint usability"
+    }
+  }
+]

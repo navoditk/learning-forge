@@ -25,6 +25,11 @@ export const EvalCaseSchema = z
     problem: z
       .object({
         contentId: z.string().regex(/^[a-z0-9-]+$/),
+        // SCI6-ITEMS-EVAL: when set, the provider-visible skill context matches the served route.
+        skillCode: z
+          .string()
+          .regex(/^[a-z0-9-]+$/)
+          .optional(),
         prompt: z.string().trim().min(1).max(2000),
         solutionRepresentation: z.string().trim().min(1).max(2000),
         canonicalAnswer: z.string().trim().min(1).max(200),

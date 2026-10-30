@@ -22,6 +22,8 @@ import { z } from 'zod';
 
 import baselineCases from '../evals/cases/baseline.json';
 import scienceCases from '../evals/cases/science.json';
+import scienceItemCases from '../evals/cases/science-items.json';
+import { withServedSkillContext } from '../src/evaluation/served-context';
 import { runCappedEval, type CappedRunReport } from '../src/evaluation/capped-run';
 import { ANTHROPIC_MODEL_ID, AnthropicTutorModel } from '../src/tutor/anthropic-model';
 
@@ -82,7 +84,10 @@ function parseArgs(argv: readonly string[]): CliArgs | string {
   return { casesPath, maxCalls: Number(maxCallsText), outPath, confirmPaid };
 }
 
-type CorpusCase = (typeof baselineCases)[number] | (typeof scienceCases)[number];
+type CorpusCase =
+  | (typeof baselineCases)[number]
+  | (typeof scienceCases)[number]
+  | (typeof scienceItemCases)[number];
 
 function selectCases(casesPath: string): { version: string; cases: CorpusCase[] } | string {
   let allowlist: z.infer<typeof AllowlistSchema>;
@@ -92,7 +97,10 @@ function selectCases(casesPath: string): { version: string; cases: CorpusCase[] 
     return `Could not read a valid allowlist from ${casesPath}`;
   }
   const corpus = new Map<string, CorpusCase>(
-    [...baselineCases, ...scienceCases].map((testCase) => [testCase.id, testCase]),
+    [...baselineCases, ...scienceCases, ...scienceItemCases].map((testCase) => [
+      testCase.id,
+      testCase,
+    ]),
   );
   if (new Set(allowlist.caseIds).size !== allowlist.caseIds.length) {
     return 'Allowlist contains a duplicate case ID';
@@ -137,7 +145,41 @@ export function renderAttempts(attempts: CappedRunReport['caseResults'][number][
     .join('; ');
 }
 
-export function renderMarkdown(report: CappedRunReport, adapter: string): string {
+/**
+ * SCI6-ITEMS-EVAL: per-content-item tally so a recurring fallback loop on one
+ * catalog item is visible. Counts and fixed reason codes only; no free text.
+ */
+export function renderItemSummary(
+  report: CappedRunReport,
+  contentIdByCase: ReadonlyMap<string, string>,
+): string[] {
+  const byItem = new Map<string, { cases: number; fallbacks: number; failedAttempts: number }>();
+  for (const result of report.caseResults) {
+    const item = contentIdByCase.get(result.caseId) ?? '(unknown)';
+    const row = byItem.get(item) ?? { cases: 0, fallbacks: 0, failedAttempts: 0 };
+    row.cases += 1;
+    if (result.status === 'fallback') row.fallbacks += 1;
+    row.failedAttempts += result.attempts.filter(
+      (attempt) => attempt.status !== 'validated',
+    ).length;
+    byItem.set(item, row);
+  }
+  const lines = ['## Per-item summary (validated vs fallback)', ''];
+  for (const [item, row] of byItem) {
+    const loop = row.fallbacks >= 2 ? ' | RECURRING FALLBACK LOOP' : '';
+    lines.push(
+      `- \`${item}\`: ${row.cases - row.fallbacks}/${row.cases} validated, ${row.fallbacks} fallback, ${row.failedAttempts} failed attempt(s)${loop}`,
+    );
+  }
+  lines.push('');
+  return lines;
+}
+
+export function renderMarkdown(
+  report: CappedRunReport,
+  adapter: string,
+  contentIdByCase?: ReadonlyMap<string, string>,
+): string {
   const lines: string[] = [];
   lines.push(`# Real-adapter eval report`);
   lines.push('');
@@ -156,6 +198,7 @@ export function renderMarkdown(report: CappedRunReport, adapter: string): string
     '> Automated checks only catch what they were written to catch. Read every response below yourself for tone, age-appropriateness, and anything that feels off, even on cases marked passed. The Science activity check is a finite word list; it does not catch every hands-on suggestion.',
   );
   lines.push('');
+  if (contentIdByCase) lines.push(...renderItemSummary(report, contentIdByCase));
   for (const result of report.caseResults) {
     lines.push(`## ${result.caseId}`);
     lines.push('');
@@ -165,6 +208,7 @@ export function renderMarkdown(report: CappedRunReport, adapter: string): string
     if (result.failures.length > 0) {
       lines.push(`- Automated failures: ${result.failures.join(', ')}`);
     }
+    lines.push(`- Outcome: ${result.status === 'fallback' ? 'FALLBACK' : 'VALIDATED MOVE'}`);
     lines.push(`- Move type: \`${result.observedMoveType ?? '(no move returned)'}\``);
     lines.push(`- Validation attempts: ${renderAttempts(result.attempts)}`);
     lines.push('');
@@ -204,8 +248,24 @@ export async function runRealEvalCli(
   if (!args.confirmPaid) return 0;
 
   const model = new AnthropicTutorModel(undefined, { maxRetries: 0 });
-  const report = await runCappedEval(selected.cases, model, { maxCalls: args.maxCalls });
-  io.writeFile(args.outPath, renderMarkdown(report, ANTHROPIC_MODEL_ID));
+  const skillCodeByContentId = new Map<string, string>();
+  for (const testCase of selected.cases) {
+    const skillCode = (testCase.problem as { skillCode?: string }).skillCode;
+    if (skillCode) skillCodeByContentId.set(testCase.problem.contentId, skillCode);
+  }
+  const report = await runCappedEval(
+    selected.cases,
+    withServedSkillContext(model, skillCodeByContentId),
+    { maxCalls: args.maxCalls },
+  );
+  io.writeFile(
+    args.outPath,
+    renderMarkdown(
+      report,
+      ANTHROPIC_MODEL_ID,
+      new Map(selected.cases.map((testCase) => [testCase.id, testCase.problem.contentId])),
+    ),
+  );
   io.log(`Wrote ${args.outPath}`);
   io.log(
     `Calls: ${report.calls}/${report.maxCalls}. Automated: ${report.summary.passed}/${report.summary.total} passed.`,

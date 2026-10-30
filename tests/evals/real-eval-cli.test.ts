@@ -117,6 +117,44 @@ describe('run-real-eval CLI', () => {
     expect(text).toContain('Maximum output tokens: 7200');
   });
 
+  it('prints a 24-call / 7200-token preflight for the six-item allowlist without a client', async () => {
+    const { io, logs, files } = makeIo();
+    const code = await runRealEvalCli(
+      ['--cases', 'evals/real-runs/science-items-v1.json', '--max-calls', '24', '--out', 'r.md'],
+      io,
+    );
+    const text = logs.join('\n');
+    expect(code).toBe(0);
+    expect(sdk.constructorArgs).toHaveLength(0);
+    expect(sdk.create).not.toHaveBeenCalled();
+    expect(files.size).toBe(0);
+    expect(text).toContain('science-items-v1 (12 cases)');
+    expect(text).toContain('sci-item-sci6-cells-evidence-of-life-2-later');
+    expect(text).toContain('Maximum HTTP requests: 24');
+    expect(text).toContain('Maximum output tokens: 7200');
+    expect(text).toContain('Mode: preflight only');
+  });
+
+  it('sends the served skill context (not a history count) for the six-item allowlist', async () => {
+    const { io } = makeIo();
+    await runRealEvalCli(
+      [
+        '--cases',
+        'evals/real-runs/science-items-v1.json',
+        '--max-calls',
+        '24',
+        '--out',
+        'r.md',
+        '--confirm-paid',
+      ],
+      io,
+    );
+    const payload = JSON.stringify(sdk.create.mock.calls);
+    expect(sdk.create).toHaveBeenCalledTimes(12);
+    expect(payload).toContain('content:sci6-cell-as-a-system-1; skill:sci6-cell-as-a-system');
+    expect(payload).not.toContain('synthetic entries');
+  });
+
   it('keeps the mirrored constants in step with the adapter source', () => {
     const source = readFileSync('src/tutor/anthropic-model.ts', 'utf8');
     expect(source).toContain(`'${MATH_TEMPLATE_VERSION}'`);

@@ -1,0 +1,17 @@
+{
+  "version": "science-items-v1",
+  "caseIds": [
+    "sci-item-sci6-cell-as-a-system-1-early",
+    "sci-item-sci6-cell-as-a-system-1-later",
+    "sci-item-sci6-cell-as-a-system-2-early",
+    "sci-item-sci6-cell-as-a-system-2-later",
+    "sci-item-sci6-cell-parts-functions-1-early",
+    "sci-item-sci6-cell-parts-functions-1-later",
+    "sci-item-sci6-cell-parts-functions-2-early",
+    "sci-item-sci6-cell-parts-functions-2-later",
+    "sci-item-sci6-cells-evidence-of-life-1-early",
+    "sci-item-sci6-cells-evidence-of-life-1-later",
+    "sci-item-sci6-cells-evidence-of-life-2-early",
+    "sci-item-sci6-cells-evidence-of-life-2-later"
+  ]
+}
