@@ -2627,7 +2627,31 @@ rev5 (Codex r4 findings 1–3 and the e2e fake-wording pins), Codex review,
 isolated validation and integration. Then the D-280 paid run, which the owner
 runs.
 
-There are 282 decisions: D-01 through D-75, D-139, D-142, D-145–D-282 approved;
+### D-283 — SU-H7-FIX2 accepted
+
+This is a delegated decision (D-212/D-219) by Codex `gpt-6.1-sol` (verified;
+thread `01a18587-b7bf-7610-9679-de7f36882dc7`). Over five review rounds the
+r5 report (`su-h7-fix2/rev5/review-r5-report.md` `d001b40f...073c`) reached
+READY_WITH_RISKS with no blocking findings. The rev5 patch
+`20ae38e8...bd12` is accepted.
+
+- **Science structural contract (D-281):** letters, numerics, identifier
+  aliases including plurals, and the numeric vocabulary shared with the
+  parser.
+- **Shared numeric detector:** number words, exact rationals, unary signs and
+  Unicode fractions.
+- **Semantic answer-word and option-rebuild checks.**
+- **Prompt versions:** Science prompt `anthropic-tutor-prompt-5-science`,
+  Math `-3`, fake tutor `fake-tutor-prompt-2`.
+- **Fake tutor:** zero fake-tutor rejections, with journey tests.
+
+The corrected counts (minor r5 finding) are an 11,141-case conformance corpus
+and 154 catalog items. Isolated validation 23 was all green: verify 2,910,
+integration 367 passed and 1 skipped, fake eval 26, e2e 117. The D-280 paid
+run may now proceed. The over-rejection is accepted. Release still requires
+usable real-adapter behaviour on all six Science items (D-281).
+
+There are 283 decisions: D-01 through D-75, D-139, D-142, D-145–D-283 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

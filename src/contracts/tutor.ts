@@ -2,7 +2,10 @@ import { z } from 'zod';
 
 import { AssistanceLevel, AssistanceLevelSchema, VersionSchema } from './common';
 import { containsProtectedAnswer } from './answer-leakage';
+import { rebuildsAnswerOption } from './answer-selection';
+import { scienceStructureViolations } from './science-structure';
 import { echoesLearnerMessage } from './learner-echo';
+import { sharesProtectedAnswerWord } from './semantic-leakage';
 
 export const TutorMoveTypeSchema = z.enum([
   'clarify_problem',
@@ -85,6 +88,16 @@ export interface TutorEchoContext {
 }
 
 /**
+ * Context for the Science answer-word, option-rebuild and D-281 structural
+ * checks (SU-H7-FIX2). Present only for Science framing. The answer-word
+ * check allows content words the problem prompt already gives; the other two
+ * do not rely on that allowance.
+ */
+export interface TutorAnswerWordContext {
+  problemPrompt: string;
+}
+
+/**
  * Independent check for the escalation signal, used only when the move fails
  * the schema (SU-H7-FIX rev3). It reads nothing but the `safetyFlags`
  * property: true when that property is an array containing the exact string
@@ -103,6 +116,7 @@ export function validateTutorMove(
   protectedTokens: readonly string[] = [],
   prohibitedActivityPatterns: readonly RegExp[] = [],
   echoContext?: TutorEchoContext,
+  answerWordContext?: TutorAnswerWordContext,
 ): TutorMoveValidation {
   const parsed = TutorMoveOutputSchema.safeParse(candidate);
   if (!parsed.success) {
@@ -137,6 +151,20 @@ export function validateTutorMove(
   const responseText = `${move.learnerMessage} ${move.question}`;
   if (containsProtectedAnswer(responseText, protectedTokens)) {
     reasons.push('answer_leak_detected');
+  }
+  if (
+    answerWordContext &&
+    sharesProtectedAnswerWord(responseText, protectedTokens, answerWordContext.problemPrompt)
+  ) {
+    reasons.push('answer_word_leak_detected');
+  }
+  if (answerWordContext && rebuildsAnswerOption(responseText, protectedTokens)) {
+    reasons.push('answer_selection_detected');
+  }
+  if (answerWordContext) {
+    // SU-H7-FIX2 rev4 (D-281): Science structural contract on both fields,
+    // independently and jointly. Fixed reason codes only.
+    reasons.push(...scienceStructureViolations(move.learnerMessage, move.question));
   }
   if (prohibitedActivityPatterns.some((pattern) => pattern.test(responseText))) {
     reasons.push('prohibited_activity_detected');

@@ -268,7 +268,7 @@ describe('AnthropicTutorModel version 2 tool contract', () => {
     ]);
     expect(schema.properties.tutorMessage.description).toContain('Never a copy');
     expect(schema.required).toEqual(['tutorMessage', 'question', 'safetyFlags', 'confidence']);
-    expect(response.trace.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-2');
+    expect(response.trace.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-3');
   });
 
   it('rejects the old learnerMessage field instead of treating it as tutor text', async () => {
@@ -394,7 +394,7 @@ describe('AnthropicTutorModel version 2 tool contract', () => {
     sdk.create.mockResolvedValue(
       toolUse({
         tutorMessage: 'Let’s stay with the plant cell model in the problem.',
-        question: 'What could you label on a sketch of the outer layer?',
+        question: 'What could you label on your sketch of the outer layer?',
         safetyFlags: ['none'],
         confidence: 0.6,
       }),
@@ -411,7 +411,7 @@ describe('AnthropicTutorModel version 2 tool contract', () => {
       true,
     );
     expect(response.status).toBe('validated');
-    expect(response.trace.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-2-science');
+    expect(response.trace.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-5-science');
   });
 
   it('scoring keeps its unchanged prompt version', async () => {

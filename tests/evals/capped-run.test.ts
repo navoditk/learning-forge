@@ -38,9 +38,10 @@ class ScriptedModel implements TutorModel {
 
 // Hashes of the reviewed versions: runner.ts from SU-E4 rev2
 // (su-e4/rev2/file-hashes.sha256); harness.ts re-pinned by SU-H7-FIX rev1
-// (optional attempt-diagnostics observer and the learner-echo context).
+// (optional attempt-diagnostics observer and the learner-echo context) and by
+// SU-H7-FIX2 rev1 (Science answer-word context passed to validateTutorMove).
 const REV2_HASHES: Record<string, string> = {
-  'src/tutor/harness.ts': 'bd516dc3a794445581172782e718828e3d13e0ce45c3c92e6a63b37c218a2df9',
+  'src/tutor/harness.ts': '496319384ac3cecfa94e9a5cad527114b094c85b5cb04f0a7b35017968551e5c',
   'src/evaluation/runner.ts': 'a09607816af021b575753d49c16ae78ad2e9bda935ad096d6018e42101de162f',
 };
 

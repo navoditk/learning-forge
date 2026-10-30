@@ -1,5 +1,16 @@
 # Progress
 
+## 2026-10-30 — SU-H7-FIX2 integrated (D-283); D-280 paid run ready
+
+- rev5 cleared Codex review (READY_WITH_RISKS) and isolated validation 23
+  (all green). The D-281 structural Science contract, number-word detection
+  and fake-tutor rewording are on `main`.
+- Next: the owner runs the D-280 capped paid run (`--out
+  reports/sci6-real-eval-run3.md`), then the integrator reads every response
+  and gets a Codex D-193 ruling. The Science release stays blocked until it
+  passes and the six-item usability evidence exists. Ledger 127/180, window
+  to 2026-10-31T01:56:46Z.
+
 ## 2026-10-30 — SU-H7-FIX2 rev4 reviewed; rev5 interrupted; window closing
 
 - rev4 (`6bb761aa...c29c`) implements the D-281 structural contract. Codex r4

@@ -26,8 +26,8 @@ import { runCappedEval, type CappedRunReport } from '../src/evaluation/capped-ru
 import { ANTHROPIC_MODEL_ID, AnthropicTutorModel } from '../src/tutor/anthropic-model';
 
 // Mirrors the adapter's constants (not exported there); the CLI test pins them against the adapter source.
-export const MATH_TEMPLATE_VERSION = 'anthropic-tutor-prompt-2';
-export const SCIENCE_TEMPLATE_VERSION = 'anthropic-tutor-prompt-2-science';
+export const MATH_TEMPLATE_VERSION = 'anthropic-tutor-prompt-3';
+export const SCIENCE_TEMPLATE_VERSION = 'anthropic-tutor-prompt-5-science';
 export const MAX_OUTPUT_TOKENS_PER_CALL = 300;
 
 const AllowlistSchema = z

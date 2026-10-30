@@ -43,3 +43,27 @@ export const SCIENCE_VIRTUAL_ACTIVITY_RULE =
  */
 export const SCIENCE_REDIRECT_GUIDANCE =
   'When you redirect a request for a hands-on activity, do not name, repeat, or describe that activity; just point the learner back to the model or data in the problem.';
+
+/**
+ * SU-H7-FIX2 (D-278): the second paid run gave the answer family away inside
+ * a question ("What would a thick, stiff layer be good at protecting or
+ * supporting?"). Science answers are option labels naming a job or result, so
+ * the model is told not to name, suggest or presuppose one, even as a
+ * question or a list of guesses. Placed before the redirect guidance and the
+ * D-189 rule, which stay unchanged and last. The deterministic backstop is
+ * the answer-word check in src/contracts/semantic-leakage.ts.
+ */
+export const SCIENCE_ANSWER_FAMILY_RULE =
+  'Never name, suggest, or presuppose the job, function, result, or answer the learner must choose, not even inside a question, a list of choices, or a guess: asking what a part would be "good at" doing a particular job still gives that job away. Ask only about the features, data, or words the problem already gives, and leave naming the job or result to the learner.';
+
+/**
+ * SU-H7-FIX2 rev4 (D-281): asks the model to phrase Science hints so they
+ * satisfy the structural contract in src/contracts/science-structure.ts,
+ * which rejects every standalone letter (including "a" and "I"), every
+ * number, number word, fraction or position word, and every labelled
+ * identifier, including the joined plurals "cells", "samples" and the like
+ * (rev5). Placed after the answer-family rule and before the redirect
+ * guidance and the D-189 rule, which stay unchanged and last.
+ */
+export const SCIENCE_STRUCTURE_RULE =
+  'Write tutorMessage and question without any single letter standing alone as a word, so never use the words "a" or "I" (say "the", "this", "each", "any" or "some" instead); without any digit, number word, fraction or position word such as one, two, half, first, second or last; without naming, numbering, lettering or listing the answer choices or any labelled sample, cell, example, run, option or letter; and without the plural words cells, samples, examples, options, choices, letters or runs (say "these units", "the pictures", "the descriptions" or "living things" instead). Describe features and evidence in plain words instead, for example "the layer with small gates".';

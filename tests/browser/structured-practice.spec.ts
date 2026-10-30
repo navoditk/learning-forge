@@ -803,6 +803,11 @@ test.describe('late responses never cross activities, and failures are announced
     await fillAll(page);
     await page.getByRole('button', { name: 'Submit answer' }).click();
     await page.getByRole('button', { name: 'Ask for a small hint' }).click();
+    // SU-H7-FIX2 rev4: wait for the hint body to render before closing the
+    // body gate (as the sibling test above does). Without this, closeGate can
+    // win the race against the mocked hint body's json(), the hint never
+    // resolves and 'Start independent check' never appears (iso-validation-21).
+    await expect(page.getByRole('button', { name: 'Start independent check' })).toBeVisible();
     await closeGate(page);
     const sent = page.waitForResponse('**/api/phase1/check');
     await page.getByRole('button', { name: 'Start independent check' }).click();

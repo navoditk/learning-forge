@@ -123,6 +123,9 @@ export class TutorHarness {
             input.protectedTokens,
             prohibitedActivityPatterns,
             { learnerMessage: input.learnerMessage, problemPrompt: input.prompt },
+            // SU-H7-FIX2: Science answers are option labels; reject a reply
+            // that uses an answer content word the problem does not give.
+            subjectFraming === 'science' ? { problemPrompt: input.prompt } : undefined,
           ),
           erroredOut: false,
         };

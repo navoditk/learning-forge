@@ -44,7 +44,7 @@ test.describe('keyboard operability', () => {
     await expect(page.getByRole('heading', { name: 'Tutor' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Ask for the next hint' })).toBeFocused();
     await page.keyboard.press('Enter');
-    await expect(page.getByText('What stays the same as both quantities change?')).toBeVisible();
+    await expect(page.getByText('What stays the same as the quantities change?')).toBeVisible();
 
     await page.keyboard.press('Tab');
     await expect(page.getByRole('button', { name: 'Start independent check' })).toBeFocused();
