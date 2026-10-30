@@ -1,5 +1,19 @@
 # Progress
 
+## 2026-10-30 — Six-item run authorized; bank merge and SU-H6 dispositions (D-286 to D-289)
+
+- D-286: the owner authorized one capped six-item paid run, which the owner
+  runs via `!`.
+- D-287: agents never touch the private package. A Codex-reviewed,
+  text-free merge-and-check script (PRIVATE-MERGE) will be prepared for the
+  owner to run.
+- D-288: the merge targets the package production mounts. Production's copy
+  changes only at release.
+- D-289: SU-H6 is narrowed to a focused manual pass (keyboard focus,
+  screen-reader announcements, 200% zoom).
+- Next: the owner runs the D-286 command. The integrator dispatches
+  PRIVATE-MERGE (Sonnet author, Codex review).
+
 ## 2026-10-30 — Six-item Science usability eval ready (D-285)
 
 - SCI6-ITEMS-EVAL (Sonnet author, Codex review over two rounds) is

@@ -2578,7 +2578,7 @@ a new owner decision.
 
 ### D-279 and D-280 — Window extension and second SU-H7 rerun
 
-Owner, 2026-10-29, reply **"extend and approve"**:
+Owner, 2026-10-30, reply **"extend and approve"**:
 
 - **D-279:** the delivery window is extended 24 hours, to
   2026-10-30T02:18:33Z. The run cap stays at 180. Scope: SU-H7-FIX2 (the
@@ -2708,7 +2708,45 @@ READY_WITH_RISKS). The rev2 patch `8a6350d4...08c4` is accepted.
 The paid run (at most 24 requests and 7,200 output tokens) needs a scoped
 owner authorization.
 
-There are 285 decisions: D-01 through D-75, D-139, D-142, D-145–D-285 approved;
+### D-286 — Six-item Science paid run authorized
+
+Owner, 2026-10-30, reply **"approved"** to the D-285 request: one paid run
+of `evals/real-runs/science-items-v1.json` with `--max-calls 24` (at most 24
+requests and 7,200 output tokens; input tokens and cost uncapped), output
+`reports/sci6-items-eval-run1.md`. The owner runs it via `!` because the
+provider key exists only in `.env`, which agents never read. One run only;
+any rerun needs a new authorization.
+
+### D-287 — Private bank merge stays owner-run; agents prepare a script
+
+Owner, 2026-10-30, reply **"approve 1–3"** to the integrator's
+recommendations. Item 1: agents never read or write the owner's private
+assessment package or learn its path. An agent may author a merge-and-check
+script containing no item text, reviewed cross-family by Codex. The owner runs
+it via `!`. It copies the ten D-264 banks from
+`~/learning-forge-private-drafts/` into the package, verifies their recorded
+hashes, runs the D-216 non-reuse check against the package's existing item
+ids, and prints only counts, hashes and pass/fail.
+
+### D-288 — The merge targets the package production mounts; production updates at release
+
+Same reply, item 2. The merge targets the single canonical package that
+production mounts (`LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH`), keeping the
+retained `@1.0.0` pilot banks. The owner runs the D-242 mounted-package e2e
+locally against the merged package. Production's copy changes only during
+the owner-run release (H8 onward); agents never touch it.
+
+### D-289 — SU-H6 narrowed to a focused manual pass
+
+Same reply, item 3. The existing axe-core browser checks (including Science
+practice) are the automated accessibility evidence. A model audit cannot
+satisfy SU-H6. SU-H6 remains an owner manual pass, narrowed to:
+
+- keyboard focus visibility and order;
+- screen-reader announcements;
+- 200% zoom and reflow on the Science practice flow.
+
+There are 289 decisions: D-01 through D-75, D-139, D-142, D-145–D-289 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
