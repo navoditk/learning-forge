@@ -2746,7 +2746,39 @@ satisfy SU-H6. SU-H6 remains an owner manual pass, narrowed to:
 - screen-reader announcements;
 - 200% zoom and reflow on the Science practice flow.
 
-There are 289 decisions: D-01 through D-75, D-139, D-142, D-145–D-289 approved;
+### D-290 — Six-item run 1 fails D-285; D-286 consumed
+
+Integrator, 2026-10-30, mechanical outcome of the precommitted D-285
+criterion (no judgment call, so no Codex ruling is needed for a FAIL). The
+D-286 run on `c27b5ed` made 21 of 24 calls; automated checks passed 6 of 12.
+Per item, validated served moves were:
+
+- `sci6-cell-as-a-system-1`: 2 of 2;
+- `sci6-cells-evidence-of-life-1`: 2 of 2;
+- `sci6-cell-parts-functions-1`: 1 of 2;
+- `sci6-cells-evidence-of-life-2`: 1 of 2;
+- `sci6-cell-as-a-system-2`: 0 of 2;
+- `sci6-cell-parts-functions-2`: 0 of 2.
+
+The integrator read the six served moves. None discloses an answer or
+suggests a hands-on activity, and the tone suits the age group. Of the 24
+attempts, 16 were rejected:
+
+- `numeric_expression_detected` appears in 11 of them;
+- `answer_leak_detected` in 5;
+- `identifier_alias_detected` in 5;
+- `standalone_letter_detected` in 2;
+- one schema rejection.
+
+Cause hypothesis, unverified because rejected text is not retained: the D-281
+number-word set includes common English words such as "one", "first",
+"second", "half" and "third", so ordinary phrasing ("which one", "first")
+is rejected. The `answer_leak_detected` rejections look like correct
+catches. This is the third failed real run in the SU-H7/SCI6 line, so it is
+escalated to the owner with a cause checkpoint. The report is kept locally
+at `agent-handoffs/SCI6-USABLE/sci6-items-run1/` and is not committed.
+
+There are 290 decisions: D-01 through D-75, D-139, D-142, D-145–D-290 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

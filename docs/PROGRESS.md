@@ -1,5 +1,16 @@
 # Progress
 
+## 2026-10-30 — Six-item run 1 fails D-285 (D-290); cause checkpoint
+
+- Only 2 of 6 items got 2 of 2 real hints. The six served moves were safe and
+  non-disclosing. Most rejections (11 of 16) were `numeric_expression_detected`,
+  likely from common words such as "one" or "first" in the D-281 number-word
+  set. This is unverified because rejected text is not retained.
+- Escalated to the owner as a recurring major. Proposed next step:
+  SCI6-STRUCT-DIAG. It adds a local-only report of the triggering token per
+  rejection, and replays it with the fake tutor. Then come a Codex-ruled rule
+  change and a new owner-authorized paid run.
+
 ## 2026-10-30 — Six-item run authorized; bank merge and SU-H6 dispositions (D-286 to D-289)
 
 - D-286: the owner authorized one capped six-item paid run, which the owner
