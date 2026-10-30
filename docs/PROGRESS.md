@@ -1,5 +1,31 @@
 # Progress
 
+## 2026-10-30 — SU-H7-FIX2 rev4 reviewed; rev5 interrupted; window closing
+
+- rev4 (`6bb761aa...c29c`) implements the D-281 structural contract. Codex r4
+  (`su-h7-fix2/rev4/review-r4-report.md` `e91c21a6...f01d`) returned
+  CHANGES_REQUESTED, design not reopened. There are three majors:
+  - compact aliases ending in `s` pass;
+  - `thirteenth`–`nineteenth` are missing from the Science numeric
+    restriction;
+  - the AMC journey test uses the wrong program.
+- Isolated validation 22: verify and fake eval green. Integration had 1
+  failure (the AMC journey test). E2e had 2 failures:
+  `keyboard-navigation.spec.ts:29` and `phase1.spec.ts:4` still pin the old
+  fake-tutor wording "What stays the same as both quantities change?".
+- Recurring cause: string pins outside the searched directories were missed.
+  rev5 must sweep the whole repo for every changed user-visible string.
+- rev5 (Opus, same worker and worktree
+  `.claude/worktrees/agent-aac1c12ad0f1da70d`) failed on a session rate limit
+  (429 `req_011CgWMGBjsXnts7g9firuuL`) before producing a bundle. Nothing is
+  applied. The D-279 window ends 2026-10-30T02:18:33Z. Ledger 125/180.
+- Resume, after a new window: resume the same worker with the rev5 packet (r4
+  findings 1–3 plus the e2e pins), then Codex changed-scope review on thread
+  `01a18587-b7bf-7610-9679-de7f36882dc7`, then isolated validation. Then the
+  owner runs the D-280 paid run with
+  `--out reports/sci6-real-eval-run3.md`. The Science release stays blocked
+  under D-193.
+
 ## 2026-10-29 — SU-H7-FIX2: recurring majors escalated; fail-safe redesign
 
 - Codex r2 on rev2 (`8353e46c...8b28`; report `su-h7-fix2/rev2/review-r2-report.md`
