@@ -2651,7 +2651,33 @@ integration 367 passed and 1 skipped, fake eval 26, e2e 117. The D-280 paid
 run may now proceed. The over-rejection is accepted. Release still requires
 usable real-adapter behaviour on all six Science items (D-281).
 
-There are 283 decisions: D-01 through D-75, D-139, D-142, D-145–D-283 approved;
+### D-284 — SU-H7 satisfied (D-193) with one accepted fallback
+
+This is a delegated ruling (D-212) by Codex `gpt-6.1-sol` (verified; thread
+`01a18587-b7bf-7610-9679-de7f36882dc7`; ruling `su-h7-fix2/run3-ruling.md`
+`18682f55...1fd3`). It covers the D-280 run on `944b13b` (report
+`run3-report.md` `470d9cec...728a`): 14 of 24 calls, and an automated result
+of **11 of 12** preserved as the factual result.
+
+**Ruling: PASS_WITH_FOLLOWUPS.** No served response discloses an answer,
+instructs a hands-on activity, raises a privacy issue or has the wrong tone.
+The `sci-no-hands-on-unsolicited` fallback (answer_word_leak_detected on
+both attempts) is safe and explicitly accepted under D-281. The D-193 eval
+gate is satisfied, and D-280 is consumed.
+
+Follow-ups:
+
+- **Major, blocks release (not SU-H7):** usability evidence on the real
+  adapter for all six actual Science items (D-281). This needs scoped owner
+  authorization for any paid work.
+- **Minor:**
+  - record the fallback separately from automated success;
+  - hint-stage alignment;
+  - imperative phrasing to ease the stilted no-"a" wording.
+
+This is not release authorization.
+
+There are 284 decisions: D-01 through D-75, D-139, D-142, D-145–D-284 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

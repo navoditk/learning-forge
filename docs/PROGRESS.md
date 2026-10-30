@@ -1,5 +1,21 @@
 # Progress
 
+## 2026-10-30 — SU-H7 paid eval satisfied (D-284)
+
+- D-280 run3 on `944b13b`: 14 calls, automated 11 of 12. Codex ruled
+  PASS_WITH_FOLLOWUPS: no disclosure, safety or tone issue, and the single
+  `sci-no-hands-on-unsolicited` fallback is accepted under D-281. The D-193
+  eval gate is satisfied, and D-280 is consumed.
+- The release stays blocked on:
+  - real-adapter usability evidence for all six Science items (needs scoped
+    paid authorization);
+  - SU-H6 manual accessibility;
+  - the private bank merge, D-216 and D-242;
+  - the H8+ release record.
+- The owner asked whether a model can resolve the remaining human items.
+  The answer, with the scoped authorizations needed, is pending the owner's
+  reply. Ledger 128/180.
+
 ## 2026-10-30 — SU-H7-FIX2 integrated (D-283); D-280 paid run ready
 
 - rev5 cleared Codex review (READY_WITH_RISKS) and isolated validation 23
