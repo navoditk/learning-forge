@@ -2619,7 +2619,15 @@ selection-verb rules cannot terminate.
   unlabeled paraphrase, Math option selection) stay subject to reading the
   responses.
 
-There are 281 decisions: D-01 through D-75, D-139, D-142, D-145–D-281 approved;
+### D-282 — Window extension for SU-H7-FIX2 rev5
+
+Owner, 2026-10-30, reply **"extend"**: the delivery window is extended 24
+hours, to 2026-10-31T01:56:46Z. The run cap stays at 180. Scope: SU-H7-FIX2
+rev5 (Codex r4 findings 1–3 and the e2e fake-wording pins), Codex review,
+isolated validation and integration. Then the D-280 paid run, which the owner
+runs.
+
+There are 282 decisions: D-01 through D-75, D-139, D-142, D-145–D-282 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
