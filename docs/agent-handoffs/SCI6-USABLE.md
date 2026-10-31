@@ -2,6 +2,19 @@
 
 ## Live relay
 
+- Phase (2026-10-30): **SCI6-LEAK-CAL rev2 IN PROGRESS** (Opus author;
+  Codex review next).
+  - Done:
+    - SU-H7 eval satisfied (D-284);
+    - six-item run 1 FAIL (D-290);
+    - structural narrowing integrated (D-294).
+  - Remaining:
+    - LEAK-CAL integration;
+    - a new owner-authorized six-item run judged against D-285;
+    - owner SU-H6 (D-289);
+    - PRIVATE-MERGE run (D-292);
+    - H8 onward.
+  - Full routing: PROGRESS "Resume here", 2026-10-30 block.
 - Phase: **SU-E3 APPLIED LOCALLY (D-201); AWAITING_HUMAN — SU-H6, SU-H7 run,
   H9a** (2026-10-21). Batch B: D-201 SU-H5 apply (patch `b09e6370...c163`,
   7 files verified), D-202 SU-H7 approved for the owner to run, D-203 H9e

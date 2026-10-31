@@ -1,5 +1,13 @@
 # Progress
 
+## 2026-10-30 — SCI6-LEAK-CAL rev1 NOT_READY (D-295); resume index refreshed
+
+- Codex ruled that E3 partitives are excluded from masking, diagnostics are
+  aligned, and full validation is required. rev2 is with the original Opus
+  author.
+- The resume index, the SCI6-USABLE live relay and "Resume here" now reflect
+  the current state (see "Resume here", 2026-10-30 block).
+
 ## 2026-10-30 — SCI6-STRUCT-DIAG integrated (D-294); SCI6-LEAK-CAL next
 
 - The narrowed Science structural contract and per-rejection diagnostics are
@@ -8157,6 +8165,45 @@ id@version` identities across banks, protecting no-reuse selection from
   machine's public address.
 
 ## Resume here
+
+**CURRENT — 2026-10-30 (supersedes the older blocks below for routing):**
+
+- Milestones (D-183): Ratios is complete and deployed (`grade-6-math@1.1.0`).
+  The Science release is blocked.
+- Authority:
+  - D-219 delegates approvals to Codex `gpt-6.1-sol`. D-257 allows deploy.
+  - Paid runs need an explicit owner authorization each time. The owner runs
+    them via `!`; agents never read `.env`.
+  - Window: `.git/agent-handoffs/DELIVERY-COORDINATOR/claude-window-20261020/`
+    (`authorization.json` and `ledger.json`; 151/180 used; ends
+    2026-10-31T01:56:46Z). After it ends, request an extension.
+- Active lane C, SCI6-LEAK-CAL (D-293 direction, D-295 rulings): rev2 is with
+  the original Opus `forge-expert`.
+  - Worktree `.claude/worktrees/agent-aa0cb0ec0b7f13775` (base `ab6222a`).
+  - Handoffs `.git/agent-handoffs/SCI6-LEAK-CAL/rev{1,2}/`.
+  - If the worker is gone after a restart, a new Opus author resumes from the
+    rev1 patch plus the D-295 rulings.
+  - Next: Codex changed-scope review (resume thread
+    `01a1902d-efbc-7bd1-99a6-739894a6921d`), integrator isolated validation
+    (`npm run verify`, integration, fake eval, e2e), then integration.
+- Then:
+  - Ask the owner to authorize a new capped six-item paid run (same command
+    as D-286 with `--out reports/sci6-items-eval-run2.md`).
+  - Judge it against D-285: read every response, then get a Codex ruling.
+- Owner actions pending:
+  - PRIVATE-MERGE run (D-287/D-288/D-292): `scripts/private-bank-merge.ts`
+    with the owner's package path, which agents never learn. The dry run
+    against a placeholder path passed all 33 draft-side checks. Then run the
+    D-242 mounted e2e.
+  - SU-H6 focused manual a11y pass (D-289).
+  - H8+ release record.
+- Uncommitted local-only files (never commit):
+  - `AGENTS.md`, `docs/agent-orchestration.md`, `.claude/agents`,
+    `.codex/agents`, `.claude/worktrees`;
+  - `reports/*.md` (local eval reports).
+- Follow-up: `fetch-depth: 0` in CI (D-292).
+
+**Older blocks:**
 
 **DELIVERY-COORDINATOR — 2026-10-19 (STANDING BOUNDED AUTOPILOT):**
 new explicit D-183 authorization covers 24 hours/100 native invocations,

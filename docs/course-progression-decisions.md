@@ -2900,7 +2900,28 @@ answer-leak check still rejects every benign target on
 `sci6-cell-as-a-system-2` and `sci6-cells-evidence-of-life-2`. That is
 SCI6-LEAK-CAL under D-293.
 
-There are 294 decisions: D-01 through D-75, D-139, D-142, D-145–D-294 approved;
+### D-295 — SCI6-LEAK-CAL rev1 rulings
+
+Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a1902d-efbc-7bd1-99a6-739894a6921d`; report
+`agent-handoffs/SCI6-LEAK-CAL/rev1/review-r1-report.md`) on Opus patch
+`d370e598fc8d3038eb8c007fc3181de2c1c05945f8f36e6277b062f5cfbeabf0` (base
+`ab6222a`): **NOT_READY**.
+
+1. F1 (major): E3 partitives ("one of them", "one of the …", "any one of
+   …") and count-modifying uses ("No one unit") are excluded from numeric
+   masking, applied before E1's early return. They keep D-294 structural
+   acceptance and fall back to the unmasked numeric check.
+2. F2 (minor): rejection diagnostics use the same calibrated Science
+   matching. A reviewed `harness.ts` hash re-pin is acceptable.
+3. F3 (major): full validation evidence is required with dependencies
+   installed (`npm test`, eval, build), plus integrator isolated integration
+   and e2e.
+4. Digit-answer relaxation (author risk 2) is acceptable once F1 is closed.
+   Accepted paraphrases remain the D-281 paraphrase limitation and must be
+   read under D-285.
+
+There are 295 decisions: D-01 through D-75, D-139, D-142, D-145–D-295 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
