@@ -2830,7 +2830,33 @@ It has never run on real inputs; the owner runs it (D-287). Follow-up
 (non-blocking): `fetch-depth: 0` in CI so the real-history assertion runs
 there.
 
-There are 292 decisions: D-01 through D-75, D-139, D-142, D-145–D-292 approved;
+### D-293 — SCI6-STRUCT-DIAG rev1 rulings
+
+Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a19005-d26e-7603-aee7-8f9de5d3589d`; report
+`agent-handoffs/SCI6-STRUCT-DIAG/rev1/review-r1-report.md`) on Opus patch
+`5540a372108fefa72465f4da6ae8e1e02945caee05a52b6e343bde2957403822`:
+**NOT_READY**.
+
+- E4 ("First, …") admits positional selection, e.g. "Choose: second, which
+  is correct.". Withdraw it unless proven safe.
+- E7 ("half way") admits spatial option directions. Remove or bound it.
+- Unicode triggers disappear from diagnostics (minor).
+
+Rulings:
+
+1. The numeric answer-leak calibration is a separate bounded packet
+   (SCI6-LEAK-CAL) with its own rule and review. Items are not rewritten to
+   evade the detector.
+2. The direction for that packet: keep literal and canonical answer matching.
+   For Science numeric-equivalence passes only, number-word spans proven to
+   belong to an approved, structurally accepted idiom may be masked. Every
+   other number stays protected. It must be tested with count and ordinal
+   disclosure negatives, mixed responses, and unchanged Math coverage.
+3. Plural alias rejection stays. Any narrowing needs its own D-281 amendment
+   and corpus update.
+
+There are 293 decisions: D-01 through D-75, D-139, D-142, D-145–D-293 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

@@ -1,5 +1,13 @@
 # Progress
 
+## 2026-10-30 — SCI6-STRUCT-DIAG rev1 NOT_READY (D-293)
+
+- Codex found two exemption bypasses (E4 positional, E7 spatial) and a
+  diagnostics gap. It ruled that numeric leak calibration is a separate packet,
+  SCI6-LEAK-CAL, and that plural aliases stay blocked.
+- rev2 is with the Opus author. The owner-run PRIVATE-MERGE dry run is still
+  pending.
+
 ## 2026-10-30 — PRIVATE-MERGE accepted (D-292); owner runs it
 
 - The owner-run merge and D-216 check script is integrated. Codex took five
