@@ -2921,7 +2921,27 @@ Delegated decisions (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
    Accepted paraphrases remain the D-281 paraphrase limitation and must be
    read under D-285.
 
-There are 295 decisions: D-01 through D-75, D-139, D-142, D-145–D-295 approved;
+### D-296 — SCI6-LEAK-CAL closed without adoption; numeric masking rejected
+
+Delegated decision (D-212/D-219), Codex `gpt-6.1-sol` (verified; thread
+`01a1902d-efbc-7bd1-99a6-739894a6921d`).
+
+- r2 NOT_READY: follower-word and punctuation bypasses.
+- r3 NOT_READY on the integrator's sentence-final fail-safe rule, rev3
+  `2a37a1bdc5d5b7594e98241b21289e9db576f3b32c2233ccee2f7954d77b83cf`.
+  Sentence-final "one" still carries a counted referent ("Its whole body is
+  any one."), and a period prefix does not prove a sentence boundary
+  ("any one... tiny unit").
+
+Codex ruled to take the fallback named in advance in
+`agent-handoffs/SCI6-LEAK-CAL/cause-checkpoint.md`: drop numeric masking
+entirely. No SCI6-LEAK-CAL code is integrated. The D-294 structural
+exemptions stay, and the numeric answer-leak check stays unchanged for every
+item. The fallback rate on `sci6-cell-as-a-system-2` and
+`sci6-cells-evidence-of-life-2` goes to owner review. Artifacts are kept
+locally under `agent-handoffs/SCI6-LEAK-CAL/rev1..rev3/`.
+
+There are 296 decisions: D-01 through D-75, D-139, D-142, D-145–D-296 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

@@ -2,8 +2,8 @@
 
 ## Live relay
 
-- Phase (2026-10-30): **SCI6-LEAK-CAL rev2 IN PROGRESS** (Opus author;
-  Codex review next).
+- Phase (2026-10-30): **AWAITING_HUMAN**: SCI6-LEAK-CAL closed without
+  adoption (D-296); the owner chooses the next step.
   - Done:
     - SU-H7 eval satisfied (D-284);
     - six-item run 1 FAIL (D-290);

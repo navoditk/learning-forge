@@ -1,5 +1,14 @@
 # Progress
 
+## 2026-10-30 — SCI6-LEAK-CAL closed without adoption (D-296)
+
+- Three Codex rounds found count disclosures in every masking design.
+  Numeric masking is rejected, and the leak check is unchanged.
+- The two items whose answers contain a number will likely fall back unless
+  the tutor avoids number words. The owner chooses the next step: a
+  number-free Science prompt revision, a paid run as-is, or a D-285
+  amendment.
+
 ## 2026-10-30 — SCI6-LEAK-CAL rev1 NOT_READY (D-295); resume index refreshed
 
 - Codex ruled that E3 partitives are excluded from masking, diagnostics are
@@ -8177,8 +8186,8 @@ id@version` identities across banks, protecting no-reuse selection from
   - Window: `.git/agent-handoffs/DELIVERY-COORDINATOR/claude-window-20261020/`
     (`authorization.json` and `ledger.json`; 151/180 used; ends
     2026-10-31T01:56:46Z). After it ends, request an extension.
-- Active lane C, SCI6-LEAK-CAL (D-293 direction, D-295 rulings): rev2 is with
-  the original Opus `forge-expert`.
+- Lane C: SCI6-LEAK-CAL closed without adoption (D-296). Next is the
+  owner's choice, recorded in the 2026-10-30 D-296 entry.
   - Worktree `.claude/worktrees/agent-aa0cb0ec0b7f13775` (base `ab6222a`).
   - Handoffs `.git/agent-handoffs/SCI6-LEAK-CAL/rev{1,2}/`.
   - If the worker is gone after a restart, a new Opus author resumes from the
