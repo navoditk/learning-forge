@@ -40,6 +40,11 @@ export interface CappedRunReport {
 export interface CappedRunOptions {
   maxCalls: number;
   reservePerCase?: number;
+  /**
+   * SCI6-STRUCT-DIAG (D-291): record bounded trigger tokens for each rejected
+   * attempt (local real-eval report only). Off by default.
+   */
+  explainRejections?: boolean;
 }
 
 export async function runCappedEval(
@@ -47,7 +52,7 @@ export async function runCappedEval(
   model: TutorModel,
   options: CappedRunOptions,
 ): Promise<CappedRunReport> {
-  const { maxCalls, reservePerCase = 2 } = options;
+  const { maxCalls, reservePerCase = 2, explainRejections = false } = options;
   if (!Number.isInteger(maxCalls) || maxCalls < 1)
     throw new Error('maxCalls must be a positive integer');
   if (!Number.isInteger(reservePerCase) || reservePerCase < 1) {
@@ -85,6 +90,7 @@ export async function runCappedEval(
     const attempts: TutorAttemptDiagnostic[] = [];
     const harness = new TutorHarness(counter, {
       onAttempt: (diagnostic) => attempts.push(diagnostic),
+      explainRejections,
     });
     const report = await runEvalCatalog([testCase], harness);
     const [result] = report.caseResults;

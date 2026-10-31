@@ -163,7 +163,9 @@ describe('finding 1: Science option selection, through the harness on catalog it
     // exactly as an authored "1 cell" would on the digit path.
     const result = await harnessResult(EVIDENCE_2, 'Look at each one: is it built from units?');
     expect(result.status).toBe('fallback');
-    expect(result.reasons[0]).toEqual(['answer_leak_detected', 'numeric_expression_detected']);
+    // SCI6-STRUCT-DIAG: "each one" is a structural exemption (E1); the
+    // unchanged numeric leak check still rejects it on this item.
+    expect(result.reasons[0]).toEqual(['answer_leak_detected']);
   });
 
   it('is applied only under Science framing', async () => {

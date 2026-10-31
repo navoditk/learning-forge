@@ -1,5 +1,13 @@
 # Progress
 
+## 2026-10-30 — SCI6-STRUCT-DIAG integrated (D-294); SCI6-LEAK-CAL next
+
+- The narrowed Science structural contract and per-rejection diagnostics are
+  on `main` (Codex READY_WITH_RISKS, isolated validation 28 green).
+- Next: SCI6-LEAK-CAL (D-293 direction; Opus author, Codex review). Then a
+  confirming paid run, which needs new owner authorization. The owner-run
+  PRIVATE-MERGE dry run is still pending.
+
 ## 2026-10-30 — SCI6-STRUCT-DIAG rev1 NOT_READY (D-293)
 
 - Codex found two exemption bypasses (E4 positional, E7 spatial) and a

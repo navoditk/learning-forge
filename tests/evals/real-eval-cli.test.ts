@@ -179,6 +179,33 @@ describe('run-real-eval CLI', () => {
     expect(code).toBe(0);
   });
 
+  it('SCI6-STRUCT-DIAG: a rejected attempt lists its rule and bounded trigger tokens, never its text', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'real-eval-'));
+    const path = join(dir, 'allow.json');
+    writeFileSync(
+      path,
+      JSON.stringify({ version: 'x', caseIds: ['sci-item-sci6-cells-evidence-of-life-1-early'] }),
+    );
+    const rejected = validResponse();
+    rejected.content[0].input = {
+      tutorMessage: 'Pick the second one now and think it over.',
+      question: 'Which feature helps most?',
+      safetyFlags: ['none'],
+      confidence: 0.6,
+    };
+    sdk.create.mockResolvedValueOnce(rejected);
+    const { io, files } = makeIo();
+    await runRealEvalCli(
+      ['--cases', path, '--max-calls', '2', '--out', 'r.md', '--confirm-paid'],
+      io,
+    );
+    const report = files.get('r.md') ?? '';
+    expect(report).toContain(
+      '#1 numeric_expression_detected {numeric_expression_detected: `second` `one`}; #2 validated',
+    );
+    expect(report).not.toContain('Pick the second one now');
+  });
+
   it('a stop writes a report with the stop banner and exits non-zero', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'real-eval-'));
     const path = join(dir, 'allow.json');

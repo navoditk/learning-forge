@@ -129,6 +129,9 @@ export function renderPreflight(args: CliArgs, version: string, cases: readonly 
 /**
  * SU-H7-FIX: one line per case listing each attempt's validation outcome as
  * fixed reason codes plus schema paths/codes. No free-form text is rendered.
+ * SCI6-STRUCT-DIAG (D-291): a rejected attempt also lists, per rule, the
+ * bounded single trigger tokens (at most 5 per attempt, [a-z0-9'] only) in
+ * braces. The report is local and uncommitted.
  */
 export function renderAttempts(attempts: CappedRunReport['caseResults'][number]['attempts']) {
   if (attempts.length === 0) return '(no attempt reached validation)';
@@ -140,7 +143,15 @@ export function renderAttempts(attempts: CappedRunReport['caseResults'][number][
           : [...attempt.reasons, ...attempt.schemaIssues.map((issue) => `schema ${issue}`)].join(
               ', ',
             );
-      return `#${attempt.attempt} ${detail}`;
+      const triggers =
+        attempt.triggers && attempt.triggers.length > 0
+          ? ` {${attempt.triggers
+              .map(
+                (trigger) => `${trigger.rule}: ${trigger.tokens.map((t) => `\`${t}\``).join(' ')}`,
+              )
+              .join('; ')}}`
+          : '';
+      return `#${attempt.attempt} ${detail}${triggers}`;
     })
     .join('; ');
 }
@@ -256,7 +267,7 @@ export async function runRealEvalCli(
   const report = await runCappedEval(
     selected.cases,
     withServedSkillContext(model, skillCodeByContentId),
-    { maxCalls: args.maxCalls },
+    { maxCalls: args.maxCalls, explainRejections: true },
   );
   io.writeFile(
     args.outPath,

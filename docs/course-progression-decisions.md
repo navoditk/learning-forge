@@ -2856,7 +2856,51 @@ Rulings:
 3. Plural alias rejection stays. Any narrowing needs its own D-281 amendment
    and corpus update.
 
-There are 293 decisions: D-01 through D-75, D-139, D-142, D-145–D-293 approved;
+### D-294 — SCI6-STRUCT-DIAG rev2 accepted (D-281 amendment)
+
+Delegated decision (D-212/D-219). Codex `gpt-6.1-sol` (verified; thread
+`01a19005-d26e-7603-aee7-8f9de5d3589d`) gave **READY_WITH_RISKS** on Opus
+(verified `claude-opus-5-5`) patch
+`9b1c77c3b8831da3a414350dde6f25b6a7322c834fde4d55179878fef3d3b27a`. All r1
+findings are closed, and no new bypass was found across about 2,650
+additional probes.
+
+The D-281 structural contract is amended to exempt only:
+
+- "which/each/every/no/any one";
+- "one another";
+- "one of them" or "one of the <non-option noun>";
+- a sentence-opening "Let's first <instruction verb>";
+- "at first glance/sight";
+- a sentence-opening "At first, <closed clause subject>".
+
+An exemption next to an option noun, number, letter or alias is still
+rejected. Real-eval reports name each rejection's rule and up to five
+triggering tokens (Unicode tokens as `U+XXXX`). This is off by default and
+never enters traces or learner responses.
+
+Corpus results:
+
+- D-281 corpus v2: 11,123 of 11,123 reject-expected cases still rejected.
+- New corpus `sci6-struct-diag-benign-corpus-v2`: 2,658 of 2,658
+  adversarial cases rejected.
+- Benign structural false positives: down from 312 of 312 to 0.
+
+Isolated validation 28 passed:
+
+- verify (3,033 passed, 1 skipped);
+- integration (367 passed, 1 skipped);
+- fake evals (36);
+- e2e (116, with 1 flaky Science journey axe color-contrast check caught
+  mid-transition that passed on retry);
+- no `.env` loaded.
+
+Remaining risk, which this decision does not fix: the unchanged numeric
+answer-leak check still rejects every benign target on
+`sci6-cell-as-a-system-2` and `sci6-cells-evidence-of-life-2`. That is
+SCI6-LEAK-CAL under D-293.
+
+There are 294 decisions: D-01 through D-75, D-139, D-142, D-145–D-294 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

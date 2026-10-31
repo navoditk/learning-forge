@@ -12,6 +12,7 @@ import {
   TutorSubjectFramingSchema,
   validateTutorMove,
 } from '../contracts';
+import { explainRejection, type RejectionTrigger } from './rejection-diagnostics';
 import { SCIENCE_FALLBACK_MESSAGE, SCIENCE_PROHIBITED_ACTIVITY_PATTERNS } from './science-safety';
 import { authorizeTutorMove, PolicyContext, transitionTutorState, TutorState } from './policy';
 
@@ -67,10 +68,21 @@ export interface TutorAttemptDiagnostic {
   status: TutorMoveValidation['status'];
   reasons: string[];
   schemaIssues: string[];
+  /**
+   * SCI6-STRUCT-DIAG (D-291): bounded single trigger tokens per reason, only
+   * when the harness was built with `explainRejections` (the local eval
+   * report). Never set on the learner route; never part of the trace.
+   */
+  triggers?: RejectionTrigger[];
 }
 
 export interface TutorHarnessOptions {
   onAttempt?: (diagnostic: TutorAttemptDiagnostic) => void;
+  /**
+   * SCI6-STRUCT-DIAG: add bounded trigger tokens to each rejected attempt's
+   * diagnostic. Local eval reports only; requires `onAttempt`.
+   */
+  explainRejections?: boolean;
 }
 
 export class TutorHarness {
@@ -144,15 +156,30 @@ export class TutorHarness {
     const observedAttempt = async () => {
       const outcome = await attempt();
       attemptIndex += 1;
-      this.report({
+      if (!this.options.onAttempt) return outcome;
+      const reasons =
+        outcome.validation.status === 'validated' ? [] : [...outcome.validation.reasons];
+      const diagnostic: TutorAttemptDiagnostic = {
         attempt: attemptIndex,
         status: outcome.validation.status,
-        reasons: outcome.validation.status === 'validated' ? [] : [...outcome.validation.reasons],
+        reasons,
         schemaIssues:
           outcome.result && outcome.validation.status === 'requires_fallback'
             ? describeTutorMoveSchemaIssues(outcome.result.candidate)
             : [],
-      });
+      };
+      if (this.options.explainRejections && outcome.result && reasons.length > 0) {
+        try {
+          diagnostic.triggers = explainRejection(outcome.result.candidate, reasons, {
+            protectedTokens: input.protectedTokens ?? [],
+            problemPrompt: input.prompt,
+            prohibitedActivityPatterns,
+          });
+        } catch {
+          // Diagnostics must never change the learner-facing outcome.
+        }
+      }
+      this.report(diagnostic);
       return outcome;
     };
 
