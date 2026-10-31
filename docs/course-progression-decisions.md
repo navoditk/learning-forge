@@ -2793,7 +2793,44 @@ recommendation. Scope:
 Opus authors (unresolved design); Codex reviews cross-family. No paid run is
 authorized: a confirming run needs a new owner authorization.
 
-There are 291 decisions: D-01 through D-75, D-139, D-142, D-145–D-291 approved;
+### D-292 — PRIVATE-MERGE accepted (D-287 script)
+
+Delegated decision (D-212/D-219). Codex `gpt-6.1-sol` (verified; thread
+`01a18b15-2206-79b1-a7d0-af6b797ee6dd`) reviewed over five rounds:
+
+- r1 NOT_READY (four majors);
+- r2 NOT_READY (F3 open);
+- r3 NOT_READY (three history majors; cause checkpoint
+  `agent-handoffs/PRIVATE-MERGE/cause-checkpoint.md`);
+- r4 READY;
+- r5 READY_WITH_RISKS, on the integrator's skip of the real-history test for
+  checkouts without full history.
+
+Patch rev4a `df62c4bc5bb094b37bd4c6efeff61facfda235e58ea32253cf01ad1a9f514f18`
+was authored by Sonnet (verified `claude-sonnet-5-5`), plus that integrator
+edit. Isolated validation 27 passed:
+
+- verify (2,953 passed, 1 skipped);
+- integration (367 passed, 1 skipped);
+- fake evals (35);
+- e2e (117);
+- no `.env` loaded.
+
+The script `scripts/private-bank-merge.ts`:
+
+- verifies file hashes and the D-266 content digests;
+- re-validates every incoming bank;
+- runs D-216 non-reuse (ids and normalized prompts) against the owner's
+  package and every historical public content blob (full history; it refuses
+  a shallow clone);
+- writes a new `0600` file without overwriting;
+- prints only fixed codes, counts, hashes and identifiers.
+
+It has never run on real inputs; the owner runs it (D-287). Follow-up
+(non-blocking): `fetch-depth: 0` in CI so the real-history assertion runs
+there.
+
+There are 292 decisions: D-01 through D-75, D-139, D-142, D-145–D-292 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

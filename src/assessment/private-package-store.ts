@@ -112,7 +112,7 @@ const PackageBankSchema = z
     }
   });
 
-const PackageSchema = z.object({ banks: z.array(PackageBankSchema).min(1) }).strict();
+export const PackageSchema = z.object({ banks: z.array(PackageBankSchema).min(1) }).strict();
 
 function canonicalJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
@@ -135,7 +135,7 @@ function itemWithoutHash<T extends { hash: string }>(item: T): Omit<T, 'hash'> {
   return content as Omit<T, 'hash'>;
 }
 
-function validatePackageIntegrity(
+export function validatePackageIntegrity(
   banks: readonly z.infer<typeof PackageBankSchema>[],
   requiredBanks: readonly RequiredBank[] = [],
 ): void {

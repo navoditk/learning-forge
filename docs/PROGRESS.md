@@ -1,5 +1,13 @@
 # Progress
 
+## 2026-10-30 — PRIVATE-MERGE accepted (D-292); owner runs it
+
+- The owner-run merge and D-216 check script is integrated. Codex took five
+  rounds (READY_WITH_RISKS), and isolated validation 27 was green.
+- The owner runs it against their package (command in D-292 and the session
+  reply). Then the D-242 mounted-package e2e. SCI6-STRUCT-DIAG is paused on
+  the Opus usage limit.
+
 ## 2026-10-30 — SCI6-STRUCT-DIAG approved (D-291); PRIVATE-MERGE in revision
 
 - D-291 has two parts: per-rejection token diagnostics, and a proposed
