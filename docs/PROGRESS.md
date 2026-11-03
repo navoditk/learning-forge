@@ -1,5 +1,10 @@
 # Progress
 
+## 2026-11-02 — SCI6-PROMPT-NUM chosen (D-297); window extension needed
+
+- The owner chose the number-free Science prompt revision. The D-282 window
+  has ended, so the Opus author is dispatched after the owner extends it.
+
 ## 2026-10-30 — SCI6-LEAK-CAL closed without adoption (D-296)
 
 - Three Codex rounds found count disclosures in every masking design.

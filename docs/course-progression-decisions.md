@@ -2941,7 +2941,24 @@ item. The fallback rate on `sci6-cell-as-a-system-2` and
 `sci6-cells-evidence-of-life-2` goes to owner review. Artifacts are kept
 locally under `agent-handoffs/SCI6-LEAK-CAL/rev1..rev3/`.
 
-There are 296 decisions: D-01 through D-75, D-139, D-142, D-145–D-296 approved;
+### D-297 — Number-free Science prompt revision chosen (SCI6-PROMPT-NUM)
+
+Owner, 2026-11-02, reply **"1"** to the D-296 options. Next packet is
+SCI6-PROMPT-NUM:
+
+- The Science tutor prompt is revised (new prompt version) to tell the model
+  never to use number words or ordinals, and to use number-free sequencing
+  instead ("Start with …", "Next, …").
+- All validators stay unchanged, and no item content is changed.
+- Opus authors; Codex reviews cross-family; validation uses the fake tutor
+  only.
+- After integration, the integrator asks for owner authorization of one
+  capped six-item paid run, judged against D-285.
+
+The D-282 delivery window ended 2026-10-31T01:56:46Z, so dispatch waits for
+an owner window extension.
+
+There are 297 decisions: D-01 through D-75, D-139, D-142, D-145–D-297 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
