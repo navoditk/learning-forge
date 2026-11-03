@@ -1,5 +1,10 @@
 # Progress
 
+## 2026-11-02 — Window extended (D-298); SCI6-PROMPT-NUM dispatched
+
+- The window runs to 2026-11-04T02:53:47Z, with 154 of 180 runs used. The Opus author is on
+  SCI6-PROMPT-NUM.
+
 ## 2026-11-02 — SCI6-PROMPT-NUM chosen (D-297); window extension needed
 
 - The owner chose the number-free Science prompt revision. The D-282 window
@@ -8189,8 +8194,7 @@ id@version` identities across banks, protecting no-reuse selection from
   - Paid runs need an explicit owner authorization each time. The owner runs
     them via `!`; agents never read `.env`.
   - Window: `.git/agent-handoffs/DELIVERY-COORDINATOR/claude-window-20261020/`
-    (`authorization.json` and `ledger.json`; 151/180 used; ends
-    2026-10-31T01:56:46Z). After it ends, request an extension.
+    (`authorization.json` and `ledger.json`; ends 2026-11-04T02:53:47Z, D-298). After it ends, request an extension.
 - Lane C: SCI6-LEAK-CAL closed without adoption (D-296). Next is the
   owner's choice, recorded in the 2026-10-30 D-296 entry.
   - Worktree `.claude/worktrees/agent-aa0cb0ec0b7f13775` (base `ab6222a`).

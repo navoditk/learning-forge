@@ -2,8 +2,8 @@
 
 ## Live relay
 
-- Phase (2026-10-30): **AWAITING_HUMAN**: SCI6-PROMPT-NUM chosen (D-297);
-  dispatch waits for a window extension.
+- Phase (2026-10-30): **SCI6-PROMPT-NUM IN PROGRESS** (D-297, D-298):
+  Opus author, then Codex review.
   - Done:
     - SU-H7 eval satisfied (D-284);
     - six-item run 1 FAIL (D-290);

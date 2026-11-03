@@ -2958,7 +2958,14 @@ SCI6-PROMPT-NUM:
 The D-282 delivery window ended 2026-10-31T01:56:46Z, so dispatch waits for
 an owner window extension.
 
-There are 297 decisions: D-01 through D-75, D-139, D-142, D-145–D-297 approved;
+### D-298 — Delivery window extended 24 hours
+
+Owner, 2026-11-02, reply **"extend"**. The window runs from `2026-11-03T02:53:47Z` to `2026-11-04T02:53:47Z`,
+and the invocation cap stays at 180 (154 used). This authorizes dispatching
+SCI6-PROMPT-NUM (D-297). The same reply asked for the merge dry run, which
+remains an owner-run action (D-287).
+
+There are 298 decisions: D-01 through D-75, D-139, D-142, D-145–D-298 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
