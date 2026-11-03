@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-11-03 — SCI6-NUM-PLURAL paused for owner after Codex r3
+
+- Codex r3 closed the length cap, compound-stem and alias findings. Two new
+  majors remain: repeated possessives (`tenfold's's`) bypass the check, and
+  `monosome`/`polysome` are wrongly allowlisted.
+- The lane is paused at the owner's decision point (cause checkpoint in
+  `agent-handoffs/SCI6-NUM-PLURAL/cause-checkpoint.md`). The recommendation
+  is one bounded rev4 (Sonnet), then Codex review and integration. Rev3 is in
+  `rev3/`; ledger 162/180.
+
 ## 2026-11-02 — SCI6-PROMPT-NUM integrated (D-299); SCI6-NUM-PLURAL next
 
 - The number-free Science prompt (`-6-science`) is on `main`. Next is the
