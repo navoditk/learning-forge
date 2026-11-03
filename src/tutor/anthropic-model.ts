@@ -4,6 +4,7 @@ import { ScoringInput, TutorModel, TutorModelResult, TutorMoveInput } from '../c
 import { checkRateLimit } from './rate-limit';
 import {
   SCIENCE_ANSWER_FAMILY_RULE,
+  SCIENCE_NUMBER_FREE_RULE,
   SCIENCE_REDIRECT_GUIDANCE,
   SCIENCE_STRUCTURE_RULE,
   SCIENCE_VIRTUAL_ACTIVITY_RULE,
@@ -19,10 +20,12 @@ export const ANTHROPIC_MODEL_ID = 'claude-haiku-4-5-20251001';
 // SU-H7-FIX2 rev4 bumped the Science prompt alone to version 4 (D-281 structure
 // rule: no standalone letters, numbers or choice enumeration; the number-pair
 // line is dropped for Science); rev5 bumped it to version 5 (the structure rule
-// also names the plural alias words). The Math prompt and the scoring prompt
-// did not change.
+// also names the plural alias words). SCI6-PROMPT-NUM (D-297) bumped it to
+// version 6 (number-free rule with sequencing and pointing alternatives;
+// Science-only move guidance without "one", "first" or numbered steps). The
+// Math prompt and the scoring prompt did not change.
 const PROMPT_TEMPLATE_VERSION = 'anthropic-tutor-prompt-3';
-const SCIENCE_PROMPT_TEMPLATE_VERSION = 'anthropic-tutor-prompt-5-science';
+const SCIENCE_PROMPT_TEMPLATE_VERSION = 'anthropic-tutor-prompt-6-science';
 const SCORING_PROMPT_TEMPLATE_VERSION = 'anthropic-tutor-prompt-1';
 const MOVE_TOOL_NAME = 'provide_tutor_move';
 const SCORE_TOOL_NAME = 'provide_score';
@@ -49,13 +52,23 @@ const MOVE_TYPE_GUIDANCE: Record<string, string> = {
     'Ask the learner to explain the strategy they used in their own words, or reflect on how to recognize this kind of problem next time.',
 };
 
-// Science overrides only the two move types whose math wording does not fit;
-// every other move type keeps the shared guidance.
+// Science overrides the move types whose math wording does not fit, and
+// (SCI6-PROMPT-NUM, D-297) every shared guidance line that contains "one",
+// "first", numbered steps or the article "a", so no Science guidance line has a
+// D-281 structural trigger. The Math table above is unchanged.
 const SCIENCE_MOVE_TYPE_GUIDANCE: Record<string, string> = {
+  clarify_problem:
+    'Help the learner restate or understand what the problem is asking, without giving any part of the strategy or solution.',
+  probe_reasoning:
+    'Ask the learner to say what they would look at to start, or to explain what they already notice, without giving any strategy.',
   hint_2_representation:
-    'Suggest a way to represent the problem (a table, labeled sketch or list of features) that would make the relationship easier to see, without solving any part of it. Suggest only the representation.',
+    'Suggest some way to represent the problem (such as the table, sketch with word labels or list of features) that would make the relationship easier to see, without solving any part of it. Suggest only the representation.',
+  hint_3_subproblem:
+    'Suggest some smaller sub-question the learner could work out before the rest, without giving its answer. Word it precisely, naming the features or parts it is about by description, never by letter, number or position.',
   analogous_example:
-    'Describe a simpler, different situation with the same underlying idea, without solving the learner’s actual problem.',
+    'Describe some simpler, different situation with the same underlying idea, without solving the learner’s actual problem.',
+  guided_solution:
+    'Walk through the solution method for this exact problem step by step, ordering the steps with words such as "Start with", "Next" and "Then" rather than numbers. This step type is only ever requested after the server has already authorized revealing the method.',
 };
 
 type SubjectFraming = NonNullable<TutorMoveInput['subjectFraming']>;
@@ -81,6 +94,7 @@ function buildSystemPrompt(subjectFraming: SubjectFraming = 'math'): string {
       ? [
           SCIENCE_ANSWER_FAMILY_RULE,
           SCIENCE_STRUCTURE_RULE,
+          SCIENCE_NUMBER_FREE_RULE,
           SCIENCE_REDIRECT_GUIDANCE,
           SCIENCE_VIRTUAL_ACTIVITY_RULE,
         ]

@@ -190,15 +190,17 @@ describe('Science tutor framing (SU-E4)', () => {
     expect(system).toContain('science tutoring session');
     expect(system.toLowerCase()).not.toContain('math');
     expect(messages[0].content.toLowerCase()).not.toContain('math');
-    expect(messages[0].content).toContain('(a table, labeled sketch or list of features)');
-    expect(response.trace.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-5-science');
+    expect(messages[0].content).toContain(
+      '(such as the table, sketch with word labels or list of features)',
+    );
+    expect(response.trace.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-6-science');
 
     sdk.create.mockClear();
     await harness().respond(
       sessionInput({ subjectFraming: 'science', state: 'hint_3_subproblem' }),
     );
     expect(lastCall().messages[0].content).toContain(
-      'Required move type: analogous_example. Describe a simpler, different situation with the same underlying idea, without solving the learner’s actual problem.',
+      'Required move type: analogous_example. Describe some simpler, different situation with the same underlying idea, without solving the learner’s actual problem.',
     );
   });
 

@@ -1,5 +1,11 @@
 # Progress
 
+## 2026-11-02 — SCI6-PROMPT-NUM integrated (D-299); SCI6-NUM-PLURAL next
+
+- The number-free Science prompt (`-6-science`) is on `main`. Next is the
+  plural-magnitude validator fix, then an owner-authorized six-item paid run
+  judged against D-285.
+
 ## 2026-11-02 — Window extended (D-298); SCI6-PROMPT-NUM dispatched
 
 - The window runs to 2026-11-04T02:53:47Z, with 154 of 180 runs used. The Opus author is on

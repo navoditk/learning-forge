@@ -2965,7 +2965,37 @@ and the invocation cap stays at 180 (154 used). This authorizes dispatching
 SCI6-PROMPT-NUM (D-297). The same reply asked for the merge dry run, which
 remains an owner-run action (D-287).
 
-There are 298 decisions: D-01 through D-75, D-139, D-142, D-145–D-298 approved;
+### D-299 — SCI6-PROMPT-NUM accepted; plural-magnitude gap routed
+
+Delegated decision (D-212/D-219). Codex `gpt-6.1-sol` (verified; thread
+`01a19f60-2df8-7181-aaaf-b3d9350778f3`) gave **READY_WITH_RISKS** on Opus
+(verified `claude-opus-5-5`) patch
+`4eb479bd98fc5697c47eedb456fbf0e601121a9d1db941238941301e58f68323`.
+
+The Science tutor prompt is now `anthropic-tutor-prompt-6-science`: no number
+words, ordinals, digits, fractions or labels, and number-free sequencing and
+pointing phrases instead. Codex checked every suggested phrase against all six
+items; none points at a correct option. Validators, item content, the Math
+prompt (`anthropic-tutor-prompt-3`, bytes unchanged) and the fake tutor are
+unchanged.
+
+Isolated validation 31:
+
+- verify: 3,056 passed, 1 skipped. Three agent-relay tests timed out under
+  load and passed on rerun (334 of 334).
+- Build passed on rerun.
+- Integration: 367 passed, 1 skipped.
+- Fake evals: 36. E2e: 117.
+- No `.env` loaded.
+
+Ruling: a pre-existing major gap is fixed in a separate validator packet,
+SCI6-NUM-PLURAL. The Science number vocabulary omits plural magnitudes
+("hundreds", "thousands"); for example, "The leaf consists of thousands of
+bounded units." validates on `sci6-cells-evidence-of-life-2`. This blocks the
+Science release, not this prompt. Approximate plurals are not given an
+invented exact value.
+
+There are 299 decisions: D-01 through D-75, D-139, D-142, D-145–D-299 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

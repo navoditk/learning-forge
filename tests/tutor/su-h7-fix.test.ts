@@ -411,7 +411,7 @@ describe('AnthropicTutorModel version 2 tool contract', () => {
       true,
     );
     expect(response.status).toBe('validated');
-    expect(response.trace.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-5-science');
+    expect(response.trace.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-6-science');
   });
 
   it('scoring keeps its unchanged prompt version', async () => {

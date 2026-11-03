@@ -31,6 +31,7 @@ import {
 } from '../../src/tutor';
 import {
   SCIENCE_ANSWER_FAMILY_RULE,
+  SCIENCE_NUMBER_FREE_RULE,
   SCIENCE_PROHIBITED_ACTIVITY_PATTERNS,
   SCIENCE_REDIRECT_GUIDANCE,
   SCIENCE_STRUCTURE_RULE,
@@ -495,7 +496,7 @@ describe('prompt versions (Math 3, Science 4; SU-H7-FIX2 requirements 1, 3 and 4
     resetRateLimitForTests();
   });
 
-  it('Science adds the answer-family and D-281 structure rules before the unchanged redirect and D-189 rules', async () => {
+  it('Science adds the answer-family, D-281 structure and SCI6-PROMPT-NUM number-free rules before the unchanged redirect and D-189 rules', async () => {
     sdk.create.mockResolvedValue(toolUse());
     const result = await new AnthropicTutorModel('sk-dummy-in-process-only').generateMove({
       prompt: scienceCase('sci-leakage-option-label').problem.prompt,
@@ -507,12 +508,12 @@ describe('prompt versions (Math 3, Science 4; SU-H7-FIX2 requirements 1, 3 and 4
     const { system } = sdk.create.mock.calls[0][0] as { system: string };
     expect(
       system.endsWith(
-        `${SCIENCE_ANSWER_FAMILY_RULE} ${SCIENCE_STRUCTURE_RULE} ${SCIENCE_REDIRECT_GUIDANCE} ${SCIENCE_VIRTUAL_ACTIVITY_RULE}`,
+        `${SCIENCE_ANSWER_FAMILY_RULE} ${SCIENCE_STRUCTURE_RULE} ${SCIENCE_NUMBER_FREE_RULE} ${SCIENCE_REDIRECT_GUIDANCE} ${SCIENCE_VIRTUAL_ACTIVITY_RULE}`,
       ),
     ).toBe(true);
     // rev4: Science drops the number-pair line; the structure rule forbids numbers.
     expect(system).not.toContain('whether in numerals or spelled out as words');
-    expect(result.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-5-science');
+    expect(result.metadata.promptTemplateVersion).toBe('anthropic-tutor-prompt-6-science');
   });
 
   it('Math does not get the Science rule and reports version 3', async () => {

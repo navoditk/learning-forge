@@ -136,13 +136,13 @@ describe('Phase 1 hint route subject framing (SU-E4)', () => {
     expect(call.system.toLowerCase()).not.toContain('math');
     expect(body.response.status).toBe('validated');
     expect(body.response.trace.metadata.promptTemplateVersion).toBe(
-      'anthropic-tutor-prompt-5-science',
+      'anthropic-tutor-prompt-6-science',
     );
     const traces = await prisma.tutorTrace.findMany({
       where: { householdId: identity.householdId, sessionId: session.sessionId },
     });
     expect(traces.map((trace) => trace.promptTemplateVersion)).toEqual([
-      'anthropic-tutor-prompt-5-science',
+      'anthropic-tutor-prompt-6-science',
     ]);
   });
 

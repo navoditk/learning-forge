@@ -64,6 +64,71 @@ export const SCIENCE_ANSWER_FAMILY_RULE =
  * identifier, including the joined plurals "cells", "samples" and the like
  * (rev5). Placed after the answer-family rule and before the redirect
  * guidance and the D-189 rule, which stay unchanged and last.
+ *
+ * SCI6-PROMPT-NUM (D-297): numbers moved to SCIENCE_NUMBER_FREE_RULE below;
+ * this rule now covers letters, labels, aliases and non-English letters.
  */
 export const SCIENCE_STRUCTURE_RULE =
-  'Write tutorMessage and question without any single letter standing alone as a word, so never use the words "a" or "I" (say "the", "this", "each", "any" or "some" instead); without any digit, number word, fraction or position word such as one, two, half, first, second or last; without naming, numbering, lettering or listing the answer choices or any labelled sample, cell, example, run, option or letter; and without the plural words cells, samples, examples, options, choices, letters or runs (say "these units", "the pictures", "the descriptions" or "living things" instead). Describe features and evidence in plain words instead, for example "the layer with small gates".';
+  'Write tutorMessage and question without any single letter standing alone as a word, so never use the words "a" or "I" (say "the", "this", "each", "any" or "some" instead), and never call anything by its letter or label, such as the letter after sample, cell or example in the problem. Never name, number, letter or list the answer choices or any labelled sample, cell, example, run, option or letter, and never use the plural words cells, samples, examples, options, choices, letters or runs (say "these units", "the pictures", "the descriptions" or "living things" instead). Use only plain English words, with no accented or non-English letters. Describe features and evidence in plain words instead, for example "the layer with small gates".';
+
+/** SCI6-PROMPT-NUM: number-free words for showing order, offered in the prompt. */
+export const SCIENCE_NUMBER_FREE_SEQUENCING = [
+  'Start with',
+  'Next',
+  'Then',
+  'After that',
+  'Finally',
+] as const;
+
+/** SCI6-PROMPT-NUM: number-free pointing words, offered in the prompt. */
+export const SCIENCE_NUMBER_FREE_POINTERS = [
+  'these parts',
+  'that layer',
+  'this part',
+  'each part',
+  'which part',
+] as const;
+
+/**
+ * SCI6-PROMPT-NUM: number-free descriptive references, offered in the prompt.
+ * Deliberately neutral: neither points at any option of any catalog item.
+ */
+export const SCIENCE_NUMBER_FREE_DESCRIPTIONS = [
+  'the part named in the question',
+  'the parts the model describes',
+] as const;
+
+/**
+ * SCI6-PROMPT-NUM: phrases that pass the D-294 structural exemptions but
+ * still carry a number word, so the unchanged numeric answer-leak check
+ * (D-296) rejects them wherever the protected answer contains a number
+ * (sci6-cell-as-a-system-2, sci6-cells-evidence-of-life-2).
+ */
+export const SCIENCE_AVOIDED_NUMBER_PHRASES = [
+  'each one',
+  'which one',
+  'one another',
+  'one of them',
+  'at first',
+  'Let’s first',
+] as const;
+
+const quoted = (phrases: readonly string[]) => phrases.map((phrase) => `"${phrase}"`);
+const orList = (items: readonly string[]) =>
+  `${items.slice(0, -1).join(', ')} or ${items[items.length - 1]}`;
+
+/**
+ * SCI6-PROMPT-NUM (D-297): real run 1 (D-290) rejected 11 of 24 attempts as
+ * numeric_expression_detected, and on the two items whose answers contain a
+ * number every "one" or "first" is also an answer leak (D-296), even inside a
+ * D-294 exemption. The model is told to write no number in any form and is
+ * given number-free alternatives for order and for pointing. This only adds
+ * a constraint; no validator changes. Placed right after the structure rule.
+ */
+export const SCIENCE_NUMBER_FREE_RULE = [
+  'Never write any number in any form: no digits, no number words such as one, two, three, ten or hundred (not even "one" as a pronoun), no ordinal or position words such as first, second, third or last, and no fractions or fraction words such as half, third or quarter.',
+  'Do not count things, say how many there are, or repeat any number or numbered name from the problem.',
+  `Also avoid ${orList(quoted(SCIENCE_AVOIDED_NUMBER_PHRASES))}, because they still contain number words.`,
+  `To show order, say ${orList(quoted(SCIENCE_NUMBER_FREE_SEQUENCING))}.`,
+  `To point at things, say ${orList(quoted(SCIENCE_NUMBER_FREE_POINTERS))}, or describe what you mean in words, for example ${orList(quoted(SCIENCE_NUMBER_FREE_DESCRIPTIONS))}.`,
+].join(' ');

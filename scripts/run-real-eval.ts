@@ -29,7 +29,7 @@ import { ANTHROPIC_MODEL_ID, AnthropicTutorModel } from '../src/tutor/anthropic-
 
 // Mirrors the adapter's constants (not exported there); the CLI test pins them against the adapter source.
 export const MATH_TEMPLATE_VERSION = 'anthropic-tutor-prompt-3';
-export const SCIENCE_TEMPLATE_VERSION = 'anthropic-tutor-prompt-5-science';
+export const SCIENCE_TEMPLATE_VERSION = 'anthropic-tutor-prompt-6-science';
 export const MAX_OUTPUT_TOKENS_PER_CALL = 300;
 
 const AllowlistSchema = z
