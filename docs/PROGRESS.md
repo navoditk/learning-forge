@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-11-04 — SCI6-NUM-PLURAL rev4 NOT_READY; paused for owner (D-300 to D-302)
+
+- Owner extended the window to 2026-11-05T13:45:43Z (D-300) and approved one
+  rev4 (D-301). Sonnet rev4 closed F4 (repeated possessives) and F5
+  (monosome/polysome); Codex r4 confirmed both.
+- Codex r4 raised F6: other apostrophe tails (`tenfold'x`) still hide numbers.
+  Per D-301 the lane returns to the owner (D-302). Recommendation: one rev5
+  with a closed contraction-tail list (cause checkpoint). Rev4 is in `rev4/`;
+  ledger 164/180.
+
 ## 2026-11-03 — SCI6-NUM-PLURAL paused for owner after Codex r3
 
 - Codex r3 closed the length cap, compound-stem and alias findings. Two new

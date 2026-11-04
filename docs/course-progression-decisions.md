@@ -2995,7 +2995,44 @@ bounded units." validates on `sci6-cells-evidence-of-life-2`. This blocks the
 Science release, not this prompt. Approximate plurals are not given an
 invented exact value.
 
-There are 299 decisions: D-01 through D-75, D-139, D-142, D-145–D-299 approved;
+### D-300 — Delivery window extended 24 hours
+
+Owner, 2026-11-04, reply **"extend, 1"**. The window runs from
+`2026-11-04T13:45:43Z` to `2026-11-05T13:45:43Z`, and the invocation cap stays
+at 180 (162 used).
+
+### D-301 — One SCI6-NUM-PLURAL rev4 approved
+
+Owner, 2026-11-04, same reply. Codex r3 was NOT_READY with two majors:
+
+- F4: repeated possessives (`tenfold's's`, `hundreds's's`, curly variants)
+  bypass the numeric and alias checks.
+- F5: `monosome(s)` and `polysome(s)` are count-bearing and leave the
+  allowlist; `autosome(s)` stays.
+
+The original Sonnet author makes exactly one bounded rev4 fixing only F4 and
+F5, preserving the closed r2 findings and the accepted corpus re-pin. Then
+Codex changed-scope review, isolated validation and integration under
+delegated acceptance. A further NOT_READY returns to the owner. The confirming
+six-item paid run needs separate owner authorization.
+
+### D-302 — SCI6-NUM-PLURAL rev4 NOT_READY; returned to owner
+
+Delegated review result recorded under D-301. Codex `gpt-6.1-sol` (verified;
+thread `01a19f60-2df8-7181-aaaf-b3d9350778f3`) gave **NOT_READY** on Sonnet
+(verified `claude-sonnet-5-5`) patch
+`72df33b0b3c18197edf34c255be5884ca91feae1e7c7fb646ce06e84b6040aa1`.
+
+- F4 (repeated possessives) and F5 (monosome/polysome) are closed; the
+  allowlist is 91 words, hash `0d29dd50…`. Earlier closures and the corpus pin
+  `b6ea6a41…` (11,141 cases) are preserved.
+- F6 (major, pre-existing, disclosed by the author): apostrophe tails other
+  than `'s` chains (`tenfold'x`, `tenfold's'x`, `hundreds'x`, curly variants)
+  hide protected numbers and validate through the full harness.
+
+Per D-301 there is no automatic rev5 or integration; the owner decides.
+
+There are 302 decisions: D-01 through D-75, D-139, D-142, D-145–D-302 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
