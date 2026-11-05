@@ -3217,7 +3217,30 @@ Correction (2026-11-04): the first version of this entry said 6 of 12 and
 `01a1aa4f-6869-7ed3-90ce-cec812c1b822`) identified the miscount in its
 advisory review; the per-item lines above were always correct.
 
-There are 310 decisions: D-01 through D-75, D-139, D-142, D-145–D-310 approved;
+### D-311 — SCI6-REPAIR-FEEDBACK and SCI6-ALIAS-SCOPE approved
+
+Owner, 2026-11-05, reply **"approve"** to the Codex-recommended scope (advisory
+thread `01a1aa4f-6869-7ed3-90ce-cec812c1b822`).
+
+- Two serial, bounded packets with an aggregate ceiling of eight native
+  invocations, within a verified active window. SCI6-REPAIR-FEEDBACK goes
+  first, then SCI6-ALIAS-SCOPE.
+- Repair feedback: class-only structural retry guidance is preferred. Any
+  token-specific alternative must show answer independence (a
+  noninterference test) and injection resistance.
+- Alias scope: amend D-281 only for ordinary plural ambiguity when `S` is
+  absent from the trusted, versioned identifier namespace of the item. Unknown
+  metadata keeps the conservative rule. It follows the D-293 corpus
+  requirements and needs cross-family review.
+- Unchanged: numeric and answer protections, item content, Math behavior and
+  the two-attempt limit. No model switch, and no change to D-285.
+- After combined validation and review, the integrator requests separate
+  authorization for one capped paid run 3 under the unchanged D-285.
+
+The D-300 window ended at 2026-11-05T13:45:43Z, so dispatch waits for an owner
+window extension.
+
+There are 311 decisions: D-01 through D-75, D-139, D-142, D-145–D-311 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
