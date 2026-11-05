@@ -110,6 +110,8 @@ describe('finding 1: Science option selection, through the harness on catalog it
     [EVIDENCE_1, 'Which sample has many tiny units, each with a boundary and parts inside?'],
     [PARTS_2, `Only Cell Y${RIGHT_QUOTE}s model has that part.`],
     [PARTS_2, `The part is only in Cell Y${RIGHT_QUOTE}s model.`],
+    // SCI6-NUM-PLURAL rev2: "both" states two; the former benign control is now a rejection.
+    [PARTS_2, 'List the parts of both cell models side by side.'],
     [EVIDENCE_2, 'Example A is 1 cell.'],
     [EVIDENCE_2, 'Option 2 fits Example B.'],
   ];
@@ -117,7 +119,7 @@ describe('finding 1: Science option selection, through the harness on catalog it
     [EVIDENCE_1, 'Which picture shows separate units, each with its own edge?'],
     [EVIDENCE_1, 'Make your checklist for each sample: units, edges, parts inside.'],
     [PARTS_2, 'Which part is in just the leaf model and not the root model?'],
-    [PARTS_2, 'List the parts of both cell models side by side.'],
+    [PARTS_2, 'List the parts of the cell models side by side.'],
     [EVIDENCE_2, 'What does each description say about units and boundaries?'],
     [EVIDENCE_2, 'Look at each description: is it built from units with their own boundary?'],
   ];

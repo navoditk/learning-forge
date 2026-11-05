@@ -3032,7 +3032,55 @@ thread `01a19f60-2df8-7181-aaaf-b3d9350778f3`) gave **NOT_READY** on Sonnet
 
 Per D-301 there is no automatic rev5 or integration; the owner decides.
 
-There are 302 decisions: D-01 through D-75, D-139, D-142, D-145–D-302 approved;
+### D-303 — One SCI6-NUM-PLURAL rev5 approved
+
+Owner, 2026-11-04, reply **"1"**. The original Sonnet author makes exactly one
+rev5 on top of rev4, fixing only F6 with a closed contraction-tail rule:
+
+- In the Science path, a token with an internal apostrophe passes only when,
+  after `'s`-chain folding, its tail is exactly one of `'s 't 're 've 'll 'd
+'m` and its prefix passes the numeric and alias checks.
+- Any other tail rejects. Contractions are not split into standalone-letter
+  violations.
+
+Then Codex changed-scope review, isolated validation and integration under
+delegated acceptance. A further NOT_READY returns to the owner. The confirming
+six-item paid run needs separate owner authorization.
+
+### D-304 — SCI6-NUM-PLURAL rev5 accepted; numeric-fragment gap routed
+
+Delegated decision (D-212/D-219, under D-303). Codex `gpt-6.1-sol` (verified;
+thread `01a19f60-2df8-7181-aaaf-b3d9350778f3`) gave **READY_WITH_RISKS** on
+Sonnet (verified `claude-sonnet-5-5`) patch
+`f77be094a1c78402f6fc3c2375a3717945ef8682bf742f3e297478ff3455b1de`.
+
+The Science structural validator now rejects plural and compound magnitudes
+(D-299 gap):
+
+- a 24-character token cap;
+- `uple` and `illion`/`lakh`/`crore` substring rules;
+- a closed `-fold`/`-some` allowlist of 91 words, hash `0d29dd50…`;
+- repeated-possessive folding;
+- a closed contraction-tail list (`'s 't 're 've 'll 'd 'm`). Any other
+  apostrophe shape rejects.
+
+The D-281 corpus stays at 11,141 cases, hash `b6ea6a41…`. Math canonicalization
+is unchanged.
+
+Isolated validation 36:
+
+- verify: 3,607 passed, 1 skipped; the build passed.
+- Integration: 367 passed, 1 skipped.
+- Fake evals: 36. E2e: 117.
+- No `.env` loaded.
+
+Ruling on F7 (major, pre-existing): number words split by intra-word
+punctuation or spaces (`hun-dreds`, `thou.sands`, `thir-teen`, `hun dreds`)
+validate on both the base and rev5. This does not block rev5, but it does block
+the Science release. It goes to a separate packet, SCI6-NUM-FRAGMENT, with its
+own normalization policy and an adversarial and benign corpus.
+
+There are 304 decisions: D-01 through D-75, D-139, D-142, D-145–D-304 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

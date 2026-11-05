@@ -246,7 +246,9 @@ describe(`D-281 conformance corpus (${CORPUS_VERSION})`, () => {
     expect(new Set(corpus.map((testCase) => testCase.id)).size).toBe(corpus.length);
     expect(new Set(corpus.map((testCase) => testCase.itemId))).toEqual(new Set(SCIENCE_ITEM_IDS));
     const hash = createHash('sha256').update(JSON.stringify(corpus)).digest('hex');
-    expect(hash).toBe('da3e09580e3be318ca9310b6758f7fdc8b5824b9704b1da97f0031b7f36828f8');
+    // SCI6-NUM-PLURAL rev2 (binding ruling): the two safe controls that used "both" were
+    // revised to "the models"; prior hash da3e09580e3be318ca9310b6758f7fdc8b5824b9704b1da97f0031b7f36828f8.
+    expect(hash).toBe('b6ea6a41f6a34d4bd9073ad20ecbff423252de19915582dca934125614ee8663');
   });
 
   it('every case has its expected outcome through the complete harness', async () => {

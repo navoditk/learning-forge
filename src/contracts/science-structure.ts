@@ -98,6 +98,145 @@ const NUMBER_WORDS: ReadonlySet<string> = new Set([
 /** The numeric vocabulary the Science structural contract rejects (exported for conformance tests). */
 export const SCIENCE_NUMERIC_WORDS: ReadonlySet<string> = NUMBER_WORDS;
 
+// SCI6-NUM-PLURAL (D-299): plural, approximate and multiplicative magnitude
+// words. Science-only: the shared parser vocabulary is untouched, none of
+// these words is given a numeric value, and none can be exempted (they are
+// not "one" or "first"). Each inclusion and exclusion is recorded in the
+// packet's audit.md. Possessives (including repeated terminal possessives) are folded by baseOf, as for NUMBER_WORDS.
+const MAGNITUDE_WORDS: ReadonlySet<string> = new Set(
+  words(`
+    hundreds thousands millions billions trillions quadrillions quintillions sextillions
+    septillions octillions nonillions decillions trillion quadrillion quintillion sextillion
+    septillion octillion nonillion decillion googol googols zillion zillions bazillion
+    bazillions gazillion gazillions jillion jillions umpteen lakh lakhs crore crores myriad
+    myriads score scores millionth millionths billionth billionths trillionth trillionths
+    zeros twos threes fours fives sixes sevens eights nines tens elevens twelves thirteens
+    fourteens fifteens sixteens seventeens eighteens nineteens teens twenties thirties forties
+    fifties sixties seventies eighties nineties
+    twice thrice once double doubles doubled doubling doubly triple triples tripled tripling
+    triply twin twins triplet triplets singly
+    single singles pair pairs couple couples duo duos trio trios quartet quartets quintet
+    quintets twosome threesome foursome both
+    decade decades century centuries millennium millennia gross grosses
+  `),
+);
+
+/** The plural, approximate and multiplicative words the Science contract also rejects (conformance tests). */
+export const SCIENCE_MAGNITUDE_WORDS: ReadonlySet<string> = MAGNITUDE_WORDS;
+
+// SCI6-NUM-PLURAL rev2 (review r1 F1): bounded recognition rule for the open
+// families the enumerated set cannot complete. A token of at most
+// MAX_FAMILY_TOKEN letters is a magnitude word when it is
+//   (a) a cardinal stem (one or more concatenated cardinal words, e.g.
+//       "eleven", "twenty", "billion", "twentyfive") plus "fold" or "some";
+//   (b) a Latin multiplicative stem (quadr, quint, sext, sept, oct, non, dec,
+//       undec ... vigint, cent, mill) plus "uple", "uples", "upled",
+//       "upling", "uplet", "uplets" or "uply" ("quintupling", "sextuple",
+//       "decuplets").
+// Matching is on the whole token, so ordinary words such as "manifold" or
+// "handsome" (not number stems) are not caught. No word gets a numeric value.
+const MAX_FAMILY_TOKEN = 64;
+const CARDINAL_STEMS = words(`
+  zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen
+  fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty
+  ninety hundred thousand million billion trillion quadrillion quintillion sextillion
+  septillion octillion nonillion decillion googol zillion
+`);
+const CARDINAL_FAMILY = new RegExp(`^(?:${CARDINAL_STEMS.join('|')})+(?:fold|some)$`, 'u');
+const LATIN_STEMS = words(`
+  quadr quint sext sept oct non dec undec duodec tredec quattuordec quindec sexdec septendec
+  octodec novemdec vigint cent mill
+`);
+const LATIN_FAMILY = new RegExp(
+  `^(?:${LATIN_STEMS.join('|')})(?:uples?|upled|upling|uplets?|uply)$`,
+  'u',
+);
+
+function isMagnitudeWord(base: string): boolean {
+  if (MAGNITUDE_WORDS.has(base)) return true;
+  return base.length <= MAX_FAMILY_TOKEN && (CARDINAL_FAMILY.test(base) || LATIN_FAMILY.test(base));
+}
+
+// SCI6-NUM-PLURAL rev3 (cause-checkpoint fail-safe): the exact recognizer above
+// can miss a count word, so these rules hold no matter what it returns.
+//  1. A token longer than MAX_SCIENCE_TOKEN characters is rejected outright
+//     (longest word in current Science content, prompts and benign corpora: 14).
+//  2. A token ending in fold, folds, some or somes is rejected unless it is in
+//     SCIENCE_SUFFIX_ALLOWLIST.
+//  3. A token containing uple, uplet, upling or uply is rejected unless allowlisted.
+//  4. A token containing illion, lakh or crore is rejected.
+//  5. A token beginning with an alias noun whose remainder is a letter, number
+//     or magnitude word, or breaks rules 2 to 4 (allowlist not applied), is an alias.
+// More over-rejection is accepted.
+const MAX_SCIENCE_TOKEN = 24;
+
+/** Closed, test-pinned list of non-numeric words exempt from the suffix rules 2 and 3. */
+export const SCIENCE_SUFFIX_ALLOWLIST: ReadonlySet<string> = new Set(
+  words(`
+    fold folds some unfold unfolds refold refolds enfold enfolds infold infolds
+    manifold manifolds scaffold scaffolds blindfold blindfolds billfold billfolds
+    handsome awesome wholesome unwholesome troublesome lonesome tiresome fearsome gruesome
+    meddlesome cumbersome quarrelsome burdensome loathsome irksome winsome toothsome fulsome
+    noisome bothersome worrisome wearisome venturesome adventuresome lissome gladsome darksome
+    lightsome blithesome
+    chromosome chromosomes autosome autosomes ribosome ribosomes lysosome lysosomes
+    centrosome centrosomes peroxisome peroxisomes nucleosome nucleosomes endosome endosomes
+    phagosome phagosomes proteasome proteasomes spliceosome spliceosomes liposome liposomes
+    acrosome acrosomes desmosome desmosomes microsome microsomes
+    glycosome glycosomes oleosome oleosomes exosome exosomes
+    coupled coupling couplings uncoupled uncoupling decoupled decoupling
+  `),
+);
+
+const SUFFIX_RULE = /(?:fold|folds|some|somes)$/u;
+const INFIX_RULE = /uple|uplet|upling|uply/u;
+const MAGNITUDE_SUBSTRING = /illion|lakh|crore/u;
+
+/** Rules 2 to 4 for a token (or an alias remainder when `allowlist` is false). */
+function breaksFamilyRules(base: string, allowlist: boolean): boolean {
+  if (MAGNITUDE_SUBSTRING.test(base)) return true;
+  if (allowlist && SCIENCE_SUFFIX_ALLOWLIST.has(base)) return false;
+  return SUFFIX_RULE.test(base) || INFIX_RULE.test(base);
+}
+
+/** True when `base` is an alias noun joined to a remainder that states a number (rule 5). */
+function isFamilyAlias(base: string): boolean {
+  for (const noun of ALIAS_NOUNS) {
+    if (!base.startsWith(noun) || base.length === noun.length) continue;
+    const rest = base.slice(noun.length);
+    if (
+      /^[a-z]$/u.test(rest) ||
+      /^\d+$/u.test(rest) ||
+      NUMBER_WORDS.has(rest) ||
+      isMagnitudeWord(rest) ||
+      breaksFamilyRules(rest, false)
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const isNumericFamily = (base: string) => isMagnitudeWord(base) || breaksFamilyRules(base, true);
+
+// SCI6-NUM-PLURAL rev2 (review r1 F2): format, control, private-use, unassigned
+// and combining characters split or hide a word from the tokenizer (U+034F,
+// U+180E, U+2061-U+2064, variation selectors, bidi controls). The shared
+// canonicalization already deletes soft hyphen, U+200B-U+200D, U+2060 and
+// U+FEFF (so the hidden word is still read); every other such character is
+// rejected as unsupported in the Science path only.
+const ALREADY_STRIPPED = /[\u00AD\u200B-\u200D\u2060\uFEFF]/u;
+const INVISIBLE =
+  /[\p{Cc}\p{Cf}\p{Co}\p{Cs}\p{Cn}\p{M}\u034F\u180E\u2061-\u2064\uFE00-\uFE0F\u{E0100}-\u{E01EF}\u202A-\u202E\u2066-\u2069]/gu;
+const ALLOWED_CONTROLS = /[\t\n\v\f\r]/u;
+
+function invisibleTriggers(text: string): StructureTrigger[] {
+  return [...text.matchAll(INVISIBLE)]
+    .map((match) => match[0])
+    .filter((char) => !ALREADY_STRIPPED.test(char) && !ALLOWED_CONTROLS.test(char))
+    .map((char) => ({ rule: 'unsupported_character_detected' as const, token: char }));
+}
+
 const ALIAS_NOUNS = ['option', 'choice', 'letter', 'sample', 'cell', 'example', 'run'];
 
 // A compact alias: an alias noun joined directly to any single letter a-z,
@@ -106,7 +245,7 @@ const ALIAS_NOUNS = ['option', 'choice', 'letter', 'sample', 'cell', 'example', 
 // "letters" and "runs" are rejected too (accepted over-rejection under
 // D-281; the Science prompt tells the model to avoid these plurals).
 const ALIAS_PATTERN = new RegExp(
-  `^(?:${ALIAS_NOUNS.join('|')})(?:[a-z]|\\d+|${[...NUMBER_WORDS].join('|')})$`,
+  `^(?:${ALIAS_NOUNS.join('|')})(?:[a-z]|\\d+|${[...NUMBER_WORDS, ...MAGNITUDE_WORDS].join('|')})$`,
   'u',
 );
 
@@ -155,21 +294,45 @@ export function structureTokens(text: string): string[] {
   return tokenize(text).tokens.map((token) => token.text);
 }
 
-const baseOf = (token: string) => token.replace(/'s$/u, '');
+const baseOf = (token: string) => token.replace(/(?:'s)+$/u, '');
+
+// SCI6-NUM-PLURAL rev5 (review r4 F6): a token keeps apostrophe-joined letters,
+// so after the terminal 's chain is folded (baseOf) it passes only when it has
+// no apostrophe, or exactly one whose tail is a closed contraction tail. The
+// prefix before that tail is what the numeric, alias and exemption-blocker
+// checks see (coreOf), through this one helper. Any other apostrophe shape is
+// malformed and is rejected as unsupported_character_detected (the whole token
+// is the diagnostic).
+const CONTRACTION_TAILS: ReadonlySet<string> = new Set(['t', 're', 've', 'll', 'd', 'm']);
+
+function isMalformedApostrophe(base: string): boolean {
+  const first = base.indexOf("'");
+  if (first < 0) return false;
+  return base.indexOf("'", first + 1) >= 0 || !CONTRACTION_TAILS.has(base.slice(first + 1));
+}
+
+const coreOf = (base: string) => {
+  const first = base.indexOf("'");
+  return first < 0 ? base : base.slice(0, first);
+};
 
 function isNumericToken(token: string): boolean {
-  return /\p{N}/u.test(token) || NUMBER_WORDS.has(baseOf(token));
+  const core = coreOf(baseOf(token));
+  return /\p{N}/u.test(token) || NUMBER_WORDS.has(core) || isNumericFamily(core);
 }
 
 /** True when `neighbour` triggers the blocking condition for an exempt numeric word. */
 function blocksExemption(neighbour: string | undefined): boolean {
   if (neighbour === undefined) return false;
   const base = baseOf(neighbour);
+  const core = coreOf(base);
   return (
-    OPTION_FAMILY.has(base) ||
+    isMalformedApostrophe(base) ||
+    OPTION_FAMILY.has(core) ||
     isNumericToken(neighbour) ||
     /^[a-z]$/u.test(base) ||
-    ALIAS_PATTERN.test(base)
+    ALIAS_PATTERN.test(core) ||
+    isFamilyAlias(core)
   );
 }
 
@@ -246,19 +409,33 @@ export function structureTriggersOf(text: string): StructureTrigger[] {
   let numericTokenSeen = false;
   tokens.forEach((token, index) => {
     const base = baseOf(token.text);
-    if (/[^a-z0-9']/u.test(token.text)) {
+    const core = coreOf(base);
+    if (/[^a-z0-9']/u.test(token.text) || isMalformedApostrophe(base)) {
       triggers.push({ rule: 'unsupported_character_detected', token: token.text });
+    }
+    if (token.text.length > MAX_SCIENCE_TOKEN) {
+      // SCI6-NUM-PLURAL rev3: overlong tokens fail closed; the diagnostic token is truncated.
+      triggers.push({
+        rule: 'unsupported_character_detected',
+        token: token.text.slice(0, MAX_SCIENCE_TOKEN),
+      });
     }
     if (/\p{N}/u.test(token.text)) {
       numericTokenSeen = true;
       triggers.push({ rule: 'numeric_expression_detected', token: token.text });
-    } else if (NUMBER_WORDS.has(base) && !isExemptNumericWord(canonical, tokens, index)) {
+    } else if (NUMBER_WORDS.has(core) && !isExemptNumericWord(canonical, tokens, index)) {
+      numericTokenSeen = true;
+      triggers.push({ rule: 'numeric_expression_detected', token: token.text });
+    } else if (isNumericFamily(core)) {
+      // SCI6-NUM-PLURAL: never exempt.
       numericTokenSeen = true;
       triggers.push({ rule: 'numeric_expression_detected', token: token.text });
     }
     if (/^[a-z]$/u.test(base)) triggers.push({ rule: 'standalone_letter_detected', token: base });
-    if (ALIAS_PATTERN.test(base)) triggers.push({ rule: 'identifier_alias_detected', token: base });
+    if (ALIAS_PATTERN.test(core) || isFamilyAlias(core))
+      triggers.push({ rule: 'identifier_alias_detected', token: core });
   });
+  triggers.push(...invisibleTriggers(text));
   // Number characters are checked before NFKC can rewrite them (Ⅳ, ①, ²).
   if (!numericTokenSeen && /\p{N}/u.test(text)) {
     triggers.push({ rule: 'numeric_expression_detected', token: '<number-character>' });

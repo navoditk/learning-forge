@@ -188,13 +188,13 @@ export const SAFE_CONTROLS: Record<(typeof SCIENCE_ITEM_IDS)[number], [string, s
     ],
   ],
   'sci6-cell-parts-functions-2': [
-    ['List the parts that appear in both models.', 'Which part appears in just the leaf model?'],
+    ['List the parts that appear in the models.', 'Which part appears in just the leaf model?'],
     [
       'Think about what the leaf cell can do in light that the root cell cannot.',
       'Which part could explain that difference?',
     ],
     [
-      'Cross out every part shared by both models.',
+      'Cross out every part shared by the models.',
       'What is left after you cross out the shared parts?',
     ],
   ],

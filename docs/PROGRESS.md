@@ -1,5 +1,17 @@
 # Progress
 
+## 2026-11-04 — SCI6-NUM-PLURAL integrated (D-303, D-304); SCI6-NUM-FRAGMENT next
+
+- Owner approved one rev5 (D-303). Sonnet rev5 added a closed contraction-tail
+  rule; Codex r5 gave READY_WITH_RISKS, and the patch is integrated (D-304).
+  Isolated validation 36 passed every suite.
+- F7 (pre-existing, release-blocking): number words split by punctuation or
+  spaces (`hun-dreds`) still validate. It is routed to a separate packet,
+  SCI6-NUM-FRAGMENT.
+- Owner decisions needed: approve SCI6-NUM-FRAGMENT, and authorize six-item
+  paid run 2 (judged against D-285). Ledger 166/180; the window ends
+  2026-11-05T13:45:43Z.
+
 ## 2026-11-04 — SCI6-NUM-PLURAL rev4 NOT_READY; paused for owner (D-300 to D-302)
 
 - Owner extended the window to 2026-11-05T13:45:43Z (D-300) and approved one

@@ -2,9 +2,10 @@
 
 ## Live relay
 
-- Phase (2026-11-04): **AWAITING_HUMAN**: SCI6-NUM-PLURAL paused after Codex
-  r4 (D-302; one major, F6 apostrophe tails); the owner decides on rev5. The
-  number-free prompt is integrated.
+- Phase (2026-11-04): **AWAITING_HUMAN**: SCI6-NUM-PLURAL is integrated
+  (D-304). The owner decides on SCI6-NUM-FRAGMENT (F7, split number words,
+  release-blocking) and on authorizing six-item paid run 2. The number-free
+  prompt is integrated.
   - Done:
     - SU-H7 eval satisfied (D-284);
     - six-item run 1 FAIL (D-290);
