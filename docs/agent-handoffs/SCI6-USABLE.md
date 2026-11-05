@@ -2,9 +2,9 @@
 
 ## Live relay
 
-- Phase (2026-11-04): **AWAITING_HUMAN**: SCI6-NUM-PLURAL is integrated
-  (D-304). SCI6-NUM-FRAGMENT rev1 is NOT_READY (D-306); the owner decides on
-  rev2. Paid run 2 follows integration. The number-free prompt is integrated.
+- Phase (2026-11-04): **AWAITING_HUMAN**: SCI6-NUM-PLURAL (D-304) and
+  SCI6-NUM-FRAGMENT (D-308) are integrated. The owner authorizes six-item
+  paid run 2 (D-285). The number-free prompt is integrated.
   - Done:
     - SU-H7 eval satisfied (D-284);
     - six-item run 1 FAIL (D-290);

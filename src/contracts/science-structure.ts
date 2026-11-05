@@ -199,8 +199,112 @@ function breaksFamilyRules(base: string, allowlist: boolean): boolean {
   return SUFFIX_RULE.test(base) || INFIX_RULE.test(base);
 }
 
-/** True when `base` is an alias noun joined to a remainder that states a number (rule 5). */
-function isFamilyAlias(base: string): boolean {
+/**
+ * SCI6-NUM-FRAGMENT rev2 (D-307, review r1 F1): closed list of count prefixes.
+ * A standalone "fold" or "some" fragment joined to one of these (or to a
+ * number word, or inside an alias) forms a count-bearing compound ("bi fold",
+ * "mono some", "poly some"). Test-pinned.
+ */
+export const SCIENCE_COUNT_PREFIXES: readonly string[] = words(`
+  mono di bi tri tetra penta hexa hepta octa nona deca poly multi uni quadri semi hemi sesqui
+  centi milli kilo
+`);
+
+const GENERIC_LITERALS = ['illion', 'lakh', 'crore', 'uple', 'uplet', 'upling', 'uply'];
+const SUFFIX_LITERALS = ['fold', 'folds', 'some', 'somes'];
+
+/** True when the alias recogniser fires without its rules-2-to-4 clause (no recursion). */
+function isExactAlias(base: string): boolean {
+  if (ALIAS_PATTERN.test(base)) return true;
+  for (const noun of ALIAS_NOUNS) {
+    if (!base.startsWith(noun) || base.length === noun.length) continue;
+    const rest = base.slice(noun.length);
+    if (
+      /^[a-z]$/u.test(rest) ||
+      /^\d+$/u.test(rest) ||
+      NUMBER_WORDS.has(rest) ||
+      isMagnitudeWord(rest)
+    )
+      return true;
+  }
+  return false;
+}
+
+/**
+ * A fragment that is an allowlisted standalone literal ("fold", "some") formed
+ * a compound with the fragments before it: judge that compound.
+ */
+function compoundIsCounted(parts: readonly string[], index: number): boolean {
+  for (let k = 1; k <= 3 && index - k >= 0; k += 1) {
+    const before = parts.slice(index - k, index).join('');
+    if (SCIENCE_COUNT_PREFIXES.some((prefix) => before.endsWith(prefix))) return true;
+    if (NUMBER_WORDS.has(before) || isMagnitudeWord(before)) return true;
+    if (isExactAlias(`${before}${parts[index]}`)) return true;
+  }
+  return false;
+}
+
+/**
+ * SCI6-NUM-FRAGMENT (D-305, rev2 D-307): rules 2 to 4 for the part of a
+ * fragment concatenation from `from` on. `parts` are the window's fragments,
+ * whose concatenation is `joined`. A match that crosses a fragment boundary
+ * counts. A match wholly inside one fragment is skipped when the fragment is
+ * longer than the literal (the whole-token rules already judged it, so "the
+ * ribosome", "in some cases" and "coupled with" stay valid); when the fragment
+ * IS an allowlisted standalone literal the compound with the preceding
+ * fragments is judged (compoundIsCounted).
+ */
+function breaksFamilyRulesAcross(
+  joined: string,
+  from: number,
+  allowlist: boolean,
+  parts: readonly string[],
+): boolean {
+  const base = joined.slice(from);
+  if (allowlist && SCIENCE_SUFFIX_ALLOWLIST.has(base)) return false;
+  let starts: number[] | undefined;
+  const startsOf = () => {
+    if (starts === undefined) {
+      starts = [];
+      let offset = 0;
+      for (const part of parts) {
+        starts.push(offset);
+        offset += part.length;
+      }
+    }
+    return starts;
+  };
+  const judge = (literal: string, anchoredAtEnd: boolean) => {
+    for (let at = base.indexOf(literal); at >= 0; at = base.indexOf(literal, at + 1)) {
+      if (anchoredAtEnd && at + literal.length !== base.length) continue;
+      const first = from + at;
+      const last = first + literal.length;
+      const offsets = startsOf();
+      let index = offsets.length - 1;
+      while (index > 0 && offsets[index] > first) index -= 1;
+      if (last > offsets[index] + parts[index].length) return true; // crosses a boundary
+      if (
+        parts[index] === literal &&
+        SCIENCE_SUFFIX_ALLOWLIST.has(literal) &&
+        compoundIsCounted(parts, index)
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
+  return (
+    GENERIC_LITERALS.some((literal) => judge(literal, false)) ||
+    SUFFIX_LITERALS.some((literal) => judge(literal, true))
+  );
+}
+
+/**
+ * True when `base` is an alias noun joined to a remainder that states a number (rule 5).
+ * With `parts` (fragment concatenations only) the rules-2-to-4 clause is judged
+ * per fragment by breaksFamilyRulesAcross.
+ */
+function isFamilyAlias(base: string, parts?: readonly string[]): boolean {
   for (const noun of ALIAS_NOUNS) {
     if (!base.startsWith(noun) || base.length === noun.length) continue;
     const rest = base.slice(noun.length);
@@ -209,7 +313,9 @@ function isFamilyAlias(base: string): boolean {
       /^\d+$/u.test(rest) ||
       NUMBER_WORDS.has(rest) ||
       isMagnitudeWord(rest) ||
-      breaksFamilyRules(rest, false)
+      (parts === undefined
+        ? breaksFamilyRules(rest, false)
+        : breaksFamilyRulesAcross(base, noun.length, false, parts))
     ) {
       return true;
     }
@@ -398,6 +504,65 @@ function isExemptNumericWord(canonical: string, tokens: readonly Token[], index:
   );
 }
 
+// SCI6-NUM-FRAGMENT (D-305): a number word split by intra-word punctuation or
+// a space ("thou-sands", "hun dreds") leaves fragments that are not number
+// words. Adjacent alphabetic fragments are therefore also concatenated, in
+// sliding windows of 2 to MAX_FRAGMENTS, up to MAX_SCIENCE_TOKEN characters,
+// and each concatenation goes through the same numeric, alias, suffix and
+// substring rules as a whole token (no exemption applies). Fragments are
+// adjacent when only whitespace and/or the punctuation - . _ / , ' (their
+// Unicode variants are folded by canonicalization, plus U+00B7, U+2024 and
+// U+2027) lies between them. Science only; the Math path is untouched.
+const MAX_FRAGMENTS = 4;
+const FRAGMENT_SEPARATOR = /^[\s\-._/,'·․‧]+$/u;
+const FRAGMENT_TEXT = /^[a-z']+$/u;
+
+// rev2 (review r1 F2): a fragment contributes every canonical letter (the
+// apostrophe is dropped, the tail kept: "hun'd" -> "hund"); the possessive-folded
+// core ("hun's" -> "hun") is tried as well, so both readings are judged.
+const fragmentForms = (text: string): string[] => {
+  if (!text.includes("'")) return [text];
+  const forms = [text.replace(/'/gu, ''), coreOf(baseOf(text))];
+  return forms[0] === forms[1] ? [forms[0]] : forms;
+};
+
+function fragmentTriggers(canonical: string, tokens: readonly Token[]): StructureTrigger[] {
+  const triggers: StructureTrigger[] = [];
+  const visit = (parts: string[], joined: string) => {
+    if (
+      NUMBER_WORDS.has(joined) ||
+      isMagnitudeWord(joined) ||
+      breaksFamilyRulesAcross(joined, 0, true, parts)
+    ) {
+      triggers.push({ rule: 'numeric_expression_detected', token: joined });
+    }
+    if (ALIAS_PATTERN.test(joined) || isFamilyAlias(joined, parts)) {
+      triggers.push({ rule: 'identifier_alias_detected', token: joined });
+    }
+  };
+  const extend = (start: number, end: number, parts: string[], base: string) => {
+    for (const form of fragmentForms(tokens[end].text)) {
+      const next = [...parts, form];
+      const joined = base + form;
+      if (joined.length > MAX_SCIENCE_TOKEN) continue;
+      if (next.length >= 2) visit(next, joined);
+      if (end + 1 < tokens.length && end + 1 < start + MAX_FRAGMENTS) {
+        const following = tokens[end + 1];
+        if (
+          FRAGMENT_TEXT.test(following.text) &&
+          FRAGMENT_SEPARATOR.test(canonical.slice(tokens[end].end, following.start))
+        ) {
+          extend(start, end + 1, next, joined);
+        }
+      }
+    }
+  };
+  tokens.forEach((token, start) => {
+    if (FRAGMENT_TEXT.test(token.text)) extend(start, start, [], '');
+  });
+  return triggers;
+}
+
 /**
  * Every structural violation in one text with the canonical token that
  * triggered it, in token order. Diagnostics only: production callers use
@@ -435,6 +600,7 @@ export function structureTriggersOf(text: string): StructureTrigger[] {
     if (ALIAS_PATTERN.test(core) || isFamilyAlias(core))
       triggers.push({ rule: 'identifier_alias_detected', token: core });
   });
+  triggers.push(...fragmentTriggers(canonical, tokens));
   triggers.push(...invisibleTriggers(text));
   // Number characters are checked before NFKC can rewrite them (Ⅳ, ①, ²).
   if (!numericTokenSeen && /\p{N}/u.test(text)) {

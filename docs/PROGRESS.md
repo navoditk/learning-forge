@@ -1,5 +1,14 @@
 # Progress
 
+## 2026-11-04 — SCI6-NUM-FRAGMENT integrated (D-307, D-308); paid run 2 next
+
+- Owner approved one rev2 (D-307). Codex r2 gave READY_WITH_RISKS; isolated
+  validation 38 passed every suite, and the patch is integrated (D-308).
+  Split number words (`hun-dreds`, `hun'd reds`, `mono some`) now reject.
+- Next: the owner authorizes six-item paid run 2 (judged against D-285), runs
+  it via `!`, and the integrator rules on the report. Follow-ups are listed in
+  D-308. Ledger 170/180; the window ends 2026-11-05T13:45:43Z.
+
 ## 2026-11-04 — SCI6-NUM-FRAGMENT rev1 NOT_READY; paused for owner (D-305, D-306)
 
 - Owner approved SCI6-NUM-FRAGMENT before paid run 2 (D-305). Sonnet rev1

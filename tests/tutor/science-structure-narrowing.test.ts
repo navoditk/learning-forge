@@ -190,6 +190,8 @@ describe('triggers are the single source of the violations', () => {
       { rule: NUMERIC, token: 'second' },
       { rule: NUMERIC, token: 'one' },
       { rule: 'standalone_letter_detected', token: 'b' },
+      // SCI6-NUM-FRAGMENT (D-305): the fragments "sample" and "b" also join to an alias.
+      { rule: 'identifier_alias_detected', token: 'sampleb' },
     ]);
     expect(scienceStructureTriggers('Compare the cells.', 'Which one?')).toEqual([
       { rule: 'identifier_alias_detected', token: 'cells' },

@@ -3118,7 +3118,61 @@ Codex classified the residuals as follows:
 
 Per D-305 there is no automatic rev2; the owner decides.
 
-There are 306 decisions: D-01 through D-75, D-139, D-142, D-145–D-306 approved;
+### D-307 — One SCI6-NUM-FRAGMENT rev2 approved
+
+Owner, 2026-11-04, reply **"approve"** to the recommended option 1. The
+original Sonnet author makes exactly one rev2 on top of rev1, fixing only the
+Codex r1 findings:
+
+- F2: fragment joining keeps every canonical letter, including contraction
+  tails.
+- F1: when a fragment equals an allowlisted standalone literal (`fold`, `some`
+  and similar), the joined compound is rejected if the preceding fragments end
+  in a closed count-prefix list or a number word, or if the alias recognizer
+  fires. Ordinary phrases such as "in some cases" and "the ribosome" stay
+  valid.
+- F3: the self-audit is corrected.
+
+Then Codex changed-scope review, isolated validation and integration under
+delegated acceptance; a NOT_READY returns to the owner. Paid run 2 still needs
+separate authorization.
+
+### D-308 — SCI6-NUM-FRAGMENT rev2 accepted
+
+Delegated decision (D-212/D-219, under D-307). Codex `gpt-6.1-sol` (verified;
+thread `01a1a96c-f2d1-7ae3-9b8b-08db93ff06b1`) gave **READY_WITH_RISKS** on
+Sonnet (verified `claude-sonnet-5-5`) patch
+`642e3d7f1da6e4a43b416f9bac79537b9d1c95c71746884e3911a103e1478ba1`.
+
+The Science structural validator now also judges concatenations of 2 to 4
+adjacent fragments (at most 24 characters) joined by whitespace or `- . _ / ,
+'`. It keeps every canonical letter, including contraction tails. Standalone
+`fold`/`folds`/`some` fragments are judged with the preceding fragments
+against `SCIENCE_COUNT_PREFIXES` (21 prefixes), number words and aliases.
+
+F7 (D-304) is closed for the approved scope. No benign corpus, catalog, safety,
+eval or fake-tutor string is newly rejected. The D-281 corpus stays at 11,141
+cases (`b6ea6a41…`) and the allowlist at 91 words (`0d29dd50…`); Math is
+unchanged.
+
+Isolated validation 38:
+
+- verify: 3,719 passed, 1 skipped; the build passed.
+- Integration: 367 passed, 1 skipped.
+- Fake evals: 36. E2e: 117.
+- No `.env` loaded.
+
+Accepted residuals, recorded for follow-up:
+
+- splits into five or more fragments, and joins over 24 characters;
+- separators outside the set (`: ; ( ) * + &`, quotes);
+- prefixes outside the list (`enneas some`);
+- `endsWith` over-rejection of 102 dictionary words (`alibi some`);
+- the prefix-list test pins only 8 of 21 entries by name.
+
+Paid run 2 needs separate owner authorization.
+
+There are 308 decisions: D-01 through D-75, D-139, D-142, D-145–D-308 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
