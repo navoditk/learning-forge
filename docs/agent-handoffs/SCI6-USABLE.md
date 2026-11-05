@@ -2,8 +2,8 @@
 
 ## Live relay
 
-- Phase (2026-11-04): **AWAITING_HUMAN**: six-item run 2 FAIL (D-310; 6 of
-  12, the same as run 1). The owner chooses the next step from the run 2
+- Phase (2026-11-04): **AWAITING_HUMAN**: six-item run 2 FAIL (D-310; 5 of
+  12; run 1 was 6 of 12). The owner chooses the next step from the run 2
   cause checkpoint. The number-free prompt and the NUM-PLURAL and NUM-FRAGMENT
   validators are integrated.
   - Done:

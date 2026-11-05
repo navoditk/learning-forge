@@ -3195,7 +3195,7 @@ validated served moves were:
 - `sci6-cell-as-a-system-2`: 0 of 2;
 - `sci6-cells-evidence-of-life-2`: 0 of 2.
 
-That is 6 of 12, the same as run 1. The integrator read the six served moves:
+That is 5 of 12 (run 1 was 6 of 12). The integrator read the five validated served moves:
 none discloses an answer or suggests an activity, and the tone suits the age
 group.
 
@@ -3207,10 +3207,15 @@ Across the 15 rejected attempts, reason occurrences were:
   `answer_word_leak_detected` 2, all likely correct catches;
 - `standalone_letter_detected` 2.
 
-In 5 of the 8 fallbacks the retry repeated the same rejected token. This is
+In 4 of the 7 fallbacks the retry repeated an exact rejected token, and in one more it repeated the numeric category. This is
 the fourth failed real run in the SU-H7/SCI6 line, so it is escalated with a
 cause checkpoint (`agent-handoffs/SCI6-USABLE/sci6-items-run2/`). The report is
 kept locally and not committed.
+
+Correction (2026-11-04): the first version of this entry said 6 of 12 and
+"5 of the 8 fallbacks". Codex `gpt-6.1-sol` (thread
+`01a1aa4f-6869-7ed3-90ce-cec812c1b822`) identified the miscount in its
+advisory review; the per-item lines above were always correct.
 
 There are 310 decisions: D-01 through D-75, D-139, D-142, D-145–D-310 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.

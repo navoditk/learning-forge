@@ -2,13 +2,15 @@
 
 ## 2026-11-04 — Six-item run 2 FAIL (D-309, D-310); escalated to owner
 
-- The owner ran paid run 2 (D-309): 6 of 12 served moves validated, the same
-  as run 1, so it fails D-285 (D-310). No served move discloses an answer.
+- The owner ran paid run 2 (D-309): 5 of 12 served moves validated (run 1:
+  6 of 12), so it fails D-285 (D-310, count corrected after Codex review). No served move discloses an answer.
 - The top rejection causes are number words the model still emits (`both`,
   `two`), the plural-alias rule rejecting `cells`, and retries that repeat the
   same token. The cause checkpoint is in
-  `agent-handoffs/SCI6-USABLE/sci6-items-run2/`. The owner chooses the next
-  step. Ledger 170/180; the window ends 2026-11-05T13:45:43Z.
+  `agent-handoffs/SCI6-USABLE/sci6-items-run2/`. Codex advisory
+  (`codex-recommendation.md` there) recommends REPAIR-FEEDBACK plus
+  ALIAS-SCOPE, then paid run 3 under an unchanged D-285. The owner chooses
+  the next step. Ledger 170/180; the window ends 2026-11-05T13:45:43Z.
 
 ## 2026-11-04 — SCI6-NUM-FRAGMENT integrated (D-307, D-308); paid run 2 next
 
