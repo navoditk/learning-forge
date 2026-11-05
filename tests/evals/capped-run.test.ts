@@ -41,9 +41,11 @@ class ScriptedModel implements TutorModel {
 // (optional attempt-diagnostics observer and the learner-echo context) and by
 // SU-H7-FIX2 rev1 (Science answer-word context passed to validateTutorMove)
 // and by SCI6-STRUCT-DIAG rev1 (opt-in `explainRejections` trigger tokens on
-// the attempt diagnostic; observer-only, outcome and trace unchanged).
+// the attempt diagnostic; observer-only, outcome and trace unchanged) and by
+// SCI6-REPAIR-FEEDBACK rev1 (D-311: Science-only class-only retry guidance
+// on the second attempt's model input; validators and trace unchanged).
 const REV2_HASHES: Record<string, string> = {
-  'src/tutor/harness.ts': 'b1582a16b1714b41159bf8584474c8d5c5734289132aa6e9b0ac4018710da8ed',
+  'src/tutor/harness.ts': 'e322e41908fa2d717e8fe72d5383a29b36e7cb251ae6a12225333fec9141d319',
   'src/evaluation/runner.ts': 'a09607816af021b575753d49c16ae78ad2e9bda935ad096d6018e42101de162f',
 };
 

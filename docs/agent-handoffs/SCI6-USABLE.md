@@ -2,10 +2,9 @@
 
 ## Live relay
 
-- Phase (2026-11-04): **AWAITING_HUMAN**: six-item run 2 FAIL (D-310; 5 of
-  12; run 1 was 6 of 12). The owner chooses the next step from the run 2
-  cause checkpoint. The number-free prompt and the NUM-PLURAL and NUM-FRAGMENT
-  validators are integrated.
+- Phase (2026-11-05): **ACTIVE**: SCI6-REPAIR-FEEDBACK is integrated
+  (D-313); SCI6-ALIAS-SCOPE is next (D-311). Then the owner authorizes paid
+  run 3 under the unchanged D-285. Run 2 failed (D-310).
   - Done:
     - SU-H7 eval satisfied (D-284);
     - six-item run 1 FAIL (D-290);

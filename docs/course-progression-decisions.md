@@ -3240,7 +3240,41 @@ thread `01a1aa4f-6869-7ed3-90ce-cec812c1b822`).
 The D-300 window ended at 2026-11-05T13:45:43Z, so dispatch waits for an owner
 window extension.
 
-There are 311 decisions: D-01 through D-75, D-139, D-142, D-145–D-311 approved;
+### D-312 — Delivery window extended 24 hours
+
+Owner, 2026-11-05, reply **"extend"**. The window runs from `2026-11-05T14:08:44Z` to
+`2026-11-06T14:08:44Z`, and the invocation cap stays at 180 (171 used). This authorizes
+dispatching the D-311 packets, starting with SCI6-REPAIR-FEEDBACK.
+
+### D-313 — SCI6-REPAIR-FEEDBACK accepted
+
+Delegated decision (D-212/D-219, under D-311). Codex `gpt-6.1-sol` (verified;
+thread `01a1aa4f-6869-7ed3-90ce-cec812c1b822`) gave **READY_WITH_RISKS** on
+Sonnet (verified `claude-sonnet-5-5`) patch
+`425833fced6685b45a6ea9f8ea8c993b70ccdd4fdff42ed6c0ad3a44168c9216`.
+
+- When the first Science attempt fails a structural check, the second attempt
+  gets fixed, versioned guidance (`retry-guidance-1`). Each guidance sentence
+  covers one closed class: numeric, alias, standalone letter, unsupported
+  character or invalid schema.
+- Guided calls trace as `anthropic-tutor-prompt-6-science-retry-guidance-1`.
+- No answer-derived reason, token, model text or learner text is sent.
+- Guidance is independent of protected answers; Codex ran 49 synthetic probes.
+- Math, the fake tutor, the validators and the two-attempt limit are
+  unchanged.
+- The harness hash pin was updated for the reviewed change.
+
+Isolated validation 39:
+
+- verify: 3,741 passed, 1 skipped; the build passed.
+- Integration: 367 passed, 1 skipped.
+- Fake evals: 36. E2e passed.
+- No `.env` loaded.
+
+Follow-up RF-01 (minor): the unsupported-character sentence does not mention
+overlong words or malformed apostrophes, which the same class covers.
+
+There are 313 decisions: D-01 through D-75, D-139, D-142, D-145–D-313 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

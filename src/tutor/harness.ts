@@ -13,6 +13,7 @@ import {
   validateTutorMove,
 } from '../contracts';
 import { explainRejection, type RejectionTrigger } from './rejection-diagnostics';
+import { retryGuidanceClassesOf } from './retry-guidance';
 import { SCIENCE_FALLBACK_MESSAGE, SCIENCE_PROHIBITED_ACTIVITY_PATTERNS } from './science-safety';
 import { authorizeTutorMove, PolicyContext, transitionTutorState, TutorState } from './policy';
 
@@ -30,7 +31,7 @@ const UNKNOWN_MODEL_METADATA = {
   tokenUsage: { input: 0, output: 0, total: 0 },
 };
 
-export interface TutorSessionInput extends Omit<TutorMoveInput, 'authorization'> {
+export interface TutorSessionInput extends Omit<TutorMoveInput, 'authorization' | 'retryGuidance'> {
   state: TutorState;
   mode: PolicyContext['mode'];
   genuineAttempt: boolean;
@@ -120,13 +121,15 @@ export class TutorHarness {
       redactedSkillContext: input.redactedSkillContext,
       subjectFraming,
     };
-    const attempt = async (): Promise<{
+    const attempt = async (
+      attemptInput: TutorMoveInput,
+    ): Promise<{
       result?: TutorModelResult;
       validation: TutorMoveValidation;
       erroredOut: boolean;
     }> => {
       try {
-        const result = await this.model.generateMove(modelInput);
+        const result = await this.model.generateMove(attemptInput);
         return {
           result,
           validation: validateTutorMove(
@@ -153,8 +156,8 @@ export class TutorHarness {
     };
 
     let attemptIndex = 0;
-    const observedAttempt = async () => {
-      const outcome = await attempt();
+    const observedAttempt = async (attemptInput: TutorMoveInput) => {
+      const outcome = await attempt(attemptInput);
       attemptIndex += 1;
       if (!this.options.onAttempt) return outcome;
       const reasons =
@@ -183,12 +186,20 @@ export class TutorHarness {
       return outcome;
     };
 
-    let attemptResult = await observedAttempt();
+    let attemptResult = await observedAttempt(modelInput);
     let status: TutorResponse['status'] = 'validated';
     let safetyFlagged = wasSafetyFlagged(attemptResult.validation);
 
     if (attemptResult.validation.status === 'requires_fallback') {
-      attemptResult = await observedAttempt();
+      // SCI6-REPAIR-FEEDBACK (D-311): Science only; a pure function of the
+      // first attempt's structural reason classes (never answers or text).
+      const retryGuidance =
+        subjectFraming === 'science' && attemptResult.validation.status === 'requires_fallback'
+          ? retryGuidanceClassesOf(attemptResult.validation.reasons)
+          : [];
+      attemptResult = await observedAttempt(
+        retryGuidance.length > 0 ? { ...modelInput, retryGuidance } : modelInput,
+      );
       safetyFlagged = safetyFlagged || wasSafetyFlagged(attemptResult.validation);
       status = attemptResult.validation.status === 'validated' ? 'repaired' : 'fallback';
     }

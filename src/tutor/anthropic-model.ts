@@ -9,6 +9,7 @@ import {
   SCIENCE_STRUCTURE_RULE,
   SCIENCE_VIRTUAL_ACTIVITY_RULE,
 } from './science-safety';
+import { renderRetryGuidance, RETRY_GUIDANCE_TEMPLATE_SUFFIX } from './retry-guidance';
 import { buildProviderInput, buildProviderScoringInput } from './provider-input';
 
 export const ANTHROPIC_MODEL_ID = 'claude-haiku-4-5-20251001';
@@ -73,7 +74,10 @@ const SCIENCE_MOVE_TYPE_GUIDANCE: Record<string, string> = {
 
 type SubjectFraming = NonNullable<TutorMoveInput['subjectFraming']>;
 
-function buildSystemPrompt(subjectFraming: SubjectFraming = 'math'): string {
+function buildSystemPrompt(
+  subjectFraming: SubjectFraming = 'math',
+  retryNotes: readonly string[] = [],
+): string {
   const science = subjectFraming === 'science';
   return [
     `You are a patient, encouraging ${science ? 'science' : 'math'} tutor for a Grade 6 student (age 11-12).`,
@@ -99,6 +103,8 @@ function buildSystemPrompt(subjectFraming: SubjectFraming = 'math'): string {
           SCIENCE_VIRTUAL_ACTIVITY_RULE,
         ]
       : []),
+    // SCI6-REPAIR-FEEDBACK (D-311): fixed class sentences only (Science).
+    ...retryNotes,
   ].join(' ');
 }
 
@@ -202,11 +208,13 @@ export class AnthropicTutorModel implements TutorModel {
     checkRateLimit();
     const moveType = input.authorization.allowedMoveTypes[0];
     const assistanceLevel = input.authorization.maximumAssistance;
+    const retryNotes =
+      input.subjectFraming === 'science' ? renderRetryGuidance(input.retryGuidance) : [];
     const start = Date.now();
     const response = await this.client.messages.create({
       model: ANTHROPIC_MODEL_ID,
       max_tokens: 300,
-      system: buildSystemPrompt(input.subjectFraming),
+      system: buildSystemPrompt(input.subjectFraming, retryNotes),
       messages: [{ role: 'user', content: buildUserPrompt(input, moveType) }],
       tools: [
         {
@@ -249,7 +257,7 @@ export class AnthropicTutorModel implements TutorModel {
         modelIdentifier: ANTHROPIC_MODEL_ID,
         promptTemplateVersion:
           input.subjectFraming === 'science'
-            ? SCIENCE_PROMPT_TEMPLATE_VERSION
+            ? `${SCIENCE_PROMPT_TEMPLATE_VERSION}${retryNotes.length > 0 ? RETRY_GUIDANCE_TEMPLATE_SUFFIX : ''}`
             : PROMPT_TEMPLATE_VERSION,
         latencyMs,
         tokenUsage: tokenUsage(response),

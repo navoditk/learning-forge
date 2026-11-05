@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-11-05 — SCI6-REPAIR-FEEDBACK integrated (D-311 to D-313); ALIAS-SCOPE next
+
+- Owner approved the two Codex-recommended packets (D-311) and extended the
+  window to 2026-11-06T14:08:44Z (D-312).
+- REPAIR-FEEDBACK: a Science retry now gets fixed, class-only guidance.
+  Codex gave READY_WITH_RISKS, isolated validation 39 passed, and the patch is
+  integrated (D-313). RF-01 is a minor follow-up.
+- Next: SCI6-ALIAS-SCOPE (plural alias rule scoped to item identifier
+  namespaces), then owner authorization of paid run 3. Ledger 173/180.
+
 ## 2026-11-04 — Six-item run 2 FAIL (D-309, D-310); escalated to owner
 
 - The owner ran paid run 2 (D-309): 5 of 12 served moves validated (run 1:

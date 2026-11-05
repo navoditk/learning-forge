@@ -6,6 +6,21 @@ export const TutorSubjectFramingSchema = z.enum(['math', 'science']);
 
 export type TutorSubjectFraming = z.infer<typeof TutorSubjectFramingSchema>;
 
+/**
+ * SCI6-REPAIR-FEEDBACK (D-311): the closed set of structural failure classes
+ * a retry may be told about. Derived only from structural reason codes, never
+ * from answers, protected tokens, model text or learner text.
+ */
+export const RETRY_GUIDANCE_CLASSES = [
+  'numeric_expression_detected',
+  'identifier_alias_detected',
+  'standalone_letter_detected',
+  'unsupported_character_detected',
+  'invalid_schema',
+] as const;
+
+export type RetryGuidanceClass = (typeof RETRY_GUIDANCE_CLASSES)[number];
+
 export interface TutorMoveInput {
   prompt: string;
   learnerMessage: string;
@@ -13,6 +28,11 @@ export interface TutorMoveInput {
   redactedSkillContext: string;
   /** Selects a prompt template only; never sent to the provider as data. */
   subjectFraming?: 'math' | 'science';
+  /**
+   * Set only by the harness, on the second attempt of a Science move, from the
+   * first attempt's structural reason classes. Never caller-supplied.
+   */
+  retryGuidance?: readonly RetryGuidanceClass[];
 }
 
 export interface ScoringInput {
