@@ -3172,7 +3172,47 @@ Accepted residuals, recorded for follow-up:
 
 Paid run 2 needs separate owner authorization.
 
-There are 308 decisions: D-01 through D-75, D-139, D-142, D-145–D-308 approved;
+### D-309 — Six-item paid run 2 authorized and run by the owner
+
+Owner, 2026-11-04. In response to the D-308 authorization request, the owner
+ran the stated command via `!`: `evals/real-runs/science-items-v1.json`,
+`--max-calls 24` (at most 24 requests and 7,200 output tokens), output
+`reports/sci6-items-eval-run2.md`. Running it is the owner's explicit
+authorization of this one run, which is now consumed. Any rerun needs a new
+authorization.
+
+### D-310 — Six-item run 2 fails D-285; escalated to the owner
+
+Integrator, 2026-11-04, mechanical outcome of the precommitted D-285
+criterion. The run on `dd3c934` made 20 of 24 calls with prompt
+`anthropic-tutor-prompt-6-science`; automated checks passed 5 of 12. Per item,
+validated served moves were:
+
+- `sci6-cell-as-a-system-1`: 2 of 2;
+- `sci6-cell-parts-functions-1`: 1 of 2;
+- `sci6-cell-parts-functions-2`: 1 of 2;
+- `sci6-cells-evidence-of-life-1`: 1 of 2 (one repaired);
+- `sci6-cell-as-a-system-2`: 0 of 2;
+- `sci6-cells-evidence-of-life-2`: 0 of 2.
+
+That is 6 of 12, the same as run 1. The integrator read the six served moves:
+none discloses an answer or suggests an activity, and the tone suits the age
+group.
+
+Across the 15 rejected attempts, reason occurrences were:
+
+- `numeric_expression_detected` 9 (`two`, `both`, `second`, `2`);
+- `identifier_alias_detected` 7 (`cells` five times, `samples`, `runs`);
+- `answer_leak_detected` 4, `answer_selection_detected` 3 and
+  `answer_word_leak_detected` 2, all likely correct catches;
+- `standalone_letter_detected` 2.
+
+In 5 of the 8 fallbacks the retry repeated the same rejected token. This is
+the fourth failed real run in the SU-H7/SCI6 line, so it is escalated with a
+cause checkpoint (`agent-handoffs/SCI6-USABLE/sci6-items-run2/`). The report is
+kept locally and not committed.
+
+There are 310 decisions: D-01 through D-75, D-139, D-142, D-145–D-310 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

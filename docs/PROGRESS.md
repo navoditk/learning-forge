@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-11-04 — Six-item run 2 FAIL (D-309, D-310); escalated to owner
+
+- The owner ran paid run 2 (D-309): 6 of 12 served moves validated, the same
+  as run 1, so it fails D-285 (D-310). No served move discloses an answer.
+- The top rejection causes are number words the model still emits (`both`,
+  `two`), the plural-alias rule rejecting `cells`, and retries that repeat the
+  same token. The cause checkpoint is in
+  `agent-handoffs/SCI6-USABLE/sci6-items-run2/`. The owner chooses the next
+  step. Ledger 170/180; the window ends 2026-11-05T13:45:43Z.
+
 ## 2026-11-04 — SCI6-NUM-FRAGMENT integrated (D-307, D-308); paid run 2 next
 
 - Owner approved one rev2 (D-307). Codex r2 gave READY_WITH_RISKS; isolated
