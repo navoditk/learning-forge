@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-11-05 — SCI6-ALIAS-SCOPE closed without adoption (D-314); paid run 3 decision
+
+- Codex r1 was NOT_READY (AS-01–AS-04). Rev2 closed the findings but showed
+  that every current item version relies on the plural alias rule to block a
+  disclosing sentence, so no item is eligible and the patch is not integrated
+  (D-314; preserved under `agent-handoffs/SCI6-ALIAS-SCOPE/rev2/`).
+- The improvement since run 2 is REPAIR-FEEDBACK (D-313). Next: the owner
+  decides on paid run 3 under the unchanged D-285. Ledger 176/180; the window
+  ends 2026-11-06T14:08:44Z.
+
 ## 2026-11-05 — SCI6-REPAIR-FEEDBACK integrated (D-311 to D-313); ALIAS-SCOPE next
 
 - Owner approved the two Codex-recommended packets (D-311) and extended the

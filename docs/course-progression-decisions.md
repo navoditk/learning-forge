@@ -3274,7 +3274,33 @@ Isolated validation 39:
 Follow-up RF-01 (minor): the unsupported-character sentence does not mention
 overlong words or malformed apostrophes, which the same class covers.
 
-There are 313 decisions: D-01 through D-75, D-139, D-142, D-145–D-313 approved;
+### D-314 — SCI6-ALIAS-SCOPE closed without adoption
+
+Integrator, 2026-11-05, under D-311. Codex `gpt-6.1-sol` (thread
+`01a1aa4f-6869-7ed3-90ce-cec812c1b822`) gave **NOT_READY** on rev1
+(`7cbf3e82…`):
+
+- AS-01: the plural exemption newly validated answer disclosures.
+- AS-02: joined `S` identifiers were missed.
+- AS-03: incomplete metadata produced a permissive namespace.
+- AS-04 (isolated validation 40): the tutor-context boundary test failed.
+
+Sonnet (verified `claude-sonnet-5-5`) rev2 (`b833cfb9…`) closed all four. Its
+adversarial probes then found that, on every one of the six current item
+versions, a disclosing sentence is rejected only by the plural alias rule. One
+example is "The root cells lack the food-making part." on
+`cell-parts-functions-2`. The reviewed eligible-item list is therefore empty,
+and rev2 does not change production behavior.
+
+Ruling: rev2 is not integrated. It would add about 1,160 lines of dormant
+plumbing and re-pin reviewed hashes with no behavior change, so it gets no
+Codex review. The plural alias rule stays as the conservative guard. That
+finding is evidence for D-281 ruling 3. The patch is preserved under
+`agent-handoffs/SCI6-ALIAS-SCOPE/rev2/` for a future, separately approved
+partial-option-phrase detector. The Science prompt stays v6, and the D-311
+ceiling has 6 of 8 invocations used.
+
+There are 314 decisions: D-01 through D-75, D-139, D-142, D-145–D-314 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
