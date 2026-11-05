@@ -3080,7 +3080,45 @@ validate on both the base and rev5. This does not block rev5, but it does block
 the Science release. It goes to a separate packet, SCI6-NUM-FRAGMENT, with its
 own normalization policy and an adversarial and benign corpus.
 
-There are 304 decisions: D-01 through D-75, D-139, D-142, D-145–D-304 approved;
+### D-305 — SCI6-NUM-FRAGMENT approved before paid run 2
+
+Owner, 2026-11-04, reply **"approve"** to the recommended option 1. Sonnet
+fixes F7 (D-304) in one bounded packet. In the Science path, adjacent
+alphabetic fragments joined by intra-word punctuation (`- . _ / , '` and
+similar) or whitespace are also checked as concatenations, using the existing
+numeric, alias, suffix and substring rules, within both fields and across their
+joins. The packet includes an adversarial and benign corpus with measured
+over-rejection.
+
+Then Codex review, isolated validation and integration under delegated
+acceptance; a NOT_READY returns to the owner. After integration the integrator
+requests authorization for six-item paid run 2 (judged against D-285). That
+run is not authorized by this decision.
+
+### D-306 — SCI6-NUM-FRAGMENT rev1 NOT_READY; returned to owner
+
+Delegated review result recorded under D-305. Codex `gpt-6.1-sol` (verified;
+thread `01a1a96c-f2d1-7ae3-9b8b-08db93ff06b1`) gave **NOT_READY** on Sonnet
+(verified `claude-sonnet-5-5`) patch
+`9fddaca7b9d5495251f77a58ee1daefcd65dcf05db672f76b07cce5969f2c20e`.
+
+The headline F7 cases are closed, and no new benign rejections were found in
+the corpus, catalog, safety, eval or fake-tutor strings. Two majors remain:
+
+- F1: the author's boundary-only narrowing lets `bi fold`, `mono some`,
+  `poly some` and `option bi fold` pass.
+- F2: contraction-core folding lets `hun'd reds` pass.
+
+Codex classified the residuals as follows:
+
+- Accepted scoped bounds: splits into five or more fragments, and joins over
+  24 characters.
+- Follow-up: separators outside the set (`: ; ( ) * + &`, quotes).
+- Accepted compatibility effect: extra triggers on already-rejected cases.
+
+Per D-305 there is no automatic rev2; the owner decides.
+
+There are 306 decisions: D-01 through D-75, D-139, D-142, D-145–D-306 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

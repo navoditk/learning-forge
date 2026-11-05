@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-11-04 — SCI6-NUM-FRAGMENT rev1 NOT_READY; paused for owner (D-305, D-306)
+
+- Owner approved SCI6-NUM-FRAGMENT before paid run 2 (D-305). Sonnet rev1
+  closed the headline split-number cases with no new benign rejections.
+- Codex r1 raised two majors: `mono some`/`bi fold` pass because of the
+  author's boundary-only narrowing, and `hun'd reds` passes. The lane returns
+  to the owner (D-306). The recommended rev2 is in
+  `agent-handoffs/SCI6-NUM-FRAGMENT/cause-checkpoint.md`. Ledger 168/180; the
+  window ends 2026-11-05T13:45:43Z.
+
 ## 2026-11-04 — SCI6-NUM-PLURAL integrated (D-303, D-304); SCI6-NUM-FRAGMENT next
 
 - Owner approved one rev5 (D-303). Sonnet rev5 added a closed contraction-tail
