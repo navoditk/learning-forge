@@ -2,10 +2,10 @@
 
 ## Live relay
 
-- Phase (2026-11-05): **AWAITING_HUMAN**: run 3 FAILED at 9/12 (D-316). The
-  owner chooses the next step: a Codex advisory on a number-word packet, a
-  change to the D-285 bar (owner only) or pausing. Earlier: run 3 authorized
-  (D-315), REPAIR-FEEDBACK integrated (D-313), ALIAS-SCOPE closed (D-314).
+- Phase (2026-11-05): **AWAITING_HUMAN**: run 3 FAILED at 9/12 (D-316).
+  Codex recommends the prompt-only SCI6-RETRY-REPHRASE packet, with about a
+  20% chance of passing run 4 (D-318). The owner decides whether to approve the
+  packet and a window extension, or to pause.
   - Done:
     - SU-H7 eval satisfied (D-284);
     - six-item run 1 FAIL (D-290);

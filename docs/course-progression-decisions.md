@@ -3336,7 +3336,29 @@ must not weaken protection for count answers, and the advisory covers any
 other run 3 residual worth fixing. It is advice only. Any resulting packet,
 window extension or paid run 4 still needs its own approval. Ledger 177/180.
 
-There are 317 decisions: D-01 through D-75, D-139, D-142, D-145–D-317 approved;
+### D-318 — Codex run 3 advisory received: SCI6-RETRY-REPHRASE
+
+Integrator, 2026-11-05, under D-317. Codex `gpt-6.1-sol` (verified, thread
+`01a1aa4f-6869-7ed3-90ce-cec812c1b822`) recommends one prompt-only packet,
+SCI6-RETRY-REPHRASE.
+
+- **Scope:** reword only the numeric and alias fixed retry sentences in
+  `src/tutor/retry-guidance.ts` (`retry-guidance-1` → `-2`) to ask for a fresh
+  hint with positive, number-free phrasing. All validators stay unchanged.
+- **Rejected options:** number-word allowlists. Checking all six items showed
+  that "present in the prompt, absent from options" does not establish safety,
+  because of positional selection, numeric equivalence and correct answers
+  such as "One cell". Lowering the bar was also rejected.
+- **cas-2-later move:** an acceptable hint, not a disclosure.
+- **Cost:** 2 to 4 invocations.
+- **Odds:** an uncalibrated chance of about 20% (roughly 10% to 35%) that
+  run 4 passes D-285. Pausing is the honest choice if better-than-even odds are
+  required.
+
+This is advice only: implementation, a window extension and run 4 each need
+owner approval.
+
+There are 318 decisions: D-01 through D-75, D-139, D-142, D-145–D-318 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
