@@ -1,5 +1,11 @@
 # Progress
 
+## 2026-11-05 — Paid six-item run 3 authorized (D-315)
+
+- The owner approved one paid run 3 under the unchanged D-285: 24 requests,
+  7,200 output tokens, `reports/sci6-items-eval-run3.md`. The owner runs it via
+  `!`. Next: the integrator reads the report and records the result.
+
 ## 2026-11-05 — SCI6-ALIAS-SCOPE closed without adoption (D-314); paid run 3 decision
 
 - Codex r1 was NOT_READY (AS-01–AS-04). Rev2 closed the findings but showed

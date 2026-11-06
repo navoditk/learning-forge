@@ -3300,7 +3300,17 @@ finding is evidence for D-281 ruling 3. The patch is preserved under
 partial-option-phrase detector. The Science prompt stays v6, and the D-311
 ceiling has 6 of 8 invocations used.
 
-There are 314 decisions: D-01 through D-75, D-139, D-142, D-145–D-314 approved;
+### D-315 — Paid six-item run 3 authorized
+
+Owner, 2026-11-05 ("go ahead", on the integrator's recommended option 1).
+Authorizes exactly one paid run of `evals/real-runs/science-items-v1.json`
+on `claude-haiku-4-5-20251001`. The cap is 24 requests and 7,200 output tokens;
+input tokens and cost are not capped. The owner runs it via `!`, because the
+key is only in `.env`. It is judged against the unchanged D-285, and the run is
+consumed whatever the result. The only change since run 2 is REPAIR-FEEDBACK
+(D-313). RF-01 is not addressed first. Agents make no provider calls.
+
+There are 315 decisions: D-01 through D-75, D-139, D-142, D-145–D-315 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

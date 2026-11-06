@@ -2,9 +2,10 @@
 
 ## Live relay
 
-- Phase (2026-11-05): **AWAITING_HUMAN**: SCI6-REPAIR-FEEDBACK is integrated
-  (D-313); SCI6-ALIAS-SCOPE was closed without adoption (D-314). The owner
-  decides on paid run 3 under the unchanged D-285. Run 2 failed (D-310).
+- Phase (2026-11-05): **AWAITING_HUMAN**: the owner runs the authorized paid
+  run 3 (D-315). Output goes to `reports/sci6-items-eval-run3.md`; the
+  integrator then judges it against D-285. Before that, REPAIR-FEEDBACK was
+  integrated (D-313), ALIAS-SCOPE was closed (D-314) and run 2 failed (D-310).
   - Done:
     - SU-H7 eval satisfied (D-284);
     - six-item run 1 FAIL (D-290);
