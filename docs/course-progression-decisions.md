@@ -3327,7 +3327,16 @@ integrator's read found no disclosed answer in the served text. The cause
 checkpoint is kept locally under `agent-handoffs/SCI6-USABLE/sci6-items-run3/`.
 This is the third consecutive failing run, so it goes to the owner.
 
-There are 316 decisions: D-01 through D-75, D-139, D-142, D-145–D-316 approved;
+### D-317 — Codex advisory on run 3 residuals approved
+
+Owner, 2026-11-05 ("1", on the integrator's recommended option). Authorizes
+one read-only Codex `gpt-6.1-sol` advisory. It recommends a bounded packet for
+the number words that Science tutor moves echo from item text. That packet
+must not weaken protection for count answers, and the advisory covers any
+other run 3 residual worth fixing. It is advice only. Any resulting packet,
+window extension or paid run 4 still needs its own approval. Ledger 177/180.
+
+There are 317 decisions: D-01 through D-75, D-139, D-142, D-145–D-317 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
