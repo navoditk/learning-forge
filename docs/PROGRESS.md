@@ -1,5 +1,14 @@
 # Progress
 
+## 2026-11-05 — Six-item run 3 FAIL, 9 of 12 (D-316); escalated to owner
+
+- Run 3 validated 9 of 12 (run 2: 5). Three items reach 2/2; three items each
+  have one fallback, all involving number words. No served move discloses an
+  answer.
+- It still fails D-285. Next: the owner chooses between a Codex advisory on a
+  number-word packet, a change to the bar (owner only) and pausing. Ledger
+  176/180; the window ends 2026-11-06T14:08:44Z.
+
 ## 2026-11-05 — Paid six-item run 3 authorized (D-315)
 
 - The owner approved one paid run 3 under the unchanged D-285: 24 requests,

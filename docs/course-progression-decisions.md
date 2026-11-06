@@ -3310,7 +3310,24 @@ key is only in `.env`. It is judged against the unchanged D-285, and the run is
 consumed whatever the result. The only change since run 2 is REPAIR-FEEDBACK
 (D-313). RF-01 is not addressed first. Agents make no provider calls.
 
-There are 315 decisions: D-01 through D-75, D-139, D-142, D-145–D-315 approved;
+### D-316 — Six-item run 3 FAIL (9 of 12)
+
+Integrator, 2026-11-05. The owner ran D-315: 17 of 24 calls, and 9 of 12
+served moves validated (run 1: 6, run 2: 5). Three items reach 2/2:
+`cell-as-a-system-1`, `cells-evidence-of-life-1` and `cells-evidence-of-life-2`.
+Three items each have one fallback: `cell-as-a-system-2`,
+`cell-parts-functions-1` and `cell-parts-functions-2`. The run fails D-285,
+which requires 2/2 on every item and zero fallbacks. The retry guidance
+repaired 2 of 5 first-attempt rejections.
+
+All three fallbacks include number words (`two`, `both`, `once`, `first`), and
+many of them echo the item text. Other causes are the deliberate `runs`/`cells`
+alias guard (D-314) and one genuine answer-word leak (`depended`). The
+integrator's read found no disclosed answer in the served text. The cause
+checkpoint is kept locally under `agent-handoffs/SCI6-USABLE/sci6-items-run3/`.
+This is the third consecutive failing run, so it goes to the owner.
+
+There are 316 decisions: D-01 through D-75, D-139, D-142, D-145–D-316 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
