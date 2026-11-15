@@ -11,6 +11,7 @@ import {
   HintStepSchema,
 } from './content';
 import { CurriculumProgramSchema, DifficultyBandSchema } from './curriculum';
+import { CodeListingSchema } from './python';
 
 const CodeSchema = z
   .string()
@@ -151,6 +152,8 @@ const TransitionContentBaseSchema = z
     standards: z.array(z.string().trim().min(1).max(40)).min(1).max(10),
     observableEvidence: z.array(z.string().trim().min(1).max(300)).min(1).max(10),
     figure: ContentFigureSchema.optional(),
+    // Python intro only (section 5.1): a pinned, statically linted listing.
+    codeListing: CodeListingSchema.optional(),
     provenance: ContentProvenanceSchema,
     review: ContentReviewSchema,
     accessibilityNotes: z.string().trim().min(1).max(1000),

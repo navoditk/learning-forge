@@ -154,8 +154,18 @@ describe('PA-5: legacy items still score through the unchanged matcher', () => {
         item.id,
       ).toBe(true);
     }
-    const legacyCatalog = contentCatalog.filter((item) => !structuredSet.has(item.id));
-    expect(legacyCatalog).toHaveLength(131);
+    // The pending Python entry record (PYTHON-CONTENT) uses the separate
+    // python_output validator, which is neither structured nor legacy.
+    const pythonIds = contentCatalog
+      .filter((item) => item.deterministicValidator.type === 'python_output')
+      .map((item) => item.id);
+    expect(pythonIds).toEqual(['py6-print-output-reading-1']);
+    const legacyCatalog = contentCatalog.filter(
+      (item) => !structuredSet.has(item.id) && !pythonIds.includes(item.id),
+    );
+    // 131 earlier legacy records plus the two pending multiple_choice Social
+    // Studies records (SS-CONTENT), which carry no parts.
+    expect(legacyCatalog).toHaveLength(133);
 
     let withParts = 0;
     for (const item of legacyCatalog) {

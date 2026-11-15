@@ -12,6 +12,8 @@ it('keeps lifecycle runtime dependencies within pure contracts and helpers', () 
     'src/contracts/content.ts',
     'src/contracts/policy.ts',
     'src/contracts/program-codes.ts',
+    'src/contracts/python.ts',
+    'src/contracts/python-scan.ts',
     'src/contracts/progression.ts',
     'src/contracts/curriculum.ts',
   ]);

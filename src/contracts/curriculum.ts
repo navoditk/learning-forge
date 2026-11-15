@@ -37,6 +37,14 @@ export const CurriculumDomainSchema = z.enum([
   'snsb6-variants',
   'snsb6-procedure',
   'sci6-life-science',
+  'py6-programming-fundamentals',
+  'hss6-early-humankind',
+  'hss6-mesopotamia-egypt-kush',
+  'hss6-ancient-israelites',
+  'hss6-ancient-greece',
+  'hss6-ancient-india',
+  'hss6-ancient-china',
+  'hss6-ancient-rome',
 ]);
 
 export type CurriculumDomain = z.infer<typeof CurriculumDomainSchema>;
@@ -65,6 +73,18 @@ export const SkillSchema = z
   })
   .strict()
   .superRefine((skill, context) => {
+    // C2 (PYTHON-IMPLEMENT): new Python skills are always version-pinned, even
+    // though `version` is still optional for legacy skills.
+    if (
+      (skill.program === 'python-intro-grade-6' || skill.code.startsWith('py6-')) &&
+      !skill.version
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['version'],
+        message: 'Python skills must carry a version',
+      });
+    }
     if (skill.prerequisiteSkillCodes.includes(skill.code)) {
       context.addIssue({
         code: 'custom',

@@ -69,8 +69,10 @@ describe('valid complete fixtures load (contract 5.2: each passes 2.2, 2.5a and 
     });
   }
 
-  it('the live catalog keeps 131 legacy records non-structured; only the 6 Science and 17 Ratios records are structured', () => {
-    expect(contentCatalog).toHaveLength(154);
+  it('the live catalog keeps 133 legacy records non-structured; only the 6 Science and 17 Ratios records are structured', () => {
+    // 154 earlier records plus the pending python_output entry record (PYTHON-CONTENT)
+    // and the two pending legacy multiple_choice Social Studies records (SS-CONTENT).
+    expect(contentCatalog).toHaveLength(157);
     const structured = contentCatalog.filter(
       (item) => item.deterministicValidator.type === 'structured',
     );
@@ -89,8 +91,17 @@ describe('valid complete fixtures load (contract 5.2: each passes 2.2, 2.5a and 
       ),
     ).toBe(true);
     expect(
-      contentCatalog.filter((item) => item.deterministicValidator.type !== 'structured'),
-    ).toHaveLength(131);
+      contentCatalog
+        .filter((item) => item.deterministicValidator.type === 'python_output')
+        .map((item) => item.id),
+    ).toEqual(['py6-print-output-reading-1']);
+    expect(
+      contentCatalog.filter(
+        (item) =>
+          item.deterministicValidator.type !== 'structured' &&
+          item.deterministicValidator.type !== 'python_output',
+      ),
+    ).toHaveLength(133);
     expect(() => validateContentCatalog()).not.toThrow();
   });
 

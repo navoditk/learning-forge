@@ -1251,3 +1251,92 @@ button[aria-disabled='true']:hover {
 .structured-fields input[type='text'][aria-invalid='true'] {
   border-color: var(--color-danger-text);
 }
+
+/* Python intro predict-the-output (PYTHON-IMPLEMENT C7). No syntax colouring:
+   meaning never relies on colour alone. */
+
+/* A non-wrapping listing must scroll inside its own region, never widen the page
+   (usable at 320 CSS px and 200% zoom). */
+.chapter-view-wrapper:has(.code-listing) {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.code-listing {
+  margin: 0 0 var(--spacing-2);
+}
+
+.code-listing-scroll {
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.code-listing-scroll:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.code-listing pre {
+  margin: 0;
+  padding: var(--spacing-2);
+  white-space: pre;
+  tab-size: 4;
+}
+
+.code-listing code {
+  font-family: var(--font-mono-stack);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.code-line {
+  display: block;
+}
+
+/* Gutter numbers are generated content: not selectable, never copied. */
+.with-line-numbers .code-line::before {
+  content: attr(data-line);
+  display: inline-block;
+  min-width: 2ch;
+  margin-right: 1.5ch;
+  text-align: right;
+  color: var(--color-text-muted);
+  user-select: none;
+}
+
+.code-listing-structure {
+  margin-top: 0.4rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.python-output-input {
+  display: block;
+  width: 100%;
+  max-width: 32rem;
+  min-height: 7rem;
+  padding: 0.6rem 0.75rem;
+  font-family: var(--font-mono-stack);
+  font-size: 1rem;
+  line-height: 1.5;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-2);
+  resize: vertical;
+}
+
+.python-output-input[aria-invalid='true'] {
+  border-color: var(--color-danger-border);
+  border-width: 2px;
+}
+
+.python-output-input:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}

@@ -57,6 +57,9 @@ DATABASE_URL="$scratch_url" SCRATCH_PSQL_URL="$scratch_psql_url" \
   npx vitest run --no-file-parallelism --maxWorkers=1 tests/migrations/teaching-seeded-guards.test.ts
 DATABASE_URL="$scratch_url" \
   npx vitest run --no-file-parallelism --maxWorkers=1 tests/migrations/teaching-catalog-objects.test.ts
+# 0019 down.sql guard: refusal while populated, lock ordering, NULL-only success.
+DATABASE_URL="$scratch_url" SCRATCH_PSQL_URL="$scratch_psql_url" \
+  npx vitest run --no-file-parallelism --maxWorkers=1 tests/migrations/attempt-evaluator-down-guard.test.ts
 
 # Prisma-representable objects (relations, composite FKs, unique indexes) must
 # match schema.prisma. This says nothing about CHECKs/triggers/functions, which

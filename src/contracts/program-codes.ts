@@ -13,6 +13,7 @@ export const PROGRAM_CODES = [
   'grade-6-social-studies',
   'international-geography-bee-6',
   'science-olympiad-division-b',
+  'python-intro-grade-6',
 ] as const;
 
 export const ProgramCodeSchema = z.enum(PROGRAM_CODES);

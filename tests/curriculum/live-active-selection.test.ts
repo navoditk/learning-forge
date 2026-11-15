@@ -37,14 +37,14 @@ const PILOT_SKILLS = ['ratio-language', 'unit-rates', 'ratio-tables'];
 describe('P-A live: committed active selection (RI-1)', () => {
   it('S-1 names every registry program exactly once at the registered version', () => {
     const selection = VERSIONED_COURSE_CATALOG.selection;
-    expect(selection.programs).toHaveLength(11);
+    expect(selection.programs).toHaveLength(12);
     // RI-5: the registry lists grade-6-math twice (1.0.0 retained, 1.1.0 active).
-    expect(PROGRAM_REGISTRY).toHaveLength(12);
+    expect(PROGRAM_REGISTRY).toHaveLength(13);
     expect(selection.programs).toEqual(
       ACTIVE_REGISTRY.map(({ code, version }) => ({ code, version })),
     );
     expect(selection.programs[0]).toEqual({ code: 'grade-6-math', version: '1.1.0' });
-    expect(new Set(selection.programs.map((ref) => ref.code)).size).toBe(11);
+    expect(new Set(selection.programs.map((ref) => ref.code)).size).toBe(12);
   });
 
   it('names one skill bank per skill-targeted pilot bank code', () => {

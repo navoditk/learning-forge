@@ -7,6 +7,10 @@ import { skillsByCode } from '../../../../curriculum/catalog';
 import { SCIENCE_PROGRAM_CODE } from '../../../../curriculum/science-rules';
 import { requireHouseholdContext } from '../../../../server/household-context';
 import { createTutorModel, TutorHarness } from '../../../../tutor';
+import {
+  isModelTutoringDisabled,
+  MODEL_TUTORING_DISABLED_REASON,
+} from '../../../../tutor/model-gating';
 import { TutorState } from '../../../../tutor/policy';
 import { enforceTutorUsageLimits, TutorUsageLimitError } from '../../../../phase1/tutor-usage';
 
@@ -58,6 +62,18 @@ export async function POST(request: Request) {
     if (parsed.data.attemptId) context = await getTutorContext(identity, parsed.data.attemptId);
   } catch {
     return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
+  }
+
+  // C9: model hints are disabled for Python items. Refuse before the usage
+  // limiter, any provider call, trace or assistance event.
+  if (isModelTutoringDisabled(context.content.skillCode)) {
+    return NextResponse.json(
+      {
+        error: 'Model-generated hints are not available for this activity.',
+        reasonCode: MODEL_TUTORING_DISABLED_REASON,
+      },
+      { status: 403 },
+    );
   }
 
   try {

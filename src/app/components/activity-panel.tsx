@@ -3,6 +3,8 @@ import Image from 'next/image';
 
 import { svgDataUri, type ContentFigure } from '../../content/figure';
 import type { ResponseSpec, StructuredErrorState, StructuredValues } from '../learner-data';
+import type { CodeListing } from '../../contracts/python';
+import { CodeListingView } from './code-listing';
 import { StructuredResponseFields } from './structured-response-fields';
 
 export type Session = {
@@ -23,6 +25,9 @@ export type Session = {
     // Present only when the server declares a structured item (contract 3.2).
     responseSpec?: ResponseSpec;
     accessibleAlternative?: string;
+    // Python intro predict-the-output items only (C7).
+    answerKind?: 'python_output';
+    codeListing?: CodeListing;
   };
 };
 
@@ -51,6 +56,7 @@ export function ActivityPanel({
   hintPending,
   hintButtonRef,
   responseInputRef,
+  pythonResponseRef,
   fieldValues,
   onFieldChange,
   structuredError,
@@ -73,6 +79,7 @@ export function ActivityPanel({
   hintPending: boolean;
   hintButtonRef: RefObject<HTMLButtonElement | null>;
   responseInputRef: RefObject<HTMLInputElement | null>;
+  pythonResponseRef: RefObject<HTMLTextAreaElement | null>;
   fieldValues: StructuredValues;
   onFieldChange: (key: string, value: string) => void;
   structuredError?: StructuredErrorState;
@@ -83,6 +90,8 @@ export function ActivityPanel({
   onSubmitIndependentCheck: () => void;
 }) {
   const spec = session.content.responseSpec;
+  const pythonListing =
+    session.content.answerKind === 'python_output' ? session.content.codeListing : undefined;
   return (
     <article className="activity-panel" aria-labelledby="activity-heading">
       <h3 id="activity-heading">{session.content.title}</h3>
@@ -127,7 +136,39 @@ export function ActivityPanel({
       <p>
         <small>{session.content.accessibilityNotes}</small>
       </p>
-      {spec ? (
+      {pythonListing && <CodeListingView listing={pythonListing} title={session.content.title} />}
+      {pythonListing ? (
+        <form onSubmit={onSubmitAttempt} aria-busy={pendingAction ? true : undefined} noValidate>
+          <label htmlFor="python-output-response">What does this program print?</label>
+          <p id="python-output-guidance" className="field-hint">
+            Type exactly what is printed. Put each printed line on its own line, with no extra
+            spaces. Capital letters and punctuation count.
+          </p>
+          <textarea
+            id="python-output-response"
+            name="learnerResponse"
+            ref={pythonResponseRef}
+            className="python-output-input"
+            rows={5}
+            value={response}
+            onChange={(event) => {
+              setResponse(event.target.value);
+              if (error) setError('');
+            }}
+            autoCapitalize="off"
+            autoCorrect="off"
+            autoComplete="off"
+            spellCheck={false}
+            aria-invalid={error ? 'true' : undefined}
+            aria-describedby={
+              error ? 'python-output-guidance learner-response-error' : 'python-output-guidance'
+            }
+          />
+          <button type="submit" aria-disabled={pendingAction ? true : undefined}>
+            {pendingAction === 'submit' ? 'Submitting…' : 'Submit answer'}
+          </button>
+        </form>
+      ) : spec ? (
         <form onSubmit={onSubmitAttempt} aria-busy={pendingAction ? true : undefined} noValidate>
           <StructuredResponseFields
             spec={spec}
@@ -192,14 +233,21 @@ export function ActivityPanel({
               ? 'Correct — nice work.'
               : 'Not yet. Your attempt is recorded.'}
           </p>
-          <button ref={hintButtonRef} type="button" onClick={onRequestHint} disabled={hintPending}>
-            {hintPending
-              ? 'Thinking…'
-              : hintCount === 0
-                ? 'Ask for a small hint'
-                : 'Ask for the next hint'}
-          </button>
-          {hintCount === 0 && !tutor && (
+          {!pythonListing && (
+            <button
+              ref={hintButtonRef}
+              type="button"
+              onClick={onRequestHint}
+              disabled={hintPending}
+            >
+              {hintPending
+                ? 'Thinking…'
+                : hintCount === 0
+                  ? 'Ask for a small hint'
+                  : 'Ask for the next hint'}
+            </button>
+          )}
+          {!pythonListing && hintCount === 0 && !tutor && (
             <p>
               <small>
                 The hint comes from a computer program, not a person. If anything ever feels wrong

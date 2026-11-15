@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 
 import { parsePhase1AttemptBody, recordReviewAttempt } from '../../../../phase1/service';
 import {
+  InvalidResponseError,
+  invalidResponsePayload,
   StructuredResponseRefusedError,
   structuredRefusalPayload,
 } from '../../../../progression/assessment-submission';
@@ -24,6 +26,10 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof StructuredResponseRefusedError) {
       const { status, body } = structuredRefusalPayload(error);
+      return NextResponse.json(body, { status });
+    }
+    if (error instanceof InvalidResponseError) {
+      const { status, body } = invalidResponsePayload(error);
       return NextResponse.json(body, { status });
     }
     return NextResponse.json({ error: 'Review is not available' }, { status: 404 });

@@ -152,6 +152,9 @@ import sci6CellPartsFunctions1 from '../../content/grade-6-science/sci6-cell-par
 import sci6CellPartsFunctions2 from '../../content/grade-6-science/sci6-cell-parts-functions-2.json';
 import sci6CellAsASystem1 from '../../content/grade-6-science/sci6-cell-as-a-system-1.json';
 import sci6CellAsASystem2 from '../../content/grade-6-science/sci6-cell-as-a-system-2.json';
+import py6PrintOutputReading1 from '../../content/python-intro-grade-6/py6-print-output-reading-1.json';
+import hss6AthenianAndRepresentativeDemocracy1 from '../../content/grade-6-social-studies/hss6-athenian-and-representative-democracy-1.json';
+import hss6AthenianAndRepresentativeDemocracy2 from '../../content/grade-6-social-studies/hss6-athenian-and-representative-democracy-2.json';
 import {
   ContentRecordSchema,
   ContentRecord,
@@ -159,10 +162,16 @@ import {
   PublishedContentRecord,
   PracticeContentItem,
 } from '../contracts/progression';
+import type { Skill } from '../contracts/curriculum';
 import { skillCatalog, skillsByCode } from '../curriculum/catalog';
 import { validateItemReadinessRefs } from '../curriculum/progression-catalog';
 import { programsByCode } from '../curriculum/program-registry';
 import { SCIENCE_PROGRAM_CODE, validateScienceContentRules } from '../curriculum/science-rules';
+import { validatePythonContentRules } from './python-rules';
+import {
+  SOCIAL_STUDIES_PROGRAM_CODE,
+  validateSocialStudiesContentRules,
+} from '../curriculum/social-studies-rules';
 import { validateStructuredValidatorRules } from './structured-response';
 
 const rawContent = [
@@ -320,12 +329,20 @@ const rawContent = [
   sci6CellPartsFunctions2,
   sci6CellAsASystem1,
   sci6CellAsASystem2,
+  py6PrintOutputReading1,
+  hss6AthenianAndRepresentativeDemocracy1,
+  hss6AthenianAndRepresentativeDemocracy2,
 ] as const;
 
 function validateParsedContentCatalog(
   items: readonly unknown[],
   allowLegacy: boolean,
+  // Test seam only: lets a synthetic skill set (never added to the live
+  // catalog) exercise the per-program rules. Production always uses the live one.
+  skills: readonly Skill[] = skillCatalog,
 ): ContentRecord[] {
+  const skillLookup =
+    skills === skillCatalog ? skillsByCode : new Map(skills.map((s) => [s.code, s]));
   const parser = allowLegacy ? ContentRecordSchema : PublishedContentRecordSchema;
   const parsed = items.map((item) => parser.parse(item));
   const ids = new Set(parsed.map((item) => `${item.id}@${item.version}`));
@@ -344,7 +361,7 @@ function validateParsedContentCatalog(
         skillRef: item.skillRef,
         itemReadinessRefs: item.itemReadinessRefs,
       })),
-    skillCatalog,
+    skills,
   );
 
   for (const item of parsed) {
@@ -353,9 +370,17 @@ function validateParsedContentCatalog(
     // during the transition and must not assume fields that teaching and
     // assessment records deliberately do not carry.
     const skillCode = 'skillCode' in item ? item.skillCode : item.skillRef.code;
-    const skill = skillsByCode.get(skillCode);
+    const skill = skillLookup.get(skillCode);
     if (!skill) {
       throw new Error(`${item.id} references unknown skill: ${skillCode}`);
+    }
+    // Python intro (dossier 5.1, 5.2, 5.4): listing pin, output validator and
+    // hint/leakage rules. A no-op for every other program.
+    validatePythonContentRules(item, skill.program);
+    // Grade 6 Social Studies (SS-IMPLEMENT, R3/R4): syntactic rules for every
+    // role. A no-op for every other program.
+    if (skill.program === SOCIAL_STUDIES_PROGRAM_CODE) {
+      validateSocialStudiesContentRules(item);
     }
     // Teaching records deliberately omit attempt-only fields. Practice,
     // assessment, and review records carry the deterministic validator and
@@ -544,7 +569,7 @@ function validateParsedContentCatalog(
     recordsBySkill.set(skillCode, records);
   }
   const REQUIRED_RECORDS_PER_SKILL = 2;
-  for (const skill of skillCatalog) {
+  for (const skill of skills) {
     const records = recordsBySkill.get(skill.code) ?? [];
     const legacyRecords = records.filter((item) => 'skillCode' in item);
     const roleSpecificRecords = records.filter((item) => 'role' in item);
@@ -577,8 +602,11 @@ export function validateContentCatalog(
 }
 
 /** Migration-only parser retained for fixtures that exercise the A0/A1 boundary. */
-export function validateTransitionContentCatalog(items: readonly unknown[]): ContentRecord[] {
-  return validateParsedContentCatalog(items, true);
+export function validateTransitionContentCatalog(
+  items: readonly unknown[],
+  skills?: readonly Skill[],
+): ContentRecord[] {
+  return validateParsedContentCatalog(items, true, skills);
 }
 
 export const contentCatalog = validateContentCatalog();

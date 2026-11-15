@@ -178,6 +178,7 @@ export async function exportHouseholdData(prisma: DatabaseClient, householdId: s
           contentVersion: true,
           learnerResponse: true,
           normalizedResponse: true,
+          evaluatorVersion: true,
           correctness: true,
           scoringMethod: true,
           attemptNumber: true,

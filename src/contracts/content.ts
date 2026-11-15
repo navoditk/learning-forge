@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { ContentModeSchema, VersionSchema } from './common';
+import { PythonOutputValidatorSchema } from './python';
 
 export const ContentProvenanceSchema = z
   .object({
@@ -228,6 +229,7 @@ export const StructuredValidatorSchema = z
 export const DeterministicValidatorSchema = z.discriminatedUnion('type', [
   LegacyDeterministicValidatorSchema,
   StructuredValidatorSchema,
+  PythonOutputValidatorSchema,
 ]);
 
 export type LegacyDeterministicValidator = z.infer<typeof LegacyDeterministicValidatorSchema>;

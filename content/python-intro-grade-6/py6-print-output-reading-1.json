@@ -1,0 +1,75 @@
+{
+  "id": "py6-print-output-reading-1",
+  "version": "content-1",
+  "title": "Launch checklist",
+  "role": "practice",
+  "skillRef": { "code": "py6-print-output-reading", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["PY6-P1-01"],
+  "observableEvidence": [
+    "Reads a short listing of print lines with literal values from top to bottom and types its exact output: one output line per print, in order, with text shown without its quotes."
+  ],
+  "prompt": "A model rocket club wrote this short Python program for its launch checklist. Read it from top to bottom. What does the program print? Type each printed line on its own line, exactly as it would appear, with no extra spaces.",
+  "codeListing": {
+    "language": "python",
+    "languageVersion": "3.14",
+    "source": "print(\"Launch check\")\nprint(\"Rockets\", 3)\nprint(\"Fuel\", 2.0)\nprint(\"Hatch closed\", True)",
+    "showLineNumbers": true,
+    "structureDescription": "Four lines of code, each starting at the left margin with no indentation. Every line is one print call, and the lines run in order from line 1 to line 4."
+  },
+  "solutionRepresentation": "The program prints four lines, one for each print call, in order from line 1 to line 4. Line 1 prints the text Launch check; the quotation marks only mark where the text starts and ends, so they are not printed. Line 2 prints Rockets, one space, then 3. Line 3 prints Fuel, one space, then 2.0: it is a decimal number, so the .0 stays. Line 4 prints Hatch closed, one space, then True with a capital T. The full output is:\nLaunch check\nRockets 3\nFuel 2.0\nHatch closed True\nPython 3.14 behavior used: print converts each value to text as str() does, separates the values with one space (sep defaults to ' ') and ends each call with a new line (end defaults to a line break), per Built-in Functions, print(), https://docs.python.org/3.14/library/functions.html#print. A decimal number keeps its written form 2.0 and the Boolean value prints as True, per Built-in Types, https://docs.python.org/3.14/library/stdtypes.html.",
+  "solutionMethod": "Go line by line from the top. For each print, write its values in order on a new output line: text without its quotes, one space between values, and numbers and True or False exactly as written.",
+  "deterministicValidator": {
+    "type": "python_output",
+    "canonicalAnswer": "Launch check\nRockets 3\nFuel 2.0\nHatch closed True",
+    "acceptedAnswers": ["Launch check\nRockets 3\nFuel 2.0\nHatch closed True"],
+    "equivalenceNotes": "Exact output only, case-sensitive, with one correct form: four lines in program order, values on a line separated by a single space, no quotes. One final line break is ignored; anything else extra is scored as incorrect."
+  },
+  "misconceptionCodes": [
+    "py6-prints-quotes",
+    "py6-bool-case",
+    "py6-int-float-same",
+    "py6-comma-joins-without-space",
+    "py6-runs-out-of-order"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Python runs the lines in order, starting at line 1 and ending at line 4. Each print call starts a new line of output.",
+      "question": "How many lines of output will there be, and which line of code makes the first one?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Quotation marks only show where a piece of text begins and ends, so they are not printed. When one print has several values separated by commas, they appear on the same output line with exactly one space between each pair.",
+      "question": "On lines 2, 3 and 4, what appears between the first value and the second value?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a print with the text Map in quotes, the number 7.0 and the value False would show Map 7.0 False. The quotes disappear, one space separates the values, the .0 stays because it is a decimal number, and the yes-or-no value keeps its capital first letter.",
+      "question": "Using the same rules, what exactly do lines 3 and 4 show?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Launch check\nRockets 3\nFuel 2.0\nHatch closed True",
+    "Launch check",
+    "Rockets 3",
+    "Fuel 2.0",
+    "Hatch closed True"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for PYTHON-CONTENT. The program, prompt, hints and solution were written for this repository; it uses only the program-internal objective code PY6-P1-01 and copies no outside exercise, code or text."
+  },
+  "accessibilityNotes": "The code is shown as plain monospaced text with line numbers, not as an image, and nothing depends on color. The structure description explains the layout in words, and the text alternative reads each line aloud. The answer is typed into a labelled multi-line text box.",
+  "accessibleAlternative": "A Python program with four lines, all at the left margin. Line 1: print with one value, the text Launch check in double quotes. Line 2: print with two values separated by a comma: the text Rockets in double quotes, then the whole number 3. Line 3: print with two values: the text Fuel in double quotes, then the decimal number 2.0. Line 4: print with two values: the text Hatch closed in double quotes, then True with a capital T and no quotes. Question: what does this program print? Type each printed line on its own line.",
+  "itemReadinessRefs": []
+}

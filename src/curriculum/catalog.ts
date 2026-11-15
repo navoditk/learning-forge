@@ -65,10 +65,13 @@ import snsb6OralRoundProcedure from '../../content/skills/snsb6-oral-round-proce
 import sci6CellsEvidenceOfLife from '../../content/skills/sci6-cells-evidence-of-life.json';
 import sci6CellPartsFunctions from '../../content/skills/sci6-cell-parts-functions.json';
 import sci6CellAsASystem from '../../content/skills/sci6-cell-as-a-system.json';
+import py6PrintOutputReading from '../../content/skills/py6-print-output-reading.json';
+import hss6AthenianAndRepresentativeDemocracy from '../../content/skills/hss6-athenian-and-representative-democracy.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { VersionedSkill, VersionedSkillSchema } from '../contracts/progression';
 import { validateProgramSkillInvariants } from './program-registry';
 import { validateScienceSkillRules } from './science-rules';
+import { validateSocialStudiesSkillRules } from './social-studies-rules';
 import { topologicalOrder } from './topological-sort';
 
 const rawSkills = [
@@ -139,6 +142,8 @@ const rawSkills = [
   sci6CellsEvidenceOfLife,
   sci6CellPartsFunctions,
   sci6CellAsASystem,
+  py6PrintOutputReading,
+  hss6AthenianAndRepresentativeDemocracy,
 ] as const;
 
 export function topologicalSkillOrder(skills: readonly Skill[]): string[] {
@@ -168,6 +173,7 @@ export function validateSkillCatalog(items: readonly unknown[] = rawSkills): Ski
   topologicalSkillOrder(parsed);
   validateProgramSkillInvariants(parsed);
   validateScienceSkillRules(parsed);
+  validateSocialStudiesSkillRules(parsed);
 
   return parsed;
 }

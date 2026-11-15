@@ -122,6 +122,13 @@ const CHAPTER_LABELS: Record<string, string> = {
   'snsb6-variants': 'Variants & Dictionary Judgment',
   'snsb6-procedure': 'Oral Round Procedure',
   'sci6-life-science': 'Life Science',
+  'hss6-early-humankind': 'Early Humankind',
+  'hss6-mesopotamia-egypt-kush': 'Mesopotamia, Egypt & Kush',
+  'hss6-ancient-israelites': 'Ancient Israelites',
+  'hss6-ancient-greece': 'Ancient Greece',
+  'hss6-ancient-india': 'Ancient India',
+  'hss6-ancient-china': 'Ancient China',
+  'hss6-ancient-rome': 'Ancient Rome',
 };
 
 // The curriculum's own declared domain order doubles as the default chapter

@@ -1,0 +1,70 @@
+{
+  "id": "hss6-athenian-and-representative-democracy-2",
+  "version": "1.0.0",
+  "title": "Classifying a school club vote",
+  "role": "practice",
+  "skillRef": {
+    "code": "hss6-athenian-and-representative-democracy",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["CA-HSS.6.4.3"],
+  "observableEvidence": [
+    "Classifies an original decision-making scenario as direct or representative democracy by identifying whose votes make the final decision, the key difference between Athenian direct democracy and representative democracy."
+  ],
+  "prompt": "Direct democracy means the eligible participants vote on a decision themselves. In the assembly of ancient Athens, eligible citizens did this in person at a meeting. Representative democracy means voters elect a smaller group of people who make decisions for them.\n\nA middle school with 600 students is adding one new club next year. The student council, a group of 12 students elected earlier in the year, writes a list of four club choices. Then every student at the school gets a ballot and votes for one club. Council members count the ballots, and each council member gets only one vote, the same as every other student. The club with the most votes is added.\n\nWhich statement correctly classifies how the club decision was made?\n\nA. Representative democracy, because the elected student council wrote the list of choices.\nB. Representative democracy, because 600 students is too many people to decide directly.\nC. Direct democracy, because every student voted on the decision themselves.\nD. Representative democracy, because the elected student council counted the ballots.\n\nType the letter or the full text of your choice.",
+  "solutionRepresentation": "C is correct. The club was chosen by the ballots of all the students, each casting one vote on the decision itself, so the decision was made directly, just as eligible citizens voted on decisions themselves in the Athenian assembly. A is wrong because writing the list of choices did not pick the winner; the students' votes did. B is wrong because the size of the group does not decide the type: every one of the 600 students voted on the decision. D is wrong because counting ballots is running the vote, not deciding it; council members had only one vote each, like everyone else.",
+  "solutionMethod": "Ignore the details about who prepared the choices, who counted and how large the group is. Find whose votes actually chose the club: if the people taking part voted on the decision itself, it is direct; if an elected smaller group made the decision for them, it is representative.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "Direct democracy, because every student voted on the decision themselves.",
+    "acceptedAnswers": [
+      "C",
+      "Direct democracy, because every student voted on the decision themselves."
+    ],
+    "equivalenceNotes": "Single select. Canonical answer is the full text of option C; the option label C is also accepted; trailing end punctuation is ignored by normalization. No other phrasing, partial text such as the word direct alone, or list of several options is accepted."
+  },
+  "misconceptionCodes": [
+    "agenda-setters-seen-as-representatives",
+    "group-size-decides-democracy-type",
+    "ballot-counters-seen-as-representatives"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Some details in the story are about people who helped run the vote. The key question is whose votes actually chose the club.",
+      "question": "When the winning club was picked, whose ballots decided it?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "List each group in the story and what it did. The council wrote the list of choices and counted the ballots. Each student, council members included, cast one ballot. Circle the action that picked the winning club.",
+      "question": "Did a small elected group pick the club for everyone, or did the circled action come from all of the students?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a town's voters elect a five-person board, and the board votes to choose a new park design. The voters never vote on the design, so the board decides for them and that is representative. If every voter had instead marked a ballot for a design, a clerk counting those ballots would not change who decided.",
+      "question": "In the club story, who made the final choice, and which kind of democracy matches that?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Direct democracy, because every student voted on the decision themselves",
+    "every student voted on the decision themselves",
+    "Direct democracy, because"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SS-CONTENT. The school scenario, options, hints and solution were written for this repository from the CA-HSS.6.4.3 code; it cites the code only and copies no textbook, framework example, standards text or other outside lesson or item."
+  },
+  "accessibilityNotes": "All information is plain text; there is no figure, map, date, quotation or excerpt. The scenario is a short list of steps in words, the four options are labelled A to D in the prompt, and nothing depends on color or position. The learner types the letter or the full option text into a labelled text box.",
+  "accessibleAlternative": "Definitions: direct democracy means the eligible participants vote on a decision themselves. In ancient Athens, eligible citizens did this in person at the assembly. Representative democracy means voters elect a smaller group who decide for them. Scenario: a 600-student school adds one club. The elected 12-student council lists four choices. Every student votes for one club on a ballot. The council counts the ballots; each member has one vote, like every student. The most votes wins. Question: which statement correctly classifies the decision? Option A: Representative democracy, because the elected student council wrote the list of choices. Option B: Representative democracy, because 600 students is too many people to decide directly. Option C: Direct democracy, because every student voted on the decision themselves. Option D: Representative democracy, because the elected student council counted the ballots. Answer with a letter or the full option text.",
+  "itemReadinessRefs": []
+}

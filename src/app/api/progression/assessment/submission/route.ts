@@ -5,6 +5,9 @@ import {
   getCurrentAssessmentItem,
   submitAssessmentItem,
   AssessmentSubmissionError,
+  InvalidResponseError,
+  invalidResponsePayload,
+  PYTHON_RAW_RESPONSE_MAX,
   StructuredResponseRefusedError,
   structuredRefusalPayload,
   type SubmitAssessmentItemInput,
@@ -25,6 +28,12 @@ const LegacyRequestSchema = z
   .object({ ...BaseRequestShape, learnerResponse: z.string().trim().min(1).max(1000) })
   .strict();
 
+// `python_output` items only: the raw string under its own key, so the legacy
+// `learnerResponse` contract above is unchanged.
+const PythonRequestSchema = z
+  .object({ ...BaseRequestShape, pythonResponse: z.string().max(PYTHON_RAW_RESPONSE_MAX) })
+  .strict();
+
 const StructuredRequestSchema = z
   .object({
     ...BaseRequestShape,
@@ -36,8 +45,9 @@ const StructuredRequestSchema = z
 
 type SubmissionBody = Pick<SubmitAssessmentItemInput, 'assignmentId' | 'sessionId' | 'ordinal'> &
   (
-    | { learnerResponse: string; structuredResponse?: undefined }
-    | { structuredResponse: unknown; learnerResponse?: undefined }
+    | { learnerResponse: string; structuredResponse?: undefined; pythonResponse?: undefined }
+    | { structuredResponse: unknown; learnerResponse?: undefined; pythonResponse?: undefined }
+    | { pythonResponse: string; learnerResponse?: undefined; structuredResponse?: undefined }
   );
 
 /** Tier 1 (contract 3.1): exactly one of `learnerResponse` or `structuredResponse`, both strict. */
@@ -46,6 +56,10 @@ function parseSubmissionBody(body: unknown): SubmissionBody | null {
   const record = body as Record<string, unknown>;
   const hasLegacy = record.learnerResponse !== undefined;
   const hasStructured = record.structuredResponse !== undefined;
+  if (!hasLegacy && !hasStructured && record.pythonResponse !== undefined) {
+    const python = PythonRequestSchema.safeParse(body);
+    return python.success ? python.data : null;
+  }
   if (hasLegacy === hasStructured) return null;
   if (hasLegacy) {
     const parsed = LegacyRequestSchema.safeParse(body);
@@ -90,6 +104,10 @@ export async function POST(request: Request) {
     }
     if (error instanceof StructuredResponseRefusedError) {
       const { status, body } = structuredRefusalPayload(error);
+      return NextResponse.json(body, { status });
+    }
+    if (error instanceof InvalidResponseError) {
+      const { status, body } = invalidResponsePayload(error);
       return NextResponse.json(body, { status });
     }
     if (error instanceof AssessmentSubmissionError) {

@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 import { VersionSchema } from '../contracts/common';
 import { ContentFigureSchema } from '../contracts/content';
+import { CodeListingSchema } from '../contracts/python';
+import { PYTHON_INVALID_MESSAGES, PYTHON_INVALID_REASONS } from '../content/python-output';
 import type { Session } from './components/activity-panel';
 import type { DiagnosticPlan, LearnerProgress, Plan, ReviewQueue } from './learner-chapters';
 
@@ -349,5 +351,24 @@ export const SessionSchema = z.object({
     // the whole session, so an answer-bearing projection can never render.
     responseSpec: ResponseSpecSchema.optional(),
     accessibleAlternative: z.string().optional(),
+    // Python intro predict-the-output items only (C7): the public listing and
+    // the answer kind. Never carries the output, hints or leakage patterns.
+    answerKind: z.literal('python_output').optional(),
+    codeListing: CodeListingSchema.optional(),
   }),
 }) satisfies z.ZodType<Session>;
+
+const InvalidResponseSchema = z.object({
+  reasonCode: z.literal('INVALID_RESPONSE'),
+  reason: z.enum(PYTHON_INVALID_REASONS),
+});
+
+/**
+ * Reads the server's typed `invalid_response` body (C5) and returns this app's
+ * own neutral wording for its reason code: never about correctness, never the
+ * server's free text. `undefined` when the body is not an invalid response.
+ */
+export function invalidResponseMessage(body: unknown): string | undefined {
+  const parsed = InvalidResponseSchema.safeParse(body);
+  return parsed.success ? PYTHON_INVALID_MESSAGES[parsed.data.reason] : undefined;
+}

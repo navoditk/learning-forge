@@ -366,11 +366,18 @@ describe('SU-E1 case 4: publication projection (SU-R2)', () => {
     expect(projected.map((skill) => skill.code)).toEqual([EOL, PF, AAS]);
   });
 
-  it('full roster with Science injected available: 67 skills equal to skillCatalog, 64 non-Science unchanged in order', () => {
+  it('full roster with Science injected available: 67 skills equal to skillCatalog without the pending Python and Social Studies skills, 64 non-Science unchanged in order', () => {
     const projected = publishableSkillProjection(skillCatalog, contentCatalog, rosterWithScience);
+    // The pending Python entry skill (PYTHON-CONTENT) and the pending Social
+    // Studies skill (SS-CONTENT) are never projected.
+    const publishable = skillCatalog.filter(
+      (skill) =>
+        skill.program !== 'python-intro-grade-6' && skill.program !== 'grade-6-social-studies',
+    );
+    expect(skillCatalog).toHaveLength(69);
     expect(projected).toHaveLength(67);
-    expect(projected).toEqual(skillCatalog);
-    const nonScienceCatalog = skillCatalog.filter((skill) => skill.program !== SCIENCE_PROGRAM);
+    expect(projected).toEqual(publishable);
+    const nonScienceCatalog = publishable.filter((skill) => skill.program !== SCIENCE_PROGRAM);
     const nonScienceProjected = projected.filter((skill) => skill.program !== SCIENCE_PROGRAM);
     expect(nonScienceCatalog).toHaveLength(64);
     expect(nonScienceProjected).toEqual(nonScienceCatalog);

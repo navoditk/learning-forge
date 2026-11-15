@@ -119,9 +119,38 @@ const rawProgramRegistry = [
     legacyCompatibilityPolicyRef: null,
     defaultPolicyProfileRef: policy('grade-6-science-default'),
   },
-  placeholderProgram('grade-6-social-studies', 'Grade 6 Social Studies'),
+  // SS-IMPLEMENT (D-324, R1): a graded school course with its own prefix. Still
+  // unavailable, with no units, skills or records.
+  {
+    code: 'grade-6-social-studies',
+    version: '1.0.0',
+    label: 'Grade 6 Social Studies',
+    available: false,
+    subjectKind: 'graded-academic' as const,
+    skillCodePrefix: 'hss6-',
+    progressionMode: 'skill-graph-only' as const,
+    unitRefs: [],
+    accessPolicyRef: policy('grade-6-social-studies-access'),
+    legacyCompatibilityPolicyRef: null,
+    defaultPolicyProfileRef: policy('grade-6-social-studies-default'),
+  },
   placeholderProgram('international-geography-bee-6', 'International Geography Bee (Grade 6)'),
   placeholderProgram('science-olympiad-division-b', 'Science Olympiad Division B (Grade 6)'),
+  // PYTHON-IMPLEMENT (D-321/D-322): predict-the-output Python intro. Identity
+  // only: unavailable, no skills or records yet. Never executes learner code.
+  {
+    code: 'python-intro-grade-6',
+    version: '1.0.0',
+    label: 'Python Intro (Grade 6)',
+    available: false,
+    subjectKind: 'enrichment-non-graded' as const,
+    skillCodePrefix: 'py6-',
+    progressionMode: 'skill-graph-only' as const,
+    unitRefs: [],
+    accessPolicyRef: policy('python-intro-grade-6-access'),
+    legacyCompatibilityPolicyRef: null,
+    defaultPolicyProfileRef: policy('python-intro-grade-6-default'),
+  },
 ] as const;
 
 export const PROGRAM_REGISTRY: readonly Program[] = rawProgramRegistry.map((program) =>

@@ -330,6 +330,7 @@ model Attempt {
   contentVersion       String
   learnerResponse      String
   normalizedResponse   String?
+  evaluatorVersion     String?
   correctness          Correctness
   scoringMethod        ScoringMethod
   attemptNumber        Int

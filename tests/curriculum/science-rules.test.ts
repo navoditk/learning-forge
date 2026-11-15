@@ -147,7 +147,7 @@ describe('P1 grade-6-science registry entry', () => {
     });
   });
 
-  it('keeps the other four placeholders and the registry order unchanged', () => {
+  it('keeps the other placeholders and the registry order unchanged', () => {
     expect(PROGRAM_REGISTRY.map((program) => program.code)).toEqual([
       'grade-6-math',
       'grade-6-math', // 1.1.0 (RI-5); 1.0.0 retained
@@ -161,10 +161,10 @@ describe('P1 grade-6-science registry entry', () => {
       'grade-6-social-studies',
       'international-geography-bee-6',
       'science-olympiad-division-b',
+      'python-intro-grade-6', // PYTHON-IMPLEMENT (D-322): unavailable, identity only
     ]);
     for (const [code, label] of [
       ['grade-6-ela', 'Grade 6 ELA'],
-      ['grade-6-social-studies', 'Grade 6 Social Studies'],
       ['international-geography-bee-6', 'International Geography Bee (Grade 6)'],
       ['science-olympiad-division-b', 'Science Olympiad Division B (Grade 6)'],
     ]) {
@@ -243,8 +243,10 @@ describe('P3 Science skill rules', () => {
     );
   });
 
-  it('does not constrain other programs standards and registers exactly the 3 accepted Science skills beside the 64 existing skills', () => {
-    expect(skillCatalog).toHaveLength(67);
+  it('does not constrain other programs standards and registers exactly the 3 accepted Science skills beside the 66 other skills', () => {
+    // 64 earlier non-Science skills plus the pending Python entry skill (PYTHON-CONTENT)
+    // and the pending Social Studies skill (SS-CONTENT).
+    expect(skillCatalog).toHaveLength(69);
     expect(() => validateSkillCatalog(skillCatalog)).not.toThrow();
     const science = skillCatalog.filter((skill) => skill.program === 'grade-6-science');
     expect(science.map((skill) => skill.code).sort()).toEqual([
@@ -254,16 +256,16 @@ describe('P3 Science skill rules', () => {
     ]);
     expect(science.every((skill) => skill.version === '1.0.0')).toBe(true);
     expect(science.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);
-    expect(skillCatalog.filter((skill) => skill.program !== 'grade-6-science')).toHaveLength(64);
+    expect(skillCatalog.filter((skill) => skill.program !== 'grade-6-science')).toHaveLength(66);
   });
 });
 
 describe('P4 Science content rules', () => {
-  it('loads a valid synthetic Science record beside the 154 live records (128 earlier + 6 Science + 20 Ratios)', () => {
-    expect(contentCatalog).toHaveLength(154);
+  it('loads a valid synthetic Science record beside the 157 live records (128 earlier + 6 Science + 20 Ratios + 1 pending Python + 2 pending Social Studies)', () => {
+    expect(contentCatalog).toHaveLength(157);
     registerScienceSkill();
     const loaded = loadWith(scienceRecord('sci6-synthetic-1'), scienceRecord('sci6-synthetic-2'));
-    expect(loaded).toHaveLength(156);
+    expect(loaded).toHaveLength(159);
   });
 
   it('accepts depth mode and a pattern that is a case-insensitive substring', () => {

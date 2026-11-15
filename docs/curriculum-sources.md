@@ -9,6 +9,40 @@ expressions-and-equations,geometry,statistics}/*.json` — this doc explains
 _where those codes and skill-type choices came from_; the JSON remains the
 runtime source of truth for _what shipped_.
 
+## Grade 6 ELA research sources — 2026-11-13
+
+**Status: Research reviewed; decisions disposed by delegated model sign-off
+under D-212 on 2026-11-15 (D-326). Research only: authoring, a D-61 exception,
+registration and availability are not authorized.** The staged dossier is
+`docs/curriculum-dossiers/grade-6-ela-20261113-research.md` (SHA-256
+`c30ff0071c899e517f9093bf9135ca07df7547c382268a14d9ed9d960ad472d9`); its
+independent cross-family review (Codex `gpt-6.1-sol`, READY_WITH_RISKS after one
+correction round) is preserved in common Git under `agent-handoffs/ELA-RESEARCH/`.
+Author and reviewer identities are session or configuration labels, not
+retained client metadata.
+
+Scope: California Grade 6 school English Language Arts, core plus depth, no
+contest tier. Standards framework: the California Common Core State Standards
+for English Language Arts and Literacy in History/Social Studies, Science and
+Technical Subjects (California Department of Education, adopted 2010-08-02,
+modified 2013-03-13); context from the 2014 ELA/ELD Framework and the Smarter
+Balanced adjusted blueprint. The undated IUSD "6th Grade Year at a Glance" is
+**not used** (D-326, ELA-D4).
+
+Decisions (D-326): coverage scope, passage sources, standards-text display,
+research tasks, typing workload, code format, program code and tiers, school
+materials and media literacy accepted; reading-proficiency evidence, writing
+feedback, answer exposure, constructed-response scoring and academic integrity
+deferred to separately scoped packets (**unresolved**); learner-writing
+privacy and provider-data handling (**ELA-D16, unresolved, owner**).
+
+Open items with a follow-up, not verified: ELA-O2 (CDE pages behind a bot
+challenge), ELA-O3 (framework dating), ELA-O4 (assessment blueprint edition
+and rubric version). The CCSS public license text and the IUSD document body
+were not independently verified. Use original content and verified
+public-domain works only; do not copy or closely paraphrase proprietary
+passages, items or rubrics.
+
 ## Grade 6 Social Studies prerequisite sources — 2026-10-10
 
 **Status: Approved by product/content owner on 2026-10-10 (research only).**

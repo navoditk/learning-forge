@@ -44,6 +44,10 @@
     {
       "code": "science-olympiad-division-b",
       "version": "1.0.0"
+    },
+    {
+      "code": "python-intro-grade-6",
+      "version": "1.0.0"
     }
   ],
   "skillBanks": [

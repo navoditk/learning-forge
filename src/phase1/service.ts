@@ -5,7 +5,6 @@ import { contentCatalog, contentSkillCode, servableContentCatalog } from '../con
 import { resolveHistoricalContent as resolveArchivedHistoricalContent } from '../content/archive';
 import { resolveActive } from '../content/resolvers';
 import {
-  evaluateStructuredSubmission,
   parseStructuredResponseRequest,
   projectResponseSpec,
 } from '../content/structured-response';
@@ -29,6 +28,8 @@ import { applyReviewLapse } from '../progression/learner-state';
 import {
   assertResponseBodyShape,
   recordStrandedSkill,
+  evaluateSubmission,
+  PYTHON_RAW_RESPONSE_MAX,
   responseBodyOf,
   scoreSubmission,
   type SubmissionResponse,
@@ -52,6 +53,7 @@ import {
   usesProgressionAccessPolicy,
 } from '../progression/policy';
 import type { ActivityKind } from '../contracts/policy';
+import { projectPythonPresentation } from '../content/python-output';
 import { prisma } from '../server/prisma';
 import { isUniqueConstraintViolation } from '../server/prisma-errors';
 import { TutorResponse } from '../tutor';
@@ -103,6 +105,14 @@ const LegacyAttemptBodySchema = z.object({
   learnerResponse: z.string().trim().min(1).max(1000),
 });
 
+// Dossier 5.2 step 1: a `python_output` answer travels under its own key so the
+// legacy `learnerResponse` parse above stays byte-for-byte unchanged. The raw,
+// untrimmed string is bounded only as a payload (5000); the evaluator applies
+// its own 1000-unit rule as a typed invalid response.
+const PythonAttemptBodySchema = z
+  .object({ sessionId: z.string().uuid(), pythonResponse: z.string().max(PYTHON_RAW_RESPONSE_MAX) })
+  .strict();
+
 const StructuredAttemptBodySchema = z
   .object({
     sessionId: z.string().uuid(),
@@ -125,6 +135,10 @@ export function parsePhase1AttemptBody(
   const record = body as Record<string, unknown>;
   const hasLegacy = record.learnerResponse !== undefined;
   const hasStructured = record.structuredResponse !== undefined;
+  if (!hasLegacy && !hasStructured && record.pythonResponse !== undefined) {
+    const python = PythonAttemptBodySchema.safeParse(body);
+    return python.success ? python.data : null;
+  }
   if (hasLegacy === hasStructured) return null;
   if (hasLegacy) {
     const parsed = LegacyAttemptBodySchema.safeParse(body);
@@ -320,7 +334,12 @@ export async function startSession(
 
 function structuredPresentation(content: typeof phase1Content) {
   const responseSpec = projectResponseSpec(content.deterministicValidator);
-  return responseSpec ? { responseSpec, accessibleAlternative: content.accessibleAlternative } : {};
+  const python = projectPythonPresentation(content);
+  return responseSpec
+    ? { responseSpec, accessibleAlternative: content.accessibleAlternative }
+    : 'codeListing' in python
+      ? { ...python, accessibleAlternative: content.accessibleAlternative }
+      : {};
 }
 
 /**
@@ -511,8 +530,8 @@ async function createAttempt(
   );
   // Tiers 3 and 4, after the existing session and item resolution (tier 2) and
   // before anything is written: a refusal throws and leaves no row behind.
-  const { correctness, learnerResponse, normalizedResponse } = scoreSubmission(
-    evaluateStructuredSubmission(content.deterministicValidator, responseBody),
+  const { correctness, learnerResponse, normalizedResponse, evaluatorVersion } = scoreSubmission(
+    evaluateSubmission(content.deterministicValidator, responseBody),
     content.deterministicValidator,
   );
   const independentCheckPassed = input.independentDelayedCheck && correctness === 'CORRECT';
@@ -535,6 +554,7 @@ async function createAttempt(
           contentVersion: content.version,
           learnerResponse,
           normalizedResponse,
+          ...(evaluatorVersion ? { evaluatorVersion } : {}),
           correctness,
           scoringMethod: 'DETERMINISTIC',
           attemptNumber,

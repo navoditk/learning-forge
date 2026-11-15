@@ -2,6 +2,7 @@ export * from './anthropic-model';
 export * from './create-model';
 export * from './fake-model';
 export * from './harness';
+export * from './model-gating';
 export * from './policy';
 export * from './rate-limit';
 export * from './provider-config';

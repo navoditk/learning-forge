@@ -1,0 +1,70 @@
+{
+  "id": "hss6-athenian-and-representative-democracy-1",
+  "version": "1.0.0",
+  "title": "Relevant details about the Athenian assembly",
+  "role": "practice",
+  "skillRef": {
+    "code": "hss6-athenian-and-representative-democracy",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["CA-HSS.6.4.3", "CA-HSS-AS.6-8.REP.3"],
+  "observableEvidence": [
+    "Selects, from a short original account of the Athenian assembly that mixes relevant and incidental details, the statement resting on the relevant one: eligible citizens (adult male citizens, not every resident) voted on decisions themselves, unlike representative democracy."
+  ],
+  "prompt": "Read this short account. It is a summary written for this question, not a quotation from an ancient source.\n\nWhen Athens was a democracy, its assembly usually met outdoors on a hillside in the city. Some citizens traveled in from farms and villages to attend. Only adult men who were Athenian citizens could take part; women, enslaved people and foreigners living in Athens could not. Any of these citizens could speak at the meeting, and those who came voted on the city's decisions themselves instead of choosing other people to vote for them.\n\nA student is writing down the key difference between the Athenian assembly and representative democracy. Which statement is accurate according to the account and is the relevant information for that difference?\n\nA. In the assembly, voters chose a few representatives who decided for everyone else.\nB. In the assembly, eligible citizens voted on the decisions themselves.\nC. In the assembly, meetings were usually held outdoors on a hillside.\nD. In the assembly, every person living in Athens, including women and foreigners, could vote.\n\nType the letter or the full text of your choice.",
+  "solutionRepresentation": "B is correct. The account says that the eligible citizens who came to the assembly voted on the decisions themselves instead of choosing others to vote for them. Who makes the decision is the key difference between Athenian, or direct, democracy and representative democracy, where voters choose a smaller group to decide for them. C is accurate according to the account, but it is an incidental detail: where a meeting is held does not make it direct or representative. A contradicts the account, because the citizens did not choose others to vote for them. D contradicts the account, because only adult male citizens could take part; women, enslaved people and foreigners living in Athens could not vote.",
+  "solutionMethod": "First rule out statements the account contradicts. Then, of the accurate statements, keep the one about who made the decisions, because that tells direct and representative democracy apart; details about place or travel are incidental.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "In the assembly, eligible citizens voted on the decisions themselves.",
+    "acceptedAnswers": [
+      "B",
+      "In the assembly, eligible citizens voted on the decisions themselves."
+    ],
+    "equivalenceNotes": "Single select. Canonical answer is the full text of option B; the option label B is also accepted; trailing end punctuation is ignored by normalization. No other phrasing, partial text or list of several options is accepted."
+  },
+  "misconceptionCodes": [
+    "athens-seen-as-representative",
+    "incidental-detail-seen-as-key-difference",
+    "all-athenian-residents-voted"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A good choice must pass two tests: it must agree with the account, and it must help tell direct and representative democracy apart. Start with the first test.",
+      "question": "Which statements disagree with what the account says about who could vote or how the votes were cast?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make a two-column table. Label one column 'where or how people gathered' and the other 'who made the decisions'. Sort each sentence of the account into one column.",
+      "question": "Which column holds the information that tells direct democracy and representative democracy apart?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: an account of a book club says the members meet in a park, bring snacks and each vote on the next book. To learn whether the club decides directly or through chosen leaders, the park and the snacks are incidental; who votes on the book is the relevant detail.",
+      "question": "In the Athens account, which statement is like the park, and which is like who votes on the book?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "In the assembly, eligible citizens voted on the decisions themselves",
+    "eligible citizens voted on the decisions themselves",
+    "voted on the decisions themselves"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SS-CONTENT. The prompt, options, hints and solution were written for this repository from the CA-HSS.6.4.3 code; it cites codes only and copies no textbook, framework example, standards text or other outside lesson or item."
+  },
+  "accessibilityNotes": "All information is plain text; there is no figure, map, date, quotation or excerpt. The account is an original summary and is labelled as one. The four options are labelled A to D in the prompt, and nothing depends on color or position. The learner types the letter or the full option text into a labelled text box.",
+  "accessibleAlternative": "Original summary: When Athens was a democracy, its assembly usually met outdoors on a hillside in the city. Some citizens traveled in from farms and villages to attend. Only adult men who were Athenian citizens could take part; women, enslaved people and foreigners living in Athens could not. Any of these citizens could speak at the meeting, and those who came voted on the city's decisions themselves instead of choosing other people to vote for them. Question: which statement agrees with the account and is the relevant information for how the assembly differed from representative democracy? Option A: In the assembly, voters chose a few representatives who decided for everyone else. Option B: In the assembly, eligible citizens voted on the decisions themselves. Option C: In the assembly, meetings were usually held outdoors on a hillside. Option D: In the assembly, every person living in Athens, including women and foreigners, could vote. Answer with a letter or the full option text.",
+  "itemReadinessRefs": []
+}

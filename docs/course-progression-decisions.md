@@ -3358,7 +3358,359 @@ SCI6-RETRY-REPHRASE.
 This is advice only: implementation, a window extension and run 4 each need
 owner approval.
 
-There are 318 decisions: D-01 through D-75, D-139, D-142, D-145–D-318 approved;
+### D-319 — Owner disposition: Science as a flagged single-household pilot
+
+Owner, 2026-11-13, in this Claude Code session, chose "Ship Science as flagged
+pilot" and "One short window, then stop" in answer to the D-318 decision
+request. Recorded by the integrator (Claude Code Sonnet 5.5; actual model from
+session metadata).
+
+- **What the owner chose:** stop the paid-run loop; allow safe fallbacks; keep
+  the Science unit behind a feature flag for the owner's own household; keep
+  reading every served move. The D-318 RETRY-REPHRASE packet and run 4 are not
+  approved.
+- **Effect on D-285 and D-193:** for this single-household pilot only, the
+  "zero fallbacks" and "2 of 2 validated served moves" parts of D-285 are
+  waived. The other D-285 parts stand: all cases complete, expected hint stages,
+  no guided solution, every served response read for disclosure, safety and
+  age suitability, every automated failure preserved. D-193 "release stays
+  blocked until a capped paid eval passes" is superseded for this pilot by
+  this record. Runs 1 to 3 showed no served move disclosing an answer, but the
+  pilot decision rests on the owner's reading, not on that tally.
+- **Unchanged:** answer-leakage, semantic-disclosure and activity-safety
+  validators; the hard constraints in `AGENTS.md`; the Science access policy
+  (practice, placement and review only). Any wider audience, public release or
+  second household needs a new owner decision.
+- **Window:** one 24-hour window, at most 12 native invocations, at most one
+  paid run, then a single decision request and a stop. The window is **not yet
+  opened**: no authorization or ledger file exists, and the owner starts it.
+- **Not authorized by this record:** a push or deploy, a paid provider call,
+  SU-H6, the PRIVATE-MERGE run, the H8+ release record, or any change to
+  validators.
+- **Production facts (read-only, 2026-11-13, after the owner ran `render login`):**
+  service `learning-forge` (`srv-daf03o740ujc73908u50`, starter, oregon,
+  auto-deploy from `main`, not suspended) serves deploy
+  `dep-dbmm47tg1s2s73d4lnrg` at `f909a22`, equal to `main`; `GET /` answers
+  HTTP 307. `grade-6-science` is `available: true` (SU-H5, D-188), so the
+  program switcher offers Science to any signed-in household today. No
+  Science flag exists in code or in `render.yaml`'s env keys
+  (`DATABASE_URL`, `AUTH_SECRET`, `AUTH_TRUST_HOST`, `ANTHROPIC_API_KEY`,
+  `TUTOR_MODEL_PROVIDER`, `TUTOR_DAILY_HINT_LIMIT`, `TUTOR_SESSION_HINT_LIMIT`).
+  No env values, learner or household data were read.
+- **Next:** superseded by D-320 (no flag packet).
+
+### D-320 — Owner: no Science flag; close the window early
+
+Owner, 2026-11-13, in this Claude Code session, chose "B" (no code change) over
+an env-var flag, after the integrator said the flag adds little for one
+household. Recorded by the integrator (Claude Code Sonnet 5.5).
+
+- **Disposition:** SCI6-PILOT-FLAG is not created. Science stays
+  `available: true` as deployed (`f909a22`); the pilot is bounded by one
+  household and the owner reading every served move (D-319).
+- **Window:** `claude-window-20261113` closed at the time stamped in its
+  files, with 0 of 12 invocations used. No Codex or worker call was made.
+- **Revisit when:** a second household may sign up, or a served move needs a
+  quick off switch. That needs a new owner decision (an env var is the cheapest
+  switch; per-household control needs a schema change).
+- **Unchanged and still open for the owner:** SU-H6 manual accessibility pass
+  (D-289), the PRIVATE-MERGE run (D-287/D-288/D-292) then the D-242 mounted e2e,
+  and the H8+ release record. No push, deploy or paid call was made.
+
+### D-321 — Owner: Python intro incident closed; first iteration is predict-output only
+
+Owner, 2026-11-13, in this Claude Code session (batched reply to two
+questions). Recorded by the integrator (Claude Code Sonnet 5.5).
+
+- **Incident disposition:** the owner declared the local development database
+  disposable (synthetic or throwaway data only). The 2026-10-10 accidental
+  integration-test run against it is closed with no cleanup or investigation.
+  Production was a separate database and is not part of this record. Python
+  work uses a fresh synthetic database per `docs/local-development.md`.
+- **Scope:** "read and predict, no code execution". Learners read short Python
+  snippets and answer the output or fill a blank; scoring is deterministic
+  answer matching (dossier §5.2). No sandbox, no learner code run. Execution
+  and practical coding (`P10`) remain a separate, unapproved decision.
+- **Old patch:** the isolated `python-contract-implementation` patch (SHA-256
+  `1078506d...22e3`) is stale (main is 83 commits ahead, 19 files fail to apply,
+  its `0018` migration collides with main's `0018`). It is reference only; the
+  work is redone on current `main`.
+- **Not authorized by this record:** H1 to H4 of the dossier (entry scope,
+  Python version pin, sourcing posture, the D-61 authoring exception), the new
+  migration, any content drafting, push, deploy or paid call.
+
+### D-322 — Owner: Python intro H1 to H4 approved; local 0019 migration authorized
+
+Owner, 2026-11-13, in this Claude Code session (batched reply). Recorded by the
+integrator (Claude Code Sonnet 5.5). Approves the recommendations in
+`docs/curriculum-dossiers/python-intro-grade-6-authoring-prerequisites-20261010.md`
+§9 as a group, separate from D-321.
+
+- **H1 entry scope:** one skill, `py6-print-output-reading`; one `practice`
+  record; no held-out assessments; an offline teaching record is not promised
+  to learners. Optional depth and the dossier's `P0`–`P10` edges stay
+  unapproved.
+- **H2 version:** CPython 3.14 (`languageVersion: "3.14"`).
+- **H3 sourcing:** program-internal objective codes, link-only sourcing and
+  original content.
+- **H4 D-61 exception:** a dated, scoped exception for exactly that skill and
+  record. Per the dossier it is used only after the authoring-contract slice
+  (C1 to C5) is built, reviewed and integrated; no record is drafted before.
+- **Migration:** authorized to write `0019` (a nullable `Attempt.evaluatorVersion`
+  column) with a reviewed `down.sql`, and to run it only against a synthetic
+  local database. Applying it to production is a separate later owner gate.
+- **Not authorized:** availability or activation, push, deploy, a paid provider
+  call, code execution of learner programs, or any other content.
+
+### D-323 — Owner: Python slice accepted and applied locally; PY-R8 accepted as residual; float limits confirmed
+
+Owner, 2026-11-14, in this Claude Code session (batched reply). Recorded by the
+integrator (Claude Code Sonnet 5.5).
+
+- **Accepted and applied:** PYTHON-IMPLEMENT patch SHA-256
+  `7cb02094af415a5cd279b1750c9d848945a02e44291fab891f61e308bc67db83` (49 files,
+  base `f909a22`: program identity, `codeListing`, `python_output` scoring on the
+  new request key `pythonResponse`, allowlist listing grammar, migration 0019,
+  renderer, tutor hint gating). Evidence: five Codex `gpt-6.1-sol` read-only
+  reviews (r1 to r4 NOT_READY, r5 closed every finding except PY-R8) and the
+  integrator's isolated validation (integration 402 + 1 skipped, migrations,
+  eval 36, e2e 124 + 1 skipped; `verify` 3,965 of 3,966 with the one failure a
+  git-history-dependent test that passes with history). Applied to the working
+  tree unstaged and uncommitted; all 49 files byte-identical to the frozen tree;
+  `db:generate`, typecheck and lint (0 errors) pass in the main checkout.
+- **PY-R8 accepted as documented residual risk and tracked as a follow-up:** the
+  teardown robustness of `tests/migrations/attempt-evaluator-down-guard.test.ts`
+  (unbounded setup awaits, cleanup failures swallowed, teardown budget above the
+  hook timeout). Test-only; the shipped code and migration are not implicated.
+  The reviewer judged the test non-vacuous.
+- **Float limits confirmed (conservative):** a `python_output` float is
+  0.0001 up to 999999.999999, at most six fractional digits, and no trailing
+  zero except `.0`. Widening needs a new reviewed decision.
+- **Still open, not authorized:** human review of `down.sql` (an unreviewed
+  draft) before any production apply of migration 0019; the manual accessibility
+  review (screen reader, browser zoom); availability or activation; commit or
+  push; and the H4 content step (one record for `py6-print-output-reading`
+  under D-322), which is a separate packet.
+
+### D-324 — Owner: Social Studies O1 and O2 approved
+
+Owner, 2026-11-14, in this Claude Code session (batched reply). Recorded by the
+integrator (Claude Code Sonnet 5.5). Approves the two new choices in
+`docs/curriculum-dossiers/grade-6-social-studies-authoring-prerequisites-20261010.md`
+"Owner choices", separate from D-323.
+
+- **O1, narrow D-61 exception:** exactly one skill, recommended code
+  `hss6-athenian-and-representative-democracy` (domain `hss6-ancient-greece`,
+  standard `CA-HSS.6.4.3`), practice role, `core`, and two `pending_review`
+  practice records (`foundational`, `developing`), program
+  `available: false`. It is used only after the engineering prerequisites
+  R1 to R5a are built, independently reviewed and integrated; no record is
+  drafted before. No broad lift.
+- **O2, code format:** `CA-HSS.6.x.y` for content and
+  `CA-HSS-AS.6-8.<strand>.<n>` for analysis skills; `RH.` and `WHST.` tags
+  stay out of `standards` until a non-claiming field exists (R4).
+- **Deferred, not authorized:** decision 5 (6.5 belief-system framing) before
+  any 6.5 item; decision 2 before any `depth` item; progression mode, delayed
+  checks, held-out items, figures and maps; learner availability; tutor
+  enablement (R6); commit or push.
+
+### D-325 — Social Studies engineering slice accepted and applied locally under D-183
+
+Integrator, 2026-11-14 (Claude Code Sonnet 5.5), under the standing acceptance
+in D-183 for independently reviewed, validated, in-scope engineering patches.
+No residual risk needs an owner acceptance here.
+
+- **Accepted and applied:** SS-IMPLEMENT patch SHA-256
+  `3f5298e1d035d265acdab54af0d8d2a66bf1bdead146ca200f180b841088dac8` (9 files,
+  +930/-3, baseline `f909a22` plus the Python r5 patch of D-323): registry R1,
+  seven domains R2, an explicit 48 content and 14 analysis standards allowlist
+  and catalog rules R3, `RH.`/`WHST.` rejection R4, matcher regression pins R5,
+  and public-gate tests R5a. No skill, record, content, schema or availability
+  change; `grade-6-social-studies` stays `available: false`.
+- **Evidence:** Codex `gpt-6.1-sol` (read-only, cross-family) review r1
+  READY_WITH_RISKS (no blocker or major; it independently confirmed every
+  standards code) and scoped re-review r2 READY (both test-evidence minors
+  closed). Integrator isolated validation of patch r1 in a clean environment
+  (`verify` 4,022 tests, build, integration 402, eval 36); r2 changed only one
+  test file. Applied unstaged and uncommitted, 9 files byte-identical to the
+  frozen tree; typecheck, lint (0 errors) and `npm test` (141 files, 4,026 tests)
+  pass in the main checkout on the combined Python plus Social Studies state;
+  HEAD unchanged at `f909a22`.
+- **Next, gated:** the D-324 O1 content step (one practice skill, two
+  `pending_review` records) is now unblocked in principle but is not started; it
+  needs its own scoped packet, window and the owner's go-ahead to spend it.
+  R6 (tutor gating) is required before availability, not before authoring.
+  Availability, tutor enablement, commit or push are not authorized.
+
+### D-326 — Delegated disposition of the ELA research dossier decisions (D-212)
+
+Delegate: Codex `gpt-6.1-sol` (read-only, cross-family; the model ID is the
+configured and requested one, not independently verified from client metadata),
+2026-11-15, under D-212 (owner-revocable) at the owner's instruction of
+2026-11-14 to "use your judgment or engage alternative model to push this
+forward". Artifact: dossier
+`docs/curriculum-dossiers/grade-6-ela-20261113-research.md`, SHA-256
+`c30ff0071c899e517f9093bf9135ca07df7547c382268a14d9ed9d960ad472d9`, reviewed
+READY_WITH_RISKS (r2). The integrator (Claude Code Sonnet 5.5) recommended the
+same dispositions except as noted. Each row below is its own disposition and the
+owner may override any of them; ELA-D16 is held for the owner. Report:
+`agent-handoffs/ELA-RESEARCH/decisions/decisions-report.md` (common Git).
+
+- **ELA-D1 coverage scope: ACCEPT.** `core` covers the tutor-feasible rows,
+  keeps RL.6.10 and RI.6.10 as reading-proficiency requirements, discloses
+  partial and uncovered parts without parent-facing claims for them.
+- **ELA-D2 passage sources: ACCEPT.** Original passages plus public-domain works
+  verified per work by a human; Project Gutenberg header handling decided
+  separately; no licensed text without its own decision.
+- **ELA-D3 standards text display: ACCEPT.** Codes plus own short summaries and
+  a link to the CDE PDF; verbatim display stays undecided.
+- **ELA-D4 IUSD Year at a Glance: MODIFY.** Choose option (a): do not use the
+  undated IUSD document for ELA sequencing, priority tiers or emphasis metadata.
+- **ELA-D5 research tasks: ACCEPT.** Curated, provided source sets only, no open
+  browsing by the child; claim only the supported parts of W.6.7-6.8.
+- **ELA-D6 typing workload: ACCEPT.** Several shorter sessions toward the
+  three-page expectation, no single-sitting requirement, W.6.6 disclosed as
+  partial, typing speed or length never mastery evidence.
+- **ELA-D7 code format: ACCEPT.** `CA-CCSS-ELA.RL.6.1`-style codes; field
+  compatibility to be validated at implementation.
+- **ELA-D8 program code and tiers: ACCEPT.** `grade-6-ela`, tiers `core` plus
+  `depth`, no `contest`; `depth` never holds a requirement left out of `core`.
+- **ELA-D9 school materials: ACCEPT.** No alignment to StudySync or other school
+  materials in the first release; no uploads.
+- **ELA-D10 reading-proficiency evidence design: DEFER_TO_PACKET.**
+- **ELA-D11 media literacy: ACCEPT.** Grade 6 standards-required media literacy
+  stays `core` (RI.6.5a, RI.6.7, RI.6.8, W.6.8), bounded by ELA-D1; extensions
+  are optional `depth`.
+- **ELA-D12 writing-feedback policy: DEFER_TO_PACKET.** Existing
+  rubric-referenced-comment constraint continues.
+- **ELA-D13 answer-exposure policy: DEFER_TO_PACKET.** The no-early-final-answer
+  hard constraint stays binding.
+- **ELA-D14 scoring and mastery for constructed responses: DEFER_TO_PACKET.**
+  Needs structured validation and cross-family review.
+- **ELA-D15 academic integrity: DEFER_TO_PACKET.**
+- **ELA-D16 privacy and provider-data handling for learner writing:
+  ESCALATE_TO_OWNER.** Privacy stays a human gate; nothing substantive is
+  decided. It remains pending the owner.
+- **Open items without a decision, each DEFER_TO_PACKET with a traceable
+  follow-up (not verified or closed):** ELA-O2 (CDE pages behind a bot
+  challenge; errata or revision notices unverified), ELA-O3 (framework date
+  reconciliation: July 9, 2014 versus "2015" wording and the 2025-10-30 PDF
+  modification date), ELA-O4 (assessment blueprint edition date and writing
+  rubric version). Each needs a human or tool-assisted verification pass before
+  authoring relies on the affected claims.
+- **Register:** the dossier may be merged into `docs/curriculum-sources.md` as a
+  reviewed research section with these conditions (done 2026-11-15; privacy and
+  deferred policies labelled unresolved; frozen artifact preserved; the review
+  records session model labels only).
+- **Not authorized by this record:** ELA authoring, a D-61 exception, program
+  registration, availability, a privacy rule, commit or push.
+
+### D-327 — Delegated content acceptance and local application: Python first record (D-212)
+
+Delegate: Codex `gpt-6.1-sol` (read-only, cross-family; configured and requested
+model ID, not independently verified from client metadata), 2026-11-15, under
+D-212 (owner-revocable) at the owner's instruction of 2026-11-14 to push forward.
+Integrator: Claude Code Sonnet 5.5.
+
+- **Artifact:** PYTHON-CONTENT patch SHA-256
+  `07f06d30d4b17741c6f26c0469c429ab6f771b5eafc261d58dd9dd945d7e278b` (14 files,
+  +399/-29; baseline f909a22 plus the Python r5 and Social Studies r2 slices):
+  skill `py6-print-output-reading@1.0.0` and ONE practice record
+  `py6-print-output-reading-1@content-1` (listing of four `print` lines; canonical
+  answer `Launch check\nRockets 3\nFuel 2.0\nHatch closed True`), authored by Claude
+  Code Opus 5.5 (session label).
+- **Review:** Codex review READY with no blocker, major or minor finding; it
+  independently hand-derived the output under CPython 3.14, confirmed the
+  grammar, scope (H1/H4), hints and leakage patterns, accessibility fields,
+  provenance and protection, and counted 68 skills and 155 records (154 reviewed,
+  1 pending). The integrator independently hand-traced the output.
+- **Disposition: ACCEPT_CONTENT** for this exact frozen patch. The record stays
+  `pending_review` in the `available: false` program; the owner may override.
+  Rendered assistive-technology usability and exhaustive originality
+  verification were not established.
+- **Applied locally (D-212 local patch application):** unstaged, uncommitted; 14
+  files byte-identical to the frozen tree; typecheck, lint (0 errors),
+  `npm test` (142 files, 4,038 tests) and `content:validate` (550) pass in the
+  main checkout; HEAD unchanged at `f909a22`.
+- **Not authorized:** moving the record to `reviewed`, tutor gating,
+  availability or activation, a manual accessibility pass, release, commit,
+  push (which also applies migration 0019 on Render), or any second record.
+
+### D-328 — Delegated content acceptance and local application: Social Studies first skill and records (D-212)
+
+Delegate: Codex `gpt-6.1-sol` (read-only, cross-family; its report states that
+reviewer session metadata confirms the model, which the integrator has not
+independently verified from client logs), 2026-11-15, under D-212
+(owner-revocable) and D-324 O1, at the owner's instruction of 2026-11-14 to push
+forward. Integrator: Claude Code Sonnet 5.5.
+
+- **Artifact:** SS-CONTENT patch SHA-256
+  `5989e250a7f27987536161d72b7ffaa4f79e670f4305d96ca900a55ae25a1002` (13 files,
+  +628/-29; baseline f909a22 plus the Python r5, Social Studies r2 and Python
+  content r1 patches): skill `hss6-athenian-and-representative-democracy@1.0.0`
+  (standards `CA-HSS.6.4.3` and `CA-HSS-AS.6-8.REP.3`, partial evidence, no
+  prerequisites) and two `pending_review` multiple-choice practice records:
+  record 1 (foundational; a short original account mixing incidental and relevant
+  details, B correct, the true-but-incidental C the REP.3 discriminator) and record
+  2 (developing; an original school-council scenario, C correct, direct
+  democracy defined as eligible participants voting on a decision themselves).
+  Authored by Claude Code Opus 5.5 (session label).
+- **Review history:** r1 NOT_READY (two majors: the `HI.1` mapping was not
+  genuine, and record 2 defined direct democracy by physical attendance; its
+  independent historical-accuracy check passed). The same author corrected both;
+  scoped re-review r2 READY with 0 findings; it independently verified the new
+  claims (the assembly usually met outdoors on a hillside; some citizens traveled
+  in from farms and villages) with cited sources.
+- **Disposition: ACCEPT_CONTENT** for these exact frozen records. They stay
+  `pending_review` in the `available: false` program; the owner may override.
+- **Applied locally (D-212 local patch application):** unstaged, uncommitted; 13
+  files byte-identical to the frozen tree; typecheck, lint (0 errors),
+  `npm test` (143 files, 4,071 tests), `content:validate` (583) and `eval:run`
+  (36) pass in the main checkout; HEAD unchanged at `f909a22`.
+- **Not authorized:** moving the records to `reviewed`, R6 tutor gating,
+  availability or activation, a manual accessibility pass, release, commit,
+  push (which also applies migration 0019 on Render), or any further record.
+
+### D-329 — Delegated acceptance of the `hss6-` fail-closed tutor gate (D-212); availability prerequisites
+
+Delegate: Codex `gpt-6.1-sol` (read-only, cross-family; the identity is the
+configured and requested one, not independently verified by the integrator),
+2026-11-15, under D-212 (owner-revocable). Integrator and author: Claude Code
+Sonnet 5.5.
+
+- **Change:** `hss6-` added to `MODEL_TUTORING_DISABLED_SKILL_PREFIXES` in
+  `src/tutor/model-gating.ts`, with a route test in
+  `tests/tutor/python-gating.test.ts` (patch SHA-256
+  `fbd64a4cf3f2173ac14e1885da39d223adc0f7fdc932999a784a40cb2d15608b`, two files,
+  frozen in common Git `agent-handoffs/SS-TUTOR-GATE/rev1/`). It only disables a
+  path (Social Studies dossier R6, fail closed). Applied unstaged and uncommitted;
+  full `npm test` 143 files / 4,072 tests, `eval:run` 36, typecheck and lint pass.
+- **Review:** READY_WITH_RISKS, no blocker or major. Confirmed: it enables nothing
+  and changes no other program; the 403 precedes the limiter, model creation, harness,
+  trace and recording; no `hss6-` skill that is not Social Studies exists (registry
+  validation requires Social Studies skills to use the prefix); no other current
+  learner-to-provider route found; the tests are non-vacuous.
+- **Disposition: ACCEPT** as an internal, reversible gate. It does not complete R6.
+- **Risks carried forward (accepted under D-212 for an unavailable program):**
+  (1) the gate is enforced at the hint route, the only current path to a provider;
+  `TutorHarness` and the generic eval APIs do not enforce it, so a new caller
+  could bypass it; (2) the learner UI hides hints by Python's answer kind, so a
+  Social Studies item would show a hint control that the route refuses with 403;
+  (3) the prefix namespace is not globally reserved (a program with a null prefix
+  could adopt `hss6-`).
+- **Availability prerequisites for Python and Social Studies (none authorized):**
+  provider-layer or server-derived tutoring capability and an honest unavailable
+  state in the UI, tested at the UI and the API; for Social Studies a
+  subject-appropriate, feature-flagged tutor template with leakage,
+  religion-neutrality, prompt-injection and age evals, data minimization and
+  tracing (R6); authored hint ladders actually served for Python; the manual
+  assistive-technology and browser-zoom review; the human review of the draft
+  `down.sql` and the owner's production apply of migration 0019; moving the
+  records from `pending_review` to reviewed; and the owner's availability and
+  release decisions, then commit and push (which also applies 0019 on Render).
+- **Not authorized:** availability, R6 completion, commit, push, release.
+
+There are 329 decisions: D-01 through D-75, D-139, D-142, D-145–D-329 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

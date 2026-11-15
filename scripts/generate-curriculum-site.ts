@@ -59,6 +59,14 @@ const DOMAIN_LABELS: Record<CurriculumDomain, string> = {
   'snsb6-variants': 'Variants & Dictionary Labels',
   'snsb6-procedure': 'Oral-Round Procedure',
   'sci6-life-science': 'Life Science',
+  'py6-programming-fundamentals': 'Programming Fundamentals',
+  'hss6-early-humankind': 'Early Humankind',
+  'hss6-mesopotamia-egypt-kush': 'Mesopotamia, Egypt & Kush',
+  'hss6-ancient-israelites': 'Ancient Israelites',
+  'hss6-ancient-greece': 'Ancient Greece',
+  'hss6-ancient-india': 'Ancient India',
+  'hss6-ancient-china': 'Ancient China',
+  'hss6-ancient-rome': 'Ancient Rome',
 };
 
 const MODE_LABELS: Record<ContentItem['mode'], string> = {

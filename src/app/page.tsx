@@ -35,6 +35,7 @@ import {
   structuredErrorsFromFields,
   structuredErrorsFromRefusal,
   FIELD_ERROR_MESSAGES,
+  invalidResponseMessage,
   summarizeStructuredValues,
   type ResponseSpec,
   type StructuredErrorState,
@@ -100,6 +101,7 @@ export default function Home() {
   const [pendingFocus, setPendingFocus] = useState<FocusTarget>();
   const hintButtonRef = useRef<HTMLButtonElement>(null);
   const responseInputRef = useRef<HTMLInputElement>(null);
+  const pythonResponseRef = useRef<HTMLTextAreaElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   // Synchronous guard: state updates are async, so a fast double activation
   // could otherwise send two submissions before the pending state renders.
@@ -497,6 +499,10 @@ export default function Home() {
     event.preventDefault();
     if (!session || mutationInFlight.current === sessionSequence.current) return;
     const spec = session.content.responseSpec;
+    // Python predict-the-output (C7): the raw text is sent untouched so leading
+    // spaces and blank lines reach the server's evaluator; an empty or invalid
+    // entry comes back as a typed, neutral message and creates no attempt.
+    const isPython = session.content.answerKind === 'python_output';
     const sentSessionId = session.sessionId;
     setError('');
     setStructuredError(undefined);
@@ -512,12 +518,14 @@ export default function Home() {
         structuredResponse: buildStructuredResponse(spec, fieldValues),
       };
     } else {
-      if (!response.trim()) {
+      if (!isPython && !response.trim()) {
         setError('Enter an answer before submitting.');
         responseInputRef.current?.focus();
         return;
       }
-      body = { sessionId: sentSessionId, learnerResponse: response };
+      body = isPython
+        ? { sessionId: sentSessionId, pythonResponse: response }
+        : { sessionId: sentSessionId, learnerResponse: response };
     }
     const operation = bindOperation(sentSessionId);
     mutationInFlight.current = operation.generation;
@@ -536,6 +544,19 @@ export default function Home() {
           const refusal = await refusalFor(spec, result);
           if (!operation.isCurrent()) return;
           showStructuredErrors(refusal);
+        } else if (isPython) {
+          let invalidBody: unknown;
+          try {
+            invalidBody = await result.json();
+          } catch {
+            invalidBody = undefined;
+          }
+          if (!operation.isCurrent()) return;
+          setError(
+            invalidResponseMessage(invalidBody) ??
+              'That answer could not be submitted. Check your connection and try again.',
+          );
+          pythonResponseRef.current?.focus();
         } else {
           setError('That answer could not be submitted. Check your connection and try again.');
           responseInputRef.current?.focus();
@@ -572,7 +593,7 @@ export default function Home() {
         showStructuredErrors(structuredErrorsFromRefusal(spec, undefined));
       } else {
         setError('That answer could not be submitted. Check your connection and try again.');
-        responseInputRef.current?.focus();
+        (isPython ? pythonResponseRef : responseInputRef).current?.focus();
       }
     } finally {
       // Only the operation that still owns the pending state clears it; a
@@ -797,6 +818,7 @@ export default function Home() {
             hintPending={hintPending}
             hintButtonRef={hintButtonRef}
             responseInputRef={responseInputRef}
+            pythonResponseRef={pythonResponseRef}
             fieldValues={fieldValues}
             onFieldChange={changeField}
             structuredError={structuredError}

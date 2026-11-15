@@ -36,8 +36,9 @@ const legacyItem = (): ContentItem => {
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    expect(contentCatalog).toHaveLength(154);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(154);
+    // 155 earlier records plus the two pending Social Studies records (SS-CONTENT).
+    expect(contentCatalog).toHaveLength(157);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(157);
     expect(new Set(contentCatalog.map(skillCodeOf))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -49,7 +50,13 @@ describe('ratios content seed', () => {
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
     expect(reviewedItems.length).toBe(154);
-    expect(pendingItems.length).toBe(0);
+    // The only pending records are the PYTHON-CONTENT entry record (D-322 H4)
+    // and the two SS-CONTENT Social Studies practice records (D-324 O1).
+    expect(pendingItems.map((item) => item.id)).toEqual([
+      'py6-print-output-reading-1',
+      'hss6-athenian-and-representative-democracy-1',
+      'hss6-athenian-and-representative-democracy-2',
+    ]);
     expect(reviewedItems.every((item) => Boolean(item.review.reviewedAt))).toBe(true);
     expect(contentCatalog.every((item) => item.review.reviewer.length > 0)).toBe(true);
   });

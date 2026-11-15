@@ -2,7 +2,11 @@
 
 ## Live relay
 
-- Phase (2026-11-05): **AWAITING_HUMAN**: run 3 FAILED at 9/12 (D-316).
+- Phase (2026-11-13): **AWAITING_HUMAN (owner-only items)**: D-319 flagged
+  pilot, D-320 no flag; window closed early (0/12). Science is already live on
+  `f909a22`. Remaining owner actions: SU-H6 accessibility pass, PRIVATE-MERGE
+  run then D-242 e2e, H8+ release record. No engineering packet is open.
+- Earlier phase (2026-11-05): **AWAITING_HUMAN**: run 3 FAILED at 9/12 (D-316).
   Codex recommends the prompt-only SCI6-RETRY-REPHRASE packet, with about a
   20% chance of passing run 4 (D-318). The owner decides whether to approve the
   packet and a window extension, or to pause.

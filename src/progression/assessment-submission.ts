@@ -17,7 +17,14 @@ import {
   type RefusalCode,
   type StructuredEvaluation,
 } from '../content/structured-response';
-import type { LegacyDeterministicValidator } from '../contracts/content';
+import {
+  evaluatePythonOutput,
+  projectPythonPresentation,
+  PYTHON_INVALID_MESSAGES,
+  PYTHON_OUTPUT_EVALUATOR_VERSION,
+  type PythonInvalidReason,
+} from '../content/python-output';
+import type { DeterministicValidator, LegacyDeterministicValidator } from '../contracts/content';
 import { prisma } from '../server/prisma';
 import { isTerminalAssessmentStatus, transitionAssessmentRun } from './assessment-state';
 import {
@@ -70,6 +77,26 @@ export class StructuredResponseRefusedError extends Error {
   }
 }
 
+/**
+ * A `python_output` response the evaluator rejects (dossier 5.2): a typed
+ * `invalid_response` result carrying only a reason code. It is thrown before any
+ * attempt, assistance event, evidence change or tutor move is written, and its
+ * wording never says anything about correctness.
+ */
+export class InvalidResponseError extends Error {
+  constructor(readonly reason: PythonInvalidReason) {
+    super(PYTHON_INVALID_MESSAGES[reason]);
+  }
+}
+
+/** Public body for an invalid response: `error`, `reasonCode: 'INVALID_RESPONSE'` and `reason`. */
+export function invalidResponsePayload(error: InvalidResponseError) {
+  return {
+    status: 422 as const,
+    body: { error: error.message, reasonCode: 'INVALID_RESPONSE' as const, reason: error.reason },
+  };
+}
+
 /** Item-independent, correctness-free wording (contract A-6). */
 const REFUSAL_MESSAGES: Record<RefusalCode, string> = {
   INVALID_REQUEST: 'The response could not be read.',
@@ -97,17 +124,22 @@ export function structuredRefusalPayload(error: StructuredResponseRefusedError) 
  * `learnerResponse` string or a `structuredResponse` object (contract 3.1).
  */
 export type SubmissionResponse =
-  | { learnerResponse: string; structuredResponse?: undefined }
-  | { structuredResponse: unknown; learnerResponse?: undefined };
+  | { learnerResponse: string; structuredResponse?: undefined; pythonResponse?: undefined }
+  | { structuredResponse: unknown; learnerResponse?: undefined; pythonResponse?: undefined }
+  // `python_output` items only: the raw, untrimmed string under its own key, so
+  // the legacy `learnerResponse` request contract is unchanged (dossier 5.2, 10).
+  | { pythonResponse: string; learnerResponse?: undefined; structuredResponse?: undefined };
 
 /** Builds the body for the pure evaluator with only the keys actually present. */
 export function responseBodyOf(input: {
   learnerResponse?: unknown;
   structuredResponse?: unknown;
+  pythonResponse?: unknown;
 }): Record<string, unknown> {
   const body: Record<string, unknown> = {};
   if (input.learnerResponse !== undefined) body.learnerResponse = input.learnerResponse;
   if (input.structuredResponse !== undefined) body.structuredResponse = input.structuredResponse;
+  if (input.pythonResponse !== undefined) body.pythonResponse = input.pythonResponse;
   return body;
 }
 
@@ -124,6 +156,14 @@ const SHAPE_ONLY_VALIDATOR: LegacyDeterministicValidator = {
  * value, a bad structured envelope, or unknown top-level response keys.
  */
 export function assertResponseBodyShape(body: Record<string, unknown>): void {
+  if (body.pythonResponse !== undefined) {
+    // Only a lone string under `pythonResponse`; whether the item accepts it is
+    // decided once the item is resolved (mode mismatch otherwise).
+    if (Object.keys(body).length !== 1 || typeof body.pythonResponse !== 'string') {
+      throw new StructuredResponseRefusedError('INVALID_REQUEST');
+    }
+    return;
+  }
   const shape = evaluateStructuredSubmission(SHAPE_ONLY_VALIDATOR, body);
   if (shape.status === 'refused' && shape.code === 'INVALID_REQUEST') {
     throw new StructuredResponseRefusedError('INVALID_REQUEST');
@@ -135,7 +175,51 @@ export type ScoredResponse = {
   correctness: Correctness;
   learnerResponse: string;
   normalizedResponse: string;
+  /** Written to `Attempt.evaluatorVersion`; undefined for the legacy and structured paths. */
+  evaluatorVersion?: string;
 };
+
+/** Payload bound for a raw `pythonResponse`; the evaluator applies its own 1000-unit rule. */
+export const PYTHON_RAW_RESPONSE_MAX = 5000;
+
+/** Result of `evaluateSubmission`: the pure structured evaluation plus the `python_output` outcomes. */
+export type SubmissionEvaluation =
+  | (Extract<StructuredEvaluation, { status: 'scored' }> & { evaluatorVersion?: string })
+  | Exclude<StructuredEvaluation, { status: 'scored' }>
+  | { status: 'invalid_response'; reason: PythonInvalidReason };
+
+/**
+ * Type-dispatched evaluation (dossier 5.2). The pure structured scorer stays
+ * untouched and dependency-free (PA-7); a `python_output` item is evaluated
+ * here by the deterministic python evaluator on the raw, untrimmed string. A
+ * structured body for a python item is the existing mode-mismatch refusal.
+ */
+export function evaluateSubmission(
+  validator: DeterministicValidator,
+  body: Record<string, unknown>,
+): SubmissionEvaluation {
+  if (typeof body.pythonResponse === 'string') {
+    if (validator.type !== 'python_output') {
+      return { status: 'refused', code: 'RESPONSE_MODE_MISMATCH' };
+    }
+    const result = evaluatePythonOutput(validator.canonicalAnswer, body.pythonResponse);
+    if (result.status === 'invalid') return { status: 'invalid_response', reason: result.reason };
+    return {
+      status: 'scored',
+      correctness: result.correctness,
+      learnerResponse: body.pythonResponse,
+      normalizedResponse: result.normalizedResponse,
+      evaluatorVersion: PYTHON_OUTPUT_EVALUATOR_VERSION,
+    };
+  }
+  const evaluation = evaluateStructuredSubmission(validator, body);
+  // A python item takes only `pythonResponse`: the legacy matchers lowercase
+  // and match substrings, so a legacy string is a mode mismatch, never scored.
+  if (validator.type === 'python_output' && evaluation.status !== 'refused') {
+    return { status: 'refused', code: 'RESPONSE_MODE_MISMATCH' };
+  }
+  return evaluation;
+}
 
 /**
  * Opt-in structured dispatch before any legacy matcher call: a refusal throws,
@@ -143,17 +227,21 @@ export type ScoredResponse = {
  * with a legacy body continues on the unchanged legacy matcher.
  */
 export function scoreSubmission(
-  evaluation: StructuredEvaluation,
+  evaluation: SubmissionEvaluation,
   validator: Parameters<typeof matchesAcceptedAnswer>[0],
 ): ScoredResponse {
   if (evaluation.status === 'refused') {
     throw new StructuredResponseRefusedError(evaluation.code, evaluation.fieldErrors);
+  }
+  if (evaluation.status === 'invalid_response') {
+    throw new InvalidResponseError(evaluation.reason);
   }
   if (evaluation.status === 'scored') {
     return {
       correctness: evaluation.correctness,
       learnerResponse: evaluation.learnerResponse,
       normalizedResponse: evaluation.normalizedResponse,
+      ...(evaluation.evaluatorVersion ? { evaluatorVersion: evaluation.evaluatorVersion } : {}),
     };
   }
   return {
@@ -439,6 +527,7 @@ export async function getCurrentAssessmentItem(
       // Structured items only (contract 3.2): built by allowlist copy, so no
       // private selector or canonical answer can reach the learner.
       ...responseSpecProjection(item.deterministicValidator),
+      ...projectPythonPresentation(item),
     },
   };
 }
@@ -515,10 +604,13 @@ export async function submitAssessmentItem(
   // transactional path, which records the expiry (the only permitted write).
   let evaluation =
     preflight.kind === 'open'
-      ? evaluateStructuredSubmission(item.deterministicValidator, responseBody)
+      ? evaluateSubmission(item.deterministicValidator, responseBody)
       : undefined;
   if (evaluation?.status === 'refused') {
     throw new StructuredResponseRefusedError(evaluation.code, evaluation.fieldErrors);
+  }
+  if (evaluation?.status === 'invalid_response') {
+    throw new InvalidResponseError(evaluation.reason);
   }
 
   const submissionResult = await database.$transaction(
@@ -548,7 +640,7 @@ export async function submitAssessmentItem(
       // Nothing has been written yet: a refusal rolls back and writes nothing.
       // Normally already evaluated after the preflight; evaluated here only if
       // the run was expired at preflight but open at the recheck.
-      evaluation ??= evaluateStructuredSubmission(item.deterministicValidator, responseBody);
+      evaluation ??= evaluateSubmission(item.deterministicValidator, responseBody);
       const scored = scoreSubmission(evaluation, item.deterministicValidator);
       const nextStatus =
         run.status === 'PENDING' ? transitionAssessmentRun('PENDING', 'START') : run.status;
@@ -561,6 +653,7 @@ export async function submitAssessmentItem(
           contentVersion: item.version,
           learnerResponse: scored.learnerResponse,
           normalizedResponse: scored.normalizedResponse,
+          ...(scored.evaluatorVersion ? { evaluatorVersion: scored.evaluatorVersion } : {}),
           correctness: scored.correctness,
           scoringMethod: 'DETERMINISTIC',
           attemptNumber:

@@ -1,0 +1,22 @@
+{
+  "code": "py6-print-output-reading",
+  "version": "1.0.0",
+  "title": "Reading the output of print",
+  "program": "python-intro-grade-6",
+  "domain": "py6-programming-fundamentals",
+  "standards": ["PY6-P1-01"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Reads a short listing of print lines with literal values from top to bottom and types its exact output: one output line per print, in order, with text shown without its quotes.",
+    "Writes several comma-separated values on one output line with a single space between them, and writes whole numbers, decimal numbers and True or False exactly as the program shows them."
+  ],
+  "misconceptionCodes": [
+    "py6-prints-quotes",
+    "py6-bool-case",
+    "py6-int-float-same",
+    "py6-comma-joins-without-space",
+    "py6-runs-out-of-order"
+  ],
+  "difficultyBands": ["foundational"],
+  "masteryCheckRule": "Practice evidence only: the typed output must exactly match the authored output (evaluator python-output-1). PY6-P1-01 is a program-internal objective code, not an external standard. Does not establish mastery of programming."
+}
