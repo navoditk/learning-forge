@@ -1,0 +1,70 @@
+{
+  "id": "hss6-river-valleys-and-food-surplus-1",
+  "version": "1.0.0",
+  "title": "Why farmers settled in river valleys",
+  "role": "practice",
+  "skillRef": {
+    "code": "hss6-river-valleys-and-food-surplus",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["CA-HSS.6.2.1"],
+  "observableEvidence": [
+    "Selects the physical feature of the Tigris, Euphrates and Nile river valleys that supported permanent farming settlements in a dry climate: river floods left fertile silt and river water could reach the crops."
+  ],
+  "prompt": "Mesopotamia was the land between the Tigris and Euphrates rivers. Ancient Egypt stretched along the Nile River. Much of both regions had a hot, dry climate with little rain, yet farmers there were able to stay in one place and grow crops year after year.\n\nWhich physical feature of these river valleys mainly explains why farmers could settle there permanently?\n\nA. Farmers had to move to new land every year because the soil quickly wore out.\nB. River floods left fertile silt on the land, and river water could reach the crops.\nC. Thick forests covered the river valleys and gave farmers shelter and food.\nD. The deserts away from the rivers had the richest farmland in the region.\n\nType the letter or the full text of your choice.",
+  "solutionRepresentation": "B is correct. When the rivers flooded, they spread silt, a fine, rich soil, over the land near their banks, which kept the fields fertile. In a dry climate with little rain, the rivers also supplied the water that crops needed. Fertile soil and a dependable water source let farmers stay in one place instead of moving on. A is wrong because the floods renewed the soil, so farmers did not have to keep moving; the question also says they stayed in one place. C is wrong because these were mostly open, dry lands without thick forests; the draw was the rivers, not forests. D is wrong because the land away from the rivers was dry desert with little farmland; farms clustered close to the rivers.",
+  "solutionMethod": "Start from the problem the question names: a dry climate with little rain. Ask what farmers need to grow crops in the same place every year (rich soil and water), then pick the feature of the river valleys that supplied both.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "River floods left fertile silt on the land, and river water could reach the crops.",
+    "acceptedAnswers": [
+      "B",
+      "River floods left fertile silt on the land, and river water could reach the crops."
+    ],
+    "equivalenceNotes": "Single select. Canonical answer is the full text of option B; the option label B is also accepted; trailing end punctuation is ignored by normalization. No other phrasing, partial text such as the word silt alone, or list of several options is accepted."
+  },
+  "misconceptionCodes": [
+    "soil-exhaustion-forces-moving",
+    "forests-seen-as-settlement-draw",
+    "desert-seen-as-farmland"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Farmers who stay in one place need two things every year: soil that keeps growing good crops, and enough water. The question says these regions got little rain.",
+      "question": "If rain was scarce, where could farmers in these regions get water?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make two columns: 'gives rich soil' and 'gives water'. For each choice, decide whether it puts anything in either column, and whether it agrees with the dry climate described in the question.",
+      "question": "Which choice puts something in both columns?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a gardener in a dry town plants beside a stream that sometimes overflows. After each overflow, a layer of new mud is left on the garden, and the gardener can carry stream water to the plants between overflows. The garden can be planted in the same spot every year.",
+      "question": "In the river valleys, what played the part of the overflowing stream and its new mud?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "River floods left fertile silt on the land, and river water could reach the crops",
+    "River floods left fertile silt on the land",
+    "river water could reach the crops"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SS-CONTENT-2. The prompt, options, hints and solution were written for this repository from the CA-HSS.6.2.1 code; it cites the code only and copies no textbook, framework example, standards text or other outside lesson or item."
+  },
+  "accessibilityNotes": "All information is plain text; there is no figure, map, date, quotation or excerpt, and the river valleys are described in words only. The four options are labelled A to D in the prompt, and nothing depends on color or position. The learner types the letter or the full option text into a labelled text box.",
+  "accessibleAlternative": "Context: Mesopotamia was the land between the Tigris and Euphrates rivers. Ancient Egypt stretched along the Nile River. Much of both regions had a hot, dry climate with little rain, yet farmers stayed in one place and grew crops year after year. Question: which physical feature of these river valleys mainly explains why farmers could settle there permanently? Option A: Farmers had to move to new land every year because the soil quickly wore out. Option B: River floods left fertile silt on the land, and river water could reach the crops. Option C: Thick forests covered the river valleys and gave farmers shelter and food. Option D: The deserts away from the rivers had the richest farmland in the region. Answer with a letter or the full option text.",
+  "itemReadinessRefs": []
+}

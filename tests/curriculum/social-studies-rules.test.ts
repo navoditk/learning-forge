@@ -169,9 +169,11 @@ describe('R1 grade-6-social-studies registry entry', () => {
     expect(() => parseAvailableProgram(PROGRAM)).toThrow();
   });
 
-  it('holds only the SS-CONTENT skill and its two pending records in the live catalogs', () => {
+  it('holds only the three SS-CONTENT skills and their six pending records in the live catalogs', () => {
     expect(skillCatalog.filter((skill) => skill.program === PROGRAM).map((s) => s.code)).toEqual([
       'hss6-athenian-and-representative-democracy',
+      'hss6-river-valleys-and-food-surplus',
+      'hss6-roman-republic-government',
     ]);
     expect(
       contentCatalog
@@ -180,6 +182,10 @@ describe('R1 grade-6-social-studies registry entry', () => {
     ).toEqual([
       ['hss6-athenian-and-representative-democracy-1', 'pending_review'],
       ['hss6-athenian-and-representative-democracy-2', 'pending_review'],
+      ['hss6-river-valleys-and-food-surplus-1', 'pending_review'],
+      ['hss6-river-valleys-and-food-surplus-2', 'pending_review'],
+      ['hss6-roman-republic-government-1', 'pending_review'],
+      ['hss6-roman-republic-government-2', 'pending_review'],
     ]);
   });
 });

@@ -1,0 +1,23 @@
+{
+  "code": "hss6-roman-republic-government",
+  "version": "1.0.0",
+  "title": "The government of the Roman Republic",
+  "program": "grade-6-social-studies",
+  "domain": "hss6-ancient-rome",
+  "standards": ["CA-HSS.6.7.2", "CA-HSS-AS.6-8.REP.2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Selects, from statements about the three parts of the Roman Republic's government (elected officials such as the consuls, the Senate and the citizen assemblies), the one that describes a check on power: each consul could block the other.",
+    "Selects, from a short original student summary of the Roman Republic's government, the sentence that is an opinion rather than a fact that can be checked with historical evidence."
+  ],
+  "misconceptionCodes": [
+    "power-seen-as-check",
+    "membership-seen-as-check",
+    "republic-seen-as-monarchy",
+    "surprising-fact-seen-as-opinion",
+    "power-statement-seen-as-opinion",
+    "duty-statement-seen-as-opinion"
+  ],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Practice evidence only: deterministic single-choice match on the option label or full option text. 6.7.2 evidence is partial (divided structure and checks, not significance); REP.2 evidence is partial (selecting the opinion in a provided summary). Does not establish mastery of 6.7.2 or REP.2."
+}

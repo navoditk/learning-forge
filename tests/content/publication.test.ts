@@ -11,7 +11,7 @@ const item = contentCatalog.find((candidate) => candidate.skillRef.code === skil
 const programs = [{ code: skill.program, label: 'Synthetic program', available: true }];
 
 describe('public curriculum skill projection', () => {
-  it('projects 67 of the 69 catalog skills, withholding only the pending Python and Social Studies skills; the 64 other non-Science members are unchanged', () => {
+  it('projects 67 of the 71 catalog skills, withholding only the pending Python and Social Studies skills; the 64 other non-Science members are unchanged', () => {
     const python = skillCatalog.filter((candidate) => candidate.program === 'python-intro-grade-6');
     expect(python.map((candidate) => candidate.code)).toEqual(['py6-print-output-reading']);
     const socialStudies = skillCatalog.filter(
@@ -19,6 +19,8 @@ describe('public curriculum skill projection', () => {
     );
     expect(socialStudies.map((candidate) => candidate.code)).toEqual([
       'hss6-athenian-and-representative-democracy',
+      'hss6-river-valleys-and-food-surplus',
+      'hss6-roman-republic-government',
     ]);
     const published = skillCatalog.filter(
       (candidate) =>
@@ -27,7 +29,7 @@ describe('public curriculum skill projection', () => {
     );
     const nonScience = published.filter((candidate) => candidate.program !== 'grade-6-science');
     expect(nonScience).toHaveLength(64);
-    expect(skillCatalog).toHaveLength(69);
+    expect(skillCatalog).toHaveLength(71);
     const projected = publishableSkillProjection(skillCatalog, contentCatalog, PROGRAM_ROSTER);
     expect(projected).toEqual(published);
     expect(projected).toHaveLength(67);

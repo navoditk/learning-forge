@@ -153,8 +153,15 @@ import sci6CellPartsFunctions2 from '../../content/grade-6-science/sci6-cell-par
 import sci6CellAsASystem1 from '../../content/grade-6-science/sci6-cell-as-a-system-1.json';
 import sci6CellAsASystem2 from '../../content/grade-6-science/sci6-cell-as-a-system-2.json';
 import py6PrintOutputReading1 from '../../content/python-intro-grade-6/py6-print-output-reading-1.json';
+import py6PrintOutputReading2 from '../../content/python-intro-grade-6/py6-print-output-reading-2.json';
+import py6PrintOutputReading3 from '../../content/python-intro-grade-6/py6-print-output-reading-3.json';
+import py6PrintOutputReading4 from '../../content/python-intro-grade-6/py6-print-output-reading-4.json';
 import hss6AthenianAndRepresentativeDemocracy1 from '../../content/grade-6-social-studies/hss6-athenian-and-representative-democracy-1.json';
 import hss6AthenianAndRepresentativeDemocracy2 from '../../content/grade-6-social-studies/hss6-athenian-and-representative-democracy-2.json';
+import hss6RiverValleysAndFoodSurplus1 from '../../content/grade-6-social-studies/hss6-river-valleys-and-food-surplus-1.json';
+import hss6RiverValleysAndFoodSurplus2 from '../../content/grade-6-social-studies/hss6-river-valleys-and-food-surplus-2.json';
+import hss6RomanRepublicGovernment1 from '../../content/grade-6-social-studies/hss6-roman-republic-government-1.json';
+import hss6RomanRepublicGovernment2 from '../../content/grade-6-social-studies/hss6-roman-republic-government-2.json';
 import {
   ContentRecordSchema,
   ContentRecord,
@@ -330,8 +337,15 @@ const rawContent = [
   sci6CellAsASystem1,
   sci6CellAsASystem2,
   py6PrintOutputReading1,
+  py6PrintOutputReading2,
+  py6PrintOutputReading3,
+  py6PrintOutputReading4,
   hss6AthenianAndRepresentativeDemocracy1,
   hss6AthenianAndRepresentativeDemocracy2,
+  hss6RiverValleysAndFoodSurplus1,
+  hss6RiverValleysAndFoodSurplus2,
+  hss6RomanRepublicGovernment1,
+  hss6RomanRepublicGovernment2,
 ] as const;
 
 function validateParsedContentCatalog(

@@ -1,0 +1,70 @@
+{
+  "id": "hss6-roman-republic-government-2",
+  "version": "1.0.0",
+  "title": "Fact or opinion about the Roman Republic",
+  "role": "practice",
+  "skillRef": {
+    "code": "hss6-roman-republic-government",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["CA-HSS.6.7.2", "CA-HSS-AS.6-8.REP.2"],
+  "observableEvidence": [
+    "Selects, from a short original student summary of the Roman Republic's government, the sentence that is an opinion rather than a fact that can be checked with historical evidence."
+  ],
+  "prompt": "A student wrote this short summary of the Roman Republic's government for a class report. It is an original summary written for this question, not a quotation from any source.\n\nNormally, two consuls were elected to serve one-year terms to lead the government. Tribunes could block actions of other officials, even the consuls. The tribunes had the most important job in the whole Roman government. Many Roman citizens served as soldiers in the army.\n\nWhich sentence from the summary is an opinion rather than a fact that can be checked using historical evidence?\n\nA. Normally, two consuls were elected to serve one-year terms to lead the government.\nB. Tribunes could block actions of other officials, even the consuls.\nC. The tribunes had the most important job in the whole Roman government.\nD. Many Roman citizens served as soldiers in the army.\n\nType the letter or the full text of your choice.",
+  "solutionRepresentation": "C is correct. Calling one job the most important is a judgment: people can weigh importance differently and disagree, and no historical record can prove which job mattered most. A is a fact: historians can check how many consuls were elected and how often. B is a fact: sources describe the tribunes' power to block other officials, so it can be checked. D is a fact: historical evidence shows that serving in the army was a common duty of Roman citizens. A sentence can describe power or duty and still be a fact, as long as it can be checked against evidence.",
+  "solutionMethod": "Test each sentence with one question: could a historian check it against historical evidence and find it true or false? If yes, it is a fact statement. If it is a judgment that people could reasonably disagree about, it is an opinion.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "The tribunes had the most important job in the whole Roman government.",
+    "acceptedAnswers": [
+      "C",
+      "The tribunes had the most important job in the whole Roman government."
+    ],
+    "equivalenceNotes": "Single select. Canonical answer is the full text of option C; the option label C is also accepted; trailing end punctuation is ignored by normalization. No other phrasing, partial text such as the word opinion alone, or list of several options is accepted."
+  },
+  "misconceptionCodes": [
+    "surprising-fact-seen-as-opinion",
+    "power-statement-seen-as-opinion",
+    "duty-statement-seen-as-opinion"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A fact can be checked against evidence and shown to be true or false. An opinion is a judgment that people could disagree about, even after looking at the same evidence.",
+      "question": "For each sentence, could a historian look it up in sources and settle whether it is true?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Make two columns: 'can be checked' and 'a judgment'. Watch for judging words that rate or rank something, such as greatest, nicest or most exciting. A sentence can sound surprising, or describe power or duty, and still be checkable.",
+      "question": "Which sentence ends up in the 'a judgment' column?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: 'Our school library has three thousand books' can be checked by counting, so it is a fact statement. 'Our library is the coolest room in the school' is a judgment that classmates could disagree about, so it is an opinion.",
+      "question": "In the Roman Republic summary, which sentence is like the coolest-room sentence?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "The tribunes had the most important job in the whole Roman government",
+    "the most important job",
+    "most important job in the whole Roman government"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SS-CONTENT-2. The student summary, options, hints and solution were written for this repository from the CA-HSS.6.7.2 and CA-HSS-AS.6-8.REP.2 codes; it cites codes only and copies no textbook, framework example, standards text or other outside lesson or item."
+  },
+  "accessibilityNotes": "All information is plain text; there is no figure, map, date, quotation or excerpt. The summary is original and is labelled as one, and its four sentences are repeated as the four options. The options are labelled A to D in the prompt, and nothing depends on color or position. The learner types the letter or the full option text into a labelled text box.",
+  "accessibleAlternative": "Original student summary: Normally, two consuls were elected to serve one-year terms to lead the government. Tribunes could block actions of other officials, even the consuls. The tribunes had the most important job in the whole Roman government. Many Roman citizens served as soldiers in the army. Question: which sentence is an opinion rather than a fact that can be checked using historical evidence? Option A: Normally, two consuls were elected to serve one-year terms to lead the government. Option B: Tribunes could block actions of other officials, even the consuls. Option C: The tribunes had the most important job in the whole Roman government. Option D: Many Roman citizens served as soldiers in the army. Answer with a letter or the full option text.",
+  "itemReadinessRefs": []
+}

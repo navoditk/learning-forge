@@ -1,0 +1,68 @@
+{
+  "id": "py6-print-output-reading-3",
+  "version": "content-1",
+  "title": "Garden log",
+  "role": "practice",
+  "skillRef": { "code": "py6-print-output-reading", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["PY6-P1-01"],
+  "observableEvidence": [
+    "Writes several comma-separated values on one output line with a single space between them, and writes whole numbers, decimal numbers and True or False exactly as the program shows them."
+  ],
+  "prompt": "A school garden club wrote this short Python program for its daily log. Read it from top to bottom. What does the program print? Type each printed line on its own line, exactly as it would appear, with no extra spaces.",
+  "codeListing": {
+    "language": "python",
+    "languageVersion": "3.14",
+    "source": "print(\"Tomato\", \"plants\", 6)\nprint(\"Rain\", 2.25, \"cm\")\nprint(\"Watered\", False)",
+    "showLineNumbers": true,
+    "structureDescription": "Three lines of code, each starting at the left margin with no indentation. Every line is one print call, and the lines run in order from line 1 to line 3. Lines 1 and 2 each have three values separated by commas; line 3 has two."
+  },
+  "solutionRepresentation": "The program prints three lines, one for each print call, in order from line 1 to line 3. Line 1 has three values: the text Tomato, the text plants and the whole number 6. They print on one line with one space between each pair, and the quotation marks are not printed: Tomato plants 6. Line 2 prints Rain, one space, the decimal number 2.25 exactly as written, one space, then cm. Line 3 prints Watered, one space, then False with a capital F. The full output is:\nTomato plants 6\nRain 2.25 cm\nWatered False\nPython 3.14 behavior used: print converts each value to text as str() does, separates the values with one space (sep defaults to ' ') and ends each call with a new line (end defaults to a line break), per Built-in Functions, print(), https://docs.python.org/3.14/library/functions.html#print. The decimal number 2.25 prints in its written form and the Boolean value prints as False, per Built-in Types, https://docs.python.org/3.14/library/stdtypes.html.",
+  "solutionMethod": "Go line by line from the top. For each print, write every value in order on one new output line with exactly one space between each pair, including between two pieces of text; leave out the quotes and write numbers and True or False exactly as written.",
+  "deterministicValidator": {
+    "type": "python_output",
+    "canonicalAnswer": "Tomato plants 6\nRain 2.25 cm\nWatered False",
+    "acceptedAnswers": ["Tomato plants 6\nRain 2.25 cm\nWatered False"],
+    "equivalenceNotes": "Exact output only, case-sensitive, with one correct form: three lines in program order, values on a line separated by a single space, no quotes. One final line break is ignored; anything else extra is scored as incorrect."
+  },
+  "misconceptionCodes": ["py6-comma-joins-without-space", "py6-prints-quotes", "py6-bool-case"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Inside each print, commas separate the values. A comma tells Python where one value ends and the next one begins, and the comma itself is not printed.",
+      "question": "How many values does line 1 have, and how many does line 2 have?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "When one print has several values, Python writes them on the same output line in the order they appear, with exactly one space between each pair. That space is added even when two pieces of text sit next to each other. Quotation marks are not printed.",
+      "question": "How many spaces will the output of line 1 contain, and where do they go?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a print with the text Bus in quotes, the decimal number 1.75 and the text km in quotes would show Bus 1.75 km. One space goes between each pair of values, and the decimal number is printed exactly as written. A yes-or-no value is printed with its capital first letter, exactly as it appears in the code.",
+      "question": "Using the same rules, what does line 2 show, and how is the value at the end of line 3 written?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Tomato plants 6\nRain 2.25 cm\nWatered False",
+    "Tomato plants 6",
+    "Rain 2.25 cm",
+    "Watered False"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for PYTHON-CONTENT-2. The program, prompt, hints and solution were written for this repository; it uses only the program-internal objective code PY6-P1-01 and copies no outside exercise, code or text."
+  },
+  "accessibilityNotes": "The code is shown as plain monospaced text with line numbers, not as an image, and nothing depends on color. The structure description explains the layout in words, including how many values each line has, and the text alternative reads each line aloud. The answer is typed into a labelled multi-line text box.",
+  "accessibleAlternative": "A Python program with three lines, all at the left margin. Line 1: print with three values separated by commas: the text Tomato in double quotes, the text plants in double quotes, then the whole number 6. Line 2: print with three values: the text Rain in double quotes, the decimal number 2.25, then the text cm in double quotes. Line 3: print with two values: the text Watered in double quotes, then False with a capital F and no quotes. Question: what does this program print? Type each printed line on its own line.",
+  "itemReadinessRefs": []
+}

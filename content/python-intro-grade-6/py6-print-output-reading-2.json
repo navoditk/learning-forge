@@ -1,0 +1,68 @@
+{
+  "id": "py6-print-output-reading-2",
+  "version": "content-1",
+  "title": "Bake sale sign",
+  "role": "practice",
+  "skillRef": { "code": "py6-print-output-reading", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["PY6-P1-01"],
+  "observableEvidence": [
+    "Reads a short listing of print lines with literal values from top to bottom and types its exact output: one output line per print, in order, with text shown without its quotes."
+  ],
+  "prompt": "A class wrote this short Python program to make a sign for its bake sale. Read it from top to bottom. What does the program print? Type each printed line on its own line, exactly as it would appear, with no extra spaces.",
+  "codeListing": {
+    "language": "python",
+    "languageVersion": "3.14",
+    "source": "print('Bake sale')\nprint(\"Muffins\", 12)\nprint('Price', 1.5)",
+    "showLineNumbers": true,
+    "structureDescription": "Three lines of code, each starting at the left margin with no indentation. Every line is one print call, and the lines run in order from line 1 to line 3. Lines 1 and 3 use single quotation marks around their text; line 2 uses double quotation marks."
+  },
+  "solutionRepresentation": "The program prints three lines, one for each print call, in order from line 1 to line 3. Line 1 prints the text Bake sale; the single quotation marks only mark where the text starts and ends, so they are not printed. Line 2 prints Muffins, one space, then 12; the double quotation marks are not printed either. Line 3 prints Price, one space, then the decimal number 1.5 exactly as written. The full output is:\nBake sale\nMuffins 12\nPrice 1.5\nPython 3.14 behavior used: single and double quotation marks both write a string literal and are not part of the text, per Lexical analysis, String and Bytes literals, https://docs.python.org/3.14/reference/lexical_analysis.html#string-and-bytes-literals. print converts each value to text as str() does, separates the values with one space (sep defaults to ' ') and ends each call with a new line (end defaults to a line break), per Built-in Functions, print(), https://docs.python.org/3.14/library/functions.html#print. The decimal number 1.5 prints in its written form, per Built-in Types, https://docs.python.org/3.14/library/stdtypes.html.",
+  "solutionMethod": "Go line by line from the top. For each print, write its values in order on a new output line: text without its quotes (single or double), one space between values, and numbers exactly as written.",
+  "deterministicValidator": {
+    "type": "python_output",
+    "canonicalAnswer": "Bake sale\nMuffins 12\nPrice 1.5",
+    "acceptedAnswers": ["Bake sale\nMuffins 12\nPrice 1.5"],
+    "equivalenceNotes": "Exact output only, case-sensitive, with one correct form: three lines in program order, values on a line separated by a single space, no quotes. One final line break is ignored; anything else extra is scored as incorrect."
+  },
+  "misconceptionCodes": ["py6-prints-quotes", "py6-comma-joins-without-space"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "This program uses two kinds of quotation marks: single quotes on lines 1 and 3, and double quotes on line 2. Both kinds only show where a piece of text starts and ends, so the quote marks around the text are not printed.",
+      "question": "When line 1 runs, which characters from inside the parentheses appear on the screen, and which do not?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Each print call makes one output line, in order from line 1 to line 3. When one print has two values separated by a comma, both appear on the same output line with exactly one space between them. The comma itself is not printed.",
+      "question": "How many output lines will there be, and what goes between the word and the number on line 2?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a print with the text Cups in single quotes and the number 4 would show Cups 4. A print with the text Cost in double quotes and the decimal number 2.5 would show Cost 2.5. The quotes disappear and one space separates the values.",
+      "question": "Using the same rules, what exactly do lines 2 and 3 show?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Bake sale\nMuffins 12\nPrice 1.5",
+    "Bake sale",
+    "Muffins 12",
+    "Price 1.5"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for PYTHON-CONTENT-2. The program, prompt, hints and solution were written for this repository; it uses only the program-internal objective code PY6-P1-01 and copies no outside exercise, code or text."
+  },
+  "accessibilityNotes": "The code is shown as plain monospaced text with line numbers, not as an image, and nothing depends on color. The structure description explains the layout in words and names which quotation marks each line uses, and the text alternative reads each line aloud. The answer is typed into a labelled multi-line text box.",
+  "accessibleAlternative": "A Python program with three lines, all at the left margin. Line 1: print with one value, the text Bake sale in single quotes. Line 2: print with two values separated by a comma: the text Muffins in double quotes, then the whole number 12. Line 3: print with two values: the text Price in single quotes, then the decimal number 1.5. Question: what does this program print? Type each printed line on its own line.",
+  "itemReadinessRefs": []
+}

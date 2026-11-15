@@ -1,0 +1,23 @@
+{
+  "code": "hss6-river-valleys-and-food-surplus",
+  "version": "1.0.0",
+  "title": "River valleys, food surplus and the first cities",
+  "program": "grade-6-social-studies",
+  "domain": "hss6-mesopotamia-egypt-kush",
+  "standards": ["CA-HSS.6.2.1", "CA-HSS.6.2.2", "CA-HSS-AS.6-8.HI.2"],
+  "prerequisiteSkillCodes": [],
+  "observableEvidence": [
+    "Selects the physical feature of the Tigris, Euphrates and Nile river valleys that supported permanent farming settlements in a dry climate: river floods left fertile silt and river water could reach the crops.",
+    "Selects, from a short original account of early Mesopotamian farming, the correct cause and the correct effect of a food surplus: irrigation canals helped produce the surplus, and the surplus let some people do work other than farming."
+  ],
+  "misconceptionCodes": [
+    "soil-exhaustion-forces-moving",
+    "forests-seen-as-settlement-draw",
+    "desert-seen-as-farmland",
+    "cause-effect-reversed",
+    "later-effect-seen-as-cause",
+    "surplus-seen-as-more-farm-work"
+  ],
+  "difficultyBands": ["foundational", "developing"],
+  "masteryCheckRule": "Practice evidence only: deterministic single-choice match on the option label or full option text. 6.2.1 evidence is partial (physical settings, not locating rivers on a map); HI.2 evidence is partial (selecting a stated cause and effect). Does not establish mastery of 6.2.1, 6.2.2 or HI.2."
+}

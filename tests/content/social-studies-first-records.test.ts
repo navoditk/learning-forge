@@ -87,7 +87,7 @@ const learnerText = (id: string) => {
 };
 
 describe('SS-CONTENT skill hss6-athenian-and-representative-democracy', () => {
-  it('loads as the only Social Studies skill with the approved identity and no prerequisites', () => {
+  it('loads with the approved identity and no prerequisites (SS-CONTENT-2 adds two further skills, D-330)', () => {
     expect(skill).toMatchObject({
       code: SKILL,
       version: '1.0.0',
@@ -97,7 +97,7 @@ describe('SS-CONTENT skill hss6-athenian-and-representative-democracy', () => {
       prerequisiteSkillCodes: [],
       difficultyBands: ['foundational', 'developing'],
     });
-    expect(skillCatalog.filter((candidate) => candidate.program === PROGRAM)).toEqual([skill]);
+    expect(skillCatalog.filter((candidate) => candidate.program === PROGRAM)).toContain(skill);
     expect(skillCatalog.some((candidate) => candidate.prerequisiteSkillCodes.includes(SKILL))).toBe(
       false,
     );

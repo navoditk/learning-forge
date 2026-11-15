@@ -243,10 +243,10 @@ describe('P3 Science skill rules', () => {
     );
   });
 
-  it('does not constrain other programs standards and registers exactly the 3 accepted Science skills beside the 66 other skills', () => {
+  it('does not constrain other programs standards and registers exactly the 3 accepted Science skills beside the 68 other skills', () => {
     // 64 earlier non-Science skills plus the pending Python entry skill (PYTHON-CONTENT)
-    // and the pending Social Studies skill (SS-CONTENT).
-    expect(skillCatalog).toHaveLength(69);
+    // and the three pending Social Studies skills (SS-CONTENT, SS-CONTENT-2).
+    expect(skillCatalog).toHaveLength(71);
     expect(() => validateSkillCatalog(skillCatalog)).not.toThrow();
     const science = skillCatalog.filter((skill) => skill.program === 'grade-6-science');
     expect(science.map((skill) => skill.code).sort()).toEqual([
@@ -256,16 +256,16 @@ describe('P3 Science skill rules', () => {
     ]);
     expect(science.every((skill) => skill.version === '1.0.0')).toBe(true);
     expect(science.every((skill) => skill.prerequisiteSkillCodes.length === 0)).toBe(true);
-    expect(skillCatalog.filter((skill) => skill.program !== 'grade-6-science')).toHaveLength(66);
+    expect(skillCatalog.filter((skill) => skill.program !== 'grade-6-science')).toHaveLength(68);
   });
 });
 
 describe('P4 Science content rules', () => {
-  it('loads a valid synthetic Science record beside the 157 live records (128 earlier + 6 Science + 20 Ratios + 1 pending Python + 2 pending Social Studies)', () => {
-    expect(contentCatalog).toHaveLength(157);
+  it('loads a valid synthetic Science record beside the 164 live records (128 earlier + 6 Science + 20 Ratios + 4 pending Python + 6 pending Social Studies)', () => {
+    expect(contentCatalog).toHaveLength(164);
     registerScienceSkill();
     const loaded = loadWith(scienceRecord('sci6-synthetic-1'), scienceRecord('sci6-synthetic-2'));
-    expect(loaded).toHaveLength(159);
+    expect(loaded).toHaveLength(166);
   });
 
   it('accepts depth mode and a pattern that is a case-insensitive substring', () => {

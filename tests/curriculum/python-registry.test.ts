@@ -70,7 +70,7 @@ describe('python-intro-grade-6 identity (C1, D-322)', () => {
       contentCatalog
         .filter((record) => record.skillRef.code.startsWith('py6-'))
         .map((record) => record.review.status),
-    ).toEqual(['pending_review']);
+    ).toEqual(['pending_review', 'pending_review', 'pending_review', 'pending_review']);
     expect(PROGRAM_ROSTER.find((entry) => entry.code === CODE)).toMatchObject({
       code: CODE,
       available: false,

@@ -7789,16 +7789,29 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
 
 **CURRENT — 2026-11-15 (supersedes the older blocks below for routing):**
 
-- Everything below is **local and uncommitted** on `main` (HEAD `f909a22`, equal to
-  `origin/main`). Nothing is pushed. **A push auto-deploys on Render and runs
-  `prisma migrate deploy`, which would apply migration 0019 to production**; do not
-  push before the owner has reviewed the draft `down.sql` and approved the production
-  apply (D-322, D-323, D-329).
-- Built and verified locally (full `npm test` 143 files / 4,072 tests, `verify`
-  reproduced in a clean environment for the slices): the Python intro slice (D-323)
-  with its first skill and one `pending_review` record (D-327); the Social Studies
-  slice (D-325) with its first skill and two `pending_review` records (D-328); the
-  `hss6-` fail-closed tutor gate (D-329). Both programs are `available: false`.
+- **2026-11-15 later, local and uncommitted on top of pushed `0f74f28`** (window
+  `claude-window-20261115`, 11 of 14 invocations; owner instruction "start Python content
+  authoring ... social studies in parallel ... other math"; scope D-330):
+  Python records 2-4 accepted (D-331), Social Studies skills 2-3 with four records
+  accepted (D-332), Grade 6 Math next-unit scope document accepted as a document only
+  (D-333, `docs/grade-6-math-next-unit-scope.md`). All new records `pending_review`,
+  programs `available: false`. Verified in the main tree: `npm test` 144 files / 4,141
+  tests, `eval:run` 36, `content:validate` 652, typecheck, lint 0 errors. **Not committed.**
+  Next: Statistics unit (STAT6) needs ST-D design decision (SD-B), ST-5a merge tooling,
+  and owner permission to draft private assessment items; the Math scope doc lists 20-32
+  calls, more than this window. The Roman "every year" wording is fixed (D-332). Optional parallel lane for a Copilot session: PY-R8 test teardown.
+- **PUSHED 2026-11-15** by owner instruction ("approve, commit and push"): commit
+  `0f74f28` (81 files) is on `origin/main`; Render auto-deploys and its build runs
+  `prisma migrate deploy`, applying migration 0019 to production. The owner's
+  "approve" covers the commit/push; the draft `down.sql` is **still not
+  independently human-reviewed** and the deploy outcome was not yet verified at
+  this checkpoint. Check the Render build log first.
+- Shipped in that commit (verified locally before push: `npm test` 143 files /
+  4,072 tests, `eval:run` 36, `content:validate`, typecheck, lint): the Python intro
+  slice (D-323) with its first skill and one `pending_review` record (D-327); the
+  Social Studies slice (D-325) with its first skill and two `pending_review` records
+  (D-328); the `hss6-` fail-closed tutor gate (D-329). Both programs are
+  `available: false`, so learners see no change.
 - ELA: research reviewed and decisions disposed by delegated sign-off (D-326);
   **ELA-D16 (learner-writing privacy and provider-data handling) awaits the owner**.
   No ELA authoring, D-61 exception or registration is authorized.
@@ -7814,9 +7827,8 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
 - Next eligible engineering (not started, needs a window): the D-329 availability
   prerequisites; the PY-R8 test-teardown follow-up (D-323); ELA authoring
   prerequisites and a D-61 exception (delegable) once ELA-D16 is decided.
-- Local-only files (never commit): `AGENTS.md`, `docs/agent-orchestration.md` edits
-  if any, `.claude/agents`, `.codex/agents`, `.claude/worktrees`, `reports/*.md`.
-  Tooling added this session (reviewable, uncommitted): `scripts/agent-claim.sh`,
+- Still local-only (never commit; left unstaged in the push): `AGENTS.md`, `.claude/agents`, `.codex/agents`, `.claude/worktrees`, `reports/*.md`.
+  Tooling added this session (now committed in `0f74f28`): `scripts/agent-claim.sh`,
   `scripts/orient.sh`, `scripts/format-edited.sh`, the `.claude/settings.json`
   allowlist and hooks, and `docs/progress-archive/2026-09.md`.
 - Process cautions: never set `GIT_DIR` or `GIT_WORK_TREE` for test runs (a stray

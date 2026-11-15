@@ -1,0 +1,74 @@
+{
+  "id": "py6-print-output-reading-4",
+  "version": "content-1",
+  "title": "Rehearsal plan",
+  "role": "practice",
+  "skillRef": { "code": "py6-print-output-reading", "version": "1.0.0" },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["PY6-P1-01"],
+  "observableEvidence": [
+    "Reads a short listing of print lines with literal values from top to bottom and types its exact output: one output line per print, in order, with text shown without its quotes."
+  ],
+  "prompt": "A drama club wrote this short Python program to print its rehearsal plan. Read it from top to bottom. What does the program print? Type each printed line on its own line, exactly as it would appear, with no extra spaces.",
+  "codeListing": {
+    "language": "python",
+    "languageVersion": "3.14",
+    "source": "print(\"Scene\", 2, \"Lights\", True)\nprint(\"Scene\", 1, \"Curtain up\")\nprint(\"Snack break\", 0.25)\nprint(\"Scene\", 3, \"Bow\")",
+    "showLineNumbers": true,
+    "structureDescription": "Four lines of code, each starting at the left margin with no indentation. Every line is one print call, and the lines run in order from line 1 to line 4. The scene numbers written inside the code are not in counting order."
+  },
+  "solutionRepresentation": "The program prints four lines, one for each print call, in the order the lines appear, from line 1 to line 4. The scene numbers are only values to print; they do not change the order. Line 1 has four values: Scene, 2, Lights and True, printed with one space between each pair and without quotes: Scene 2 Lights True. Line 2 prints Scene, one space, 1, one space, then Curtain up; the space inside Curtain up is part of the text. Line 3 prints Snack break, one space, then the decimal number 0.25 exactly as written. Line 4 prints Scene, one space, 3, one space, then Bow. The full output is:\nScene 2 Lights True\nScene 1 Curtain up\nSnack break 0.25\nScene 3 Bow\nPython 3.14 behavior used: statements in a program run one after another from top to bottom, per The Python Tutorial, An Informal Introduction to Python, https://docs.python.org/3.14/tutorial/introduction.html. print converts each value to text as str() does, separates the values with one space (sep defaults to ' ') and ends each call with a new line (end defaults to a line break), per Built-in Functions, print(), https://docs.python.org/3.14/library/functions.html#print. The decimal number 0.25 prints in its written form and the Boolean value prints as True, per Built-in Types, https://docs.python.org/3.14/library/stdtypes.html.",
+  "solutionMethod": "Go line by line from the top, ignoring any numbers that look like an order. For each print, write its values in order on a new output line: text without its quotes, one space between values, and numbers and True or False exactly as written.",
+  "deterministicValidator": {
+    "type": "python_output",
+    "canonicalAnswer": "Scene 2 Lights True\nScene 1 Curtain up\nSnack break 0.25\nScene 3 Bow",
+    "acceptedAnswers": ["Scene 2 Lights True\nScene 1 Curtain up\nSnack break 0.25\nScene 3 Bow"],
+    "equivalenceNotes": "Exact output only, case-sensitive, with one correct form: four lines in program order (not in scene-number order), values on a line separated by a single space, no quotes. One final line break is ignored; anything else extra is scored as incorrect."
+  },
+  "misconceptionCodes": [
+    "py6-runs-out-of-order",
+    "py6-comma-joins-without-space",
+    "py6-bool-case",
+    "py6-prints-quotes"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Python runs the lines in the order they appear in the listing, from line 1 down to line 4. Numbers written inside a print are just values to print; they do not change which line runs first.",
+      "question": "Which line of code makes the first line of output, and which line of code makes the last?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Each print call makes exactly one output line. Its values appear in the order written, with exactly one space between each pair, and the quotation marks around text are not printed. When two words sit inside one pair of quotes, they stay together with the single space between them.",
+      "question": "How many values does line 1 have, and how many spaces will its output line contain?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a print with the text Act in quotes, the number 5, the text Exit in quotes and the yes-or-no value False would show Act 5 Exit False. The values stay in the order written and the yes-or-no value keeps its capital first letter. A decimal number such as 0.75 is printed exactly as written.",
+      "question": "Using the same rules, what does line 1 show, and what does line 3 show?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Scene 2 Lights True\nScene 1 Curtain up\nSnack break 0.25\nScene 3 Bow",
+    "Scene 2 Lights True",
+    "Scene 1 Curtain up",
+    "Snack break 0.25",
+    "Scene 3 Bow"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for PYTHON-CONTENT-2. The program, prompt, hints and solution were written for this repository; it uses only the program-internal objective code PY6-P1-01 and copies no outside exercise, code or text."
+  },
+  "accessibilityNotes": "The code is shown as plain monospaced text with line numbers, not as an image, and nothing depends on color. The structure description explains the layout in words and warns that the scene numbers are not in counting order, and the text alternative reads each line aloud. The answer is typed into a labelled multi-line text box.",
+  "accessibleAlternative": "A Python program with four lines, all at the left margin. Line 1: print with four values separated by commas: the text Scene in double quotes, the whole number 2, the text Lights in double quotes, then True with a capital T and no quotes. Line 2: print with three values: the text Scene in double quotes, the whole number 1, then the text Curtain up in double quotes. Line 3: print with two values: the text Snack break in double quotes, then the decimal number 0.25. Line 4: print with three values: the text Scene in double quotes, the whole number 3, then the text Bow in double quotes. Question: what does this program print? Type each printed line on its own line.",
+  "itemReadinessRefs": []
+}

@@ -38,7 +38,7 @@ describe('python content catalog rules (C4, C5)', () => {
     expect(load([item()])).toHaveLength(1);
   });
 
-  it('the live catalog holds only the one approved py6- skill and pending record (D-322 H1/H4)', () => {
+  it('the live catalog holds only the one approved py6- skill and its four pending records (D-322 H1/H4, D-330)', () => {
     expect(
       skillCatalog.filter((skill) => skill.code.startsWith('py6-')).map((skill) => skill.code),
     ).toEqual(['py6-print-output-reading']);
@@ -46,7 +46,12 @@ describe('python content catalog rules (C4, C5)', () => {
       contentCatalog
         .filter((record) => record.skillRef.code.startsWith('py6-'))
         .map((record) => record.id),
-    ).toEqual(['py6-print-output-reading-1']);
+    ).toEqual([
+      'py6-print-output-reading-1',
+      'py6-print-output-reading-2',
+      'py6-print-output-reading-3',
+      'py6-print-output-reading-4',
+    ]);
     // The synthetic fixtures in this file use a different code and stay out of it.
     expect(skillCatalog.some((skill) => skill.code === PY_SKILL)).toBe(false);
   });

@@ -69,10 +69,10 @@ describe('valid complete fixtures load (contract 5.2: each passes 2.2, 2.5a and 
     });
   }
 
-  it('the live catalog keeps 133 legacy records non-structured; only the 6 Science and 17 Ratios records are structured', () => {
-    // 154 earlier records plus the pending python_output entry record (PYTHON-CONTENT)
-    // and the two pending legacy multiple_choice Social Studies records (SS-CONTENT).
-    expect(contentCatalog).toHaveLength(157);
+  it('the live catalog keeps 137 legacy records non-structured; only the 6 Science and 17 Ratios records are structured', () => {
+    // 154 earlier records plus the four pending python_output records (PYTHON-CONTENT, D-330)
+    // and the six pending legacy multiple_choice Social Studies records (SS-CONTENT, SS-CONTENT-2).
+    expect(contentCatalog).toHaveLength(164);
     const structured = contentCatalog.filter(
       (item) => item.deterministicValidator.type === 'structured',
     );
@@ -94,14 +94,19 @@ describe('valid complete fixtures load (contract 5.2: each passes 2.2, 2.5a and 
       contentCatalog
         .filter((item) => item.deterministicValidator.type === 'python_output')
         .map((item) => item.id),
-    ).toEqual(['py6-print-output-reading-1']);
+    ).toEqual([
+      'py6-print-output-reading-1',
+      'py6-print-output-reading-2',
+      'py6-print-output-reading-3',
+      'py6-print-output-reading-4',
+    ]);
     expect(
       contentCatalog.filter(
         (item) =>
           item.deterministicValidator.type !== 'structured' &&
           item.deterministicValidator.type !== 'python_output',
       ),
-    ).toHaveLength(133);
+    ).toHaveLength(137);
     expect(() => validateContentCatalog()).not.toThrow();
   });
 

@@ -1,0 +1,67 @@
+{
+  "id": "hss6-roman-republic-government-1",
+  "version": "1.0.0",
+  "title": "A check on power in the Roman Republic",
+  "role": "practice",
+  "skillRef": {
+    "code": "hss6-roman-republic-government",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["CA-HSS.6.7.2"],
+  "observableEvidence": [
+    "Selects, from statements about the three parts of the Roman Republic's government (elected officials such as the consuls, the Senate and the citizen assemblies), the one that describes a check on power: each consul could block the other."
+  ],
+  "prompt": "In the Roman Republic, power was divided among three parts of the government. Elected officials ran the government; the two highest elected officials were the consuls, chosen for one year at a time. The Senate was a council, made up mostly of men who had already served as officials, that advised the officials. Assemblies of adult male Roman citizens voted on laws and elected the officials.\n\nChecks and balances means that one part of a government, or one official, can limit or stop the power of another.\n\nWhich statement describes a check on power in the Roman Republic?\n\nA. The consuls commanded Rome's armies in war.\nB. Each consul could block a decision made by the other consul.\nC. Many members of the Senate had served as officials before.\nD. One consul ruled alone for life, like a king.\n\nType the letter or the full text of your choice.",
+  "solutionRepresentation": "B is correct. A check is a way for one part of a government, or one official, to limit another. Because there were two consuls and each could block the other's decision, neither consul could act completely alone. A is wrong because commanding the army is a power the consuls held, not a limit on someone else's power. C is wrong because it describes who sat in the Senate, not a way to stop another part of the government. D is wrong because it contradicts the description: the Republic had two consuls chosen for one year at a time, not one ruler for life.",
+  "solutionMethod": "Use the definition given in the prompt. For each statement, ask whether it shows one official or part of the government able to limit or stop another. A power someone holds, or a fact about who belongs to a group, is not by itself a check.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "Each consul could block a decision made by the other consul.",
+    "acceptedAnswers": ["B", "Each consul could block a decision made by the other consul."],
+    "equivalenceNotes": "Single select. Canonical answer is the full text of option B; the option label B is also accepted; trailing end punctuation is ignored by normalization. No other phrasing, partial text such as the word block alone, or list of several options is accepted."
+  },
+  "misconceptionCodes": [
+    "power-seen-as-check",
+    "membership-seen-as-check",
+    "republic-seen-as-monarchy"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Reread the definition of checks and balances in the question. A check always involves two sides: someone who acts, and someone else who can limit that action.",
+      "question": "Which statements involve two sides like that, and which describe only one person or group?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Sort each statement into one of three groups: 'a power someone held', 'who belonged to a group' or 'a way to limit someone else'. Also cross out any statement that disagrees with the description of the Republic in the question.",
+      "question": "Which statement is left in the 'a way to limit someone else' group?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a club's treasurer may spend club money only after the president signs the request. The treasurer handling the money is a power; the president's signature requirement limits that power, so it is a check.",
+      "question": "In the Roman Republic statements, which one works like the president's signature?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Each consul could block a decision made by the other consul",
+    "could block a decision made by the other",
+    "block a decision made by the other consul"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SS-CONTENT-2. The prompt, options, hints and solution were written for this repository from the CA-HSS.6.7.2 code; it cites the code only and copies no textbook, framework example, standards text or other outside lesson or item."
+  },
+  "accessibilityNotes": "All information is plain text; there is no figure, map, date, quotation or excerpt. The three parts of the government and the term checks and balances are described in words in the prompt. The four options are labelled A to D in the prompt, and nothing depends on color or position. The learner types the letter or the full option text into a labelled text box.",
+  "accessibleAlternative": "Context: in the Roman Republic, power was divided among three parts of the government. Elected officials ran the government; the two highest elected officials were the consuls, chosen for one year at a time. The Senate, a council made up mostly of men who had already served as officials, advised the officials. Assemblies of adult male Roman citizens voted on laws and elected the officials. Checks and balances means one part of a government, or one official, can limit or stop the power of another. Question: which statement describes a check on power in the Roman Republic? Option A: The consuls commanded Rome's armies in war. Option B: Each consul could block a decision made by the other consul. Option C: Many members of the Senate had served as officials before. Option D: One consul ruled alone for life, like a king. Answer with a letter or the full option text.",
+  "itemReadinessRefs": []
+}

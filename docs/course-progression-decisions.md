@@ -3710,7 +3710,78 @@ Sonnet 5.5.
   release decisions, then commit and push (which also applies 0019 on Render).
 - **Not authorized:** availability, R6 completion, commit, push, release.
 
-There are 329 decisions: D-01 through D-75, D-139, D-142, D-145–D-329 approved;
+### D-330 — Owner-instructed D-61 exception: further Python records and two Social Studies skills
+
+Approver: product/content owner, by direct instruction on 2026-11-15: "yes, start
+Python content authoring. can we kick off the social studies content-authoring in
+parallel?" (after the integrator offered both). The exact bounds below were chosen
+by the integrator (Claude Code Sonnet 5.5) from that instruction; the owner may
+narrow or revoke them.
+
+- **Authorized (drafting only, one dated scoped D-61 exception):**
+  - Python: exactly three more `practice` records for the existing skill
+    `py6-print-output-reading@1.0.0` (`-2`, `-3`, `-4`, version `content-1`, mode
+    core), within the current `python-scan` grammar, no code change.
+  - Social Studies: exactly two further `hss6-` skills with two `practice` records
+    each (four records), standards only where genuinely mapped, no code change.
+  - All `llm_drafted`, `owned`, `pending_review`; both programs stay
+    `available: false`.
+- **Still required before acceptance:** independent cross-family review (Codex
+  `gpt-6.1-sol`) and delegated content acceptance under D-212, recorded as its own
+  decision; the author's self-report is not evidence.
+- **Not authorized:** any other skill or record, new Python grammar or validator
+  forms, tutor enablement, availability or activation, held-out assessment, commit
+  or push (each needs a fresh instruction), other programs.
+- Supersedes the "no second record" limits of D-322 H4 and D-327 for exactly the
+  scope above and no more.
+
+### D-331 — Delegated content acceptance and local application: Python records 2-4 (D-212, D-330)
+
+Delegate: Codex `gpt-6.1-sol` (read-only, cross-family; model verified from its client
+metadata), 2026-11-15. Integrator: Claude Code Sonnet 5.5. Verdict READY_WITH_RISKS,
+disposition ACCEPT_CONTENT for patch SHA-256
+`e7bfbab62fca769a9072fe7443dcae20f764e49de0fe0c75396c8e2c82724bd7` (11 files):
+`py6-print-output-reading-2`, `-3`, `-4` (`content-1`, core, `pending_review`). The
+reviewer independently traced all ten output lines and found them equal to the canonical
+answers. One minor (a test title overstating the Boolean check) was fixed by the
+integrator. Risks carried: manual accessibility, non-exhaustive originality check, all
+three records `foundational` (skill allows only that band), loose citation in `-4`.
+Applied unstaged to the main tree; full `npm test` passes. **Not authorized:**
+availability, tutor enablement, commit, push.
+
+### D-332 — Delegated content acceptance and local application: Social Studies skills 2-3 (D-212, D-330)
+
+Delegate: Codex `gpt-6.1-sol` (verified from client metadata), 2026-11-15. Verdict
+READY_WITH_RISKS, ACCEPT_CONTENT for patch SHA-256
+`2f2eb65931fe8fa563c1c498e6ef2828e6d8508fd3ddae6c5fa86016c6bd36ee` (17 files): skills
+`hss6-river-valleys-and-food-surplus` (CA-HSS.6.2.1, 6.2.2, HI.2) and
+`hss6-roman-republic-government` (CA-HSS.6.7.2, REP.2), two `pending_review` records
+each. The reviewer ruled every standards mapping a genuine partial mapping, verified keys
+and distractors against sources, and confirmed 6.3 belief-system content is correctly
+excluded (it still needs the named religion reviewer, dossier decision 5). Carried risk:
+the "every year" consul wording in Roman record 2 was changed by the integrator (owner
+agreed, 2026-11-15) to "Normally, two consuls were elected to serve one-year terms",
+consistently in prompt, option, alternative and test. Four overlapping test
+files were merged by hand with the Python records (counts: 164 records, 71 skills).
+Applied unstaged; full `npm test` 144 files / 4,141 tests, `eval:run` 36, typecheck, lint
+0 errors. **Not authorized:** availability, tutor template, commit, push.
+
+### D-333 — Delegated acceptance of the Grade 6 Math next-unit scope document (D-212)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-15; first review NOT_READY (two majors), revision 2
+READY_WITH_RISKS. Disposition ACCEPT_SCOPE_DOCUMENT for
+`docs/grade-6-math-next-unit-scope.md` SHA-256
+`a94096acd31ce147b5cefc889b28939dbeee8d15948821447496e54bfd84a071`. It is a **document
+only**: it recommends Statistics first, then Geometry, Number System and Expressions and
+Equations in two units each, and a design decision (ST-D, option SD-B recommended) because a
+successor program cannot re-list Ratios 2.0.0 under current catalog invariants, plus a
+reviewed merge-tooling increment (ST-5a). Estimate 20-32 model calls. Risks carried:
+lesson ownership under SD-B, placement `programVersion` meaning, merge constraints over the
+combined bank set. **Not authorized:** any drafting, private-bank access or drafting
+(owner-only, D-262 covered only the ten Ratios banks), code, activation. Open owner
+question: whether D-212 delegation extends beyond the D-183 milestones.
+
+There are 333 decisions: D-01 through D-75, D-139, D-142, D-145–D-333 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

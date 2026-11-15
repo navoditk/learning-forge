@@ -67,6 +67,8 @@ import sci6CellPartsFunctions from '../../content/skills/sci6-cell-parts-functio
 import sci6CellAsASystem from '../../content/skills/sci6-cell-as-a-system.json';
 import py6PrintOutputReading from '../../content/skills/py6-print-output-reading.json';
 import hss6AthenianAndRepresentativeDemocracy from '../../content/skills/hss6-athenian-and-representative-democracy.json';
+import hss6RiverValleysAndFoodSurplus from '../../content/skills/hss6-river-valleys-and-food-surplus.json';
+import hss6RomanRepublicGovernment from '../../content/skills/hss6-roman-republic-government.json';
 import { Skill, SkillSchema } from '../contracts/curriculum';
 import { VersionedSkill, VersionedSkillSchema } from '../contracts/progression';
 import { validateProgramSkillInvariants } from './program-registry';
@@ -144,6 +146,8 @@ const rawSkills = [
   sci6CellAsASystem,
   py6PrintOutputReading,
   hss6AthenianAndRepresentativeDemocracy,
+  hss6RiverValleysAndFoodSurplus,
+  hss6RomanRepublicGovernment,
 ] as const;
 
 export function topologicalSkillOrder(skills: readonly Skill[]): string[] {

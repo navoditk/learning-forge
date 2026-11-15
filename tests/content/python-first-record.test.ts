@@ -8,6 +8,7 @@ import {
 } from '../../src/content/publication';
 import {
   deriveLiteralPrintOutput,
+  listingStringValues,
   parseLiteralPrintListing,
 } from '../../src/contracts/python-scan';
 import {
@@ -31,9 +32,34 @@ const PROGRAM = 'python-intro-grade-6';
 const SKILL = 'py6-print-output-reading';
 const RECORD = 'py6-print-output-reading-1';
 const HAND_TRACED_OUTPUT = 'Launch check\nRockets 3\nFuel 2.0\nHatch closed True';
+// PYTHON-CONTENT-2 (D-330): exactly three more pending practice records, each
+// with the author's hand-traced output, listing line count and the misconception
+// code it is chiefly built to surface.
+const LATER_RECORDS: Record<string, { output: string; lines: number; targets: string }> = {
+  'py6-print-output-reading-2': {
+    output: 'Bake sale\nMuffins 12\nPrice 1.5',
+    lines: 3,
+    targets: 'py6-prints-quotes',
+  },
+  'py6-print-output-reading-3': {
+    output: 'Tomato plants 6\nRain 2.25 cm\nWatered False',
+    lines: 3,
+    targets: 'py6-comma-joins-without-space',
+  },
+  'py6-print-output-reading-4': {
+    output: 'Scene 2 Lights True\nScene 1 Curtain up\nSnack break 0.25\nScene 3 Bow',
+    lines: 4,
+    targets: 'py6-runs-out-of-order',
+  },
+};
 
 const skill = skillCatalog.find((candidate) => candidate.code === SKILL);
 const record = contentCatalog.find((candidate) => candidate.id === RECORD);
+const laterRecords = Object.keys(LATER_RECORDS).map((id) => {
+  const found = contentCatalog.find((candidate) => candidate.id === id);
+  if (!found) throw new Error(`missing ${id}`);
+  return found;
+});
 
 describe('PYTHON-CONTENT skill py6-print-output-reading', () => {
   it('loads as the program entry node with the approved identity', () => {
@@ -64,10 +90,12 @@ describe('PYTHON-CONTENT skill py6-print-output-reading', () => {
 });
 
 describe('PYTHON-CONTENT record py6-print-output-reading-1', () => {
-  it('is the only record for the skill: one core, foundational practice record at content-1', () => {
-    expect(contentCatalog.filter((candidate) => candidate.skillRef.code === SKILL)).toEqual([
-      record,
-    ]);
+  it('is the first of the four records for the skill: a core, foundational practice record at content-1', () => {
+    expect(
+      contentCatalog
+        .filter((candidate) => candidate.skillRef.code === SKILL)
+        .map((candidate) => candidate.id),
+    ).toEqual([RECORD, ...Object.keys(LATER_RECORDS)]);
     expect(record).toMatchObject({
       version: 'content-1',
       role: 'practice',
@@ -158,6 +186,102 @@ describe('PYTHON-CONTENT record py6-print-output-reading-1', () => {
   });
 });
 
+describe('PYTHON-CONTENT-2 records py6-print-output-reading-2 to -4 (D-330)', () => {
+  it.each(Object.entries(LATER_RECORDS))(
+    '%s is a pending, owned, llm_drafted core foundational practice record at content-1',
+    (id) => {
+      const item = contentCatalog.find((candidate) => candidate.id === id);
+      expect(item).toMatchObject({
+        version: 'content-1',
+        role: 'practice',
+        skillRef: { code: SKILL, version: '1.0.0' },
+        mode: 'core',
+        difficulty: 'foundational',
+        standards: ['PY6-P1-01'],
+      });
+      expect(item?.provenance).toEqual({ origin: 'llm_drafted', licenseStatus: 'owned' });
+      expect(item?.review.status).toBe('pending_review');
+      expect(item?.review.reviewer).toBe('pending human review');
+      expect(item?.review.reviewedAt).toBeUndefined();
+      expect(item?.review.originalityStatement).not.toMatch(
+        /textbook|contest|tutorial|AoPS|w3schools|codecademy|code\.org|python\.org/i,
+      );
+    },
+  );
+
+  it.each(Object.entries(LATER_RECORDS))(
+    '%s stays in the allowlist grammar and its canonical answer equals the hand trace and the derived output',
+    (id, expected) => {
+      const item = contentCatalog.find((candidate) => candidate.id === id)!;
+      const listing = item.codeListing!;
+      expect(listing.language).toBe('python');
+      expect(listing.languageVersion).toBe(PROGRAM_LANGUAGE_PINS[PROGRAM]?.languageVersion);
+      expect(pythonOutputListingViolations(listing.source)).toEqual([]);
+      expect(parseLiteralPrintListing(listing.source).ok).toBe(true);
+      expect(listing.source.split('\n')).toHaveLength(expected.lines);
+      const validator = item.deterministicValidator;
+      expect(validator.type).toBe('python_output');
+      expect(validator.canonicalAnswer).toBe(expected.output);
+      expect(deriveLiteralPrintOutput(listing.source)).toBe(expected.output);
+      expect(validator.acceptedAnswers).toEqual([expected.output]);
+      expect(pythonOutputCanonicalViolations(expected.output)).toEqual([]);
+    },
+  );
+
+  it.each(Object.entries(LATER_RECORDS))(
+    '%s has a 2 to 3 step hint ladder that leaks no literal, output line or the word true',
+    (id, expected) => {
+      const item = contentCatalog.find((candidate) => candidate.id === id)!;
+      const steps = item.hintSteps;
+      expect(steps.length).toBeGreaterThanOrEqual(2);
+      expect(steps.length).toBeLessThanOrEqual(3);
+      expect(steps.map((step) => step.order)).toEqual(steps.map((_, index) => index + 1));
+      const hintText = steps.map((step) => `${step.prompt} ${step.question}`).join(' ');
+      expect(
+        pythonOutputItemViolations({
+          canonicalAnswer: expected.output,
+          forbiddenLeakagePatterns: item.forbiddenLeakagePatterns,
+          hintText,
+          listingSource: item.codeListing!.source,
+        }),
+      ).toEqual([]);
+      expect(item.forbiddenLeakagePatterns).toEqual(
+        expect.arrayContaining([expected.output, ...expected.output.split('\n')]),
+      );
+      expect(hintText.toLowerCase()).not.toContain('true');
+      for (const pattern of item.forbiddenLeakagePatterns) {
+        expect(hintText.toLowerCase()).not.toContain(pattern.toLowerCase());
+      }
+    },
+  );
+
+  it.each(Object.entries(LATER_RECORDS))(
+    '%s uses only declared misconception codes, including its target',
+    (id, expected) => {
+      const item = contentCatalog.find((candidate) => candidate.id === id)!;
+      expect(item.misconceptionCodes).toContain(expected.targets);
+      for (const code of item.misconceptionCodes) {
+        expect(skill!.misconceptionCodes).toContain(code);
+      }
+    },
+  );
+
+  it.each(Object.entries(LATER_RECORDS))(
+    '%s carries the required accessibility fields, describing every listing line',
+    (id, expected) => {
+      const item = contentCatalog.find((candidate) => candidate.id === id)!;
+      expect(item.accessibilityNotes.trim().length).toBeGreaterThan(0);
+      expect(item.codeListing!.structureDescription).toMatch(/no indentation/);
+      for (let line = 1; line <= expected.lines; line += 1) {
+        expect(item.accessibleAlternative).toContain(`Line ${line}:`);
+      }
+      for (const literal of listingStringValues(item.codeListing!.source)) {
+        expect(item.accessibleAlternative).toContain(literal);
+      }
+    },
+  );
+});
+
 describe('PYTHON-CONTENT protection: pending and unavailable', () => {
   it('keeps the program unavailable and refuses it as a learner program', () => {
     expect(programsByCode.get(PROGRAM)?.available).toBe(false);
@@ -166,15 +290,22 @@ describe('PYTHON-CONTENT protection: pending and unavailable', () => {
   });
 
   it('is not servable and keeps model tutoring off for the skill', () => {
-    expect(servableContentCatalog.some((item) => item.id === RECORD)).toBe(false);
+    for (const id of [RECORD, ...Object.keys(LATER_RECORDS)]) {
+      expect(
+        servableContentCatalog.some((item) => item.id === id),
+        id,
+      ).toBe(false);
+    }
     expect(servableContentCatalog.some((item) => item.skillRef.code === SKILL)).toBe(false);
     expect(isModelTutoringDisabled(SKILL)).toBe(true);
   });
 
   it('is withheld from the public projections, even if the program were available', () => {
-    expect(publishableContentProjection(contentCatalog).some((item) => item.id === RECORD)).toBe(
-      false,
-    );
+    expect(
+      publishableContentProjection(contentCatalog).some((item) =>
+        [RECORD, ...Object.keys(LATER_RECORDS)].includes(item.id),
+      ),
+    ).toBe(false);
     expect(
       publishableSkillProjection(skillCatalog, contentCatalog, PROGRAM_ROSTER).some(
         (candidate) => candidate.code === SKILL,
@@ -210,12 +341,17 @@ describe('PYTHON-CONTENT protection: pending and unavailable', () => {
       'Launch check',
       'Hatch closed',
       record!.prompt,
+      ...Object.keys(LATER_RECORDS),
+      ...laterRecords.flatMap((item) => [item.title, item.prompt]),
+      'Muffins',
+      'Watered',
+      'Snack break',
     ]) {
       expect(rendered.body, leak).not.toContain(leak);
     }
     // Counts exclude the pending skill and record.
     const withoutPython = buildBody(
-      contentCatalog.filter((item) => item.id !== RECORD),
+      contentCatalog.filter((item) => item.skillRef.code !== SKILL),
       skillCatalog.filter((candidate) => candidate.code !== SKILL),
       PROGRAM_ROSTER,
     );

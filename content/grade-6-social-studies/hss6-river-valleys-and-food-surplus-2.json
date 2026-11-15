@@ -1,0 +1,70 @@
+{
+  "id": "hss6-river-valleys-and-food-surplus-2",
+  "version": "1.0.0",
+  "title": "Causes and effects of a food surplus",
+  "role": "practice",
+  "skillRef": {
+    "code": "hss6-river-valleys-and-food-surplus",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["CA-HSS.6.2.2", "CA-HSS-AS.6-8.HI.2"],
+  "observableEvidence": [
+    "Selects, from a short original account of early Mesopotamian farming, the correct cause and the correct effect of a food surplus: irrigation canals helped produce the surplus, and the surplus let some people do work other than farming."
+  ],
+  "prompt": "Read this short account. It is a summary written for this question, not a quotation from an ancient source.\n\nIn early Mesopotamia, farmers dug canals to carry river water to their fields. This way of watering crops is called irrigation. With water reaching more land, farmers could grow more food than their own families needed. This extra food is called a surplus. Because not everyone had to farm to eat, some people could work as craftworkers, traders, priests or scribes. Over time, some farming villages grew into cities.\n\nIn this account, the food surplus is both an effect of one change and a cause of another. Which choice names what helped cause the surplus and what the surplus led to?\n\nA. Cause: villages grew into cities. Effect: farmers dug irrigation canals.\nB. Cause: farmers dug irrigation canals. Effect: some people could do work other than farming.\nC. Cause: some people worked as traders and scribes. Effect: farmers grew more food than they needed.\nD. Cause: farmers dug irrigation canals. Effect: everyone had to spend all of their time farming.\n\nType the letter or the full text of your choice.",
+  "solutionRepresentation": "B is correct. In the account, digging canals brought water to more land, so farmers grew extra food: the canals helped cause the surplus. The surplus meant not everyone had to farm, so some people could become craftworkers, traders, priests or scribes: that is an effect of the surplus. A reverses the order: in the account, cities grew later, after the surplus, so they could not have caused the canals. C also reverses cause and effect: people could become traders and scribes because of the surplus, so that change came after it, not before. D has the right cause but the wrong effect: a surplus freed some people from farming, so not everyone had to farm all the time.",
+  "solutionMethod": "Find the surplus in the account. Look at the sentence just before it for what made the extra food possible (the cause), and the sentence just after it for what the extra food made possible (the effect). Check that each choice keeps that order.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "Cause: farmers dug irrigation canals. Effect: some people could do work other than farming.",
+    "acceptedAnswers": [
+      "B",
+      "Cause: farmers dug irrigation canals. Effect: some people could do work other than farming."
+    ],
+    "equivalenceNotes": "Single select. Canonical answer is the full text of option B; the option label B is also accepted; trailing end punctuation is ignored by normalization. No other phrasing, partial text such as only the cause or only the effect, or list of several options is accepted."
+  },
+  "misconceptionCodes": [
+    "cause-effect-reversed",
+    "later-effect-seen-as-cause",
+    "surplus-seen-as-more-farm-work"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A cause comes before its effect. Put the events in the account in the order they happened, then find where the surplus sits in that order.",
+      "question": "Which events in the account happened before the surplus, and which happened after it?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Draw a chain of boxes with arrows: one box for each change in the account, in order, with the surplus box in the middle. An arrow points from a cause to its effect.",
+      "question": "Which box points into the surplus box, and which box does the surplus box point to? Does any choice reverse an arrow or name a result the account does not give?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: a family plants a large vegetable garden, so they grow more vegetables than they can eat, so they start selling the extras at a market. The garden is the cause of the extra vegetables, and selling at the market is an effect of the extra vegetables. Saying the market caused the garden would reverse the chain.",
+      "question": "In the Mesopotamia account, what plays the part of the garden, and what plays the part of selling at the market?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Cause: farmers dug irrigation canals. Effect: some people could do work other than farming",
+    "Effect: some people could do work other than farming",
+    "some people could do work other than farming"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record for SS-CONTENT-2. The account, options, hints and solution were written for this repository from the CA-HSS.6.2.2 and CA-HSS-AS.6-8.HI.2 codes; it cites codes only and copies no textbook, framework example, standards text or other outside lesson or item."
+  },
+  "accessibilityNotes": "All information is plain text; there is no figure, map, date, quotation or excerpt. The account is an original summary and is labelled as one, and the domain words irrigation and surplus are defined in it. The four options are labelled A to D in the prompt, and nothing depends on color or position. The learner types the letter or the full option text into a labelled text box.",
+  "accessibleAlternative": "Original summary: In early Mesopotamia, farmers dug canals to carry river water to their fields. This way of watering crops is called irrigation. With water reaching more land, farmers could grow more food than their own families needed. This extra food is called a surplus. Because not everyone had to farm to eat, some people could work as craftworkers, traders, priests or scribes. Over time, some farming villages grew into cities. Question: which choice names a cause of the surplus and an effect of it? Option A: Cause: villages grew into cities. Effect: farmers dug irrigation canals. Option B: Cause: farmers dug irrigation canals. Effect: some people could do work other than farming. Option C: Cause: some people worked as traders and scribes. Effect: farmers grew more food than they needed. Option D: Cause: farmers dug irrigation canals. Effect: everyone had to spend all of their time farming. Answer with a letter or the full option text.",
+  "itemReadinessRefs": []
+}
