@@ -5,6 +5,11 @@
  *   npx tsx scripts/private-bank-merge.ts --package <path> --drafts <dir> \
  *     --manifest <sha256 file> --out <new path> [--practice-check] [--dry-run]
  *
+ * Other units: add `--bank-metadata <public json>` (and `--drafts`, which is
+ * then required) to take the approved bank identities, digests and
+ * required-bank rules from a committed metadata file (names, digests, counts
+ * and skill refs only; no item content). Without it the Ratios defaults apply.
+ *
  * This file contains no item text. Nothing read from the drafts, the package
  * or any exception reaches stdout, stderr or the output file except the merged
  * package itself. Reports contain fixed check names and failure codes, counts,
@@ -51,6 +56,8 @@ export const D266_BANK_DIGESTS: Readonly<Record<string, string>> = {
     'sha256:ea15c2d57e42d62bd82b2190d4a8814c2fb722e87d473e9346dcb84eca8058f0',
 };
 
+const HASH_PATTERN = /^sha256:[0-9a-f]{64}$/;
+
 export const DEFAULT_DRAFTS_DIR = join(
   homedir(),
   'learning-forge-private-drafts',
@@ -70,8 +77,96 @@ export type MergeOptions = {
   dryRun?: boolean;
 };
 
+const BankMetadataRefSchema = z
+  .object({
+    code: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/),
+    version: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/),
+  })
+  .strict();
+
+const BankMetadataSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    /** Also require the banks the current catalog already registers (an existing package keeps them). */
+    includeBaselineRequired: z.boolean().optional(),
+    unit: BankMetadataRefSchema,
+    banks: z
+      .array(
+        z
+          .object({
+            code: BankMetadataRefSchema.shape.code,
+            version: BankMetadataRefSchema.shape.version,
+            digest: z.string().regex(HASH_PATTERN),
+            minimumItems: z.number().int().positive(),
+            requiredSkillRefs: z.array(BankMetadataRefSchema).min(1).optional(),
+            optional: z.boolean().optional(),
+            itemRole: z.enum(['assessment', 'review']).optional(),
+            exclusiveSkills: z.boolean().optional(),
+          })
+          .strict(),
+      )
+      .min(1),
+  })
+  .strict();
+
+/**
+ * Reads a public bank metadata file and returns the injected expectations.
+ * Fails closed (throws) on unreadable or malformed JSON, unknown fields,
+ * a bad digest, or duplicate bank identities. The thrown error carries no
+ * file content.
+ */
+export function loadBankMetadata(
+  path: string,
+  baseline: {
+    digests: Readonly<Record<string, string>>;
+    required: readonly RequiredBank[];
+  } = { digests: D266_BANK_DIGESTS, required: GRADE_6_MATH_PACKAGE_BANKS },
+): Required<Pick<MergeDeps, 'expectedDigests' | 'requiredBanks'>> &
+  Pick<MergeDeps, 'baselineDigests'> {
+  let parsed: z.infer<typeof BankMetadataSchema>;
+  try {
+    parsed = BankMetadataSchema.parse(JSON.parse(readFileSync(path, 'utf8')));
+  } catch {
+    throw new Error('BANK_METADATA_INVALID');
+  }
+  const expectedDigests: Record<string, string> = {};
+  for (const bank of parsed.banks) {
+    const key = `${bank.code}@${bank.version}`;
+    if (key in expectedDigests) throw new Error('BANK_METADATA_INVALID');
+    expectedDigests[key] = bank.digest;
+  }
+  const unitRules = parsed.banks.map((bank): RequiredBank => ({
+    code: bank.code,
+    version: bank.version,
+    minimumItems: bank.minimumItems,
+    ...(bank.requiredSkillRefs && { requiredSkillRefs: bank.requiredSkillRefs }),
+    ...(bank.optional !== undefined && { optional: bank.optional }),
+    ...(bank.itemRole && { itemRole: bank.itemRole }),
+    ...(bank.exclusiveSkills !== undefined && { exclusiveSkills: bank.exclusiveSkills }),
+  }));
+  const baselineRules = parsed.includeBaselineRequired ? baseline.required : [];
+  const baselineDigests = parsed.includeBaselineRequired ? baseline.digests : undefined;
+  // Metadata may never restate or override an approved baseline identity.
+  if (baselineDigests && Object.keys(expectedDigests).some((key) => key in baselineDigests)) {
+    throw new Error('BANK_METADATA_INVALID');
+  }
+  const requiredBanks = [...baselineRules, ...unitRules];
+  // A bank may not be required twice (baseline overlap would hide a rule change).
+  if (new Set(requiredBanks.map((b) => `${b.code}@${b.version}`)).size !== requiredBanks.length) {
+    throw new Error('BANK_METADATA_INVALID');
+  }
+  return { expectedDigests, requiredBanks, baselineDigests };
+}
+
 export type MergeDeps = {
   expectedDigests?: Readonly<Record<string, string>>;
+  /**
+   * Approved digests of banks that must already be in the existing package
+   * (retained baseline). Every one must be present and match; each also gets
+   * the D-216 non-reuse checks. Banks of the baseline required set that have
+   * no approved digest here are only structurally validated.
+   */
+  baselineDigests?: Readonly<Record<string, string>>;
   requiredBanks?: readonly RequiredBank[];
   publicItems?: readonly PublicItem[];
 };
@@ -81,7 +176,7 @@ export type MergeReport = { ok: boolean; checks: number; lines: string[] };
 type AnyBank = ReturnType<typeof PackageSchema.parse>['banks'][number];
 
 const SAFE_ID = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
-const HASH = /^sha256:[0-9a-f]{64}$/;
+const HASH = HASH_PATTERN;
 const safeId = (value: string): string => (SAFE_ID.test(value) ? value : '<unprintable-id>');
 const safeHash = (value: string): string => (HASH.test(value) ? value : '<invalid-hash>');
 const safeRef = (bank: { code: string; version: string }): string =>
@@ -373,6 +468,30 @@ export function mergePrivateBanks(options: MergeOptions, deps: MergeDeps = {}): 
   }
   record('existing package parses', true, `banks ${existing.length}`);
 
+  // Retained baseline: every approved baseline bank present and authenticated.
+  const baselineKeys = Object.keys(deps.baselineDigests ?? {});
+  if (deps.baselineDigests && baselineKeys.length > 0) {
+    const have = new Map(existing.map((bank) => [`${bank.code}@${bank.version}`, bank]));
+    const missing = baselineKeys.filter((key) => !have.has(key));
+    record(
+      'every approved baseline bank is present in the existing package',
+      missing.length === 0,
+      missing.length === 0
+        ? `count=${baselineKeys.length}`
+        : `code=BASELINE_MISSING ${missing.map(safeId).join(', ')}`,
+    );
+    const bad = baselineKeys.filter((key) => {
+      const bank = have.get(key);
+      return bank !== undefined && bank.contentHash !== deps.baselineDigests?.[key];
+    });
+    record(
+      'every baseline bank matches its approved digest',
+      bad.length === 0,
+      bad.length === 0 ? undefined : `code=BASELINE_DIGEST_MISMATCH ${bad.map(safeId).join(', ')}`,
+    );
+    if (failed) return finish();
+  }
+
   // Dedup: identical counterpart (deep equal) is skipped; differing content fails.
   const existingByKey = new Map(existing.map((bank) => [`${bank.code}@${bank.version}`, bank]));
   const toAdd: AnyBank[] = [];
@@ -409,7 +528,12 @@ export function mergePrivateBanks(options: MergeOptions, deps: MergeDeps = {}): 
   };
   const publicIds = new Set(publicItems.map((item) => item.id));
   const publicPrompts = new Set(publicItems.map((item) => normalizePrompt(item.prompt)));
-  for (const bank of incoming) {
+  const incomingKeys = new Set(incoming.map((bank) => `${bank.code}@${bank.version}`));
+  const retainedBaseline = existing.filter((bank) => {
+    const key = `${bank.code}@${bank.version}`;
+    return baselineKeys.includes(key) && !incomingKeys.has(key);
+  });
+  for (const bank of [...incoming, ...retainedBaseline]) {
     const key = `${bank.code}@${bank.version}`;
     // Other banks: existing (minus a verified identical counterpart) and other incoming banks.
     const others = [
@@ -487,7 +611,9 @@ export function mergePrivateBanks(options: MergeOptions, deps: MergeDeps = {}): 
   return finish();
 }
 
-export function parseArgs(argv: string[]): MergeOptions & { practiceCheck: boolean } {
+export function parseArgs(
+  argv: string[],
+): MergeOptions & { practiceCheck: boolean; bankMetadataPath?: string } {
   const value = (name: string): string | undefined => {
     const index = argv.indexOf(`--${name}`);
     return index >= 0 ? argv[index + 1] : undefined;
@@ -497,9 +623,13 @@ export function parseArgs(argv: string[]): MergeOptions & { practiceCheck: boole
     if (!found) throw new Error('usage');
     return found;
   };
+  const bankMetadataPath = argv.includes('--bank-metadata') ? required('bank-metadata') : undefined;
+  // The default drafts directory is Ratios-specific: another unit must name its own.
+  const draftsDir = bankMetadataPath ? required('drafts') : (value('drafts') ?? DEFAULT_DRAFTS_DIR);
   return {
+    bankMetadataPath,
     packagePath: required('package'),
-    draftsDir: value('drafts') ?? DEFAULT_DRAFTS_DIR,
+    draftsDir,
     manifestPath: required('manifest'),
     outPath: required('out'),
     dryRun: argv.includes('--dry-run'),
@@ -518,11 +648,17 @@ if (process.argv[1] && /private-bank-merge\.ts$/.test(process.argv[1])) {
   }
   if (options) {
     try {
-      const report = mergePrivateBanks(options);
+      let deps: MergeDeps = {};
+      if (options.bankMetadataPath) deps = loadBankMetadata(options.bankMetadataPath);
+      const report = mergePrivateBanks(options, deps);
       console.log(report.lines.join('\n'));
       process.exitCode = report.ok ? 0 : 1;
-    } catch {
-      console.error('ERROR code=UNEXPECTED');
+    } catch (error) {
+      console.error(
+        error instanceof Error && error.message === 'BANK_METADATA_INVALID'
+          ? 'ERROR code=BANK_METADATA_INVALID'
+          : 'ERROR code=UNEXPECTED',
+      );
       process.exitCode = 1;
     }
   }

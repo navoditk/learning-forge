@@ -46,24 +46,43 @@ export function validateProgressionCatalog(
   lessons: readonly Lesson[],
   banks: readonly AssessmentBank[],
 ): void {
-  indexRefs(programs, 'program');
+  const programsByRef = indexRefs(programs, 'program');
   const unitsByRef = indexRefs(units, 'unit');
   const lessonsByRef = indexRefs(lessons, 'lesson');
   const banksByRef = indexRefs(banks, 'assessment bank');
-  const claimedUnits = new Set<string>();
+  // Unit key -> program code of its listers (U-3); lessons validated once (U-5).
+  const unitListerCode = new Map<string, string>();
+  const validatedUnits = new Set<string>();
   const claimedLessons = new Set<string>();
 
   for (const program of programs) {
     assertUniqueList(program.unitRefs, `Program ${program.code}@${program.version} units`);
     const programUnits = program.unitRefs.map((ref) => requireRef(unitsByRef, ref, 'Program unit'));
+    // U-2: at most one version of a unit code per program record.
+    const unitCodes = programUnits.map((unit) => unit.code);
+    if (new Set(unitCodes).size !== unitCodes.length)
+      throw new Error(
+        `Program ${program.code}@${program.version} lists a unit code more than once`,
+      );
     for (const unit of programUnits) {
       const unitKey = refKey(unit);
-      if (claimedUnits.has(unitKey))
+      // U-3: re-listing is allowed only within one program code.
+      const listerCode = unitListerCode.get(unitKey);
+      if (listerCode !== undefined && listerCode !== program.code)
         throw new Error(`Unit ${unitKey} is listed by multiple programs`);
-      claimedUnits.add(unitKey);
-      if (refKey(unit.programRef) !== refKey(program)) {
+      unitListerCode.set(unitKey, program.code);
+      // U-4: programRef names a same-code program record that itself lists the unit.
+      const introducer = programsByRef.get(refKey(unit.programRef));
+      if (
+        unit.programRef.code !== program.code ||
+        !introducer ||
+        !introducer.unitRefs.some((ref) => refKey(ref) === unitKey)
+      ) {
         throw new Error(`Unit ${unit.code}@${unit.version} points to a different program`);
       }
+      // U-5: a unit's lessons and banks are validated once, on its first listing.
+      if (validatedUnits.has(unitKey)) continue;
+      validatedUnits.add(unitKey);
       const unitLessons = unit.lessonRefs.map((ref) =>
         requireRef(lessonsByRef, ref, 'Unit lesson'),
       );
@@ -116,7 +135,7 @@ export function validateProgressionCatalog(
     );
   }
   for (const unit of units) {
-    if (!claimedUnits.has(refKey(unit)))
+    if (!unitListerCode.has(refKey(unit)))
       throw new Error(`Unit ${refKey(unit)} is not listed by a program`);
   }
   for (const lesson of lessons) {

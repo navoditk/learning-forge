@@ -17,10 +17,12 @@ import { afterEach, describe, expect, it } from 'vitest';
 import {
   D266_BANK_DIGESTS,
   DEFAULT_CONTENT_DIR,
+  loadBankMetadata,
   loadHistoricalCorpus,
   loadPublicCorpus,
   mergePrivateBanks,
   normalizePrompt,
+  parseArgs,
 } from '../../scripts/private-bank-merge';
 import type { MergeDeps, MergeReport, PublicItem } from '../../scripts/private-bank-merge';
 
@@ -673,4 +675,297 @@ describe('private bank merge: historical public corpus', () => {
     },
     60_000,
   );
+});
+
+describe('private bank merge: bank metadata (other units)', () => {
+  const SKILL = { code: 'ratio-language', version: '1.0.0' };
+  const meta = (s: Fixture, overrides: Record<string, unknown> = {}, bank: object = {}) => ({
+    schemaVersion: 1,
+    unit: { code: 'synthetic-unit', version: '2.0.0' },
+    banks: [
+      {
+        code: 'new-bank',
+        version: '2.0.0',
+        digest: s.newBank.contentHash,
+        minimumItems: 1,
+        requiredSkillRefs: [SKILL],
+        ...bank,
+      },
+    ],
+    ...overrides,
+  });
+  const writeMeta = (s: Fixture, value: unknown) => {
+    const path = join(s.root, 'bank-metadata.json');
+    writeFileSync(path, typeof value === 'string' ? value : JSON.stringify(value));
+    return path;
+  };
+  const runMeta = (s: Fixture, value: unknown) => {
+    const deps = loadBankMetadata(writeMeta(s, value));
+    return mergePrivateBanks(
+      {
+        packagePath: s.pkg,
+        draftsDir: s.drafts,
+        manifestPath: s.manifest,
+        outPath: s.out,
+        dryRun: true,
+      },
+      { ...deps, publicItems: [] },
+    );
+  };
+
+  it('accepts a valid metadata file and merges synthetic banks (positive control)', () => {
+    const s = setup();
+    // The package holds only the (identical) bank the metadata requires.
+    writeFileSync(s.pkg, JSON.stringify({ banks: [s.newBank] }));
+    const report = runMeta(s, meta(s));
+    expect(report.ok).toBe(true);
+    expect(text(report)).toContain('RESULT: PASS');
+    noLeaks(report);
+  });
+
+  it('maps metadata to expected digests and required banks', () => {
+    const s = setup();
+    const deps = loadBankMetadata(
+      writeMeta(s, meta(s, {}, { itemRole: 'review', optional: true })),
+    );
+    expect(deps.expectedDigests).toEqual({ [KEY]: s.newBank.contentHash });
+    expect(deps.requiredBanks).toEqual([
+      {
+        code: 'new-bank',
+        version: '2.0.0',
+        minimumItems: 1,
+        requiredSkillRefs: [SKILL],
+        itemRole: 'review',
+        optional: true,
+      },
+    ]);
+  });
+
+  it('fails closed on a wrong recorded digest', () => {
+    const s = setup();
+    const report = runMeta(s, meta(s, {}, { digest: `sha256:${'0'.repeat(64)}` }));
+    expect(report.ok).toBe(false);
+    expect(text(report)).toContain('code=DIGEST_MISMATCH');
+  });
+
+  it('fails closed on an extra draft file not named by the metadata', () => {
+    const s = setup();
+    writeFileSync(join(s.drafts, 'unknown-bank@1.0.0.json'), '{}');
+    const report = runMeta(s, meta(s));
+    expect(report.ok).toBe(false);
+    expect(text(report)).toContain('code=DRAFT_FILE_SET');
+  });
+
+  it('fails closed when a bank named by the metadata is missing from the drafts', () => {
+    const s = setup();
+    const value = meta(s);
+    value.banks.push({ ...value.banks[0], code: 'absent-bank' });
+    const report = runMeta(s, value);
+    expect(report.ok).toBe(false);
+    expect(text(report)).toContain('code=DRAFT_FILE_SET');
+  });
+
+  it('fails closed on a package bank the metadata does not require (unknown bank)', () => {
+    const s = setup();
+    const report = runMeta(s, meta(s));
+    expect(report.ok).toBe(false);
+    expect(text(report)).toContain('code=MERGED_INTEGRITY');
+  });
+
+  describe('includeBaselineRequired (retained baseline)', () => {
+    const PILOT_KEY = 'pilot-bank@1.0.0';
+    const baselineFor = (s: Fixture) => ({
+      digests: { [PILOT_KEY]: s.pilot.contentHash } as Record<string, string>,
+      required: [{ code: 'pilot-bank', version: '1.0.0', minimumItems: 1 }],
+    });
+    const runBase = (
+      s: Fixture,
+      options: { baseline?: ReturnType<typeof baselineFor>; publicItems?: PublicItem[] } = {},
+    ) => {
+      const deps = loadBankMetadata(
+        writeMeta(s, meta(s, { includeBaselineRequired: true })),
+        options.baseline ?? baselineFor(s),
+      );
+      return mergePrivateBanks(
+        {
+          packagePath: s.pkg,
+          draftsDir: s.drafts,
+          manifestPath: s.manifest,
+          outPath: s.out,
+          dryRun: true,
+        },
+        { ...deps, publicItems: options.publicItems ?? [] },
+      );
+    };
+
+    it('mixed unit: succeeds with an authenticated baseline plus the new bank', () => {
+      const s = setup();
+      const report = runBase(s);
+      expect(text(report)).toContain('RESULT: PASS');
+      expect(text(report)).toContain('every baseline bank matches its approved digest');
+      expect(report.ok).toBe(true);
+    });
+
+    it('rejects a baseline bank whose digest differs from the approved one', () => {
+      const s = setup();
+      const base = baselineFor(s);
+      base.digests[PILOT_KEY] = `sha256:${'1'.repeat(64)}`;
+      const report = runBase(s, { baseline: base });
+      expect(report.ok).toBe(false);
+      expect(text(report)).toContain('code=BASELINE_DIGEST_MISMATCH');
+    });
+
+    it('rejects a tampered baseline bank with self-consistent recomputed hashes', () => {
+      const s = setup();
+      const tampered = makeBank('pilot-bank', '1.0.0', [['pilot-1', 'Another wholly new prompt.']]);
+      writeFileSync(s.pkg, JSON.stringify({ banks: [tampered] }));
+      const report = runBase(s);
+      expect(report.ok).toBe(false);
+      expect(text(report)).toContain('code=BASELINE_DIGEST_MISMATCH');
+    });
+
+    it('rejects a missing baseline bank (all approved baseline banks are required)', () => {
+      const s = setup();
+      const base = baselineFor(s);
+      base.digests['absent-bank@1.0.0'] = `sha256:${'2'.repeat(64)}`;
+      const report = runBase(s, { baseline: base });
+      expect(report.ok).toBe(false);
+      expect(text(report)).toContain('code=BASELINE_MISSING');
+    });
+
+    it('applies D-216 non-reuse to a retained baseline bank (public id and prompt)', () => {
+      const s = setup();
+      const report = runBase(s, {
+        publicItems: [{ id: 'pilot-1', version: '1.0.0', prompt: PILOT_PROMPT }],
+      });
+      expect(report.ok).toBe(false);
+      expect(text(report)).toContain('D-216a no incoming item id collides with public practice');
+      expect(text(report)).toContain('FAIL D-216b no incoming normalized prompt matches public');
+    });
+
+    it('rejects a baseline bank absent from the package even if the catalog marks it optional', () => {
+      const s = setup();
+      writeFileSync(s.pkg, JSON.stringify({ banks: [s.newBank] }));
+      const report = runBase(s);
+      expect(report.ok).toBe(false);
+      expect(text(report)).toContain('code=BASELINE_MISSING');
+    });
+
+    it('rejects metadata that restates a baseline identity, and the real catalog baseline', () => {
+      const s = setup();
+      const restated = meta(
+        s,
+        { includeBaselineRequired: true },
+        {
+          code: 'ratio-language-lesson-bank',
+          version: '2.0.0',
+        },
+      );
+      expect(() => loadBankMetadata(writeMeta(s, restated))).toThrow('BANK_METADATA_INVALID');
+      // Default baseline is the real D-266/catalog set: the synthetic package fails closed.
+      const deps = loadBankMetadata(writeMeta(s, meta(s, { includeBaselineRequired: true })));
+      expect(Object.keys(deps.baselineDigests ?? {})).toEqual(Object.keys(D266_BANK_DIGESTS));
+      const report = mergePrivateBanks(
+        {
+          packagePath: s.pkg,
+          draftsDir: s.drafts,
+          manifestPath: s.manifest,
+          outPath: s.out,
+          dryRun: true,
+        },
+        { ...deps, publicItems: [] },
+      );
+      expect(report.ok).toBe(false);
+      expect(text(report)).toContain('code=BASELINE_MISSING');
+    });
+  });
+
+  it('fails closed on a required-bank rule the merged package does not meet', () => {
+    const s = setup();
+    const report = runMeta(s, meta(s, {}, { minimumItems: 2 }));
+    expect(report.ok).toBe(false);
+    expect(text(report)).toContain('code=MERGED_INTEGRITY');
+  });
+
+  it.each([
+    ['malformed JSON', () => '{ "schemaVersion": 1,'],
+    ['wrong schema version', (s: Fixture) => meta(s, { schemaVersion: 2 })],
+    ['unknown top-level field', (s: Fixture) => meta(s, { extra: true })],
+    ['unknown bank field', (s: Fixture) => meta(s, {}, { items: [] })],
+    ['malformed digest', (s: Fixture) => meta(s, {}, { digest: 'sha256:abc' })],
+    ['non-positive minimumItems', (s: Fixture) => meta(s, {}, { minimumItems: 0 })],
+    ['empty banks', (s: Fixture) => meta(s, { banks: [] })],
+    [
+      'duplicate bank identity',
+      (s: Fixture) => {
+        const value = meta(s);
+        value.banks.push({ ...value.banks[0] });
+        return value;
+      },
+    ],
+  ])('rejects metadata: %s', (_name, build) => {
+    const s = setup();
+    expect(() => loadBankMetadata(writeMeta(s, build(s)))).toThrow('BANK_METADATA_INVALID');
+  });
+
+  it('rejects an unreadable metadata path without echoing it', () => {
+    expect(() => loadBankMetadata(join(tmpdir(), SENTINEL))).toThrow('BANK_METADATA_INVALID');
+  });
+
+  it('requires --drafts with --bank-metadata and keeps Ratios defaults otherwise', () => {
+    const base = ['--package', 'p', '--manifest', 'm', '--out', 'o'];
+    expect(() => parseArgs([...base, '--bank-metadata', 'x'])).toThrow('usage');
+    expect(parseArgs([...base, '--bank-metadata', 'x', '--drafts', 'd'])).toMatchObject({
+      bankMetadataPath: 'x',
+      draftsDir: 'd',
+    });
+    const defaults = parseArgs(base);
+    expect(defaults.bankMetadataPath).toBeUndefined();
+    expect(defaults.draftsDir).toContain('rat-package-rev2-reviewed');
+  });
+
+  it('regression: without metadata the defaults stay the ten D-266 Ratios banks', () => {
+    expect(Object.keys(D266_BANK_DIGESTS)).toHaveLength(10);
+    const s = setup();
+    // No injected deps: the synthetic bank is not one of the ten expected files.
+    const report = mergePrivateBanks(
+      {
+        packagePath: s.pkg,
+        draftsDir: s.drafts,
+        manifestPath: s.manifest,
+        outPath: s.out,
+        dryRun: true,
+      },
+      { publicItems: [] },
+    );
+    expect(report.ok).toBe(false);
+    expect(text(report)).toContain('draft file set is exactly the 10 expected banks');
+    expect(text(report)).toContain('code=DRAFT_FILE_SET');
+  });
+
+  it('CLI: a bad metadata file prints only a code and exits nonzero', () => {
+    const s = setup();
+    const result = spawnSync(
+      'npx',
+      [
+        'tsx',
+        'scripts/private-bank-merge.ts',
+        '--package',
+        s.pkg,
+        '--drafts',
+        s.drafts,
+        '--manifest',
+        s.manifest,
+        '--out',
+        s.out,
+        '--bank-metadata',
+        writeMeta(s, `{ "${SENTINEL}": `),
+      ],
+      { cwd: join(__dirname, '..', '..'), encoding: 'utf8' },
+    );
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('code=BANK_METADATA_INVALID');
+    expect(result.stdout + result.stderr).not.toContain('SENTINEL');
+    expect(existsSync(s.out)).toBe(false);
+  }, 60_000);
 });

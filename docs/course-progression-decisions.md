@@ -3781,7 +3781,158 @@ combined bank set. **Not authorized:** any drafting, private-bank access or draf
 (owner-only, D-262 covered only the ten Ratios banks), code, activation. Open owner
 question: whether D-212 delegation extends beyond the D-183 milestones.
 
-There are 333 decisions: D-01 through D-75, D-139, D-142, D-145–D-333 approved;
+### D-334 — Owner authorization: Statistics unit (STAT6) to completion, new window, delegation extension; Spelling Bee scoping
+
+Approver: product/content owner, by direct instruction on 2026-11-15 after the integrator's
+request listing the open owner questions of D-333: "math - yes go ahead on all items ... we
+want a fully working math and spelling bee curriculum at the earliest." Recorded by the
+integrator (Claude Code Sonnet 5.5); the owner may narrow or revoke it.
+
+- **Authorized for Grade 6 Math Statistics (STAT6, `docs/grade-6-math-next-unit-scope.md`
+  revision 2):** a new bounded window of 40 native invocations through 2026-11-22
+  (`claude-window-20261115b`); extension of D-212 delegation to opening this unit
+  (ST-0 scope, ST-D design decision, D-61 exceptions, ST-1 dispositions, content and
+  held-out-item acceptance, local patch application), each recorded as its own decision;
+  ST-D, ST-5a merge tooling, ST-2 public practice, ST-6 integration engineering; and
+  drafting of the 72 private assessment items **outside the repository, never committed,
+  never in public Git, never in prompts to anything except the author and the cross-family
+  reviewer**, extending D-262 to Statistics only.
+- **Authorized for Spelling Bee:** a document-only scoping of what a "fully working"
+  Scripps Spelling Bee Grade 6 curriculum needs (it is registered, available and
+  skill-graph-only with 16 reviewed records and no units).
+- **Still owner-only:** running the private-bank merge on real inputs, the D-216 non-reuse
+  check against public history, the mounted e2e, manual assistive-technology passes, any
+  production data or migration, commit, push, deployment, the release record, and any
+  paid provider call. The integrator does not push the successor program before the banks
+  are merged unless the owner explicitly accepts that (D-333).
+
+### D-335 — ST-0/ST-1 dispositions and two D-61 exceptions for the Statistics unit (D-212, D-334)
+
+Delegate review: Codex `gpt-6.1-sol` ST-1 subject review of 2026-11-15 (configured and
+requested model; its report says client metadata must be retained before counting it as
+verified, so this review is recorded as advisory input and the integrator applies the
+dispositions). Integrator: Claude Code Sonnet 5.5, under D-334.
+
+Dispositions:
+
+1. The six existing Statistics items are mathematically correct and Grade 6 scoped.
+2. **Display construction (CCSS 6.SP.B.4) is not covered** by the current skill evidence,
+   which describes reading displays. Integrator choice (reversible, owner may override;
+   the scope document's stop condition routes this to the owner): **defer construction
+   explicitly**, claim only partial B.4 coverage via reading accessible static figures,
+   and do not silently broaden `distributions@1.0.0`. Construction later needs an approved
+   successor skill version (D-149/D-57) and a reviewed response contract.
+3. MAD is deferred; IQR calculation and interpretation are required; use datasets whose
+   quartiles avoid convention ambiguity; `center-and-variability@1.0.0` is retained.
+4. `distributions-2` defect: the correct answer `skewed` is rejected. Correct by new
+   `distributions-2@content-2` accepting `skewed`, `skewed left`, `left-skewed` and
+   rejecting `symmetric` and `skewed right`; `content-1` is preserved.
+5. Existing items count only for what they elicit (center-and-variability-2 does not show
+   an outlier comparison; distributions-1 does not show display reading; mean equals median
+   in center-and-variability-1). New items must supply the missing comparisons.
+6. New classification items must separate variability in the data from the answer format,
+   vary the correct option, and not repeat the A/B template.
+7. Mean items use whole-number or simple terminating-decimal results throughout.
+8. Volumes: 12 new public practice (4 per skill) plus the `distributions-2@content-2`
+   correction (13 public drafts); 72 private items (27 lesson, 18 unit, 9 review, 18
+   delayed); teaching records deferred (zero).
+9. **Mandatory coverage map** before ST-2 is frozen: every SP.A.1-B.5 subcompetency row
+   gets covering item ids or an explicit deferral (display construction, MAD).
+
+D-61 exceptions (dated 2026-11-15, each independent):
+
+- **Public:** the wording proposed in the Codex ST-1 report for exactly 13 public `practice`
+  drafts at `content/statistics/` (12 new `<skill>-3..-6@content-1` plus
+  `distributions-2@content-2`), existing misconception codes only, static figures with
+  complete text alternatives (D-152), `llm_drafted`, `owned`, `pending_review`, not
+  imported; excludes teaching, held-out items, registration, serving, deployment, commit,
+  push and any other program or skill.
+- **Private:** exactly 72 held-out items (3 lesson banks of 9, 1 unit bank of 18 with 6 per
+  skill, 3 review banks of 3, 3 delayed-check banks of 6), drafted outside the repository,
+  never committed, content disclosed only to the author and the cross-family reviewer, all
+  pending review; no merge, registration, serving, production, commit, push, deployment,
+  release or paid provider call. Item bands match the skill bands.
+
+### D-336 — ST-D ruling: SD-B and PV-1 accepted for the Statistics successor program (D-212, D-334)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-15 (configured and requested model; author model of
+the design note configured as Opus, neither verified from client metadata). Integrator:
+Claude Code Sonnet 5.5. Verdict READY_WITH_RISKS, ACCEPT_DESIGN for
+`docs/grade-6-math-std-design.md` SHA-256
+`a2acb84553e66897e05948f5200527d91ab86209fae7baf54caaae9a8b18e5fc`.
+
+- **Ruling:** SD-B. Successive versions of the same program code may list one unit version.
+  Validator rules U-2 (a program lists at most one version of a unit code), U-3 (same-code
+  re-listing allowed, cross-code listing still rejected), U-4 (introducer rule) and U-5
+  (lessons and banks checked once per unit; the duplicate-lesson rejection for different
+  units is unchanged). `catalog-versions.ts` needs no functional change; no schema change or
+  migration.
+- **PV-1:** `LearnerPlacement.programVersion` means the program version that introduced the
+  unit, nothing else. Extending it to teaching contexts is **not** approved (separate
+  contract review).
+- **Carried risks:** older-version activation remains possible (K-1), so ST-6 must pin the
+  exact ordered membership `[Ratios@2.0.0, Statistics@2.0.0]` in `grade-6-math@1.2.0`;
+  placement-time composition cannot be reconstructed from commits; two evidence pins were
+  stale or mis-cited in the note.
+- **Authorizes:** MATH-STD-IMPL (owned paths `src/curriculum/progression-catalog.ts` and the
+  new `tests/curriculum/progression-catalog-relisting.test.ts`), then independent review.
+  **Not authorized:** ST-6 integration, activation, commit, push.
+
+### D-337 — Delegated acceptance of ST-5a merge tooling revision 2 (D-212, D-334)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-15. Disposition ACCEPT_TOOLING for the `--bank-metadata`
+patch, diff SHA-256 `38ee0cb2be99fc7842b78e83d8323f281b3f47631c38b0250b83730d5b67ca08`
+(`scripts/private-bank-merge.ts`, `tests/progression/private-bank-merge.test.ts`; worktree
+branch `worktree-agent-aaa22dc0c8bdd8d39`, commit `144596a`). Revision 1 was NOT_READY (retained
+D-266 banks were not digest-authenticated); revision 2 closes it. Author provenance: client
+transcript metadata, 143 messages `claude-sonnet-5-5`, one `claude-opus-5-5`
+(`.git/agent-handoffs/MATH-ST5A/rev2/author-model-evidence.json`). Carried risks: ten 1.0.0
+pilot banks are structurally validated only; restating protection depends on
+`includeBaselineRequired`. **Not yet applied** to the main tree; release and the real merge
+stay owner-only.
+
+### D-338 — Delegated acceptance of the Spelling Bee scope document (D-212, D-334)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-15; first review NOT_READY (hint fallback did not exist,
+structured fields incompatible with contest mode), revision 2 READY_WITH_RISKS. Disposition
+ACCEPT_SCOPE_DOCUMENT for `docs/spelling-bee-next-unit-scope.md` SHA-256
+`4c4035277990b2aa688308a2d3088b7d85171319c860d197070aa63bfd4204db`. **Document only; it
+authorizes nothing.** Carried: author model configured and unverified for this document (client
+transcript shows `claude-opus-5-5`); SP-4 estimate is optimistic; SP-0 owner batch is still
+open (extend D-212 to Spelling, window, level target, audio choice, tutor-gate go-ahead).
+
+### D-339 — Owner authorization: D-212 delegation extended to Spelling Bee; tutor-gate fix (SP-2)
+
+Approver: product/content owner, by direct instruction on 2026-11-15: "yes extend delegation to
+Spelling Bee and fix the tutor gate. keep going". Recorded by the integrator (Claude Code Sonnet
+5.5); the owner may narrow or revoke it.
+
+- **Authorized:** extension of D-212 delegation (scope rulings, D-61 exceptions, content and
+  engineering acceptance, local patch application, each recorded as its own decision) to the
+  Scripps Spelling Bee Grade 6 program (`snsb6-`), within window `claude-window-20261115b`;
+  packet SP-2 of `docs/spelling-bee-next-unit-scope.md` (accepted as a document, D-338): add
+  `snsb6-` to `MODEL_TUTORING_DISABLED_SKILL_PREFIXES`, option H-2 (server-derived availability
+  flag, hide the hint control, honest "Hints are not available for this activity yet.", route 403
+  kept as backstop), spellcheck/autocorrect off on the answer box (D-134), Spelling note on the
+  parent page.
+- **Not authorized (still owner-only):** SP-0 owner choices not stated here (target level, audio
+  and any voice capture, word-list licensing and verification against official lists), private
+  item drafting for Spelling (needs its own owner authorization), the real merge, manual
+  accessibility passes, production actions, commit, push, deployment, release, paid provider
+  calls, and serving authored hints (H-1, packet SP-4) which changes mastery evidence.
+
+### D-340 — Delegated acceptance and local application of MATH-STD-IMPL (D-212, D-334, D-336)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-15. Verdict READY_WITH_RISKS, ACCEPT_ENGINEERING for patch
+SHA-256 `e2a08991afeb375f5aefc7cea52249c61fd50bedb55c444320e4d816657e05b0`
+(`src/curriculum/progression-catalog.ts`, new `tests/curriculum/progression-catalog-relisting.test.ts`;
+commit `329e5e9`): validator rules U-2..U-5 of D-336. Author provenance from client transcript:
+`claude-sonnet-5-5` (42 messages, one `claude-opus-5-5`). Reviewer replayed all 16 tests in memory and
+killed all 3 mutations. Carried: K-1 older-version re-listing stays valid (ST-6 must pin
+`[Ratios@2.0.0, Statistics@2.0.0]`), K-5 order-dependent message. Applied unstaged; see PROGRESS for
+the integrated test result. **Not authorized:** ST-6, activation, commit, push.
+
+There are 340 decisions: D-01 through D-75, D-139, D-142, D-145–D-340 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

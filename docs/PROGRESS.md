@@ -7789,6 +7789,29 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
 
 **CURRENT — 2026-11-15 (supersedes the older blocks below for routing):**
 
+- **2026-11-15 14:50 PT update:** ST-5a is applied and verified in the main tree (merge tests 61/61,
+  full `npm test` 144 files / 4,167 tests, typecheck clean). MATH-ST2 finished: 13 public
+  Statistics drafts plus `docs/statistics-st2-coverage-map.md` (patch
+  `.git/agent-handoffs/MATH-ST2/rev1/math-st2.diff`, SHA `4350a02b...4851`, commit `7957978` in
+  worktree `.claude/worktrees/agent-a93db9036fe42feff`; author reports 4,147 tests and 658
+  content tests passing). **Both MATH-STD-IMPL and MATH-ST2 await Codex review; Codex is out of
+  usage until about 4:08 PM PT.** Not applied. Window 16 of 40.
+- **2026-11-16 update:** ST-5a merge-tooling patch (D-337) is now APPLIED unstaged in the main
+  tree (not yet re-run through `npm test`). MATH-STD-IMPL finished (patch
+  `.git/agent-handoffs/MATH-STD-IMPL/rev1/math-std-impl.patch`, SHA `e2a08991...e05b0`, 16/16 new
+  tests) but its Codex review FAILED on Codex's own usage limit (resets about 4:08 PM PT);
+  re-run the review then apply. Spelling scope rev2 accepted as a document (D-338). ST-2 author
+  resumed after a Claude rate limit; its worktree is `.claude/worktrees/agent-a93db9036fe42feff`.
+  Window `claude-window-20261115b`: 16 of 40 invocations.
+- **2026-11-16 checkpoint (usage limit hit mid-run; window `claude-window-20261115b`, 14 of 40
+  used; D-334..D-337 recorded locally, uncommitted):** pushed `2087737`. Done: Statistics ST-1
+  review and ST-0 dispositions (D-335), ST-D accepted SD-B/PV-1 (D-336), ST-5a merge tooling
+  accepted (D-337) but NOT yet applied (patch `.git/agent-handoffs/MATH-ST5A/rev2/st5a-v2.diff`).
+  In flight when stopped (check worktrees under `.claude/worktrees/` and re-run
+  `scripts/orient.sh`): MATH-STD-IMPL (validator change) and MATH-ST2 (13 public Statistics
+  drafts and coverage map) authors; Codex review of Spelling scope rev2 (`4c403527...`) pending.
+  Next: review and apply STD-IMPL and ST-2, then ST-4 private items (outside repo), ST-6.
+  Open owner items: Spelling delegation extension and the `snsb6-` tutor-gate/hint fix go-ahead.
 - **2026-11-15 later, local and uncommitted on top of pushed `0f74f28`** (window
   `claude-window-20261115`, 11 of 14 invocations; owner instruction "start Python content
   authoring ... social studies in parallel ... other math"; scope D-330):
