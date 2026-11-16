@@ -1,0 +1,121 @@
+{
+  "id": "distributions-3",
+  "version": "content-1",
+  "title": "Library books dot plot",
+  "role": "practice",
+  "skillRef": {
+    "code": "distributions",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.SP.A.2", "6.SP.B.4"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Reads a dot plot to find the median and range and to describe the overall shape, including a value far from the rest."
+  ],
+  "prompt": "The dot plot shows how many library books each student in a reading club borrowed this month. Each dot is one student. Use the dot plot to find the median and the range, and choose the description of its overall shape.",
+  "solutionRepresentation": "Reading the dots from left to right gives 13 values: 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 11. The median is the 7th value, 5 books. The range is 11 - 2 = 9 books. Most values lie from 2 to 7, and one value, 11, is far above the rest.",
+  "solutionMethod": "List the values shown by the dots in order, take the middle value for the median, subtract least from greatest for the range, then look for clusters and values far from the rest.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Median number of books: 5; Range in books: 9; Overall shape: Most values from 2 to 7, with one value far above the rest at 11",
+    "acceptedAnswers": [
+      "Median number of books: 5; Range in books: 9; Overall shape: Most values from 2 to 7, with one value far above the rest at 11"
+    ],
+    "equivalenceNotes": "Structured fields. Each number field accepts any equal value written as an integer, decimal, fraction or mixed number; the choice field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "median",
+        "kind": "number",
+        "label": "Median number of books",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "5"
+      },
+      {
+        "key": "range",
+        "kind": "number",
+        "label": "Range in books",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "9"
+      },
+      {
+        "key": "shape",
+        "kind": "choice",
+        "label": "Overall shape",
+        "options": [
+          {
+            "id": "cluster-high-value",
+            "label": "Most values from 2 to 7, with one value far above the rest at 11"
+          },
+          {
+            "id": "symmetric-no-gap",
+            "label": "Roughly symmetric, with no value far from the rest"
+          },
+          {
+            "id": "even-spread",
+            "label": "About the same number of dots at every value"
+          },
+          {
+            "id": "cluster-low-value",
+            "label": "Most values from 4 to 11, with one value far below the rest at 2"
+          }
+        ],
+        "correctOptionId": "cluster-high-value"
+      }
+    ]
+  },
+  "misconceptionCodes": ["confuses-shape-with-center"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Each dot stands for one student. The number under a stack is the value; the height of the stack only tells how many students share it.",
+      "question": "How many dots are there in all, and which position is the middle one?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The range measures spread: greatest value minus least value. For shape, look at where the dots pile up and whether any dot sits far from the others.",
+      "question": "What are the least and greatest values shown on the dot plot?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different dot plot has dots at 0, 1, 1, 2, 2, 2, 3, 8. With 8 values the median is halfway between the 4th and 5th values (2 and 2), so it is 2; the range is 8 - 0 = 8; most dots sit from 0 to 3 with one far value at 8.",
+      "question": "Using the same steps, what are the median, the range and the shape of the library-book data?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Median number of books: 5",
+    "Range in books: 9",
+    "one value far above the rest at 11",
+    "median is 5",
+    "range is 9",
+    "11 - 2"
+  ],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 240\" role=\"img\"><rect width=\"560\" height=\"240\" fill=\"#ffffff\"/><line x1=\"40\" y1=\"190\" x2=\"520\" y2=\"190\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"60\" y1=\"184\" x2=\"60\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"60\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">1</text><line x1=\"100\" y1=\"184\" x2=\"100\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"100\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">2</text><circle cx=\"100\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><line x1=\"140\" y1=\"184\" x2=\"140\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"140\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">3</text><circle cx=\"140\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><circle cx=\"140\" cy=\"154\" r=\"8\" fill=\"#22221f\"/><line x1=\"180\" y1=\"184\" x2=\"180\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"180\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">4</text><circle cx=\"180\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><circle cx=\"180\" cy=\"154\" r=\"8\" fill=\"#22221f\"/><circle cx=\"180\" cy=\"134\" r=\"8\" fill=\"#22221f\"/><line x1=\"220\" y1=\"184\" x2=\"220\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"220\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">5</text><circle cx=\"220\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><circle cx=\"220\" cy=\"154\" r=\"8\" fill=\"#22221f\"/><circle cx=\"220\" cy=\"134\" r=\"8\" fill=\"#22221f\"/><line x1=\"260\" y1=\"184\" x2=\"260\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"260\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">6</text><circle cx=\"260\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><circle cx=\"260\" cy=\"154\" r=\"8\" fill=\"#22221f\"/><line x1=\"300\" y1=\"184\" x2=\"300\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"300\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">7</text><circle cx=\"300\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><line x1=\"340\" y1=\"184\" x2=\"340\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"340\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">8</text><line x1=\"380\" y1=\"184\" x2=\"380\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"380\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">9</text><line x1=\"420\" y1=\"184\" x2=\"420\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"420\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">10</text><line x1=\"460\" y1=\"184\" x2=\"460\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"460\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">11</text><circle cx=\"460\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><line x1=\"500\" y1=\"184\" x2=\"500\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"500\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">12</text><text x=\"280\" y=\"236\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">Number of library books borrowed</text></svg>",
+    "altText": "A dot plot on a number line from 1 to 12 labeled Number of library books borrowed. Each dot is one student. Dots by value: 1 has no dots, 2 has 1 dot, 3 has 2 dots, 4 has 3 dots, 5 has 3 dots, 6 has 2 dots, 7 has 1 dot, 8, 9 and 10 have no dots, 11 has 1 dot, and 12 has no dots.",
+    "caption": "Library books borrowed this month by each student in a reading club.",
+    "width": 560,
+    "height": 240
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record distributions-3 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The figure is a static dot plot; its text alternative lists the number of dots at every value from 1 to 12, so the item can be solved without seeing it. Dots are black on white; no color carries meaning. Numbers are typed into labelled boxes and the shape is a labelled radio group.",
+  "accessibleAlternative": "Read aloud or display: A dot plot shows how many library books each student in a reading club borrowed this month. Each dot is one student. Number of dots at each value: 2 books, 1 dot; 3 books, 2 dots; 4 books, 3 dots; 5 books, 3 dots; 6 books, 2 dots; 7 books, 1 dot; 11 books, 1 dot. No other values have dots. Find the median and the range, then choose the description of the overall shape."
+}

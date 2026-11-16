@@ -1,0 +1,140 @@
+{
+  "id": "distributions-4",
+  "version": "content-1",
+  "title": "Bike shop wait-time histogram",
+  "role": "practice",
+  "skillRef": {
+    "code": "distributions",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.SP.A.2", "6.SP.B.4"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Reads a histogram to locate the interval that contains the median, count observations above a value, and describe the shape as skewed with a named tail direction."
+  ],
+  "prompt": "The histogram shows the wait times, in whole minutes, of customers at a bike repair shop on one day. Each bar shows how many customers waited for a time in that interval. Use the histogram to answer.",
+  "solutionRepresentation": "The bar heights are 9, 6, 3, 1 and 1, so 20 customers are shown. The median is halfway between the 10th and 11th ordered wait times. The first bar holds positions 1 to 9 and the second bar holds positions 10 to 15, so the median is in the 10 to 19 minutes interval (not the tallest bar). Customers who waited 20 minutes or more: 3 + 1 + 1 = 5. Most waits are short and the bars trail off toward longer waits, so the distribution is skewed right.",
+  "solutionMethod": "Add bar heights to get the number of observations, count from the left to reach the middle positions, add the bars at or above 20 minutes, and name the side where the long tail is.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Interval that contains the median: 10 to 19 minutes; Customers who waited 20 minutes or more: 5; Shape of the distribution: Skewed right, with a tail toward longer waits",
+    "acceptedAnswers": [
+      "Interval that contains the median: 10 to 19 minutes; Customers who waited 20 minutes or more: 5; Shape of the distribution: Skewed right, with a tail toward longer waits"
+    ],
+    "equivalenceNotes": "Structured fields. The number field accepts the integer count; each choice field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "median-interval",
+        "kind": "choice",
+        "label": "Interval that contains the median",
+        "options": [
+          {
+            "id": "i0",
+            "label": "0 to 9 minutes"
+          },
+          {
+            "id": "i10",
+            "label": "10 to 19 minutes"
+          },
+          {
+            "id": "i20",
+            "label": "20 to 29 minutes"
+          },
+          {
+            "id": "i30",
+            "label": "30 to 39 minutes"
+          },
+          {
+            "id": "i40",
+            "label": "40 to 49 minutes"
+          }
+        ],
+        "correctOptionId": "i10"
+      },
+      {
+        "key": "long-waits",
+        "kind": "number",
+        "label": "Customers who waited 20 minutes or more",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "5"
+      },
+      {
+        "key": "shape",
+        "kind": "choice",
+        "label": "Shape of the distribution",
+        "options": [
+          {
+            "id": "symmetric",
+            "label": "Roughly symmetric"
+          },
+          {
+            "id": "uniform",
+            "label": "About the same count in every interval"
+          },
+          {
+            "id": "skewed-left",
+            "label": "Skewed left, with a tail toward shorter waits"
+          },
+          {
+            "id": "skewed-right",
+            "label": "Skewed right, with a tail toward longer waits"
+          }
+        ],
+        "correctOptionId": "skewed-right"
+      }
+    ]
+  },
+  "misconceptionCodes": ["confuses-shape-with-center"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "In a histogram, the height of each bar is a number of customers, not a wait time.",
+      "question": "How many customers are shown by all the bars together?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The median is the middle wait time when all of them are in order. Add bar heights from the left until you pass the middle position. The tallest bar is not automatically where the middle is.",
+      "question": "Which two positions are in the middle of the ordered wait times?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different histogram has bars of 2, 3, 7 and 4 for the intervals 0 to 4, 5 to 9, 10 to 14 and 15 to 19. That is 16 values, so the middle positions are the 8th and 9th. Adding 2, then 3 more makes 5, then 7 more makes 12, so both middle positions are in the 10 to 14 interval.",
+      "question": "Using that counting method, which interval holds the middle of the bike-shop waits, and on which side are the few long wait times?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Interval that contains the median: 10 to 19",
+    "median is in the 10 to 19",
+    "skewed right",
+    "tail toward longer waits",
+    "3 + 1 + 1"
+  ],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 300\" role=\"img\"><rect width=\"560\" height=\"300\" fill=\"#ffffff\"/><text x=\"30\" y=\"26\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">Number of customers</text><line x1=\"80\" y1=\"250\" x2=\"500\" y2=\"250\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"80\" y1=\"250\" x2=\"80\" y2=\"40\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"74\" y1=\"250\" x2=\"80\" y2=\"250\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"66\" y=\"255\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">0</text><line x1=\"74\" y1=\"210\" x2=\"80\" y2=\"210\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"66\" y=\"215\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">2</text><line x1=\"74\" y1=\"170\" x2=\"80\" y2=\"170\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"66\" y=\"175\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">4</text><line x1=\"74\" y1=\"130\" x2=\"80\" y2=\"130\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"66\" y=\"135\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">6</text><line x1=\"74\" y1=\"90\" x2=\"80\" y2=\"90\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"66\" y=\"95\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">8</text><line x1=\"74\" y1=\"50\" x2=\"80\" y2=\"50\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"66\" y=\"55\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">10</text><rect x=\"80\" y=\"70\" width=\"84\" height=\"180\" fill=\"#d9e4e2\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"122\" y=\"64\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">9</text><text x=\"122\" y=\"270\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">0 to 9</text><rect x=\"164\" y=\"130\" width=\"84\" height=\"120\" fill=\"#d9e4e2\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"206\" y=\"124\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">6</text><text x=\"206\" y=\"270\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">10 to 19</text><rect x=\"248\" y=\"190\" width=\"84\" height=\"60\" fill=\"#d9e4e2\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"290\" y=\"184\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">3</text><text x=\"290\" y=\"270\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">20 to 29</text><rect x=\"332\" y=\"230\" width=\"84\" height=\"20\" fill=\"#d9e4e2\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"374\" y=\"224\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">1</text><text x=\"374\" y=\"270\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">30 to 39</text><rect x=\"416\" y=\"230\" width=\"84\" height=\"20\" fill=\"#d9e4e2\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"458\" y=\"224\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">1</text><text x=\"458\" y=\"270\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">40 to 49</text><text x=\"290\" y=\"292\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">Wait time (minutes)</text></svg>",
+    "altText": "A histogram. The horizontal axis is Wait time (minutes) and the vertical axis is Number of customers, from 0 to 10. There are five touching bars. 0 to 9 minutes: 9 customers. 10 to 19 minutes: 6 customers. 20 to 29 minutes: 3 customers. 30 to 39 minutes: 1 customer. 40 to 49 minutes: 1 customer. Each bar is labeled with its count.",
+    "caption": "Wait times of bike repair shop customers on one day.",
+    "width": 560,
+    "height": 300
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record distributions-4 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The figure is a static histogram with each bar count printed above the bar; its text alternative lists every interval and count, so the item can be solved without seeing it. No color carries meaning. The count is typed into a labelled box and the two choices are labelled radio groups.",
+  "accessibleAlternative": "Read aloud or display: A histogram shows the wait times, in whole minutes, of bike repair shop customers on one day. Number of customers in each interval: 0 to 9 minutes, 9; 10 to 19 minutes, 6; 20 to 29 minutes, 3; 30 to 39 minutes, 1; 40 to 49 minutes, 1. Choose the interval that contains the median, give the number of customers who waited 20 minutes or more, and choose the shape of the distribution."
+}

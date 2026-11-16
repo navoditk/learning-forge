@@ -1,0 +1,102 @@
+{
+  "id": "distributions-6",
+  "version": "content-1",
+  "title": "Summarize a sleep dot plot",
+  "role": "practice",
+  "skillRef": {
+    "code": "distributions",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.SP.A.2", "6.SP.B.4"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Chooses a contextual summary of a dot plot that states its center, spread and shape in the units of the data, rejecting summaries that use stack heights as data values."
+  ],
+  "prompt": "The dot plot shows how many hours of sleep 13 sixth graders got on a school night. Each dot is one student. Which statement best describes the center, spread and shape of these data?",
+  "solutionRepresentation": "The values are 7 (1 dot), 8 (3 dots), 9 (5 dots), 10 (3 dots) and 11 (1 dot). The 7th of the 13 ordered values is 9, so the center is 9 hours; the values run from 7 to 11 hours; and the stacks mirror each other around 9, so the data are roughly symmetric. The other statements use stack heights (1, 3, 5) as if they were hours, or call the data skewed only because 11 is the greatest value.",
+  "solutionMethod": "Read values from the number line, not from stack heights; find the middle value, the least and greatest values, and compare the two sides of the plot.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Best summary of the sleep data: Roughly symmetric around 9 hours, with sleep times from 7 to 11 hours",
+    "acceptedAnswers": [
+      "Best summary of the sleep data: Roughly symmetric around 9 hours, with sleep times from 7 to 11 hours"
+    ],
+    "equivalenceNotes": "Structured single-choice fields; each field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "summary",
+        "kind": "choice",
+        "label": "Best summary of the sleep data",
+        "options": [
+          {
+            "id": "stack-height-center",
+            "label": "Centered at 5 hours, because the tallest stack has 5 dots"
+          },
+          {
+            "id": "greatest-as-center",
+            "label": "Skewed right with a center of 11 hours, because 11 is the greatest value"
+          },
+          {
+            "id": "counts-as-values",
+            "label": "Spread from 1 to 5 hours, with a center of 3 hours"
+          },
+          {
+            "id": "symmetric-9",
+            "label": "Roughly symmetric around 9 hours, with sleep times from 7 to 11 hours"
+          }
+        ],
+        "correctOptionId": "symmetric-9"
+      }
+    ]
+  },
+  "misconceptionCodes": ["confuses-shape-with-center"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Read each value from the number line under the dots; the height of a stack only tells how many students share that value.",
+      "question": "What are the least and greatest numbers of hours that any student slept?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "To judge shape, compare the left side of the plot with the right side. To judge center, find the middle student when the dots are counted in order.",
+      "question": "Do the stacks on the left of the middle look like a mirror image of the stacks on the right?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different dot plot of shoe sizes has 2 dots at size 5, 4 dots at size 6 and 2 dots at size 7. A good summary is: roughly symmetric around size 6, with sizes from 5 to 7. Saying the center is 4 would describe a stack height, not a shoe size.",
+      "question": "Which statement about sleep uses hour values from the number line in the same way?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Roughly symmetric around 9 hours",
+    "from 7 to 11 hours",
+    "around 9"
+  ],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 240\" role=\"img\"><rect width=\"560\" height=\"240\" fill=\"#ffffff\"/><line x1=\"50\" y1=\"190\" x2=\"510\" y2=\"190\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"70\" y1=\"184\" x2=\"70\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"70\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">6</text><line x1=\"140\" y1=\"184\" x2=\"140\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"140\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">7</text><circle cx=\"140\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><line x1=\"210\" y1=\"184\" x2=\"210\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"210\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">8</text><circle cx=\"210\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><circle cx=\"210\" cy=\"154\" r=\"8\" fill=\"#22221f\"/><circle cx=\"210\" cy=\"134\" r=\"8\" fill=\"#22221f\"/><line x1=\"280\" y1=\"184\" x2=\"280\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"280\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">9</text><circle cx=\"280\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><circle cx=\"280\" cy=\"154\" r=\"8\" fill=\"#22221f\"/><circle cx=\"280\" cy=\"134\" r=\"8\" fill=\"#22221f\"/><circle cx=\"280\" cy=\"114\" r=\"8\" fill=\"#22221f\"/><circle cx=\"280\" cy=\"94\" r=\"8\" fill=\"#22221f\"/><line x1=\"350\" y1=\"184\" x2=\"350\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"350\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">10</text><circle cx=\"350\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><circle cx=\"350\" cy=\"154\" r=\"8\" fill=\"#22221f\"/><circle cx=\"350\" cy=\"134\" r=\"8\" fill=\"#22221f\"/><line x1=\"420\" y1=\"184\" x2=\"420\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"420\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">11</text><circle cx=\"420\" cy=\"174\" r=\"8\" fill=\"#22221f\"/><line x1=\"490\" y1=\"184\" x2=\"490\" y2=\"196\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"490\" y=\"214\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"16\" fill=\"#22221f\">12</text><text x=\"280\" y=\"236\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">Hours of sleep on a school night</text></svg>",
+    "altText": "A dot plot on a number line from 6 to 12 labeled Hours of sleep on a school night. Each dot is one student. 6 hours has no dots, 7 hours has 1 dot, 8 hours has 3 dots, 9 hours has 5 dots, 10 hours has 3 dots, 11 hours has 1 dot, and 12 hours has no dots.",
+    "caption": "Hours of sleep for 13 sixth graders on a school night.",
+    "width": 560,
+    "height": 240
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record distributions-6 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The figure is a static dot plot; its text alternative lists the number of dots at every value, so the item can be solved without seeing it. No color carries meaning. The answer is a labelled radio group of text statements.",
+  "accessibleAlternative": "Read aloud or display: A dot plot shows how many hours of sleep 13 sixth graders got on a school night. Number of students at each value: 7 hours, 1; 8 hours, 3; 9 hours, 5; 10 hours, 3; 11 hours, 1. Choose the best summary: Option 1, centered at 5 hours because the tallest stack has 5 dots. Option 2, skewed right with a center of 11 hours because 11 is the greatest value. Option 3, spread from 1 to 5 hours with a center of 3 hours. Option 4, roughly symmetric around 9 hours with sleep times from 7 to 11 hours."
+}

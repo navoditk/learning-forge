@@ -1,0 +1,97 @@
+{
+  "id": "center-and-variability-4",
+  "version": "content-1",
+  "title": "Quartiles of pages read",
+  "role": "practice",
+  "skillRef": {
+    "code": "center-and-variability",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.SP.A.3", "6.SP.B.5"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Finds the first and third quartiles by a stated median-of-halves method and computes the interquartile range as a single number describing variability."
+  ],
+  "prompt": "Eight students recorded how many pages they read during silent reading: 12, 5, 15, 3, 10, 5, 8, 12. Use this method: put the values in order and split them into a lower half and an upper half of four values each. The first quartile (Q1) is the median of the lower half and the third quartile (Q3) is the median of the upper half. Then find the interquartile range, IQR = Q3 - Q1.",
+  "solutionRepresentation": "Ordered: 3, 5, 5, 8, 10, 12, 12, 15. Lower half 3, 5, 5, 8: Q1 = (5 + 5) / 2 = 5 pages. Upper half 10, 12, 12, 15: Q3 = (12 + 12) / 2 = 12 pages. IQR = 12 - 5 = 7 pages. (Common quartile conventions agree here because the two middle values of each half are equal.)",
+  "solutionMethod": "Order the data, split into two halves of four, take the median of each half, then subtract Q1 from Q3.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "First quartile (Q1) in pages: 5; Third quartile (Q3) in pages: 12; Interquartile range in pages: 7",
+    "acceptedAnswers": [
+      "First quartile (Q1) in pages: 5; Third quartile (Q3) in pages: 12; Interquartile range in pages: 7"
+    ],
+    "equivalenceNotes": "Structured number fields; each accepts any equal value written as an integer, decimal, fraction or mixed number. No partial credit.",
+    "fields": [
+      {
+        "key": "q1",
+        "kind": "number",
+        "label": "First quartile (Q1) in pages",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "5"
+      },
+      {
+        "key": "q3",
+        "kind": "number",
+        "label": "Third quartile (Q3) in pages",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "12"
+      },
+      {
+        "key": "iqr",
+        "kind": "number",
+        "label": "Interquartile range in pages",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "7"
+      }
+    ]
+  },
+  "misconceptionCodes": [],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Quartiles come from the ordered list, so put the values in order first.",
+      "question": "What is the list of page counts from least to greatest?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "With eight values, the lower half is the first four ordered values and the upper half is the last four. Each quartile is the middle of its half, halfway between that half's two middle values.",
+      "question": "Which two values are in the middle of the lower half?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different ordered list is 2, 4, 4, 6, 9, 13, 13, 14. The lower half 2, 4, 4, 6 gives Q1 = 4, the upper half 9, 13, 13, 14 gives Q3 = 13, and IQR = 13 - 4 = 9.",
+      "question": "Using the same steps, what are Q1, Q3 and the IQR of the page counts?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Q1 = 5",
+    "Q3 = 12",
+    "IQR = 7",
+    "12 - 5",
+    "Interquartile range in pages: 7"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record center-and-variability-4 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The data and the quartile method are plain text in the prompt; no figure is used. Each answer is typed into a labelled box.",
+  "accessibleAlternative": "Read aloud or display: Eight students read these numbers of pages: 12, 5, 15, 3, 10, 5, 8, 12. Put the values in order, split them into a lower half and an upper half of four values each, find Q1 as the median of the lower half and Q3 as the median of the upper half, then find the interquartile range, Q3 minus Q1."
+}

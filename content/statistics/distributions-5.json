@@ -1,0 +1,121 @@
+{
+  "id": "distributions-5",
+  "version": "content-1",
+  "title": "Push-ups box plot",
+  "role": "practice",
+  "skillRef": {
+    "code": "distributions",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.SP.A.2", "6.SP.B.4"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Reads a box plot to find the median and the interquartile range, and interprets the box as showing the two middle of the four equal-sized quartile groups, one half of the data."
+  ],
+  "prompt": "The box plot summarizes how many push-ups each student in a gym class did in one minute. The left and right edges of the box mark the first quartile and the third quartile, the line inside the box marks the median, and the whiskers reach the least and greatest values. When the students are listed in order of push-ups, the quartiles split the list into four groups with the same number of students: the lowest group, two middle groups shown by the box, and the highest group. Use the box plot to answer.",
+  "solutionRepresentation": "The marked values are least 12, first quartile 18, median 22, third quartile 30 and greatest 41. The median is 22 push-ups. The interquartile range is the length of the box: 30 - 18 = 12 push-ups (the range, 41 - 12 = 29, uses the whiskers instead). The quartiles split the ordered list into four groups of equal size, and the box shows the two middle groups, so those groups hold 2 of the 4 equal parts, one half of the students. (Groups are counted by position in the ordered list; a student whose count equals a quartile value may belong to a neighboring group.)",
+  "solutionMethod": "Read the five marked values, subtract the first quartile from the third quartile for the IQR, and use the fact that each of the four equal-sized quartile groups is one quarter of the ordered list.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Median number of push-ups: 22; Interquartile range in push-ups: 12; Fraction of students in the two middle groups: One half",
+    "acceptedAnswers": [
+      "Median number of push-ups: 22; Interquartile range in push-ups: 12; Fraction of students in the two middle groups: One half"
+    ],
+    "equivalenceNotes": "Structured fields. Each number field accepts any equal value written as an integer, decimal, fraction or mixed number; the choice field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "median",
+        "kind": "number",
+        "label": "Median number of push-ups",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "22"
+      },
+      {
+        "key": "iqr",
+        "kind": "number",
+        "label": "Interquartile range in push-ups",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "12"
+      },
+      {
+        "key": "inside-box",
+        "kind": "choice",
+        "label": "Fraction of students in the two middle groups",
+        "options": [
+          {
+            "id": "quarter",
+            "label": "One quarter"
+          },
+          {
+            "id": "half",
+            "label": "One half"
+          },
+          {
+            "id": "three-quarters",
+            "label": "Three quarters"
+          },
+          {
+            "id": "all",
+            "label": "All of them"
+          }
+        ],
+        "correctOptionId": "half"
+      }
+    ]
+  },
+  "misconceptionCodes": ["confuses-shape-with-center"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Each line of a box plot marks one value: least, first quartile, median, third quartile and greatest. The median line need not be in the middle of the box.",
+      "question": "Which mark is the median line, and which number is printed above it?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The interquartile range is the length of the box: third quartile minus first quartile. It is not the full range, which reaches from whisker end to whisker end.",
+      "question": "Which numbers are printed above the two edges of the box?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different box plot has least 5, first quartile 9, median 11, third quartile 16 and greatest 20. Its IQR is 16 - 9 = 7. Its quartiles split its ordered list into four groups of the same size, and its box shows the groups between the first and third quartiles.",
+      "question": "Using those ideas, what are the median and IQR of the push-up data, and how many of the four equal groups does the box show?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Median number of push-ups: 22",
+    "Interquartile range in push-ups: 12",
+    "One half",
+    "2 of the 4",
+    "30 - 18",
+    "IQR is 12"
+  ],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 210\" role=\"img\"><rect width=\"560\" height=\"210\" fill=\"#ffffff\"/><line x1=\"40\" y1=\"145\" x2=\"515\" y2=\"145\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"50\" y1=\"139\" x2=\"50\" y2=\"151\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"50\" y=\"169\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">10</text><line x1=\"115\" y1=\"139\" x2=\"115\" y2=\"151\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"115\" y=\"169\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">15</text><line x1=\"180\" y1=\"139\" x2=\"180\" y2=\"151\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"180\" y=\"169\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">20</text><line x1=\"245\" y1=\"139\" x2=\"245\" y2=\"151\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"245\" y=\"169\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">25</text><line x1=\"310\" y1=\"139\" x2=\"310\" y2=\"151\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"310\" y=\"169\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">30</text><line x1=\"375\" y1=\"139\" x2=\"375\" y2=\"151\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"375\" y=\"169\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">35</text><line x1=\"440\" y1=\"139\" x2=\"440\" y2=\"151\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"440\" y=\"169\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">40</text><line x1=\"505\" y1=\"139\" x2=\"505\" y2=\"151\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"505\" y=\"169\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">45</text><line x1=\"76\" y1=\"85\" x2=\"154\" y2=\"85\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"310\" y1=\"85\" x2=\"453\" y2=\"85\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"76\" y1=\"70\" x2=\"76\" y2=\"100\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"453\" y1=\"70\" x2=\"453\" y2=\"100\" stroke=\"#22221f\" stroke-width=\"2\"/><rect x=\"154\" y=\"60\" width=\"156\" height=\"50\" fill=\"#d9e4e2\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"206\" y1=\"60\" x2=\"206\" y2=\"110\" stroke=\"#22221f\" stroke-width=\"3\"/><text x=\"76\" y=\"50\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">12</text><text x=\"154\" y=\"50\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">18</text><text x=\"206\" y=\"50\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">22</text><text x=\"310\" y=\"50\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">30</text><text x=\"453\" y=\"50\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"14\" fill=\"#22221f\">41</text><text x=\"280\" y=\"202\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"15\" fill=\"#22221f\">Push-ups in one minute</text></svg>",
+    "altText": "A horizontal box plot above a number line from 10 to 45 in steps of 5, labeled Push-ups in one minute. The left whisker starts at 12. The box starts at 18, has a median line at 22, and ends at 30. The right whisker ends at 41. Each of these five values is printed above its mark.",
+    "caption": "Push-ups each student in a gym class did in one minute.",
+    "width": 560,
+    "height": 210
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record distributions-5 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The figure is a static box plot with all five summary values printed above their marks; its text alternative states each value, so the item can be solved without seeing it. No color carries meaning. Numbers are typed into labelled boxes and the fraction is a labelled radio group.",
+  "accessibleAlternative": "Read aloud or display: A box plot summarizes how many push-ups each student in a gym class did in one minute. Least value 12, first quartile 18, median 22, third quartile 30, greatest value 41. Listed in order of push-ups, the students are split by the quartiles into four groups of equal size; the box shows the two middle groups. Find the median and the interquartile range, and choose what fraction of the students are in the two middle groups."
+}

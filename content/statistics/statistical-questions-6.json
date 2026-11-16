@@ -1,0 +1,118 @@
+{
+  "id": "statistical-questions-6",
+  "version": "content-1",
+  "title": "Why a question is or is not statistical",
+  "role": "practice",
+  "skillRef": {
+    "code": "statistical-questions",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.SP.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Explains, by choosing reasons, that a question is statistical because its data vary, not because its answer is a number, for two questions that both have numerical answers."
+  ],
+  "prompt": "Two questions are asked about the families on Maple Street. Question 1: \"How many pets does each family on Maple Street have?\" Question 2: \"How many families live on Maple Street?\" Both answers are numbers. Question 1 is a statistical question and Question 2 is not. Choose the reason for each.",
+  "solutionRepresentation": "Question 1 collects one count from every family, and different families are expected to have different numbers of pets, so the data vary. Question 2 has one answer, a single count of families, which does not vary. \"Its answer is a number\" cannot be the reason, because both answers are numbers.",
+  "solutionMethod": "Decide each case by whether the question collects data that vary, not by the form of the answer or the topic.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Why Question 1 is statistical: Families are expected to have different numbers of pets; Why Question 2 is not statistical: It has one answer, a single count that does not vary",
+    "acceptedAnswers": [
+      "Why Question 1 is statistical: Families are expected to have different numbers of pets; Why Question 2 is not statistical: It has one answer, a single count that does not vary"
+    ],
+    "equivalenceNotes": "Structured single-choice fields; each field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "q1-reason",
+        "kind": "choice",
+        "label": "Why Question 1 is statistical",
+        "options": [
+          {
+            "id": "number-answer",
+            "label": "Its answer is a number"
+          },
+          {
+            "id": "data-vary",
+            "label": "Families are expected to have different numbers of pets"
+          },
+          {
+            "id": "about-animals",
+            "label": "It asks about animals"
+          },
+          {
+            "id": "one-family",
+            "label": "One family can answer it for everyone"
+          }
+        ],
+        "correctOptionId": "data-vary"
+      },
+      {
+        "key": "q2-reason",
+        "kind": "choice",
+        "label": "Why Question 2 is not statistical",
+        "options": [
+          {
+            "id": "number-answer",
+            "label": "Its answer is a number"
+          },
+          {
+            "id": "many-families",
+            "label": "It asks about more than one family"
+          },
+          {
+            "id": "one-count",
+            "label": "It has one answer, a single count that does not vary"
+          },
+          {
+            "id": "about-street",
+            "label": "It is about a street, not a person"
+          }
+        ],
+        "correctOptionId": "one-count"
+      }
+    ]
+  },
+  "misconceptionCodes": ["treats-non-statistical-question-as-statistical"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Both questions have numbers as answers, so the form of the answer cannot be what separates them.",
+      "question": "If you asked every family on Maple Street Question 1, would all the responses be the same?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Compare how many values each question produces: one value for the whole street, or one value from each family.",
+      "question": "At one moment in time, how many different correct answers could Question 2 have?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: \"How many books does each student own?\" is statistical because the counts change from student to student; \"How many students are in the club?\" is not, because the club has just one total.",
+      "question": "Which listed reasons describe those same ideas for the Maple Street questions?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Families are expected to have different numbers of pets",
+    "a single count that does not vary"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record statistical-questions-6 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The two questions are in the prompt as plain text. Each answer is a labelled radio group with text options, so no image, color or position is needed to answer.",
+  "accessibleAlternative": "Read aloud or display: Question 1: How many pets does each family on Maple Street have? Question 2: How many families live on Maple Street? Both answers are numbers. Question 1 is statistical and Question 2 is not. First choose why Question 1 is statistical from: its answer is a number; families are expected to have different numbers of pets; it asks about animals; one family can answer it for everyone. Then choose why Question 2 is not statistical from: its answer is a number; it asks about more than one family; it has one answer, a single count that does not vary; it is about a street, not a person."
+}

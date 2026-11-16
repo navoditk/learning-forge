@@ -1,0 +1,119 @@
+{
+  "id": "statistical-questions-4",
+  "version": "content-1",
+  "title": "Sort three questions about sleep and days",
+  "role": "practice",
+  "skillRef": {
+    "code": "statistical-questions",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.SP.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Classifies three questions as statistical or not by whether their data vary, including a statistical question answered by one typical number and a non-statistical question answered by a list."
+  ],
+  "prompt": "Decide whether each question is a statistical question. A question is statistical when the data it collects are expected to vary, not because its answer is one number, a list or a word. Question 1: \"What is the typical number of hours sixth graders at our school sleep on a school night?\" Question 2: \"How many hours did Jordan sleep last night?\" Question 3: \"What are the names of the days of the week?\"",
+  "solutionRepresentation": "Question 1 is statistical: its answer is one typical number, but finding it needs sleep data from many sixth graders, and those hours vary. Question 2 is not statistical: it asks about one person on one night, so it has one fixed answer. Question 3 is not statistical: its answer is a list, but the list is the same no matter who answers, so there is no variability.",
+  "solutionMethod": "Ask what data each question needs and whether those data vary; ignore whether the final answer is a single number or a list.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Question 1: Statistical; Question 2: Not statistical; Question 3: Not statistical",
+    "acceptedAnswers": [
+      "Question 1: Statistical; Question 2: Not statistical; Question 3: Not statistical"
+    ],
+    "equivalenceNotes": "Structured single-choice fields; each field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "question-1",
+        "kind": "choice",
+        "label": "Question 1",
+        "options": [
+          {
+            "id": "statistical",
+            "label": "Statistical"
+          },
+          {
+            "id": "not-statistical",
+            "label": "Not statistical"
+          }
+        ],
+        "correctOptionId": "statistical"
+      },
+      {
+        "key": "question-2",
+        "kind": "choice",
+        "label": "Question 2",
+        "options": [
+          {
+            "id": "statistical",
+            "label": "Statistical"
+          },
+          {
+            "id": "not-statistical",
+            "label": "Not statistical"
+          }
+        ],
+        "correctOptionId": "not-statistical"
+      },
+      {
+        "key": "question-3",
+        "kind": "choice",
+        "label": "Question 3",
+        "options": [
+          {
+            "id": "statistical",
+            "label": "Statistical"
+          },
+          {
+            "id": "not-statistical",
+            "label": "Not statistical"
+          }
+        ],
+        "correctOptionId": "not-statistical"
+      }
+    ]
+  },
+  "misconceptionCodes": ["treats-non-statistical-question-as-statistical"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Think about who would answer each question and whether their answers would differ.",
+      "question": "For Question 1, would different sixth graders report the same number of hours?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "A single summary, such as a typical value, can still come from many responses that vary. A list can still be one fixed fact.",
+      "question": "Which questions collect one fixed fact, and which collect many responses that differ?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: \"What is the usual number of goals our team scores in a game?\" is statistical because the scores vary from game to game, while \"How many goals did we score last Saturday?\" asks about one game and has one answer.",
+      "question": "Which of the three questions here is like the usual-goals question, and which are like the last-Saturday question?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Question 1: Statistical",
+    "Question 2: Not statistical",
+    "Question 3: Not statistical"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record statistical-questions-4 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The three questions are in the prompt as numbered plain text. Each answer is a labelled radio group with text options, so no image, color or position is needed to answer.",
+  "accessibleAlternative": "Read aloud or display: For each question, choose Statistical or Not statistical. A question is statistical when the data it collects are expected to vary. Question 1: What is the typical number of hours sixth graders at our school sleep on a school night? Question 2: How many hours did Jordan sleep last night? Question 3: What are the names of the days of the week?"
+}

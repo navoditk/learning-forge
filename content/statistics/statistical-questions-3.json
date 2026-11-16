@@ -1,0 +1,94 @@
+{
+  "id": "statistical-questions-3",
+  "version": "content-1",
+  "title": "Which survey question expects varied answers",
+  "role": "practice",
+  "skillRef": {
+    "code": "statistical-questions",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.SP.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Selects, from four questions whose answers are a number, a list or a time, the one question whose data are expected to vary."
+  ],
+  "prompt": "A class is planning a survey. Which one of these questions is a statistical question, meaning the data it collects are expected to vary?",
+  "solutionRepresentation": "Only \"How many minutes did each student in our class read last night?\" collects many responses, one per student, that are expected to differ, so it is statistical. The page count of one copy of a book is one fixed number. The names of the eight planets form a list, but the list is one fixed answer that does not vary. The bus departure time is one fixed time.",
+  "solutionMethod": "For each question, ask whether it collects responses that are expected to differ. Whether the answer is a number, a list or a time does not decide it.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "The statistical question: How many minutes did each student in our class read last night?",
+    "acceptedAnswers": [
+      "The statistical question: How many minutes did each student in our class read last night?"
+    ],
+    "equivalenceNotes": "Structured single-choice fields; each field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "statistical-question",
+        "kind": "choice",
+        "label": "The statistical question",
+        "options": [
+          {
+            "id": "pages-in-copy",
+            "label": "How many pages are in our classroom's copy of the class novel?"
+          },
+          {
+            "id": "planet-names",
+            "label": "What are the names of the eight planets in our solar system?"
+          },
+          {
+            "id": "reading-minutes",
+            "label": "How many minutes did each student in our class read last night?"
+          },
+          {
+            "id": "bus-time",
+            "label": "At what time does the school bus leave on Monday morning?"
+          }
+        ],
+        "correctOptionId": "reading-minutes"
+      }
+    ]
+  },
+  "misconceptionCodes": ["treats-non-statistical-question-as-statistical"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A statistical question collects data that are expected to vary from one response to another. An answer that is a list or a number does not by itself make a question statistical.",
+      "question": "For each question, would asking different people give different answers?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Imagine writing every response in a table. If the table would hold one fixed fact, the question is not statistical, even when that fact is a list.",
+      "question": "Which question would fill a table with many values that can differ from person to person?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: \"How tall is our classroom door?\" has one fixed answer, but \"How tall is each player on our basketball team?\" collects heights that differ, so it is statistical.",
+      "question": "Which of the four survey questions is built like the basketball-team question?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "How many minutes did each student in our class read last night",
+    "minutes did each student"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record statistical-questions-3 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The four questions are presented as plain-text options. Each answer is a labelled radio group with text options, so no image, color or position is needed to answer.",
+  "accessibleAlternative": "Read aloud or display: A class is planning a survey. Choose the one statistical question, whose data are expected to vary. Option 1: How many pages are in our classroom's copy of the class novel? Option 2: What are the names of the eight planets in our solar system? Option 3: How many minutes did each student in our class read last night? Option 4: At what time does the school bus leave on Monday morning?"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "distributions-2",
+  "version": "content-2",
+  "title": "Shape of a quiz-score distribution",
+  "role": "practice",
+  "skillRef": {
+    "code": "distributions",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "developing",
+  "standards": ["6.SP.A.2"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Identifies whether a data distribution shown in a histogram is symmetric or skewed from its described shape."
+  ],
+  "prompt": "A histogram shows quiz scores for a class, with most students clustered between 70 and 85, and a few students scoring below 50. Is this distribution best described as symmetric or skewed?",
+  "solutionRepresentation": "Most of the data clusters together with a smaller tail extending toward lower values, so the distribution is skewed (skewed left), not symmetric. The answer \"skewed\" fully answers the question asked; naming the direction, skewed left, is also correct. \"Skewed right\" names the wrong tail direction.",
+  "solutionMethod": "Compare where most of the data clusters to where the smaller tail of values extends.",
+  "deterministicValidator": {
+    "type": "multiple_choice",
+    "canonicalAnswer": "skewed",
+    "acceptedAnswers": [
+      "skewed",
+      "skewed left",
+      "left-skewed",
+      "left skewed",
+      "skewed to the left"
+    ],
+    "equivalenceNotes": "The question asks symmetric or skewed, so \"skewed\" is the canonical answer. Also accept the correct direction: skewed left, left-skewed, left skewed, skewed to the left. Reject symmetric and skewed right (and any other wording). Matching is exact after case, spacing and trailing-punctuation normalization."
+  },
+  "misconceptionCodes": ["confuses-shape-with-center"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A symmetric distribution looks similar on both sides of its center; a skewed distribution has a long tail on one side.",
+      "question": "Are most of the scores clustered together, or spread evenly across the whole range?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "A few scores stretching away from the main cluster suggest a tail in that direction.",
+      "question": "Which direction do the few low-scoring students stretch, toward higher or lower scores?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "In a similar histogram, most house prices cluster near $200,000 with a few much higher outliers; that distribution is skewed right because the tail points toward higher values.",
+      "question": "Using that same tail-direction idea, which direction does this quiz-score distribution's tail point?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["skewed left", "left-skewed", "left skewed", "skewed to the left"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "Correction of the repository's own distributions-2@content-1 for MATH-ST2 under D-335 disposition 4 and the D-335 public D-61 exception. Prompt, hints and accessibility text are carried over unchanged from content-1; only the validator, solution text and review metadata differ. It reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Describe the histogram's shape in plain text; do not depend on interpreting the chart image alone.",
+  "accessibleAlternative": "Read aloud or display: Most quiz scores are between 70 and 85, with only a few scores below 50. Decide whether that distribution is symmetric or skewed based on the tail toward the lower scores."
+}

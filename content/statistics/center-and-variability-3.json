@@ -1,0 +1,145 @@
+{
+  "id": "center-and-variability-3",
+  "version": "content-1",
+  "title": "Swim laps: count, mean and median",
+  "role": "practice",
+  "skillRef": {
+    "code": "center-and-variability",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.SP.A.3", "6.SP.B.5"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Reports the attribute measured, how it was measured and the number of observations, and computes a mean and a median that differ for the same small data set."
+  ],
+  "prompt": "During one 20-minute practice, a swim coach watched each swimmer and made a tally mark every time the swimmer finished a full length of the pool. The tallies for the six swimmers were 12, 4, 10, 7, 12, 9. Identify what was measured, how it was measured and how many observations there are, then find the mean and the median.",
+  "solutionRepresentation": "The attribute measured is the number of laps each swimmer completed. It was measured by counting (tallying) the full pool lengths each swimmer finished in the 20-minute practice, so the unit is laps, not minutes or meters. There are 6 observations. Mean: (12 + 4 + 10 + 7 + 12 + 9) / 6 = 54 / 6 = 9 laps. Ordered: 4, 7, 9, 10, 12, 12; the two middle values are 9 and 10, so the median is (9 + 10) / 2 = 9.5 laps. The mean and median differ.",
+  "solutionMethod": "Count the values; add them and divide by the count for the mean; order them and average the two middle values for the median.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "What was measured: Laps each swimmer completed; How it was measured: Counting full pool lengths in 20 minutes; Number of observations: 6; Mean number of laps: 9; Median number of laps: 9.5",
+    "acceptedAnswers": [
+      "What was measured: Laps each swimmer completed; How it was measured: Counting full pool lengths in 20 minutes; Number of observations: 6; Mean number of laps: 9; Median number of laps: 9.5"
+    ],
+    "equivalenceNotes": "Structured fields. The count accepts an integer only; the mean and median accept any equal value written as an integer, decimal, fraction or mixed number (for example 9.5, 9 1/2 or 19/2 for the median). The choice field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "attribute",
+        "kind": "choice",
+        "label": "What was measured",
+        "options": [
+          {
+            "id": "pool-length",
+            "label": "Length of the pool, in meters"
+          },
+          {
+            "id": "laps-each",
+            "label": "Laps each swimmer completed"
+          },
+          {
+            "id": "swimmer-count",
+            "label": "Number of swimmers in the group"
+          },
+          {
+            "id": "minutes-each",
+            "label": "Minutes each swimmer took"
+          }
+        ],
+        "correctOptionId": "laps-each"
+      },
+      {
+        "key": "procedure",
+        "kind": "choice",
+        "label": "How it was measured",
+        "options": [
+          {
+            "id": "stopwatch",
+            "label": "Timing each swimmer with a stopwatch"
+          },
+          {
+            "id": "tape",
+            "label": "Measuring the pool with a tape measure"
+          },
+          {
+            "id": "tally-lengths",
+            "label": "Counting full pool lengths in 20 minutes"
+          },
+          {
+            "id": "self-report",
+            "label": "Asking each swimmer to guess a distance"
+          }
+        ],
+        "correctOptionId": "tally-lengths"
+      },
+      {
+        "key": "observations",
+        "kind": "number",
+        "label": "Number of observations",
+        "representations": ["integer"],
+        "simplestForm": false,
+        "correctValue": "6"
+      },
+      {
+        "key": "mean",
+        "kind": "number",
+        "label": "Mean number of laps",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "9"
+      },
+      {
+        "key": "median",
+        "kind": "number",
+        "label": "Median number of laps",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "19/2"
+      }
+    ]
+  },
+  "misconceptionCodes": ["confuses-mean-and-median"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Reread the story to see what the coach wrote down for each swimmer and what the coach did to get it. Then count the data values; that count is the number of observations and the number you divide by for the mean.",
+      "question": "How many lap counts did the coach record?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The mean shares the total equally: add all the values, then divide by how many there are. The median is the middle of the ordered list; with an even number of values it is halfway between the two middle values.",
+      "question": "What does the list look like in order from least to greatest?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different group swam 3, 9, 4 and 6 laps. The mean is (3 + 9 + 4 + 6) / 4 = 22 / 4 = 5.5. In order, 3, 4, 6, 9, the middle values are 4 and 6, so the median is 5. The two measures are not the same.",
+      "question": "Using the same steps for the practice group, what are the mean and the median?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Mean number of laps: 9",
+    "Median number of laps: 9.5",
+    "9.5",
+    "54 / 6",
+    "(9 + 10) / 2"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record center-and-variability-3 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The data are a plain-text list in the prompt; no figure is used. Numbers are typed into labelled boxes. Each answer is a labelled radio group with text options, so no image, color or position is needed to answer.",
+  "accessibleAlternative": "Read aloud or display: During one 20-minute practice, a swim coach made a tally mark each time a swimmer finished a full length of the pool. The tallies for six swimmers were 12, 4, 10, 7, 12, 9. Choose what was measured from: length of the pool in meters; laps each swimmer completed; number of swimmers in the group; minutes each swimmer took. Choose how it was measured from: timing each swimmer with a stopwatch; measuring the pool with a tape measure; counting full pool lengths in 20 minutes; asking each swimmer to guess a distance. Give the number of observations, and find the mean and the median number of laps."
+}

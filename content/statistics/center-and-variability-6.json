@@ -1,0 +1,139 @@
+{
+  "id": "center-and-variability-6",
+  "version": "content-1",
+  "title": "Reading-app minutes with a striking value",
+  "role": "practice",
+  "skillRef": {
+    "code": "center-and-variability",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["6.SP.A.3", "6.SP.B.5"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Relates the choice of median and IQR to a data set with a striking value, computes both by a stated method, and describes the overall pattern and the deviation in context."
+  ],
+  "prompt": "Twelve students recorded how many minutes they used a reading app on Saturday: 40, 20, 115, 35, 45, 30, 50, 25, 35, 45, 30, 40. For quartiles, order the values, split them into a lower half and an upper half of six values each, and take the median of each half. Choose the pair of measures that best summarizes a typical time and its variability, give the median and the interquartile range, and choose the overall pattern.",
+  "solutionRepresentation": "Ordered: 20, 25, 30, 30, 35, 35, 40, 40, 45, 45, 50, 115. The value 115 is far from the rest, and it pulls the mean (510 / 12 = 42.5) and the range (115 - 20 = 95), so the median and IQR are the better pair. Median = (35 + 40) / 2 = 37.5 minutes. Lower half 20, 25, 30, 30, 35, 35 gives Q1 = 30; upper half 40, 40, 45, 45, 50, 115 gives Q3 = 45; IQR = 45 - 30 = 15 minutes. Pattern: most students used the app from 20 to 50 minutes, and one student used it for 115 minutes. (Common quartile conventions agree here because the two middle values of each half are equal.)",
+  "solutionMethod": "Look for a value far from the rest to choose resistant measures, then order the data and compute the median and the median of each half.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Best pair of measures: Median and interquartile range; Median in minutes: 37.5; Interquartile range in minutes: 15; Overall pattern: Most from 20 to 50, with one striking value at 115",
+    "acceptedAnswers": [
+      "Best pair of measures: Median and interquartile range; Median in minutes: 37.5; Interquartile range in minutes: 15; Overall pattern: Most from 20 to 50, with one striking value at 115"
+    ],
+    "equivalenceNotes": "Structured fields. The median and IQR accept any equal value written as an integer, decimal, fraction or mixed number (for example 37.5, 37 1/2 or 75/2 for the median); each choice field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "measure-pair",
+        "kind": "choice",
+        "label": "Best pair of measures",
+        "options": [
+          {
+            "id": "median-iqr",
+            "label": "Median and interquartile range"
+          },
+          {
+            "id": "mean-range",
+            "label": "Mean and range"
+          },
+          {
+            "id": "mean-iqr",
+            "label": "Mean and interquartile range"
+          },
+          {
+            "id": "median-range",
+            "label": "Median and range"
+          }
+        ],
+        "correctOptionId": "median-iqr"
+      },
+      {
+        "key": "median",
+        "kind": "number",
+        "label": "Median in minutes",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "75/2"
+      },
+      {
+        "key": "iqr",
+        "kind": "number",
+        "label": "Interquartile range in minutes",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "15"
+      },
+      {
+        "key": "pattern",
+        "kind": "choice",
+        "label": "Overall pattern",
+        "options": [
+          {
+            "id": "even-spread",
+            "label": "Spread evenly from 20 to 115"
+          },
+          {
+            "id": "two-groups",
+            "label": "Two equal groups, one near 20 and one near 115"
+          },
+          {
+            "id": "cluster-striking",
+            "label": "Most from 20 to 50, with one striking value at 115"
+          },
+          {
+            "id": "all-high",
+            "label": "Nearly all near 115"
+          }
+        ],
+        "correctOptionId": "cluster-striking"
+      }
+    ]
+  },
+  "misconceptionCodes": ["ignores-outlier-effect"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "When one value is far from the rest, ask which measures it would pull. The mean and the range use that value directly; the median and the quartiles depend on positions in the ordered list.",
+      "question": "Is any of the twelve times far from the others?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "With twelve ordered values, the median is halfway between the 6th and 7th values, Q1 is halfway between the 3rd and 4th, and Q3 is halfway between the 9th and 10th.",
+      "question": "What are the 6th and 7th values in your ordered list?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different set of ten scores, 4, 6, 6, 6, 7, 8, 9, 9, 9, 40, has median 7.5, Q1 = 6 and Q3 = 9, so its IQR is 3. If the 40 were changed to 11, the mean and range would change a lot, but the median and IQR would stay the same.",
+      "question": "Which pair of measures stays steady in that way, and what pattern do the reading-app times show?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Median in minutes: 37.5",
+    "37.5",
+    "Interquartile range in minutes: 15",
+    "IQR = 15",
+    "45 - 30",
+    "one striking value at 115",
+    "Median and interquartile range"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record center-and-variability-6 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The data and the quartile method are plain text in the prompt; no figure is used. Numbers are typed into labelled boxes. Each answer is a labelled radio group with text options, so no image, color or position is needed to answer.",
+  "accessibleAlternative": "Read aloud or display: Twelve students used a reading app on Saturday for these numbers of minutes: 40, 20, 115, 35, 45, 30, 50, 25, 35, 45, 30, 40. For quartiles, order the values, split them into two halves of six, and take the median of each half. Choose the best pair of measures, give the median and the interquartile range, and choose the overall pattern."
+}

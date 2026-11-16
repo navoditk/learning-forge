@@ -1,0 +1,112 @@
+{
+  "id": "center-and-variability-5",
+  "version": "content-1",
+  "title": "Walk times with one long walk",
+  "role": "practice",
+  "skillRef": {
+    "code": "center-and-variability",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["6.SP.A.3", "6.SP.B.5"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Computes the mean and median of a data set with an outlier and chooses the median as the better typical value because the outlier pulls the mean."
+  ],
+  "prompt": "Seven students timed their walks to school, in minutes: 12, 8, 43, 11, 15, 10, 13. Find the mean and the median, then choose the measure that better describes a typical walk time for this group and the reason.",
+  "solutionRepresentation": "Sum: 12 + 8 + 43 + 11 + 15 + 10 + 13 = 112, so the mean is 112 / 7 = 16 minutes. Ordered: 8, 10, 11, 12, 13, 15, 43; the 4th value, 12 minutes, is the median. Only 1 of the 7 times is above 16, because the 43-minute walk pulls the mean up, so the median, 12, better describes a typical walk.",
+  "solutionMethod": "Compute both measures, then check which one sits among most of the data when one value is far from the rest.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Mean walk time in minutes: 16; Median walk time in minutes: 12; Better measure of a typical walk: The median, because the 43-minute walk pulls the mean above most times",
+    "acceptedAnswers": [
+      "Mean walk time in minutes: 16; Median walk time in minutes: 12; Better measure of a typical walk: The median, because the 43-minute walk pulls the mean above most times"
+    ],
+    "equivalenceNotes": "Structured fields. Each number field accepts any equal value written as an integer, decimal, fraction or mixed number; the choice field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "mean",
+        "kind": "number",
+        "label": "Mean walk time in minutes",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "16"
+      },
+      {
+        "key": "median",
+        "kind": "number",
+        "label": "Median walk time in minutes",
+        "representations": ["integer", "decimal", "mixed-number", "fraction"],
+        "simplestForm": false,
+        "correctValue": "12"
+      },
+      {
+        "key": "typical",
+        "kind": "choice",
+        "label": "Better measure of a typical walk",
+        "options": [
+          {
+            "id": "mean-every-value",
+            "label": "The mean, because it uses every walk time"
+          },
+          {
+            "id": "range-spread",
+            "label": "The range, because it shows the spread"
+          },
+          {
+            "id": "median-outlier",
+            "label": "The median, because the 43-minute walk pulls the mean above most times"
+          },
+          {
+            "id": "always-equal",
+            "label": "Either one, because they are always equal"
+          }
+        ],
+        "correctOptionId": "median-outlier"
+      }
+    ]
+  },
+  "misconceptionCodes": ["ignores-outlier-effect", "confuses-mean-and-median"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "For the mean, add all seven times and divide by 7. For the median, order the times and take the middle one.",
+      "question": "What is the total of all seven walk times?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Compare each measure with the actual times. A typical value should sit among most of the data.",
+      "question": "How many of the seven students walked for longer than the mean you found?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different group of five has times 5, 6, 7, 8 and 29 minutes. The mean is 55 / 5 = 11, which is more than four of the five times, while the median, 7, sits among them.",
+      "question": "Does the same thing happen in this group, and which measure sits among most of the walk times?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Mean walk time in minutes: 16",
+    "Median walk time in minutes: 12",
+    "112 / 7",
+    "pulls the mean above most times"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record center-and-variability-5 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The data are a plain-text list in the prompt; no figure is used. Numbers are typed into labelled boxes. Each answer is a labelled radio group with text options, so no image, color or position is needed to answer.",
+  "accessibleAlternative": "Read aloud or display: Seven students timed their walks to school, in minutes: 12, 8, 43, 11, 15, 10, 13. Find the mean and the median. Then choose the better measure of a typical walk from: the mean, because it uses every walk time; the range, because it shows the spread; the median, because the 43-minute walk pulls the mean above most times; either one, because they are always equal."
+}

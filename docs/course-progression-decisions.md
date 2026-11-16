@@ -3932,7 +3932,22 @@ killed all 3 mutations. Carried: K-1 older-version re-listing stays valid (ST-6 
 `[Ratios@2.0.0, Statistics@2.0.0]`), K-5 order-dependent message. Applied unstaged; see PROGRESS for
 the integrated test result. **Not authorized:** ST-6, activation, commit, push.
 
-There are 340 decisions: D-01 through D-75, D-139, D-142, D-145–D-340 approved;
+### D-341 — Delegated content acceptance and local application: Statistics public practice drafts (D-212, D-334, D-335)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-15. First review NOT_READY (ST2-01 box-plot distractor
+defensible, ST2-02 B.5b partial, ST2-03 hint wording); revision 2 READY_WITH_RISKS, ACCEPT_CONTENT
+for patch SHA-256 `bfc83255905ce73aab4fef51912313b9fea0f9c498dc8a43bfc5a9fb4d963f26` (14 files:
+12 new practice records `statistical-questions-3..6`, `distributions-3..6`,
+`center-and-variability-3..6`, `distributions-2-content-2.json`, and
+`docs/statistics-st2-coverage-map.md`; `distributions-2.json` content-1 byte-identical). Author
+model from client transcript: `claude-opus-5-5`. Accepted narrowing: skew aliases `left skewed` and
+`skewed to the left`. Carried risks: R-7 shallow evidence in distributions-5; B.5b is recognition
+evidence only; center-and-variability-4 has no misconception code; statistical-questions-4 guess
+rate 1 in 8; one unidentified, non-reproduced test failure in the author's run; at registration the
+12 structured items need V-7-style distractor-map and vector-scoring tests. Records are
+`pending_review`, not registered or imported. **Not authorized:** registration (ST-6), activation.
+
+There are 341 decisions: D-01 through D-75, D-139, D-142, D-145–D-341 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

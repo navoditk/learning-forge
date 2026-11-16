@@ -1,0 +1,94 @@
+{
+  "id": "statistical-questions-5",
+  "version": "content-1",
+  "title": "A survey about getting to school",
+  "role": "practice",
+  "skillRef": {
+    "code": "statistical-questions",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.SP.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Chooses a statistical question that collects varying categorical data about a group, rejecting a group question that has one fixed count."
+  ],
+  "prompt": "Ana wants to learn how the students in her class get to school, for example by walking, biking, bus or car. Which question should she ask as her statistical question?",
+  "solutionRepresentation": "\"How does each student in Ana's class usually get to school?\" collects one response from each classmate, and the responses (walk, bike, bus, car) are expected to differ, so it is statistical. \"How does Ana get to school?\" asks about one person. \"How many students are in Ana's class?\" is about the whole class but has one fixed count. \"What time does school start each day?\" has one fixed answer.",
+  "solutionMethod": "Pick the question that collects a response from many people when those responses are expected to differ; the data can be words, not only numbers.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Ana's statistical question: How does each student in Ana's class usually get to school?",
+    "acceptedAnswers": [
+      "Ana's statistical question: How does each student in Ana's class usually get to school?"
+    ],
+    "equivalenceNotes": "Structured single-choice fields; each field must match its correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "survey-question",
+        "kind": "choice",
+        "label": "Ana's statistical question",
+        "options": [
+          {
+            "id": "how-ana",
+            "label": "How does Ana get to school?"
+          },
+          {
+            "id": "class-size",
+            "label": "How many students are in Ana's class?"
+          },
+          {
+            "id": "start-time",
+            "label": "What time does school start each day?"
+          },
+          {
+            "id": "each-student",
+            "label": "How does each student in Ana's class usually get to school?"
+          }
+        ],
+        "correctOptionId": "each-student"
+      }
+    ]
+  },
+  "misconceptionCodes": ["treats-non-statistical-question-as-statistical"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "A statistical question gathers several responses that can differ from one another.",
+      "question": "Which questions would Ana ask once and get one fixed answer?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Responses can vary even when they are words, such as walk, bike, bus or car. A question about a whole group can still have just one answer.",
+      "question": "Which question would give Ana different responses from different classmates?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different example: to learn about favorite fruits in a club, \"What is the club leader's favorite fruit?\" has one answer, while \"What is each club member's favorite fruit?\" collects answers that vary.",
+      "question": "Which of Ana's choices works like the second fruit question?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "How does each student in Ana's class usually get to school",
+    "each student in Ana"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record statistical-questions-5 for MATH-ST2 under the D-335 public D-61 exception. Context, data, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The four questions are plain-text options. Each answer is a labelled radio group with text options, so no image, color or position is needed to answer.",
+  "accessibleAlternative": "Read aloud or display: Ana wants to learn how the students in her class get to school, for example by walking, biking, bus or car. Choose her statistical question. Option 1: How does Ana get to school? Option 2: How many students are in Ana's class? Option 3: What time does school start each day? Option 4: How does each student in Ana's class usually get to school?"
+}
