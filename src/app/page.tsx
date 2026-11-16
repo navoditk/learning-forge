@@ -36,6 +36,7 @@ import {
   structuredErrorsFromRefusal,
   FIELD_ERROR_MESSAGES,
   invalidResponseMessage,
+  hintFailureMessage,
   summarizeStructuredValues,
   type ResponseSpec,
   type StructuredErrorState,
@@ -622,7 +623,8 @@ export default function Home() {
       });
       if (!operation.isCurrent()) return;
       if (!result.ok) {
-        setError('The tutor could not respond.');
+        const message = await hintFailureMessage(result, operation.isCurrent);
+        if (message) setError(message);
         return;
       }
       const tutorResult: TutorResult = await result.json();

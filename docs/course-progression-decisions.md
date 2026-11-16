@@ -3947,7 +3947,24 @@ rate 1 in 8; one unidentified, non-reproduced test failure in the author's run; 
 12 structured items need V-7-style distractor-map and vector-scoring tests. Records are
 `pending_review`, not registered or imported. **Not authorized:** registration (ST-6), activation.
 
-There are 341 decisions: D-01 through D-75, D-139, D-142, D-145–D-341 approved;
+### D-342 — Delegated acceptance and local application: SPELL-SP2 tutor gate and hint availability (D-212, D-339)
+
+Delegate: Codex `gpt-6.1-sol` (client metadata confirmed), 2026-11-15. First review NOT_READY (no
+behavioural browser evidence; stale 403 body shown on another activity); revision 2 READY_WITH_RISKS,
+ACCEPT_ENGINEERING for patch SHA-256 `aa3b63b7b57e20e682171f409af675e8fe806deecfc211df9356eb3a9cf87560`
+(commit `be0421a` on `12603cd`; author `claude-sonnet-5-5` per client transcript). Effect:
+`snsb6-` added to `MODEL_TUTORING_DISABLED_SKILL_PREFIXES`; server-derived
+`modelHintsAvailable` flag; hint control hidden with "Hints are not available for this activity yet."
+for Spelling and Social Studies (Python unchanged); 403 `MODEL_TUTORING_DISABLED` mapped to the same
+wording with a post-parse currency check; D-134 attributes on the Spelling answer box; Spelling
+practice-only note on the parent page (wording by the author, accepted by the reviewer as honest
+and traceable; owner may amend). Author evidence: e2e 131 pass/1 skip, integration 403 pass/1 skip.
+Integrator, main tree: typecheck, lint 0 errors, `npm test` 146 files / 4,192 tests pass, build
+succeeds. Carried: parent-note wiring is a source-text test (render test is a follow-up); three
+relay tests fail only inside worktrees. **Not authorized:** serving authored hints (SP-4),
+availability changes, Spelling content work.
+
+There are 342 decisions: D-01 through D-75, D-139, D-142, D-145–D-342 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

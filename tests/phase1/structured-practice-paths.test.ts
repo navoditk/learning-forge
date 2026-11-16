@@ -602,6 +602,16 @@ describe('structured practice paths', () => {
       expect(JSON.stringify(x.responseSpec)).not.toContain('correctOptionId');
     });
 
+    it('SP-2: the server derives modelHintsAvailable=false for a Spelling item', async () => {
+      const identity = await fresh();
+      const { content } = await startSession(identity, {
+        contentId: 'snsb6-orthographic-patterns-core-1',
+        program: 'scripps-spelling-bee-6',
+      });
+      expect(content.skillCode).toBe('snsb6-orthographic-patterns');
+      expect(content.modelHintsAvailable).toBe(false);
+    });
+
     it("PA-4b: a legacy item keeps today's exact projection with no responseSpec or alternative", async () => {
       const identity = await fresh();
       const { content } = await startSession(identity, { contentId: 'ratio-language-1' });
@@ -610,10 +620,12 @@ describe('structured practice paths', () => {
         'version',
         'title',
         'skillCode',
+        'modelHintsAvailable',
         'prompt',
         'accessibilityNotes',
         'figure',
       ]);
+      expect(content.modelHintsAvailable).toBe(true);
       expect(content).not.toHaveProperty('responseSpec');
       expect(content).not.toHaveProperty('accessibleAlternative');
     });

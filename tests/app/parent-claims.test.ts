@@ -1,7 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-import { hasScienceEvidence, SCIENCE_EVIDENCE_NOTE } from '../../src/app/parent-claims';
+import {
+  hasScienceEvidence,
+  hasSpellingEvidence,
+  SCIENCE_EVIDENCE_NOTE,
+  SPELLING_EVIDENCE_NOTE,
+} from '../../src/app/parent-claims';
 import { programsByCode } from '../../src/curriculum/program-registry';
 
 describe('hasScienceEvidence', () => {
@@ -30,6 +35,15 @@ describe('hasScienceEvidence', () => {
   it('keeps the exact owner-approved note text (D-191)', () => {
     expect(SCIENCE_EVIDENCE_NOTE).toBe(
       'Grade 6 Science rows come from practice checks on provided cell models, two items per topic. They do not show mastery of a full science standard, investigation skills or building models.',
+    );
+  });
+
+  it('has a practice-only Spelling note keyed on the program prefix', () => {
+    expect(hasSpellingEvidence([{ skillCode: 'unit-rates' }, { skillCode: 'sci6-x' }])).toBe(false);
+    expect(hasSpellingEvidence([{ skillCode: 'snsb6-orthography-x' }])).toBe(true);
+    expect(SPELLING_EVIDENCE_NOTE).toContain('practice only');
+    expect(readFileSync('src/app/parent/page.tsx', 'utf8')).toContain(
+      'hasSpellingEvidence(evidence.mastery)',
     );
   });
 

@@ -57,6 +57,7 @@ import { projectPythonPresentation } from '../content/python-output';
 import { prisma } from '../server/prisma';
 import { isUniqueConstraintViolation } from '../server/prisma-errors';
 import { TutorResponse } from '../tutor';
+import { isModelTutoringDisabled } from '../tutor/model-gating';
 import { assistanceIndex, TutorState } from '../tutor/policy';
 
 export const PHASE_1_CONTENT_ID = 'unit-rates-1';
@@ -320,6 +321,8 @@ export async function startSession(
       version: content.version,
       title: content.title,
       skillCode: contentSkillCode(content),
+      // Server-derived (SP-2 H-2): the client hides the hint control when false.
+      modelHintsAvailable: !isModelTutoringDisabled(contentSkillCode(content)),
       prompt: content.prompt,
       accessibilityNotes: content.accessibilityNotes,
       figure: content.figure,

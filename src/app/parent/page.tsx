@@ -7,7 +7,12 @@ import { signOut } from 'next-auth/react';
 import { ProgramSwitcher } from '../components/program-switcher';
 import { ParentCourseProgress } from '../components/parent-course-progress';
 import type { CourseProgress } from '../course-progress-view';
-import { hasScienceEvidence, SCIENCE_EVIDENCE_NOTE } from '../parent-claims';
+import {
+  hasScienceEvidence,
+  hasSpellingEvidence,
+  SCIENCE_EVIDENCE_NOTE,
+  SPELLING_EVIDENCE_NOTE,
+} from '../parent-claims';
 
 const DELETION_CONFIRMATION_PHRASE = 'DELETE';
 
@@ -178,6 +183,7 @@ export default function ParentPage() {
             </ul>
           )}
           {hasScienceEvidence(evidence.mastery) && <p>{SCIENCE_EVIDENCE_NOTE}</p>}
+          {hasSpellingEvidence(evidence.mastery) && <p>{SPELLING_EVIDENCE_NOTE}</p>}
           <h3>Recent attempts</h3>
           {evidence.attempts.length === 0 ? (
             <p>No attempts yet.</p>

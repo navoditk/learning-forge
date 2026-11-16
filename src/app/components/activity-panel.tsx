@@ -19,6 +19,8 @@ export type Session = {
     id: string;
     title: string;
     skillCode: string;
+    // Server-derived; false hides the hint control (SP-2 H-2). Absent means available.
+    modelHintsAvailable?: boolean;
     prompt: string;
     accessibilityNotes: string;
     figure?: ContentFigure;
@@ -92,6 +94,7 @@ export function ActivityPanel({
   const spec = session.content.responseSpec;
   const pythonListing =
     session.content.answerKind === 'python_output' ? session.content.codeListing : undefined;
+  const hintsUnavailable = session.content.modelHintsAvailable === false;
   return (
     <article className="activity-panel" aria-labelledby="activity-heading">
       <h3 id="activity-heading">{session.content.title}</h3>
@@ -195,6 +198,10 @@ export function ActivityPanel({
               if (error) setError('');
             }}
             autoComplete="off"
+            // D-134: a spelling answer must not be autocorrected, capitalised or spellchecked.
+            {...(session.content.skillCode.startsWith('snsb6-')
+              ? { autoCapitalize: 'off', autoCorrect: 'off', spellCheck: false }
+              : {})}
             aria-invalid={error ? 'true' : undefined}
             aria-describedby={error ? 'learner-response-error' : undefined}
           />
@@ -233,7 +240,12 @@ export function ActivityPanel({
               ? 'Correct — nice work.'
               : 'Not yet. Your attempt is recorded.'}
           </p>
-          {!pythonListing && (
+          {!pythonListing && hintsUnavailable && (
+            <p>
+              <small>Hints are not available for this activity yet.</small>
+            </p>
+          )}
+          {!pythonListing && !hintsUnavailable && (
             <button
               ref={hintButtonRef}
               type="button"
@@ -247,7 +259,7 @@ export function ActivityPanel({
                   : 'Ask for the next hint'}
             </button>
           )}
-          {!pythonListing && hintCount === 0 && !tutor && (
+          {!pythonListing && !hintsUnavailable && hintCount === 0 && !tutor && (
             <p>
               <small>
                 The hint comes from a computer program, not a person. If anything ever feels wrong

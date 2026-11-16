@@ -75,7 +75,12 @@ describe('model tutoring gate (C9)', () => {
     });
   });
 
-  it('disables model tutoring for py6- and hss6- skills only', () => {
+  it('disables model tutoring for py6-, hss6- and snsb6- skills only', () => {
+    expect(isModelTutoringDisabled('snsb6-orthography-silent-letters')).toBe(true);
+    expect(isModelTutoringDisabled('snsb6-')).toBe(true);
+    for (const code of ['snsb-6-a', 'snsb6', 'xsnsb6-a', 'snsb5-a', 'SNSB6-a']) {
+      expect(isModelTutoringDisabled(code), code).toBe(false);
+    }
     expect(isModelTutoringDisabled('py6-print-output-reading')).toBe(true);
     expect(isModelTutoringDisabled('py6-')).toBe(true);
     // Social Studies R6: fail closed until a subject-appropriate tutor template and evals exist.
@@ -98,6 +103,20 @@ describe('model tutoring gate (C9)', () => {
 
   it('refuses a hint for an hss6- item before the limiter, the provider, any trace or event', async () => {
     mocks.getTutorContext.mockResolvedValue(context('hss6-synthetic-direct-democracy'));
+    const response = await post({ attemptId: ATTEMPT, learnerMessage: 'help me' });
+    expect(response.status).toBe(403);
+    expect(await response.json()).toEqual({
+      error: 'Model-generated hints are not available for this activity.',
+      reasonCode: MODEL_TUTORING_DISABLED_REASON,
+    });
+    expect(mocks.enforceTutorUsageLimits).not.toHaveBeenCalled();
+    expect(mocks.createTutorModel).not.toHaveBeenCalled();
+    expect(mocks.respond).not.toHaveBeenCalled();
+    expect(mocks.recordTutorResponse).not.toHaveBeenCalled();
+  });
+
+  it('refuses a hint for an snsb6- item before the limiter, the provider, any trace or event', async () => {
+    mocks.getTutorContext.mockResolvedValue(context('snsb6-synthetic-orthography'));
     const response = await post({ attemptId: ATTEMPT, learnerMessage: 'help me' });
     expect(response.status).toBe(403);
     expect(await response.json()).toEqual({

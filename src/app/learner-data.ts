@@ -343,6 +343,8 @@ export const SessionSchema = z.object({
     version: VersionSchema.optional(),
     title: z.string(),
     skillCode: z.string().min(1),
+    // Server-derived: false when model hints are disabled for this skill.
+    modelHintsAvailable: z.boolean().optional(),
     prompt: z.string(),
     accessibilityNotes: z.string(),
     figure: ContentFigureSchema.optional(),
@@ -371,4 +373,23 @@ const InvalidResponseSchema = z.object({
 export function invalidResponseMessage(body: unknown): string | undefined {
   const parsed = InvalidResponseSchema.safeParse(body);
   return parsed.success ? PYTHON_INVALID_MESSAGES[parsed.data.reason] : undefined;
+}
+
+/**
+ * Wording for a failed hint request, or undefined when the learner has moved
+ * on while the response body was being read (a stale 403 must not surface its
+ * message on another activity).
+ */
+export async function hintFailureMessage(
+  result: { status: number; json: () => Promise<unknown> },
+  isCurrent: () => boolean,
+): Promise<string | undefined> {
+  const body = await result.json().then(
+    (value) => value as { reasonCode?: unknown } | null,
+    () => undefined,
+  );
+  if (!isCurrent()) return undefined;
+  return result.status === 403 && body?.reasonCode === 'MODEL_TUTORING_DISABLED'
+    ? 'Hints are not available for this activity yet.'
+    : 'The tutor could not respond.';
 }
