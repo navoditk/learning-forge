@@ -11,6 +11,8 @@ for command in node psql pg_dump; do
   }
 done
 
+npx vitest run --no-file-parallelism --maxWorkers=1 tests/migrations/attempt-evaluator-teardown.test.ts
+
 scratch_dir=$(mktemp -d)
 scratch_database="learning_forge_migration_test_${RANDOM}_$$"
 shadow_database="${scratch_database}_shadow"

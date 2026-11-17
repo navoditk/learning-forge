@@ -1,5 +1,4 @@
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
-import { once } from 'node:events';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -7,14 +6,27 @@ import { PrismaClient } from '@prisma/client';
 import { afterAll, afterEach, describe, expect, it } from 'vitest';
 
 import { eraseSyntheticHousehold, seedHousehold } from '../persistence/teaching-delivery-fixtures';
+import {
+  assertScratchDatabaseUrls,
+  disconnectWithDeadline,
+  runAttemptEvaluatorTeardown,
+} from './attempt-evaluator-teardown';
 
 // PYTHON-IMPLEMENT PY-R2/PY-R8: 0019 down.sql must not silently discard
 // evaluator provenance. Scratch database only (scripts/test-migrations.sh sets
 // SCRATCH_PSQL_URL and runs this before the empty-schema down/reapply cycle).
 // Synthetic rows only; no learner data.
 
+const DATABASE_URL = process.env.DATABASE_URL;
+const SCRATCH_PSQL_URL = process.env.SCRATCH_PSQL_URL;
+if (!DATABASE_URL || !SCRATCH_PSQL_URL) {
+  throw new Error(
+    'DATABASE_URL and SCRATCH_PSQL_URL are required; run this test through scripts/test-migrations.sh using a disposable local PostgreSQL connection.',
+  );
+}
+assertScratchDatabaseUrls(DATABASE_URL, SCRATCH_PSQL_URL);
+
 const prisma = new PrismaClient({ log: ['error'] });
-const SCRATCH_PSQL_URL = process.env.SCRATCH_PSQL_URL as string;
 const DIR = join(__dirname, '../../prisma/migrations/0019_add_attempt_evaluator_version');
 const DOWN_SQL = join(DIR, 'down.sql');
 const UP_SQL = join(DIR, 'migration.sql');
@@ -42,7 +54,7 @@ function withDeadline<T>(promise: Promise<T>, what: string, ms = OP_MS): Promise
 }
 
 afterAll(async () => {
-  await withDeadline(prisma.$disconnect(), 'disconnecting Prisma', AFTER_ALL_BUDGET_MS);
+  await disconnectWithDeadline(() => prisma.$disconnect(), AFTER_ALL_BUDGET_MS);
 }, AFTER_ALL_HOOK_TIMEOUT_MS);
 
 /** Polls a condition; each evaluation is itself bounded, as is the whole wait. */
@@ -73,23 +85,9 @@ const liveChildren = new Set<ChildProcess>();
 const cleanupHouseholds: string[] = [];
 const APP_NAMES = ['py6-down-guard-writer', 'py6-down-guard-down'] as const;
 
-async function attemptCleanup(
-  errors: Error[],
-  label: string,
-  operation: () => Promise<unknown>,
-  deadline: number,
-  maxMs: number,
-) {
-  try {
-    await withDeadline(operation(), label, Math.max(1, Math.min(maxMs, deadline - Date.now())));
-  } catch (error) {
-    errors.push(new Error(`${label} failed`, { cause: error }));
-  }
-}
-
 function track(child: ChildProcess): Promise<number | null> {
   liveChildren.add(child);
-  return new Promise<number | null>((resolve, reject) => {
+  const completion = new Promise<number | null>((resolve, reject) => {
     child.once('error', (error) => {
       liveChildren.delete(child);
       reject(error);
@@ -99,79 +97,25 @@ function track(child: ChildProcess): Promise<number | null> {
       resolve(code);
     });
   });
+  void completion.catch(() => undefined);
+  return completion;
 }
 
 afterEach(async () => {
-  const errors: Error[] = [];
-  const deadline = Date.now() + TEARDOWN_BUDGET_MS;
   const children = [...liveChildren];
-  await attemptCleanup(
-    errors,
-    'children to exit after SIGKILL',
-    async () => {
-      const results = await Promise.allSettled(
-        children.map(async (child) => {
-          if (child.exitCode !== null || child.signalCode !== null) return;
-          const closed = once(child, 'close');
-          if (!child.kill('SIGKILL') && child.exitCode === null && child.signalCode === null) {
-            throw new Error('SIGKILL could not be sent to a live child process');
-          }
-          await withDeadline(closed, 'child process close event', 4_000);
-        }),
-      );
-      const failures = results.flatMap((result) =>
-        result.status === 'rejected' ? [result.reason] : [],
-      );
-      if (failures.length > 0) {
-        throw new AggregateError(failures, 'One or more child processes did not exit cleanly');
-      }
-    },
-    deadline,
-    4_500,
-  );
   liveChildren.clear();
-
-  await attemptCleanup(
-    errors,
-    'terminating test backends',
-    () =>
+  await runAttemptEvaluatorTeardown({
+    children,
+    terminateBackends: () =>
       prisma.$queryRawUnsafe(
         `SELECT pg_terminate_backend(pid) FROM pg_stat_activity
              WHERE application_name IN (${APP_NAMES.map((name) => `'${name}'`).join(',')})
                AND datname = current_database() AND pid <> pg_backend_pid()`,
       ),
-    deadline,
-    5_000,
-  );
-
-  const householdIds = cleanupHouseholds.splice(0);
-  await attemptCleanup(
-    errors,
-    'erasing synthetic households',
-    async () => {
-      const results = await Promise.allSettled(
-        householdIds.map((householdId) =>
-          withDeadline(
-            eraseSyntheticHousehold(prisma, householdId),
-            `erasing synthetic household ${householdId}`,
-            5_000,
-          ),
-        ),
-      );
-      const failures = results.flatMap((result) =>
-        result.status === 'rejected' ? [result.reason] : [],
-      );
-      if (failures.length > 0) {
-        throw new AggregateError(failures, 'One or more synthetic households were not erased');
-      }
-    },
-    deadline,
-    5_000,
-  );
-
-  if (errors.length > 0) {
-    throw new AggregateError(errors, 'PY-R8 test teardown failed');
-  }
+    householdIds: cleanupHouseholds.splice(0),
+    eraseHousehold: (householdId) => eraseSyntheticHousehold(prisma, householdId),
+    timeoutMs: TEARDOWN_BUDGET_MS,
+  });
 }, TEARDOWN_HOOK_TIMEOUT_MS);
 
 async function columnPresent() {
@@ -228,8 +172,10 @@ describe('0019 down.sql guard (scratch database only)', () => {
 
   it('refuses, and keeps the column and the value, while any attempt records a version', async () => {
     expect(SCRATCH_PSQL_URL, 'SCRATCH_PSQL_URL must be set by test-migrations.sh').toBeTruthy();
-    const household = await withDeadline(seedHousehold(prisma), 'seeding a synthetic household');
-    cleanupHouseholds.push(household.householdId);
+    const household = await withDeadline(
+      seedHousehold(prisma, (householdId) => cleanupHouseholds.push(householdId)),
+      'seeding a synthetic household',
+    );
     const attempt = await withDeadline(
       seedAttempt(household, 'python-output-1'),
       'seeding an evaluator-version attempt',
@@ -243,11 +189,13 @@ describe('0019 down.sql guard (scratch database only)', () => {
       'reading the retained attempt',
     );
     expect(row.evaluatorVersion).toBe('python-output-1');
-  });
+  }, 75_000);
 
   it('a writer in flight is waited for, so a version committed before the check is never dropped', async () => {
-    const household = await withDeadline(seedHousehold(prisma), 'seeding a synthetic household');
-    cleanupHouseholds.push(household.householdId);
+    const household = await withDeadline(
+      seedHousehold(prisma, (householdId) => cleanupHouseholds.push(householdId)),
+      'seeding a synthetic household',
+    );
     await withDeadline(seedAttempt(household, null), 'seeding a NULL-version attempt');
     const [WRITER, DOWN] = APP_NAMES;
     // The writer holds its transaction open until THIS test releases it: it
@@ -335,8 +283,10 @@ SELECT 'PID=' || pg_backend_pid();
   }, 90_000); // Allows two 15-second polling windows plus bounded database and process waits.
 
   it('succeeds when every value is NULL, and the forward migration restores the column', async () => {
-    const household = await withDeadline(seedHousehold(prisma), 'seeding a synthetic household');
-    cleanupHouseholds.push(household.householdId);
+    const household = await withDeadline(
+      seedHousehold(prisma, (householdId) => cleanupHouseholds.push(householdId)),
+      'seeding a synthetic household',
+    );
     await withDeadline(seedAttempt(household, null), 'seeding a NULL-version attempt');
     const down = psqlFile(DOWN_SQL);
     expect(down.status, down.stderr).toBe(0);
@@ -344,5 +294,5 @@ SELECT 'PID=' || pg_backend_pid();
     const up = psqlFile(UP_SQL);
     expect(up.status, up.stderr).toBe(0);
     expect(await withDeadline(columnPresent(), 'checking the restored column')).toBe(true);
-  });
+  }, 75_000);
 });

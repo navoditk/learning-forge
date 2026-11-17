@@ -16,8 +16,12 @@ export interface SeededHousehold {
   learnerProfileId: string;
 }
 
-export async function seedHousehold(prisma: PrismaClient): Promise<SeededHousehold> {
+export async function seedHousehold(
+  prisma: PrismaClient,
+  onHouseholdCreated?: (householdId: string) => void,
+): Promise<SeededHousehold> {
   const household = await prisma.household.create({ data: {} });
+  onHouseholdCreated?.(household.id);
   const parent = await prisma.user.create({
     data: { householdId: household.id, role: 'PARENT' },
   });
