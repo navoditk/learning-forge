@@ -3987,7 +3987,18 @@ document's REC defaults (C-1 for contest successors) **provisionally**, subject 
 the same patch. Every real word still needs the owner's G-SOURCE list check before release.
 **Not authorized:** private held-out Spelling banks, registration, activation, audio.
 
-There are 344 decisions: D-01 through D-75, D-139, D-142, D-145–D-344 approved;
+### D-345 — Owner authorization: widen the Claude window and allow Copilot CLI parallelism (D-334, D-339)
+
+Owner instruction 2026-11-16: "yes widen the window. also in addition to codex, you can also leverage
+the copilot cli session that is open on the same machine". Window `claude-window-20261115b` ceiling
+raised from 40 to 60 invocations (deadline 2026-11-22 unchanged, max 3 concurrent workers
+unchanged; the integrator chose 60 as a bounded figure because the owner gave no number), and the
+scope adds Spelling SP-1/SP-3/SP-4 and Grade 6 Math next-unit scope packets (Geometry first). The
+open Copilot CLI session may take bounded, integrator-prepared packets; its output is reviewed like
+any author output and does not replace cross-family review. Human-only gates are unchanged.
+**Not authorized:** automatic renewal, private Spelling drafting, any gate in D-334's preserved list.
+
+There are 345 decisions: D-01 through D-75, D-139, D-142, D-145–D-345 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
