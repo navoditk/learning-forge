@@ -3976,7 +3976,18 @@ check except the draft-mode negative test, which is inapplicable once stamped. N
 answers are recorded here. **Not authorized:** the real private-bank merge and D-216 non-reuse
 check against Git history (owner-only), registration (ST-6), activation, release.
 
-There are 343 decisions: D-01 through D-75, D-139, D-142, D-145–D-343 approved;
+### D-344 — Owner-instructed D-61 exception: Spelling Bee public practice drafting (D-339)
+
+Owner instruction 2026-11-16: "we want a fully working math and spelling bee curriculum at the
+earliest", with D-339 extending delegated review to Spelling Bee. Authorizes drafting of Spelling
+Bee public practice records (SP-3: `content-2` corrections for the 14 defective records plus a first
+batch of new records, including "spell it" cue items) in an isolated worktree, as `pending_review`
+drafts, under the D-212 cross-family review gate. SP-1 scope rulings are applied as the scope
+document's REC defaults (C-1 for contest successors) **provisionally**, subject to Codex review of
+the same patch. Every real word still needs the owner's G-SOURCE list check before release.
+**Not authorized:** private held-out Spelling banks, registration, activation, audio.
+
+There are 344 decisions: D-01 through D-75, D-139, D-142, D-145–D-344 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
