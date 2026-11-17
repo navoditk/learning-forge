@@ -3998,7 +3998,23 @@ open Copilot CLI session may take bounded, integrator-prepared packets; its outp
 any author output and does not replace cross-family review. Human-only gates are unchanged.
 **Not authorized:** automatic renewal, private Spelling drafting, any gate in D-334's preserved list.
 
-There are 345 decisions: D-01 through D-75, D-139, D-142, D-145–D-345 approved;
+### D-346 — Delegated document acceptance: Grade 6 Math Geometry scope (D-212, D-333, D-345)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-16. MATH-GEO-SCOPE rev1 READY_WITH_RISKS, ACCEPT_DOCUMENT for
+`docs/grade-6-math-geo-scope.md` (doc SHA-256 `89feb77b...a97c`, patch `57ccea09...c586`). Author model
+from client metadata: `claude-opus-5-5`. Applied as reviewed, bytes unchanged. Four minor errata are
+**carried, not yet corrected** and must be fixed by the author before GEO-2 freezes: (1) line 73
+attributes `12 cubic meters` to the old content-1 answer, which was 2 cubic meters (12 is a deliberate
+wrong-answer counterexample); (2) the self-audit says five missing diagnostic codes, Section 7 has six
+rows covering seven behaviors; (3) GEO-1 must add an explicit coverage requirement or deferral for
+showing that cube-packing and the volume formula agree (6.G.2); (4) the command account omits Prettier,
+Git checks and patch export. Confirmed findings to act on: GEO-6 must wait for ST-6 to be applied
+(1.3.0 before 1.2.0 is registered fails U-4); registering banks without the matching private package
+makes the whole held-out store unavailable (passed to the ST-6 author); live `prism-volume-2`
+content-2 accepts wrong answers by substring. **Not authorized:** any Geometry D-61 exception,
+delegated rulings, private drafting (OD-1..OD-5 remain open to the owner), registration, release.
+
+There are 346 decisions: D-01 through D-75, D-139, D-142, D-145–D-346 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
