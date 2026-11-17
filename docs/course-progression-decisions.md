@@ -3964,7 +3964,19 @@ succeeds. Carried: parent-note wiring is a source-text test (render test is a fo
 relay tests fail only inside worktrees. **Not authorized:** serving authored hints (SP-4),
 availability changes, Spelling content work.
 
-There are 342 decisions: D-01 through D-75, D-139, D-142, D-145–D-342 approved;
+### D-343 — Delegated content acceptance: Statistics private package rev2 and reviewed-mode stamping (D-212, D-334, D-335)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-16. First review NOT_READY (histogram bins in `stat6-di-l04`,
+non-exclusive choice in `stat6-sq-d06`, wording, titles, three-option position bias); revision 2
+READY, ACCEPT_CONTENT for all 72 items in 10 banks (package-draft SHA-256 `72048b31...a592`,
+FROZEN `3b2d9e12...c7c5`). Author model from client transcript: Claude Opus. Reviewed-mode build
+stamped outside the repo (`package-reviewed.json` SHA-256 `1feaaffd...9106`, reviewer
+"Codex gpt-6.1-sol delegated sign-off (MATH-ST4 ...)", 2026-11-16); its validator passes every
+check except the draft-mode negative test, which is inapplicable once stamped. No item text or
+answers are recorded here. **Not authorized:** the real private-bank merge and D-216 non-reuse
+check against Git history (owner-only), registration (ST-6), activation, release.
+
+There are 343 decisions: D-01 through D-75, D-139, D-142, D-145–D-343 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

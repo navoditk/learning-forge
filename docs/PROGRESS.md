@@ -7787,7 +7787,17 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
 
 ## Resume here
 
-**CURRENT — 2026-11-15 (supersedes the older blocks below for routing):**
+**CURRENT — 2026-11-16 (supersedes the older blocks below for routing):**
+
+- **2026-11-16 latest checkpoint:** pushed through `0b38510` (D-340 validator re-listing, D-341
+  13 Statistics public drafts, D-342 Spelling tutor gate; none include a migration). Statistics
+  private package rev2 (`~/learning-forge-private-drafts/stat6-rev2`, outside the repo) is
+  awaiting Codex changed-scope re-review (first launch failed on stdin and was re-run). Next:
+  if accepted, a reviewed-mode stamping build, then ST-6 integration; the real private merge and
+  D-216 run stay owner-only. Spelling Bee next packets: SP-1, SP-3, SP-4. Held claims to release:
+  MATH-ST2, MATH-ST4, MATH-STD-IMPL, MATH-ST5A, MATH-STD-D, SPELL-SP2, SPELL-SCOPE.
+
+**Earlier — 2026-11-15:**
 
 - **2026-11-15 14:50 PT update:** ST-5a is applied and verified in the main tree (merge tests 61/61,
   full `npm test` 144 files / 4,167 tests, typecheck clean). MATH-ST2 finished: 13 public
