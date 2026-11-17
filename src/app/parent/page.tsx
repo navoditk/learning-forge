@@ -6,33 +6,10 @@ import { signOut } from 'next-auth/react';
 
 import { ProgramSwitcher } from '../components/program-switcher';
 import { ParentCourseProgress } from '../components/parent-course-progress';
+import { ParentEvidence, type ParentEvidenceData } from '../components/parent-evidence';
 import type { CourseProgress } from '../course-progress-view';
-import {
-  hasScienceEvidence,
-  hasSpellingEvidence,
-  SCIENCE_EVIDENCE_NOTE,
-  SPELLING_EVIDENCE_NOTE,
-} from '../parent-claims';
 
 const DELETION_CONFIRMATION_PHRASE = 'DELETE';
-
-type MasteryRow = {
-  skillCode: string;
-  estimate: number;
-  confidenceBand: string;
-  independentDelayedCheck: boolean;
-};
-
-type Evidence = {
-  learnerName: string;
-  attempts: Array<{
-    id: string;
-    contentKey: string;
-    correctness: string;
-    highestAssistance: string;
-  }>;
-  mastery: MasteryRow[];
-};
 
 type DigestSkillSummary = {
   skillCode: string;
@@ -52,7 +29,7 @@ const progressionReleaseGateOpen =
   process.env.NEXT_PUBLIC_COURSE_PROGRESSION_RELEASE_GATE_OPEN === 'true';
 
 export default function ParentPage() {
-  const [evidence, setEvidence] = useState<Evidence>();
+  const [evidence, setEvidence] = useState<ParentEvidenceData>();
   const [error, setError] = useState('');
   const [digest, setDigest] = useState<Digest>();
   const [digestError, setDigestError] = useState('');
@@ -159,46 +136,7 @@ export default function ParentPage() {
       <h1>Parent evidence</h1>
       {error && <p role="alert">{error}</p>}
       {!evidence && !error && <p>Loading evidence…</p>}
-      {evidence && (
-        <section aria-labelledby="evidence-heading">
-          <h2 id="evidence-heading">{evidence.learnerName}</h2>
-          <h3>Mastery by skill</h3>
-          {evidence.mastery.length === 0 ? (
-            <p>No mastery evidence yet.</p>
-          ) : (
-            <ul>
-              {evidence.mastery.map((row) => (
-                <li key={row.skillCode}>
-                  Skill: {row.skillCode} — estimate {row.estimate}, confidence{' '}
-                  {row.confidenceBand.toLocaleLowerCase()}.{' '}
-                  {/* D-65: today's same-sitting check is independent PRACTICE,
-                      not a genuine time-separated delayed check (re-review
-                      F6) - "delayed" would overclaim for skills confirmed
-                      this way, so this says only what's true for both. */}
-                  {row.independentDelayedCheck
-                    ? 'Independently confirmed.'
-                    : 'Independent confirmation still needed.'}
-                </li>
-              ))}
-            </ul>
-          )}
-          {hasScienceEvidence(evidence.mastery) && <p>{SCIENCE_EVIDENCE_NOTE}</p>}
-          {hasSpellingEvidence(evidence.mastery) && <p>{SPELLING_EVIDENCE_NOTE}</p>}
-          <h3>Recent attempts</h3>
-          {evidence.attempts.length === 0 ? (
-            <p>No attempts yet.</p>
-          ) : (
-            <ul>
-              {evidence.attempts.map((attempt) => (
-                <li key={attempt.id}>
-                  {attempt.contentKey}: {attempt.correctness.toLocaleLowerCase()} with{' '}
-                  {attempt.highestAssistance.toLocaleLowerCase().replaceAll('_', ' ')} assistance
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      )}
+      {evidence && <ParentEvidence evidence={evidence} />}
       {progressionReleaseGateOpen && courseProgress && (
         <ParentCourseProgress
           courseProgress={courseProgress}
