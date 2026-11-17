@@ -80,5 +80,7 @@ describe('hasScienceEvidence', () => {
     expect(component.match(/SCIENCE_EVIDENCE_NOTE/g)).toHaveLength(2); // import + render
     expect(component).toContain('hasScienceEvidence(evidence.mastery)');
     expect(page).not.toContain('sci6-');
+    expect(component).not.toContain('sci6-');
+    expect(component).not.toContain('snsb6-');
   });
 });

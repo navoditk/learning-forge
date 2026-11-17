@@ -36,8 +36,8 @@ export function ParentEvidence({ evidence }: { evidence: ParentEvidenceData }) {
             <li key={row.skillCode}>
               Skill: {row.skillCode} — estimate {row.estimate}, confidence{' '}
               {row.confidenceBand.toLocaleLowerCase()}.{' '}
-              {/* Today's same-sitting check is independent PRACTICE, not a genuine time-separated
-                  delayed check, so the wording does not overclaim either case. */}
+              {/* D-65: today's same-sitting check is independent PRACTICE, not a genuine time-separated
+                  delayed check (re-review F6), so the wording does not overclaim either case. */}
               {row.independentDelayedCheck
                 ? 'Independently confirmed.'
                 : 'Independent confirmation still needed.'}

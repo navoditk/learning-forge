@@ -4014,7 +4014,31 @@ makes the whole held-out store unavailable (passed to the ST-6 author); live `pr
 content-2 accepts wrong answers by substring. **Not authorized:** any Geometry D-61 exception,
 delegated rulings, private drafting (OD-1..OD-5 remain open to the owner), registration, release.
 
-There are 346 decisions: D-01 through D-75, D-139, D-142, D-145–D-346 approved;
+### D-347 — Claude-family review and local application: COPILOT-PARALLEL-1 (D-345)
+
+Reviewers 2026-11-16/17: Codex `gpt-6.1-sol` (first pass; item A NOT_READY on an unhandled-rejection
+leak, fixed in r2) and Claude Opus `claude-opus-5-5` (read-only, static) for the final state: A
+ACCEPT_WITH_RISKS, B ACCEPT_WITH_RISKS, C ACCEPT. **Provenance caveat:** the author's model, reported
+by Copilot as `gpt-6-luna`, is self-reported only (no client metadata in the bundle); the Claude
+review is cross-family only if that report is true. The changes are test, test-runner, document and a
+behavior-preserving parent-page component extraction, none touching scoring, mastery or release. Applied
+via `git am` as five commits (PY-R8 teardown, teardown fault-injection tests, rendered Spelling parent
+note test with extraction of `src/app/components/parent-evidence.tsx`, Python grammar-extension scope
+document and its citation fix). `scripts/test-migrations.sh` and
+`tests/persistence/teaching-delivery-fixtures.ts` changed beyond the named packet files; the reviewer
+judged both necessary and low risk. Integrator follow-ups added in a separate commit: the D-65/F6
+comment restored and a literal-prefix check extended to the component. Carried minors: the
+fault-injection tests do not replay the exact kill-false-then-late-error sequence (A1); deadlines bound
+waiting, not DB activity (A2); a dangling inner timer (A3); the guard-removal evidence for r2 is
+summary-only and `npm run test:migrations` was not rerun by the integrator (A4); no rendered Science
+positive control (B4). The Python grammar document authorizes nothing (D-330 still forbids new grammar).
+Validation: typecheck, lint (0 errors), Prettier, `tests/app/parent-claims.test.ts` 7/7; two full
+`npm test` runs under heavy machine load (load average about 19) failed 14 and then 5 tests, all in
+`tests/agents/delivery-*` process-timing suites (timeouts, different tests each run, none touched
+by these patches); a clean-machine full run is still owed. The Copilot session had left the shared
+checkout on its branch, so D-346 was first committed there and re-applied to `main` (`ebee7fd`).
+
+There are 347 decisions: D-01 through D-75, D-139, D-142, D-145–D-347 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
