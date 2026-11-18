@@ -7789,13 +7789,18 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
 
 **CURRENT — 2026-11-16 (supersedes the older blocks below for routing):**
 
-- **2026-11-16 latest checkpoint:** pushed through `0b38510` (D-340 validator re-listing, D-341
-  13 Statistics public drafts, D-342 Spelling tutor gate; none include a migration). Statistics
-  private package rev2 (`~/learning-forge-private-drafts/stat6-rev2`, outside the repo) is
-  awaiting Codex changed-scope re-review (first launch failed on stdin and was re-run). Next:
-  if accepted, a reviewed-mode stamping build, then ST-6 integration; the real private merge and
-  D-216 run stay owner-only. Spelling Bee next packets: SP-1, SP-3, SP-4. Held claims to release:
+- **2026-11-17 latest checkpoint:** pushed through `56d7012` (D-343..D-349; no migration).
+  Statistics unit 2 is registered but NOT active (selection still names `1.1.0`; private package
+  `~/learning-forge-private-drafts/stat6-rev2` accepted and stamped, ten banks carry sentinel
+  digests). Spelling SP-3: 22 `pending_review` drafts, unregistered. Geometry scope accepted
+  (D-346). Window `claude-window-20261115b`: about 48 of 60 invocations used (D-345).
+  Owner-only next: private-bank merge plus D-216 history check, then the D-349 activation steps in
+  order; G-SOURCE real-word check; Geometry OD-1..OD-5. Author-side next: Spelling SP-4 hints and
+  SP-5 unit scope, Geometry errata plus the `prism-volume-2` substring fix, Statistics 12-draft
+  review. A clean-machine full `npm test` and `npm run test:migrations` are still owed
+  (load-sensitive `tests/agents/delivery-*` timing failures only). Held claims to release:
   MATH-ST2, MATH-ST4, MATH-STD-IMPL, MATH-ST5A, MATH-STD-D, SPELL-SP2, SPELL-SCOPE.
+- Previous checkpoint (2026-11-16): pushed through `0b38510` (D-340..D-342).
 
 **Earlier — 2026-11-15:**
 
