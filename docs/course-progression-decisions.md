@@ -4277,7 +4277,34 @@ Git-history check, replacing the sentinel digests in `geometry-unit-2-catalog.ts
 `geometry-bank-metadata.json`, stamping the unit and lessons, mounted e2e, activation. The Geometry GEO-5
 merge is **WAITING FOR HUMAN APPROVAL** by the owner.
 
-There are 358 decisions: D-01 through D-75, D-139, D-142, D-145–D-358 approved;
+### D-359 — Delegated acceptance: Spelling private package rev5, reviewed-mode stamped build (D-212, D-339, D-353, D-343)
+
+Delegate: Codex `gpt-6.1-sol` (client header), 2026-11-17 to 18, six review rounds on the held-out items
+(disclosed to the author and the cross-family reviewer only; two attempts were blocked, once by the read-only
+sandbox and twice by the reviewer's usage limit). Author model from client metadata: `claude-opus-5-5`. The
+**served** items were accepted from rev3 on and are byte-identical through rev5; the open rounds concerned
+authored hints and sidecar metadata, which are unserved. Round summary: rev1 NOT_READY (underconstrained
+spellings, a second defensible response, hint leakage, a false universal rule), rev2 and rev3 NOT_READY
+(hint protection), rev4 NOT_READY after the structural fix (two shared hint templates steered options), rev5
+READY_WITH_RISKS with **0 Major and 2 Minor**. Package (outside the repository,
+`~/learning-forge-private-drafts/spell6-rev5`, FROZEN.sha256 `200a6121...83c0`, `package-draft.json`
+`9120d147...7325`): 96 items in 13 banks for unit `snsb6-word-structure`, 9 lesson, 6 unit, 3 review and 6
+delayed per skill, 96 hint ladders as 14 strategy templates assigned by task demand with a structural
+validator (1,152 planted leaks all caught), G-SOURCE inventory of 416 rows reconciled exactly, scorer
+answerability checks (132 accepted, 421 rejected), D-216 working-tree and history checks 0 collisions.
+**Carried Minors:** the option-neutrality check proves lexical, not semantic, neutrality (five `et` items),
+and the `mo-l06` assignment note is inaccurate. **Reviewed-mode build** (D-343 pattern,
+`spell6-rev5-reviewed/`): stamp `Codex gpt-6.1-sol (delegated, D-212/D-339/D-353)` on 2026-11-18;
+`package-reviewed.json` `c28f4d46...33dc`, `spell6-rev5-reviewed.sha256` `56bd7003...2e1f` (23 files verify),
+the frozen draft is untouched, and the real `PrivateAssessmentPackageStore` loads the reviewed copy against
+the repo's committed `spelling-bank-metadata.json` rules and rejects the draft. **Still owner or SP
+decisions:** whether explanation by selection satisfies the inherited explanation mastery rule (12 letter
+items), owner G-SOURCE screening of the six real targets and all named and gloss words (none cleared), the
+real merge and the D-216 Git-history check, replacement of the 13 sentinel digests, confirmation of bank and
+unit codes (SP-5), hint serving (SP-4), unit and lesson stamps, mounted e2e and activation. The Spelling
+merge is **WAITING FOR HUMAN APPROVAL** by the owner.
+
+There are 359 decisions: D-01 through D-75, D-139, D-142, D-145–D-359 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
