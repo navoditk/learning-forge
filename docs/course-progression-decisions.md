@@ -4103,7 +4103,32 @@ explicit coverage requirement or recorded deferral for showing that unit-cube pa
 and patch export. Document-only; no decision, scope or authorization changes. Prettier clean. The
 corrections implement named reviewer findings and were not separately re-reviewed.
 
-There are 351 decisions: D-01 through D-75, D-139, D-142, D-145–D-351 approved;
+### D-352 — Delegated scope rulings: Spelling SP-1 (D-127 to D-136), unit shape and volumes (D-212, D-339)
+
+Delegate: Codex `gpt-6.1-sol` (model confirmed from the client header of the run), 2026-11-17, read-only,
+one round, evidence cited to the scope document, dossier, register and policy profile. Rulings, each
+internal and reversible: **D-127** no new prerequisite edge, morphology-first is teaching order only;
+**D-128 and unit shape** U-B, four one-skill lessons (morphology, orthography, phoneme-grapheme mapping,
+etymology), the other four skills practice-only under an explicit legacy-compatibility policy; **D-129**
+six distinct practice records per skill (48 total, 32 new, 24 still to author after SP-3's eight), and
+private planning volumes of 9 lesson, 6 unit, 3 review and 6 delayed items per skill (U-B 96); **D-130**
+lesson banks plus a distinct unit bank; **D-131** retain and pin profile `1.0.0` unchanged; **D-132**
+`reviewReuse` stays disabled; **D-133** six delayed items per skill; **D-134** per-program scope: every
+free-text `snsb6-` answer gets `spellCheck=false`, `autoCorrect="off"`, `autoCapitalize="off"`, no
+per-item opt-in (already implemented); **D-135** the 14 `content-2` corrections stand with C-1 contest
+successors and structured choice in core only (covered by D-348, no new registration authority);
+**D-136** adopt the inherited placement contract unchanged; the production "spell it" format affirms
+D-348 (whole-answer `text` matching without `parts`). **D-137 and D-138 are deferred**: ordinary L2
+completion claims stay blocked and no teaching-completion switch or acknowledgement writer is adopted.
+These rulings authorize no drafting, registration or access. **Still owner-only:** target level
+(provisional recommendation L1 then L2), audio and speech capture (provisional: text cues, no voice
+capture), word-list licensing and G-SOURCE, private Spelling drafting authorization and the real merge,
+serving authored hints (SP-4), manual accessibility passes, production, commit and release decisions
+beyond the standing push authority. Unverified by the delegate: official-list status of real words,
+licensing terms, runtime readiness for L2. SP-5 unit engineering remains outside window scope (D-345) and
+needs a scope extension from the owner.
+
+There are 352 decisions: D-01 through D-75, D-139, D-142, D-145–D-352 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
