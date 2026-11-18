@@ -7789,17 +7789,23 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
 
 **CURRENT — 2026-11-16 (supersedes the older blocks below for routing):**
 
-- **2026-11-17 latest checkpoint:** pushed through `56d7012` (D-343..D-349; no migration).
-  Statistics unit 2 is registered but NOT active (selection still names `1.1.0`; private package
-  `~/learning-forge-private-drafts/stat6-rev2` accepted and stamped, ten banks carry sentinel
-  digests). Spelling SP-3: 22 `pending_review` drafts, unregistered. Geometry scope accepted
-  (D-346). Window `claude-window-20261115b`: about 48 of 60 invocations used (D-345).
-  Owner-only next: private-bank merge plus D-216 history check, then the D-349 activation steps in
-  order; G-SOURCE real-word check; Geometry OD-1..OD-5. Author-side next: Spelling SP-4 hints and
-  SP-5 unit scope, Geometry errata plus the `prism-volume-2` substring fix, Statistics 12-draft
-  review. A clean-machine full `npm test` and `npm run test:migrations` are still owed
-  (load-sensitive `tests/agents/delivery-*` timing failures only). Held claims to release:
-  MATH-ST2, MATH-ST4, MATH-STD-IMPL, MATH-ST5A, MATH-STD-D, SPELL-SP2, SPELL-SCOPE.
+- **2026-11-18 latest checkpoint:** pushed through `9248f61` (D-350..D-357; no migration). Owner
+  authorization D-353 (2026-11-17): Spelling SP-5 and private drafting, Geometry OD-1..OD-5, window
+  `claude-window-20261115b` widened to 90 calls and 2026-11-29 (about 80 used; figures integrator-chosen).
+  **Registered, not active** (the selection still names `grade-6-math@1.1.0` and Spelling `1.0.0`):
+  Statistics (D-349), Spelling unit U-B (D-356), Geometry (D-357, with `prism-volume-2@content-3` stamped
+  reviewed, D-354, and a runtime fix so resumed sessions present their bound version). Public drafts:
+  Spelling SP-3 (22) and Geometry GEO-2 (16), all `pending_review`. Rulings: Spelling SP-1 (D-352),
+  Geometry GEO-0/1 (D-354). Private packages outside the repo in `~/learning-forge-private-drafts/`:
+  Statistics `stat6-rev2-reviewed` (accepted, stamped); Geometry `geo6-rev3` accepted READY_WITH_RISKS
+  (reviewed-mode stamping build in progress); Spelling `spell6-rev4` NOT_READY on two unserved hint
+  templates (rev5 in progress; served items unchanged since rev1-closed findings). Clean full `npm test`
+  (153 files, 4,317) and `test:integration` (413) pass on the integrated tree; `test:migrations` still owed.
+  **Owner-only next:** the private-bank merges and D-216 history checks, G-SOURCE screening (six real Spelling
+  targets plus all named words), the explanation-by-selection policy question, the 6.G.2 packing
+  skill-version decision, Statistics activation ordering, mounted e2e, accessibility passes, release record.
+  Held claims to release: MATH-ST2, MATH-ST4, MATH-STD-IMPL, MATH-ST5A, MATH-STD-D, SPELL-SP2, SPELL-SCOPE.
+- Previous checkpoint (2026-11-17, through `56d7012`): D-343..D-349.
 - Previous checkpoint (2026-11-16): pushed through `0b38510` (D-340..D-342).
 
 **Earlier — 2026-11-15:**
