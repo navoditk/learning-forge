@@ -53,9 +53,10 @@
     "licenseStatus": "owned"
   },
   "review": {
-    "status": "pending_review",
-    "reviewer": "pending human review",
-    "originalityStatement": "Correction of the repository's own prism-volume-2@content-2 (D-350). Prompt, hints and accessibility text are carried over unchanged; only the validator, equivalence notes and review metadata differ. It reproduces no textbook, contest or standards text."
+    "status": "reviewed",
+    "reviewer": "Codex gpt-6.1-sol (delegated, D-212/D-353 OD-1)",
+    "originalityStatement": "Correction of the repository's own prism-volume-2@content-2 (D-350). Prompt, hints and accessibility text are carried over unchanged; only the validator, equivalence notes and review metadata differ. It reproduces no textbook, contest or standards text.",
+    "reviewedAt": "2026-11-17"
   },
   "accessibilityNotes": "Present all dimensions and the unit interpretation in linear text; no box diagram is required.",
   "accessibleAlternative": "Read aloud or display: A box is three-fourths meter by two meters by one and one-third meters. Find the cubic-meter space inside and explain what volume measures."

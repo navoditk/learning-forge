@@ -283,14 +283,14 @@ Geometry banks (5.4).
 
 ### 6.1 Public practice
 
-| Item                                    | Statistics (D-335) | Geometry (REC)                                                                                                                                                                                   |
-| --------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| New items per skill                     | 4                  | 4                                                                                                                                                                                                |
-| Skills                                  | 3                  | 4                                                                                                                                                                                                |
-| New identities `<skill>-3…-6@content-1` | 12                 | **16**                                                                                                                                                                                           |
-| Corrections (`content-N+1`)             | 1                  | **1** (`prism-volume-2@content-3`, structured `number` + `choice`, removes the substring false accept) + **0-1** conditional (`prism-volume-1@content-2` if GEO-1 rules bare numbers acceptable) |
-| Total public drafts                     | 13                 | **17**, at most **18**                                                                                                                                                                           |
-| Teaching                                | 0                  | 0                                                                                                                                                                                                |
+| Item                                    | Statistics (D-335) | Geometry (REC)                                                                                                                                                                                                     |
+| --------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| New items per skill                     | 4                  | 4                                                                                                                                                                                                                  |
+| Skills                                  | 3                  | 4                                                                                                                                                                                                                  |
+| New identities `<skill>-3…-6@content-1` | 12                 | **16**                                                                                                                                                                                                             |
+| Corrections (`content-N+1`)             | 1                  | **1** (`prism-volume-2@content-3`, whole-response matching, removes the substring false accept; D-350, stamped by D-354) + **0-1** conditional (`prism-volume-1@content-2` if GEO-1 rules bare numbers acceptable) |
+| Total public drafts                     | 13                 | **17**, at most **18**                                                                                                                                                                                             |
+| Teaching                                | 0                  | 0                                                                                                                                                                                                                  |
 
 Per-skill allocation (REC; final mapping is the GEO-2 coverage map):
 `area-of-composite-shapes` A1-a, A1-b, A1-c, A1-d; `prism-volume` A2-a, A2-c and

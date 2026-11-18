@@ -19,9 +19,10 @@ const v2 = read('prism-volume-2.json');
 const v3 = read('prism-volume-2-content-3.json');
 
 describe('prism-volume-2 content-3 correction (D-350)', () => {
-  it('is a pending_review draft, unregistered, and leaves content-2 registered', () => {
+  it('is a delegated-reviewed correction (D-354), unregistered, and leaves content-2 registered', () => {
     expect(`${v3.id}@${v3.version}`).toBe('prism-volume-2@content-3');
-    expect(v3.review.status).toBe('pending_review');
+    expect(v3.review.status).toBe('reviewed');
+    expect(v3.review.reviewedAt).toBe('2026-11-17');
     expect(contentCatalog.filter((i) => i.id === 'prism-volume-2').map((i) => i.version)).toEqual([
       'content-2',
     ]);

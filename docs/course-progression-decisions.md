@@ -4152,7 +4152,31 @@ Recorded by the integrator (Claude Code Sonnet 5.5); the owner may narrow or rev
   production data, migrations, deployment, release records, paid provider calls, and Statistics
   activation. GEO-6 still waits for the Statistics registration being applied (done, D-349).
 
-There are 353 decisions: D-01 through D-75, D-139, D-142, D-145–D-353 approved;
+### D-354 — Delegated rulings and content acceptance: Geometry GEO-0/1, `prism-volume-2@content-3` stamp (D-212, D-353)
+
+Delegate: Codex `gpt-6.1-sol` (model confirmed from the client header), 2026-11-17, read-only, one round,
+GEO-0 accepted, GEO-1 READY_WITH_RISKS. **Rulings:** lesson order area, surface area, prism volume,
+coordinate geometry; public volume 16 new records plus `prism-volume-2@content-3` (17 drafts), no
+`prism-volume-1` correction, zero teaching; private planning volume 96 = 36 lesson + 24 unit + 12 review
+
+- 24 delayed in 13 banks; polygon drawing (A3-a) and net production (A4) explicitly deferred with partial
+  standards coverage reported; new measurement answers must carry the correct linear, square or cubic unit
+  (preprinted unit alone is not evidence), legacy bytes kept and their exceptions listed; misconceptions M-C
+  (existing codes only) with seven named diagnostic gaps individually recorded in the coverage map; net
+  selection satisfies A4-a conditionally (select or verify before computing, dimensions and adjacency in
+  text); `coordinate-geometry@1.0.0` retained unchanged; two D-61 exception texts (public drafting: exactly 16
+  `<skill>-3..-6@content-1` records and `docs/geometry-g2-coverage-map.md`, pending_review, unimported;
+  correction: `prism-volume-2@content-3` only). **Stamp:** `prism-volume-2@content-3` is stamped reviewed
+  2026-11-17 by Codex under D-212/D-353 OD-1 (pre-stamp SHA-256 `ff9c8d67...740d`, post-stamp `798b2edf...f55a`);
+  content only, still unregistered, so the live `content-2` false accept remains until registration, which
+  waits for GEO-6. **GEO-1 findings:** (major) 6.G.2 cube-packing versus V = l w h equivalence evidence is
+  missing and is **deferred**; (major, carried) O-7 identity reuse stays a claim gate and
+  `surface-area-and-volume-1@content-1` is excluded as a placement source until the investigation; legacy unit
+  policy varies. **Stop condition routed to the owner:** scoring packing or equivalence as mastery exceeds the
+  `prism-volume@1.0.0` evidence contract and needs a successor skill-version decision (D-149/D-57); until then
+  it is explicitly deferred. Not authorized: registration, serving, activation, release.
+
+There are 354 decisions: D-01 through D-75, D-139, D-142, D-145–D-354 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
