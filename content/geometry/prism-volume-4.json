@@ -1,0 +1,69 @@
+{
+  "id": "prism-volume-4",
+  "version": "content-1",
+  "title": "Volume from a base area",
+  "role": "practice",
+  "skillRef": {
+    "code": "prism-volume",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["6.G.A.2"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Computes the volume of a right rectangular prism as base area times height with fractional values, changing the unit from square to cubic units."
+  ],
+  "prompt": "The base of a rectangular prism is a rectangle with an area of 10 1/2 square inches. The prism is 2 2/3 inches tall. What is the volume of the prism? Include the unit in your answer.",
+  "solutionRepresentation": "Volume = base area × height = 10 1/2 × 2 2/3 = 21/2 × 8/3 = 168/6 = 28 cubic inches. Square inches times inches gives cubic inches.",
+  "solutionMethod": "Use V = B × h: write the mixed numbers as fractions, multiply, simplify, and change the unit from square inches to cubic inches.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "28 cubic inches",
+    "acceptedAnswers": [
+      "28 cubic inches",
+      "28 cu in",
+      "28 cu. in",
+      "28 in^3",
+      "28 in³",
+      "28 cubic in",
+      "28 cu inches",
+      "28 inches cubed",
+      "28 in3"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The cubic-inch unit is required: a bare number, or the number with a linear or square unit, is not accepted."
+  },
+  "misconceptionCodes": ["labels-volume-answer-with-square-units"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The base area counts the unit squares that cover the bottom. Stacking that layer up through the height gives the volume.",
+      "question": "Which two numbers in the problem should you multiply?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Write each mixed number as a fraction before multiplying, and look for factors that cancel.",
+      "question": "What are 10 1/2 and 2 2/3 written as fractions?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different prism has a base area of 4 1/2 square feet and a height of 1 1/3 feet: 9/2 × 4/3 = 36/6 = 6 cubic feet.",
+      "question": "Using the same steps, what is the volume of this prism, and what unit does it have?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["28 cubic inches", "28 in^3", "28 cu in", "168/6", "21/2 × 8/3"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record prism-volume-4 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Text-only item: every length needed is in the prompt, so no figure or color is needed. The answer is typed in one box and must include its unit.",
+  "accessibleAlternative": "Read aloud or display: A rectangular prism has a rectangular base with an area of ten and one-half square inches. The prism is two and two-thirds inches tall. Find its volume and write the unit."
+}

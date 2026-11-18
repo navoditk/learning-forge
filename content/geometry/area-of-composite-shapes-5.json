@@ -1,0 +1,76 @@
+{
+  "id": "area-of-composite-shapes-5",
+  "version": "content-1",
+  "title": "Trapezoid patio",
+  "role": "practice",
+  "skillRef": {
+    "code": "area-of-composite-shapes",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.G.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Finds the area of a trapezoid by decomposing it into a rectangle and two right triangles, using the perpendicular height rather than the slanted side, and labels the result in square units."
+  ],
+  "prompt": "A patio is shaped like a trapezoid. Its two parallel sides are 9 meters and 15 meters long, and the distance between them is 4 meters. Each slanted side is 5 meters long, and both slanted sides lean outward by the same amount. The dashed lines in the figure split the patio into a rectangle and two right triangles. What is the area of the patio? Include the unit in your answer.",
+  "solutionRepresentation": "The rectangle is 9 m by 4 m, so its area is 36 square meters. The bottom side is 15 - 9 = 6 m longer than the top, shared equally, so each right triangle has legs of 3 m and 4 m and an area of 1/2 × 3 × 4 = 6 square meters. Total area = 36 + 6 + 6 = 48 square meters. The 5 m slanted sides are not needed.",
+  "solutionMethod": "Decompose the trapezoid into a rectangle and two right triangles, find each area with the perpendicular height, and add the pieces without counting any part twice.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "48 square meters",
+    "acceptedAnswers": [
+      "48 square meters",
+      "48 sq m",
+      "48 sq. m",
+      "48 m^2",
+      "48 m²",
+      "48 square m",
+      "48 sq meters",
+      "48 meters squared",
+      "48 m2"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The square-meter unit is required: a bare number, or the number with a linear or cubic unit, is not accepted."
+  },
+  "misconceptionCodes": ["double-counts-overlap", "uses-wrong-formula"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Work with the three pieces made by the dashed lines. The middle piece is a rectangle as wide as the top side.",
+      "question": "What are the length and width of the middle rectangle?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The bottom side is longer than the top side, and the extra length is shared equally by the two triangles. Each triangle's height is the distance between the parallel sides.",
+      "question": "How long is the bottom edge of each right triangle?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different trapezoid has parallel sides of 4 feet and 10 feet that are 2 feet apart. The rectangle is 4 × 2 = 8 square feet, each triangle has legs 3 and 2 and an area of 3 square feet, and the total is 8 + 3 + 3 = 14 square feet.",
+      "question": "Using the same rectangle-plus-triangles idea, what is the area of the patio, with its unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["48 square meters", "48 sq m", "48 m^2", "36 + 6 + 6"],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 500 250\" role=\"img\"><rect width=\"500\" height=\"250\" fill=\"#ffffff\"/><polygon points=\"60,200 435,200 360,100 135,100\" fill=\"none\" stroke=\"#22221f\" stroke-width=\"3\"/><line x1=\"135\" y1=\"100\" x2=\"135\" y2=\"200\" stroke=\"#22221f\" stroke-width=\"2\" stroke-dasharray=\"8 6\"/><line x1=\"360\" y1=\"100\" x2=\"360\" y2=\"200\" stroke=\"#22221f\" stroke-width=\"2\" stroke-dasharray=\"8 6\"/><polyline points=\"135,186 149,186 149,200\" fill=\"none\" stroke=\"#22221f\" stroke-width=\"2\"/><polyline points=\"360,186 346,186 346,200\" fill=\"none\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"247\" y=\"88\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">9 m</text><text x=\"247\" y=\"232\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">15 m</text><text x=\"88\" y=\"152\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">5 m</text><text x=\"406\" y=\"152\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">5 m</text><text x=\"145\" y=\"158\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4 m</text></svg>",
+    "altText": "A trapezoid with a horizontal top side labeled 9 m and a longer horizontal bottom side labeled 15 m. The left and right slanted sides are each labeled 5 m and lean outward equally. Two dashed lines drop straight down from the ends of the top side to the bottom side, each meeting it at a right angle shown by a small square. The left dashed line is labeled 4 m. The dashed lines split the trapezoid into a rectangle in the middle and a right triangle at each end.",
+    "caption": "A trapezoid patio split by dashed heights into a rectangle and two right triangles. Use the labeled lengths; do not measure the drawing.",
+    "width": 500,
+    "height": 250
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record area-of-composite-shapes-5 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The figure is a static trapezoid with the top, bottom and slanted sides labeled, and two dashed heights marked with right-angle squares. Every length is also in the prompt and the text alternative, so the item can be solved without the image. Black lines on white; no color carries meaning. The answer is typed with its unit.",
+  "accessibleAlternative": "Read aloud or display: A patio is a trapezoid. The parallel sides are 9 meters (top) and 15 meters (bottom), and they are 4 meters apart. Each slanted side is 5 meters, and both lean outward by the same amount. Two dashed lines drop straight down from the ends of the top side, splitting the patio into a rectangle in the middle and a right triangle on each end. Find the area of the patio and write the unit."
+}

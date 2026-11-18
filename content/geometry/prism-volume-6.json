@@ -1,0 +1,88 @@
+{
+  "id": "prism-volume-6",
+  "version": "content-1",
+  "title": "Filling a fish tank",
+  "role": "practice",
+  "skillRef": {
+    "code": "prism-volume",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["6.G.A.2"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Solves a real-world volume problem for a right rectangular prism with fractional edge lengths and gives the answer with a cubic unit."
+  ],
+  "prompt": "A fish tank is a rectangular prism 2 1/4 feet long, 1 1/3 feet wide, and 1 1/2 feet tall. How much water does it hold when it is filled to the top? Give the volume and include the unit in your answer.",
+  "solutionRepresentation": "Volume = 2 1/4 × 1 1/3 × 1 1/2 = 9/4 × 4/3 × 3/2. First 9/4 × 4/3 = 3, then 3 × 3/2 = 9/2 = 4 1/2 cubic feet.",
+  "solutionMethod": "Recognize that the water fills the tank's volume, write each mixed number as a fraction, cancel common factors, multiply, and label the result in cubic feet.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "4 1/2 cubic feet",
+    "acceptedAnswers": [
+      "4 1/2 cubic feet",
+      "4 1/2 ft^3",
+      "4 1/2 ft³",
+      "4 1/2 cu ft",
+      "4 1/2 cubic ft",
+      "4 1/2 ft3",
+      "4.5 cubic feet",
+      "4.5 ft^3",
+      "4.5 ft³",
+      "4.5 cu ft",
+      "4.5 cubic ft",
+      "4.5 ft3",
+      "9/2 cubic feet",
+      "9/2 ft^3",
+      "9/2 ft³",
+      "9/2 cu ft",
+      "9/2 cubic ft",
+      "9/2 ft3"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The cubic-foot unit is required: a bare number, or the number with a linear or square unit, is not accepted."
+  },
+  "misconceptionCodes": [
+    "adds-edge-lengths-instead-of-multiplying",
+    "labels-volume-answer-with-square-units"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The water fills the whole inside of the tank, so the amount of water is the tank's volume.",
+      "question": "What operation combines the length, the width and the height?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Change each mixed number to a fraction, then cancel before multiplying: a factor in one numerator can cancel the same factor in another denominator.",
+      "question": "What are 2 1/4, 1 1/3 and 1 1/2 written as fractions?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different tank is 1 1/2 ft by 2/3 ft by 2 ft: 3/2 × 2/3 × 2 = 2 cubic feet.",
+      "question": "Using the same steps, how much water does this tank hold, with its unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "4 1/2 cubic feet",
+    "4.5 cubic feet",
+    "9/2 cubic feet",
+    "4 1/2 ft^3",
+    "4.5 ft^3",
+    "9/2 ft^3"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record prism-volume-6 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Text-only item: every length needed is in the prompt, so no figure or color is needed. The answer is typed in one box and must include its unit. A mixed number, decimal or fraction is accepted.",
+  "accessibleAlternative": "Read aloud or display: A fish tank is a rectangular prism two and one-quarter feet long, one and one-third feet wide, and one and one-half feet tall. Find how much water it holds when full, as a volume with its unit."
+}

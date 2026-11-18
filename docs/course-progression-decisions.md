@@ -4176,7 +4176,26 @@ coordinate geometry; public volume 16 new records plus `prism-volume-2@content-3
   `prism-volume@1.0.0` evidence contract and needs a successor skill-version decision (D-149/D-57); until then
   it is explicitly deferred. Not authorized: registration, serving, activation, release.
 
-There are 354 decisions: D-01 through D-75, D-139, D-142, D-145–D-354 approved;
+### D-355 — Delegated content acceptance and local application: MATH-GEO-2 Geometry public drafts (D-212, D-353, D-354)
+
+Delegate: Codex `gpt-6.1-sol` (model confirmed from the client header), 2026-11-17, one round,
+READY_WITH_RISKS with no Major findings and one Minor (GEO2-01). Author model from client transcript:
+`claude-opus-5-5`. Patch SHA-256 `111305fb...7402` (17 files), applied locally with one integrator
+correction. Adds the 16 `pending_review`, unimported public records `<skill>-3..-6@content-1` across the
+four Geometry skills (14 whole-answer numeric validators with units; two `structured-fields` items,
+`prism-volume-3` and `surface-area-and-volume-3`) and `docs/geometry-g2-coverage-map.md`. The reviewer
+hand-solved all 16 answers, ran 123 accepted variants, 344 negative cases and 34 structured scoring cases
+in memory, and confirmed the 16 records load under the catalog validator without being imported.
+**R-1 ruling:** `prism-volume-3` is recognition within `prism-volume@1.0.0` and does not claim packing or
+equivalence, so the D-354 stop condition does not fire; the 6.G.2 packing and equivalence evidence stays
+deferred pending the owner's skill-version decision. **GEO2-01 fixed by the integrator** (coverage map:
+omitting a whole congruent pair gives 54, 40 or 70, while 41 is an uncoded one-face-per-pair error); the
+correction was not separately re-reviewed. Carried: a 1-in-4 guess rate on net selection, fail-closed unit
+spellings, nine uncoded diagnostics (seven named under M-C plus two), V-7 distractor tests needed at GEO-6
+registration for the two structured items, and the manual assistive-technology pass on the four figures.
+**Not authorized:** registration, stamping, serving, activation.
+
+There are 355 decisions: D-01 through D-75, D-139, D-142, D-145–D-355 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

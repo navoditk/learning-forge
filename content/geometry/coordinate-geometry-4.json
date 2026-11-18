@@ -1,0 +1,71 @@
+{
+  "id": "coordinate-geometry-4",
+  "version": "content-1",
+  "title": "Right triangle on the coordinate plane",
+  "role": "practice",
+  "skillRef": {
+    "code": "coordinate-geometry",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["6.G.A.3"],
+  "itemReadinessRefs": [
+    {
+      "code": "coordinate-plane",
+      "version": "1.0.0"
+    }
+  ],
+  "observableEvidence": [
+    "Finds the area of a right triangle on the coordinate plane from vertex coordinates in more than one quadrant, using its horizontal and vertical sides, and labels it in square units."
+  ],
+  "prompt": "A triangle has vertices P(-3, -2), Q(5, -2) and R(-3, 4). What is the area of triangle PQR? Include the unit in your answer.",
+  "solutionRepresentation": "PQ is horizontal: from x = -3 to x = 5 is 8 units. PR is vertical: from y = -2 to y = 4 is 6 units. They meet at a right angle at P. Area = 1/2 × 8 × 6 = 24 square units.",
+  "solutionMethod": "Find the horizontal and vertical sides from shared coordinates, use them as base and height, take half of their product, and label the area in square units.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "24 square units",
+    "acceptedAnswers": [
+      "24 square units",
+      "24 sq units",
+      "24 sq. units",
+      "24 units^2",
+      "24 units²",
+      "24 units squared"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The square unit is required: a bare number, or the number with a linear or missing unit, is not accepted."
+  },
+  "misconceptionCodes": ["ignores-sign-in-distance"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Look for two sides that are horizontal or vertical. They meet at a right angle and can be the base and the height.",
+      "question": "Which two vertices share a y-coordinate, and which two share an x-coordinate?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "A side that crosses an axis is as long as the distances on both sides of that axis added together.",
+      "question": "How long are the horizontal side and the vertical side?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different triangle with vertices (-1, 1), (3, 1) and (-1, -4) has legs of 4 and 5 units, so its area is 1/2 × 4 × 5 = 10 square units.",
+      "question": "Using the same steps, what is the area of triangle PQR, with its unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["24 square units", "24 sq units", "1/2 × 8 × 6", "8 × 6"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record coordinate-geometry-4 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Text-only item: all three vertices are given as signed coordinates in the prompt, so no plotted graph or color is needed. The answer is typed with its unit.",
+  "accessibleAlternative": "Read aloud or display: A triangle has vertices P at negative 3, negative 2; Q at 5, negative 2; and R at negative 3, 4. Find the area of the triangle and write the unit."
+}

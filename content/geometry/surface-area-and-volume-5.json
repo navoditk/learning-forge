@@ -1,0 +1,79 @@
+{
+  "id": "surface-area-and-volume-5",
+  "version": "content-1",
+  "title": "Wrapping a gift box",
+  "role": "practice",
+  "skillRef": {
+    "code": "surface-area-and-volume",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["6.G.A.4"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Applies surface area to a real-world covering problem for a rectangular prism, distinguishing it from volume, and gives the answer with a square unit."
+  ],
+  "prompt": "Leila wants to cover every outside face of a closed gift box with paper, with no overlaps. The box is 12 centimeters long, 8 centimeters wide, and 5 centimeters tall. What is the least area of paper she needs? Include the unit in your answer.",
+  "solutionRepresentation": "The box has three pairs of matching faces: 12 × 8 = 96, 12 × 5 = 60 and 8 × 5 = 40 square centimeters. Surface area = 2 × (96 + 60 + 40) = 2 × 196 = 392 square centimeters. The volume, 480 cubic centimeters, measures the space inside, not the paper.",
+  "solutionMethod": "Recognize that covering the outside needs surface area, find the three distinct face areas, double their sum, and label the result in square centimeters.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "392 square centimeters",
+    "acceptedAnswers": [
+      "392 square centimeters",
+      "392 sq cm",
+      "392 sq. cm",
+      "392 cm^2",
+      "392 cm²",
+      "392 square cm",
+      "392 sq centimeters",
+      "392 centimeters squared",
+      "392 cm2"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The square-centimeter unit is required: a bare number, or the number with a linear or cubic unit, is not accepted."
+  },
+  "misconceptionCodes": [
+    "confuses-surface-area-and-volume",
+    "omits-a-face",
+    "labels-surface-area-answer-with-cubic-units"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The paper covers the outside faces, so you need the surface area, not the space inside the box.",
+      "question": "How many faces does a closed box have, and how many different sizes are there?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Opposite faces of a box are the same size: top and bottom, front and back, and the two ends.",
+      "question": "What are the areas of the top, the front and one end?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different box is 6 cm by 4 cm by 2 cm. Covering it takes 2 × (24 + 12 + 8) = 88 square centimeters of paper.",
+      "question": "Using the same idea, how much paper covers Leila's box, with its unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "392 square centimeters",
+    "392 sq cm",
+    "392 cm^2",
+    "2 × 196",
+    "96 + 60 + 40"
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record surface-area-and-volume-5 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Text-only item: every length needed is in the prompt, so no figure or color is needed. The answer is typed in one box and must include its unit.",
+  "accessibleAlternative": "Read aloud or display: Leila covers every outside face of a closed gift box with paper, with no overlaps. The box is 12 centimeters long, 8 centimeters wide and 5 centimeters tall. Find the least area of paper she needs and write the unit."
+}

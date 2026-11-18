@@ -1,0 +1,73 @@
+{
+  "id": "prism-volume-5",
+  "version": "content-1",
+  "title": "Soap bar volume",
+  "role": "practice",
+  "skillRef": {
+    "code": "prism-volume",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.G.A.2"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Computes the volume of a right rectangular prism with fractional edge lengths by multiplying length, width and height, and labels the result in cubic units."
+  ],
+  "prompt": "A bar of soap is shaped like a rectangular prism 7 1/2 centimeters long, 4 centimeters wide, and 2 1/2 centimeters thick. What is the volume of the soap bar? Include the unit in your answer.",
+  "solutionRepresentation": "Volume = 7 1/2 × 4 × 2 1/2 = 15/2 × 4 × 5/2 = 30 × 5/2 = 75 cubic centimeters.",
+  "solutionMethod": "Multiply the three edge lengths (writing mixed numbers as fractions), simplify, and label the result in cubic centimeters.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "75 cubic centimeters",
+    "acceptedAnswers": [
+      "75 cubic centimeters",
+      "75 cu cm",
+      "75 cu. cm",
+      "75 cm^3",
+      "75 cm³",
+      "75 cubic cm",
+      "75 cu centimeters",
+      "75 centimeters cubed",
+      "75 cc",
+      "75 cm3"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The cubic-centimeter unit is required: a bare number, or the number with a linear or square unit, is not accepted."
+  },
+  "misconceptionCodes": [
+    "adds-edge-lengths-instead-of-multiplying",
+    "labels-volume-answer-with-square-units"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The volume of a rectangular prism is length times width times height, even when some edges are fractions.",
+      "question": "Which three lengths will you multiply?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Multiplying the whole number first can make the fractions easier to handle.",
+      "question": "What is 7 1/2 times 4?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different bar is 5 1/2 cm by 2 cm by 1 1/2 cm: 11/2 × 2 × 3/2 = 11 × 3/2 = 16 1/2 cubic centimeters.",
+      "question": "Using the same steps, what is the volume of this soap bar, and what unit does it have?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["75 cubic centimeters", "75 cm^3", "75 cu cm", "30 × 5/2"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record prism-volume-5 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Text-only item: every length needed is in the prompt, so no figure or color is needed. The answer is typed in one box and must include its unit.",
+  "accessibleAlternative": "Read aloud or display: A bar of soap is a rectangular prism seven and one-half centimeters long, four centimeters wide, and two and one-half centimeters thick. Find its volume and write the unit."
+}

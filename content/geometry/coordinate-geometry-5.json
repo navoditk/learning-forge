@@ -1,0 +1,81 @@
+{
+  "id": "coordinate-geometry-5",
+  "version": "content-1",
+  "title": "L-shaped garden plot on a map",
+  "role": "practice",
+  "skillRef": {
+    "code": "coordinate-geometry",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["6.G.A.3"],
+  "itemReadinessRefs": [
+    {
+      "code": "coordinate-plane",
+      "version": "1.0.0"
+    }
+  ],
+  "observableEvidence": [
+    "Solves a real-world area problem for an L-shaped polygon drawn on the coordinate plane by finding side lengths from vertex coordinates across quadrants, and labels the area in square meters."
+  ],
+  "prompt": "On a map of a community garden, each grid unit is 1 meter. One plot is an L-shaped region with corners, in order, at (-4, 5), (2, 5), (2, 1), (6, 1), (6, -3) and (-4, -3). Every side is horizontal or vertical. What is the area of the plot? Include the unit in your answer.",
+  "solutionRepresentation": "Cut the L along y = 1. Top part: x from -4 to 2 is 6 m and y from 1 to 5 is 4 m, so 24 square meters. Bottom part: x from -4 to 6 is 10 m and y from -3 to 1 is 4 m, so 40 square meters. Total = 24 + 40 = 64 square meters. Check: the surrounding 10 m by 8 m rectangle is 80 square meters, minus the missing 4 m by 4 m corner (16) leaves 64.",
+  "solutionMethod": "Split the L-shape into two rectangles along a grid line, find each side length from the coordinates (adding distances across an axis), add the two areas, and label the result in square meters.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "64 square meters",
+    "acceptedAnswers": [
+      "64 square meters",
+      "64 sq m",
+      "64 sq. m",
+      "64 m^2",
+      "64 m²",
+      "64 square m",
+      "64 sq meters",
+      "64 meters squared",
+      "64 m2"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The square-meter unit is required: a bare number, or the number with a linear or cubic unit, is not accepted."
+  },
+  "misconceptionCodes": ["ignores-sign-in-distance"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Cut the L into two rectangles with one straight cut along a grid line.",
+      "question": "If you cut along the line y = 1, what are the corners of the top rectangle?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Find each rectangle's side lengths from the coordinates. A side that crosses an axis adds the distances on both sides of it.",
+      "question": "What are the length and width of each rectangle, in meters?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different L-shaped plot splits into a 3 m by 2 m rectangle and a 5 m by 2 m rectangle, for 6 + 10 = 16 square meters.",
+      "question": "Using the same split-and-add idea, what is the area of this plot, with its unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["64 square meters", "64 sq m", "64 m^2", "24 + 40", "80 - 16"],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 440 360\" role=\"img\"><rect width=\"440\" height=\"360\" fill=\"#ffffff\"/><line x1=\"40\" y1=\"30\" x2=\"40\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"70\" y1=\"30\" x2=\"70\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"100\" y1=\"30\" x2=\"100\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"130\" y1=\"30\" x2=\"130\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"160\" y1=\"30\" x2=\"160\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"190\" y1=\"30\" x2=\"190\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"220\" y1=\"30\" x2=\"220\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"250\" y1=\"30\" x2=\"250\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"280\" y1=\"30\" x2=\"280\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"310\" y1=\"30\" x2=\"310\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"340\" y1=\"30\" x2=\"340\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"370\" y1=\"30\" x2=\"370\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"400\" y1=\"30\" x2=\"400\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"330\" x2=\"400\" y2=\"330\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"300\" x2=\"400\" y2=\"300\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"270\" x2=\"400\" y2=\"270\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"240\" x2=\"400\" y2=\"240\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"210\" x2=\"400\" y2=\"210\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"180\" x2=\"400\" y2=\"180\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"150\" x2=\"400\" y2=\"150\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"120\" x2=\"400\" y2=\"120\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"90\" x2=\"400\" y2=\"90\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"60\" x2=\"400\" y2=\"60\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><line x1=\"40\" y1=\"30\" x2=\"400\" y2=\"30\" stroke=\"#8a8a8a\" stroke-width=\"1\"/><polygon points=\"70,60 250,60 250,180 370,180 370,300 70,300\" fill=\"#ececec\" stroke=\"#22221f\" stroke-width=\"3\"/><line x1=\"40\" y1=\"210\" x2=\"410\" y2=\"210\" stroke=\"#22221f\" stroke-width=\"2\"/><line x1=\"190\" y1=\"20\" x2=\"190\" y2=\"330\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"418\" y=\"216\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">x</text><text x=\"190\" y=\"16\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">y</text><text x=\"130\" y=\"232\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">−2</text><text x=\"250\" y=\"232\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">2</text><text x=\"310\" y=\"232\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">4</text><text x=\"182\" y=\"276\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">−2</text><text x=\"182\" y=\"156\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">2</text><text x=\"182\" y=\"96\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">4</text><text x=\"70\" y=\"50\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" font-weight=\"bold\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">(−4, 5)</text><text x=\"250\" y=\"50\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" font-weight=\"bold\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">(2, 5)</text><text x=\"258\" y=\"170\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"17\" font-weight=\"bold\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">(2, 1)</text><text x=\"370\" y=\"170\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" font-weight=\"bold\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">(6, 1)</text><text x=\"370\" y=\"324\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" font-weight=\"bold\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">(6, −3)</text><text x=\"70\" y=\"324\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" font-weight=\"bold\" fill=\"#22221f\" stroke=\"#ffffff\" stroke-width=\"4\" paint-order=\"stroke\">(−4, −3)</text></svg>",
+    "altText": "A coordinate grid with x from -5 to 7 and y from -4 to 6; each grid square is 1 unit. A shaded L-shaped figure has straight sides joining these labeled corners in order: (-4, 5), (2, 5), (2, 1), (6, 1), (6, -3), (-4, -3), and back to (-4, 5). Every side is horizontal or vertical. The upper-right corner region, from x = 2 to 6 and y = 1 to 5, is not part of the shape.",
+    "caption": "An L-shaped garden plot on a map grid where each unit is 1 meter. Use the labeled coordinates; do not measure the drawing.",
+    "width": 440,
+    "height": 360
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record coordinate-geometry-5 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The figure is a static coordinate grid with the L-shaped plot shaded light grey and each corner labeled with its coordinates. Every corner is also listed in order in the prompt and the text alternative, so the item can be solved without the image. Black lines and labels; no color carries meaning. The answer is typed with its unit.",
+  "accessibleAlternative": "Read aloud or display: On a garden map each grid unit is 1 meter. An L-shaped plot has straight horizontal and vertical sides joining these corners in order: negative 4, 5; 2, 5; 2, 1; 6, 1; 6, negative 3; negative 4, negative 3; and back to the start. Find the area of the plot and write the unit."
+}

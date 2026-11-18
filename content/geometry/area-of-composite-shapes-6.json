@@ -1,0 +1,69 @@
+{
+  "id": "area-of-composite-shapes-6",
+  "version": "content-1",
+  "title": "Shed wall with a triangular top",
+  "role": "practice",
+  "skillRef": {
+    "code": "area-of-composite-shapes",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["6.G.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Finds the area of a composite figure made of a rectangle and a triangle by adding the two areas, and labels the result in square units."
+  ],
+  "prompt": "The front wall of a shed is a rectangle 12 feet wide and 8 feet tall with a triangle on top. The bottom of the triangle is the 12-foot top edge of the rectangle, and the top point of the triangle is 5 feet above that edge. What is the total area of the front wall? Include the unit in your answer.",
+  "solutionRepresentation": "Rectangle: 12 × 8 = 96 square feet. Triangle: 1/2 × 12 × 5 = 30 square feet. Total: 96 + 30 = 126 square feet.",
+  "solutionMethod": "Split the wall into a rectangle and a triangle, find each area, and add them.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "126 square feet",
+    "acceptedAnswers": [
+      "126 square feet",
+      "126 sq ft",
+      "126 sq. ft",
+      "126 ft^2",
+      "126 ft²",
+      "126 square ft",
+      "126 sq feet",
+      "126 feet squared",
+      "126 ft2"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The square-foot unit is required: a bare number, or the number with a linear or cubic unit, is not accepted."
+  },
+  "misconceptionCodes": ["uses-wrong-formula"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The wall is made of two shapes you know: a rectangle on the bottom and a triangle on top.",
+      "question": "What is the area of the rectangle part?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The triangle uses the rectangle's 12-foot top edge as its base, and its height is how far its top point rises above that edge. A triangle is half of a rectangle with the same base and height.",
+      "question": "What are the base and the height of the triangle part?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different wall is a rectangle 10 feet by 6 feet with a triangle of base 10 feet and height 4 feet on top. Its area is 60 + 20 = 80 square feet.",
+      "question": "Using the same rectangle-plus-triangle idea, what is the total area of this shed wall, with its unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["126 square feet", "126 sq ft", "126 ft^2", "96 + 30"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record area-of-composite-shapes-6 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Text-only item: every length needed is in the prompt, so no figure or color is needed. The answer is typed in one box and must include its unit.",
+  "accessibleAlternative": "Read aloud or display: A shed's front wall is a rectangle 12 feet wide and 8 feet tall with a triangle on top. The triangle's base is the 12-foot top edge of the rectangle, and its top point is 5 feet above that edge. Find the total area of the wall and write the unit."
+}

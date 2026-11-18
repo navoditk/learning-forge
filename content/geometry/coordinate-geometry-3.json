@@ -1,0 +1,64 @@
+{
+  "id": "coordinate-geometry-3",
+  "version": "content-1",
+  "title": "Triangle side across the x-axis",
+  "role": "practice",
+  "skillRef": {
+    "code": "coordinate-geometry",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.G.A.3"],
+  "itemReadinessRefs": [
+    {
+      "code": "coordinate-plane",
+      "version": "1.0.0"
+    }
+  ],
+  "observableEvidence": [
+    "Finds the length of a polygon side whose endpoints share an x-coordinate and lie on opposite sides of the x-axis, and labels it in units."
+  ],
+  "prompt": "Triangle JKL has vertices J(-6, 4), K(-6, -7) and L(5, -7). What is the length of side JK? Include the unit in your answer.",
+  "solutionRepresentation": "J and K have the same x-coordinate, so JK is vertical. J is 4 units above the x-axis and K is 7 units below it, so JK = 4 + 7 = 11 units. Equivalently, |4 - (-7)| = 11.",
+  "solutionMethod": "Identify the shared coordinate, then add the distances from each endpoint to the axis (or take the absolute difference of the other coordinates), and label the length in units.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "11 units",
+    "acceptedAnswers": ["11 units", "11 unit", "11 grid units", "11 units long"],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The linear unit is required: a bare number, or the number with a square or missing unit, is not accepted."
+  },
+  "misconceptionCodes": ["ignores-sign-in-distance"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Compare the coordinates of J and K. When two points share one coordinate, the side between them is vertical or horizontal.",
+      "question": "Which coordinate do J and K share?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Count the distance from J to the x-axis, then from the x-axis to K. A point below the x-axis is still a positive distance away from it.",
+      "question": "How far is J above the x-axis, and how far is K below it?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "On a different figure, the points (2, 3) and (2, -1) are 3 units above and 1 unit below the x-axis, so the side between them is 3 + 1 = 4 units long.",
+      "question": "Using the same idea, how long is side JK, with its unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["11 units", "4 + 7", "4 - (-7)"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record coordinate-geometry-3 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Text-only item: all three vertices are given as signed coordinates in the prompt, so no plotted graph or color is needed. The answer is typed with its unit.",
+  "accessibleAlternative": "Read aloud or display: Triangle JKL has vertices J at negative 6, 4; K at negative 6, negative 7; and L at 5, negative 7. Find the length of side JK and write the unit."
+}

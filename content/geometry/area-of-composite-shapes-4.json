@@ -1,0 +1,82 @@
+{
+  "id": "area-of-composite-shapes-4",
+  "version": "content-1",
+  "title": "Triangle with slanted sides",
+  "role": "practice",
+  "skillRef": {
+    "code": "area-of-composite-shapes",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.G.A.1"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Finds the area of a non-right triangle from its base and perpendicular height, ignoring the slanted side lengths, and labels the result in square units."
+  ],
+  "prompt": "The figure shows a triangle whose bottom side is 21 centimeters long. Its two slanted sides are 10 centimeters and 17 centimeters long. The dashed line from the top corner meets the bottom side at a right angle and is 8 centimeters long. What is the area of the triangle? Include the unit in your answer.",
+  "solutionRepresentation": "The height must meet the base at a right angle, so use the dashed 8 cm line, not a slanted side. Area = 1/2 × 21 × 8 = 1/2 × 168 = 84 square centimeters. The 10 cm and 17 cm sides are not used.",
+  "solutionMethod": "Pair the base with the perpendicular height (not a slanted side), multiply, take half, and label the result in square centimeters.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "84 square centimeters",
+    "acceptedAnswers": [
+      "84 square centimeters",
+      "84 sq cm",
+      "84 sq. cm",
+      "84 cm^2",
+      "84 cm²",
+      "84 square cm",
+      "84 sq centimeters",
+      "84 centimeters squared",
+      "84 cm2"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The square-centimeter unit is required: a bare number, or the number with a linear or cubic unit, is not accepted."
+  },
+  "misconceptionCodes": ["uses-wrong-formula"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The area of a triangle uses a base and the height that meets that base at a right angle. A slanted side is not a height.",
+      "question": "Which length in the figure meets the 21-centimeter side at a right angle?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Two copies of this triangle fit together into a parallelogram with the same base and height, so the triangle is half of base times height.",
+      "question": "What is the base times the height, before you take half?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different triangle has a base of 8 meters, two slanted sides of 5 meters each and a perpendicular height of 3 meters. Its area is 1/2 × 8 × 3 = 12 square meters; the 5-meter sides are not used.",
+      "question": "Using the same rule, which two lengths from this figure do you multiply, and what is half of their product?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "84 square centimeters",
+    "84 sq cm",
+    "84 cm^2",
+    "1/2 × 21 × 8",
+    "21 × 8"
+  ],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 520 290\" role=\"img\"><rect width=\"520\" height=\"290\" fill=\"#ffffff\"/><polygon points=\"50,240 470,240 170,80\" fill=\"none\" stroke=\"#22221f\" stroke-width=\"3\"/><line x1=\"170\" y1=\"80\" x2=\"170\" y2=\"240\" stroke=\"#22221f\" stroke-width=\"2\" stroke-dasharray=\"8 6\"/><polyline points=\"170,226 184,226 184,240\" fill=\"none\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"260\" y=\"272\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">21 cm</text><text x=\"98\" y=\"152\" text-anchor=\"end\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">10 cm</text><text x=\"338\" y=\"150\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">17 cm</text><text x=\"180\" y=\"180\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">8 cm</text></svg>",
+    "altText": "A triangle with a horizontal bottom side labeled 21 cm. The left slanted side is labeled 10 cm and the right slanted side is labeled 17 cm. A dashed line goes straight down from the top corner to the bottom side and meets it at a right angle, shown by a small square. The dashed line is labeled 8 cm.",
+    "caption": "A triangle with a dashed perpendicular height. Use the labeled lengths; do not measure the drawing.",
+    "width": 520,
+    "height": 290
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record area-of-composite-shapes-4 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The figure is a static triangle with every side labeled and a dashed height marked with a right-angle square. Every length is also in the prompt and the text alternative, so the item can be solved without the image. Black lines on white; no color carries meaning. The answer is typed with its unit.",
+  "accessibleAlternative": "Read aloud or display: A triangle has a bottom side of 21 centimeters and slanted sides of 10 centimeters and 17 centimeters. A dashed line from the top corner meets the bottom side at a right angle; it is 8 centimeters long. Find the area of the triangle and write the unit."
+}

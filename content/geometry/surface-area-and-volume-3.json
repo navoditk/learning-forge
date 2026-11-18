@@ -1,0 +1,136 @@
+{
+  "id": "surface-area-and-volume-3",
+  "version": "content-1",
+  "title": "Choosing the net of a box",
+  "role": "practice",
+  "skillRef": {
+    "code": "surface-area-and-volume",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["6.G.A.4"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Selects the net that folds into a given rectangular prism by checking both its faces and how they are joined, then uses that net to find the surface area with a square unit."
+  ],
+  "prompt": "A closed box is 6 cm long, 4 cm wide and 3 cm tall. The figure shows four drawings, Net A to Net D, made of rectangles. Each rectangle is labeled with its length and width in centimeters. First choose the net that folds into exactly this box with no gaps or overlaps. Then use that net to find the surface area of the box and choose its unit.",
+  "solutionRepresentation": "Net A has four 6 by 3 rectangles and no 6 by 4 rectangle, so one pair of faces is missing. Net B has the right six faces, but its row is 6, 6, 4, 4: when the row folds into a loop, opposite sides would be 6 and 4, so it cannot close. Net D has only five faces, so the bottom is missing. Net C has two 6 by 4, two 6 by 3 and two 4 by 3 rectangles, with the row 6, 4, 6, 4 and the top and bottom on a 6 cm edge, so it folds into the box. Surface area = 2 × (24 + 18 + 12) = 2 × 54 = 108 square centimeters.",
+  "solutionMethod": "Check each net for the three pairs of matching faces and for a side row that alternates long and short faces, then add the areas of the six faces of the valid net and use square units.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Net that folds into the box: Net C; Surface area of the box: 108; Unit of the surface area: square centimeters",
+    "acceptedAnswers": [
+      "Net that folds into the box: Net C; Surface area of the box: 108; Unit of the surface area: square centimeters"
+    ],
+    "equivalenceNotes": "Structured fields. The net and the unit are choices that must match their correct options; the surface area accepts any equal value as an integer, decimal, fraction or mixed number. No partial credit.",
+    "fields": [
+      {
+        "key": "net",
+        "kind": "choice",
+        "label": "Net that folds into the box",
+        "options": [
+          {
+            "id": "net-a",
+            "label": "Net A"
+          },
+          {
+            "id": "net-b",
+            "label": "Net B"
+          },
+          {
+            "id": "net-c",
+            "label": "Net C"
+          },
+          {
+            "id": "net-d",
+            "label": "Net D"
+          }
+        ],
+        "correctOptionId": "net-c"
+      },
+      {
+        "key": "surface-area",
+        "kind": "number",
+        "label": "Surface area of the box",
+        "representations": ["integer", "decimal", "fraction", "mixed-number"],
+        "simplestForm": false,
+        "correctValue": "108"
+      },
+      {
+        "key": "unit",
+        "kind": "choice",
+        "label": "Unit of the surface area",
+        "options": [
+          {
+            "id": "cubic-centimeters",
+            "label": "cubic centimeters"
+          },
+          {
+            "id": "centimeters",
+            "label": "centimeters"
+          },
+          {
+            "id": "square-centimeters",
+            "label": "square centimeters"
+          }
+        ],
+        "correctOptionId": "square-centimeters"
+      }
+    ]
+  },
+  "misconceptionCodes": [
+    "omits-a-face",
+    "omits-a-congruent-face-pair-from-the-net",
+    "labels-surface-area-answer-with-cubic-units"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "List the faces of the box first: a top and a bottom, a front and a back, and two ends. The two faces in each pair are the same size.",
+      "question": "What are the length and width of the top, the front and one end of this box?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Check each net two ways: does it have exactly the six faces you listed, and when its row of four side faces folds into a loop, do opposite sides match?",
+      "question": "Which nets have the wrong faces, and which one has the right faces in an order that cannot close?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "For a different box 5 cm by 2 cm by 1 cm, a correct net has two 5 by 2, two 5 by 1 and two 2 by 1 rectangles, and its surface area is 2 × (10 + 5 + 2) = 34 square centimeters.",
+      "question": "Using the net you chose, what is the surface area of the 6 cm by 4 cm by 3 cm box, and what is its unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Net that folds into the box: Net C",
+    "Surface area of the box: 108",
+    "108 square centimeters",
+    "2 × (24 + 18 + 12)",
+    "Net C folds"
+  ],
+  "figure": {
+    "svgMarkup": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 660 450\" role=\"img\"><rect width=\"660\" height=\"450\" fill=\"#ffffff\"/><text x=\"20\" y=\"32\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"18\" font-weight=\"bold\" fill=\"#22221f\">Net A</text><rect x=\"20\" y=\"44\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"62.0\" y=\"71.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><rect x=\"20\" y=\"86\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"62.0\" y=\"113.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><rect x=\"104\" y=\"86\" width=\"56\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"132.0\" y=\"113.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4×3</text><rect x=\"160\" y=\"86\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"202.0\" y=\"113.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><rect x=\"244\" y=\"86\" width=\"56\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"272.0\" y=\"113.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4×3</text><rect x=\"20\" y=\"128\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"62.0\" y=\"155.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><text x=\"350\" y=\"32\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"18\" font-weight=\"bold\" fill=\"#22221f\">Net B</text><rect x=\"350\" y=\"44\" width=\"84\" height=\"56\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"392.0\" y=\"78.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×4</text><rect x=\"350\" y=\"100\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"392.0\" y=\"127.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><rect x=\"434\" y=\"100\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"476.0\" y=\"127.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><rect x=\"518\" y=\"100\" width=\"56\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"546.0\" y=\"127.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4×3</text><rect x=\"574\" y=\"100\" width=\"56\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"602.0\" y=\"127.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4×3</text><rect x=\"350\" y=\"142\" width=\"84\" height=\"56\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"392.0\" y=\"176.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×4</text><text x=\"20\" y=\"257\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"18\" font-weight=\"bold\" fill=\"#22221f\">Net C</text><rect x=\"20\" y=\"269\" width=\"84\" height=\"56\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"62.0\" y=\"303.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×4</text><rect x=\"20\" y=\"325\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"62.0\" y=\"352.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><rect x=\"104\" y=\"325\" width=\"56\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"132.0\" y=\"352.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4×3</text><rect x=\"160\" y=\"325\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"202.0\" y=\"352.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><rect x=\"244\" y=\"325\" width=\"56\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"272.0\" y=\"352.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4×3</text><rect x=\"20\" y=\"367\" width=\"84\" height=\"56\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"62.0\" y=\"401.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×4</text><text x=\"350\" y=\"257\" text-anchor=\"start\" font-family=\"Arial, sans-serif\" font-size=\"18\" font-weight=\"bold\" fill=\"#22221f\">Net D</text><rect x=\"350\" y=\"269\" width=\"84\" height=\"56\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"392.0\" y=\"303.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×4</text><rect x=\"350\" y=\"325\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"392.0\" y=\"352.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><rect x=\"434\" y=\"325\" width=\"56\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"462.0\" y=\"352.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4×3</text><rect x=\"490\" y=\"325\" width=\"84\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"532.0\" y=\"352.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">6×3</text><rect x=\"574\" y=\"325\" width=\"56\" height=\"42\" fill=\"#ffffff\" stroke=\"#22221f\" stroke-width=\"2\"/><text x=\"602.0\" y=\"352.0\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"17\" fill=\"#22221f\">4×3</text><line x1=\"330\" y1=\"10\" x2=\"330\" y2=\"440\" stroke=\"#22221f\" stroke-width=\"1\"/><line x1=\"10\" y1=\"225\" x2=\"650\" y2=\"225\" stroke=\"#22221f\" stroke-width=\"1\"/></svg>",
+    "altText": "Four nets, labeled Net A to Net D, each drawn from rectangles labeled length by width in centimeters. Each net has a row of four rectangles, all 3 cm tall, joined side by side. Net A: row 6 by 3, 4 by 3, 6 by 3, 4 by 3, with a 6 by 3 rectangle joined above and another below the first rectangle of the row. Net B: row 6 by 3, 6 by 3, 4 by 3, 4 by 3, with a 6 by 4 rectangle joined above and another below the first rectangle. Net C: row 6 by 3, 4 by 3, 6 by 3, 4 by 3, with a 6 by 4 rectangle joined above and another below the first rectangle. Net D: row 6 by 3, 4 by 3, 6 by 3, 4 by 3, with one 6 by 4 rectangle joined above the first rectangle and nothing below.",
+    "caption": "Four candidate nets for a 6 cm by 4 cm by 3 cm box. Use the labels; do not measure the drawing.",
+    "width": 660,
+    "height": 450
+  },
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record surface-area-and-volume-3 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "The figure is four static nets drawn as black rectangles on white, each rectangle labeled with its length and width. The text alternative lists every face of every net and how the faces are joined, so the item can be solved without the image. No color carries meaning. The net and the unit are labelled radio groups; the surface area is typed into a labelled box.",
+  "accessibleAlternative": "Read aloud or display: A closed box is 6 cm long, 4 cm wide and 3 cm tall. Each of four nets has a row of four rectangles, all 3 cm tall, joined side by side. Net A: the row is 6, 4, 6 and 4 cm wide, with a 6 by 3 rectangle joined above and another below the first rectangle of the row. Net B: the row is 6, 6, 4 and 4 cm wide, with a 6 by 4 rectangle joined above and another below the first rectangle. Net C: the row is 6, 4, 6 and 4 cm wide, with a 6 by 4 rectangle joined above and another below the first rectangle. Net D: the row is 6, 4, 6 and 4 cm wide, with one 6 by 4 rectangle joined above the first rectangle and nothing below. Choose the net that folds into the box, find the surface area, and choose its unit: cubic centimeters, centimeters, or square centimeters."
+}

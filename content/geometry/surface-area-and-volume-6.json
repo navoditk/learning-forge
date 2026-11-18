@@ -1,0 +1,72 @@
+{
+  "id": "surface-area-and-volume-6",
+  "version": "content-1",
+  "title": "Crate net with six rectangles",
+  "role": "practice",
+  "skillRef": {
+    "code": "surface-area-and-volume",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["6.G.A.4"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Finds the surface area of a rectangular prism from a supplied net of six rectangles, counting each congruent pair, with a square unit."
+  ],
+  "prompt": "A net for a closed wooden crate is made of six rectangles: two that are 7 feet by 2 feet, two that are 7 feet by 3 feet, and two that are 3 feet by 2 feet. What is the surface area of the crate? Include the unit in your answer.",
+  "solutionRepresentation": "Areas: 7 × 2 = 14, 7 × 3 = 21 and 3 × 2 = 6 square feet. Each size appears twice: 2 × (14 + 21 + 6) = 2 × 41 = 82 square feet.",
+  "solutionMethod": "Find the area of each rectangle size, count every rectangle in the net (each size twice), add, and label the total in square feet.",
+  "deterministicValidator": {
+    "type": "numeric",
+    "canonicalAnswer": "82 square feet",
+    "acceptedAnswers": [
+      "82 square feet",
+      "82 sq ft",
+      "82 sq. ft",
+      "82 ft^2",
+      "82 ft²",
+      "82 square ft",
+      "82 sq feet",
+      "82 feet squared",
+      "82 ft2"
+    ],
+    "equivalenceNotes": "Whole-answer match after case, spacing and trailing-punctuation normalization; no substring parts. The square-foot unit is required: a bare number, or the number with a linear or cubic unit, is not accepted."
+  },
+  "misconceptionCodes": [
+    "omits-a-congruent-face-pair-from-the-net",
+    "labels-surface-area-answer-with-cubic-units"
+  ],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The surface area is the sum of the areas of all six rectangles in the net.",
+      "question": "What is the area of one 7-foot by 2-foot rectangle?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The net has two rectangles of each size, so each area is counted twice.",
+      "question": "What are the areas of the three different rectangle sizes?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "A different net has two 4 by 1, two 4 by 3 and two 3 by 1 rectangles, in meters: 2 × (4 + 12 + 3) = 38 square meters.",
+      "question": "Using the same idea, what is the surface area of the crate, with its unit?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["82 square feet", "82 sq ft", "82 ft^2", "2 × 41", "14 + 21 + 6"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "LLM-drafted original Learning Forge practice record surface-area-and-volume-6 for MATH-GEO-2 under the D-354 public D-61 exception. Context, numbers, any figure, hints and solution were written for this repository from first principles; it reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Text-only item: every length needed is in the prompt, so no figure or color is needed. The answer is typed in one box and must include its unit. The six rectangles of the net are listed in words; the learner does not draw a net.",
+  "accessibleAlternative": "Read aloud or display: A net for a closed crate has six rectangles: two are 7 feet by 2 feet, two are 7 feet by 3 feet, and two are 3 feet by 2 feet. Find the surface area of the crate and write the unit."
+}
