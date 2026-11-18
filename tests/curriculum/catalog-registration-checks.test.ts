@@ -326,6 +326,11 @@ const PILOT_SKILL_BANKS = [
   'statistical-questions',
   'distributions',
   'center-and-variability',
+  // SPELL-SP5: registered Spelling skill banks stay selected in the negative control.
+  'snsb6-morphology-roots',
+  'snsb6-orthographic-patterns',
+  'snsb6-phoneme-grapheme-mapping',
+  'snsb6-etymology-language-origins',
 ].flatMap((skill) =>
   ['review-bank', 'delayed-check-bank'].map((suffix) => ({
     code: `${skill}-${suffix}`,

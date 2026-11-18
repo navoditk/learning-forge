@@ -1,6 +1,7 @@
 import { prisma } from '../server/prisma';
 import type { CourseCatalog } from '../curriculum/course-catalog';
 import { COURSE_CATALOG, COURSE_CATALOG_INDEX } from '../curriculum/course-catalog';
+import { DEFAULT_PROGRESSION_PROGRAM_CODE } from './program-resolution';
 
 export type PilotLessonProgress = {
   code: string;
@@ -150,7 +151,7 @@ export function projectPilotProgression(
     });
   }
   return {
-    program: { code: program.code, version: program.version, label: 'Grade 6 Math' },
+    program: { code: program.code, version: program.version, label: program.label },
     units: units.map((unit) => ({
       code: unit.code,
       version: unit.version,
@@ -168,7 +169,7 @@ export async function getPilotProgression(
     learnerProfileId: string;
   },
   catalogs: PilotProgressCatalogs = DEFAULT_CATALOGS,
-  programCode = 'grade-6-math',
+  programCode = DEFAULT_PROGRESSION_PROGRAM_CODE,
 ): Promise<PilotProgression> {
   const { lessonCodes, unitCodes } = scopeOf(catalogs, programCode);
   const [lessonStates, unitStates, assignments] = await Promise.all([

@@ -88,16 +88,23 @@ const SNAPSHOT_MODULE = resolve(sourceRoot, 'progression', 'placement-probe-snap
 const STAGED_CATALOG = curriculum('ratios-unit-2-catalog.ts');
 // MATH-ST6: the Statistics 2.0.0 records are registered the same way (pure data).
 const STATISTICS_CATALOG = curriculum('statistics-unit-2-catalog.ts');
+// SPELL-SP5: the Spelling unit 1.0.0 records are registered the same way (pure data).
+const SPELLING_CATALOG = curriculum('spelling-unit-1-catalog.ts');
+const SPELLING_MANIFEST = curriculum('scripps-spelling-bee-6-structure-manifest.json');
 const NEW_MODULES = [
   curriculum('catalog-versions.ts'),
   curriculum('catalog-registration-checks.ts'),
   SNAPSHOT_MODULE,
   STAGED_CATALOG,
   STATISTICS_CATALOG,
+  SPELLING_CATALOG,
 ];
 const DORMANT = [
-  ...NEW_MODULES.filter((path) => path !== STAGED_CATALOG && path !== STATISTICS_CATALOG),
+  ...NEW_MODULES.filter(
+    (path) => path !== STAGED_CATALOG && path !== STATISTICS_CATALOG && path !== SPELLING_CATALOG,
+  ),
   curriculum('grade-6-math-structure-manifest.json'),
+  SPELLING_MANIFEST,
 ];
 // RI-1 (P-A live, D-229): catalog-versions is now imported by the production
 // course catalog. The registration checks stay dormant. RI-2 (H-1 live, D-229):
@@ -107,6 +114,7 @@ const PLACEMENT_PROBE = resolve(sourceRoot, 'progression', 'placement-probe.ts')
 const ALLOWED_EDGES = new Set([
   `${PLACEMENT_PROBE}->${SNAPSHOT_MODULE}`,
   `${PLACEMENT_PROBE}->${curriculum('grade-6-math-structure-manifest.json')}`,
+  `${PLACEMENT_PROBE}->${SPELLING_MANIFEST}`,
   `${curriculum('course-catalog.ts')}->${curriculum('catalog-versions.ts')}`,
   `${curriculum('catalog-registration-checks.ts')}->${curriculum('catalog-versions.ts')}`,
   `${SNAPSHOT_MODULE}->${curriculum('catalog-registration-checks.ts')}`,
@@ -143,6 +151,7 @@ const ALLOWED_CLOSURE_FILES = new Set(
     'grade-6-math-reserved-labels.json',
     'ratios-unit-2-catalog.ts',
     'statistics-unit-2-catalog.ts',
+    'spelling-unit-1-catalog.ts',
   ]
     .map(curriculum)
     .concat(SNAPSHOT_MODULE),
@@ -217,6 +226,19 @@ describe('catalog versioning dormancy', () => {
     ]);
     expect(DORMANT).not.toContain(STATISTICS_CATALOG);
     expect(NEW_MODULES).toContain(STATISTICS_CATALOG);
+  });
+
+  it('IG-1u only the course catalog and the program registry import the Spelling unit 1.0.0 catalog (SPELL-SP5)', () => {
+    const importers = productionEdges()
+      .filter(({ to }) => to === SPELLING_CATALOG)
+      .map(({ from }) => relative(repoRoot, from))
+      .sort();
+    expect(importers).toEqual([
+      'src/curriculum/course-catalog.ts',
+      'src/curriculum/program-registry.ts',
+    ]);
+    expect(DORMANT).not.toContain(SPELLING_CATALOG);
+    expect(NEW_MODULES).toContain(SPELLING_CATALOG);
   });
 
   it('IG-1p the allowlisted edge exists, so the guard is not vacuous', () => {

@@ -114,6 +114,38 @@
     {
       "code": "center-and-variability-delayed-check-bank",
       "version": "1.0.0"
+    },
+    {
+      "code": "snsb6-morphology-roots-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "snsb6-morphology-roots-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "snsb6-orthographic-patterns-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "snsb6-orthographic-patterns-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "snsb6-phoneme-grapheme-mapping-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "snsb6-phoneme-grapheme-mapping-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "snsb6-etymology-language-origins-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "snsb6-etymology-language-origins-delayed-check-bank",
+      "version": "1.0.0"
     }
   ]
 }

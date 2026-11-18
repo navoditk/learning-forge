@@ -4195,7 +4195,36 @@ spellings, nine uncoded diagnostics (seven named under M-C plus two), V-7 distra
 registration for the two structured items, and the manual assistive-technology pass on the four figures.
 **Not authorized:** registration, stamping, serving, activation.
 
-There are 355 decisions: D-01 through D-75, D-139, D-142, D-145–D-355 approved;
+### D-356 — Delegated acceptance and local application: SPELL-SP5 Spelling unit registration, not activation (D-212, D-352, D-353)
+
+Delegate: Codex `gpt-6.1-sol` (model confirmed from the client header of both runs), 2026-11-17. Rev1
+NOT_READY (validation incomplete; one Minor U-2 test); changed-scope re-review READY_WITH_RISKS, no code
+blocker. Author model from client transcript: `claude-sonnet-5-5`. Patch SHA-256 `524bcc15...1771` (27
+files) plus integrator fixes. Registers `snsb6-word-structure@1.0.0` (four one-skill lessons in the D-352
+order, no prerequisite edges), `scripps-spelling-bee-6@1.1.0` (`hybrid`, access 1.1.0, legacy-compatibility
+1.0.0, profile 1.0.0 pinned unchanged), 13 `pending_review` bank records for 96 planned private items with
+**sentinel zero digests**, a Spelling bank-metadata file, a separate structure manifest and placement-probe
+snapshot, eight `skillBanks` in the selection, and `src/progression/program-resolution.ts`, which replaces
+the `'grade-6-math'` literals in the assignment, override, step-up and pilot routes and the review page
+(heading now "Course progression review"). The selection still names `scripps-spelling-bee-6@1.0.0`:
+**Spelling is not active.** Integrator fixes: the U-2 negative test registers a second distinct unit
+version; the two synthetic-catalog integration mocks (assignment-route-versions, ratios-unit-2-activation)
+give the synthetic program the real `grade-6-math@1.1.0` profile ref, because the routes now resolve the
+target's own program (the first `test:integration` run failed 5 tests with `ASSESSMENT_ASSIGNMENT_FAILED`
+before this); the pilot route's `GET` takes a required request, since `npm run build` rejected the optional
+parameter, and `preview-safety` passes a `NextRequest`. Validation on the integrated tree: typecheck, lint
+(0 errors), Prettier, `test:integration` 44 files / 403 tests (1 skipped) against the synthetic local
+Postgres, `npm run build`, full `npm test` 151 files / 4,277 tests (clean), `test:e2e` 131 passed (run
+before the pilot-route signature fix; the reviewer judged a rerun unnecessary). Carried: the integration
+fixture now shares Math's profile, so a route-level test with distinct profiles is wanted before
+activation; the lessons pin content-1 practice records that still carry findings F-01, F-02, F-04 and S-05
+and must be re-pinned to the accepted `content-2` corrections; unit and lesson titles are the author's
+choices; banks are `pending_review`. Activation, in order, is owner-gated: SP-6 private items drafted,
+merged and the 13 digests replaced (catalog and metadata JSON), review stamps on banks, unit and lessons,
+lesson practice re-pinning, regenerated probe snapshot and manifest, then the selection flip, the D-216
+check, mounted e2e, the accessibility pass and the release record. **Not authorized:** activation, release.
+
+There are 356 decisions: D-01 through D-75, D-139, D-142, D-145–D-356 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

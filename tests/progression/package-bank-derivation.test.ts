@@ -206,21 +206,20 @@ describe('MATH-ST6: Statistics banks are pending until the selection names progr
     VERSIONED_COURSE_CATALOG.selection.programs.map((ref) =>
       ref.code === 'grade-6-math' ? { code: ref.code, version } : ref,
     );
+  const isStatistics = (b: { code: string }) =>
+    /^(statistical-questions|distributions|center-and-variability|statistics)-/.test(b.code);
 
   it('the ten Statistics banks are accepted-if-present, never mandatory, and absent from the active list', () => {
-    expect(PENDING_ACTIVATION_PACKAGE_BANKS.map(label)).toEqual(
-      COURSE_CATALOG_INDEX.banks
-        .filter((b) =>
-          /^(statistical-questions|distributions|center-and-variability|statistics)-/.test(b.code),
-        )
-        .map(label),
+    // SPELL-SP5: the thirteen pending Spelling banks follow them in the pending list.
+    expect(PENDING_ACTIVATION_PACKAGE_BANKS.filter(isStatistics).map(label)).toEqual(
+      COURSE_CATALOG_INDEX.banks.filter(isStatistics).map(label),
     );
-    expect(PENDING_ACTIVATION_PACKAGE_BANKS).toHaveLength(10);
+    expect(PENDING_ACTIVATION_PACKAGE_BANKS.filter(isStatistics)).toHaveLength(10);
     expect(PENDING_ACTIVATION_PACKAGE_BANKS.every((b) => b.optional === true)).toBe(true);
     const active = new Set(GRADE_6_MATH_PACKAGE_BANKS.map(label));
     for (const bank of PENDING_ACTIVATION_PACKAGE_BANKS)
       expect(active.has(label(bank))).toBe(false);
-    expect(PACKAGE_STORE_BANKS).toHaveLength(30);
+    expect(PACKAGE_STORE_BANKS).toHaveLength(43);
   });
 
   type Desc = {
@@ -246,7 +245,7 @@ describe('MATH-ST6: Statistics banks are pending until the selection names progr
     return { code: d.code, version: d.version, contentHash: sha256(items), items };
   };
   const ratiosOnly = () => GRADE_6_MATH_PACKAGE_BANKS.filter((b) => !b.optional).map(bankFor);
-  const statisticsBanks = () => PENDING_ACTIVATION_PACKAGE_BANKS.map(bankFor);
+  const statisticsBanks = () => PENDING_ACTIVATION_PACKAGE_BANKS.filter(isStatistics).map(bankFor);
 
   it('(a) a Ratios-only package loads against the production store list', () => {
     expect(() =>
@@ -323,7 +322,9 @@ describe('MATH-ST6: Statistics banks are pending until the selection names progr
 
   it('selecting 1.2.0 makes exactly the four lesson and unit Statistics banks mandatory; the six skill banks stay optional', () => {
     const pendingAfter = pendingActivationBankKeys(selection('1.2.0'));
-    expect(pendingAfter.size).toBe(0);
+    // Only the thirteen Spelling banks (not selected) stay pending.
+    expect(pendingAfter.size).toBe(13);
+    for (const key of pendingAfter) expect(key).toMatch(/^snsb6-/);
     const statsIndex = COURSE_CATALOG_INDEX.banks.filter((b) =>
       /^(statistical-questions|distributions|center-and-variability|statistics)-/.test(b.code),
     );
@@ -347,7 +348,9 @@ describe('MATH-ST6: Statistics banks are pending until the selection names progr
   });
 
   it('the coupled switch: selecting 1.2.0 empties the pending set, so the same banks become mandatory', () => {
-    expect(pendingActivationBankKeys(selection('1.1.0')).size).toBe(10);
-    expect(pendingActivationBankKeys(selection('1.2.0')).size).toBe(0);
+    const statsKeys = (keys: ReadonlySet<string>) =>
+      [...keys].filter((key) => !key.startsWith('snsb6-'));
+    expect(statsKeys(pendingActivationBankKeys(selection('1.1.0')))).toHaveLength(10);
+    expect(statsKeys(pendingActivationBankKeys(selection('1.2.0')))).toHaveLength(0);
   });
 });

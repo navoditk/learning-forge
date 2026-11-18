@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "records": [
+    {
+      "kind": "program",
+      "code": "scripps-spelling-bee-6",
+      "version": "1.0.0",
+      "sha256": "b4a69b279003411b76736f1fe77c992135e4f28bab03f3ea4f30da833593a558"
+    },
+    {
+      "kind": "program",
+      "code": "scripps-spelling-bee-6",
+      "version": "1.1.0",
+      "sha256": "7eb0f962441036413ed87ac48f05fbd602bbecf6db09c9708b35669fda43816f"
+    },
+    {
+      "kind": "unit",
+      "code": "snsb6-word-structure",
+      "version": "1.0.0",
+      "sha256": "6cee3349b8fa7abd71d0e6fa6afba160bb6b1257b81fcee82c47417193d1044e"
+    },
+    {
+      "kind": "lesson",
+      "code": "snsb6-morphology-roots-lesson",
+      "version": "1.0.0",
+      "sha256": "3547f1de0bc64e5d3252a68cbd0be901d374c9357264270b4794f4f287e158fe"
+    },
+    {
+      "kind": "lesson",
+      "code": "snsb6-orthographic-patterns-lesson",
+      "version": "1.0.0",
+      "sha256": "1ffff7950d12205147eb06db92d5f52903423001a2acc42925f10820b773389f"
+    },
+    {
+      "kind": "lesson",
+      "code": "snsb6-phoneme-grapheme-mapping-lesson",
+      "version": "1.0.0",
+      "sha256": "305fac28bbf6232478464a4994f42c95962d9f5068f229a983464e76082e3849"
+    },
+    {
+      "kind": "lesson",
+      "code": "snsb6-etymology-language-origins-lesson",
+      "version": "1.0.0",
+      "sha256": "79cc889c246e7694eae6221072c13eabbcbd9249e1c8572f32c447f5fd124243"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-morphology-roots-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "2bf7a49d347a78edeee319b2bebcea1942275370327ca564a7eb423c83c7b059"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-orthographic-patterns-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "21c94a72b8499f623824683aed7f8e96eb09021e5f525cc2745da8276340fb61"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-phoneme-grapheme-mapping-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "0016966c61bcf441cca9a1aae732348487edd073d5cac51230445e2fc125b0a2"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-etymology-language-origins-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "d48ca34422951e1ac1294fb23bb294a15bf72cbf084340749afb197a7650edb6"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-word-structure-unit-bank",
+      "version": "1.0.0",
+      "sha256": "dace7958530a2a8a15b432e679e745a416d95e2910680d3de5bbe98fc7aa5765"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-morphology-roots-review-bank",
+      "version": "1.0.0",
+      "sha256": "a36777107916bb7848667d6d30b8224797ce786175c48ab602c17473410816fd"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-morphology-roots-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "afa9c469c018c5cdbba31e9b3b7e78e8bd2b2a66e52782442687077fd211a48d"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-orthographic-patterns-review-bank",
+      "version": "1.0.0",
+      "sha256": "2ef49a7eb19366b18d7e8a5da1ca078d502d72c993f80e70f79d2a35f8fb8742"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-orthographic-patterns-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "0b726f8f3f66f653d75c801c7702514699c1571ca086ed106b1aed3184fcf17b"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-phoneme-grapheme-mapping-review-bank",
+      "version": "1.0.0",
+      "sha256": "63e0364b7b34c22deae8a4cffdaa127d8392f6a6a346970471ff7f688d6b0bfe"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-phoneme-grapheme-mapping-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "359ec5322e008ff67853901264501b3347390c530c9c687658f69301f845e48f"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-etymology-language-origins-review-bank",
+      "version": "1.0.0",
+      "sha256": "6bff29286a3436515762f58c8dbde67320a4b061e14b2cf074857181c6f61dfa"
+    },
+    {
+      "kind": "bank",
+      "code": "snsb6-etymology-language-origins-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "536410fddda6562627ffb19356eeb23010e941dd853653e07bf6945a0634c3a1"
+    }
+  ],
+  "probeSnapshots": [
+    {
+      "bankCode": "snsb6-word-structure-placement-probe",
+      "bankVersion": "1.0.0",
+      "unitCode": "snsb6-word-structure",
+      "unitVersion": "1.0.0",
+      "sha256": "ceaaaaf530be8624f17f5005613e83ba76807eb590b2fb9c9d7f085e5d53eff0"
+    }
+  ]
+}

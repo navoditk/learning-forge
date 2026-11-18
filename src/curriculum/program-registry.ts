@@ -2,6 +2,7 @@ import { Program, ProgramSchema } from '../contracts/progression';
 import ACTIVE_SELECTION from './grade-6-math-active-selection.json';
 import { PILOT_PROGRAM_UNIT_REFS } from './pilot-catalog';
 import { RATIOS_UNIT_2_PROGRAM } from './ratios-unit-2-catalog';
+import { SPELLING_UNIT_1_PROGRAM } from './spelling-unit-1-catalog';
 import { STATISTICS_UNIT_2_PROGRAM } from './statistics-unit-2-catalog';
 
 const policy = (code: string, version = '1.0.0') => ({ code, version });
@@ -106,6 +107,9 @@ const rawProgramRegistry = [
     legacyCompatibilityPolicyRef: null,
     defaultPolicyProfileRef: policy('scripps-spelling-bee-6-default'),
   },
+  // scripps-spelling-bee-6@1.1.0 (SPELL-SP5): hybrid, the word-structure unit; selected only by the
+  // activation switch (see spelling-unit-1-catalog.ts). Declared after 1.0.0: order marks it pending.
+  SPELLING_UNIT_1_PROGRAM,
   placeholderProgram('grade-6-ela', 'Grade 6 ELA'),
   // Own entry (SCI6-PREREQ, D-172): a graded, skill-graph-only program with its
   // own skill-code prefix. Available (SU-H5 activation, D-188): the Cells unit

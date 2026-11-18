@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { COURSE_CATALOG } from '../../../curriculum/course-catalog';
+import { reviewCourseSummaries } from '../../../progression/program-resolution';
 
 const gates = [
   {
@@ -49,9 +49,8 @@ const privacyReviewItems = [
 ];
 
 export default function CourseProgressionReviewPage() {
-  // Active view (P-A, D-229): the active Grade 6 Math program's units.
-  const unit = COURSE_CATALOG.unitsOfProgram('grade-6-math')[0];
-  const lessons = unit ? COURSE_CATALOG.lessonsOfUnit(unit) : [];
+  // Active view (P-A, D-229): every active program that has units (SPELL-SP5: no program literal).
+  const courses = reviewCourseSummaries();
 
   return (
     <main>
@@ -69,26 +68,39 @@ export default function CourseProgressionReviewPage() {
       <p role="status">
         Review surface only — it does not open progression serving or authorize C4.
       </p>
-      <h1>Grade 6 Math progression review</h1>
+      <h1>Course progression review</h1>
       <p>
         This page gives product, engineering, and privacy reviewers a browser-readable summary of
-        the current pilot. It contains no learner records and no held-out assessment prompts or
-        answers.
+        the current pilot courses. It contains no learner records and no held-out assessment prompts
+        or answers.
       </p>
 
       <section aria-labelledby="course-heading">
-        <h2 id="course-heading">Pilot course</h2>
-        <p>
-          <strong>{unit?.title ?? 'Grade 6 Math pilot unit'}</strong> — {lessons.length} lessons and{' '}
-          {COURSE_CATALOG.banks.length} server-side assessment-bank metadata records.
-        </p>
-        <ol>
-          {lessons.map((lesson) => (
-            <li key={lesson.code}>
-              <strong>{lesson.title}</strong> — {lesson.objectives.join(' ')}
-            </li>
-          ))}
-        </ol>
+        <h2 id="course-heading">Pilot courses</h2>
+        {courses.length === 0 && <p>No active program has a unit course.</p>}
+        {courses.map((course) => (
+          <section key={course.programCode} aria-labelledby={`course-${course.programCode}`}>
+            <h3 id={`course-${course.programCode}`}>{course.label}</h3>
+            <p>
+              {course.units.length} {course.units.length === 1 ? 'unit' : 'units'} and{' '}
+              {course.bankCount} server-side assessment-bank metadata records.
+            </p>
+            {course.units.map((unit) => (
+              <div key={`${unit.code}@${unit.version}`}>
+                <p>
+                  <strong>{unit.title}</strong> — {unit.lessons.length} lessons
+                </p>
+                <ol>
+                  {unit.lessons.map((lesson) => (
+                    <li key={lesson.code}>
+                      <strong>{lesson.title}</strong> — {lesson.objectives.join(' ')}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </section>
+        ))}
       </section>
 
       <section aria-labelledby="gates-heading">

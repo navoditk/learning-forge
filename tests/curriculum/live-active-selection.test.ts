@@ -30,8 +30,11 @@ const curriculumFile = (name: string): unknown =>
 
 // RI-5 activation: grade-6-math@1.1.0 is the selected version; 1.0.0 stays in the index.
 // MATH-ST6: 1.2.0 (Ratios + Statistics) is registered but NOT selected until the owner's switch.
+// SPELL-SP5: scripps-spelling-bee-6@1.1.0 is registered but NOT selected until the owner's switch.
 const ACTIVE_REGISTRY = PROGRAM_REGISTRY.filter(
-  (program) => program.code !== 'grade-6-math' || program.version === '1.1.0',
+  (program) =>
+    (program.code !== 'grade-6-math' || program.version === '1.1.0') &&
+    (program.code !== 'scripps-spelling-bee-6' || program.version === '1.0.0'),
 );
 const PILOT_SKILLS = ['ratio-language', 'unit-rates', 'ratio-tables'];
 
@@ -39,8 +42,9 @@ describe('P-A live: committed active selection (RI-1)', () => {
   it('S-1 names every registry program exactly once at the registered version', () => {
     const selection = VERSIONED_COURSE_CATALOG.selection;
     expect(selection.programs).toHaveLength(12);
-    // The registry lists grade-6-math three times (1.0.0 and 1.1.0 retained or active, 1.2.0 registered).
-    expect(PROGRAM_REGISTRY).toHaveLength(14);
+    // The registry lists grade-6-math three times (1.0.0 and 1.1.0 retained or active, 1.2.0 registered)
+    // and scripps-spelling-bee-6 twice (1.0.0 active, 1.1.0 registered, SPELL-SP5).
+    expect(PROGRAM_REGISTRY).toHaveLength(15);
     expect(selection.programs).toEqual(
       ACTIVE_REGISTRY.map(({ code, version }) => ({ code, version })),
     );
@@ -55,7 +59,7 @@ describe('P-A live: committed active selection (RI-1)', () => {
     expect(
       PILOT_ASSESSMENT_BANKS.filter((bank) => /-(review|delayed)/u.test(bank.code)),
     ).toHaveLength(6);
-    expect(skillBankCodes).toHaveLength(16);
+    expect(skillBankCodes).toHaveLength(24);
     expect(VERSIONED_COURSE_CATALOG.selection.skillBanks.map((ref) => ref.code)).toEqual(
       skillBankCodes,
     );

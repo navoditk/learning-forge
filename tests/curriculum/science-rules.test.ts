@@ -157,6 +157,7 @@ describe('P1 grade-6-science registry entry', () => {
       'amc-8',
       'mathcounts-6',
       'scripps-spelling-bee-6',
+      'scripps-spelling-bee-6', // 1.1.0 (SPELL-SP5); registered, selected only by the owner switch
       'grade-6-ela',
       'grade-6-science',
       'grade-6-social-studies',

@@ -14,6 +14,7 @@ import {
   resolvePinnedPolicyProfile,
 } from '../../../../../progression/artifacts';
 import { policyHash } from '../../../../../progression/policy';
+import { activeProgramForTarget } from '../../../../../progression/program-resolution';
 import {
   admittedPlacementProbeBank,
   placementProbeBankFor,
@@ -30,7 +31,7 @@ import type { ProgressionPolicyProfile } from '../../../../../contracts/policy';
 import type { AssessmentBank } from '../../../../../contracts/progression';
 import { prisma } from '../../../../../server/prisma';
 import { skillsByCode } from '../../../../../curriculum/catalog';
-import { COURSE_CATALOG, VERSIONED_COURSE_CATALOG } from '../../../../../curriculum/course-catalog';
+import { VERSIONED_COURSE_CATALOG } from '../../../../../curriculum/course-catalog';
 import { requireHouseholdContext } from '../../../../../server/household-context';
 import { isProgressionReleaseGateOpen } from '../../../../../progression/release-gates';
 import { projectAssessmentAssignmentResponse } from '../../../../../progression/assessment-response';
@@ -305,7 +306,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = RequestSchema.parse(await request.json());
-    const program = COURSE_CATALOG.programByCode('grade-6-math');
+    // SPELL-SP5: the target decides the program; no program literal.
+    const program = activeProgramForTarget({
+      targetKind: body.targetKind,
+      code: body.targetCode,
+      version: body.targetVersion,
+    });
     if (!program) throw new Error('Pilot program is unavailable');
     if (!assessmentKindMatchesTarget(body.kind, body.targetKind)) {
       return NextResponse.json(

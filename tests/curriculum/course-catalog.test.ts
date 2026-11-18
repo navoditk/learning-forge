@@ -19,6 +19,11 @@ import {
   RATIOS_UNIT_2_UNIT,
 } from '../../src/curriculum/ratios-unit-2-catalog';
 import {
+  SPELLING_UNIT_1_ASSESSMENT_BANKS,
+  SPELLING_UNIT_1_LESSONS,
+  SPELLING_UNIT_1_UNIT,
+} from '../../src/curriculum/spelling-unit-1-catalog';
+import {
   STATISTICS_UNIT_2_ASSESSMENT_BANKS,
   STATISTICS_UNIT_2_LESSONS,
   STATISTICS_UNIT_2_UNIT,
@@ -45,17 +50,25 @@ const fixtureInput = {
 
 const multiProgramCatalog = createCourseCatalog({
   programs: [...PROGRAM_REGISTRY, SYNTHETIC_PROGRAM],
-  units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, STATISTICS_UNIT_2_UNIT, ...SYNTHETIC_UNITS],
+  units: [
+    ...PILOT_UNITS,
+    RATIOS_UNIT_2_UNIT,
+    STATISTICS_UNIT_2_UNIT,
+    SPELLING_UNIT_1_UNIT,
+    ...SYNTHETIC_UNITS,
+  ],
   lessons: [
     ...PILOT_LESSONS,
     ...RATIOS_UNIT_2_LESSONS,
     ...STATISTICS_UNIT_2_LESSONS,
+    ...SPELLING_UNIT_1_LESSONS,
     ...SYNTHETIC_LESSONS,
   ],
   banks: [
     ...PILOT_ASSESSMENT_BANKS,
     ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
     ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+    ...SPELLING_UNIT_1_ASSESSMENT_BANKS,
     ...SYNTHETIC_BANKS,
   ],
 });
@@ -67,23 +80,31 @@ describe('production course catalog', () => {
     // (program 1.0.0 and 1.1.0; pilot and Ratios 2.0.0 records); the pilot
     // 1.0.0 records stay byte-identical (retention, CE-8).
     expect(COURSE_CATALOG_INDEX.programs).toBe(PROGRAM_REGISTRY);
+    // SPELL-SP5: scripps-spelling-bee-6@1.1.0 is registered, not selected, so it stays out of the active view.
     expect(COURSE_CATALOG.programs).toEqual(
-      PROGRAM_REGISTRY.filter((p) => p.code !== 'grade-6-math' || p.version === '1.1.0'),
+      PROGRAM_REGISTRY.filter(
+        (p) =>
+          (p.code !== 'grade-6-math' || p.version === '1.1.0') &&
+          (p.code !== 'scripps-spelling-bee-6' || p.version === '1.0.0'),
+      ),
     );
     expect(COURSE_CATALOG_INDEX.units).toEqual([
       ...PILOT_UNITS,
       RATIOS_UNIT_2_UNIT,
       STATISTICS_UNIT_2_UNIT,
+      SPELLING_UNIT_1_UNIT,
     ]);
     expect(COURSE_CATALOG_INDEX.lessons).toEqual([
       ...PILOT_LESSONS,
       ...RATIOS_UNIT_2_LESSONS,
       ...STATISTICS_UNIT_2_LESSONS,
+      ...SPELLING_UNIT_1_LESSONS,
     ]);
     expect(COURSE_CATALOG_INDEX.banks).toEqual([
       ...PILOT_ASSESSMENT_BANKS,
       ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
       ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+      ...SPELLING_UNIT_1_ASSESSMENT_BANKS,
     ]);
     expect(COURSE_CATALOG.units).toBe(COURSE_CATALOG_INDEX.units);
     expect(COURSE_CATALOG.lessons).toBe(COURSE_CATALOG_INDEX.lessons);

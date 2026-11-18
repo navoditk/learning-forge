@@ -1,3 +1,4 @@
+import { NextRequest } from 'next/server';
 import { createHash } from 'node:crypto';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -257,14 +258,15 @@ describe('plan/preview/digest/progress surfaces never name an assessment item (L
   });
 
   it('names only the lesson/unit/skill target, never a bank item id or prompt', async () => {
-    const pilotBody = await pilotGet().then((response) => response.json());
+    const pilotBody = await pilotGet(
+      new NextRequest('http://localhost/api/progression/pilot'),
+    ).then((response) => response.json());
     expect(findLeak(pilotBody)).toBeUndefined();
     expect(JSON.stringify(pilotBody)).toContain(LESSON_TARGET_CODE);
 
     const digestBody = await digestGet().then((response) => response.json());
     expect(findLeak(digestBody)).toBeUndefined();
 
-    const { NextRequest } = await import('next/server');
     const progressBody = await progressGet(
       new NextRequest(new Request('http://localhost/api/phase1/progress')),
     ).then((response) => response.json());

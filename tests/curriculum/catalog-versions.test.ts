@@ -15,6 +15,11 @@ import {
   RATIOS_UNIT_2_UNIT,
 } from '../../src/curriculum/ratios-unit-2-catalog';
 import {
+  SPELLING_UNIT_1_ASSESSMENT_BANKS,
+  SPELLING_UNIT_1_LESSONS,
+  SPELLING_UNIT_1_UNIT,
+} from '../../src/curriculum/spelling-unit-1-catalog';
+import {
   STATISTICS_UNIT_2_ASSESSMENT_BANKS,
   STATISTICS_UNIT_2_LESSONS,
   STATISTICS_UNIT_2_UNIT,
@@ -50,8 +55,11 @@ const build = (
 ) => createVersionedCourseCatalog({ records, selection, reservedLabels });
 
 // RI-5: grade-6-math@1.1.0 is the selected version; 1.0.0 stays registered.
+// SPELL-SP5: scripps-spelling-bee-6@1.1.0 is registered but NOT selected until the owner's switch.
 const ACTIVE_REGISTRY = PROGRAM_REGISTRY.filter(
-  (program) => program.code !== 'grade-6-math' || program.version === '1.1.0',
+  (program) =>
+    (program.code !== 'grade-6-math' || program.version === '1.1.0') &&
+    (program.code !== 'scripps-spelling-bee-6' || program.version === '1.0.0'),
 );
 
 const PILOT_SKILL_BANKS: Ref[] = [
@@ -63,6 +71,11 @@ const PILOT_SKILL_BANKS: Ref[] = [
   'statistical-questions',
   'distributions',
   'center-and-variability',
+  // SPELL-SP5: registered Spelling skill banks are named by the selection (S-4).
+  'snsb6-morphology-roots',
+  'snsb6-orthographic-patterns',
+  'snsb6-phoneme-grapheme-mapping',
+  'snsb6-etymology-language-origins',
 ].flatMap((skill) =>
   ['review-bank', 'delayed-check-bank'].map((suffix) => ({
     code: `${skill}-${suffix}`,
@@ -72,11 +85,19 @@ const PILOT_SKILL_BANKS: Ref[] = [
 
 const combinedRecords = {
   programs: [...PROGRAM_REGISTRY, SV_PROGRAM_V1, SV_PROGRAM_V11],
-  units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, STATISTICS_UNIT_2_UNIT, SV_UNIT_V1, SV_UNIT_V2],
+  units: [
+    ...PILOT_UNITS,
+    RATIOS_UNIT_2_UNIT,
+    STATISTICS_UNIT_2_UNIT,
+    SPELLING_UNIT_1_UNIT,
+    SV_UNIT_V1,
+    SV_UNIT_V2,
+  ],
   lessons: [
     ...PILOT_LESSONS,
     ...RATIOS_UNIT_2_LESSONS,
     ...STATISTICS_UNIT_2_LESSONS,
+    ...SPELLING_UNIT_1_LESSONS,
     ...SV_LESSONS_V1,
     ...SV_LESSONS_V2,
   ],
@@ -84,6 +105,7 @@ const combinedRecords = {
     ...PILOT_ASSESSMENT_BANKS,
     ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
     ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+    ...SPELLING_UNIT_1_ASSESSMENT_BANKS,
     ...SV_BANKS,
   ],
 };

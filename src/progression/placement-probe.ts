@@ -5,8 +5,10 @@ import type { Ref, Unit } from '../contracts/progression';
 import { servableContentCatalog } from '../content/catalog';
 import { COURSE_CATALOG } from '../curriculum/course-catalog';
 import STRUCTURE_MANIFEST from '../curriculum/grade-6-math-structure-manifest.json';
+import SPELLING_STRUCTURE_MANIFEST from '../curriculum/scripps-spelling-bee-6-structure-manifest.json';
 import RATIOS_UNIT_1_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/ratios-and-proportional-reasoning-placement-probe@1.0.0.json';
 import RATIOS_UNIT_2_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/ratios-and-proportional-reasoning-placement-probe@2.0.0.json';
+import SPELLING_UNIT_1_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/snsb6-word-structure-placement-probe@1.0.0.json';
 import STATISTICS_UNIT_2_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/statistics-placement-probe@2.0.0.json';
 import {
   admitNewPlacementProbe,
@@ -25,8 +27,13 @@ const PROBE_SNAPSHOTS: readonly unknown[] = [
   RATIOS_UNIT_1_PROBE_SNAPSHOT,
   RATIOS_UNIT_2_PROBE_SNAPSHOT,
   STATISTICS_UNIT_2_PROBE_SNAPSHOT,
+  SPELLING_UNIT_1_PROBE_SNAPSHOT,
 ];
-const PROBE_MANIFEST_ENTRIES = STRUCTURE_MANIFEST.probeSnapshots as readonly ProbeManifestEntry[];
+// One structure manifest per program family anchors its probe snapshots (SPELL-SP5).
+const PROBE_MANIFEST_ENTRIES: readonly ProbeManifestEntry[] = [
+  ...(STRUCTURE_MANIFEST.probeSnapshots as readonly ProbeManifestEntry[]),
+  ...(SPELLING_STRUCTURE_MANIFEST.probeSnapshots as readonly ProbeManifestEntry[]),
+];
 
 export function placementProbeBankRef(unit: Pick<Unit, 'code' | 'version'>): Ref {
   return { code: `${unit.code}${PLACEMENT_PROBE_SUFFIX}`, version: unit.version };

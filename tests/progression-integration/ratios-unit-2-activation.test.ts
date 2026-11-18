@@ -78,7 +78,18 @@ vi.mock('../../src/curriculum/course-catalog', async (importOriginal) => {
   );
   const versioned = createVersionedCourseCatalog({
     records: {
-      programs: [...real.programs, ...fixture.programs],
+      programs: [
+        ...real.programs,
+        ...fixture.programs.map((program) => ({
+          ...program,
+          // SPELL-SP5: routes now resolve the target's own program. The synthetic program
+          // borrows the real Math profile (as the earlier hard-coded route did) because
+          // no synthetic profile exists on disk.
+          defaultPolicyProfileRef: real.programs.find(
+            (p) => p.code === 'grade-6-math' && p.version === '1.1.0',
+          )!.defaultPolicyProfileRef,
+        })),
+      ],
       units: [...real.units, ...fixture.units],
       lessons: [...real.lessons, ...fixture.lessons],
       banks: [...real.banks, ...banks],

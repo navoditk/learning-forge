@@ -22,6 +22,11 @@ import {
   RATIOS_UNIT_2_UNIT,
 } from './ratios-unit-2-catalog';
 import {
+  SPELLING_UNIT_1_ASSESSMENT_BANKS,
+  SPELLING_UNIT_1_LESSONS,
+  SPELLING_UNIT_1_UNIT,
+} from './spelling-unit-1-catalog';
+import {
   STATISTICS_UNIT_2_ASSESSMENT_BANKS,
   STATISTICS_UNIT_2_LESSONS,
   STATISTICS_UNIT_2_UNIT,
@@ -153,12 +158,18 @@ function buildVersionedCatalog(): VersionedCourseCatalog {
   versionedCatalog ??= createVersionedCourseCatalog({
     records: {
       programs: PROGRAM_REGISTRY,
-      units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, STATISTICS_UNIT_2_UNIT],
-      lessons: [...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS, ...STATISTICS_UNIT_2_LESSONS],
+      units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, STATISTICS_UNIT_2_UNIT, SPELLING_UNIT_1_UNIT],
+      lessons: [
+        ...PILOT_LESSONS,
+        ...RATIOS_UNIT_2_LESSONS,
+        ...STATISTICS_UNIT_2_LESSONS,
+        ...SPELLING_UNIT_1_LESSONS,
+      ],
       banks: [
         ...PILOT_ASSESSMENT_BANKS,
         ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
         ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+        ...SPELLING_UNIT_1_ASSESSMENT_BANKS,
       ],
     },
     selection: ACTIVE_SELECTION as ActiveSelection,

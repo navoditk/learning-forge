@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 import { verifyStepUpToken } from '../../../../auth/step-up';
-import { COURSE_CATALOG } from '../../../../curriculum/course-catalog';
 import { resolvePinnedPolicyProfile } from '../../../../progression/artifacts';
 import { applyNeedsHelpOverride } from '../../../../progression/learner-state';
+import { activeProgramForTarget } from '../../../../progression/program-resolution';
 import { isProgressionReleaseGateOpen } from '../../../../progression/release-gates';
 import { pilotSkillRef } from '../../../../progression/skill-assessment';
 import { requireHouseholdContext } from '../../../../server/household-context';
@@ -77,7 +77,8 @@ export async function POST(request: NextRequest) {
         { status: 409 },
       );
     }
-    const program = COURSE_CATALOG.programByCode('grade-6-math');
+    // SPELL-SP5: the skill decides the program; no program literal.
+    const program = activeProgramForTarget({ targetKind: 'SKILL', code: body.skillCode });
     if (!program) throw new Error('Pilot program is unavailable');
     const profileRef = program.defaultPolicyProfileRef;
     const profile = resolvePinnedPolicyProfile(profileRef);

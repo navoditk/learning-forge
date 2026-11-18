@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { issueStepUpToken, verifyStepUpPassword } from '../../../../auth/step-up';
 import { COURSE_CATALOG } from '../../../../curriculum/course-catalog';
 import { resolvePinnedPolicyProfile } from '../../../../progression/artifacts';
+import { stepUpAdvertisedLifetimeMinutes } from '../../../../progression/program-resolution';
 import { isProgressionReleaseGateOpen } from '../../../../progression/release-gates';
 import { requireHouseholdContext } from '../../../../server/household-context';
 import { prisma } from '../../../../server/prisma';
@@ -52,16 +53,18 @@ export async function POST(request: NextRequest) {
         { status: 403 },
       );
     }
-    const program = COURSE_CATALOG.programByCode('grade-6-math');
-    if (!program) throw new Error('Pilot program is unavailable');
-    const profile = resolvePinnedPolicyProfile(program.defaultPolicyProfileRef);
+    // SPELL-SP5: household-level token; advertise the shortest active program lifetime.
+    const expiresInMinutes = stepUpAdvertisedLifetimeMinutes(
+      COURSE_CATALOG.programs,
+      (ref) => resolvePinnedPolicyProfile(ref).stepUpReauthLifetimeMinutes,
+    );
     const stepUpToken = issueStepUpToken(
       { userId: identity.actorUserId, householdId: identity.householdId, issuedAt: new Date() },
       process.env.AUTH_SECRET,
     );
     return NextResponse.json({
       stepUpToken,
-      expiresInMinutes: profile.stepUpReauthLifetimeMinutes,
+      expiresInMinutes,
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
