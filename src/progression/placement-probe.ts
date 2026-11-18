@@ -6,6 +6,7 @@ import { servableContentCatalog } from '../content/catalog';
 import { COURSE_CATALOG } from '../curriculum/course-catalog';
 import STRUCTURE_MANIFEST from '../curriculum/grade-6-math-structure-manifest.json';
 import SPELLING_STRUCTURE_MANIFEST from '../curriculum/scripps-spelling-bee-6-structure-manifest.json';
+import GEOMETRY_UNIT_2_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/geometry-placement-probe@2.0.0.json';
 import RATIOS_UNIT_1_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/ratios-and-proportional-reasoning-placement-probe@1.0.0.json';
 import RATIOS_UNIT_2_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/ratios-and-proportional-reasoning-placement-probe@2.0.0.json';
 import SPELLING_UNIT_1_PROBE_SNAPSHOT from '../curriculum/probe-snapshots/snsb6-word-structure-placement-probe@1.0.0.json';
@@ -27,6 +28,7 @@ const PROBE_SNAPSHOTS: readonly unknown[] = [
   RATIOS_UNIT_1_PROBE_SNAPSHOT,
   RATIOS_UNIT_2_PROBE_SNAPSHOT,
   STATISTICS_UNIT_2_PROBE_SNAPSHOT,
+  GEOMETRY_UNIT_2_PROBE_SNAPSHOT,
   SPELLING_UNIT_1_PROBE_SNAPSHOT,
 ];
 // One structure manifest per program family anchors its probe snapshots (SPELL-SP5).

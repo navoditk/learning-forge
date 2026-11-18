@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { contentCatalog, contentSkillCode, servableContentCatalog } from '../content/catalog';
 import { resolveHistoricalContent as resolveArchivedHistoricalContent } from '../content/archive';
-import { resolveActive } from '../content/resolvers';
+import { newestServablePerId, resolveActive } from '../content/resolvers';
 import {
   parseStructuredResponseRequest,
   projectResponseSpec,
@@ -159,7 +159,9 @@ function programCatalog(program: CurriculumProgram) {
   return {
     skills,
     skillCodes,
-    content: servableContentCatalog.filter((item) => skillCodes.has(contentSkillCode(item))),
+    content: newestServablePerId(
+      servableContentCatalog.filter((item) => skillCodes.has(contentSkillCode(item))),
+    ),
   };
 }
 
@@ -284,6 +286,13 @@ export async function startSession(
       false,
     );
   }
+  // A resumed session keeps the version it was bound to: present (and record the shadow
+  // decision for) that historical version, never a newer one registered since (for example
+  // prism-volume-2 content-2 beside content-3). New sessions resolve the newest, as before.
+  const served =
+    existing?.targetVersion && existing.targetVersion !== content.version
+      ? ((await resolveHistoricalContent(content.id, existing.targetVersion)) ?? content)
+      : content;
   const session =
     existing ??
     (await prisma.session.create({
@@ -305,7 +314,7 @@ export async function startSession(
       identity,
       program,
       content.id,
-      content.version,
+      served.version,
       activityKind,
       session.id,
       Boolean(session.assignmentId),
@@ -317,19 +326,19 @@ export async function startSession(
     resumed: Boolean(existing),
     learner: { id: identity.learnerProfileId, displayName: 'Learner' },
     content: {
-      id: content.id,
-      version: content.version,
-      title: content.title,
-      skillCode: contentSkillCode(content),
+      id: served.id,
+      version: served.version,
+      title: served.title,
+      skillCode: contentSkillCode(served),
       // Server-derived (SP-2 H-2): the client hides the hint control when false.
       modelHintsAvailable: !isModelTutoringDisabled(contentSkillCode(content)),
-      prompt: content.prompt,
-      accessibilityNotes: content.accessibilityNotes,
-      figure: content.figure,
+      prompt: served.prompt,
+      accessibilityNotes: served.accessibilityNotes,
+      figure: served.figure,
       // Structured items only (contract 3.2, A-9): the public field
       // descriptor plus the complete text alternative. Legacy presentation is
       // unchanged: neither key is present.
-      ...structuredPresentation(content),
+      ...structuredPresentation(served),
     },
     ...state,
   };

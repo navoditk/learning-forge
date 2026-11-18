@@ -88,6 +88,8 @@ const SNAPSHOT_MODULE = resolve(sourceRoot, 'progression', 'placement-probe-snap
 const STAGED_CATALOG = curriculum('ratios-unit-2-catalog.ts');
 // MATH-ST6: the Statistics 2.0.0 records are registered the same way (pure data).
 const STATISTICS_CATALOG = curriculum('statistics-unit-2-catalog.ts');
+// MATH-GEO-6: the Geometry 2.0.0 records are registered the same way (pure data).
+const GEOMETRY_CATALOG = curriculum('geometry-unit-2-catalog.ts');
 // SPELL-SP5: the Spelling unit 1.0.0 records are registered the same way (pure data).
 const SPELLING_CATALOG = curriculum('spelling-unit-1-catalog.ts');
 const SPELLING_MANIFEST = curriculum('scripps-spelling-bee-6-structure-manifest.json');
@@ -97,11 +99,16 @@ const NEW_MODULES = [
   SNAPSHOT_MODULE,
   STAGED_CATALOG,
   STATISTICS_CATALOG,
+  GEOMETRY_CATALOG,
   SPELLING_CATALOG,
 ];
 const DORMANT = [
   ...NEW_MODULES.filter(
-    (path) => path !== STAGED_CATALOG && path !== STATISTICS_CATALOG && path !== SPELLING_CATALOG,
+    (path) =>
+      path !== STAGED_CATALOG &&
+      path !== STATISTICS_CATALOG &&
+      path !== GEOMETRY_CATALOG &&
+      path !== SPELLING_CATALOG,
   ),
   curriculum('grade-6-math-structure-manifest.json'),
   SPELLING_MANIFEST,
@@ -151,6 +158,7 @@ const ALLOWED_CLOSURE_FILES = new Set(
     'grade-6-math-reserved-labels.json',
     'ratios-unit-2-catalog.ts',
     'statistics-unit-2-catalog.ts',
+    'geometry-unit-2-catalog.ts',
     'spelling-unit-1-catalog.ts',
   ]
     .map(curriculum)
@@ -205,9 +213,10 @@ describe('catalog versioning dormancy', () => {
       .filter(({ to }) => to === STAGED_CATALOG)
       .map(({ from }) => relative(repoRoot, from))
       .sort();
-    // The Statistics 2.0.0 catalog reuses the Ratios unit ref for program 1.2.0.
+    // The Statistics and Geometry 2.0.0 catalogs reuse the Ratios unit ref for programs 1.2.0 and 1.3.0.
     expect(importers).toEqual([
       'src/curriculum/course-catalog.ts',
+      'src/curriculum/geometry-unit-2-catalog.ts',
       'src/curriculum/program-registry.ts',
       'src/curriculum/statistics-unit-2-catalog.ts',
     ]);
@@ -215,17 +224,32 @@ describe('catalog versioning dormancy', () => {
     expect(NEW_MODULES).toContain(STAGED_CATALOG);
   });
 
-  it('IG-1t only the course catalog and the program registry import the Statistics 2.0.0 catalog (MATH-ST6)', () => {
+  it('IG-1t only the course catalog, the program registry and the Geometry catalog import the Statistics 2.0.0 catalog (MATH-ST6, MATH-GEO-6)', () => {
     const importers = productionEdges()
       .filter(({ to }) => to === STATISTICS_CATALOG)
+      .map(({ from }) => relative(repoRoot, from))
+      .sort();
+    // The Geometry catalog reuses the Statistics unit ref for program 1.3.0.
+    expect(importers).toEqual([
+      'src/curriculum/course-catalog.ts',
+      'src/curriculum/geometry-unit-2-catalog.ts',
+      'src/curriculum/program-registry.ts',
+    ]);
+    expect(DORMANT).not.toContain(STATISTICS_CATALOG);
+    expect(NEW_MODULES).toContain(STATISTICS_CATALOG);
+  });
+
+  it('IG-1v only the course catalog and the program registry import the Geometry 2.0.0 catalog (MATH-GEO-6)', () => {
+    const importers = productionEdges()
+      .filter(({ to }) => to === GEOMETRY_CATALOG)
       .map(({ from }) => relative(repoRoot, from))
       .sort();
     expect(importers).toEqual([
       'src/curriculum/course-catalog.ts',
       'src/curriculum/program-registry.ts',
     ]);
-    expect(DORMANT).not.toContain(STATISTICS_CATALOG);
-    expect(NEW_MODULES).toContain(STATISTICS_CATALOG);
+    expect(DORMANT).not.toContain(GEOMETRY_CATALOG);
+    expect(NEW_MODULES).toContain(GEOMETRY_CATALOG);
   });
 
   it('IG-1u only the course catalog and the program registry import the Spelling unit 1.0.0 catalog (SPELL-SP5)', () => {

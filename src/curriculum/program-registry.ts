@@ -1,5 +1,6 @@
 import { Program, ProgramSchema } from '../contracts/progression';
 import ACTIVE_SELECTION from './grade-6-math-active-selection.json';
+import { GEOMETRY_UNIT_2_PROGRAM } from './geometry-unit-2-catalog';
 import { PILOT_PROGRAM_UNIT_REFS } from './pilot-catalog';
 import { RATIOS_UNIT_2_PROGRAM } from './ratios-unit-2-catalog';
 import { SPELLING_UNIT_1_PROGRAM } from './spelling-unit-1-catalog';
@@ -42,6 +43,9 @@ const rawProgramRegistry = [
   // grade-6-math@1.2.0 (MATH-ST6): Ratios 2.0.0 + Statistics 2.0.0; selected only by the
   // activation switch (see statistics-unit-2-catalog.ts).
   STATISTICS_UNIT_2_PROGRAM,
+  // grade-6-math@1.3.0 (MATH-GEO-6): Ratios + Statistics + Geometry 2.0.0; selected only by the
+  // activation switch (see geometry-unit-2-catalog.ts). Declared after 1.2.0: order marks it pending.
+  GEOMETRY_UNIT_2_PROGRAM,
   {
     code: 'math-kangaroo-6',
     version: '1.0.0',

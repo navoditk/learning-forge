@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "bankRef": {
+    "code": "geometry-placement-probe",
+    "version": "2.0.0"
+  },
+  "unitRef": {
+    "code": "geometry",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "projection": {
+        "id": "area-of-composite-shapes-1",
+        "version": "content-1",
+        "hash": "sha256:6af41d9ffc068cefd4443b1266c077a34b54a59538f85dd9482c8c1485e3b853",
+        "title": "L-shaped room",
+        "role": "practice",
+        "skillRef": {
+          "code": "area-of-composite-shapes",
+          "version": "1.0.0"
+        },
+        "prompt": "A room shaped like an L is made of two rectangles: one that is 6 meters by 4 meters, and another that is 3 meters by 2 meters. What is the total area of the room?",
+        "deterministicValidator": {
+          "type": "numeric",
+          "canonicalAnswer": "30 square meters",
+          "acceptedAnswers": ["30", "30 square meters", "30 sq meters"],
+          "equivalenceNotes": "Accept 30 with or without a unit phrasing."
+        },
+        "accessibilityNotes": "Present the two rectangles' dimensions as plain text; do not depend on a floor-plan image or color.",
+        "accessibleAlternative": "Read aloud or display: An L-shaped room is made from a 6 meter by 4 meter rectangle and a 3 meter by 2 meter rectangle. Find the total area of both parts together."
+      },
+      "projectionDigest": "36b0bbd081b0aa9880612268ac548047c5314202bf8f699b6547050b1b3a74a6"
+    },
+    {
+      "projection": {
+        "id": "surface-area-and-volume-2",
+        "version": "content-1",
+        "hash": "sha256:878ad0da7bdb73fcfeb35eafdf31c6ed10c0cc89ee32acf0cbfdf39dffe98cc7",
+        "title": "Box surface area",
+        "role": "practice",
+        "skillRef": {
+          "code": "surface-area-and-volume",
+          "version": "1.0.0"
+        },
+        "prompt": "A rectangular prism is 4 cm long, 3 cm wide, and 2 cm tall. What is its total surface area?",
+        "deterministicValidator": {
+          "type": "numeric",
+          "canonicalAnswer": "52 square centimeters",
+          "acceptedAnswers": ["52", "52 square centimeters", "52 cm2"],
+          "equivalenceNotes": "Accept 52 with or without a unit phrasing."
+        },
+        "accessibilityNotes": "Present dimensions as plain text; do not depend on a net-diagram image or color.",
+        "accessibleAlternative": "Read aloud or display: A rectangular prism measures 4 centimeters by 3 centimeters by 2 centimeters. Find the total surface area by accounting for all six faces."
+      },
+      "projectionDigest": "b26e32a853918973399339d74ee992c519f235583fe4ce024421a4120e75af3d"
+    },
+    {
+      "projection": {
+        "id": "prism-volume-1",
+        "version": "content-1",
+        "hash": "sha256:b734b0bbb9229e9101e73bd19662f781031e5791581eb1da9b56f0c00404b7af",
+        "title": "Fractional-edge prism volume",
+        "role": "practice",
+        "skillRef": {
+          "code": "prism-volume",
+          "version": "1.0.0"
+        },
+        "prompt": "A rectangular prism has length 2 1/2 feet, width 1 1/2 feet, and height 4 feet. What is its volume?",
+        "deterministicValidator": {
+          "type": "numeric",
+          "canonicalAnswer": "15 cubic feet",
+          "acceptedAnswers": ["15 cubic feet", "15 ft^3", "15 cubic ft"],
+          "equivalenceNotes": "Accept equivalent cubic-foot notation."
+        },
+        "accessibilityNotes": "State the three fractional edge lengths and multiplication in text; no 3-D rendering is required.",
+        "accessibleAlternative": "Read aloud or display: Multiply two and one-half feet, one and one-half feet, and four feet to find the prism's volume in cubic feet."
+      },
+      "projectionDigest": "30c87d74ccef7c861fbad641967ac56e5c5cd752fefc7791c8871ddd1b62e7d0"
+    },
+    {
+      "projection": {
+        "id": "coordinate-geometry-2",
+        "version": "content-1",
+        "hash": "sha256:3da81488e384ddd1e8cfb3facee4396b96db208a3515587f5c991fa94fd12e22",
+        "title": "Area of a plotted rectangle",
+        "role": "practice",
+        "skillRef": {
+          "code": "coordinate-geometry",
+          "version": "1.0.0"
+        },
+        "prompt": "A rectangle has vertices at (1, 1), (6, 1), (6, 4), and (1, 4). What is the area of this rectangle?",
+        "deterministicValidator": {
+          "type": "numeric",
+          "canonicalAnswer": "15 square units",
+          "acceptedAnswers": ["15", "15 square units"],
+          "equivalenceNotes": "Accept 15 with or without a unit phrasing."
+        },
+        "accessibilityNotes": "Present coordinates as plain signed-number text; do not depend on a plotted graph image or color.",
+        "accessibleAlternative": "Read aloud or display: A rectangle has vertices at (1, 1), (6, 1), (6, 4), and (1, 4). Use the side lengths from these coordinates to find the rectangle's area."
+      },
+      "projectionDigest": "cae640c3fd883091ec62e45e21dc90855c689e40ce010ae3a91c0d7a18a391bf"
+    }
+  ],
+  "contentHash": "sha256:d8814012f21aba1a031baccfa9ef9fe98139c298b76cc49e649e9025c0e063d5"
+}

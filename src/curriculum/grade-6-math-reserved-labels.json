@@ -1,8 +1,57 @@
 [
-  { "kind": "lesson", "code": "double-number-lines-lesson", "version": "1.0.0" },
-  { "kind": "lesson", "code": "percent-applications-lesson", "version": "1.0.0" },
-  { "kind": "unit", "code": "statistics", "version": "1.0.0" },
-  { "kind": "lesson", "code": "statistical-questions-lesson", "version": "1.0.0" },
-  { "kind": "lesson", "code": "distributions-lesson", "version": "1.0.0" },
-  { "kind": "lesson", "code": "center-and-variability-lesson", "version": "1.0.0" }
+  {
+    "kind": "lesson",
+    "code": "double-number-lines-lesson",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "lesson",
+    "code": "percent-applications-lesson",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "unit",
+    "code": "statistics",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "lesson",
+    "code": "statistical-questions-lesson",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "lesson",
+    "code": "distributions-lesson",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "lesson",
+    "code": "center-and-variability-lesson",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "unit",
+    "code": "geometry",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "lesson",
+    "code": "area-of-composite-shapes-lesson",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "lesson",
+    "code": "surface-area-and-volume-lesson",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "lesson",
+    "code": "prism-volume-lesson",
+    "version": "1.0.0"
+  },
+  {
+    "kind": "lesson",
+    "code": "coordinate-geometry-lesson",
+    "version": "1.0.0"
+  }
 ]

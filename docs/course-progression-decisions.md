@@ -4224,7 +4224,37 @@ merged and the 13 digests replaced (catalog and metadata JSON), review stamps on
 lesson practice re-pinning, regenerated probe snapshot and manifest, then the selection flip, the D-216
 check, mounted e2e, the accessibility pass and the release record. **Not authorized:** activation, release.
 
-There are 356 decisions: D-01 through D-75, D-139, D-142, D-145–D-356 approved;
+### D-357 — Delegated acceptance and local application: MATH-GEO-6 Geometry registration, not activation (D-212, D-353, D-354, D-355)
+
+Delegate: Codex `gpt-6.1-sol` (model confirmed from the client header of the runs), 2026-11-17 to 18, four
+rounds: rev1 NOT_READY (e2e and provenance evidence; missing prerequisite test), rev2 NOT_READY (the
+`prism-volume-2` version-transition evidence), rev3 added that test, which **found a real defect**, rev4
+READY_WITH_RISKS with no blocking defect. Author model from client metadata: `claude-sonnet-5-5`. Patch
+SHA-256 `664cf961...3d97` (33 files). Registers `geometry@2.0.0` (four lessons in the D-354 order),
+`grade-6-math@1.3.0` pinning exactly [ratios@2.0.0, statistics@2.0.0, geometry@2.0.0], 13 `pending_review`
+bank records for the 96 planned private items with **sentinel zero digests** and a committed
+`geometry-bank-metadata.json`, the 16 GEO-2 drafts (registered, never servable) and `prism-volume-2@content-3`
+(reviewed; `content-2` stays registered and byte-pinned), V-7 distractor and vector tests for the two
+structured items, reserved labels, 66 manifest records over 4 programs, a placement-probe snapshot, and
+retires the `geometry-catalog.ts` stub. `surface-area-and-volume-1@content-1` is neither a lesson pin nor a
+probe source (O-7). The selection still names `grade-6-math@1.1.0`: **Geometry is not active.** Runtime
+changes beyond registration: `newestServablePerId` (planning lists `prism-volume-2` once now that it has two
+reviewed versions) and, from the rev3 defect, `startSession` presents the session's **bound historical
+version** when resuming (a resumed `content-2` session was presented as `content-3`; grading was always
+`content-2`). Reviewer notes carried: the historical resolver checks shape, role and identity but not
+review status (both registered prism versions are reviewed); an unresolvable bound version falls back to the
+newest presentation but never grades against it; the transition test cannot distinguish every presentation
+field because both versions share their text. Validation on the integrated tree: typecheck, eslint (0
+errors), Prettier, `npm run build`, `test:integration` 46 files / 413 tests (1 skipped), `test:e2e` 131
+passed (rerun for rev4), full `npm test` 153 files / 4,317 tests. Carried: no route-level test with distinct
+policy profiles (the synthetic fixtures borrow Math's profile); V-7 tests exist for registration only.
+Activation, in order, is owner-gated: merge and install the private package, then replace the 13 sentinel
+digests (catalog and metadata JSON) and re-pin the manifest, stamp banks, unit and lessons, review and register
+the 16 drafts with lesson refs and hashes, then the selection flip to 1.3.0 (Statistics activation ordered
+first or with it), the D-216 check, mounted e2e, the accessibility pass and the release record. **Not
+authorized:** activation, release.
+
+There are 357 decisions: D-01 through D-75, D-139, D-142, D-145–D-357 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

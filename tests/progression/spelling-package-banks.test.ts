@@ -61,8 +61,9 @@ describe('SPELL-SP5: Spelling banks are pending until the selection names progra
     expect(spellingPending.every((b) => b.optional === true)).toBe(true);
     expect(GRADE_6_MATH_PACKAGE_BANKS.some(isSpelling)).toBe(false);
     expect(GRADE_6_MATH_PACKAGE_BANKS).toHaveLength(20);
-    expect(PACKAGE_STORE_BANKS).toHaveLength(43);
-    expect(new Set(PACKAGE_STORE_BANKS.map(label)).size).toBe(43);
+    // MATH-GEO-6: the thirteen pending Geometry banks join the store list.
+    expect(PACKAGE_STORE_BANKS).toHaveLength(56);
+    expect(new Set(PACKAGE_STORE_BANKS.map(label)).size).toBe(56);
   });
 
   it('(a) a Ratios-only package (the existing held-out store) still loads against the store list', () => {
@@ -140,7 +141,10 @@ describe('SPELL-SP5: Spelling banks are pending until the selection names progra
       ref.code === 'grade-6-math' ? { code: ref.code, version: '1.2.0' } : ref,
     );
     expect(spellingKeys(pendingActivationBankKeys(mathSwitched))).toHaveLength(13);
-    const stats = (keys: ReadonlySet<string>) => [...keys].filter((k) => !k.startsWith('snsb6-'));
+    const stats = (keys: ReadonlySet<string>) =>
+      [...keys].filter((k) =>
+        /^(statistical-questions|distributions|center-and-variability|statistics)-/.test(k),
+      );
     expect(stats(pendingActivationBankKeys(selection('1.1.0')))).toHaveLength(10);
   });
 

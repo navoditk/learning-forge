@@ -2,7 +2,7 @@
  * D-350: `prism-volume-2@content-3` removes the substring false accept in
  * `prism-volume-2@content-2` (`parts` matching accepted `12 cubic meters; ...`
  * because `2 cubic meters` is a substring). The correction is a
- * `pending_review` draft on disk, unregistered, until Geometry review.
+ * correction, stamped reviewed (D-354) and registered at MATH-GEO-6 beside content-2.
  */
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -19,12 +19,14 @@ const v2 = read('prism-volume-2.json');
 const v3 = read('prism-volume-2-content-3.json');
 
 describe('prism-volume-2 content-3 correction (D-350)', () => {
-  it('is a delegated-reviewed correction (D-354), unregistered, and leaves content-2 registered', () => {
+  it('is a delegated-reviewed correction (D-354), registered at MATH-GEO-6 beside content-2', () => {
     expect(`${v3.id}@${v3.version}`).toBe('prism-volume-2@content-3');
     expect(v3.review.status).toBe('reviewed');
     expect(v3.review.reviewedAt).toBe('2026-11-17');
+    // Registered at MATH-GEO-6; content-2 stays registered (byte-pinned) for history.
     expect(contentCatalog.filter((i) => i.id === 'prism-volume-2').map((i) => i.version)).toEqual([
       'content-2',
+      'content-3',
     ]);
   });
 

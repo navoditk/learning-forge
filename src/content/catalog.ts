@@ -60,6 +60,23 @@ import surfaceAreaAndVolume1 from '../../content/geometry/surface-area-and-volum
 import surfaceAreaAndVolume2 from '../../content/geometry/surface-area-and-volume-2.json';
 import coordinateGeometry1 from '../../content/geometry/coordinate-geometry-1.json';
 import coordinateGeometry2 from '../../content/geometry/coordinate-geometry-2.json';
+import areaOfCompositeShapes3 from '../../content/geometry/area-of-composite-shapes-3.json';
+import areaOfCompositeShapes4 from '../../content/geometry/area-of-composite-shapes-4.json';
+import areaOfCompositeShapes5 from '../../content/geometry/area-of-composite-shapes-5.json';
+import areaOfCompositeShapes6 from '../../content/geometry/area-of-composite-shapes-6.json';
+import surfaceAreaAndVolume3 from '../../content/geometry/surface-area-and-volume-3.json';
+import surfaceAreaAndVolume4 from '../../content/geometry/surface-area-and-volume-4.json';
+import surfaceAreaAndVolume5 from '../../content/geometry/surface-area-and-volume-5.json';
+import surfaceAreaAndVolume6 from '../../content/geometry/surface-area-and-volume-6.json';
+import prismVolume3 from '../../content/geometry/prism-volume-3.json';
+import prismVolume4 from '../../content/geometry/prism-volume-4.json';
+import prismVolume5 from '../../content/geometry/prism-volume-5.json';
+import prismVolume6 from '../../content/geometry/prism-volume-6.json';
+import coordinateGeometry3 from '../../content/geometry/coordinate-geometry-3.json';
+import coordinateGeometry4 from '../../content/geometry/coordinate-geometry-4.json';
+import coordinateGeometry5 from '../../content/geometry/coordinate-geometry-5.json';
+import coordinateGeometry6 from '../../content/geometry/coordinate-geometry-6.json';
+import prismVolume2Content3 from '../../content/geometry/prism-volume-2-content-3.json';
 import statisticalQuestions1 from '../../content/statistics/statistical-questions-1.json';
 import statisticalQuestions2 from '../../content/statistics/statistical-questions-2.json';
 import distributions1 from '../../content/statistics/distributions-1.json';
@@ -256,6 +273,25 @@ const rawContent = [
   surfaceAreaAndVolume2,
   coordinateGeometry1,
   coordinateGeometry2,
+  // MATH-GEO-6 (D-355): pending_review public drafts, registered but unserved (reviewed-only servable filter).
+  areaOfCompositeShapes3,
+  areaOfCompositeShapes4,
+  areaOfCompositeShapes5,
+  areaOfCompositeShapes6,
+  surfaceAreaAndVolume3,
+  surfaceAreaAndVolume4,
+  surfaceAreaAndVolume5,
+  surfaceAreaAndVolume6,
+  prismVolume3,
+  prismVolume4,
+  prismVolume5,
+  prismVolume6,
+  coordinateGeometry3,
+  coordinateGeometry4,
+  coordinateGeometry5,
+  coordinateGeometry6,
+  // MATH-GEO-6 (D-354): prism-volume-2 content-3 correction, stamped reviewed; content-2 stays registered.
+  prismVolume2Content3,
   statisticalQuestions1,
   statisticalQuestions2,
   distributions1,

@@ -36,9 +36,12 @@ const legacyItem = (): ContentItem => {
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    // 164 earlier records plus the 12 pending Statistics drafts (MATH-ST6, D-341).
-    expect(contentCatalog).toHaveLength(176);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(176);
+    // 164 earlier records plus the 12 pending Statistics drafts (MATH-ST6, D-341), the 16
+    // pending Geometry drafts (D-355) and the reviewed prism-volume-2@content-3 (D-354).
+    expect(contentCatalog).toHaveLength(193);
+    // prism-volume-2 is the only id registered at two versions (content-2 and content-3).
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(192);
+    expect(new Set(contentCatalog.map((item) => `${item.id}@${item.version}`)).size).toBe(193);
     expect(new Set(contentCatalog.map(skillCodeOf))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -49,11 +52,18 @@ describe('ratios content seed', () => {
 
     const reviewedItems = contentCatalog.filter((item) => item.review.status === 'reviewed');
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
-    expect(reviewedItems.length).toBe(154);
+    expect(reviewedItems.length).toBe(155);
     // The only pending records are the four PYTHON-CONTENT records (D-322 H4, D-330)
     // and the six SS-CONTENT Social Studies practice records (D-324 O1, D-330), plus the twelve
-    // Statistics drafts (MATH-ST6, D-341), which sit earlier in the loader order.
+    // Statistics drafts (MATH-ST6, D-341) and the sixteen Geometry drafts (D-355), which sit
+    // earlier in the loader order (Geometry first).
     expect(pendingItems.map((item) => item.id)).toEqual([
+      ...[
+        'area-of-composite-shapes',
+        'surface-area-and-volume',
+        'prism-volume',
+        'coordinate-geometry',
+      ].flatMap((skill) => [3, 4, 5, 6].map((n) => `${skill}-${n}`)),
       'statistical-questions-3',
       'statistical-questions-4',
       'statistical-questions-5',
@@ -116,7 +126,7 @@ describe('ratios content seed', () => {
     // enforced by the roster/session start, not by this list.
     const rawScience = servableContentCatalog.filter((item) => item.id.startsWith('sci6-'));
     expect(rawScience).toHaveLength(6);
-    expect(servableContentCatalog).toHaveLength(154);
+    expect(servableContentCatalog).toHaveLength(155);
     expect(PROGRAM_ROSTER.find((program) => program.code === 'grade-6-science')?.available).toBe(
       true,
     );

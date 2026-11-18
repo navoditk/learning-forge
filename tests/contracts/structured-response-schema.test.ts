@@ -146,8 +146,9 @@ describe('PA-5: legacy items still score through the unchanged matcher', () => {
       .map((item) => item.id)
       .sort();
     expect(structuredIds.filter((id) => id.startsWith('sci6-'))).toEqual(SCIENCE_IDS);
-    // 6 Science + 17 Ratios + the 12 pending Statistics drafts (MATH-ST6).
-    expect(structuredIds).toHaveLength(35);
+    // 6 Science + 17 Ratios + the 12 pending Statistics drafts (MATH-ST6) + the 2 pending
+    // structured Geometry drafts (prism-volume-3, surface-area-and-volume-3; D-355).
+    expect(structuredIds).toHaveLength(37);
     const structuredSet = new Set(structuredIds);
     for (const item of contentCatalog.filter((candidate) => structuredSet.has(candidate.id))) {
       expect(
@@ -171,7 +172,8 @@ describe('PA-5: legacy items still score through the unchanged matcher', () => {
     );
     // 131 earlier legacy records plus the six pending multiple_choice Social
     // Studies records (SS-CONTENT, SS-CONTENT-2), which carry no parts.
-    expect(legacyCatalog).toHaveLength(137);
+    // MATH-GEO-6: plus 14 numeric Geometry drafts and prism-volume-2@content-3 (no parts).
+    expect(legacyCatalog).toHaveLength(152);
 
     let withParts = 0;
     for (const item of legacyCatalog) {

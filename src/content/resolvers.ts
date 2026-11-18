@@ -34,6 +34,23 @@ export function resolveActive<T extends ReviewableRecord>(records: readonly T[],
   return active;
 }
 
+/**
+ * Keeps only the newest reviewed servable version of each id, in first-seen
+ * position. Planning surfaces list items by id, so a superseded version that is
+ * still registered for history (`prism-volume-2@content-2` beside `content-3`,
+ * MATH-GEO-6) must not be offered twice.
+ */
+export function newestServablePerId<T extends ReviewableRecord>(records: readonly T[]): T[] {
+  const seen = new Set<string>();
+  const result: T[] = [];
+  for (const record of records) {
+    if (seen.has(record.id)) continue;
+    seen.add(record.id);
+    result.push(resolveActive(records, record.id));
+  }
+  return result;
+}
+
 /** Resolves an exact archived version without consulting serving eligibility. */
 export function resolveHistorical<T extends ReviewableRecord>(
   records: readonly T[],

@@ -42,9 +42,9 @@ describe('P-A live: committed active selection (RI-1)', () => {
   it('S-1 names every registry program exactly once at the registered version', () => {
     const selection = VERSIONED_COURSE_CATALOG.selection;
     expect(selection.programs).toHaveLength(12);
-    // The registry lists grade-6-math three times (1.0.0 and 1.1.0 retained or active, 1.2.0 registered)
+    // The registry lists grade-6-math three times (1.0.0 and 1.1.0 retained or active, 1.2.0 and 1.3.0 registered)
     // and scripps-spelling-bee-6 twice (1.0.0 active, 1.1.0 registered, SPELL-SP5).
-    expect(PROGRAM_REGISTRY).toHaveLength(15);
+    expect(PROGRAM_REGISTRY).toHaveLength(16);
     expect(selection.programs).toEqual(
       ACTIVE_REGISTRY.map(({ code, version }) => ({ code, version })),
     );
@@ -59,7 +59,7 @@ describe('P-A live: committed active selection (RI-1)', () => {
     expect(
       PILOT_ASSESSMENT_BANKS.filter((bank) => /-(review|delayed)/u.test(bank.code)),
     ).toHaveLength(6);
-    expect(skillBankCodes).toHaveLength(24);
+    expect(skillBankCodes).toHaveLength(32);
     expect(VERSIONED_COURSE_CATALOG.selection.skillBanks.map((ref) => ref.code)).toEqual(
       skillBankCodes,
     );
@@ -134,6 +134,12 @@ describe('P-A live: committed active selection (RI-1)', () => {
       { kind: 'lesson', code: 'statistical-questions-lesson', version: '1.0.0' },
       { kind: 'lesson', code: 'distributions-lesson', version: '1.0.0' },
       { kind: 'lesson', code: 'center-and-variability-lesson', version: '1.0.0' },
+      // MATH-GEO-6: the retired geometry@1.0.0 stub (Git-exposed, ID-2).
+      { kind: 'unit', code: 'geometry', version: '1.0.0' },
+      { kind: 'lesson', code: 'area-of-composite-shapes-lesson', version: '1.0.0' },
+      { kind: 'lesson', code: 'surface-area-and-volume-lesson', version: '1.0.0' },
+      { kind: 'lesson', code: 'prism-volume-lesson', version: '1.0.0' },
+      { kind: 'lesson', code: 'coordinate-geometry-lesson', version: '1.0.0' },
     ]);
     for (const label of reserved) {
       expect(COURSE_CATALOG_INDEX.lessonByRef(label), label.code).toBeUndefined();

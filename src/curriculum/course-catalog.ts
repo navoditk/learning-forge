@@ -13,6 +13,11 @@ import type { ActiveSelection, ReservedLabel, VersionedCourseCatalog } from './c
 import { createVersionedCourseCatalog } from './catalog-versions';
 import ACTIVE_SELECTION from './grade-6-math-active-selection.json';
 import RESERVED_LABELS from './grade-6-math-reserved-labels.json';
+import {
+  GEOMETRY_UNIT_2_ASSESSMENT_BANKS,
+  GEOMETRY_UNIT_2_LESSONS,
+  GEOMETRY_UNIT_2_UNIT,
+} from './geometry-unit-2-catalog';
 import { PILOT_ASSESSMENT_BANKS, PILOT_LESSONS, PILOT_UNITS } from './pilot-catalog';
 import { PROGRAM_REGISTRY } from './program-registry';
 import { validateProgressionCatalog } from './progression-catalog';
@@ -158,17 +163,25 @@ function buildVersionedCatalog(): VersionedCourseCatalog {
   versionedCatalog ??= createVersionedCourseCatalog({
     records: {
       programs: PROGRAM_REGISTRY,
-      units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, STATISTICS_UNIT_2_UNIT, SPELLING_UNIT_1_UNIT],
+      units: [
+        ...PILOT_UNITS,
+        RATIOS_UNIT_2_UNIT,
+        STATISTICS_UNIT_2_UNIT,
+        GEOMETRY_UNIT_2_UNIT,
+        SPELLING_UNIT_1_UNIT,
+      ],
       lessons: [
         ...PILOT_LESSONS,
         ...RATIOS_UNIT_2_LESSONS,
         ...STATISTICS_UNIT_2_LESSONS,
+        ...GEOMETRY_UNIT_2_LESSONS,
         ...SPELLING_UNIT_1_LESSONS,
       ],
       banks: [
         ...PILOT_ASSESSMENT_BANKS,
         ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
         ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+        ...GEOMETRY_UNIT_2_ASSESSMENT_BANKS,
         ...SPELLING_UNIT_1_ASSESSMENT_BANKS,
       ],
     },

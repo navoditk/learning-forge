@@ -10,6 +10,11 @@ import {
 } from '../../src/curriculum/pilot-catalog';
 import { PROGRAM_REGISTRY } from '../../src/curriculum/program-registry';
 import {
+  GEOMETRY_UNIT_2_ASSESSMENT_BANKS,
+  GEOMETRY_UNIT_2_LESSONS,
+  GEOMETRY_UNIT_2_UNIT,
+} from '../../src/curriculum/geometry-unit-2-catalog';
+import {
   RATIOS_UNIT_2_ASSESSMENT_BANKS,
   RATIOS_UNIT_2_LESSONS,
   RATIOS_UNIT_2_UNIT,
@@ -71,6 +76,11 @@ const PILOT_SKILL_BANKS: Ref[] = [
   'statistical-questions',
   'distributions',
   'center-and-variability',
+  // MATH-GEO-6: registered Geometry skill banks are named by the selection (S-4).
+  'area-of-composite-shapes',
+  'surface-area-and-volume',
+  'prism-volume',
+  'coordinate-geometry',
   // SPELL-SP5: registered Spelling skill banks are named by the selection (S-4).
   'snsb6-morphology-roots',
   'snsb6-orthographic-patterns',
@@ -89,6 +99,7 @@ const combinedRecords = {
     ...PILOT_UNITS,
     RATIOS_UNIT_2_UNIT,
     STATISTICS_UNIT_2_UNIT,
+    GEOMETRY_UNIT_2_UNIT,
     SPELLING_UNIT_1_UNIT,
     SV_UNIT_V1,
     SV_UNIT_V2,
@@ -97,6 +108,7 @@ const combinedRecords = {
     ...PILOT_LESSONS,
     ...RATIOS_UNIT_2_LESSONS,
     ...STATISTICS_UNIT_2_LESSONS,
+    ...GEOMETRY_UNIT_2_LESSONS,
     ...SPELLING_UNIT_1_LESSONS,
     ...SV_LESSONS_V1,
     ...SV_LESSONS_V2,
@@ -105,6 +117,7 @@ const combinedRecords = {
     ...PILOT_ASSESSMENT_BANKS,
     ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
     ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+    ...GEOMETRY_UNIT_2_ASSESSMENT_BANKS,
     ...SPELLING_UNIT_1_ASSESSMENT_BANKS,
     ...SV_BANKS,
   ],

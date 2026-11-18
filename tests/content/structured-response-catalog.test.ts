@@ -72,21 +72,31 @@ describe('valid complete fixtures load (contract 5.2: each passes 2.2, 2.5a and 
   const STATISTICS_DRAFT_IDS =
     /^(statistical-questions|distributions|center-and-variability)-[3-6]$/;
 
-  it('the live catalog keeps 137 legacy records non-structured; only the 6 Science and 17 Ratios records are structured', () => {
+  const GEOMETRY_STRUCTURED_DRAFT_IDS = /^(prism-volume|surface-area-and-volume)-3$/;
+
+  it('the live catalog keeps 152 legacy records non-structured; only the 6 Science and 17 Ratios records are structured', () => {
     // 154 earlier records plus the four pending python_output records (PYTHON-CONTENT, D-330)
     // and the six pending legacy multiple_choice Social Studies records (SS-CONTENT, SS-CONTENT-2).
-    // plus the 12 pending structured Statistics drafts (MATH-ST6, D-341).
-    expect(contentCatalog).toHaveLength(176);
+    // plus the 12 pending structured Statistics drafts (MATH-ST6, D-341), the 16 pending Geometry
+    // drafts (two structured: prism-volume-3 and surface-area-and-volume-3; D-355) and the reviewed
+    // legacy-validator prism-volume-2@content-3 (D-354).
+    expect(contentCatalog).toHaveLength(193);
     const structured = contentCatalog.filter(
       (item) => item.deterministicValidator.type === 'structured',
     );
-    expect(structured).toHaveLength(35);
+    expect(structured).toHaveLength(37);
     const science = structured.filter((item) => item.id.startsWith('sci6-'));
     expect(science).toHaveLength(6);
     // The 17 other structured records are the accepted RAT-CONTENT Ratios records
     // (ratios-content-registration.test.ts pins them by id, version and hash).
     const ratios = structured.filter(
-      (item) => !item.id.startsWith('sci6-') && !STATISTICS_DRAFT_IDS.test(item.id),
+      (item) =>
+        !item.id.startsWith('sci6-') &&
+        !STATISTICS_DRAFT_IDS.test(item.id) &&
+        !GEOMETRY_STRUCTURED_DRAFT_IDS.test(item.id),
+    );
+    expect(structured.filter((item) => GEOMETRY_STRUCTURED_DRAFT_IDS.test(item.id))).toHaveLength(
+      2,
     );
     expect(structured.filter((item) => STATISTICS_DRAFT_IDS.test(item.id))).toHaveLength(12);
     expect(ratios).toHaveLength(17);
@@ -113,7 +123,7 @@ describe('valid complete fixtures load (contract 5.2: each passes 2.2, 2.5a and 
           item.deterministicValidator.type !== 'structured' &&
           item.deterministicValidator.type !== 'python_output',
       ),
-    ).toHaveLength(137);
+    ).toHaveLength(152);
     expect(() => validateContentCatalog()).not.toThrow();
   });
 

@@ -210,7 +210,7 @@ describe('MATH-ST6: Statistics banks are pending until the selection names progr
     /^(statistical-questions|distributions|center-and-variability|statistics)-/.test(b.code);
 
   it('the ten Statistics banks are accepted-if-present, never mandatory, and absent from the active list', () => {
-    // SPELL-SP5: the thirteen pending Spelling banks follow them in the pending list.
+    // SPELL-SP5 / MATH-GEO-6: the thirteen pending Geometry banks and thirteen Spelling banks follow them.
     expect(PENDING_ACTIVATION_PACKAGE_BANKS.filter(isStatistics).map(label)).toEqual(
       COURSE_CATALOG_INDEX.banks.filter(isStatistics).map(label),
     );
@@ -219,7 +219,7 @@ describe('MATH-ST6: Statistics banks are pending until the selection names progr
     const active = new Set(GRADE_6_MATH_PACKAGE_BANKS.map(label));
     for (const bank of PENDING_ACTIVATION_PACKAGE_BANKS)
       expect(active.has(label(bank))).toBe(false);
-    expect(PACKAGE_STORE_BANKS).toHaveLength(43);
+    expect(PACKAGE_STORE_BANKS).toHaveLength(56);
   });
 
   type Desc = {
@@ -322,9 +322,13 @@ describe('MATH-ST6: Statistics banks are pending until the selection names progr
 
   it('selecting 1.2.0 makes exactly the four lesson and unit Statistics banks mandatory; the six skill banks stay optional', () => {
     const pendingAfter = pendingActivationBankKeys(selection('1.2.0'));
-    // Only the thirteen Spelling banks (not selected) stay pending.
-    expect(pendingAfter.size).toBe(13);
-    for (const key of pendingAfter) expect(key).toMatch(/^snsb6-/);
+    // Only the thirteen Geometry banks (1.3.0 not selected) and thirteen Spelling banks stay pending.
+    expect(pendingAfter.size).toBe(26);
+    for (const key of pendingAfter) {
+      expect(key).toMatch(
+        /^(snsb6-|geometry-|area-of-composite-shapes-|surface-area-and-volume-|prism-volume-|coordinate-geometry-)/,
+      );
+    }
     const statsIndex = COURSE_CATALOG_INDEX.banks.filter((b) =>
       /^(statistical-questions|distributions|center-and-variability|statistics)-/.test(b.code),
     );
@@ -349,7 +353,9 @@ describe('MATH-ST6: Statistics banks are pending until the selection names progr
 
   it('the coupled switch: selecting 1.2.0 empties the pending set, so the same banks become mandatory', () => {
     const statsKeys = (keys: ReadonlySet<string>) =>
-      [...keys].filter((key) => !key.startsWith('snsb6-'));
+      [...keys].filter((key) =>
+        /^(statistical-questions|distributions|center-and-variability|statistics)-/.test(key),
+      );
     expect(statsKeys(pendingActivationBankKeys(selection('1.1.0')))).toHaveLength(10);
     expect(statsKeys(pendingActivationBankKeys(selection('1.2.0')))).toHaveLength(0);
   });

@@ -282,6 +282,120 @@
       "code": "center-and-variability-delayed-check-bank",
       "version": "1.0.0",
       "sha256": "3d46d33202a41231f22808e6744f13e3bbc0f230b8b07fc061b6cd8e8761bc51"
+    },
+    {
+      "kind": "program",
+      "code": "grade-6-math",
+      "version": "1.3.0",
+      "sha256": "3c937e12b19b5a932a931be88d45c1d52f97d920dce82ba50306dffe991ecc0c"
+    },
+    {
+      "kind": "unit",
+      "code": "geometry",
+      "version": "2.0.0",
+      "sha256": "53da5c164ab7be971e0119029df39219f9027453b98a15a107359c57583a3a37"
+    },
+    {
+      "kind": "lesson",
+      "code": "area-of-composite-shapes-lesson",
+      "version": "2.0.0",
+      "sha256": "dab8b7341aed5455eb8bda10daaba2d9daa7be22cf0553cccbc09b59642676c2"
+    },
+    {
+      "kind": "lesson",
+      "code": "surface-area-and-volume-lesson",
+      "version": "2.0.0",
+      "sha256": "91938f5c40adb2b1b291997c4e526b292250d69ae4a901ca479e50e8d9a1f5a0"
+    },
+    {
+      "kind": "lesson",
+      "code": "prism-volume-lesson",
+      "version": "2.0.0",
+      "sha256": "bf18b8408e157e0142ee448eed24f82625a7e7afc8deef1e593f4279df9180b9"
+    },
+    {
+      "kind": "lesson",
+      "code": "coordinate-geometry-lesson",
+      "version": "2.0.0",
+      "sha256": "70deb775effac00e376134c367cb110392d073e8db39833da3d13def2e057fd9"
+    },
+    {
+      "kind": "bank",
+      "code": "area-of-composite-shapes-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "51faf17ba92fe7f94c9d344491e62ae2e3f5145fa0053ee646e8a6d9f9f5035e"
+    },
+    {
+      "kind": "bank",
+      "code": "surface-area-and-volume-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "808e8dfd15aeaa3f54e9de42b4f4175d531647d74660b19089452224f917ca32"
+    },
+    {
+      "kind": "bank",
+      "code": "prism-volume-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "14a92dafe3c5c58e304d12fed324830281ce813689aecba6f9d64e3ffaf613d7"
+    },
+    {
+      "kind": "bank",
+      "code": "coordinate-geometry-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "1c3ebba79f6edc6b54ca1fc5646611390608f85ddf1b8e986943086cc12d9cc1"
+    },
+    {
+      "kind": "bank",
+      "code": "geometry-unit-bank",
+      "version": "1.0.0",
+      "sha256": "2ba1469edff27f19dde58ea37d74403ec9c3099bb283c16971c2c64ba80f8142"
+    },
+    {
+      "kind": "bank",
+      "code": "area-of-composite-shapes-review-bank",
+      "version": "1.0.0",
+      "sha256": "22e3788f168bc8276f5d71b57a5ee817cb7aef7c8cae969566dafeb243584428"
+    },
+    {
+      "kind": "bank",
+      "code": "area-of-composite-shapes-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "23ddb650a508c6e2f677996b3cbdfa30a62c0d2589680679f7e9e674fd967038"
+    },
+    {
+      "kind": "bank",
+      "code": "surface-area-and-volume-review-bank",
+      "version": "1.0.0",
+      "sha256": "a88df1ebb8153773ba694b77d561b1b191eee2f67092a9b8cf17e7dc06563387"
+    },
+    {
+      "kind": "bank",
+      "code": "surface-area-and-volume-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "ccc98d886bf7a5bdc803814bc590a346bede2df663f02ba473ed93e3289f1bd0"
+    },
+    {
+      "kind": "bank",
+      "code": "prism-volume-review-bank",
+      "version": "1.0.0",
+      "sha256": "820422f799aaab55b31391bbee229e519a74f358d807ca8e7fa2bc105c8c53a1"
+    },
+    {
+      "kind": "bank",
+      "code": "prism-volume-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "15d580f6c91cdc79645601a62bbd79b9674e3204fbb730b2a5468648bf0fa197"
+    },
+    {
+      "kind": "bank",
+      "code": "coordinate-geometry-review-bank",
+      "version": "1.0.0",
+      "sha256": "270145d1058bfa6c005130db87e64d2f60e730729d0e2938c7aa2c1520323172"
+    },
+    {
+      "kind": "bank",
+      "code": "coordinate-geometry-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "513736cba144bd160a6a0bc5942790ce4e503e3c69f71ea6e5f5b902580bc356"
     }
   ],
   "probeSnapshots": [
@@ -305,6 +419,13 @@
       "unitCode": "statistics",
       "unitVersion": "2.0.0",
       "sha256": "619b6f8c67251bdca81b54aae03459819f8370e0064d35cfb9da460e7f5eb611"
+    },
+    {
+      "bankCode": "geometry-placement-probe",
+      "bankVersion": "2.0.0",
+      "unitCode": "geometry",
+      "unitVersion": "2.0.0",
+      "sha256": "8e38b34c4a5b1751647a0f99ec8a7bfbe6dc8ad2bc63c2784650b9541714bfc1"
     }
   ]
 }

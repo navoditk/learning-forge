@@ -116,6 +116,38 @@
       "version": "1.0.0"
     },
     {
+      "code": "area-of-composite-shapes-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "area-of-composite-shapes-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "surface-area-and-volume-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "surface-area-and-volume-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "prism-volume-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "prism-volume-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "coordinate-geometry-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "coordinate-geometry-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
       "code": "snsb6-morphology-roots-review-bank",
       "version": "1.0.0"
     },

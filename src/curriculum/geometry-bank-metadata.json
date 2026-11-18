@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "includeBaselineRequired": true,
+  "unit": {
+    "code": "geometry",
+    "version": "2.0.0"
+  },
+  "banks": [
+    {
+      "code": "area-of-composite-shapes-lesson-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 9,
+      "requiredSkillRefs": [
+        {
+          "code": "area-of-composite-shapes",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "surface-area-and-volume-lesson-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 9,
+      "requiredSkillRefs": [
+        {
+          "code": "surface-area-and-volume",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "prism-volume-lesson-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 9,
+      "requiredSkillRefs": [
+        {
+          "code": "prism-volume",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "coordinate-geometry-lesson-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 9,
+      "requiredSkillRefs": [
+        {
+          "code": "coordinate-geometry",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "geometry-unit-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 24,
+      "requiredSkillRefs": [
+        {
+          "code": "area-of-composite-shapes",
+          "version": "1.0.0"
+        },
+        {
+          "code": "surface-area-and-volume",
+          "version": "1.0.0"
+        },
+        {
+          "code": "prism-volume",
+          "version": "1.0.0"
+        },
+        {
+          "code": "coordinate-geometry",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "area-of-composite-shapes-review-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 3,
+      "optional": true,
+      "itemRole": "review",
+      "exclusiveSkills": true,
+      "requiredSkillRefs": [
+        {
+          "code": "area-of-composite-shapes",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "area-of-composite-shapes-delayed-check-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 6,
+      "optional": true,
+      "exclusiveSkills": true,
+      "requiredSkillRefs": [
+        {
+          "code": "area-of-composite-shapes",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "surface-area-and-volume-review-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 3,
+      "optional": true,
+      "itemRole": "review",
+      "exclusiveSkills": true,
+      "requiredSkillRefs": [
+        {
+          "code": "surface-area-and-volume",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "surface-area-and-volume-delayed-check-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 6,
+      "optional": true,
+      "exclusiveSkills": true,
+      "requiredSkillRefs": [
+        {
+          "code": "surface-area-and-volume",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "prism-volume-review-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 3,
+      "optional": true,
+      "itemRole": "review",
+      "exclusiveSkills": true,
+      "requiredSkillRefs": [
+        {
+          "code": "prism-volume",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "prism-volume-delayed-check-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 6,
+      "optional": true,
+      "exclusiveSkills": true,
+      "requiredSkillRefs": [
+        {
+          "code": "prism-volume",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "coordinate-geometry-review-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 3,
+      "optional": true,
+      "itemRole": "review",
+      "exclusiveSkills": true,
+      "requiredSkillRefs": [
+        {
+          "code": "coordinate-geometry",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "coordinate-geometry-delayed-check-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 6,
+      "optional": true,
+      "exclusiveSkills": true,
+      "requiredSkillRefs": [
+        {
+          "code": "coordinate-geometry",
+          "version": "1.0.0"
+        }
+      ]
+    }
+  ]
+}
