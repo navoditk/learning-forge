@@ -4128,7 +4128,31 @@ beyond the standing push authority. Unverified by the delegate: official-list st
 licensing terms, runtime readiness for L2. SP-5 unit engineering remains outside window scope (D-345) and
 needs a scope extension from the owner.
 
-There are 352 decisions: D-01 through D-75, D-139, D-142, D-145–D-352 approved;
+### D-353 — Owner authorization: Spelling SP-5 and private drafting, Geometry OD-1 to OD-5, window widened (D-212, D-334, D-339, D-345)
+
+Approver: product/content owner, by direct instruction on 2026-11-17: "approve", then, asked which asks it
+covered, "All of the above" (Spelling SP-5 and window; Spelling private drafting; Geometry OD-1..OD-5).
+Recorded by the integrator (Claude Code Sonnet 5.5); the owner may narrow or revoke any part.
+
+- **Authorized:** (1) Spelling: SP-5 unit engineering for unit U-B (D-352) under delegated cross-family
+  review, target level L1 then L2, text cues, no voice capture; drafting the 96 private Spelling items
+  for U-B **outside the repository**, with the D-334 handling rules (held out of the repo, reported by
+  ids, counts and hashes only, disclosed only to the author and the cross-family reviewer). (2) Geometry:
+  OD-1 D-212 delegation extended to Geometry (scope rulings, D-61 exceptions, acceptance, local
+  application, including a review stamp for `prism-volume-2@content-3` through the delegated gate);
+  OD-2 drafting 96 private Geometry items outside the repository, same rules; OD-3 the O-7 investigation
+  of `surface-area-and-volume` pooling, scoped to the repository, local synthetic data and code (any read
+  of production data still needs its own explicit instruction); OD-4 misconception rule M-C (existing
+  codes only) for GEO-2; OD-5 GEO-4 and GEO-6 may use the window. (3) Window `claude-window-20261115b`
+  maxInvocations raised from 60 to 90 and its deadline to 2026-11-29, with scope extended to Spelling
+  SP-5/SP-6 and Geometry GEO-0..GEO-6; the figures are the integrator's choice from the packet estimates
+  and are not an owner-stated number.
+- **Not authorized (still owner-only):** the real private-bank merges and D-216 history checks, G-SOURCE
+  and word-list licensing, audio, serving authored hints (SP-4/H-1), manual accessibility passes,
+  production data, migrations, deployment, release records, paid provider calls, and Statistics
+  activation. GEO-6 still waits for the Statistics registration being applied (done, D-349).
+
+There are 353 decisions: D-01 through D-75, D-139, D-142, D-145–D-353 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
