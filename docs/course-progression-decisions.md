@@ -4254,7 +4254,30 @@ the 16 drafts with lesson refs and hashes, then the selection flip to 1.3.0 (Sta
 first or with it), the D-216 check, mounted e2e, the accessibility pass and the release record. **Not
 authorized:** activation, release.
 
-There are 357 decisions: D-01 through D-75, D-139, D-142, D-145–D-357 approved;
+### D-358 — Delegated acceptance: Geometry private package rev3, reviewed-mode stamped build (D-212, D-353, D-343)
+
+Delegate: Codex `gpt-6.1-sol` (client header), 2026-11-17 to 18, three rounds on the held-out items
+(disclosed to the author and the cross-family reviewer only): rev1 NOT_READY (one Major: net adjacency
+absent from three items), rev2 READY_WITH_RISKS, rev3 READY_WITH_RISKS with **0 Major and 4 Minor** carried.
+Author model from client metadata: `claude-opus-5-5`. Package (outside the repository,
+`~/learning-forge-private-drafts/geo6-rev3`, FROZEN.sha256 `18a59bb0...2bc2`, `package-draft.json`
+`1b4b7ea2...711b`): 96 items in 13 banks, 9 lesson, 6 unit, 3 review and 6 delayed per skill, all answers
+re-solved independently (96/96, 1,407 accepted forms correct, no wrong response accepted), 31 items
+redesigned to remove near-duplicates, 17 prompts state the required number form, D-216 working-tree and
+history checks 0 collisions. **Carried Minors:** 838 valid spelling combinations still rejected (172 across
+the form-constrained items; rejecting an equal value in a different form is a deliberate fail-closed
+choice), seven residual task-structure pairs and two tag inaccuracies, incomplete change-accounting fields
+in the sidecar, and one hint that supplies an intermediate representation (hints are unserved).
+**Reviewed-mode build** (D-343 pattern, `geo6-rev3-reviewed/`): stamp `Codex gpt-6.1-sol (delegated,
+D-212/D-353 OD-2)` on 2026-11-18; `package-reviewed.json` `d1d91fbb...d465`, `geo6-rev3-reviewed.sha256`
+`ea62c28b...b09d` (22 files verify), the draft is untouched, and the real `PrivateAssessmentPackageStore`
+loads the reviewed copy and rejects the draft. The 13 reviewed contentHash digests are recorded privately
+for the owner's merge step. **Not done and owner-only:** the real merge with `--bank-metadata`, the D-216
+Git-history check, replacing the sentinel digests in `geometry-unit-2-catalog.ts` and
+`geometry-bank-metadata.json`, stamping the unit and lessons, mounted e2e, activation. The Geometry GEO-5
+merge is **WAITING FOR HUMAN APPROVAL** by the owner.
+
+There are 358 decisions: D-01 through D-75, D-139, D-142, D-145–D-358 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
