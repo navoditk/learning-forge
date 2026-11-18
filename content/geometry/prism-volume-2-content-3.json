@@ -1,0 +1,62 @@
+{
+  "id": "prism-volume-2",
+  "version": "content-3",
+  "title": "Packing a fractional-edge box",
+  "role": "practice",
+  "skillRef": {
+    "code": "prism-volume",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["6.G.A.2"],
+  "itemReadinessRefs": [],
+  "observableEvidence": [
+    "Calculates a fractional-edge rectangular-prism volume and interprets the result in a context with cubic units."
+  ],
+  "prompt": "A storage box is 3/4 meter long, 2 meters wide, and 1 1/3 meters high. What is its volume, and what does that volume measure?",
+  "solutionRepresentation": "Volume is (3/4)(2)(4/3) = 2 cubic meters. It measures the space inside the box.",
+  "solutionMethod": "Multiply the fractional dimensions, simplify the product, and interpret cubic meters as the amount of three-dimensional space inside.",
+  "deterministicValidator": {
+    "type": "composite",
+    "canonicalAnswer": "2 cubic meters; the space inside the box",
+    "acceptedAnswers": [
+      "2 cubic meters; the space inside the box",
+      "2 cubic meters, the space inside the box",
+      "2 m^3; the space inside the box",
+      "2 m^3; interior space",
+      "2 cubic meters; interior space",
+      "2 cubic meters of space inside the box",
+      "The box holds 2 cubic meters",
+      "2 cubic meters inside the box"
+    ],
+    "equivalenceNotes": "Whole-response match only (no substring clauses): a response must equal one listed variant after case, spacing and trailing-punctuation normalization. This removes the content-2 false accept, where any response containing the substring '2 cubic meters' (for example '12 cubic meters') plus an interior-space phrase passed. Paraphrases not listed are not accepted by this deterministic validator; structured number-plus-choice scoring is the later GEO-2 form."
+  },
+  "misconceptionCodes": ["labels-volume-answer-with-square-units"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Multiply all three dimensions and track the unit from each dimension.",
+      "question": "What kind of unit results when three length units are multiplied?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The numerical result describes how much three-dimensional space the box contains.",
+      "question": "What part of the box does volume measure?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["2 cubic meters", "2 m^3", "space inside the box"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending human review",
+    "originalityStatement": "Correction of the repository's own prism-volume-2@content-2 (D-350). Prompt, hints and accessibility text are carried over unchanged; only the validator, equivalence notes and review metadata differ. It reproduces no textbook, contest or standards text."
+  },
+  "accessibilityNotes": "Present all dimensions and the unit interpretation in linear text; no box diagram is required.",
+  "accessibleAlternative": "Read aloud or display: A box is three-fourths meter by two meters by one and one-third meters. Find the cubic-meter space inside and explain what volume measures."
+}

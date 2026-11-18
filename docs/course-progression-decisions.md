@@ -4080,7 +4080,20 @@ typecheck, lint (0 errors), Prettier, `content:validate` 20 files / 663 tests, b
 tests fail each run; none touched by these patches). **Not authorized:** activation, the private-bank merge
 (owner-only), release.
 
-There are 349 decisions: D-01 through D-75, D-139, D-142, D-145–D-349 approved;
+### D-350 — Delegated acceptance and local application: prism-volume-2 content-3 correction draft (D-212, D-346)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-17, one round, ACCEPT with no findings. Author: Claude Sonnet
+(`claude-sonnet-5-5`). Adds `content/geometry/prism-volume-2-content-3.json`, a `pending_review`,
+unregistered correction (precedent `distributions-2-content-2.json`) that drops the substring `parts` from
+the validator so only whole-response matches pass, removing the false accept of responses such as
+`12 cubic meters; the space inside the box` (derived from `answer-matching.ts:56-58`, now executed in
+`tests/content/prism-volume-2-correction.test.ts`). Prompt, hints and accessibility text are unchanged;
+`content-2` bytes and both pin tests are untouched. Cost: unlisted correct paraphrases are rejected
+(fail-closed). **The live `content-2` defect remains until `content-3` is stamped and registered**, which
+needs a Geometry review stamp (OD-1: delegation to Geometry is not yet extended) and the GEO-2 lesson
+ref and hash corrections. **Not authorized:** registration, stamping, activation.
+
+There are 350 decisions: D-01 through D-75, D-139, D-142, D-145–D-350 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
