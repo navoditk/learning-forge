@@ -7789,7 +7789,7 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
 
 **CURRENT — 2026-11-16 (supersedes the older blocks below for routing):**
 
-- **2026-11-18 latest checkpoint:** pushed through `9248f61` (D-350..D-357; no migration). Owner
+- **2026-11-18 latest checkpoint:** pushed through `232ffe7` (D-350..D-359; no migration). Owner
   authorization D-353 (2026-11-17): Spelling SP-5 and private drafting, Geometry OD-1..OD-5, window
   `claude-window-20261115b` widened to 90 calls and 2026-11-29 (about 80 used; figures integrator-chosen).
   **Registered, not active** (the selection still names `grade-6-math@1.1.0` and Spelling `1.0.0`):
@@ -7797,9 +7797,9 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
   reviewed, D-354, and a runtime fix so resumed sessions present their bound version). Public drafts:
   Spelling SP-3 (22) and Geometry GEO-2 (16), all `pending_review`. Rulings: Spelling SP-1 (D-352),
   Geometry GEO-0/1 (D-354). Private packages outside the repo in `~/learning-forge-private-drafts/`:
-  Statistics `stat6-rev2-reviewed` (accepted, stamped); Geometry `geo6-rev3` accepted READY_WITH_RISKS
-  (reviewed-mode stamping build in progress); Spelling `spell6-rev4` NOT_READY on two unserved hint
-  templates (rev5 in progress; served items unchanged since rev1-closed findings). Clean full `npm test`
+  Statistics `stat6-rev2-reviewed` (accepted, stamped); Geometry `geo6-rev3-reviewed` (D-358) and
+  Spelling `spell6-rev5-reviewed` (D-359) accepted READY_WITH_RISKS and stamped, both awaiting the owner's
+  merge (WAITING FOR HUMAN APPROVAL). Clean full `npm test`
   (153 files, 4,317) and `test:integration` (413) pass on the integrated tree; `test:migrations` still owed.
   **Owner-only next:** the private-bank merges and D-216 history checks, G-SOURCE screening (six real Spelling
   targets plus all named words), the explanation-by-selection policy question, the 6.G.2 packing
