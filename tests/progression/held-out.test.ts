@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { createAssessmentStore, AssessmentStoreUnavailableError } from '../../src/assessment/store';
-import { GRADE_6_MATH_PACKAGE_BANKS } from '../../src/assessment/private-package-store';
+import { PACKAGE_STORE_BANKS } from '../../src/assessment/private-package-store';
 import { contentCatalog } from '../../src/content/catalog';
 import { COURSE_CATALOG_INDEX } from '../../src/curriculum/course-catalog';
 
@@ -29,9 +29,7 @@ describe('held-out assessment boundary', () => {
   });
 
   it('requires every registered index bank in the mounted package, not only the active ones', () => {
-    const required = new Set(
-      GRADE_6_MATH_PACKAGE_BANKS.map((bank) => `${bank.code}@${bank.version}`),
-    );
+    const required = new Set(PACKAGE_STORE_BANKS.map((bank) => `${bank.code}@${bank.version}`));
     for (const bank of COURSE_CATALOG_INDEX.banks) {
       expect(required.has(`${bank.code}@${bank.version}`)).toBe(true);
     }

@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-phoneme-grapheme-mapping-core-4",
+  "version": "content-1",
+  "title": "Spell a word with a Greek-origin sound",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-phoneme-grapheme-mapping",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["SNSB6-PHON-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Maps a supplied pronunciation to a plausible letter sequence."],
+  "prompt": "Spell the word. Say it: SFEER (one syllable; it rhymes with \"clear\"). Meaning: a perfectly round solid shape, like a ball or a globe. Part of speech: noun. Language of origin: it came into English through Latin from Greek. Origin clue: in many English words from Greek, the \"f\" sound is spelled with two letters instead of the letter f.",
+  "solutionRepresentation": "sphere. The origin clue points to the Greek-origin spelling of the \"f\" sound, ph. The vowel and r at the end are spelled e, r, e in this word, not as in the rhyme word \"clear\"; the rhyme gives the sound, not the letters. There is one standard spelling.",
+  "solutionMethod": "Use the origin clue for the consonant spelling and word knowledge for the vowel spelling.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "sphere",
+    "acceptedAnswers": ["sphere"],
+    "equivalenceNotes": "Spelling is letter-exact after case folding and trailing-punctuation removal; hyphens, apostrophes, spaces and diacritics are significant. There is one standard spelling; sound-alike spellings such as sfere or sphear are rejected."
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Reread the origin clue. It tells you something about how one sound in this word is spelled.",
+      "question": "Which sound does the origin clue say may be spelled with two letters?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Think of Greek-origin words you know about writing, light, sound or pictures, and how their \"f\" sound is spelled. A rhyme word tells you the sound of the ending, but not always its letters.",
+      "question": "Which two letters do those Greek-origin words share for the \"f\" sound?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different Greek-origin word: a word said TEL-uh-fohn, for a device used to talk at a distance, spells its \"f\" sound with the same two letters the origin clue points to, and its ending is spelled differently from the rhyme word \"loan\".",
+      "question": "Which letters spell the \"f\" sound in this word, and how is its ending spelled in the word you know?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["sphere"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "New SPELL-SP3 practice record drafted under D-344 and D-339. Original Learning Forge wording, pronunciation cues and definitions; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item. Any real word is listed for the owner G-SOURCE check in docs/spelling-sp3-coverage-map.md."
+  },
+  "accessibilityNotes": "All information is presented in text; there is no audio and no phonetic symbols. Pronunciation is written as plain syllables with the stressed syllable in capital letters, and the stress is also stated in words. Type the spelling; spelling is checked letter by letter, but capital letters do not matter.",
+  "accessibleAlternative": "Type the spelling of the word said \"sfeer\": one syllable, rhyming with \"clear\". Meaning: a perfectly round solid shape, like a ball or a globe (noun). It came into English through Latin from Greek; in many English words from Greek, the f sound is spelled with two letters instead of the letter f."
+}

@@ -36,9 +36,9 @@ const legacyItem = (): ContentItem => {
 
 describe('ratios content seed', () => {
   it('contains original and llm-drafted problems covering every catalog skill', () => {
-    // 155 earlier records plus the two pending Social Studies records (SS-CONTENT).
-    expect(contentCatalog).toHaveLength(164);
-    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(164);
+    // 164 earlier records plus the 12 pending Statistics drafts (MATH-ST6, D-341).
+    expect(contentCatalog).toHaveLength(176);
+    expect(new Set(contentCatalog.map((item) => item.id)).size).toBe(176);
     expect(new Set(contentCatalog.map(skillCodeOf))).toEqual(
       new Set(skillCatalog.map((skill) => skill.code)),
     );
@@ -51,8 +51,21 @@ describe('ratios content seed', () => {
     const pendingItems = contentCatalog.filter((item) => item.review.status === 'pending_review');
     expect(reviewedItems.length).toBe(154);
     // The only pending records are the four PYTHON-CONTENT records (D-322 H4, D-330)
-    // and the six SS-CONTENT Social Studies practice records (D-324 O1, D-330).
+    // and the six SS-CONTENT Social Studies practice records (D-324 O1, D-330), plus the twelve
+    // Statistics drafts (MATH-ST6, D-341), which sit earlier in the loader order.
     expect(pendingItems.map((item) => item.id)).toEqual([
+      'statistical-questions-3',
+      'statistical-questions-4',
+      'statistical-questions-5',
+      'statistical-questions-6',
+      'distributions-3',
+      'distributions-4',
+      'distributions-5',
+      'distributions-6',
+      'center-and-variability-3',
+      'center-and-variability-4',
+      'center-and-variability-5',
+      'center-and-variability-6',
       'py6-print-output-reading-1',
       'py6-print-output-reading-2',
       'py6-print-output-reading-3',

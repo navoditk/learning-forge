@@ -29,6 +29,7 @@ const curriculumFile = (name: string): unknown =>
   JSON.parse(readFileSync(join(process.cwd(), 'src', 'curriculum', name), 'utf8'));
 
 // RI-5 activation: grade-6-math@1.1.0 is the selected version; 1.0.0 stays in the index.
+// MATH-ST6: 1.2.0 (Ratios + Statistics) is registered but NOT selected until the owner's switch.
 const ACTIVE_REGISTRY = PROGRAM_REGISTRY.filter(
   (program) => program.code !== 'grade-6-math' || program.version === '1.1.0',
 );
@@ -38,8 +39,8 @@ describe('P-A live: committed active selection (RI-1)', () => {
   it('S-1 names every registry program exactly once at the registered version', () => {
     const selection = VERSIONED_COURSE_CATALOG.selection;
     expect(selection.programs).toHaveLength(12);
-    // RI-5: the registry lists grade-6-math twice (1.0.0 retained, 1.1.0 active).
-    expect(PROGRAM_REGISTRY).toHaveLength(13);
+    // The registry lists grade-6-math three times (1.0.0 and 1.1.0 retained or active, 1.2.0 registered).
+    expect(PROGRAM_REGISTRY).toHaveLength(14);
     expect(selection.programs).toEqual(
       ACTIVE_REGISTRY.map(({ code, version }) => ({ code, version })),
     );
@@ -54,7 +55,7 @@ describe('P-A live: committed active selection (RI-1)', () => {
     expect(
       PILOT_ASSESSMENT_BANKS.filter((bank) => /-(review|delayed)/u.test(bank.code)),
     ).toHaveLength(6);
-    expect(skillBankCodes).toHaveLength(10);
+    expect(skillBankCodes).toHaveLength(16);
     expect(VERSIONED_COURSE_CATALOG.selection.skillBanks.map((ref) => ref.code)).toEqual(
       skillBankCodes,
     );
@@ -125,6 +126,10 @@ describe('P-A live: committed active selection (RI-1)', () => {
     expect(reserved).toEqual([
       { kind: 'lesson', code: 'double-number-lines-lesson', version: '1.0.0' },
       { kind: 'lesson', code: 'percent-applications-lesson', version: '1.0.0' },
+      { kind: 'unit', code: 'statistics', version: '1.0.0' },
+      { kind: 'lesson', code: 'statistical-questions-lesson', version: '1.0.0' },
+      { kind: 'lesson', code: 'distributions-lesson', version: '1.0.0' },
+      { kind: 'lesson', code: 'center-and-variability-lesson', version: '1.0.0' },
     ]);
     for (const label of reserved) {
       expect(COURSE_CATALOG_INDEX.lessonByRef(label), label.code).toBeUndefined();

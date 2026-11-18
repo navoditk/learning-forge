@@ -14,6 +14,11 @@ import {
   RATIOS_UNIT_2_LESSONS,
   RATIOS_UNIT_2_UNIT,
 } from '../../src/curriculum/ratios-unit-2-catalog';
+import {
+  STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+  STATISTICS_UNIT_2_LESSONS,
+  STATISTICS_UNIT_2_UNIT,
+} from '../../src/curriculum/statistics-unit-2-catalog';
 import { isSkillClaimedByAuthoredUnit } from '../../src/curriculum/unit-claims';
 import {
   SV_BANKS,
@@ -55,6 +60,9 @@ const PILOT_SKILL_BANKS: Ref[] = [
   'ratio-tables',
   'double-number-lines',
   'percent-applications',
+  'statistical-questions',
+  'distributions',
+  'center-and-variability',
 ].flatMap((skill) =>
   ['review-bank', 'delayed-check-bank'].map((suffix) => ({
     code: `${skill}-${suffix}`,
@@ -64,9 +72,20 @@ const PILOT_SKILL_BANKS: Ref[] = [
 
 const combinedRecords = {
   programs: [...PROGRAM_REGISTRY, SV_PROGRAM_V1, SV_PROGRAM_V11],
-  units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, SV_UNIT_V1, SV_UNIT_V2],
-  lessons: [...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS, ...SV_LESSONS_V1, ...SV_LESSONS_V2],
-  banks: [...PILOT_ASSESSMENT_BANKS, ...RATIOS_UNIT_2_ASSESSMENT_BANKS, ...SV_BANKS],
+  units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, STATISTICS_UNIT_2_UNIT, SV_UNIT_V1, SV_UNIT_V2],
+  lessons: [
+    ...PILOT_LESSONS,
+    ...RATIOS_UNIT_2_LESSONS,
+    ...STATISTICS_UNIT_2_LESSONS,
+    ...SV_LESSONS_V1,
+    ...SV_LESSONS_V2,
+  ],
+  banks: [
+    ...PILOT_ASSESSMENT_BANKS,
+    ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
+    ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+    ...SV_BANKS,
+  ],
 };
 const combinedSelection = () => {
   const base = selectionFor();

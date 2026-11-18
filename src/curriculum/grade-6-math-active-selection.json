@@ -90,6 +90,30 @@
     {
       "code": "percent-applications-delayed-check-bank",
       "version": "1.0.0"
+    },
+    {
+      "code": "statistical-questions-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "statistical-questions-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "distributions-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "distributions-delayed-check-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "center-and-variability-review-bank",
+      "version": "1.0.0"
+    },
+    {
+      "code": "center-and-variability-delayed-check-bank",
+      "version": "1.0.0"
     }
   ]
 }

@@ -151,6 +151,7 @@ describe('P1 grade-6-science registry entry', () => {
     expect(PROGRAM_REGISTRY.map((program) => program.code)).toEqual([
       'grade-6-math',
       'grade-6-math', // 1.1.0 (RI-5); 1.0.0 retained
+      'grade-6-math', // 1.2.0 (MATH-ST6); registered, selected only by the owner switch
       'math-kangaroo-6',
       'moems-6',
       'amc-8',
@@ -261,11 +262,11 @@ describe('P3 Science skill rules', () => {
 });
 
 describe('P4 Science content rules', () => {
-  it('loads a valid synthetic Science record beside the 164 live records (128 earlier + 6 Science + 20 Ratios + 4 pending Python + 6 pending Social Studies)', () => {
-    expect(contentCatalog).toHaveLength(164);
+  it('loads a valid synthetic Science record beside the 176 live records (128 earlier + 6 Science + 20 Ratios + 4 pending Python + 6 pending Social Studies + 12 pending Statistics)', () => {
+    expect(contentCatalog).toHaveLength(176);
     registerScienceSkill();
     const loaded = loadWith(scienceRecord('sci6-synthetic-1'), scienceRecord('sci6-synthetic-2'));
-    expect(loaded).toHaveLength(166);
+    expect(loaded).toHaveLength(178);
   });
 
   it('accepts depth mode and a pattern that is a case-insensitive substring', () => {

@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-phoneme-grapheme-mapping-contest-2",
+  "version": "content-2",
+  "title": "Use an alternate pronunciation cue",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-phoneme-grapheme-mapping",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-PHON-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Uses an alternate-pronunciation cue to distinguish spellings."],
+  "prompt": "The pronouncer gives two accepted pronunciations for one invented word. In the first, BRAY-vul, the first vowel sounds like the name of the letter A. In the second, BRAV-ul, the first vowel sounds like the a in \"cat\". Which spelling can be read both ways under regular English spelling patterns? Enter one option exactly: bravel, brayvel, or braivel.",
+  "solutionRepresentation": "bravel. A single vowel letter followed by one consonant and then another vowel can be read long or short in English (compare the real words \"navel\", said NAY-vul, and \"gravel\", said GRAV-ul), so bravel fits both pronunciations. The letter pairs ay and ai lock the vowel to the long sound, so brayvel and braivel fit only the first pronunciation.",
+  "solutionMethod": "Check each spelling against both accepted pronunciations and keep the one that allows both.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "bravel",
+    "acceptedAnswers": ["bravel"],
+    "equivalenceNotes": "Provisional SP-1 ruling C-1: contest mode keeps a legacy text validator whose only accepted answer is the exact option text listed in the prompt. Matching is case-insensitive and ignores trailing punctuation; any other wording is rejected."
+  },
+  "misconceptionCodes": ["assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Only the first vowel sound changes between the two pronunciations. The right spelling must allow both versions of that vowel.",
+      "question": "Which part of each option spells the first vowel?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Some vowel spellings allow only one sound. A two-letter vowel spelling usually makes only the long sound.",
+      "question": "Which options can be read only with the long vowel?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different vowel: if a word could be said both SEE-ten and SET-en, a spelling with a single e and a single t before the next vowel fits both, while a spelling with ee fits only the long one.",
+      "question": "Using that idea, which option fits both pronunciations of this word?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["bravel"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-phoneme-grapheme-mapping-contest-2@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Two accepted pronunciations of one invented word: \"bray-vul\", where the first vowel sounds like the name of the letter A, and \"brav-ul\", where the first vowel sounds like the a in \"cat\". Both are stressed on the first part. Type the spelling, exactly as listed, that can be read both ways: bravel, brayvel, or braivel."
+}

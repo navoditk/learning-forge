@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-phoneme-grapheme-mapping-contest-6",
+  "version": "content-1",
+  "title": "Spell a word with a silent letter",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-phoneme-grapheme-mapping",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-PHON-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Maps a supplied pronunciation to a plausible letter sequence."],
+  "prompt": "Spell the word. Say it: NEED (one syllable; it sounds exactly like the word \"need\"). Meaning: to press, fold and push dough with your hands. Sentence: \"Before baking, ___ the dough for ten minutes.\" Part of speech: verb. Language of origin: Old English. Clues: it begins with a letter that is written but no longer said, the same silent first letter as in \"knee\" and \"knot\"; and it is not spelled like \"need\".",
+  "solutionRepresentation": "knead. The silent first letter is k, as in \"knee\" and \"knot\". The long \"ee\" sound in this word is spelled ea, which separates it from its sound-alike \"need\". The sound-alike \"kneed\" is a real word too, but it is the past tense of \"knee\" and does not mean pressing dough.",
+  "solutionMethod": "Combine the silent-letter clue with a vowel spelling that separates the word from its sound-alikes.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "knead",
+    "acceptedAnswers": ["knead"],
+    "equivalenceNotes": "Spelling is letter-exact after case folding and trailing-punctuation removal; hyphens, apostrophes, spaces and diacritics are significant. The sound-alikes need and kneed are real words with other meanings and are rejected."
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Two clues work together: the silent first letter, and the warning that the word is not spelled like its sound-alike.",
+      "question": "Which silent letter do the example words in the prompt start with?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Sound-alike words often use a different spelling for the same vowel sound. The long \"ee\" sound has several common spellings in English.",
+      "question": "Which spelling of the long \"ee\" sound, other than the one in \"need\", could this word use?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different pair: the two words said NOHZ, one for \"is aware of\" and one for \"the part of the face you smell with\", sound the same; the \"is aware of\" word starts with a silent letter and also spells its vowel sound differently.",
+      "question": "How does that pattern help you spell the word about pressing dough?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["knead"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "New SPELL-SP3 practice record drafted under D-344 and D-339. Original Learning Forge wording, pronunciation cues and definitions; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item. Any real word is listed for the owner G-SOURCE check in docs/spelling-sp3-coverage-map.md."
+  },
+  "accessibilityNotes": "All information is presented in text; there is no audio and no phonetic symbols. Pronunciation is written as plain syllables with the stressed syllable in capital letters, and the stress is also stated in words. Type the spelling; spelling is checked letter by letter, but capital letters do not matter.",
+  "accessibleAlternative": "Type the spelling of the word said \"need\": one syllable; it sounds exactly like the word need. Meaning: to press, fold and push dough with your hands (verb). Sentence: \"Before baking, ___ the dough for ten minutes.\" Origin: Old English. It begins with a silent letter, the same silent first letter as in \"knee\" and \"knot\", and it is not spelled like \"need\"."
+}

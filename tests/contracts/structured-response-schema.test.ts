@@ -146,7 +146,8 @@ describe('PA-5: legacy items still score through the unchanged matcher', () => {
       .map((item) => item.id)
       .sort();
     expect(structuredIds.filter((id) => id.startsWith('sci6-'))).toEqual(SCIENCE_IDS);
-    expect(structuredIds).toHaveLength(23);
+    // 6 Science + 17 Ratios + the 12 pending Statistics drafts (MATH-ST6).
+    expect(structuredIds).toHaveLength(35);
     const structuredSet = new Set(structuredIds);
     for (const item of contentCatalog.filter((candidate) => structuredSet.has(candidate.id))) {
       expect(

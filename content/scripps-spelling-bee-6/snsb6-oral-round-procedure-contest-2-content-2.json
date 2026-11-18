@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-oral-round-procedure-contest-2",
+  "version": "content-2",
+  "title": "Restart a spelling under local rules",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-oral-round-procedure",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-PROC-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Rehearses a calm spelling routine while acknowledging local rules."],
+  "prompt": "Practice rules for a local bee (made up for this item): once a speller says a letter, it cannot be changed; a speller may stop and start over only by repeating every letter already said, in the same order. You have said the first two letters of your word, both correctly, and then you lose your place. Which action do these rules allow? Enter one option exactly: switch letters (say a different second letter), erase (ask the judge to ignore the letters said so far), or restart in order (start again, saying the same letters in the same order).",
+  "solutionRepresentation": "restart in order. The rules let a speller start over only by repeating the letters already said in the same order. Switching a letter changes a letter already said, and asking the judge to ignore spoken letters is not something these rules offer. Local rules vary, so a speller checks the rules for each bee.",
+  "solutionMethod": "Test each listed action against the supplied local rules.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "restart in order",
+    "acceptedAnswers": ["restart in order"],
+    "equivalenceNotes": "Provisional SP-1 ruling C-1: contest mode keeps a legacy text validator whose only accepted answer is the exact option text listed in the prompt. Matching is case-insensitive and ignores trailing punctuation; any other wording is rejected."
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "These are rules written for this practice bee. Use them, not what you think other bees allow.",
+      "question": "What do the rules say about letters that have already been said?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Check each option against the two rules: can it change a spoken letter, and does it repeat the spoken letters in the same order?",
+      "question": "Which option breaks the first rule, and which is not offered by the rules at all?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with different rules: if a bee says a speller may ask for a sentence but not for a rhyme, then asking for a rhyme is not allowed even if another bee allows it.",
+      "question": "Which one of the three actions fits these rules?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["restart in order"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-oral-round-procedure-contest-2@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Practice rules: once a letter is said, it cannot be changed; a speller may start over only by repeating every letter already said, in the same order. You said the first two letters correctly and then lost your place. Type the allowed action exactly as listed: switch letters, erase, or restart in order."
+}

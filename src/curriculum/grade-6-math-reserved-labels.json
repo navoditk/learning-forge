@@ -1,4 +1,8 @@
 [
   { "kind": "lesson", "code": "double-number-lines-lesson", "version": "1.0.0" },
-  { "kind": "lesson", "code": "percent-applications-lesson", "version": "1.0.0" }
+  { "kind": "lesson", "code": "percent-applications-lesson", "version": "1.0.0" },
+  { "kind": "unit", "code": "statistics", "version": "1.0.0" },
+  { "kind": "lesson", "code": "statistical-questions-lesson", "version": "1.0.0" },
+  { "kind": "lesson", "code": "distributions-lesson", "version": "1.0.0" },
+  { "kind": "lesson", "code": "center-and-variability-lesson", "version": "1.0.0" }
 ]

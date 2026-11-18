@@ -1,0 +1,83 @@
+{
+  "id": "snsb6-phoneme-grapheme-mapping-core-1",
+  "version": "content-2",
+  "title": "Map syllables to letters",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-phoneme-grapheme-mapping",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["SNSB6-PHON-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Maps a supplied pronunciation to a plausible letter sequence."],
+  "prompt": "An invented word is said MAY-lest: two syllables, with the stress on the first. Its first vowel sounds like the name of the letter A, and its second syllable rhymes with \"best\". Choose the spelling that records these sounds.",
+  "solutionRepresentation": "maylest. The letter pair ay spells the long a sound (the name of the letter A), and lest records the second syllable. In mellest, the e followed by a double l is read as the short e in \"bell\", and in mylest, the y is read with an i sound (as in \"my\" or \"myth\"); neither gives the long a sound.",
+  "solutionMethod": "Match the described first vowel sound to the letters that usually spell it.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Spelling that matches the sounds: maylest",
+    "acceptedAnswers": ["Spelling that matches the sounds: maylest"],
+    "equivalenceNotes": "Structured choice field; the selected option must equal the correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "spelling",
+        "label": "Spelling that matches the sounds",
+        "options": [
+          {
+            "id": "mellest",
+            "label": "mellest"
+          },
+          {
+            "id": "maylest",
+            "label": "maylest"
+          },
+          {
+            "id": "mylest",
+            "label": "mylest"
+          }
+        ],
+        "correctOptionId": "maylest",
+        "kind": "choice"
+      }
+    ]
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The three options differ only in how the first vowel is spelled. Focus on the first vowel sound.",
+      "question": "What does the prompt say the first vowel sounds like?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Read each option aloud using common English patterns, and listen to its first vowel.",
+      "question": "Which option gives a first vowel that sounds like the name of the letter A?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different word: an invented word said SEE-mott, with a first vowel like the name of the letter E, is better recorded with a long-e spelling such as ee than with a single e before a double consonant.",
+      "question": "Which option records the long a sound in the same way?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["maylest"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-phoneme-grapheme-mapping-core-1@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "An invented word is said \"may-lest\", with two syllables and the stress on the first. Its first vowel sounds like the name of the letter A, and its second syllable rhymes with \"best\". Choose the spelling that records these sounds: mellest, maylest, or mylest."
+}

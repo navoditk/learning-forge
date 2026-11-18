@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-orthographic-patterns-contest-6",
+  "version": "content-1",
+  "title": "Spell a word that starts with a kw sound",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-orthographic-patterns",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-ORTH-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Identifies a letter pattern and applies it to an unseen original word."],
+  "prompt": "Spell the invented word. Say it: KWEN-dul (two syllables; the stress is on the first; the e is the short e in \"bed\"). Meaning: a small brass bell for a bicycle. Part of speech: noun. Origin: invented for this practice; it follows regular English spelling, not Greek or other borrowed patterns. The vowel in the first syllable is spelled with the single letter e, the \"n\" and \"d\" sounds are spelled with single letters, and the last syllable is spelled with the same three letters that end \"needle\".",
+  "solutionRepresentation": "quendle. In regular English spelling, the \"kw\" sound at the start of a word is spelled qu. The prompt fixes the vowel as the single letter e, n and d as single letters, and the ending as dle, as in needle, so the opening letters are the only open choice.",
+  "solutionMethod": "Apply the regular English spelling of a consonant cluster at the start of a word.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "quendle",
+    "acceptedAnswers": ["quendle"],
+    "equivalenceNotes": "Spelling is letter-exact after case folding and trailing-punctuation removal; hyphens, apostrophes, spaces and diacritics are significant. Spellings of the opening sounds other than the regular English one, such as kwendle, are rejected."
+  },
+  "misconceptionCodes": ["assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Listen to the first two sounds together. In regular English spelling, this pair of sounds at the start of a word has one usual two-letter spelling.",
+      "question": "Which two letters usually spell the \"kw\" sound at the start of English words?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The prompt already fixes the ending. Use the short e you hear in \"bed\" for the first vowel, and spell the n and d sounds with single letters.",
+      "question": "What goes between the opening sounds and the ending?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different sound: in many short English base words, the \"ks\" sound at the end is spelled with the single letter x, as in \"box\" and \"fix\", not with two letters.",
+      "question": "In the same way, which letters does regular English use for the \"kw\" sound at the start?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["quendle", "qu"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "New SPELL-SP3 practice record drafted under D-344 and D-339. Original Learning Forge wording, pronunciation cues and definitions; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item. Any real word is listed for the owner G-SOURCE check in docs/spelling-sp3-coverage-map.md."
+  },
+  "accessibilityNotes": "All information is presented in text; there is no audio and no phonetic symbols. Pronunciation is written as plain syllables with the stressed syllable in capital letters, and the stress is also stated in words. Type the spelling; spelling is checked letter by letter, but capital letters do not matter.",
+  "accessibleAlternative": "Type the spelling of an invented word said \"kwen-dul\": two syllables, stress on the first; the e is the short e in \"bed\". Meaning: a small brass bell for a bicycle (noun). It follows regular English spelling, not Greek or other borrowed patterns. The first vowel is the single letter e, the n and d sounds are single letters, and the last syllable is spelled with the same three letters that end \"needle\"."
+}

@@ -1,0 +1,111 @@
+{
+  "id": "snsb6-vocabulary-context-core-1",
+  "version": "content-2",
+  "title": "Infer meaning and grammar",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-vocabulary-context",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["SNSB6-VOCAB-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Uses definition, sentence, and part of speech to infer meaning."],
+  "prompt": "Read the sentence: \"After the storm passed and the wind stopped, the creek was tranquil; its surface lay as still as glass.\" Choose what tranquil means here and what part of speech it is.",
+  "solutionRepresentation": "Meaning: calm and still. Part of speech: adjective. The clues \"the wind stopped\" and \"as still as glass\" describe a calm, still surface. Tranquil follows \"was\" and describes the creek, so it is an adjective.",
+  "solutionMethod": "Use nearby context clues for meaning and the word's job in the sentence for part of speech.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Meaning of tranquil: calm and still; Part of speech: adjective",
+    "acceptedAnswers": ["Meaning of tranquil: calm and still; Part of speech: adjective"],
+    "equivalenceNotes": "Structured choice fields; both selected options must be correct. No partial credit.",
+    "fields": [
+      {
+        "key": "meaning",
+        "label": "Meaning of tranquil",
+        "options": [
+          {
+            "id": "flooded",
+            "label": "flooded and muddy"
+          },
+          {
+            "id": "calm",
+            "label": "calm and still"
+          },
+          {
+            "id": "rushing",
+            "label": "loud and rushing"
+          },
+          {
+            "id": "frozen",
+            "label": "frozen solid"
+          }
+        ],
+        "correctOptionId": "calm",
+        "kind": "choice"
+      },
+      {
+        "key": "part-of-speech",
+        "label": "Part of speech",
+        "options": [
+          {
+            "id": "noun",
+            "label": "noun"
+          },
+          {
+            "id": "verb",
+            "label": "verb"
+          },
+          {
+            "id": "adjective",
+            "label": "adjective"
+          },
+          {
+            "id": "adverb",
+            "label": "adverb"
+          }
+        ],
+        "correctOptionId": "adjective",
+        "kind": "choice"
+      }
+    ]
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Look for words near tranquil that describe the creek after the storm.",
+      "question": "What do \"the wind stopped\" and the comparison to glass tell you?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "For the part of speech, ask what job the word does. It follows \"was\" and tells what the creek was like.",
+      "question": "Is it naming a thing, showing an action, or describing a noun?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different sentence: in \"The hallway was dim; we could barely see the doors,\" dim means not bright, and it describes the hallway, doing the same job as words like \"dark\" or \"quiet\".",
+      "question": "Which meaning and part of speech fit tranquil in this sentence?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["calm and still", "adjective"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-vocabulary-context-core-1@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Sentence: \"After the storm passed and the wind stopped, the creek was tranquil; its surface lay as still as glass.\" Choose the meaning of tranquil (flooded and muddy; calm and still; loud and rushing; or frozen solid) and its part of speech (noun, verb, adjective, or adverb)."
+}

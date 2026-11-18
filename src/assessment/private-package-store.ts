@@ -9,7 +9,8 @@ import {
   ReviewContentItemSchema,
 } from '../contracts/progression';
 import type { AssessmentBank, Lesson, Ref, Unit } from '../contracts/progression';
-import { COURSE_CATALOG_INDEX } from '../curriculum/course-catalog';
+import { COURSE_CATALOG_INDEX, VERSIONED_COURSE_CATALOG } from '../curriculum/course-catalog';
+import { PROGRAM_REGISTRY } from '../curriculum/program-registry';
 import type { AssessmentStore, HeldOutAssessmentBank } from './store';
 
 export type RequiredBank = {
@@ -71,9 +72,67 @@ export function deriveRequiredBanks(catalog: BankDerivationInput): readonly Requ
   });
 }
 
-/** Every bank the Grade 6 Math package may contain, with its constraints. */
-export const GRADE_6_MATH_PACKAGE_BANKS: readonly RequiredBank[] =
-  deriveRequiredBanks(COURSE_CATALOG_INDEX);
+const ALL_DERIVED_BANKS: readonly RequiredBank[] = deriveRequiredBanks(COURSE_CATALOG_INDEX);
+
+/**
+ * Pending-activation units (MATH-ST6): units introduced by a program version
+ * registered AFTER the selected version of its code (declaration order in the
+ * registry) are registered but not yet selected. Their banks must not become
+ * mandatory (the store would refuse the whole package, taking Ratios held-out
+ * assessments down with it) and must not be refused as unknown once the owner
+ * merges them. Flipping the selection to that program version makes the
+ * lesson and unit banks mandatory again (four for Statistics); review and
+ * delayed-check banks stay optional under the existing skill-bank policy.
+ */
+export function pendingActivationBankKeys(
+  selectedPrograms: readonly Ref[] = VERSIONED_COURSE_CATALOG.selection.programs,
+): ReadonlySet<string> {
+  const selected = new Map(selectedPrograms.map((ref) => [ref.code, ref.version]));
+  const order = (code: string, version: string): number =>
+    PROGRAM_REGISTRY.findIndex((p) => p.code === code && p.version === version);
+  const pendingUnits = COURSE_CATALOG_INDEX.units.filter((unit) => {
+    const chosen = selected.get(unit.programRef.code);
+    return (
+      chosen !== undefined &&
+      order(unit.programRef.code, unit.programRef.version) > order(unit.programRef.code, chosen)
+    );
+  });
+  const keys = new Set<string>();
+  const skills = new Set<string>();
+  for (const unit of pendingUnits) {
+    if (unit.assessmentBankRef) keys.add(refKey(unit.assessmentBankRef));
+    for (const lesson of COURSE_CATALOG_INDEX.lessonsOfUnit(unit)) {
+      keys.add(refKey(lesson.assessmentBankRef));
+      for (const skill of lesson.skillRefs) skills.add(refKey(skill));
+    }
+  }
+  for (const bank of COURSE_CATALOG_INDEX.banks) {
+    if (skills.has(refKey(bank.targetRef)) && /-(review|delayed-check)-bank$/u.test(bank.code)) {
+      keys.add(refKey(bank));
+    }
+  }
+  return keys;
+}
+const PENDING_KEYS = pendingActivationBankKeys();
+
+/** Every bank the active Grade 6 Math package must or may contain, with its constraints. */
+export const GRADE_6_MATH_PACKAGE_BANKS: readonly RequiredBank[] = ALL_DERIVED_BANKS.filter(
+  (bank) => !PENDING_KEYS.has(refKey(bank)),
+);
+
+/**
+ * Registered banks of not-yet-selected units: accepted (and fully validated)
+ * when a package carries them, never required.
+ */
+export const PENDING_ACTIVATION_PACKAGE_BANKS: readonly RequiredBank[] = ALL_DERIVED_BANKS.filter(
+  (bank) => PENDING_KEYS.has(refKey(bank)),
+).map((bank) => ({ ...bank, optional: true }));
+
+/** What the production store validates a mounted package against. */
+export const PACKAGE_STORE_BANKS: readonly RequiredBank[] = [
+  ...GRADE_6_MATH_PACKAGE_BANKS,
+  ...PENDING_ACTIVATION_PACKAGE_BANKS,
+];
 
 const PackageBankSchema = z
   .object({
@@ -265,7 +324,7 @@ export class PrivateAssessmentPackageStore implements AssessmentStore {
 export function createPrivateAssessmentPackageStoreFromEnvironment(): AssessmentStore | undefined {
   const packagePath = process.env.LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH;
   return packagePath
-    ? new PrivateAssessmentPackageStore(packagePath, GRADE_6_MATH_PACKAGE_BANKS)
+    ? new PrivateAssessmentPackageStore(packagePath, PACKAGE_STORE_BANKS)
     : undefined;
 }
 

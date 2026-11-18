@@ -1,0 +1,83 @@
+{
+  "id": "snsb6-homophones-homographs-core-1",
+  "version": "content-2",
+  "title": "Let context choose",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-homophones-homographs",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["SNSB6-HOM-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Selects a spelling whose meaning fits a sentence."],
+  "prompt": "Three words sound the same but have different spellings and meanings. Choose the spelling that fits the sentence: \"In spring, the farmer will ___ the bean seeds in long rows.\"",
+  "solutionRepresentation": "sow. Sow means to plant seeds, which is what the farmer does with bean seeds in rows. Sew means to stitch with a needle and thread, and so is a joining or intensifying word; neither fits.",
+  "solutionMethod": "Match the meaning each spelling carries to what the sentence needs.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Spelling that fits the sentence: sow",
+    "acceptedAnswers": ["Spelling that fits the sentence: sow"],
+    "equivalenceNotes": "Structured choice field; the selected option must equal the correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "spelling",
+        "label": "Spelling that fits the sentence",
+        "options": [
+          {
+            "id": "sew",
+            "label": "sew"
+          },
+          {
+            "id": "so",
+            "label": "so"
+          },
+          {
+            "id": "sow",
+            "label": "sow"
+          }
+        ],
+        "correctOptionId": "sow",
+        "kind": "choice"
+      }
+    ]
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "All three options sound alike, so the sound cannot decide. The meaning of the sentence must decide.",
+      "question": "What is the farmer doing with the bean seeds?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Give each option its meaning: one is about stitching with needle and thread, one is a joining word like \"therefore\", and one is about planting.",
+      "question": "Which meaning matches putting seeds into the ground?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different pair: in \"She tied a ___ in the rope,\" the spelling that means a twist tied in a rope fits, and its sound-alike meaning \"no\" does not.",
+      "question": "Which of the three spellings carries the planting meaning?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["sow"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-homophones-homographs-core-1@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Three words sound the same but have different spellings and meanings: sew, so, and sow. Sentence: \"In spring, the farmer will ___ the bean seeds in long rows.\" Choose the one spelling that fits the sentence."
+}

@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-orthographic-patterns-core-3",
+  "version": "content-1",
+  "title": "Spell a final sound after a short vowel",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-orthographic-patterns",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["SNSB6-ORTH-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Identifies a letter pattern and applies it to an unseen original word."],
+  "prompt": "Spell the invented word. Say it: FREJ (one syllable; the vowel is the short e sound in \"bed\"; the word ends with the \"j\" sound). Meaning: a narrow shelf for drying boots. Part of speech: noun. Origin: invented for this practice; it follows regular English spelling patterns. The first two sounds are spelled f and r, and the vowel is spelled with the single letter e.",
+  "solutionRepresentation": "fredge. In regular English spelling, a \"j\" sound at the end of a one-syllable word after a short vowel is spelled dge (as in badge, ridge and fudge). Regular English words do not end in the letter j, and frege would be read with a long e. The prompt fixes the vowel as the single letter e, which excludes other short-e spellings such as ea (freadge).",
+  "solutionMethod": "Use the vowel sound before the final consonant sound to choose the position-based spelling.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "fredge",
+    "acceptedAnswers": ["fredge"],
+    "equivalenceNotes": "Spelling is letter-exact after case folding and trailing-punctuation removal; hyphens, apostrophes, spaces and diacritics are significant. Only the regular short-vowel spelling of the final sound is accepted."
+  },
+  "misconceptionCodes": ["assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "In English, the spelling of a final \"j\" sound depends on the vowel sound right before it.",
+      "question": "Is the vowel before the final sound short or long?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "After a long vowel, a final \"j\" sound is often spelled as in \"page\" or \"huge\". After a short vowel in a one-syllable word, English uses a different, three-letter pattern.",
+      "question": "What real one-syllable words with a short vowel and a final \"j\" sound can you think of, and how do they end?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different final sound: after a short vowel in many one-syllable words, the \"ch\" sound gets an extra letter before it, as in \"match\" and \"fetch\", but not after a long vowel, as in \"coach\".",
+      "question": "By the same idea, which extra letter does the \"j\" sound get after a short vowel?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["fredge", "dge"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "New SPELL-SP3 practice record drafted under D-344 and D-339. Original Learning Forge wording, pronunciation cues and definitions; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item. Any real word is listed for the owner G-SOURCE check in docs/spelling-sp3-coverage-map.md."
+  },
+  "accessibilityNotes": "All information is presented in text; there is no audio and no phonetic symbols. Pronunciation is written as plain syllables with the stressed syllable in capital letters, and the stress is also stated in words. Type the spelling; spelling is checked letter by letter, but capital letters do not matter.",
+  "accessibleAlternative": "Type the spelling of an invented word said \"frej\": one syllable; the vowel is the short e in \"bed\"; it ends with the j sound. Meaning: a narrow shelf for drying boots (noun). It follows regular English spelling patterns; its first two sounds are spelled f and r, and its vowel is spelled with the single letter e."
+}

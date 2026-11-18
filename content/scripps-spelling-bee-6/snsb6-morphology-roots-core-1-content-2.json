@@ -1,0 +1,87 @@
+{
+  "id": "snsb6-morphology-roots-core-1",
+  "version": "content-2",
+  "title": "Find the meaningful parts",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-morphology-roots",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["SNSB6-MORPH-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Segments an original word into meaningful parts."],
+  "prompt": "The invented word misplondable is made of exactly one prefix, one base and one suffix. The prefix means \"wrongly\", the suffix means \"can be done\", and the invented base means \"to measure\". Choose the split that shows the three parts.",
+  "solutionRepresentation": "mis + plond + able. Mis- is the prefix meaning wrongly, -able is the suffix meaning can be done, and what remains, plond, is the base meaning to measure. The other splits use a piece that is not a prefix or suffix (mi-, misp-, -dable) or leave only two parts.",
+  "solutionMethod": "Peel off the known prefix and suffix first, then check that the remainder is the base.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Prefix + base + suffix: mis + plond + able",
+    "acceptedAnswers": ["Prefix + base + suffix: mis + plond + able"],
+    "equivalenceNotes": "Structured choice field; the selected option must equal the correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "split",
+        "label": "Prefix + base + suffix",
+        "options": [
+          {
+            "id": "mi-splond-able",
+            "label": "mi + splond + able"
+          },
+          {
+            "id": "misp-lond-able",
+            "label": "misp + lond + able"
+          },
+          {
+            "id": "mis-plond-able",
+            "label": "mis + plond + able"
+          },
+          {
+            "id": "mis-plon-dable",
+            "label": "mis + plon + dable"
+          }
+        ],
+        "correctOptionId": "mis-plond-able",
+        "kind": "choice"
+      }
+    ]
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Start with the parts you already know. The prompt tells you what the prefix and the suffix mean.",
+      "question": "Which common prefix means \"wrongly\", and which common suffix means \"can be done\"?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Cover the prefix at the start and the suffix at the end. Whatever is left must be the base.",
+      "question": "In each option, are the first and last pieces real prefixes and suffixes with those meanings?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different invented word: \"unbrastful\" splits as un + brast + ful, because un- means not, -ful means full of, and brast is left as the base.",
+      "question": "Which option splits this word the same way?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["mis + plond + able"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-morphology-roots-core-1@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "The invented word misplondable has exactly one prefix, one base and one suffix. The prefix means \"wrongly\", the suffix means \"can be done\", and the base means \"to measure\". Choose the split that shows the three parts: mi + splond + able; misp + lond + able; mis + plond + able; or mis + plon + dable."
+}

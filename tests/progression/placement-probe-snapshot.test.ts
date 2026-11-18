@@ -119,8 +119,8 @@ describe('committed unit 1.0.0 snapshot parity (RI-2, scope 2.6)', () => {
   };
 
   it('the committed snapshot verifies against its manifest entry', () => {
-    // RI-5 appended the unit 2.0.0 snapshot; the 1.0.0 entry stays first.
-    expect(MANIFEST.probeSnapshots).toHaveLength(2);
+    // RI-5 appended the unit 2.0.0 snapshot, MATH-ST6 the Statistics 2.0.0 one; 1.0.0 stays first.
+    expect(MANIFEST.probeSnapshots).toHaveLength(3);
     const verified = verifyProbeSnapshot(COMMITTED_SNAPSHOT, entry);
     expect(verified.ok).toBe(true);
   });

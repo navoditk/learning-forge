@@ -318,7 +318,15 @@ describe('V-10 placement capacity', () => {
 
 // ----------------------------------------------------------------- V-11
 
-const PILOT_SKILL_BANKS = ['ratio-language', 'unit-rates', 'ratio-tables'].flatMap((skill) =>
+const PILOT_SKILL_BANKS = [
+  'ratio-language',
+  'unit-rates',
+  'ratio-tables',
+  // MATH-ST6: registered Statistics skill banks stay selected in the negative control.
+  'statistical-questions',
+  'distributions',
+  'center-and-variability',
+].flatMap((skill) =>
   ['review-bank', 'delayed-check-bank'].map((suffix) => ({
     code: `${skill}-${suffix}`,
     version: '1.0.0',
@@ -349,7 +357,11 @@ const withBank =
     banks.map((bank) => (bank.code === code && bank.version === version ? change(bank) : bank));
 
 describe('V-11 claimed skill banks', () => {
-  it('V11-1 the live catalog has every required bank for program 1.0.0 and 1.1.0 (RI-5)', () => {
+  it('V11-1 the live catalog has every required bank for program 1.0.0, 1.1.0 and 1.2.0 (RI-5, MATH-ST6)', () => {
+    // Program 1.2.0 (Ratios + Statistics): bank metadata resolves, is reviewed and covers each skill.
+    expect(
+      checkClaimedSkillBanks(VERSIONED_COURSE_CATALOG, { code: 'grade-6-math', version: '1.2.0' }),
+    ).toEqual([]);
     // Zero violations on grade-6-math@1.1.0 against the committed active selection.
     expect(
       checkClaimedSkillBanks(VERSIONED_COURSE_CATALOG, { code: 'grade-6-math', version: '1.1.0' }),
@@ -610,9 +622,10 @@ describe('grade-6-math structure manifest', () => {
   });
 
   it('MF-2 equals the Grade 6 Math membership closure and flags an unrecorded registration', () => {
-    // RI-5 closure: 15 + program 1.1.0 + unit 2.0.0 + 5 lessons + 10 banks.
+    // RI-5 closure: 15 + program 1.1.0 + unit 2.0.0 + 5 lessons + 10 banks = 32.
+    // MATH-ST6: + program 1.2.0 + statistics 2.0.0 + 3 lessons + 10 banks = 47.
     const live = membership(COURSE_CATALOG_INDEX, 'grade-6-math').map(entryKey).sort();
-    expect(live).toHaveLength(32);
+    expect(live).toHaveLength(47);
     expect(manifest.records.map(entryKey).sort()).toEqual(live);
 
     // Unrecorded registration, shown on the synthetic family so no real label gets a new version.
@@ -636,7 +649,7 @@ describe('grade-6-math structure manifest', () => {
     );
   });
 
-  it('MF-4 has no duplicate entries and exactly the unit 1.0.0 and 2.0.0 probe snapshots (RI-5)', () => {
+  it('MF-4 has no duplicate entries and exactly the Ratios 1.0.0 and 2.0.0 and Statistics 2.0.0 probe snapshots (RI-5, MATH-ST6)', () => {
     const keys = manifest.records.map(entryKey);
     expect(new Set(keys).size).toBe(keys.length);
     expect(manifest.probeSnapshots).toEqual([
@@ -654,6 +667,13 @@ describe('grade-6-math structure manifest', () => {
         unitVersion: '2.0.0',
         sha256: 'fd096bd178cc72c58cfc2c13c94d152bf1b0265a9f7afec547bea5e897e351a0',
       },
+      {
+        bankCode: 'statistics-placement-probe',
+        bankVersion: '2.0.0',
+        unitCode: 'statistics',
+        unitVersion: '2.0.0',
+        sha256: '619b6f8c67251bdca81b54aae03459819f8370e0064d35cfb9da460e7f5eb611',
+      },
     ]);
   });
 
@@ -665,7 +685,7 @@ describe('grade-6-math structure manifest', () => {
       expect(entry.code.startsWith('sci6-')).toBe(false);
       expect(entry.code.startsWith('number-system')).toBe(false);
     }
-    expect(manifest.records.filter((entry) => entry.kind === 'program')).toHaveLength(2);
+    expect(manifest.records.filter((entry) => entry.kind === 'program')).toHaveLength(3);
     expect(membership(COURSE_CATALOG_INDEX, 'grade-6-science').map(entryKey)).toEqual([
       'program:grade-6-science@1.0.0',
     ]);

@@ -4038,7 +4038,49 @@ Validation: typecheck, lint (0 errors), Prettier, `tests/app/parent-claims.test.
 by these patches); a clean-machine full run is still owed. The Copilot session had left the shared
 checkout on its branch, so D-346 was first committed there and re-applied to `main` (`ebee7fd`).
 
-There are 347 decisions: D-01 through D-75, D-139, D-142, D-145–D-347 approved;
+### D-348 — Delegated content acceptance and local application: Spelling Bee public practice drafts SP-3 (D-212, D-339, D-344)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-17. Rounds: rev1 NOT_READY (`reblitting` and `frodel` not uniquely
+constrained, `knead` hint analogy false, G-SOURCE inventory incomplete); rev2 NOT_READY (inventory still
+omitted `no` and misstated `night`); rev3 ACCEPT_CONTENT, no open findings, patch SHA-256 `b4a17c64...8848`
+(23 added files: 14 `content-2` corrections, 8 new "spell it" records, `docs/spelling-sp3-coverage-map.md`).
+Author model from client transcript: `claude-opus-5-5`. Rulings accepted from the author's provisional SP-1
+defaults: C-1 for the six choice-style contest successors, structured choice in core records only, the
+text-cue "spell it" format, housing under the two existing skills (no new skill or version). The 16
+`content-1` records are byte-identical. Carried risks: R-2 loanword exceptions rest on the "regular English"
+wording; R-3 C-1 accepts only exact option text; R-4 capitalized cue syllables need the owner's assistive-
+technology pass; R-5 registration must decide whether each `content-2` replaces `content-1`; authored hints
+are not served until SP-4; volume is 8 of the 32 new records the scope needs. Records are `pending_review`,
+not registered. **Not authorized:** registration, activation, private banks, audio. **Owner-only:** the
+G-SOURCE check of every real word in map section 5.
+
+### D-349 — Delegated acceptance and local application: MATH-ST6 Statistics registration, not activation (D-212, D-334, D-336, D-343)
+
+Delegate: Codex `gpt-6.1-sol`, 2026-11-17. Rounds: rev1 READY_WITH_RISKS then rev2 and rev3 NOT_READY on
+minors (wording, vacuous tests, an item-hash versus bank-hash conflation, an inaccurate activation list);
+rev3 ACCEPT_ENGINEERING, patch SHA-256 `ec7714ed...5e77` (28 files). Author model from client transcript:
+Claude Sonnet (`claude-sonnet-5-5`). Registers `statistics@2.0.0`, three lessons, `grade-6-math@1.2.0`
+pinning exactly [Ratios@2.0.0, Statistics@2.0.0], ten bank records with **sentinel zero digests**, a
+Statistics placement probe, the 12 `pending_review` practice drafts (never servable), 47 manifest records
+and 3 programs; adds the pending-bank rule in `src/assessment/private-package-store.ts` so Ratios held-out
+assessments keep working until the owner merges the private banks. The selection still names
+`grade-6-math@1.1.0`: **Statistics is not active.** Activation, in order, is owner-gated: (1) merge and
+install the private package before changing the selection (afterwards the Statistics metadata overlaps the
+expanded baseline and is rejected); (2) replace the ten sentinel digests in `statistics-unit-2-catalog.ts`
+and `statistics-bank-metadata.json`, re-pin the manifest and revise the sentinel gate test; (3) stamp the
+unit and three lessons (the program record has no review field; banks are stamped); (4) after the 12 drafts
+are reviewed, update their status and extend each lesson's practice refs and hashes; (5) register and pin
+`distributions-2@content-2`; (6) flip the selection 1.1.0 to 1.2.0 and update the 13 tests that pin 1.1.0
+or 20 banks plus `statistics-unit-2-catalog.test.ts` (~225-257 and ~348-352). Carried: the distractor map
+is author-proposed (Codex confirmed all 11 wrong values); `center-and-variability-4` declares no
+misconception code; PV-1 has no database-backed test; integration and e2e were not run. Validation here:
+typecheck, lint (0 errors), Prettier, `content:validate` 20 files / 663 tests, build succeeded; `npm test`
+4,217 of 4,226 pass, the nine failures all in `tests/agents/delivery-*` process-timing suites plus one
+`catalog-registration-checks` test that passes alone, under machine load averages of 10 to 20 (different
+tests fail each run; none touched by these patches). **Not authorized:** activation, the private-bank merge
+(owner-only), release.
+
+There are 349 decisions: D-01 through D-75, D-139, D-142, D-145–D-349 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

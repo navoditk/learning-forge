@@ -1,0 +1,91 @@
+{
+  "id": "snsb6-variant-dictionary-judgment-core-1",
+  "version": "content-2",
+  "title": "Read a label carefully",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-variant-dictionary-judgment",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["SNSB6-VAR-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Classifies a spelling using an explicit dictionary-label note."],
+  "prompt": "A practice dictionary note written for this item says: \"colorway, noun, a set of colors used together in a design; chiefly US. Also colourway, chiefly British.\" Which statement matches the note?",
+  "solutionRepresentation": "Both are accepted spellings; each is more common in a different region. The label \"chiefly US\" and the label \"chiefly British\" describe where each spelling is mostly used; neither label marks a spelling as wrong, and the note gives one meaning for both.",
+  "solutionMethod": "Read each label as a statement about where a spelling is used, not about whether it is correct.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Statement that matches the note: Both are accepted spellings; each is more common in a different region.",
+    "acceptedAnswers": [
+      "Statement that matches the note: Both are accepted spellings; each is more common in a different region."
+    ],
+    "equivalenceNotes": "Structured choice field; the selected option must equal the correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "statement",
+        "label": "Statement that matches the note",
+        "options": [
+          {
+            "id": "misspelling",
+            "label": "The British spelling is a misspelling of the US spelling."
+          },
+          {
+            "id": "regional",
+            "label": "Both are accepted spellings; each is more common in a different region."
+          },
+          {
+            "id": "us-only",
+            "label": "The US spelling is correct everywhere and the British spelling nowhere."
+          },
+          {
+            "id": "two-meanings",
+            "label": "They are two different words with different meanings."
+          }
+        ],
+        "correctOptionId": "regional",
+        "kind": "choice"
+      }
+    ]
+  },
+  "misconceptionCodes": ["assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The note uses the labels \"chiefly US\" and \"chiefly British\". Think about what the word \"chiefly\" means.",
+      "question": "Does \"chiefly\" describe where a spelling is used, or whether it is correct?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Check whether the note calls either spelling wrong, and whether it gives one meaning or two.",
+      "question": "Which statements claim something the note never says?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different made-up note: \"grey, chiefly British; gray, chiefly US\" tells you where each form is mostly used, not that one is an error.",
+      "question": "Which statement reads this note the same way?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "Both are accepted spellings; each is more common in a different region."
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-variant-dictionary-judgment-core-1@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "A practice dictionary note says: colorway, noun, a set of colors used together in a design; chiefly US. Also colourway, chiefly British. Choose the statement that matches the note. Option 1: The British spelling is a misspelling of the US spelling. Option 2: Both are accepted spellings; each is more common in a different region. Option 3: The US spelling is correct everywhere and the British spelling nowhere. Option 4: They are two different words with different meanings."
+}

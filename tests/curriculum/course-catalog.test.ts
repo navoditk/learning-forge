@@ -18,6 +18,11 @@ import {
   RATIOS_UNIT_2_LESSONS,
   RATIOS_UNIT_2_UNIT,
 } from '../../src/curriculum/ratios-unit-2-catalog';
+import {
+  STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+  STATISTICS_UNIT_2_LESSONS,
+  STATISTICS_UNIT_2_UNIT,
+} from '../../src/curriculum/statistics-unit-2-catalog';
 import { isSkillClaimedByAuthoredUnit } from '../../src/curriculum/unit-claims';
 import {
   SYNTHETIC_BANKS,
@@ -40,9 +45,19 @@ const fixtureInput = {
 
 const multiProgramCatalog = createCourseCatalog({
   programs: [...PROGRAM_REGISTRY, SYNTHETIC_PROGRAM],
-  units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, ...SYNTHETIC_UNITS],
-  lessons: [...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS, ...SYNTHETIC_LESSONS],
-  banks: [...PILOT_ASSESSMENT_BANKS, ...RATIOS_UNIT_2_ASSESSMENT_BANKS, ...SYNTHETIC_BANKS],
+  units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, STATISTICS_UNIT_2_UNIT, ...SYNTHETIC_UNITS],
+  lessons: [
+    ...PILOT_LESSONS,
+    ...RATIOS_UNIT_2_LESSONS,
+    ...STATISTICS_UNIT_2_LESSONS,
+    ...SYNTHETIC_LESSONS,
+  ],
+  banks: [
+    ...PILOT_ASSESSMENT_BANKS,
+    ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
+    ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+    ...SYNTHETIC_BANKS,
+  ],
 });
 
 describe('production course catalog', () => {
@@ -55,11 +70,20 @@ describe('production course catalog', () => {
     expect(COURSE_CATALOG.programs).toEqual(
       PROGRAM_REGISTRY.filter((p) => p.code !== 'grade-6-math' || p.version === '1.1.0'),
     );
-    expect(COURSE_CATALOG_INDEX.units).toEqual([...PILOT_UNITS, RATIOS_UNIT_2_UNIT]);
-    expect(COURSE_CATALOG_INDEX.lessons).toEqual([...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS]);
+    expect(COURSE_CATALOG_INDEX.units).toEqual([
+      ...PILOT_UNITS,
+      RATIOS_UNIT_2_UNIT,
+      STATISTICS_UNIT_2_UNIT,
+    ]);
+    expect(COURSE_CATALOG_INDEX.lessons).toEqual([
+      ...PILOT_LESSONS,
+      ...RATIOS_UNIT_2_LESSONS,
+      ...STATISTICS_UNIT_2_LESSONS,
+    ]);
     expect(COURSE_CATALOG_INDEX.banks).toEqual([
       ...PILOT_ASSESSMENT_BANKS,
       ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
+      ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
     ]);
     expect(COURSE_CATALOG.units).toBe(COURSE_CATALOG_INDEX.units);
     expect(COURSE_CATALOG.lessons).toBe(COURSE_CATALOG_INDEX.lessons);
@@ -84,7 +108,7 @@ describe('production course catalog', () => {
       { code: 'ratios-and-proportional-reasoning', version: '2.0.0' },
     ]);
     expect(COURSE_CATALOG.unitsOfProgram('grade-6-math')).toEqual([RATIOS_UNIT_2_UNIT]);
-    expect(COURSE_CATALOG_INDEX.programs.filter((p) => p.code === 'grade-6-math')).toHaveLength(2);
+    expect(COURSE_CATALOG_INDEX.programs.filter((p) => p.code === 'grade-6-math')).toHaveLength(3);
     for (const unit of PILOT_UNITS) {
       expect(COURSE_CATALOG.unitByRef(unit)).toBe(unit);
       expect(COURSE_CATALOG.lessonsOfUnit(unit)).toEqual(

@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-vocabulary-context-contest-2",
+  "version": "content-2",
+  "title": "Choose an invented word by meaning and grammar",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-vocabulary-context",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-VOCAB-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Uses definition, sentence, and part of speech to infer meaning."],
+  "prompt": "Three invented words: tarvish (adjective) means careless about small details; quorlwise (adjective) means careful about small details; quorlness (noun) means care about small details. Which one fits the blank: \"The ___ editor caught every missing comma.\"? Enter one option exactly: tarvish, quorlwise, or quorlness.",
+  "solutionRepresentation": "quorlwise. The blank comes before the noun \"editor\", so it needs an adjective, and catching every missing comma shows care about small details. Tarvish is an adjective with the opposite meaning; quorlness has the right meaning but is a noun.",
+  "solutionMethod": "Use the sentence to fix both the meaning and the part of speech the blank needs.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "quorlwise",
+    "acceptedAnswers": ["quorlwise"],
+    "equivalenceNotes": "Provisional SP-1 ruling C-1: contest mode keeps a legacy text validator whose only accepted answer is the exact option text listed in the prompt. Matching is case-insensitive and ignores trailing punctuation; any other wording is rejected."
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The blank sits right before the word \"editor\". Think about what kind of word describes a noun.",
+      "question": "What part of speech does the blank need?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Now use the rest of the sentence. Catching every missing comma tells you what the editor is like.",
+      "question": "Which meaning does the sentence support, and which options are the right part of speech?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with different invented words: in \"The ___ dog barked all night,\" an adjective meaning \"noisy\" fits the blank, but a noun meaning \"noise\" does not, even though the meanings match.",
+      "question": "Which option is both the right part of speech and the right meaning here?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["quorlwise"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-vocabulary-context-contest-2@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Three invented words: tarvish, an adjective meaning careless about small details; quorlwise, an adjective meaning careful about small details; quorlness, a noun meaning care about small details. Sentence: \"The ___ editor caught every missing comma.\" Type the word that fits, exactly as listed: tarvish, quorlwise, or quorlness."
+}

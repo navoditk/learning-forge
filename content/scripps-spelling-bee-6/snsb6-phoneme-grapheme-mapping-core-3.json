@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-phoneme-grapheme-mapping-core-3",
+  "version": "content-1",
+  "title": "Spell an invented word from sound rules",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-phoneme-grapheme-mapping",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "foundational",
+  "standards": ["SNSB6-PHON-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Maps a supplied pronunciation to a plausible letter sequence."],
+  "prompt": "Spell the invented word. Say it: kee-MAH-loh (three syllables; the stress is on the middle one). Meaning: a small woven basket. Part of speech: noun. Language of origin: Pellan, a language invented for this practice. Pellan spelling rule: every sound is spelled with exactly one letter, and no letter is ever doubled. In Pellan, the \"k\" sound is spelled k, the \"ee\" sound is spelled i, the \"ah\" sound is spelled a, and the \"oh\" sound is spelled o; the \"m\" and \"l\" sounds are spelled m and l.",
+  "solutionRepresentation": "kimalo. The word has six sounds: k, ee, m, ah, l, oh. Under the Pellan rule each sound takes one letter: k, i, m, a, l, o.",
+  "solutionMethod": "Segment the pronunciation into sounds and spell each with the letter the origin rule assigns.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "kimalo",
+    "acceptedAnswers": ["kimalo"],
+    "equivalenceNotes": "Spelling is letter-exact after case folding and trailing-punctuation removal; hyphens, apostrophes, spaces and diacritics are significant. Only one spelling follows the stated Pellan rule."
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Say the word slowly and count its separate sounds. The Pellan rule gives exactly one letter to each sound.",
+      "question": "How many sounds do you hear, so how many letters will the word have?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Draw one blank for each sound. Fill the blanks using the sound-to-letter list in the prompt, and be careful with the three vowel sounds: they are not spelled the way English usually spells them.",
+      "question": "Which letter does the Pellan list give for each vowel sound you hear?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different Pellan word: boh-LEE has the sounds b, oh, l, ee, so under the same rule it is spelled b, o, l, i.",
+      "question": "Do the same for kee-MAH-loh: which letter goes in each blank?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["kimalo"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "New SPELL-SP3 practice record drafted under D-344 and D-339. Original Learning Forge wording, pronunciation cues and definitions; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item. Any real word is listed for the owner G-SOURCE check in docs/spelling-sp3-coverage-map.md."
+  },
+  "accessibilityNotes": "All information is presented in text; there is no audio and no phonetic symbols. Pronunciation is written as plain syllables with the stressed syllable in capital letters, and the stress is also stated in words. Type the spelling; spelling is checked letter by letter, but capital letters do not matter.",
+  "accessibleAlternative": "Type the spelling of an invented word said \"kee-mah-loh\": three syllables, stress on the middle one. Meaning: a small woven basket (noun). It comes from Pellan, an invented language where every sound is spelled with exactly one letter and no letter is doubled: the k sound is k, the ee sound is i, the ah sound is a, the oh sound is o, and the m and l sounds are m and l."
+}

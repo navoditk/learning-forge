@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-variant-dictionary-judgment-contest-2",
+  "version": "content-2",
+  "title": "Choose a cautious response",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-variant-dictionary-judgment",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-VAR-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Explains why a regional form is not universally preferred."],
+  "prompt": "While preparing for a regional bee, you find a word that your dictionary lists with two spellings. The regional bee's rule sheet does not say whether both spellings are accepted. What is the safest next step? Enter one option exactly: ask the coordinator, learn only the shorter, or assume either works.",
+  "solutionRepresentation": "ask the coordinator. The rule sheet is silent, so the speller cannot know which spellings this bee accepts. The bee coordinator can answer for this event. Learning only the shorter spelling has no support from the rules, and assuming either works treats one bee's practice as a universal rule.",
+  "solutionMethod": "When local rules are silent about variants, get the answer from the people who run that event.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "ask the coordinator",
+    "acceptedAnswers": ["ask the coordinator"],
+    "equivalenceNotes": "Provisional SP-1 ruling C-1: contest mode keeps a legacy text validator whose only accepted answer is the exact option text listed in the prompt. Matching is case-insensitive and ignores trailing punctuation; any other wording is rejected."
+  },
+  "misconceptionCodes": ["assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The dictionary shows two spellings, but the bee's own rules have not said which it accepts.",
+      "question": "What information is missing?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Check whether each option gets the missing information or just guesses at it.",
+      "question": "Which options rely on a guess about this bee's rules?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different gap: if a school bee's rules do not say whether spellers may write on a card, the safe step is to find out from the people running that bee before the day.",
+      "question": "Which option gets the missing information in this case?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["ask the coordinator"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-variant-dictionary-judgment-contest-2@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Preparing for a regional bee, you find a word your dictionary lists with two spellings. The bee's rule sheet does not say whether both are accepted. Type the safest next step exactly as listed: ask the coordinator, learn only the shorter, or assume either works."
+}

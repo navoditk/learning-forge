@@ -66,6 +66,18 @@ import distributions1 from '../../content/statistics/distributions-1.json';
 import distributions2 from '../../content/statistics/distributions-2.json';
 import centerAndVariability1 from '../../content/statistics/center-and-variability-1.json';
 import centerAndVariability2 from '../../content/statistics/center-and-variability-2.json';
+import statisticalQuestions3 from '../../content/statistics/statistical-questions-3.json';
+import statisticalQuestions4 from '../../content/statistics/statistical-questions-4.json';
+import statisticalQuestions5 from '../../content/statistics/statistical-questions-5.json';
+import statisticalQuestions6 from '../../content/statistics/statistical-questions-6.json';
+import distributions3 from '../../content/statistics/distributions-3.json';
+import distributions4 from '../../content/statistics/distributions-4.json';
+import distributions5 from '../../content/statistics/distributions-5.json';
+import distributions6 from '../../content/statistics/distributions-6.json';
+import centerAndVariability3 from '../../content/statistics/center-and-variability-3.json';
+import centerAndVariability4 from '../../content/statistics/center-and-variability-4.json';
+import centerAndVariability5 from '../../content/statistics/center-and-variability-5.json';
+import centerAndVariability6 from '../../content/statistics/center-and-variability-6.json';
 import wholeNumberExponents1 from '../../content/expressions-and-equations/whole-number-exponents-1.json';
 import wholeNumberExponents2 from '../../content/expressions-and-equations/whole-number-exponents-2.json';
 import gcfAndLcm1 from '../../content/number-system/gcf-and-lcm-1.json';
@@ -250,6 +262,19 @@ const rawContent = [
   distributions2,
   centerAndVariability1,
   centerAndVariability2,
+  // MATH-ST6 (D-341): pending_review public drafts, registered but unserved (reviewed-only servable filter).
+  statisticalQuestions3,
+  statisticalQuestions4,
+  statisticalQuestions5,
+  statisticalQuestions6,
+  distributions3,
+  distributions4,
+  distributions5,
+  distributions6,
+  centerAndVariability3,
+  centerAndVariability4,
+  centerAndVariability5,
+  centerAndVariability6,
   wholeNumberExponents1,
   wholeNumberExponents2,
   gcfAndLcm1,

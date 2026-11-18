@@ -86,14 +86,17 @@ const SNAPSHOT_MODULE = resolve(sourceRoot, 'progression', 'placement-probe-snap
 // RI-5: the Ratios 2.0.0 records are live; only the course catalog and the
 // program registry import them (IG-1s). They stay a pure-data IG-5 module.
 const STAGED_CATALOG = curriculum('ratios-unit-2-catalog.ts');
+// MATH-ST6: the Statistics 2.0.0 records are registered the same way (pure data).
+const STATISTICS_CATALOG = curriculum('statistics-unit-2-catalog.ts');
 const NEW_MODULES = [
   curriculum('catalog-versions.ts'),
   curriculum('catalog-registration-checks.ts'),
   SNAPSHOT_MODULE,
   STAGED_CATALOG,
+  STATISTICS_CATALOG,
 ];
 const DORMANT = [
-  ...NEW_MODULES.filter((path) => path !== STAGED_CATALOG),
+  ...NEW_MODULES.filter((path) => path !== STAGED_CATALOG && path !== STATISTICS_CATALOG),
   curriculum('grade-6-math-structure-manifest.json'),
 ];
 // RI-1 (P-A live, D-229): catalog-versions is now imported by the production
@@ -139,6 +142,7 @@ const ALLOWED_CLOSURE_FILES = new Set(
     'grade-6-math-active-selection.json',
     'grade-6-math-reserved-labels.json',
     'ratios-unit-2-catalog.ts',
+    'statistics-unit-2-catalog.ts',
   ]
     .map(curriculum)
     .concat(SNAPSHOT_MODULE),
@@ -192,12 +196,27 @@ describe('catalog versioning dormancy', () => {
       .filter(({ to }) => to === STAGED_CATALOG)
       .map(({ from }) => relative(repoRoot, from))
       .sort();
+    // The Statistics 2.0.0 catalog reuses the Ratios unit ref for program 1.2.0.
+    expect(importers).toEqual([
+      'src/curriculum/course-catalog.ts',
+      'src/curriculum/program-registry.ts',
+      'src/curriculum/statistics-unit-2-catalog.ts',
+    ]);
+    expect(DORMANT).not.toContain(STAGED_CATALOG);
+    expect(NEW_MODULES).toContain(STAGED_CATALOG);
+  });
+
+  it('IG-1t only the course catalog and the program registry import the Statistics 2.0.0 catalog (MATH-ST6)', () => {
+    const importers = productionEdges()
+      .filter(({ to }) => to === STATISTICS_CATALOG)
+      .map(({ from }) => relative(repoRoot, from))
+      .sort();
     expect(importers).toEqual([
       'src/curriculum/course-catalog.ts',
       'src/curriculum/program-registry.ts',
     ]);
-    expect(DORMANT).not.toContain(STAGED_CATALOG);
-    expect(NEW_MODULES).toContain(STAGED_CATALOG);
+    expect(DORMANT).not.toContain(STATISTICS_CATALOG);
+    expect(NEW_MODULES).toContain(STATISTICS_CATALOG);
   });
 
   it('IG-1p the allowlisted edge exists, so the guard is not vacuous', () => {

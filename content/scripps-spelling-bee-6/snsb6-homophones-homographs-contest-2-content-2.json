@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-homophones-homographs-contest-2",
+  "version": "content-2",
+  "title": "Disambiguate a same-spelling word",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-homophones-homographs",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-HOM-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Explains how context disambiguates a sound-alike or same-spelling pair."],
+  "prompt": "In the sentence \"At dusk, a bat flew out of the attic and swooped after moths,\" which meaning of bat fits? Enter one option exactly: animal or sports equipment.",
+  "solutionRepresentation": "animal. The context words \"flew\", \"swooped\" and \"after moths\" describe something alive that flies and hunts insects, which fits the flying animal. A piece of sports equipment cannot fly out of an attic by itself or chase moths.",
+  "solutionMethod": "Find the context words that only one meaning of the same-spelling word can satisfy.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "animal",
+    "acceptedAnswers": ["animal"],
+    "equivalenceNotes": "Provisional SP-1 ruling C-1: contest mode keeps a legacy text validator whose only accepted answer is the exact option text listed in the prompt. Matching is case-insensitive and ignores trailing punctuation; any other wording is rejected."
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "The word bat has the same spelling for two different meanings. The other words in the sentence decide which one is meant.",
+      "question": "Which words in the sentence describe what the bat does?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Test each meaning in the sentence. Ask whether that meaning could do the actions the sentence describes on its own.",
+      "question": "Could each meaning fly, swoop and follow moths by itself?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different word: in \"She wound the bandage around the cut,\" wound means wrapped, not an injury, because a bandage is wrapped around something.",
+      "question": "Which meaning of bat do the action words in this sentence point to?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["animal"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-homophones-homographs-contest-2@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Sentence: \"At dusk, a bat flew out of the attic and swooped after moths.\" Which meaning of bat fits this sentence? Type one option exactly as listed: animal or sports equipment."
+}

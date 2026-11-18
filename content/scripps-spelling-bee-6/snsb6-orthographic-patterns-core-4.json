@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-orthographic-patterns-core-4",
+  "version": "content-1",
+  "title": "Spell a stressed-syllable doubling form",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-orthographic-patterns",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["SNSB6-ORTH-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Identifies a letter pattern and applies it to an unseen original word."],
+  "prompt": "Spell the -ing form of an invented verb. Say it: ree-BLIT-ing (three syllables; the stress is on the middle one). The verb itself is said ree-BLIT, with the stress on its second syllable, and means \"to patch again\". Origin: invented for this practice. Its first syllable is the common prefix meaning \"again\". Its stressed syllable rhymes with \"sit\", begins with the sounds b and l, spells its vowel with the letter i (as in \"sit\"), and ends with one consonant letter.",
+  "solutionRepresentation": "reblitting. The prefix meaning again is re. The prompt fixes the stressed syllable as b, l, the vowel letter i and one final consonant letter, which must be t to rhyme with sit, so the base verb is reblit. It ends in a stressed syllable with one vowel and one consonant, so the final t doubles before the vowel suffix -ing. Without doubling, rebliting would be read with a long i. Because the vowel letter is fixed as i, spellings with y (reblytting) are excluded.",
+  "solutionMethod": "Check stress and the vowel-consonant ending of the base, then apply doubling before a vowel suffix.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "reblitting",
+    "acceptedAnswers": ["reblitting"],
+    "equivalenceNotes": "Spelling is letter-exact after case folding and trailing-punctuation removal; hyphens, apostrophes, spaces and diacritics are significant. The undoubled form and hyphenated forms are rejected."
+  },
+  "misconceptionCodes": ["assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "First spell the verb itself from the clues: the prefix that means \"again\", then the stressed syllable described in the prompt.",
+      "question": "How is the verb spelled before anything is added?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Now look at the end of the verb: where is the stress, and how many vowel letters and consonant letters end it? Then think about what happens when an ending that starts with a vowel is added.",
+      "question": "Does the final consonant stay single or double before the ending?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a real verb: \"forget\" (for-GET) doubles its final t when an ending that starts with a vowel is added, because its stressed last syllable ends in one vowel and one consonant.",
+      "question": "Apply the same pattern to the invented verb. What is its -ing form?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["reblitting", "itt"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "New SPELL-SP3 practice record drafted under D-344 and D-339. Original Learning Forge wording, pronunciation cues and definitions; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item. Any real word is listed for the owner G-SOURCE check in docs/spelling-sp3-coverage-map.md."
+  },
+  "accessibilityNotes": "All information is presented in text; there is no audio and no phonetic symbols. Pronunciation is written as plain syllables with the stressed syllable in capital letters, and the stress is also stated in words. Type the spelling; spelling is checked letter by letter, but capital letters do not matter.",
+  "accessibleAlternative": "Type the -ing form of an invented verb, said \"ree-blit-ing\": three syllables, stress on the middle one. The verb itself is said \"ree-blit\", stressed on its second syllable, and means \"to patch again\". Its first syllable is the common prefix meaning \"again\". Its stressed syllable rhymes with \"sit\", begins with the sounds b and l, spells its vowel with the letter i (as in \"sit\"), and ends with one consonant letter."
+}

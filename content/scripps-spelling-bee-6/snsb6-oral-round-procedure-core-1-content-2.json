@@ -1,0 +1,87 @@
+{
+  "id": "snsb6-oral-round-procedure-core-1",
+  "version": "content-2",
+  "title": "Choose a permitted request",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-oral-round-procedure",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["SNSB6-PROC-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Chooses a permitted clarification request for an oral situation."],
+  "prompt": "Practice rules for a local bee (made up for this item) allow a speller to ask the pronouncer to repeat the word, give the definition, use the word in a sentence, give the part of speech, or give the language of origin. You heard your word clearly and you know what it means, but you think it might come from Greek, which could change how you spell its \"f\" sound. Which request helps with that problem and is allowed?",
+  "solutionRepresentation": "What is the language of origin? It is on the allowed list and answers the exact question of whether the word comes from Greek. Repeating the word or hearing a sentence does not tell you the origin, and asking the pronouncer to spell part of the word is not on the allowed list.",
+  "solutionMethod": "Match the speller's specific uncertainty to the one allowed request that resolves it.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Request to make: What is the language of origin?",
+    "acceptedAnswers": ["Request to make: What is the language of origin?"],
+    "equivalenceNotes": "Structured choice field; the selected option must equal the correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "request",
+        "label": "Request to make",
+        "options": [
+          {
+            "id": "origin",
+            "label": "What is the language of origin?"
+          },
+          {
+            "id": "repeat",
+            "label": "Please repeat the word."
+          },
+          {
+            "id": "sentence",
+            "label": "Please use it in a sentence."
+          },
+          {
+            "id": "spell-part",
+            "label": "Can you spell the first part?"
+          }
+        ],
+        "correctOptionId": "origin",
+        "kind": "choice"
+      }
+    ]
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Name the speller's problem first. They heard the word and know the meaning, so those are not the problem.",
+      "question": "What exactly does the speller still need to find out?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Check two things for each option: is it on the allowed list, and would its answer tell the speller what they need?",
+      "question": "Which options would only repeat information the speller already has?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different problem: a speller who knows the origin but did not hear a vowel clearly would ask the pronouncer to say the word again.",
+      "question": "Which allowed request matches this speller's problem?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["What is the language of origin?"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-oral-round-procedure-core-1@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Practice rules allow asking the pronouncer to repeat the word, give the definition, use it in a sentence, give the part of speech, or give the language of origin. You heard the word clearly and know its meaning, but it might come from Greek, which could change how you spell its f sound. Choose the request that helps and is allowed: What is the language of origin?; Please repeat the word.; Please use it in a sentence.; or Can you spell the first part?"
+}

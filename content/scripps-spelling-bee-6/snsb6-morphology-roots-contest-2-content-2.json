@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-morphology-roots-contest-2",
+  "version": "content-2",
+  "title": "Build a word from invented parts",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-morphology-roots",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-MORPH-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Uses a root or affix to predict spelling or meaning."],
+  "prompt": "The invented base grast means \"to sort\". Its spelling never changes when parts are added. Choose from these parts: prefixes re- (again), pre- (before), un- (not); suffixes -able (can be done), -ful (full of), -ness (state of). Build the one word that means \"can be sorted again\". Write it as one word with no hyphen.",
+  "solutionRepresentation": "regrastable. \"Again\" is carried by re-, the base grast means to sort, and \"can be done\" is carried by -able, so the parts in order are re + grast + able. The base keeps its spelling, so nothing is dropped or doubled.",
+  "solutionMethod": "Map each part of the target meaning to one affix, then join prefix, base and suffix in order.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "regrastable",
+    "acceptedAnswers": ["regrastable"],
+    "equivalenceNotes": "Spelling is letter-exact after case folding and trailing-punctuation removal; hyphens, apostrophes, spaces and diacritics are significant. The hyphenated form re-grastable is rejected because the prompt asks for one word with no hyphen."
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Split the target meaning into its pieces: one piece about repeating, one about sorting, and one about being possible.",
+      "question": "Which part from the list carries each piece of the meaning?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Prefixes go before the base and suffixes go after it. The base keeps its spelling exactly.",
+      "question": "In what order do your three parts go?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different invented base: if plom means \"to fold\", then \"the state of being folded before\" is built as pre + plom + ness, written as one word.",
+      "question": "Build the word for \"can be sorted again\" the same way. What is it?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["regrastable", "re-grastable"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-morphology-roots-contest-2@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Invented base: grast, meaning \"to sort\"; its spelling never changes. Prefixes: re- (again), pre- (before), un- (not). Suffixes: -able (can be done), -ful (full of), -ness (state of). Type the one word, with no hyphen, that means \"can be sorted again\"."
+}

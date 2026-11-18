@@ -2,6 +2,7 @@ import { Program, ProgramSchema } from '../contracts/progression';
 import ACTIVE_SELECTION from './grade-6-math-active-selection.json';
 import { PILOT_PROGRAM_UNIT_REFS } from './pilot-catalog';
 import { RATIOS_UNIT_2_PROGRAM } from './ratios-unit-2-catalog';
+import { STATISTICS_UNIT_2_PROGRAM } from './statistics-unit-2-catalog';
 
 const policy = (code: string, version = '1.0.0') => ({ code, version });
 
@@ -37,6 +38,9 @@ const rawProgramRegistry = [
   },
   // grade-6-math@1.1.0 (RI-5): the Ratios 2.0.0 unit; activated by the selection.
   RATIOS_UNIT_2_PROGRAM,
+  // grade-6-math@1.2.0 (MATH-ST6): Ratios 2.0.0 + Statistics 2.0.0; selected only by the
+  // activation switch (see statistics-unit-2-catalog.ts).
+  STATISTICS_UNIT_2_PROGRAM,
   {
     code: 'math-kangaroo-6',
     version: '1.0.0',

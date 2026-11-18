@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "includeBaselineRequired": true,
+  "unit": {
+    "code": "statistics",
+    "version": "2.0.0"
+  },
+  "banks": [
+    {
+      "code": "statistical-questions-lesson-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 9,
+      "requiredSkillRefs": [
+        {
+          "code": "statistical-questions",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "distributions-lesson-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 9,
+      "requiredSkillRefs": [
+        {
+          "code": "distributions",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "center-and-variability-lesson-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 9,
+      "requiredSkillRefs": [
+        {
+          "code": "center-and-variability",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "statistics-unit-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 18,
+      "requiredSkillRefs": [
+        {
+          "code": "statistical-questions",
+          "version": "1.0.0"
+        },
+        {
+          "code": "distributions",
+          "version": "1.0.0"
+        },
+        {
+          "code": "center-and-variability",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "statistical-questions-review-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 3,
+      "requiredSkillRefs": [
+        {
+          "code": "statistical-questions",
+          "version": "1.0.0"
+        }
+      ],
+      "optional": true,
+      "itemRole": "review",
+      "exclusiveSkills": true
+    },
+    {
+      "code": "statistical-questions-delayed-check-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 6,
+      "requiredSkillRefs": [
+        {
+          "code": "statistical-questions",
+          "version": "1.0.0"
+        }
+      ],
+      "optional": true,
+      "exclusiveSkills": true
+    },
+    {
+      "code": "distributions-review-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 3,
+      "requiredSkillRefs": [
+        {
+          "code": "distributions",
+          "version": "1.0.0"
+        }
+      ],
+      "optional": true,
+      "itemRole": "review",
+      "exclusiveSkills": true
+    },
+    {
+      "code": "distributions-delayed-check-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 6,
+      "requiredSkillRefs": [
+        {
+          "code": "distributions",
+          "version": "1.0.0"
+        }
+      ],
+      "optional": true,
+      "exclusiveSkills": true
+    },
+    {
+      "code": "center-and-variability-review-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 3,
+      "requiredSkillRefs": [
+        {
+          "code": "center-and-variability",
+          "version": "1.0.0"
+        }
+      ],
+      "optional": true,
+      "itemRole": "review",
+      "exclusiveSkills": true
+    },
+    {
+      "code": "center-and-variability-delayed-check-bank",
+      "version": "1.0.0",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "minimumItems": 6,
+      "requiredSkillRefs": [
+        {
+          "code": "center-and-variability",
+          "version": "1.0.0"
+        }
+      ],
+      "optional": true,
+      "exclusiveSkills": true
+    }
+  ]
+}

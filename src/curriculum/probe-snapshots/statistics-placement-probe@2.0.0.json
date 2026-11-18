@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "bankRef": {
+    "code": "statistics-placement-probe",
+    "version": "2.0.0"
+  },
+  "unitRef": {
+    "code": "statistics",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "projection": {
+        "id": "statistical-questions-1",
+        "version": "content-1",
+        "hash": "sha256:a1a556d33dcc468ff152bc5e231ffb4d6539b773bd7a8a86c2404fa603022afa",
+        "title": "Teacher ages",
+        "role": "practice",
+        "skillRef": {
+          "code": "statistical-questions",
+          "version": "1.0.0"
+        },
+        "prompt": "Question A: 'How old is the school principal?' Question B: 'What are the ages of all the teachers at the school?' Which question is a statistical question, one that anticipates variability in the responses?",
+        "deterministicValidator": {
+          "type": "multiple_choice",
+          "canonicalAnswer": "Question B",
+          "acceptedAnswers": ["Question B", "B"],
+          "equivalenceNotes": "Accept the full label or just the letter B."
+        },
+        "accessibilityNotes": "Present both questions as plain text labeled A and B; do not depend on color to distinguish them.",
+        "accessibleAlternative": "Read aloud or display: Compare Question A, 'How old is the school principal?' with Question B, 'What are the ages of all the teachers at the school?' Choose the question that expects different answers and therefore is statistical."
+      },
+      "projectionDigest": "972e93826b3c4d3bc389c1f938249e9d5b4bb732e4c757a1625c0659b552b58b"
+    },
+    {
+      "projection": {
+        "id": "distributions-1",
+        "version": "content-1",
+        "hash": "sha256:5cef737cae53abf1c0ecb4bcba5e24bbdcba07f28bfcdfa756584d88f7494f20",
+        "title": "Range of pets owned",
+        "role": "practice",
+        "skillRef": {
+          "code": "distributions",
+          "version": "1.0.0"
+        },
+        "prompt": "A dot plot shows the number of pets owned by each student in a class: 0, 1, 1, 2, 2, 2, 3, 5. What is the range of this data set?",
+        "deterministicValidator": {
+          "type": "numeric",
+          "canonicalAnswer": "5",
+          "acceptedAnswers": ["5", "5 pets"],
+          "equivalenceNotes": "Accept 5 with or without the word pets."
+        },
+        "accessibilityNotes": "Present the data set as a plain-text list of numbers; do not depend on the dot-plot image alone.",
+        "accessibleAlternative": "Read aloud or display: The data values are 0, 1, 1, 2, 2, 2, 3, and 5 pets. Find the range by subtracting the smallest value from the largest value."
+      },
+      "projectionDigest": "575372d76ab5895225b5b344b26ac0c4b859254a094e7c868443b78e4c6f5646"
+    },
+    {
+      "projection": {
+        "id": "center-and-variability-1",
+        "version": "content-1",
+        "hash": "sha256:8cb3218d4d591db0bf9910d1f0a50e1d176db09cf199284a580b4cf1e532f793",
+        "title": "Mean team score",
+        "role": "practice",
+        "skillRef": {
+          "code": "center-and-variability",
+          "version": "1.0.0"
+        },
+        "prompt": "A team's players scored the following points in a game: 8, 12, 10, 14, 6. What is the mean number of points scored?",
+        "deterministicValidator": {
+          "type": "numeric",
+          "canonicalAnswer": "10",
+          "acceptedAnswers": ["10", "10 points"],
+          "equivalenceNotes": "Accept 10 with or without the word points."
+        },
+        "accessibilityNotes": "Present the scores as a plain-text list of numbers; do not depend on color.",
+        "accessibleAlternative": "Read aloud or display: The team scored 8, 12, 10, 14, and 6 points. Find the mean number of points scored."
+      },
+      "projectionDigest": "f446c6eafa7b26a953d6ca6bce180cead2d88ee7733f9cdb7437fc938cc3f267"
+    }
+  ],
+  "contentHash": "sha256:db6e1571dd503c0c7588e54dab91ddfb59b31d5b1218cce92eda6cdc8245d166"
+}

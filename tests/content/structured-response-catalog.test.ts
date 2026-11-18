@@ -69,19 +69,26 @@ describe('valid complete fixtures load (contract 5.2: each passes 2.2, 2.5a and 
     });
   }
 
+  const STATISTICS_DRAFT_IDS =
+    /^(statistical-questions|distributions|center-and-variability)-[3-6]$/;
+
   it('the live catalog keeps 137 legacy records non-structured; only the 6 Science and 17 Ratios records are structured', () => {
     // 154 earlier records plus the four pending python_output records (PYTHON-CONTENT, D-330)
     // and the six pending legacy multiple_choice Social Studies records (SS-CONTENT, SS-CONTENT-2).
-    expect(contentCatalog).toHaveLength(164);
+    // plus the 12 pending structured Statistics drafts (MATH-ST6, D-341).
+    expect(contentCatalog).toHaveLength(176);
     const structured = contentCatalog.filter(
       (item) => item.deterministicValidator.type === 'structured',
     );
-    expect(structured).toHaveLength(23);
+    expect(structured).toHaveLength(35);
     const science = structured.filter((item) => item.id.startsWith('sci6-'));
     expect(science).toHaveLength(6);
     // The 17 other structured records are the accepted RAT-CONTENT Ratios records
     // (ratios-content-registration.test.ts pins them by id, version and hash).
-    const ratios = structured.filter((item) => !item.id.startsWith('sci6-'));
+    const ratios = structured.filter(
+      (item) => !item.id.startsWith('sci6-') && !STATISTICS_DRAFT_IDS.test(item.id),
+    );
+    expect(structured.filter((item) => STATISTICS_DRAFT_IDS.test(item.id))).toHaveLength(12);
     expect(ratios).toHaveLength(17);
     expect(
       ratios.every((item) =>

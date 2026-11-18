@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-orthographic-patterns-core-5",
+  "version": "content-1",
+  "title": "Spell a comparative that changes y",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-orthographic-patterns",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-ORTH-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Identifies a letter pattern and applies it to an unseen original word."],
+  "prompt": "Spell the one-word comparative form (meaning \"more ___\") of an invented adjective. Say the comparative: GLUN-ee-er (three syllables; the stress is on the first). The adjective itself is said GLUN-ee and means \"covered in soft gray moss\". Origin: invented for this practice. The adjective is spelled like the real words \"sunny\" and \"funny\" except for its first two sounds, which are spelled g and l.",
+  "solutionRepresentation": "glunnier. The adjective is glunny (short u, doubled n, final y, by analogy with sunny and funny). Before the suffix -er, a final y after a consonant changes to i, giving glunnier. The doubled n stays.",
+  "solutionMethod": "Spell the base by analogy, then change final y after a consonant to i before -er.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "glunnier",
+    "acceptedAnswers": ["glunnier"],
+    "equivalenceNotes": "Spelling is letter-exact after case folding and trailing-punctuation removal; hyphens, apostrophes, spaces and diacritics are significant. The two-word form \"more glunny\" is not accepted because the prompt asks for the one-word form."
+  },
+  "misconceptionCodes": ["assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "First spell the adjective itself, using the real words named in the prompt as your model.",
+      "question": "How is the adjective spelled before anything is added?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "When an ending is added to a word that ends in a consonant and then y, the y usually changes first. Think about how \"happy\" and \"tidy\" change when they mean \"more happy\" and \"more tidy\" as one word.",
+      "question": "What does the final y change to before the comparative ending?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different invented adjective: \"plossy\" (PLOSS-ee) becomes its one-word comparative by changing its final y and then adding the comparative ending; its doubled s stays.",
+      "question": "Do the same to the adjective in this item. What is its one-word comparative?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["glunnier", "nnier"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "New SPELL-SP3 practice record drafted under D-344 and D-339. Original Learning Forge wording, pronunciation cues and definitions; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item. Any real word is listed for the owner G-SOURCE check in docs/spelling-sp3-coverage-map.md."
+  },
+  "accessibilityNotes": "All information is presented in text; there is no audio and no phonetic symbols. Pronunciation is written as plain syllables with the stressed syllable in capital letters, and the stress is also stated in words. Type the spelling; spelling is checked letter by letter, but capital letters do not matter.",
+  "accessibleAlternative": "Type the one-word comparative form, meaning \"more ___\", of an invented adjective. The comparative is said \"glun-ee-er\": three syllables, stress on the first. The adjective is said \"glun-ee\" and means covered in soft gray moss. The adjective is spelled like the real words \"sunny\" and \"funny\" except for its first two sounds, which are spelled g and l."
+}

@@ -5,8 +5,11 @@ import { loadPolicyArtifacts } from '../../src/progression';
 describe('Stage B policy artifacts', () => {
   it('provides a profile and access policy for every registered program', () => {
     const { profiles, accessPolicies } = loadPolicyArtifacts();
-    expect(profiles.length).toBeGreaterThanOrEqual(PROGRAM_REGISTRY.length);
-    expect(accessPolicies.length).toBeGreaterThanOrEqual(PROGRAM_REGISTRY.length);
+    // Program versions of one code (grade-6-math 1.0.0 to 1.2.0) share policy refs, so the
+    // artifact counts bound the distinct program codes, not every registered record.
+    const codes = new Set(PROGRAM_REGISTRY.map((program) => program.code));
+    expect(profiles.length).toBeGreaterThanOrEqual(codes.size);
+    expect(accessPolicies.length).toBeGreaterThanOrEqual(codes.size);
     for (const program of PROGRAM_REGISTRY) {
       expect(
         profiles.some(

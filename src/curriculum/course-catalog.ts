@@ -21,6 +21,11 @@ import {
   RATIOS_UNIT_2_LESSONS,
   RATIOS_UNIT_2_UNIT,
 } from './ratios-unit-2-catalog';
+import {
+  STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+  STATISTICS_UNIT_2_LESSONS,
+  STATISTICS_UNIT_2_UNIT,
+} from './statistics-unit-2-catalog';
 
 export type CourseCatalogInput = {
   programs: readonly Program[];
@@ -148,9 +153,13 @@ function buildVersionedCatalog(): VersionedCourseCatalog {
   versionedCatalog ??= createVersionedCourseCatalog({
     records: {
       programs: PROGRAM_REGISTRY,
-      units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT],
-      lessons: [...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS],
-      banks: [...PILOT_ASSESSMENT_BANKS, ...RATIOS_UNIT_2_ASSESSMENT_BANKS],
+      units: [...PILOT_UNITS, RATIOS_UNIT_2_UNIT, STATISTICS_UNIT_2_UNIT],
+      lessons: [...PILOT_LESSONS, ...RATIOS_UNIT_2_LESSONS, ...STATISTICS_UNIT_2_LESSONS],
+      banks: [
+        ...PILOT_ASSESSMENT_BANKS,
+        ...RATIOS_UNIT_2_ASSESSMENT_BANKS,
+        ...STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+      ],
     },
     selection: ACTIVE_SELECTION as ActiveSelection,
     reservedLabels: RESERVED_LABELS as readonly ReservedLabel[],

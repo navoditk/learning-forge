@@ -1,0 +1,91 @@
+{
+  "id": "snsb6-orthographic-patterns-core-1",
+  "version": "content-2",
+  "title": "Choose a doubling rule",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-orthographic-patterns",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "developing",
+  "standards": ["SNSB6-ORTH-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Explains a spelling choice using position or neighboring letters."],
+  "prompt": "Compare three verbs. \"plan\" has one syllable and becomes \"planned\". \"admit\" is said ad-MIT, with the stress on its last syllable, and becomes \"admitted\". \"visit\" is said VIS-it, with the stress on its first syllable, and becomes \"visited\". Which explanation predicts the doubled t in \"admitted\" and fits all three examples?",
+  "solutionRepresentation": "The stressed last syllable ends in one vowel and then one consonant, so that consonant doubles before -ed. Plan (one stressed syllable) and admit (stress on the last syllable) both double; visit (stress on the first syllable) does not, which rules out \"every verb ending in t\" and \"every two-syllable verb\". Doubling keeps the vowel before it short, so the long-vowel explanation is wrong.",
+  "solutionMethod": "Test each explanation against every example, including the one that does not double.",
+  "deterministicValidator": {
+    "type": "structured",
+    "responseMode": {
+      "id": "structured-fields",
+      "version": "1"
+    },
+    "canonicalAnswer": "Best explanation: The stressed last syllable ends in one vowel then one consonant, so that consonant doubles before -ed.",
+    "acceptedAnswers": [
+      "Best explanation: The stressed last syllable ends in one vowel then one consonant, so that consonant doubles before -ed."
+    ],
+    "equivalenceNotes": "Structured choice field; the selected option must equal the correct option. No partial credit.",
+    "fields": [
+      {
+        "key": "explanation",
+        "label": "Best explanation",
+        "options": [
+          {
+            "id": "every-t",
+            "label": "Every verb that ends in t doubles the t before -ed."
+          },
+          {
+            "id": "two-syllable",
+            "label": "Every two-syllable verb doubles its last consonant before -ed."
+          },
+          {
+            "id": "long-vowel",
+            "label": "The doubled letter makes the vowel before it long."
+          },
+          {
+            "id": "stressed-cvc",
+            "label": "The stressed last syllable ends in one vowel then one consonant, so that consonant doubles before -ed."
+          }
+        ],
+        "correctOptionId": "stressed-cvc",
+        "kind": "choice"
+      }
+    ]
+  },
+  "misconceptionCodes": ["assumes-one-rule", "ignores-supplied-evidence"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "One of the three verbs does not double its last letter. A good explanation has to account for that verb too.",
+      "question": "Which verb keeps a single consonant before -ed?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Compare where the stress falls in the verbs that double and in the verb that does not.",
+      "question": "What do the doubling verbs have in common that the other verb lacks?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with different verbs: \"begin\" (be-GIN) doubles its n before a vowel ending, but \"open\" (OH-pen) does not, because only begin is stressed on its last syllable.",
+      "question": "Which explanation matches that pattern and all three verbs in this item?"
+    }
+  ],
+  "forbiddenLeakagePatterns": [
+    "The stressed last syllable ends in one vowel then one consonant, so that consonant doubles before -ed."
+  ],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-orthographic-patterns-core-1@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "Three verbs: plan, one syllable, becomes planned. admit, said ad-mit with the stress on the last syllable, becomes admitted. visit, said vis-it with the stress on the first syllable, becomes visited. Choose the explanation that predicts the doubled t in admitted and fits all three verbs. Option 1: Every verb that ends in t doubles the t before -ed. Option 2: Every two-syllable verb doubles its last consonant before -ed. Option 3: The doubled letter makes the vowel before it long. Option 4: The stressed last syllable ends in one vowel then one consonant, so that consonant doubles before -ed."
+}

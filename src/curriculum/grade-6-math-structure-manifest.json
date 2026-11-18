@@ -192,6 +192,96 @@
       "code": "percent-applications-delayed-check-bank",
       "version": "1.0.0",
       "sha256": "147371c716cb919f44fce4c6e7697c2f3596d385ffa90397a57b7197452cc1af"
+    },
+    {
+      "kind": "program",
+      "code": "grade-6-math",
+      "version": "1.2.0",
+      "sha256": "6d26c275aea1f5394df6b399497b9ffdd94ac66f3b49e99e46b203acbd694b14"
+    },
+    {
+      "kind": "unit",
+      "code": "statistics",
+      "version": "2.0.0",
+      "sha256": "8d5be539ddd4538d86790c1ce3bab3bd4db46a71d36038970eb61827e661ca62"
+    },
+    {
+      "kind": "lesson",
+      "code": "statistical-questions-lesson",
+      "version": "2.0.0",
+      "sha256": "63414646f7ae49441300bcad3ad3e8d15b99ff9131d542243e8119540aa73644"
+    },
+    {
+      "kind": "lesson",
+      "code": "distributions-lesson",
+      "version": "2.0.0",
+      "sha256": "52aae6269f4e622c0be6bd4aeb4971328ed89fd6d13fe0441fe232808c383146"
+    },
+    {
+      "kind": "lesson",
+      "code": "center-and-variability-lesson",
+      "version": "2.0.0",
+      "sha256": "1f63e6c4cc9bc98883fb3c9719a2ca817f5603fdc3c3121e2f3ef9dab902959d"
+    },
+    {
+      "kind": "bank",
+      "code": "statistical-questions-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "3ec239e119e0fa23294e8c3de2f135862d086414dc9326ea92d1337b7a6e4f1d"
+    },
+    {
+      "kind": "bank",
+      "code": "distributions-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "736501e68b10918814dde748e34ea7fd492c476209a5f5b591c8b0e60043d777"
+    },
+    {
+      "kind": "bank",
+      "code": "center-and-variability-lesson-bank",
+      "version": "1.0.0",
+      "sha256": "61ac2fb51141108522c1f29d09a43c3abac58a88fd28c3a08a2a9b548c258e76"
+    },
+    {
+      "kind": "bank",
+      "code": "statistics-unit-bank",
+      "version": "1.0.0",
+      "sha256": "d428313ba12d77188262082f277ee1973e41d0868fcbb322344c956fa526d44f"
+    },
+    {
+      "kind": "bank",
+      "code": "statistical-questions-review-bank",
+      "version": "1.0.0",
+      "sha256": "d37717c2ec538edf1e5d56f5f71e41a4211ec839db49a52e9010e942d3b09b65"
+    },
+    {
+      "kind": "bank",
+      "code": "statistical-questions-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "adc18a00f60ada0df2a607d13538cbeb6f399f946f106c087c50e6f42c3e4973"
+    },
+    {
+      "kind": "bank",
+      "code": "distributions-review-bank",
+      "version": "1.0.0",
+      "sha256": "20ef51da71cf5c3530e12c153c60864e1262ff9dc3d779aa3020def00d543467"
+    },
+    {
+      "kind": "bank",
+      "code": "distributions-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "e66568be78e3b6b819262ff83d030eb69512ec626abdcf77b9728cb79707bd0f"
+    },
+    {
+      "kind": "bank",
+      "code": "center-and-variability-review-bank",
+      "version": "1.0.0",
+      "sha256": "3509364710b3dff502ad55e8edfe07258f094f9e5881e399d3f5b25ba592ab19"
+    },
+    {
+      "kind": "bank",
+      "code": "center-and-variability-delayed-check-bank",
+      "version": "1.0.0",
+      "sha256": "3d46d33202a41231f22808e6744f13e3bbc0f230b8b07fc061b6cd8e8761bc51"
     }
   ],
   "probeSnapshots": [
@@ -208,6 +298,13 @@
       "unitCode": "ratios-and-proportional-reasoning",
       "unitVersion": "2.0.0",
       "sha256": "fd096bd178cc72c58cfc2c13c94d152bf1b0265a9f7afec547bea5e897e351a0"
+    },
+    {
+      "bankCode": "statistics-placement-probe",
+      "bankVersion": "2.0.0",
+      "unitCode": "statistics",
+      "unitVersion": "2.0.0",
+      "sha256": "619b6f8c67251bdca81b54aae03459819f8370e0064d35cfb9da460e7f5eb611"
     }
   ]
 }

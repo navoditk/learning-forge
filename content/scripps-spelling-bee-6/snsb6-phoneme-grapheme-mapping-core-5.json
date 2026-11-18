@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-phoneme-grapheme-mapping-core-5",
+  "version": "content-1",
+  "title": "Spell one form for two pronunciations",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-phoneme-grapheme-mapping",
+    "version": "1.0.0"
+  },
+  "mode": "core",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-PHON-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Uses an alternate-pronunciation cue to distinguish spellings."],
+  "prompt": "Spell the invented word so that one spelling fits both accepted pronunciations. Pronunciation 1: FROH-dul, with the first vowel like the name of the letter O. Pronunciation 2: FRAHD-ul, with the first vowel like the o in \"hot\". Both are stressed on the first syllable. Meaning: a short paddle carved from wood. Part of speech: noun. Origin: invented for this practice; it follows regular English spelling. The first two sounds are spelled f and r; the first vowel is spelled with exactly one letter, o; and the last syllable is spelled with the same two letters that end \"camel\". You decide how to spell the \"d\" sound.",
+  "solutionRepresentation": "frodel. The prompt fixes f, r, the single vowel letter o and the el ending, so the only open choice is one d or two. A single vowel letter followed by one consonant letter and then another vowel can be read long or short in English (compare \"robot\", long, and \"robin\", short), so frodel allows both FROH-dul and FRAHD-ul. A doubled consonant after a single vowel letter normally keeps that vowel short (as in \"follow\" or \"bottle\"), so froddel fits only the second pronunciation.",
+  "solutionMethod": "Choose the vowel and consonant spellings that leave both accepted vowel sounds possible.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "frodel",
+    "acceptedAnswers": ["frodel"],
+    "equivalenceNotes": "Spelling is letter-exact after case folding and trailing-punctuation removal; hyphens, apostrophes, spaces and diacritics are significant. The prompt fixes every letter except the spelling of the d sound; froddel, which fits only the short-vowel pronunciation, is rejected."
+  },
+  "misconceptionCodes": ["assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Compare the two pronunciations. Only the first vowel sound changes; everything else stays the same.",
+      "question": "Which part of the word has to be spelled so that it can be read either way?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "The prompt fixes the first vowel as the single letter o, so the only choice left is how to spell the \"d\" sound. A doubled consonant after a single vowel letter usually keeps that vowel short; one vowel letter, then one consonant letter, then another vowel can be read either way.",
+      "question": "Should the \"d\" sound be spelled with one letter or two, so that both pronunciations still work?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different vowel: an invented word that may be said both KAY-bun and KAB-un, with its vowel fixed as one a, fits both readings when a single b follows the a; with a doubled b it fits only the short reading.",
+      "question": "Using that idea, how do you spell the \"d\" sound, and what is the whole word?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["frodel"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "New SPELL-SP3 practice record drafted under D-344 and D-339. Original Learning Forge wording, pronunciation cues and definitions; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item. Any real word is listed for the owner G-SOURCE check in docs/spelling-sp3-coverage-map.md."
+  },
+  "accessibilityNotes": "All information is presented in text; there is no audio and no phonetic symbols. Pronunciation is written as plain syllables with the stressed syllable in capital letters, and the stress is also stated in words. Type the spelling; spelling is checked letter by letter, but capital letters do not matter.",
+  "accessibleAlternative": "Type one spelling of an invented word that fits two accepted pronunciations: \"froh-dul\", where the first vowel sounds like the name of the letter O, and \"frahd-ul\", where the first vowel sounds like the o in \"hot\". Both are stressed on the first part. Meaning: a short paddle carved from wood (noun). It follows regular English spelling. The first two sounds are spelled f and r; the first vowel is spelled with exactly one letter, o; and the last syllable is spelled with the same two letters that end \"camel\". You decide how to spell the d sound."
+}

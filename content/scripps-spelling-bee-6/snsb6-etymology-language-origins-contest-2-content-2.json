@@ -1,0 +1,57 @@
+{
+  "id": "snsb6-etymology-language-origins-contest-2",
+  "version": "content-2",
+  "title": "Weigh an origin clue against a habit",
+  "role": "practice",
+  "skillRef": {
+    "code": "snsb6-etymology-language-origins",
+    "version": "1.0.0"
+  },
+  "mode": "contest",
+  "difficulty": "challenging",
+  "standards": ["SNSB6-ETYM-01"],
+  "itemReadinessRefs": [],
+  "observableEvidence": ["Uses a supplied origin clue to compare plausible spellings."],
+  "prompt": "An invented word is said ZOR-in. It starts with a buzzing \"z\" sound, like the start of \"zoo\". A classmate says to write s because many English words start with s. The word comes from Tellic, a language invented for this practice, whose writers always spell a starting buzzing sound with z. Which spelling is better supported? Enter one option exactly: sorin or zorin.",
+  "solutionRepresentation": "zorin. The origin clue says Tellic writers always spell a starting buzzing sound with z, and the word starts with that sound. The classmate's habit (\"many English words start with s\") is a general tendency, not evidence about this word. The clue supports zorin; it is still a clue, so a careful speller keeps confidence in proportion to the evidence.",
+  "solutionMethod": "Compare the specific origin clue with a general habit and choose the spelling the clue supports.",
+  "deterministicValidator": {
+    "type": "text",
+    "canonicalAnswer": "zorin",
+    "acceptedAnswers": ["zorin"],
+    "equivalenceNotes": "Provisional SP-1 ruling C-1: contest mode keeps a legacy text validator whose only accepted answer is the exact option text listed in the prompt. Matching is case-insensitive and ignores trailing punctuation; any other wording is rejected."
+  },
+  "misconceptionCodes": ["ignores-supplied-evidence", "assumes-one-rule"],
+  "hintSteps": [
+    {
+      "order": 1,
+      "assistanceLevel": "small_strategic_hint",
+      "prompt": "Two kinds of evidence are offered: a general habit from a classmate and a specific clue about the language this word comes from.",
+      "question": "Which piece of evidence is about this particular word?"
+    },
+    {
+      "order": 2,
+      "assistanceLevel": "multiple_hints_representation",
+      "prompt": "Find the sentence that describes how Tellic writers spell a sound. Then check which sound this word starts with.",
+      "question": "Does the origin clue match the first sound of this word?"
+    },
+    {
+      "order": 3,
+      "assistanceLevel": "analogous_worked_example",
+      "prompt": "Example with a different invented language: if Darnic writers always spell a starting \"k\" sound with k, a Darnic word said KAH-mo is better spelled with k than with c, even though c is common in English.",
+      "question": "Using the same reasoning, which of the two options does the Tellic clue support?"
+    }
+  ],
+  "forbiddenLeakagePatterns": ["zorin"],
+  "provenance": {
+    "origin": "llm_drafted",
+    "licenseStatus": "owned"
+  },
+  "review": {
+    "status": "pending_review",
+    "reviewer": "pending delegated review",
+    "originalityStatement": "Correction of the repository's own snsb6-etymology-language-origins-contest-2@content-1 for SPELL-SP3 under D-344 (D-61 exception) and D-339. Original Learning Forge wording; it does not reproduce official SNSB list content, Merriam-Webster entries or respellings, rules text, or a competition item."
+  },
+  "accessibilityNotes": "All information is presented in text. Sounds are described in words, not phonetic symbols. No visual formatting, audio or official list data is required.",
+  "accessibleAlternative": "An invented word is said \"zor-in\", with the stress on the first part. It starts with a buzzing z sound, like the start of \"zoo\". A classmate says to write s because many English words start with s. The word comes from Tellic, an invented language whose writers always spell a starting buzzing sound with z. Type the better-supported spelling exactly as listed: sorin or zorin."
+}
