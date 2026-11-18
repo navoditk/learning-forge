@@ -4093,7 +4093,17 @@ the validator so only whole-response matches pass, removing the false accept of 
 needs a Geometry review stamp (OD-1: delegation to Geometry is not yet extended) and the GEO-2 lesson
 ref and hash corrections. **Not authorized:** registration, stamping, activation.
 
-There are 350 decisions: D-01 through D-75, D-139, D-142, D-145–D-350 approved;
+### D-351 — Integrator correction: four D-346 errata applied to the Geometry scope document (D-346)
+
+Applies exactly the four minor errata Codex named in D-346 to `docs/grade-6-math-geo-scope.md`, no other
+change: (1) `12 cubic meters` is a deliberate wrong-answer counterexample, not the old content-1 answer;
+(2) the self-audit now says six rows (seven behaviors) of missing diagnostic codes; (3) GEO-1 must add an
+explicit coverage requirement or recorded deferral for showing that unit-cube packing and V = l w h agree
+(6.G.2), and notes the D-350 correction draft; (4) the command account lists the Prettier check, Git check
+and patch export. Document-only; no decision, scope or authorization changes. Prettier clean. The
+corrections implement named reviewer findings and were not separately re-reviewed.
+
+There are 351 decisions: D-01 through D-75, D-139, D-142, D-145–D-351 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
