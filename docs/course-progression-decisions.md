@@ -4371,7 +4371,23 @@ prohibition). Validation on the main tree: typecheck, Prettier, `npm run build`,
 worktree for lack of a local `tsx` loader). **Not done:** the real merges (next, local outputs only under D-360),
 unit and lesson stamps, lesson practice re-pinning, the selection flips, installation, release.
 
-There are 362 decisions: D-01 through D-75, D-139, D-142, D-145–D-362 approved;
+### D-363 — Integrator record: private-bank merge dry-runs, runbook prepared, real merge waiting for the owner's base package (D-360)
+
+On 2026-11-20 the integrator ran `scripts/private-bank-merge.ts --dry-run` for Statistics, Spelling and
+Geometry against a local Ratios-only package (`rat-package-rev2-reviewed`, ten banks); nothing was installed and
+no output package was written. For all three units every per-bank check passed (file hash against the manifest,
+committed digest, content recompute) and the D-216a and D-216b non-reuse checks passed against the existing
+package banks and 810 public records including 597 historical blobs (165 incoming Statistics items, 189 each for
+Spelling and Geometry). The only failure, identical for all three, is the final `merged package passes schema,
+integrity and required-bank rules` check: the current selection requires four Ratios `1.0.0` banks that the
+local base package lacks. **The real merges therefore need the owner's current private package as the base and
+remain WAITING FOR HUMAN APPROVAL on that input.** A shell bug in the integrator's first Spelling and Geometry
+attempt (not the metadata) was found and re-run. Added `docs/private-bank-activation-runbook.md` with the exact
+chained commands (Statistics, then Spelling, then Geometry), the activation order per unit and rollback; the
+chained merges are untested, which the runbook says. **Not done:** the real merges, any installation, unit and
+lesson stamps, lesson re-pinning, the Spelling evidence-label work required by D-361, the selection flips.
+
+There are 363 decisions: D-01 through D-75, D-139, D-142, D-145–D-363 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
