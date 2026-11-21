@@ -4323,7 +4323,37 @@ which owner items it covered, selecting **Private-bank merges**, **Explanation-b
   deployment, release records, flipping the active selection, G-SOURCE screening of real words, the 6.G.2
   skill-version decision, the manual accessibility passes, hint serving (SP-4), paid provider calls.
 
-There are 360 decisions: D-01 through D-75, D-139, D-142, D-145–D-360 approved;
+### D-361 — Delegated ruling: explanation-by-selection is partial evidence for the Spelling L2 banks (D-212, D-339, D-360)
+
+Delegate: Codex `gpt-6.1-sol` (model confirmed from the client header of the run; the reviewer's own text could
+not attest it), 2026-11-20, read-only, one round, authorized by the owner in D-360. **Ruling:** choosing an
+explanation from supplied options does **not** satisfy the four Spelling skills' inherited requirement that the
+learner _explain_ (`content/skills/snsb6-*.json` line 14). The 96 private items (including the 12 letter
+items) stand as evidence of the tasks they actually assess (recognition, typed construction, application of
+supplied clues); learner-generated explanation is a **deferred requirement**, not assessed, and the banks
+cannot establish full mastery. **Runtime finding:** the code reaches `INDEPENDENTLY_CONFIRMED`, `HIGH`
+mastery and lesson or unit `COMPLETE` from numeric pass thresholds alone (assessment selection does not require an
+explanation item; `independentDelayedCheck` maps directly to the status), so an unqualified display would
+overclaim for Spelling. **Required wording constraints** (use only when linked to the matching successful
+attempt): "Selected the correct explanation from supplied options."; "Explanation evidence: partial,
+selection-based recognition only."; "Learner-generated explanation: not yet assessed; deferred requirement.";
+"Independent check passed on assessed tasks; explanation requirement remains incomplete."; "Lesson completed
+under the assessment policy; full skill mastery is not established." Never "Explains", "States",
+"Constructs an explanation" or "Full mastery demonstrated" from a selection attempt, and no unqualified
+"Independently confirmed" for the whole skill. Parent note for the four-skill L2 view: "This unit assesses
+spelling, word construction and choices made from supplied clues and options. Explanation questions assess
+recognition of a supplied explanation, not an explanation written by the learner. Lesson or unit completion and
+independent-check results do not establish the skills' full explanation requirement. Learner-generated
+explanation remains unassessed and deferred. These results do not establish readiness for the competition."
+Skill-specific limits: morphology and phoneme-grapheme and orthography support construction or application
+evidence plus recognition of an explanation; etymology's "States..." requirement is the most directly
+unmet. **New Spelling activation blocker:** before the Spelling selection flip, implement evidence labels and
+parent wording that follow these constraints (`src/app/parent-claims.ts` currently says practice only with two
+items per skill), keep the D-352 block on ordinary L2 completion claims, and obtain cross-family review.
+**Not decided here:** G-SOURCE, audio, licensing, hint serving, activation, release. The owner may reverse this
+ruling.
+
+There are 361 decisions: D-01 through D-75, D-139, D-142, D-145–D-361 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
