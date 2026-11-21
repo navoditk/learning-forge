@@ -4304,7 +4304,26 @@ real merge and the D-216 Git-history check, replacement of the 13 sentinel diges
 unit codes (SP-5), hint serving (SP-4), unit and lesson stamps, mounted e2e and activation. The Spelling
 merge is **WAITING FOR HUMAN APPROVAL** by the owner.
 
-There are 359 decisions: D-01 through D-75, D-139, D-142, D-145–D-359 approved;
+### D-360 — Owner authorization: local private-bank merges, explanation-by-selection ruling, activation preparation (D-212, D-334, D-339, D-353)
+
+Approver: product/content owner, by direct instruction on 2026-11-20: "keep going, approved", then, asked
+which owner items it covered, selecting **Private-bank merges**, **Explanation-by-selection** and
+**Activation prep**. Recorded by the integrator (Claude Code Sonnet 5.5); the owner may narrow or revoke it.
+
+- **Authorized:** (1) the real private-bank merges for Statistics, Spelling and Geometry with
+  `scripts/private-bank-merge.ts --bank-metadata`, in activation order (Statistics, then Spelling, then
+  Geometry), each as a **new local output file** (the script never modifies the existing package), with the
+  D-216 Git-history non-reuse check, and replacement of the sentinel digests in the committed catalogs and
+  bank-metadata JSON files with the reviewed digests; (2) a ruling on whether explanation-by-selection
+  satisfies the inherited explanation mastery rule for the 12 Spelling letter items (recorded below once
+  made); (3) preparing, without flipping, the activation changes (unit and lesson stamps, lesson practice
+  re-pinning, test updates) so that each activation is one reviewed commit.
+- **Not authorized (still owner-only):** installing a merged package on any server or setting
+  `LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH` anywhere but a local test, production data or migrations,
+  deployment, release records, flipping the active selection, G-SOURCE screening of real words, the 6.G.2
+  skill-version decision, the manual accessibility passes, hint serving (SP-4), paid provider calls.
+
+There are 360 decisions: D-01 through D-75, D-139, D-142, D-145–D-360 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
