@@ -9,7 +9,7 @@
     {
       "code": "snsb6-morphology-roots-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:7201a06a833f5ed14e4b6935e5359dfca148407e9a9cc267b79870d504d9b802",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -21,7 +21,7 @@
     {
       "code": "snsb6-orthographic-patterns-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:dea4caf0ec3afcb1db371f660e515ac7a64ce597c14fa3e4c784b1c6a4ab5e20",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -33,7 +33,7 @@
     {
       "code": "snsb6-phoneme-grapheme-mapping-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:467335fe9a91b02031c3357bc0df62336111b9d6bbb154c1dfc482f18f94bf0e",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -45,7 +45,7 @@
     {
       "code": "snsb6-etymology-language-origins-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:3b05104982b80afa28218641ae077f06b802265a62b5d6437e22882f2cf6898c",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -57,7 +57,7 @@
     {
       "code": "snsb6-word-structure-unit-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:7466eb3128947cb51e634cbadc828478ee9942ac3d35a25f8f9706f868a1123f",
       "minimumItems": 24,
       "requiredSkillRefs": [
         {
@@ -81,7 +81,7 @@
     {
       "code": "snsb6-morphology-roots-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:18c0bee17e994dee56a8034c50473407c19f362a2e09ef6f55319e2440967818",
       "minimumItems": 3,
       "requiredSkillRefs": [
         {
@@ -96,7 +96,7 @@
     {
       "code": "snsb6-morphology-roots-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:a1f0a7df318daeddfdd9fdd201cba5616797936d3142f2b179b90353edbec396",
       "minimumItems": 6,
       "requiredSkillRefs": [
         {
@@ -110,7 +110,7 @@
     {
       "code": "snsb6-orthographic-patterns-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:30e18747c0e2949d088b068ad2cf2a5e0078f6c5e07d3e18f6ec3f546005061a",
       "minimumItems": 3,
       "requiredSkillRefs": [
         {
@@ -125,7 +125,7 @@
     {
       "code": "snsb6-orthographic-patterns-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:bbfb8a0e1761bcd3169ff36007f903babde00140582e03c0f00d07524bd54f7c",
       "minimumItems": 6,
       "requiredSkillRefs": [
         {
@@ -139,7 +139,7 @@
     {
       "code": "snsb6-phoneme-grapheme-mapping-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:4b1d0182fa9a2714c7f5e2de3d35388db9eda3149aadeee453120dbf0481f980",
       "minimumItems": 3,
       "requiredSkillRefs": [
         {
@@ -154,7 +154,7 @@
     {
       "code": "snsb6-phoneme-grapheme-mapping-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:bbbf21ab29ff5597ae9b5b92eaabed3d4be119ef01f015070875c67e770edc76",
       "minimumItems": 6,
       "requiredSkillRefs": [
         {
@@ -168,7 +168,7 @@
     {
       "code": "snsb6-etymology-language-origins-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:08bf73e69f25c392fd3d67881dceea0d3875cf69738266e047a79cf52a8a330c",
       "minimumItems": 3,
       "requiredSkillRefs": [
         {
@@ -183,7 +183,7 @@
     {
       "code": "snsb6-etymology-language-origins-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:e721380e33f3a27b9dde3ae4ae109f91626083de9a03fae0db0987e04807c094",
       "minimumItems": 6,
       "requiredSkillRefs": [
         {

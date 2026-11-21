@@ -9,7 +9,7 @@
     {
       "code": "area-of-composite-shapes-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:49fcd19adc704e19826093ef4546dda9e9e3181daabc91dea8932a013a152cc7",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -21,7 +21,7 @@
     {
       "code": "surface-area-and-volume-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:1acd92ece9809be3f3bbcb8c9a1613d1f5d4f67738c76b1ef9cc5ee889479fdd",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -33,7 +33,7 @@
     {
       "code": "prism-volume-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:b2c2a7744e962dd4f91ab77bfe7f7d5b7fc14f524c142773508a02e3a1c2a991",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -45,7 +45,7 @@
     {
       "code": "coordinate-geometry-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:e84b1d27e4582e7a5e57420d28f40e477da9cc9635521b4d189027fdc193affe",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -57,7 +57,7 @@
     {
       "code": "geometry-unit-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:4e5b2348317bb503b4f49d42316f52dac08c9d62638a04662874d0de588ec09d",
       "minimumItems": 24,
       "requiredSkillRefs": [
         {
@@ -81,7 +81,7 @@
     {
       "code": "area-of-composite-shapes-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:0f62954cb930963c7e545d32e092ecb2718f133801ad2d0436abe17ae406c7a5",
       "minimumItems": 3,
       "optional": true,
       "itemRole": "review",
@@ -96,7 +96,7 @@
     {
       "code": "area-of-composite-shapes-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:0034303ef5231cdf4cea5abf75ccc7dbc4bda691cc524157e5366d07e9fb599f",
       "minimumItems": 6,
       "optional": true,
       "exclusiveSkills": true,
@@ -110,7 +110,7 @@
     {
       "code": "surface-area-and-volume-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:7c7123dbb94159b587acbdcaccdb39431a1c3718e641fef9ad68a69d34d0e9fa",
       "minimumItems": 3,
       "optional": true,
       "itemRole": "review",
@@ -125,7 +125,7 @@
     {
       "code": "surface-area-and-volume-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:c5fee1b0381140fd256acf55bffd6b055eb61ee70124ecfd70256d0b68ae4839",
       "minimumItems": 6,
       "optional": true,
       "exclusiveSkills": true,
@@ -139,7 +139,7 @@
     {
       "code": "prism-volume-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:6b71a860f4ace4798457ad1a3854a1a8406fdcea74cddc33412b404c0b975249",
       "minimumItems": 3,
       "optional": true,
       "itemRole": "review",
@@ -154,7 +154,7 @@
     {
       "code": "prism-volume-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:200a2c15f3fa041b2f4f5bce2c334b37c84aa49551ddd78c828c2d323ea110ee",
       "minimumItems": 6,
       "optional": true,
       "exclusiveSkills": true,
@@ -168,7 +168,7 @@
     {
       "code": "coordinate-geometry-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:41017ec11c651e4cb8968966fcfb740680988ca3b7a66bd21c2a1ce889dcea20",
       "minimumItems": 3,
       "optional": true,
       "itemRole": "review",
@@ -183,7 +183,7 @@
     {
       "code": "coordinate-geometry-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:aa216694da3c25493fc4eb6fa570fa0f8a33436bbd58169d2aefcd809eebc275",
       "minimumItems": 6,
       "optional": true,
       "exclusiveSkills": true,

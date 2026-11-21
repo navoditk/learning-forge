@@ -227,61 +227,61 @@
       "kind": "bank",
       "code": "statistical-questions-lesson-bank",
       "version": "1.0.0",
-      "sha256": "3ec239e119e0fa23294e8c3de2f135862d086414dc9326ea92d1337b7a6e4f1d"
+      "sha256": "44a9178a8863cc040bdd26819e54b303e7e1f776157031206b01aabbe0b7b65c"
     },
     {
       "kind": "bank",
       "code": "distributions-lesson-bank",
       "version": "1.0.0",
-      "sha256": "736501e68b10918814dde748e34ea7fd492c476209a5f5b591c8b0e60043d777"
+      "sha256": "f776d57168d5f7bca8b2dc9c92e0a77671194d3dcee64d4eb21bd60d24f558df"
     },
     {
       "kind": "bank",
       "code": "center-and-variability-lesson-bank",
       "version": "1.0.0",
-      "sha256": "61ac2fb51141108522c1f29d09a43c3abac58a88fd28c3a08a2a9b548c258e76"
+      "sha256": "8562f0b495857bc5b6e58ac9e1b605ff70c52be1ed4853cbfdc5d2844bbda048"
     },
     {
       "kind": "bank",
       "code": "statistics-unit-bank",
       "version": "1.0.0",
-      "sha256": "d428313ba12d77188262082f277ee1973e41d0868fcbb322344c956fa526d44f"
+      "sha256": "98d02887f56d9473149b1a9ed7d5cb63970fa46a4fd8c4317e0355459c1178f7"
     },
     {
       "kind": "bank",
       "code": "statistical-questions-review-bank",
       "version": "1.0.0",
-      "sha256": "d37717c2ec538edf1e5d56f5f71e41a4211ec839db49a52e9010e942d3b09b65"
+      "sha256": "a4a47ac691422b136d3cee549e09f2b9a0a92f6c80a8742e5788b86beb7c5440"
     },
     {
       "kind": "bank",
       "code": "statistical-questions-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "adc18a00f60ada0df2a607d13538cbeb6f399f946f106c087c50e6f42c3e4973"
+      "sha256": "3afeffc395ac356344de86177652af4b0fa21a83f3d17938b16fa74fcf9a2e90"
     },
     {
       "kind": "bank",
       "code": "distributions-review-bank",
       "version": "1.0.0",
-      "sha256": "20ef51da71cf5c3530e12c153c60864e1262ff9dc3d779aa3020def00d543467"
+      "sha256": "eda2d4b9b9c95430b80acf962e5c0640c21e718e67bc26314f4a66ada2e7e4e0"
     },
     {
       "kind": "bank",
       "code": "distributions-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "e66568be78e3b6b819262ff83d030eb69512ec626abdcf77b9728cb79707bd0f"
+      "sha256": "87e9b41ca75bcfd5232abaaae9c782a5b93fadccb261e4622cc6e69430cb444f"
     },
     {
       "kind": "bank",
       "code": "center-and-variability-review-bank",
       "version": "1.0.0",
-      "sha256": "3509364710b3dff502ad55e8edfe07258f094f9e5881e399d3f5b25ba592ab19"
+      "sha256": "deffda3943165e8a1a9819081e43c6fef9fabc97da70496360dda4c0b2e7891d"
     },
     {
       "kind": "bank",
       "code": "center-and-variability-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "3d46d33202a41231f22808e6744f13e3bbc0f230b8b07fc061b6cd8e8761bc51"
+      "sha256": "c356075bf8a3d3630f44a58feca64df2ff24b1d1a6b2d7d4a1d302e930079445"
     },
     {
       "kind": "program",
@@ -323,79 +323,79 @@
       "kind": "bank",
       "code": "area-of-composite-shapes-lesson-bank",
       "version": "1.0.0",
-      "sha256": "51faf17ba92fe7f94c9d344491e62ae2e3f5145fa0053ee646e8a6d9f9f5035e"
+      "sha256": "464492996e432e03a5c20057e7768a174b86977e2904d3a34bf56ca2951ab5d6"
     },
     {
       "kind": "bank",
       "code": "surface-area-and-volume-lesson-bank",
       "version": "1.0.0",
-      "sha256": "808e8dfd15aeaa3f54e9de42b4f4175d531647d74660b19089452224f917ca32"
+      "sha256": "6c2773fea78c75f4a94aa6456cb1cb90c971a68b1cebd5664482cc1a11952b98"
     },
     {
       "kind": "bank",
       "code": "prism-volume-lesson-bank",
       "version": "1.0.0",
-      "sha256": "14a92dafe3c5c58e304d12fed324830281ce813689aecba6f9d64e3ffaf613d7"
+      "sha256": "8db3bcb4134eb651d5081a78d213c684e7c381ed5ab786cd51afb6e7bd00815c"
     },
     {
       "kind": "bank",
       "code": "coordinate-geometry-lesson-bank",
       "version": "1.0.0",
-      "sha256": "1c3ebba79f6edc6b54ca1fc5646611390608f85ddf1b8e986943086cc12d9cc1"
+      "sha256": "2af137c884110253137a84a7d08916cf951f4e83745d2ff1909c1d6b7612a1c0"
     },
     {
       "kind": "bank",
       "code": "geometry-unit-bank",
       "version": "1.0.0",
-      "sha256": "2ba1469edff27f19dde58ea37d74403ec9c3099bb283c16971c2c64ba80f8142"
+      "sha256": "97bc80f609968c1ce6fa51abef09b3fa51ecad5e054049c6db6437fa2cd203cc"
     },
     {
       "kind": "bank",
       "code": "area-of-composite-shapes-review-bank",
       "version": "1.0.0",
-      "sha256": "22e3788f168bc8276f5d71b57a5ee817cb7aef7c8cae969566dafeb243584428"
+      "sha256": "e7687f6e14e009c1b1cbf3e1c730bfbfe2198e36bbeb0c83674a356f7c521565"
     },
     {
       "kind": "bank",
       "code": "area-of-composite-shapes-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "23ddb650a508c6e2f677996b3cbdfa30a62c0d2589680679f7e9e674fd967038"
+      "sha256": "5fcc38956486a5f2b60da3eb35193bc4d5bccc2c667236f3dc4bb7734ee4a76f"
     },
     {
       "kind": "bank",
       "code": "surface-area-and-volume-review-bank",
       "version": "1.0.0",
-      "sha256": "a88df1ebb8153773ba694b77d561b1b191eee2f67092a9b8cf17e7dc06563387"
+      "sha256": "84daa3da91990807743cea0f5dd483eb7ffee993f6919db96c99db12384aa398"
     },
     {
       "kind": "bank",
       "code": "surface-area-and-volume-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "ccc98d886bf7a5bdc803814bc590a346bede2df663f02ba473ed93e3289f1bd0"
+      "sha256": "1dc382b03a0947342d588397dc47184cfe0bc7e447e4d78b6f511df30b2d68d7"
     },
     {
       "kind": "bank",
       "code": "prism-volume-review-bank",
       "version": "1.0.0",
-      "sha256": "820422f799aaab55b31391bbee229e519a74f358d807ca8e7fa2bc105c8c53a1"
+      "sha256": "ab9d0918b62b0e56084a653fd0d5758a985843e81fdd459a8435bfdaed98b5fa"
     },
     {
       "kind": "bank",
       "code": "prism-volume-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "15d580f6c91cdc79645601a62bbd79b9674e3204fbb730b2a5468648bf0fa197"
+      "sha256": "c66d80436f8619ca3a6493749a99c5301aee8ed28e5cdc455dae168c1a749186"
     },
     {
       "kind": "bank",
       "code": "coordinate-geometry-review-bank",
       "version": "1.0.0",
-      "sha256": "270145d1058bfa6c005130db87e64d2f60e730729d0e2938c7aa2c1520323172"
+      "sha256": "7eb455c72d6a12ca2fef603ae913e52c4442ddbe89027f243ef4e96fff866e1a"
     },
     {
       "kind": "bank",
       "code": "coordinate-geometry-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "513736cba144bd160a6a0bc5942790ce4e503e3c69f71ea6e5f5b902580bc356"
+      "sha256": "094862c957a7822579ea40a0e9c275acc878f585cb3a9a3f4d4bd81852cd2cdc"
     }
   ],
   "probeSnapshots": [

@@ -20,12 +20,12 @@ import { RATIOS_UNIT_2_UNIT_REF } from './ratios-unit-2-catalog';
  * --bank-metadata src/curriculum/statistics-bank-metadata.json`). Only public
  * metadata (identity, `itemCount`, `contentHash`) lives here.
  *
- * PENDING OWNER INPUT (fail closed): `contentHash` of every bank is the
- * sentinel `STATISTICS_BANK_DIGEST_PENDING` until the owner replaces it with
- * the real per-bank digest of the stamped private package. A package bank
- * whose digest differs is refused by the merge tool, so a sentinel can never
- * validate a real package. A test forbids selecting program `1.2.0` while any
- * sentinel remains (the activation gate).
+ * DIGESTS REPLACED (D-360): every bank carries its reviewed digest
+ * (`STATISTICS_UNIT_2_BANK_DIGESTS`); the sentinel is retired. Activation of
+ * program `1.2.0` is still blocked by the `pending_review` unit and lesson
+ * stamps (the banks are already reviewed, so V-11 is clean) and by the
+ * selection naming `1.1.0`; tests keep that gate live (a test gate, not a
+ * runtime prohibition).
  *
  * Lesson practice refs pin only the two already-reviewed records per skill
  * (`<skill>-1` and `<skill>-2`, `content-1`); the first ref of each lesson is
@@ -39,8 +39,41 @@ const unitVersion = '2.0.0';
 const skillVersion = '1.0.0';
 const bankVersion = '1.0.0';
 
-/** Marker for a bank digest the owner has not supplied yet. Never a real digest. */
+/** Retired sentinel (D-360): every bank now carries its reviewed digest; nothing may use this for a bank. */
 export const STATISTICS_BANK_DIGEST_PENDING = `sha256:${'0'.repeat(64)}`;
+
+/**
+ * Reviewed per-bank digests (D-360), keyed by `code@version`; each equals the digest
+ * in the reviewed private bank metadata. Stamps are a separate step.
+ */
+export const STATISTICS_UNIT_2_BANK_DIGESTS: Readonly<Record<string, string>> = {
+  'statistical-questions-lesson-bank@1.0.0':
+    'sha256:7cd57a21c5202c4f1d773f5954a3eab6ad3c684523c487a81208cbc54fb4e219',
+  'distributions-lesson-bank@1.0.0':
+    'sha256:06d5997073dc1a3dfbbdec2d5883712561c056ec8d2b0a3e0138522a701cefb1',
+  'center-and-variability-lesson-bank@1.0.0':
+    'sha256:03652cf0c2e2e6e8e03ae6d8936af58f6e3d237a66912a2cd78ad29b0c6ddc14',
+  'statistics-unit-bank@1.0.0':
+    'sha256:c642482f8a9b938959dc65923194a42476a00a9480fc5fdcdafbaae990a469ad',
+  'statistical-questions-review-bank@1.0.0':
+    'sha256:3f9335216bba600513b6efdbcace7c79992f9df232801d7bae0f9923bb77dc43',
+  'distributions-review-bank@1.0.0':
+    'sha256:9b89185caf8d5b4c7e4447506124eb7236a583c57c1eccd772003413917b6ed1',
+  'center-and-variability-review-bank@1.0.0':
+    'sha256:e596ffe55348b890ef124c5a5e68d6c94577fc6f0ca52bc2c6a0d25e6a6d8f1b',
+  'statistical-questions-delayed-check-bank@1.0.0':
+    'sha256:e9c11022432e5eb722305ff7a7fa9102895dd2e698bc2c5835f287b4ea2f5143',
+  'distributions-delayed-check-bank@1.0.0':
+    'sha256:fad40531406d56784e80388db4d8e83692c2823fd876cd06d5c92ea15798f780',
+  'center-and-variability-delayed-check-bank@1.0.0':
+    'sha256:15f3ab1a49022e2a3e2dbf9135601eb5fdadbe17d06734ce81a694bab5697058',
+};
+
+const bankDigest = (code: string, version: string): string => {
+  const digest = STATISTICS_UNIT_2_BANK_DIGESTS[`${code}@${version}`];
+  if (digest === undefined) throw new Error(`No reviewed digest for bank ${code}@${version}`);
+  return digest;
+};
 
 const policyProfileRef = { code: 'grade-6-math-default', version: '1.1.0' } satisfies Ref;
 const provenance = { origin: 'original' as const, licenseStatus: 'owned' as const };
@@ -185,7 +218,7 @@ const lessonBank = (skill: string): AssessmentBank =>
     policyProfileRef,
     coveredSkillRefs: [skillRefOf(skill)],
     itemCount: 9,
-    contentHash: STATISTICS_BANK_DIGEST_PENDING,
+    contentHash: bankDigest(`${skill}-lesson-bank`, bankVersion),
     provenance,
     review: bankReview,
   });
@@ -202,7 +235,7 @@ const skillBank = (
     policyProfileRef,
     coveredSkillRefs: [skillRefOf(skill)],
     itemCount,
-    contentHash: STATISTICS_BANK_DIGEST_PENDING,
+    contentHash: bankDigest(`${skill}-${suffix}`, bankVersion),
     provenance,
     review: bankReview,
   });
@@ -224,7 +257,7 @@ export const STATISTICS_UNIT_2_ASSESSMENT_BANKS: readonly AssessmentBank[] = [
     policyProfileRef,
     coveredSkillRefs: SKILLS.map(skillRefOf),
     itemCount: 18,
-    contentHash: STATISTICS_BANK_DIGEST_PENDING,
+    contentHash: bankDigest('statistics-unit-bank', bankVersion),
     provenance,
     review: bankReview,
   }),

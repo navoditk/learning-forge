@@ -26,10 +26,8 @@ import {
  * `scripps-spelling-bee-6-default@1.0.0` stays pinned unchanged.
  *
  * PENDING (fail closed). Three things block activation, in this order:
- *  1. `contentHash` of every bank is `SPELLING_BANK_DIGEST_PENDING` until the
- *     owner replaces it with the real digest of the stamped private package
- *     (the merge tool refuses a mismatching digest, so a sentinel can never
- *     validate a real package).
+ *  1. Each bank carries its reviewed digest (D-360, `SPELLING_UNIT_1_BANK_DIGESTS`);
+ *     the sentinel is retired (satisfied).
  *  2. Bank, lesson and unit `review.status` is `pending_review`; V-11
  *     (`checkClaimedSkillBanks`) reports every bank `NOT_REVIEWED` until a
  *     delegated or human review stamps it.
@@ -37,7 +35,7 @@ import {
  *     `content-2` corrections (D-135) are `pending_review` and unpinned; when
  *     accepted, the lessons are re-pinned, and the probe snapshot and
  *     structure manifest digests regenerated, before the selection moves.
- * Tests forbid selecting program `1.1.0` while any sentinel remains.
+ * Tests forbid selecting program `1.1.0` while any of the remaining blockers stand.
  *
  * Practice-only skills: the other four `snsb6-` skills (homophones-homographs,
  * vocabulary-context, variant-dictionary-judgment, oral-round-procedure) are
@@ -50,8 +48,47 @@ const unitVersion = '1.0.0';
 const skillVersion = '1.0.0';
 const bankVersion = '1.0.0';
 
-/** Marker for a bank digest the owner has not supplied yet. Never a real digest. */
+/** Retired sentinel (D-360): every bank now carries its reviewed digest; nothing may use this for a bank. */
 export const SPELLING_BANK_DIGEST_PENDING = `sha256:${'0'.repeat(64)}`;
+
+/**
+ * Reviewed per-bank digests (D-360), keyed by `code@version`; each equals the digest
+ * in the reviewed private bank metadata. Stamps are a separate step.
+ */
+export const SPELLING_UNIT_1_BANK_DIGESTS: Readonly<Record<string, string>> = {
+  'snsb6-morphology-roots-lesson-bank@1.0.0':
+    'sha256:7201a06a833f5ed14e4b6935e5359dfca148407e9a9cc267b79870d504d9b802',
+  'snsb6-orthographic-patterns-lesson-bank@1.0.0':
+    'sha256:dea4caf0ec3afcb1db371f660e515ac7a64ce597c14fa3e4c784b1c6a4ab5e20',
+  'snsb6-phoneme-grapheme-mapping-lesson-bank@1.0.0':
+    'sha256:467335fe9a91b02031c3357bc0df62336111b9d6bbb154c1dfc482f18f94bf0e',
+  'snsb6-etymology-language-origins-lesson-bank@1.0.0':
+    'sha256:3b05104982b80afa28218641ae077f06b802265a62b5d6437e22882f2cf6898c',
+  'snsb6-word-structure-unit-bank@1.0.0':
+    'sha256:7466eb3128947cb51e634cbadc828478ee9942ac3d35a25f8f9706f868a1123f',
+  'snsb6-morphology-roots-review-bank@1.0.0':
+    'sha256:18c0bee17e994dee56a8034c50473407c19f362a2e09ef6f55319e2440967818',
+  'snsb6-orthographic-patterns-review-bank@1.0.0':
+    'sha256:30e18747c0e2949d088b068ad2cf2a5e0078f6c5e07d3e18f6ec3f546005061a',
+  'snsb6-phoneme-grapheme-mapping-review-bank@1.0.0':
+    'sha256:4b1d0182fa9a2714c7f5e2de3d35388db9eda3149aadeee453120dbf0481f980',
+  'snsb6-etymology-language-origins-review-bank@1.0.0':
+    'sha256:08bf73e69f25c392fd3d67881dceea0d3875cf69738266e047a79cf52a8a330c',
+  'snsb6-morphology-roots-delayed-check-bank@1.0.0':
+    'sha256:a1f0a7df318daeddfdd9fdd201cba5616797936d3142f2b179b90353edbec396',
+  'snsb6-orthographic-patterns-delayed-check-bank@1.0.0':
+    'sha256:bbfb8a0e1761bcd3169ff36007f903babde00140582e03c0f00d07524bd54f7c',
+  'snsb6-phoneme-grapheme-mapping-delayed-check-bank@1.0.0':
+    'sha256:bbbf21ab29ff5597ae9b5b92eaabed3d4be119ef01f015070875c67e770edc76',
+  'snsb6-etymology-language-origins-delayed-check-bank@1.0.0':
+    'sha256:e721380e33f3a27b9dde3ae4ae109f91626083de9a03fae0db0987e04807c094',
+};
+
+const bankDigest = (code: string, version: string): string => {
+  const digest = SPELLING_UNIT_1_BANK_DIGESTS[`${code}@${version}`];
+  if (digest === undefined) throw new Error(`No reviewed digest for bank ${code}@${version}`);
+  return digest;
+};
 
 const policyProfileRef = {
   code: 'scripps-spelling-bee-6-default',
@@ -225,7 +262,7 @@ const lessonBank = (skill: string): AssessmentBank =>
     policyProfileRef,
     coveredSkillRefs: [skillRefOf(skill)],
     itemCount: 9,
-    contentHash: SPELLING_BANK_DIGEST_PENDING,
+    contentHash: bankDigest(`${skill}-lesson-bank`, bankVersion),
     provenance,
     review: bankReview,
   });
@@ -242,7 +279,7 @@ const skillBank = (
     policyProfileRef,
     coveredSkillRefs: [skillRefOf(skill)],
     itemCount,
-    contentHash: SPELLING_BANK_DIGEST_PENDING,
+    contentHash: bankDigest(`${skill}-${suffix}`, bankVersion),
     provenance,
     review: bankReview,
   });
@@ -269,7 +306,7 @@ export const SPELLING_UNIT_1_ASSESSMENT_BANKS: readonly AssessmentBank[] = [
     policyProfileRef,
     coveredSkillRefs: SKILLS.map(skillRefOf),
     itemCount: 24,
-    contentHash: SPELLING_BANK_DIGEST_PENDING,
+    contentHash: bankDigest('snsb6-word-structure-unit-bank', bankVersion),
     provenance,
     review: bankReview,
   }),

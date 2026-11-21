@@ -9,7 +9,7 @@
     {
       "code": "statistical-questions-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:7cd57a21c5202c4f1d773f5954a3eab6ad3c684523c487a81208cbc54fb4e219",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -21,7 +21,7 @@
     {
       "code": "distributions-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:06d5997073dc1a3dfbbdec2d5883712561c056ec8d2b0a3e0138522a701cefb1",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -33,7 +33,7 @@
     {
       "code": "center-and-variability-lesson-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:03652cf0c2e2e6e8e03ae6d8936af58f6e3d237a66912a2cd78ad29b0c6ddc14",
       "minimumItems": 9,
       "requiredSkillRefs": [
         {
@@ -45,7 +45,7 @@
     {
       "code": "statistics-unit-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:c642482f8a9b938959dc65923194a42476a00a9480fc5fdcdafbaae990a469ad",
       "minimumItems": 18,
       "requiredSkillRefs": [
         {
@@ -65,7 +65,7 @@
     {
       "code": "statistical-questions-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:3f9335216bba600513b6efdbcace7c79992f9df232801d7bae0f9923bb77dc43",
       "minimumItems": 3,
       "requiredSkillRefs": [
         {
@@ -80,7 +80,7 @@
     {
       "code": "statistical-questions-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:e9c11022432e5eb722305ff7a7fa9102895dd2e698bc2c5835f287b4ea2f5143",
       "minimumItems": 6,
       "requiredSkillRefs": [
         {
@@ -94,7 +94,7 @@
     {
       "code": "distributions-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:9b89185caf8d5b4c7e4447506124eb7236a583c57c1eccd772003413917b6ed1",
       "minimumItems": 3,
       "requiredSkillRefs": [
         {
@@ -109,7 +109,7 @@
     {
       "code": "distributions-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:fad40531406d56784e80388db4d8e83692c2823fd876cd06d5c92ea15798f780",
       "minimumItems": 6,
       "requiredSkillRefs": [
         {
@@ -123,7 +123,7 @@
     {
       "code": "center-and-variability-review-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:e596ffe55348b890ef124c5a5e68d6c94577fc6f0ca52bc2c6a0d25e6a6d8f1b",
       "minimumItems": 3,
       "requiredSkillRefs": [
         {
@@ -138,7 +138,7 @@
     {
       "code": "center-and-variability-delayed-check-bank",
       "version": "1.0.0",
-      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "digest": "sha256:15f3ab1a49022e2a3e2dbf9135601eb5fdadbe17d06734ce81a694bab5697058",
       "minimumItems": 6,
       "requiredSkillRefs": [
         {

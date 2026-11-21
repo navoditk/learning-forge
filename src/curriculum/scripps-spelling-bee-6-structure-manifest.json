@@ -47,79 +47,79 @@
       "kind": "bank",
       "code": "snsb6-morphology-roots-lesson-bank",
       "version": "1.0.0",
-      "sha256": "2bf7a49d347a78edeee319b2bebcea1942275370327ca564a7eb423c83c7b059"
+      "sha256": "800008a2f4d890e9875bf2e2d3c91149ca8a2300072c00a826b826d0c4291c49"
     },
     {
       "kind": "bank",
       "code": "snsb6-orthographic-patterns-lesson-bank",
       "version": "1.0.0",
-      "sha256": "21c94a72b8499f623824683aed7f8e96eb09021e5f525cc2745da8276340fb61"
+      "sha256": "38bd94f71af8822b87b6ae17b6a7f79594d38eab0f0ceac90a492644bbca904f"
     },
     {
       "kind": "bank",
       "code": "snsb6-phoneme-grapheme-mapping-lesson-bank",
       "version": "1.0.0",
-      "sha256": "0016966c61bcf441cca9a1aae732348487edd073d5cac51230445e2fc125b0a2"
+      "sha256": "b7efccae1a7d0dc0ddbeb612824f1cea2875d8bb09b73aac0ec5c32cb2707e2d"
     },
     {
       "kind": "bank",
       "code": "snsb6-etymology-language-origins-lesson-bank",
       "version": "1.0.0",
-      "sha256": "d48ca34422951e1ac1294fb23bb294a15bf72cbf084340749afb197a7650edb6"
+      "sha256": "c5e0938e231a5d5dc99d945a962195a9f4ef3bbf68a5f5fca9ec13f4c58825aa"
     },
     {
       "kind": "bank",
       "code": "snsb6-word-structure-unit-bank",
       "version": "1.0.0",
-      "sha256": "dace7958530a2a8a15b432e679e745a416d95e2910680d3de5bbe98fc7aa5765"
+      "sha256": "289403f00b26e3b9adc3cb10f98dc507b03aaeb2e53a94aa4a09e7d97061fd55"
     },
     {
       "kind": "bank",
       "code": "snsb6-morphology-roots-review-bank",
       "version": "1.0.0",
-      "sha256": "a36777107916bb7848667d6d30b8224797ce786175c48ab602c17473410816fd"
+      "sha256": "6d0b4104009aa54488ed7e7fc16e6c8af87cfe33c4b01abd678e26af69d9cfef"
     },
     {
       "kind": "bank",
       "code": "snsb6-morphology-roots-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "afa9c469c018c5cdbba31e9b3b7e78e8bd2b2a66e52782442687077fd211a48d"
+      "sha256": "7b75a7ab29c3765c9e8650e0e6b222e083a213e5277135934648198ad957e444"
     },
     {
       "kind": "bank",
       "code": "snsb6-orthographic-patterns-review-bank",
       "version": "1.0.0",
-      "sha256": "2ef49a7eb19366b18d7e8a5da1ca078d502d72c993f80e70f79d2a35f8fb8742"
+      "sha256": "734be0b608332dc333e5f88eab6a6cb9da12071982f2e69d17c6d945e6407d25"
     },
     {
       "kind": "bank",
       "code": "snsb6-orthographic-patterns-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "0b726f8f3f66f653d75c801c7702514699c1571ca086ed106b1aed3184fcf17b"
+      "sha256": "e0d211f15860f01cbaed808b70757a17490300d2fb7b45866739c56d52f243c5"
     },
     {
       "kind": "bank",
       "code": "snsb6-phoneme-grapheme-mapping-review-bank",
       "version": "1.0.0",
-      "sha256": "63e0364b7b34c22deae8a4cffdaa127d8392f6a6a346970471ff7f688d6b0bfe"
+      "sha256": "8db7788f2e529e5b44a954584b4c84bcf394d1c59921f561d71411338e962b12"
     },
     {
       "kind": "bank",
       "code": "snsb6-phoneme-grapheme-mapping-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "359ec5322e008ff67853901264501b3347390c530c9c687658f69301f845e48f"
+      "sha256": "5d3f81c5f0e85c1e82da8fde2cbd12424fe11a8c1b6e022c3b102c4a61970dc0"
     },
     {
       "kind": "bank",
       "code": "snsb6-etymology-language-origins-review-bank",
       "version": "1.0.0",
-      "sha256": "6bff29286a3436515762f58c8dbde67320a4b061e14b2cf074857181c6f61dfa"
+      "sha256": "6f7dfd290100791fec053efc400c7d90eaa14389b814540e6681307782730f86"
     },
     {
       "kind": "bank",
       "code": "snsb6-etymology-language-origins-delayed-check-bank",
       "version": "1.0.0",
-      "sha256": "536410fddda6562627ffb19356eeb23010e941dd853653e07bf6945a0634c3a1"
+      "sha256": "a7ceb62a2e60babe79e3add175aae6086f585231e097875f2cc748b917467691"
     }
   ],
   "probeSnapshots": [

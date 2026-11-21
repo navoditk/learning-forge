@@ -27,6 +27,7 @@ import {
 } from '../../src/curriculum/ratios-unit-2-catalog';
 import {
   STATISTICS_BANK_DIGEST_PENDING,
+  STATISTICS_UNIT_2_BANK_DIGESTS,
   STATISTICS_UNIT_2_ASSESSMENT_BANKS,
   STATISTICS_UNIT_2_LESSONS,
   STATISTICS_UNIT_2_PROGRAM,
@@ -203,6 +204,26 @@ describe('Statistics 2.0.0 bank metadata', () => {
   });
 });
 
+/** What still blocks activation once digests are real: stamps and sentinels. */
+const flipBlockers = (
+  banks: readonly {
+    code: string;
+    version: string;
+    contentHash: string;
+    review: { status: string };
+  }[],
+  unit: { code: string; version: string; review: { status: string } },
+  lessons: readonly { code: string; version: string; review: { status: string } }[],
+): string[] => [
+  ...banks
+    .filter(
+      (b) => b.review.status !== 'reviewed' || b.contentHash === STATISTICS_BANK_DIGEST_PENDING,
+    )
+    .map((b) => `bank ${key(b)}`),
+  ...(unit.review.status !== 'reviewed' ? [`unit ${key(unit)}`] : []),
+  ...lessons.filter((l) => l.review.status !== 'reviewed').map((l) => `lesson ${key(l)}`),
+];
+
 describe('activation gate: program 1.2.0 is registered but selected only by the owner switch', () => {
   const selectionWith = (version: string) => ({
     ...VERSIONED_COURSE_CATALOG.selection,
@@ -222,24 +243,73 @@ describe('activation gate: program 1.2.0 is registered but selected only by the 
       reservedLabels: undefined,
     });
 
-  it('while any bank digest is the pending sentinel the committed selection must not name 1.2.0', () => {
-    const pending = STATISTICS_UNIT_2_ASSESSMENT_BANKS.filter(
-      (bank) => bank.contentHash === STATISTICS_BANK_DIGEST_PENDING,
-    );
+  it('LIVE GATE (digests replaced, D-360): the committed selection stays on 1.1.0 while stamps are pending', () => {
     const selected = selectedFile.programs.find((ref) => ref.code === 'grade-6-math')!;
-    if (pending.length > 0) {
-      expect(selected.version).toBe('1.1.0');
-      expect(COURSE_CATALOG.programByCode('grade-6-math')?.version).toBe('1.1.0');
+    expect(selected.version).toBe('1.1.0');
+    expect(COURSE_CATALOG.programByCode('grade-6-math')?.version).toBe('1.1.0');
+    expect(VERSIONED_COURSE_CATALOG.isActiveUnit(STATISTICS_UNIT_2_UNIT_REF)).toBe(false);
+    for (const lesson of STATISTICS_UNIT_2_LESSONS) {
+      expect(VERSIONED_COURSE_CATALOG.isActiveLesson(lesson)).toBe(false);
     }
-    for (const bank of STATISTICS_UNIT_2_ASSESSMENT_BANKS) {
-      expect(
-        bank.contentHash === STATISTICS_BANK_DIGEST_PENDING ||
-          /^sha256:[0-9a-f]{64}$/.test(bank.contentHash),
-        bank.code,
-      ).toBe(true);
-    }
-    // Sensitivity: all ten banks carry the sentinel today, so the gate is live.
-    expect(pending).toHaveLength(10);
+    // What still blocks activation is the stamp state, not the digests.
+    const blockers = flipBlockers(
+      STATISTICS_UNIT_2_ASSESSMENT_BANKS,
+      STATISTICS_UNIT_2_UNIT,
+      STATISTICS_UNIT_2_LESSONS,
+    );
+    expect(blockers.length).toBeGreaterThan(0);
+    expect(STATISTICS_UNIT_2_UNIT.review.status).toBe('pending_review');
+    for (const lesson of STATISTICS_UNIT_2_LESSONS)
+      expect(lesson.review.status).toBe('pending_review');
+    // Whoever names 1.2.0 while any blocker stands must fail this gate.
+    expect(selected.version === '1.2.0' && blockers.length > 0).toBe(false);
+  });
+
+  it('negative controls: the blocker predicate is sensitive to each stamp and to nothing else', () => {
+    const stamp = {
+      status: 'reviewed' as const,
+      reviewer: 'synthetic reviewer (test only)',
+      reviewedAt: '2026-11-17',
+      originalityStatement: 'synthetic',
+    };
+    const unit = { ...STATISTICS_UNIT_2_UNIT, review: stamp };
+    const lessons = STATISTICS_UNIT_2_LESSONS.map((l) => ({ ...l, review: stamp }));
+    const banks = STATISTICS_UNIT_2_ASSESSMENT_BANKS.map((b) => ({ ...b, review: stamp }));
+    expect(flipBlockers(banks, unit, lessons)).toEqual([]);
+    expect(flipBlockers(banks.slice(1), unit, lessons)).toEqual([]);
+    expect(
+      flipBlockers(
+        [
+          { ...banks[0]!, review: STATISTICS_UNIT_2_ASSESSMENT_BANKS[0]!.review },
+          ...banks.slice(1),
+        ],
+        unit,
+        lessons,
+      ),
+    ).toEqual(
+      STATISTICS_UNIT_2_ASSESSMENT_BANKS[0]!.review.status === 'pending_review'
+        ? [`bank ${key(banks[0]!)}`]
+        : [],
+    );
+    expect(
+      flipBlockers(banks, { ...unit, review: STATISTICS_UNIT_2_UNIT.review }, lessons),
+    ).toEqual(
+      STATISTICS_UNIT_2_UNIT.review.status === 'pending_review' ? [`unit ${key(unit)}`] : [],
+    );
+    expect(
+      flipBlockers(banks, unit, [
+        { ...lessons[0]!, review: STATISTICS_UNIT_2_LESSONS[0]!.review },
+        ...lessons.slice(1),
+      ]),
+    ).toEqual([`lesson ${key(lessons[0]!)}`]);
+    // A sentinel digest on a stamped bank is also a blocker.
+    expect(
+      flipBlockers(
+        [{ ...banks[0]!, contentHash: STATISTICS_BANK_DIGEST_PENDING }, ...banks.slice(1)],
+        unit,
+        lessons,
+      ),
+    ).toEqual([`bank ${key(banks[0]!)}`]);
   });
 
   it('with the committed selection (1.1.0) older Ratios-only learners are unaffected and Statistics is inactive', () => {
@@ -350,5 +420,48 @@ describe('Statistics bank metadata file for scripts/private-bank-merge.ts --bank
     const loaded = loadBankMetadata(path);
     expect(Object.keys(loaded.expectedDigests)).toHaveLength(10);
     expect(loaded.requiredBanks).toHaveLength(30);
+  });
+});
+
+describe('reviewed bank digests (D-360): statistics', () => {
+  const metadata = JSON.parse(
+    readFileSync(join(ROOT, 'src/curriculum/statistics-bank-metadata.json'), 'utf8'),
+  ) as { banks: { code: string; version: string; digest: string }[] };
+  const SHA = /^sha256:[0-9a-f]{64}$/;
+  const digests = STATISTICS_UNIT_2_ASSESSMENT_BANKS.map((b) => b.contentHash);
+
+  /** Defects a digest set can have: sentinel, malformed, duplicate. */
+  const defects = (values: readonly string[]): string[] => [
+    ...values.filter((v) => v === STATISTICS_BANK_DIGEST_PENDING).map(() => 'sentinel'),
+    ...values.filter((v) => !SHA.test(v)).map(() => 'malformed'),
+    ...values.filter((v, i) => values.indexOf(v) !== i).map(() => 'duplicate'),
+  ];
+
+  it('all 10 digests are real sha256 values: none is the sentinel, all distinct 64-hex', () => {
+    expect(digests).toHaveLength(10);
+    expect(defects(digests)).toEqual([]);
+    expect(new Set(digests).size).toBe(10);
+    expect(Object.values(STATISTICS_UNIT_2_BANK_DIGESTS)).toHaveLength(10);
+    expect(new Set(Object.values(STATISTICS_UNIT_2_BANK_DIGESTS)).size).toBe(10);
+    // Negative controls: each defect kind is detected.
+    expect(defects([STATISTICS_BANK_DIGEST_PENDING, ...digests.slice(1)])).toEqual(['sentinel']);
+    expect(defects(['sha256:abc', ...digests.slice(1)])).toEqual(['malformed']);
+    expect(defects([digests[1]!, ...digests.slice(1)])).toEqual(['duplicate']);
+    expect(defects([digests[0]!.toUpperCase(), ...digests.slice(1)])).toEqual(['malformed']);
+  });
+
+  it('catalog, digest map and committed metadata JSON agree bank by bank', () => {
+    expect(Object.keys(STATISTICS_UNIT_2_BANK_DIGESTS).sort()).toEqual(
+      STATISTICS_UNIT_2_ASSESSMENT_BANKS.map(key).sort(),
+    );
+    for (const bank of STATISTICS_UNIT_2_ASSESSMENT_BANKS) {
+      const entry = metadata.banks.find((b) => key(b) === key(bank));
+      expect(entry, key(bank)).toBeDefined();
+      expect(entry!.digest, key(bank)).toBe(bank.contentHash);
+      expect(STATISTICS_UNIT_2_BANK_DIGESTS[key(bank)], key(bank)).toBe(bank.contentHash);
+    }
+    // Negative control: a swapped pair is detected as disagreement.
+    const [a, b] = STATISTICS_UNIT_2_ASSESSMENT_BANKS;
+    expect(STATISTICS_UNIT_2_BANK_DIGESTS[key(a!)]).not.toBe(b!.contentHash);
   });
 });

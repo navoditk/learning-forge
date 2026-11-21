@@ -21,6 +21,7 @@ import {
 } from '../../src/curriculum/course-catalog';
 import {
   GEOMETRY_BANK_DIGEST_PENDING,
+  GEOMETRY_UNIT_2_BANK_DIGESTS,
   GEOMETRY_UNIT_2_ASSESSMENT_BANKS,
   GEOMETRY_UNIT_2_LESSONS,
   GEOMETRY_UNIT_2_PROGRAM,
@@ -267,6 +268,24 @@ describe('Geometry 2.0.0 bank metadata', () => {
   });
 });
 
+/** What still blocks activation once digests are real: stamps and sentinels. */
+const flipBlockers = (
+  banks: readonly {
+    code: string;
+    version: string;
+    contentHash: string;
+    review: { status: string };
+  }[],
+  unit: { code: string; version: string; review: { status: string } },
+  lessons: readonly { code: string; version: string; review: { status: string } }[],
+): string[] => [
+  ...banks
+    .filter((b) => b.review.status !== 'reviewed' || b.contentHash === GEOMETRY_BANK_DIGEST_PENDING)
+    .map((b) => `bank ${key(b)}`),
+  ...(unit.review.status !== 'reviewed' ? [`unit ${key(unit)}`] : []),
+  ...lessons.filter((l) => l.review.status !== 'reviewed').map((l) => `lesson ${key(l)}`),
+];
+
 describe('activation gate: program 1.3.0 is registered but selected only by the owner switch', () => {
   const selectionWith = (version: string) => ({
     ...VERSIONED_COURSE_CATALOG.selection,
@@ -286,12 +305,7 @@ describe('activation gate: program 1.3.0 is registered but selected only by the 
       reservedLabels: undefined,
     });
 
-  it('the committed selection still names the current program version while any digest is the sentinel', () => {
-    const pending = GEOMETRY_UNIT_2_ASSESSMENT_BANKS.filter(
-      (bank) => bank.contentHash === GEOMETRY_BANK_DIGEST_PENDING,
-    );
-    expect(pending).toHaveLength(13);
-    expect(GEOMETRY_BANK_DIGEST_PENDING).toBe(`sha256:${'0'.repeat(64)}`);
+  it('LIVE GATE (digests replaced, D-360): the committed selection stays on 1.1.0 while stamps are pending', () => {
     const selected = selectedFile.programs.find((ref) => ref.code === 'grade-6-math')!;
     expect(selected.version).toBe('1.1.0');
     expect(COURSE_CATALOG.programByCode('grade-6-math')?.version).toBe('1.1.0');
@@ -299,6 +313,63 @@ describe('activation gate: program 1.3.0 is registered but selected only by the 
     for (const lesson of GEOMETRY_UNIT_2_LESSONS) {
       expect(VERSIONED_COURSE_CATALOG.isActiveLesson(lesson)).toBe(false);
     }
+    // What still blocks activation is the stamp state, not the digests.
+    const blockers = flipBlockers(
+      GEOMETRY_UNIT_2_ASSESSMENT_BANKS,
+      GEOMETRY_UNIT_2_UNIT,
+      GEOMETRY_UNIT_2_LESSONS,
+    );
+    expect(blockers.length).toBeGreaterThan(0);
+    expect(GEOMETRY_UNIT_2_UNIT.review.status).toBe('pending_review');
+    for (const lesson of GEOMETRY_UNIT_2_LESSONS)
+      expect(lesson.review.status).toBe('pending_review');
+    // Whoever names 1.3.0 while any blocker stands must fail this gate.
+    expect(selected.version === '1.3.0' && blockers.length > 0).toBe(false);
+    // A flip today is blocked by V-11: every bank is NOT_REVIEWED.
+    const flipped = withSelection('1.3.0');
+    expect(checkClaimedSkillBanks(flipped, GEOMETRY_UNIT_2_PROGRAM_REF)).toHaveLength(13);
+  });
+
+  it('negative controls: the blocker predicate is sensitive to each stamp and to nothing else', () => {
+    const stamp = {
+      status: 'reviewed' as const,
+      reviewer: 'synthetic reviewer (test only)',
+      reviewedAt: '2026-11-17',
+      originalityStatement: 'synthetic',
+    };
+    const unit = { ...GEOMETRY_UNIT_2_UNIT, review: stamp };
+    const lessons = GEOMETRY_UNIT_2_LESSONS.map((l) => ({ ...l, review: stamp }));
+    const banks = GEOMETRY_UNIT_2_ASSESSMENT_BANKS.map((b) => ({ ...b, review: stamp }));
+    expect(flipBlockers(banks, unit, lessons)).toEqual([]);
+    expect(flipBlockers(banks.slice(1), unit, lessons)).toEqual([]);
+    expect(
+      flipBlockers(
+        [{ ...banks[0]!, review: GEOMETRY_UNIT_2_ASSESSMENT_BANKS[0]!.review }, ...banks.slice(1)],
+        unit,
+        lessons,
+      ),
+    ).toEqual(
+      GEOMETRY_UNIT_2_ASSESSMENT_BANKS[0]!.review.status === 'pending_review'
+        ? [`bank ${key(banks[0]!)}`]
+        : [],
+    );
+    expect(flipBlockers(banks, { ...unit, review: GEOMETRY_UNIT_2_UNIT.review }, lessons)).toEqual(
+      GEOMETRY_UNIT_2_UNIT.review.status === 'pending_review' ? [`unit ${key(unit)}`] : [],
+    );
+    expect(
+      flipBlockers(banks, unit, [
+        { ...lessons[0]!, review: GEOMETRY_UNIT_2_LESSONS[0]!.review },
+        ...lessons.slice(1),
+      ]),
+    ).toEqual([`lesson ${key(lessons[0]!)}`]);
+    // A sentinel digest on a stamped bank is also a blocker.
+    expect(
+      flipBlockers(
+        [{ ...banks[0]!, contentHash: GEOMETRY_BANK_DIGEST_PENDING }, ...banks.slice(1)],
+        unit,
+        lessons,
+      ),
+    ).toEqual([`bank ${key(banks[0]!)}`]);
   });
 
   it('with selection 1.3.0 (the switch) Ratios, Statistics and Geometry are active in order', () => {
@@ -483,7 +554,7 @@ describe('Geometry bank metadata file for scripts/private-bank-merge.ts --bank-m
       expect(entry.exclusiveSkills === true).toBe(skill);
       expect(entry.itemRole).toBe(bank.code.endsWith('-review-bank') ? 'review' : undefined);
     }
-    expect(metadata.banks.every((b) => b.digest === GEOMETRY_BANK_DIGEST_PENDING)).toBe(true);
+    expect(metadata.banks.some((b) => b.digest === GEOMETRY_BANK_DIGEST_PENDING)).toBe(false);
   });
 
   it('loads through the reviewed merge tooling without overlapping the baseline', async () => {
@@ -491,5 +562,48 @@ describe('Geometry bank metadata file for scripts/private-bank-merge.ts --bank-m
     const loaded = loadBankMetadata(path);
     expect(Object.keys(loaded.expectedDigests)).toHaveLength(13);
     expect(loaded.requiredBanks.length).toBeGreaterThanOrEqual(33);
+  });
+});
+
+describe('reviewed bank digests (D-360): geometry', () => {
+  const metadata = JSON.parse(
+    readFileSync(join(ROOT, 'src/curriculum/geometry-bank-metadata.json'), 'utf8'),
+  ) as { banks: { code: string; version: string; digest: string }[] };
+  const SHA = /^sha256:[0-9a-f]{64}$/;
+  const digests = GEOMETRY_UNIT_2_ASSESSMENT_BANKS.map((b) => b.contentHash);
+
+  /** Defects a digest set can have: sentinel, malformed, duplicate. */
+  const defects = (values: readonly string[]): string[] => [
+    ...values.filter((v) => v === GEOMETRY_BANK_DIGEST_PENDING).map(() => 'sentinel'),
+    ...values.filter((v) => !SHA.test(v)).map(() => 'malformed'),
+    ...values.filter((v, i) => values.indexOf(v) !== i).map(() => 'duplicate'),
+  ];
+
+  it('all 13 digests are real sha256 values: none is the sentinel, all distinct 64-hex', () => {
+    expect(digests).toHaveLength(13);
+    expect(defects(digests)).toEqual([]);
+    expect(new Set(digests).size).toBe(13);
+    expect(Object.values(GEOMETRY_UNIT_2_BANK_DIGESTS)).toHaveLength(13);
+    expect(new Set(Object.values(GEOMETRY_UNIT_2_BANK_DIGESTS)).size).toBe(13);
+    // Negative controls: each defect kind is detected.
+    expect(defects([GEOMETRY_BANK_DIGEST_PENDING, ...digests.slice(1)])).toEqual(['sentinel']);
+    expect(defects(['sha256:abc', ...digests.slice(1)])).toEqual(['malformed']);
+    expect(defects([digests[1]!, ...digests.slice(1)])).toEqual(['duplicate']);
+    expect(defects([digests[0]!.toUpperCase(), ...digests.slice(1)])).toEqual(['malformed']);
+  });
+
+  it('catalog, digest map and committed metadata JSON agree bank by bank', () => {
+    expect(Object.keys(GEOMETRY_UNIT_2_BANK_DIGESTS).sort()).toEqual(
+      GEOMETRY_UNIT_2_ASSESSMENT_BANKS.map(key).sort(),
+    );
+    for (const bank of GEOMETRY_UNIT_2_ASSESSMENT_BANKS) {
+      const entry = metadata.banks.find((b) => key(b) === key(bank));
+      expect(entry, key(bank)).toBeDefined();
+      expect(entry!.digest, key(bank)).toBe(bank.contentHash);
+      expect(GEOMETRY_UNIT_2_BANK_DIGESTS[key(bank)], key(bank)).toBe(bank.contentHash);
+    }
+    // Negative control: a swapped pair is detected as disagreement.
+    const [a, b] = GEOMETRY_UNIT_2_ASSESSMENT_BANKS;
+    expect(GEOMETRY_UNIT_2_BANK_DIGESTS[key(a!)]).not.toBe(b!.contentHash);
   });
 });

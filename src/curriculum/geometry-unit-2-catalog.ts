@@ -29,10 +29,8 @@ import { STATISTICS_UNIT_2_UNIT_REF } from './statistics-unit-2-catalog';
  * System skill `coordinate-distance`, which stays legacy practice-only.
  *
  * PENDING (fail closed). Activation is blocked, in this order, by:
- *  1. `contentHash` of every bank is `GEOMETRY_BANK_DIGEST_PENDING` until the
- *     owner replaces it with the real digest of the stamped private package
- *     (the merge tool refuses a mismatching digest, so a sentinel can never
- *     validate a real package).
+ *  1. Each bank carries its reviewed digest (D-360, `GEOMETRY_UNIT_2_BANK_DIGESTS`);
+ *     the sentinel is retired (satisfied).
  *  2. Bank, lesson and unit `review.status` is `pending_review`; V-11
  *     (`checkClaimedSkillBanks`) reports every bank `NOT_REVIEWED` until a
  *     delegated or human review stamps it.
@@ -40,7 +38,7 @@ import { STATISTICS_UNIT_2_UNIT_REF } from './statistics-unit-2-catalog';
  *     the content catalog as `pending_review` (never servable) and are NOT
  *     pinned here: a review flip changes their bytes, so they are pinned (and
  *     appended to each lesson) when accepted.
- * Tests forbid selecting program `1.3.0` while any sentinel remains.
+ * Tests forbid selecting program `1.3.0` while any of the remaining blockers stand.
  *
  * Practice pins: only reviewed, servable records. The first ref of each
  * lesson is its placement source (D-235). `surface-area-and-volume-1@content-1`
@@ -59,8 +57,47 @@ const unitVersion = '2.0.0';
 const skillVersion = '1.0.0';
 const bankVersion = '1.0.0';
 
-/** Marker for a bank digest the owner has not supplied yet. Never a real digest. */
+/** Retired sentinel (D-360): every bank now carries its reviewed digest; nothing may use this for a bank. */
 export const GEOMETRY_BANK_DIGEST_PENDING = `sha256:${'0'.repeat(64)}`;
+
+/**
+ * Reviewed per-bank digests (D-360), keyed by `code@version`; each equals the digest
+ * in the reviewed private bank metadata. Stamps are a separate step.
+ */
+export const GEOMETRY_UNIT_2_BANK_DIGESTS: Readonly<Record<string, string>> = {
+  'area-of-composite-shapes-lesson-bank@1.0.0':
+    'sha256:49fcd19adc704e19826093ef4546dda9e9e3181daabc91dea8932a013a152cc7',
+  'surface-area-and-volume-lesson-bank@1.0.0':
+    'sha256:1acd92ece9809be3f3bbcb8c9a1613d1f5d4f67738c76b1ef9cc5ee889479fdd',
+  'prism-volume-lesson-bank@1.0.0':
+    'sha256:b2c2a7744e962dd4f91ab77bfe7f7d5b7fc14f524c142773508a02e3a1c2a991',
+  'coordinate-geometry-lesson-bank@1.0.0':
+    'sha256:e84b1d27e4582e7a5e57420d28f40e477da9cc9635521b4d189027fdc193affe',
+  'geometry-unit-bank@1.0.0':
+    'sha256:4e5b2348317bb503b4f49d42316f52dac08c9d62638a04662874d0de588ec09d',
+  'area-of-composite-shapes-review-bank@1.0.0':
+    'sha256:0f62954cb930963c7e545d32e092ecb2718f133801ad2d0436abe17ae406c7a5',
+  'surface-area-and-volume-review-bank@1.0.0':
+    'sha256:7c7123dbb94159b587acbdcaccdb39431a1c3718e641fef9ad68a69d34d0e9fa',
+  'prism-volume-review-bank@1.0.0':
+    'sha256:6b71a860f4ace4798457ad1a3854a1a8406fdcea74cddc33412b404c0b975249',
+  'coordinate-geometry-review-bank@1.0.0':
+    'sha256:41017ec11c651e4cb8968966fcfb740680988ca3b7a66bd21c2a1ce889dcea20',
+  'area-of-composite-shapes-delayed-check-bank@1.0.0':
+    'sha256:0034303ef5231cdf4cea5abf75ccc7dbc4bda691cc524157e5366d07e9fb599f',
+  'surface-area-and-volume-delayed-check-bank@1.0.0':
+    'sha256:c5fee1b0381140fd256acf55bffd6b055eb61ee70124ecfd70256d0b68ae4839',
+  'prism-volume-delayed-check-bank@1.0.0':
+    'sha256:200a2c15f3fa041b2f4f5bce2c334b37c84aa49551ddd78c828c2d323ea110ee',
+  'coordinate-geometry-delayed-check-bank@1.0.0':
+    'sha256:aa216694da3c25493fc4eb6fa570fa0f8a33436bbd58169d2aefcd809eebc275',
+};
+
+const bankDigest = (code: string, version: string): string => {
+  const digest = GEOMETRY_UNIT_2_BANK_DIGESTS[`${code}@${version}`];
+  if (digest === undefined) throw new Error(`No reviewed digest for bank ${code}@${version}`);
+  return digest;
+};
 
 const policyProfileRef = { code: 'grade-6-math-default', version: '1.1.0' } satisfies Ref;
 const provenance = { origin: 'original' as const, licenseStatus: 'owned' as const };
@@ -228,7 +265,7 @@ const lessonBank = (skill: string): AssessmentBank =>
     policyProfileRef,
     coveredSkillRefs: [skillRefOf(skill)],
     itemCount: 9,
-    contentHash: GEOMETRY_BANK_DIGEST_PENDING,
+    contentHash: bankDigest(`${skill}-lesson-bank`, bankVersion),
     provenance,
     review: bankReview,
   });
@@ -245,7 +282,7 @@ const skillBank = (
     policyProfileRef,
     coveredSkillRefs: [skillRefOf(skill)],
     itemCount,
-    contentHash: GEOMETRY_BANK_DIGEST_PENDING,
+    contentHash: bankDigest(`${skill}-${suffix}`, bankVersion),
     provenance,
     review: bankReview,
   });
@@ -273,7 +310,7 @@ export const GEOMETRY_UNIT_2_ASSESSMENT_BANKS: readonly AssessmentBank[] = [
     policyProfileRef,
     coveredSkillRefs: SKILLS.map(skillRefOf),
     itemCount: 24,
-    contentHash: GEOMETRY_BANK_DIGEST_PENDING,
+    contentHash: bankDigest('geometry-unit-bank', bankVersion),
     provenance,
     review: bankReview,
   }),

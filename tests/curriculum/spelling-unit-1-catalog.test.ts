@@ -23,6 +23,7 @@ import {
 import { PROGRAM_REGISTRY } from '../../src/curriculum/program-registry';
 import {
   SPELLING_BANK_DIGEST_PENDING,
+  SPELLING_UNIT_1_BANK_DIGESTS,
   SPELLING_UNIT_1_ASSESSMENT_BANKS,
   SPELLING_UNIT_1_LESSONS,
   SPELLING_UNIT_1_PROGRAM,
@@ -309,6 +310,24 @@ describe('Spelling unit 1.0.0 bank metadata', () => {
   });
 });
 
+/** What still blocks activation once digests are real: stamps and sentinels. */
+const flipBlockers = (
+  banks: readonly {
+    code: string;
+    version: string;
+    contentHash: string;
+    review: { status: string };
+  }[],
+  unit: { code: string; version: string; review: { status: string } },
+  lessons: readonly { code: string; version: string; review: { status: string } }[],
+): string[] => [
+  ...banks
+    .filter((b) => b.review.status !== 'reviewed' || b.contentHash === SPELLING_BANK_DIGEST_PENDING)
+    .map((b) => `bank ${key(b)}`),
+  ...(unit.review.status !== 'reviewed' ? [`unit ${key(unit)}`] : []),
+  ...lessons.filter((l) => l.review.status !== 'reviewed').map((l) => `lesson ${key(l)}`),
+];
+
 describe('activation gate: program 1.1.0 is registered but selected only by the owner switch', () => {
   const selectionWith = (version: string) => ({
     ...VERSIONED_COURSE_CATALOG.selection,
@@ -328,25 +347,71 @@ describe('activation gate: program 1.1.0 is registered but selected only by the 
       reservedLabels: undefined,
     });
 
-  it('while any bank digest is the pending sentinel the committed selection must stay on 1.0.0', () => {
-    const pending = SPELLING_UNIT_1_ASSESSMENT_BANKS.filter(
-      (bank) => bank.contentHash === SPELLING_BANK_DIGEST_PENDING,
-    );
+  it('LIVE GATE (digests replaced, D-360): the committed selection stays on 1.0.0 while stamps are pending', () => {
     const selected = selectedFile.programs.find((ref) => ref.code === 'scripps-spelling-bee-6')!;
-    if (pending.length > 0) {
-      expect(selected.version).toBe('1.0.0');
-      expect(COURSE_CATALOG.programByCode('scripps-spelling-bee-6')?.version).toBe('1.0.0');
+    expect(selected.version).toBe('1.0.0');
+    expect(COURSE_CATALOG.programByCode('scripps-spelling-bee-6')?.version).toBe('1.0.0');
+    expect(VERSIONED_COURSE_CATALOG.isActiveUnit(SPELLING_UNIT_1_UNIT_REF)).toBe(false);
+    for (const lesson of SPELLING_UNIT_1_LESSONS) {
+      expect(VERSIONED_COURSE_CATALOG.isActiveLesson(lesson)).toBe(false);
     }
-    for (const bank of SPELLING_UNIT_1_ASSESSMENT_BANKS) {
-      expect(
-        bank.contentHash === SPELLING_BANK_DIGEST_PENDING ||
-          /^sha256:[0-9a-f]{64}$/.test(bank.contentHash),
-        bank.code,
-      ).toBe(true);
-    }
-    // Sensitivity: all thirteen banks carry the sentinel today, so the gate is live.
-    expect(pending).toHaveLength(13);
-    expect(SPELLING_BANK_DIGEST_PENDING).toBe(`sha256:${'0'.repeat(64)}`);
+    // What still blocks activation is the stamp state, not the digests.
+    const blockers = flipBlockers(
+      SPELLING_UNIT_1_ASSESSMENT_BANKS,
+      SPELLING_UNIT_1_UNIT,
+      SPELLING_UNIT_1_LESSONS,
+    );
+    expect(blockers.length).toBeGreaterThan(0);
+    expect(SPELLING_UNIT_1_UNIT.review.status).toBe('pending_review');
+    for (const lesson of SPELLING_UNIT_1_LESSONS)
+      expect(lesson.review.status).toBe('pending_review');
+    // Whoever names 1.1.0 while any blocker stands must fail this gate.
+    expect(selected.version === '1.1.0' && blockers.length > 0).toBe(false);
+    // A flip today is blocked by V-11: every bank is NOT_REVIEWED.
+    const flipped = withSelection('1.1.0');
+    expect(checkClaimedSkillBanks(flipped, SPELLING_UNIT_1_PROGRAM_REF)).toHaveLength(13);
+  });
+
+  it('negative controls: the blocker predicate is sensitive to each stamp and to nothing else', () => {
+    const stamp = {
+      status: 'reviewed' as const,
+      reviewer: 'synthetic reviewer (test only)',
+      reviewedAt: '2026-11-17',
+      originalityStatement: 'synthetic',
+    };
+    const unit = { ...SPELLING_UNIT_1_UNIT, review: stamp };
+    const lessons = SPELLING_UNIT_1_LESSONS.map((l) => ({ ...l, review: stamp }));
+    const banks = SPELLING_UNIT_1_ASSESSMENT_BANKS.map((b) => ({ ...b, review: stamp }));
+    expect(flipBlockers(banks, unit, lessons)).toEqual([]);
+    expect(flipBlockers(banks.slice(1), unit, lessons)).toEqual([]);
+    expect(
+      flipBlockers(
+        [{ ...banks[0]!, review: SPELLING_UNIT_1_ASSESSMENT_BANKS[0]!.review }, ...banks.slice(1)],
+        unit,
+        lessons,
+      ),
+    ).toEqual(
+      SPELLING_UNIT_1_ASSESSMENT_BANKS[0]!.review.status === 'pending_review'
+        ? [`bank ${key(banks[0]!)}`]
+        : [],
+    );
+    expect(flipBlockers(banks, { ...unit, review: SPELLING_UNIT_1_UNIT.review }, lessons)).toEqual(
+      SPELLING_UNIT_1_UNIT.review.status === 'pending_review' ? [`unit ${key(unit)}`] : [],
+    );
+    expect(
+      flipBlockers(banks, unit, [
+        { ...lessons[0]!, review: SPELLING_UNIT_1_LESSONS[0]!.review },
+        ...lessons.slice(1),
+      ]),
+    ).toEqual([`lesson ${key(lessons[0]!)}`]);
+    // A sentinel digest on a stamped bank is also a blocker.
+    expect(
+      flipBlockers(
+        [{ ...banks[0]!, contentHash: SPELLING_BANK_DIGEST_PENDING }, ...banks.slice(1)],
+        unit,
+        lessons,
+      ),
+    ).toEqual([`bank ${key(banks[0]!)}`]);
   });
 
   it('with the committed selection (1.0.0) Spelling serves practice only: no unit, no lesson is active', () => {
@@ -407,9 +472,12 @@ describe('activation gate: program 1.1.0 is registered but selected only by the 
         ...SKILLS.map(() => 'DELAYED_CHECK'),
       ].sort(),
     );
-    // The sentinel digests would also be refused by the merge tool for any real package.
+    // Digests are real (D-360); only the review stamps still block the flip.
     expect(
-      SPELLING_UNIT_1_ASSESSMENT_BANKS.every((b) => b.contentHash === SPELLING_BANK_DIGEST_PENDING),
+      SPELLING_UNIT_1_ASSESSMENT_BANKS.some((b) => b.contentHash === SPELLING_BANK_DIGEST_PENDING),
+    ).toBe(false);
+    expect(
+      SPELLING_UNIT_1_ASSESSMENT_BANKS.every((b) => b.review.status === 'pending_review'),
     ).toBe(true);
 
     // Step 1 and 2 (owner digests, delegated review stamp), shown on a synthetic copy only:
@@ -651,8 +719,8 @@ describe('Spelling bank metadata file for scripts/private-bank-merge.ts --bank-m
       expect(entry.exclusiveSkills === true).toBe(skill);
       expect(entry.itemRole).toBe(bank.code.endsWith('-review-bank') ? 'review' : undefined);
     }
-    // Sentinel gate: every digest is the all-zero marker, so no real package can validate yet.
-    expect(metadata.banks.every((b) => b.digest === SPELLING_BANK_DIGEST_PENDING)).toBe(true);
+    // D-360: no digest is the sentinel any more; the reviewed digests are committed.
+    expect(metadata.banks.some((b) => b.digest === SPELLING_BANK_DIGEST_PENDING)).toBe(false);
   });
 
   it('loads through the reviewed merge tooling without overlapping the baseline', async () => {
@@ -664,5 +732,48 @@ describe('Spelling bank metadata file for scripts/private-bank-merge.ts --bank-m
     for (const code of Object.keys(loaded.expectedDigests)) {
       expect(code.startsWith('snsb6-')).toBe(true);
     }
+  });
+});
+
+describe('reviewed bank digests (D-360): spelling', () => {
+  const metadata = JSON.parse(
+    readFileSync(join(ROOT, 'src/curriculum/spelling-bank-metadata.json'), 'utf8'),
+  ) as { banks: { code: string; version: string; digest: string }[] };
+  const SHA = /^sha256:[0-9a-f]{64}$/;
+  const digests = SPELLING_UNIT_1_ASSESSMENT_BANKS.map((b) => b.contentHash);
+
+  /** Defects a digest set can have: sentinel, malformed, duplicate. */
+  const defects = (values: readonly string[]): string[] => [
+    ...values.filter((v) => v === SPELLING_BANK_DIGEST_PENDING).map(() => 'sentinel'),
+    ...values.filter((v) => !SHA.test(v)).map(() => 'malformed'),
+    ...values.filter((v, i) => values.indexOf(v) !== i).map(() => 'duplicate'),
+  ];
+
+  it('all 13 digests are real sha256 values: none is the sentinel, all distinct 64-hex', () => {
+    expect(digests).toHaveLength(13);
+    expect(defects(digests)).toEqual([]);
+    expect(new Set(digests).size).toBe(13);
+    expect(Object.values(SPELLING_UNIT_1_BANK_DIGESTS)).toHaveLength(13);
+    expect(new Set(Object.values(SPELLING_UNIT_1_BANK_DIGESTS)).size).toBe(13);
+    // Negative controls: each defect kind is detected.
+    expect(defects([SPELLING_BANK_DIGEST_PENDING, ...digests.slice(1)])).toEqual(['sentinel']);
+    expect(defects(['sha256:abc', ...digests.slice(1)])).toEqual(['malformed']);
+    expect(defects([digests[1]!, ...digests.slice(1)])).toEqual(['duplicate']);
+    expect(defects([digests[0]!.toUpperCase(), ...digests.slice(1)])).toEqual(['malformed']);
+  });
+
+  it('catalog, digest map and committed metadata JSON agree bank by bank', () => {
+    expect(Object.keys(SPELLING_UNIT_1_BANK_DIGESTS).sort()).toEqual(
+      SPELLING_UNIT_1_ASSESSMENT_BANKS.map(key).sort(),
+    );
+    for (const bank of SPELLING_UNIT_1_ASSESSMENT_BANKS) {
+      const entry = metadata.banks.find((b) => key(b) === key(bank));
+      expect(entry, key(bank)).toBeDefined();
+      expect(entry!.digest, key(bank)).toBe(bank.contentHash);
+      expect(SPELLING_UNIT_1_BANK_DIGESTS[key(bank)], key(bank)).toBe(bank.contentHash);
+    }
+    // Negative control: a swapped pair is detected as disagreement.
+    const [a, b] = SPELLING_UNIT_1_ASSESSMENT_BANKS;
+    expect(SPELLING_UNIT_1_BANK_DIGESTS[key(a!)]).not.toBe(b!.contentHash);
   });
 });

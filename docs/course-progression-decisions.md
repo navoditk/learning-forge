@@ -4353,7 +4353,25 @@ items per skill), keep the D-352 block on ordinary L2 completion claims, and obt
 **Not decided here:** G-SOURCE, audio, licensing, hint serving, activation, release. The owner may reverse this
 ruling.
 
-There are 361 decisions: D-01 through D-75, D-139, D-142, D-145–D-361 approved;
+### D-362 — Delegated acceptance and local application: DIGEST-REPLACE, reviewed bank digests committed (D-212, D-360)
+
+Delegate: Codex `gpt-6.1-sol` (client header), 2026-11-20, one round, READY_WITH_RISKS with no Major findings and
+two Minor comment corrections (applied by the integrator). Author model from client metadata:
+`claude-sonnet-5-5`. Patch SHA-256 `7d7a048c...339a` (11 files). Replaces the 36 sentinel bank digests (Statistics
+10, Spelling 13, Geometry 13) with the reviewed digests in the three unit catalogs (one exported map per unit) and
+the three committed bank-metadata JSON files, re-pins the 36 bank-record digests in the two structure manifests
+(23 Math, 13 Spelling; the reviewer recomputed all 36 independently), and rewrites the three sentinel gate tests as
+live activation gates (the selection must stay on the previous program version while stamps are pending, with
+negative controls and the activation-order counterexamples kept). All 36 digests match the permitted private
+metadata by `code@version`, are distinct and not the sentinel. No content, policy, selection or review-status
+change. **Statistics note:** its banks were already reviewed (D-343), so V-11 is clean and a selection flip to
+`1.2.0` is blocked only by the pending unit and lesson stamps and by the test gate (a test gate, not a runtime
+prohibition). Validation on the main tree: typecheck, Prettier, `npm run build`, `test:integration` 46 files /
+413 tests (1 skipped), full `npm test` 153 files / 4,326 tests (clean, including the relay tests that fail in a
+worktree for lack of a local `tsx` loader). **Not done:** the real merges (next, local outputs only under D-360),
+unit and lesson stamps, lesson practice re-pinning, the selection flips, installation, release.
+
+There are 362 decisions: D-01 through D-75, D-139, D-142, D-145–D-362 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
