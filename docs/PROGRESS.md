@@ -7787,23 +7787,75 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
 
 ## Resume here
 
-**CURRENT — 2026-11-16 (supersedes the older blocks below for routing):**
+**CURRENT — 2026-11-22 (supersedes the older blocks below for routing; written so any CLI can continue):**
 
-- **2026-11-18 latest checkpoint:** pushed through `232ffe7` (D-350..D-359; no migration). Owner
-  authorization D-353 (2026-11-17): Spelling SP-5 and private drafting, Geometry OD-1..OD-5, window
-  `claude-window-20261115b` widened to 90 calls and 2026-11-29 (about 80 used; figures integrator-chosen).
-  **Registered, not active** (the selection still names `grade-6-math@1.1.0` and Spelling `1.0.0`):
-  Statistics (D-349), Spelling unit U-B (D-356), Geometry (D-357, with `prism-volume-2@content-3` stamped
-  reviewed, D-354, and a runtime fix so resumed sessions present their bound version). Public drafts:
-  Spelling SP-3 (22) and Geometry GEO-2 (16), all `pending_review`. Rulings: Spelling SP-1 (D-352),
-  Geometry GEO-0/1 (D-354). Private packages outside the repo in `~/learning-forge-private-drafts/`:
-  Statistics `stat6-rev2-reviewed` (accepted, stamped); Geometry `geo6-rev3-reviewed` (D-358) and
-  Spelling `spell6-rev5-reviewed` (D-359) accepted READY_WITH_RISKS and stamped, both awaiting the owner's
-  merge (WAITING FOR HUMAN APPROVAL). Clean full `npm test`
-  (153 files, 4,317) and `test:integration` (413) pass on the integrated tree; `test:migrations` still owed.
-  **Owner-only next:** the private-bank merges and D-216 history checks, G-SOURCE screening (six real Spelling
-  targets plus all named words), the explanation-by-selection policy question, the 6.G.2 packing
-  skill-version decision, Statistics activation ordering, mounted e2e, accessibility passes, release record.
+- **State at `940b072` on `origin/main` (decisions D-350..D-363; no migration, nothing deployed by this work).**
+  Grade 6 Math Statistics (D-349), Geometry (D-357) and Scripps Spelling unit U-B (D-356) are **registered but
+  not active**: the committed selection still names `grade-6-math@1.1.0` and Spelling `1.0.0`, and each unit's
+  unit, lessons and (Spelling, Geometry) banks are `pending_review`. The 36 reviewed bank digests are committed
+  (D-362) and the activation gates are live tests, not runtime locks. Public drafts, all `pending_review` and
+  never served: Statistics 12, Spelling 22, Geometry 16 (plus `prism-volume-2@content-3`, stamped reviewed,
+  D-354; the live `content-2` false accept remains until activation). Validation on the main tree at
+  `a859f98`: typecheck, eslint, Prettier, `npm run build`, `test:integration` 413, `test:e2e` 131 (run before
+  the pilot-route signature fix), full `npm test` 153 files / 4,326 tests. **Not run:** `npm run test:migrations`.
+- **Read first, in order:** this block; `docs/private-bank-activation-runbook.md` (exact merge and activation
+  steps); the decisions D-343..D-363 in `docs/course-progression-decisions.md` (each lists what was accepted,
+  carried risks and what is not authorized); `AGENTS.md` and `docs/agent-orchestration.md` (rules).
+- **Owner-only, waiting for the owner (do not do these in any CLI without an explicit owner instruction):**
+  (1) the real private-bank merges for Statistics, Spelling and Geometry, which need the owner's **current
+  private assessment package as the base** (the dry-runs passed every per-bank and D-216 check but the last
+  integrity check needs the four Ratios `1.0.0` banks only that package has, D-363); (2) installing a merged
+  package on a server and setting `LEARNING_FORGE_ASSESSMENT_PACKAGE_PATH`; (3) G-SOURCE screening of the six real
+  Spelling target words and all named and gloss words (`~/learning-forge-private-drafts/spell6-rev5-reviewed/G-SOURCE-words.txt`);
+  (4) the 6.G.2 cube-packing and equivalence evidence, which needs a successor `prism-volume` skill version
+  (D-149/D-57, deferred in D-354/D-355); (5) the manual accessibility passes, mounted e2e, the release record and
+  deploy; (6) hint serving (SP-4), audio, word-list licensing; (7) any new window figure.
+- **Next technical packets (authorized by D-360, in this order; each is author -> Codex cross-family review ->
+  integrator validation -> decision record -> commit and push):** (a) Spelling evidence labels and parent
+  wording per **D-361** (explanation-by-selection is partial evidence; `src/app/parent-claims.ts` and the
+  learner/parent status text must not claim "Independently confirmed" or full mastery for Spelling skills from
+  selection items; required before the Spelling flip); (b) lesson practice-ref pinning for the Statistics (12),
+  Spelling (22; re-pin to the `content-2` corrections) and Geometry (16) drafts once each batch is reviewed and
+  stamped; (c) unit and lesson stamps through the delegated gate; (d) a route-level test with distinct policy
+  profiles (the synthetic fixtures borrow Math's profile; carried in D-356/D-357); (e) the selection flips and
+  the tests pinning the old selection, which stay owner-triggered (Statistics `1.2.0` before or with Geometry
+  `1.3.0`).
+- **Where state lives that is NOT in the repository:** private held-out packages and review inputs in
+  `~/learning-forge-private-drafts/` (never commit, never print item text): `stat6-rev2-reviewed`,
+  `spell6-rev5-reviewed`, `geo6-rev3-reviewed` (each with `package-reviewed.json`, `banks-reviewed/`,
+  `bank-metadata-reviewed.json`, a `.sha256` manifest and a README of carried risks), earlier frozen revisions,
+  and `merged/` (empty; real merge outputs go here); patches, reports and the window ledger under
+  `.git/agent-handoffs/` (`DELIVERY-COORDINATOR/claude-window-20261115b/{ledger,authorization}.json`: 87 of 90
+  invocations used, deadline 2026-11-29, `maxInvocations` not raised because the owner named no number; other
+  handoff dirs `MATH-GEO6`, `DIGEST-REPLACE`, `MATH-GEO2`, `SPELL-SP5`...); stale worktrees under
+  `.claude/worktrees/` and branch `copilot/parallel-1`, plus the leftover synthetic Postgres container
+  `agent-aa6738aa122ba6395-db-1` (safe to remove when nobody uses it). Local-only files never committed:
+  `AGENTS.md` local edits, `.claude/agents`, `.codex/agents`, `reports/*.md`.
+- **How to work (proven this window):** claim one bounded packet; author in an isolated worktree (Claude Sonnet
+  for engineering, Opus for authoring, or another CLI's author) and hand off a patch plus its SHA-256 under
+  `.git/agent-handoffs/<PACKET>/revN/`; the integrator verifies the hash against the worktree diff, then asks a
+  cross-family reviewer (Codex `gpt-6.1-sol`, read-only: `codex exec -m gpt-6.1-sol -s read-only
+--output-last-message <file> - < prompt`; take the model from the run's `model:` log header, not from the
+  model's own words); fixes go back to the author or are applied by the integrator when the reviewer named them;
+  then apply with `git apply --index`, validate (below), write the decision record, commit and push. Private
+  items are reviewed in a **disposable copy** (`codex ... -s workspace-write --skip-git-repo-check -C <copy>`),
+  with ids, counts and hashes only in reports. A reviewer verdict of NOT_READY is never overridden; ACCEPT or
+  READY_WITH_RISKS with no Major finding is accepted with the Minors carried and recorded.
+- **Validation commands:** `npx tsc --noEmit`; `npx eslint src tests`; `npx prettier --check <files>` (use
+  `--ignore-path /dev/null` for `docs/`); `npm run content:validate`; `npm test`; `npm run build`; against the
+  synthetic local Postgres (`DATABASE_URL=postgresql://learning_forge@localhost:5432/learning_forge?schema=public`,
+  `docker compose up -d db`, schema current): `npm run test:integration`; `npm run test:e2e`. Load-sensitive
+  `tests/agents/delivery-*` suites fail under machine load (rerun on a quiet machine); the relay tests need the
+  main checkout's `node_modules` (they fail in a worktree).
+- **Pitfalls hit:** check `git branch --show-current` before every commit and push (a CLI left the shared checkout
+  on a feature branch once); never set `GIT_DIR` or `GIT_WORK_TREE` for test runs; Codex needs a trusted git
+  directory or `--skip-git-repo-check`, and has its own usage limit (retry time is in the error); zsh does not
+  word-split `$var` in shell loops; a sleeping machine and the Claude 5-hour limit kill background agents (resume
+  them with SendMessage); the merge script refuses a shallow clone and never prints item text.
+- **2026-11-18 checkpoint (kept for history):** pushed through `232ffe7` (D-350..D-359). Owner authorization D-353
+  (2026-11-17) covered Spelling SP-5 and private drafting, Geometry OD-1..OD-5 and the window widened to 90
+  calls; the private packages were accepted and stamped (D-343, D-358, D-359), Statistics `stat6-rev2-reviewed`,
+  Geometry `geo6-rev3-reviewed`, Spelling `spell6-rev5-reviewed`.
   Held claims to release: MATH-ST2, MATH-ST4, MATH-STD-IMPL, MATH-ST5A, MATH-STD-D, SPELL-SP2, SPELL-SCOPE.
 - Previous checkpoint (2026-11-17, through `56d7012`): D-343..D-349.
 - Previous checkpoint (2026-11-16): pushed through `0b38510` (D-340..D-342).

@@ -5,6 +5,21 @@ Read `AGENTS.md`, then the terminal-handoff procedure and approved native
 model mappings in `docs/agent-orchestration.md`. This index is a checkpoint,
 not an approval register or an automatic task scheduler.
 
+## Current continuation — 2026-11-22 (read this before the older paragraphs)
+
+The authoritative resume state is the **`CURRENT — 2026-11-22`** block under `## Resume here` in
+`docs/PROGRESS.md`: what is registered but not active (Grade 6 Math Statistics, Geometry and the Spelling
+word-structure unit), the owner-only gates still waiting (real private-bank merges need the owner's current
+package; installation; G-SOURCE; the 6.G.2 skill-version decision; accessibility passes; release), the next
+authorized packets (D-360, in order), where non-repository state lives (private packages under
+`~/learning-forge-private-drafts/`, the window ledger under `.git/agent-handoffs/DELIVERY-COORDINATOR/`), the
+author, cross-family review and integrate method, the validation commands and the pitfalls. The exact merge and
+activation steps are in `docs/private-bank-activation-runbook.md`. The decisions D-343 to D-363 in
+`docs/course-progression-decisions.md` record each acceptance and its carried risks. The window ledger shows 87 of
+90 invocations used (deadline 2026-11-29; no raise without an owner-stated figure). Any CLI (Claude Code, Codex,
+Copilot) may take the next packet only with an actual-model check from client metadata and must not cross an
+owner-only gate.
+
 ## Assigned preparation lanes — 2026-10-14
 
 **Current continuation — 2026-10-20, D-184 Claude-coordinated window:**
