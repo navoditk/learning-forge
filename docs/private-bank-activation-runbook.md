@@ -83,3 +83,21 @@ version are optional (the pending-bank rule), so a package that carries them sti
 
 Rollback: revert the selection commit; the package stays loadable because the new banks are optional once the
 selection no longer names their units.
+
+## 4. Held activation patches (prepared, reviewed, NOT applied; D-366, D-367, D-368)
+
+The three activations exist as patch files under `.git/agent-handoffs/` on the integrator's machine (they are not in the
+repository). Apply them to a clean `main` checkout, in this order, only after sections 1 and 2 and the accessibility pass:
+
+```sh
+git apply --index .git/agent-handoffs/ACTIVATE-STAT/rev3/patch.diff     # Statistics, flips the selection to 1.2.0
+git apply --index .git/agent-handoffs/ACTIVATE-GEO/rev1/patch.diff      # Geometry, flips the selection to 1.3.0
+git apply --index .git/agent-handoffs/ACTIVATE-SPELL/rev3/patch.diff    # Spelling, flips scripps-spelling-bee-6 to 1.1.0
+```
+
+Expected SHA-256: Statistics `96db072c53bf...f762`, Geometry `0084d1333bb5...0625`, Spelling `5f1d5555aafc...862b`.
+Each is a unit of activation: apply one at a time if you want to activate in stages (Geometry needs Statistics; Spelling is
+independent of Geometry in behavior but its tests assume both). Before pushing, run `npm run verify`, `npm run
+test:integration` and `npm run test:e2e`. Registered content is immutable per `id@version` (`npm run db:deploy` runs
+`content:archive`), so never edit a registered content file in place; reviewed versions are new `content-2` files.
+Spelling additionally needs your G-SOURCE screening first: its patch registers 22 records that contain real words.

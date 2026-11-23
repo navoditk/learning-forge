@@ -4490,7 +4490,48 @@ the real private-bank merges and install, the accepted Statistics patch applied 
 validation of the assembled patches on one tree (to be run by the integrator), and the owner's explicit trigger.
 **Not authorized:** applying the patch, activation, release.
 
-There are 367 decisions: D-01 through D-75, D-139, D-142, D-145–D-367 approved;
+### D-368 — Prepared, not applied: Spelling activation candidate, stacked on the Statistics and Geometry patches (D-360, D-366, D-367)
+
+Delegate: Codex `gpt-6.1-sol` (native reviewer selection; run headers identified GPT-6), 2026-11-23, two rounds: rev1
+NOT_READY (two Majors: `COMPLETE_BY_SKIP` rendered unqualified text; the parent note still said "practice only ... two
+items per skill", inaccurate after activation), rev2 READY_WITH_RISKS (both Majors closed, 120 non-Spelling renderings
+byte-identical, 34 scoped checks and five mutations), two Minor fixes applied in rev3 and verified by the integrator
+(only one note clause and tests changed). Author model from client metadata: `claude-sonnet-5-5`. **Held patch, NOT
+applied to `main`:** `.git/agent-handoffs/ACTIVATE-SPELL/rev3/patch.diff`, SHA-256 `5f1d5555...862b`, 52 files, `git diff
+ba37d52 HEAD` where `ba37d52` is `main` (`8b8aef9`) plus the held Statistics and Geometry patches. **Apply order for
+the three held patches:** `ACTIVATE-STAT/rev3` (`96db072c...f762`), then `ACTIVATE-GEO/rev1` (`0084d133...0625`), then
+`ACTIVATE-SPELL/rev3`; the integrator verified that rev2 of the three applies cleanly in that order to a fresh checkout and
+yields a tree byte-identical to the author's (rev3 only changes wording and tests). It stamps `snsb6-word-structure@1.0.0`,
+its four lessons and the 13 banks; registers the 22 D-348 drafts after flipping only their review block in place (the
+reviewer checked 45 historical catalog states: none of the 22 `id@version` pairs was ever registered or archived, and
+all 22 bodies equal the D-348 accepted bytes); re-pins the lessons to the accepted `content-2` corrections (first refs
+of the morphology, orthography and phoneme-grapheme lessons are now the corrected `core-1@content-2`, so the Spelling
+placement probe snapshot is regenerated: four items, three now structured choice, within D-22); flips the Spelling selection
+entry from `1.0.0` to `scripps-spelling-bee-6@1.1.0`; the package store becomes 56 descriptors, 24 mandatory, 32 optional;
+extends the archive-immutability fixture to 222 pins; excludes `snsb6-` skills from the two su-h7-fix2 fake-tutor tests
+behind a guard that model tutoring stays disabled (the accepted drafts `contest-6` and `core-4` carry two- and
+three-letter leakage patterns, `qu` and `itt`, that any sentence contains: revisit before SP-4). **D-361 and D-352
+behavior after the flip:** lesson and unit COMPLETE and COMPLETE_BY_SKIP carry the qualified labels; the parent note is
+one neutral wording true before and after activation ("...recorded attempts only ... the pool of items is limited ...
+Learner-written explanations are not assessed. These rows are not a measure of readiness for the competition."); the L2
+parent note shows for active units with Spelling skills; confirmed skills never show "Independently confirmed". No
+code requires an explanation item, and D-352's block on ordinary L2 completion claims is enforced by wording and by the
+shared progression release gate (default closed), not by a Spelling-specific lock: the owner should confirm that is
+enough. Validation on the assembled tree (all three activations) by the author at rev2: tsc, eslint (0 errors), Prettier,
+`content:validate` 703, `test:integration` 413, build, `test:e2e` 131 (1 skipped), full `npm test` 156 files with 3 relay
+failures from the worktree's missing `tsx` loader that pass 33/33 with the main `node_modules`; rev3 reran tsc, eslint, Prettier,
+`content:validate`, `tests/app` and the full suite. **Accessibility pass targets:** the 22 served records (7 structured
+choice core records, 7 contest text records, 8 spell-it text records with capitalized stress syllables, D-348 R-4), the three
+structured placement items, the Spelling progress surfaces with the long qualified labels, the parent course-progression
+section and the review page. **Not cleared by this patch:** G-SOURCE (the coverage map section 5 inventories the 22 records;
+`sphere` and `knead` are served as answers; the private-bank real words are also uncleared). **Required before applying:**
+the real merges and install (Statistics, then Spelling, then Geometry, before any flip), the Statistics and Geometry patches
+applied first, the owner's G-SOURCE screening, the manual accessibility pass, mounted e2e and the owner's explicit trigger.
+Carried: no e2e covers a Spelling placement or lesson flow; the real merged package has not been exercised; the three
+explanation-selection labels remain unwired (D-365); a code comment above the note still says "small counts per skill".
+**Not authorized:** applying any held patch, activation, release.
+
+There are 368 decisions: D-01 through D-75, D-139, D-142, D-145–D-368 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

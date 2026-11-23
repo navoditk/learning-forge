@@ -7793,13 +7793,15 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
   concurrency, scope and human gates remain unchanged. The owner authorized reserving one invocation for the
   unresolved discrepancy: 86 recorded invocations plus one accounting reservation count as 87. No additional
   parallel lanes are authorized by the budget increase.
-- **2026-11-23 update:** the D-361 Spelling evidence labels are done and pushed (`df3b93e`, D-365). The Statistics
-  activation patch is prepared and held, not applied (D-366: `.git/agent-handoffs/ACTIVATE-STAT/rev3/patch.diff`, apply only
-  after the owner's merge, install and accessibility pass). **New rule:** registered content is immutable per
-  `id@version` because `db:deploy` runs `content:archive`; review flips are new `content-2` records. **Next packets:**
-  prepared activation patches for Geometry (16 registered drafts become new `content-2` records) and Spelling (22
-  unregistered drafts register directly as reviewed, gated by the owner's G-SOURCE check), then the route-level test
-  with distinct policy profiles. Cross-family review and the owner-only gates remain open.
+- **2026-11-23 update:** the D-361 Spelling evidence labels are done and pushed (`df3b93e`, D-365). **Three activation patches are
+  prepared, reviewed by Codex and HELD, not applied** (D-366 Statistics `ACTIVATE-STAT/rev3`, D-367 Geometry `ACTIVATE-GEO/rev1`,
+  D-368 Spelling `ACTIVATE-SPELL/rev3`, in `.git/agent-handoffs/`; order Statistics, Geometry, Spelling; runbook section 4).
+  **Rule:** registered content is immutable per `id@version` because `db:deploy` runs `content:archive`; review flips are new
+  `content-2` records. **Owner-only before any patch is applied:** the real merges (Statistics, Spelling, Geometry, on your
+  current private package), install, G-SOURCE screening for Spelling, the accessibility pass (figure items and the Spelling
+  surfaces), mounted e2e, and your explicit trigger. **Next packets:** the route-level test with distinct policy profiles; the
+  three explanation-selection labels once attempt data can carry item kind (D-365); revisit the `qu`/`itt` leakage patterns
+  before SP-4.
 - **State at `940b072` on `origin/main` (decisions D-350..D-363; no migration, nothing deployed by this work).**
   Grade 6 Math Statistics (D-349), Geometry (D-357) and Scripps Spelling unit U-B (D-356) are **registered but
   not active**: the committed selection still names `grade-6-math@1.1.0` and Spelling `1.0.0`, and each unit's
