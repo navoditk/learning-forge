@@ -1,4 +1,5 @@
 import type { CourseProgress } from '../course-progress-view';
+import { qualifiedCompletionLabel } from '../../curriculum/evidence-labels';
 import { historyHeadingId, progressKey } from '../course-progress-view';
 
 const humanize = (value: string): string => value.toLocaleLowerCase().replaceAll('_', ' ');
@@ -14,14 +15,34 @@ function LearnerUnit({
   headingId: string;
   heading: string;
 }) {
+  const unitCompletionLabel = qualifiedCompletionLabel(
+    'Unit',
+    unit.lessons.flatMap((lesson) => lesson.skillRefs.map((ref) => ref.code)),
+    unit.status,
+  );
   return (
     <article aria-labelledby={headingId}>
       <h4 id={headingId}>{heading}</h4>
       <p>Unit status: {humanize(unit.status)}</p>
+      {unitCompletionLabel && <p>{unitCompletionLabel}</p>}
       <ol>
         {unit.lessons.map((lesson) => (
           <li key={progressKey(lesson.code, lesson.version)}>
             <strong>{lesson.title}</strong> — {humanize(lesson.completionStatus)}
+            {qualifiedCompletionLabel(
+              'Lesson',
+              lesson.skillRefs.map((ref) => ref.code),
+              lesson.completionStatus,
+            ) && (
+              <span>
+                {' '}
+                {qualifiedCompletionLabel(
+                  'Lesson',
+                  lesson.skillRefs.map((ref) => ref.code),
+                  lesson.completionStatus,
+                )}
+              </span>
+            )}
             {lesson.remediationStatus !== 'NONE' && (
               <span> ({humanize(lesson.remediationStatus)})</span>
             )}

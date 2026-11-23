@@ -1,12 +1,13 @@
 import { skillsByCode } from '../../curriculum/catalog';
 import type { Chapter, ChapterItem } from '../learner-chapters';
+import { qualifiedIndependentCheckLabel } from '../../curriculum/evidence-labels';
 import { describeTopicStatus } from '../learner-chapters';
 
 type Relation = { relationship: 'Builds on' | 'Leads to'; item: ChapterItem };
 
 function statusWord(item: ChapterItem): string {
   return item.status === 'INDEPENDENTLY_CONFIRMED'
-    ? 'Independently confirmed'
+    ? (qualifiedIndependentCheckLabel(item.skillCode) ?? 'Independently confirmed')
     : item.status === 'PRACTICING'
       ? 'Practicing, not yet confirmed'
       : 'Not started';

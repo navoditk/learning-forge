@@ -6,6 +6,7 @@ import {
   SCIENCE_EVIDENCE_NOTE,
   SPELLING_EVIDENCE_NOTE,
 } from '../parent-claims';
+import { qualifiedIndependentCheckLabel } from '../../curriculum/evidence-labels';
 
 export type ParentEvidenceData = {
   learnerName: string;
@@ -39,7 +40,7 @@ export function ParentEvidence({ evidence }: { evidence: ParentEvidenceData }) {
               {/* D-65: today's same-sitting check is independent PRACTICE, not a genuine time-separated
                   delayed check (re-review F6), so the wording does not overclaim either case. */}
               {row.independentDelayedCheck
-                ? 'Independently confirmed.'
+                ? (qualifiedIndependentCheckLabel(row.skillCode) ?? 'Independently confirmed.')
                 : 'Independent confirmation still needed.'}
             </li>
           ))}

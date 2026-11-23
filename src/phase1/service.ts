@@ -18,6 +18,7 @@ import {
   WeeklyDigestSkillInput,
 } from '../contracts';
 import { skillCatalog, skillsByCode, topologicalSkillOrder } from '../curriculum';
+import { qualifiedIndependentCheckLabel } from '../curriculum/evidence-labels';
 import { isSkillClaimedByAuthoredUnit } from '../curriculum/unit-claims';
 import { programsByCode } from '../curriculum/program-registry';
 import { ConsoleNotifier, buildWeeklyDigest, createNotifier } from '../notification';
@@ -1327,7 +1328,10 @@ export async function getLearnerProgress(
       title: skill.title,
       domain: skill.domain,
       status,
-      summary: SKILL_PROGRESS_SUMMARY[status],
+      summary:
+        status === 'INDEPENDENTLY_CONFIRMED'
+          ? (qualifiedIndependentCheckLabel(skill.code) ?? SKILL_PROGRESS_SUMMARY[status])
+          : SKILL_PROGRESS_SUMMARY[status],
     };
   });
 

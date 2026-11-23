@@ -1,4 +1,5 @@
 import type { Chapter, ChapterItem } from '../learner-chapters';
+import { chapterConfirmedCountText } from '../../curriculum/evidence-labels';
 import { describeTopicStatus, isTopicOpenable } from '../learner-chapters';
 import { buildCourseHref } from '../course-route';
 import { ChapterIcon } from './chapter-icon';
@@ -136,11 +137,11 @@ export function CourseOverview({
                 <ProgressBadge
                   confirmedCount={chapter.confirmedCount}
                   totalCount={chapter.totalCount}
-                  label={`${chapter.label}: ${chapter.confirmedCount} of ${chapter.totalCount} topics independently confirmed`}
+                  label={`${chapter.label}: ${chapterConfirmedCountText(chapter.items, 'topics')}`}
                 />
                 <p>
-                  {chapter.confirmedCount} of {chapter.totalCount} topics independently confirmed ·{' '}
-                  {chapter.practicingCount} practicing, not yet confirmed
+                  {chapterConfirmedCountText(chapter.items, 'topics')} · {chapter.practicingCount}{' '}
+                  practicing, not yet confirmed
                 </p>
               </div>
               <ul className="topic-card-list">

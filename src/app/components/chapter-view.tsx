@@ -1,6 +1,10 @@
 import type { ReactNode } from 'react';
 
 import type { Chapter } from '../learner-chapters';
+import {
+  chapterConfirmedCountText,
+  qualifiedIndependentCheckLabel,
+} from '../../curriculum/evidence-labels';
 import { ChapterIcon } from './chapter-icon';
 import { ProgressBadge } from './progress-badge';
 
@@ -49,7 +53,11 @@ export function ChapterView({
             <h2 id="chapter-heading">{chapter.label}</h2>
           </div>
         </div>
-        <ProgressBadge confirmedCount={chapter.confirmedCount} totalCount={chapter.totalCount} />
+        <ProgressBadge
+          confirmedCount={chapter.confirmedCount}
+          totalCount={chapter.totalCount}
+          label={chapterConfirmedCountText(chapter.items, 'skills')}
+        />
       </header>
       {pilotProgress}
       {topicDetail}
@@ -95,7 +103,8 @@ export function ChapterView({
       {!showActivity && current && !current.locked && !current.action && (
         <p role="status">
           {current.status === 'INDEPENDENTLY_CONFIRMED'
-            ? `Nice work — you've already confirmed "${current.title}" independently. It will come back for review later.`
+            ? (qualifiedIndependentCheckLabel(current.skillCode) ??
+              `Nice work — you've already confirmed "${current.title}" independently. It will come back for review later.`)
             : `Nothing is queued for "${current.title}" right now. Check back after more practice elsewhere.`}
         </p>
       )}

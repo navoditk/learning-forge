@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import { svgDataUri, type ContentFigure } from '../../content/figure';
 import type { ResponseSpec, StructuredErrorState, StructuredValues } from '../learner-data';
+import { activityCompletedText, reviewCorrectText } from '../../curriculum/evidence-labels';
 import type { CodeListing } from '../../contracts/python';
 import { CodeListingView } from './code-listing';
 import { StructuredResponseFields } from './structured-response-fields';
@@ -114,9 +115,7 @@ export function ActivityPanel({
           <small>Continuing where you left off.</small>
         </p>
       )}
-      {session.completed && (
-        <p role="status">Independent check passed — this activity is complete.</p>
-      )}
+      {session.completed && <p role="status">{activityCompletedText(session.content.skillCode)}</p>}
       <p>{session.content.prompt}</p>
       {session.content.figure && (
         <figure className="content-figure">
@@ -228,7 +227,7 @@ export function ActivityPanel({
         <div role="status" aria-live="polite">
           <p>
             {attempt.correctness === 'CORRECT'
-              ? 'Correct — this skill is still confirmed.'
+              ? reviewCorrectText(session.content.skillCode)
               : 'Not yet — this skill has been moved back into regular practice.'}
           </p>
         </div>

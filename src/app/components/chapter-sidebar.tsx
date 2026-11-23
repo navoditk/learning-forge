@@ -3,6 +3,10 @@
 import { useEffect, useState } from 'react';
 
 import type { Chapter, ChapterItem } from '../learner-chapters';
+import {
+  chapterConfirmedCountText,
+  qualifiedIndependentCheckLabel,
+} from '../../curriculum/evidence-labels';
 import { ChapterIcon } from './chapter-icon';
 import { ProgramSwitcher } from './program-switcher';
 import { ProgressBadge } from './progress-badge';
@@ -137,7 +141,7 @@ export function ChapterSidebar({
                   <ProgressBadge
                     confirmedCount={chapter.confirmedCount}
                     totalCount={chapter.totalCount}
-                    label={`${chapter.label}: ${chapter.confirmedCount} of ${chapter.totalCount} skills confirmed`}
+                    label={`${chapter.label}: ${chapterConfirmedCountText(chapter.items, 'skills')}`}
                   />
                 </summary>
                 <ul className="chapter-skill-list">
@@ -154,7 +158,14 @@ export function ChapterSidebar({
                         >
                           <StatusIcon item={item} />
                           <span>{item.title}</span>
-                          <small>{item.locked ? 'Not ready yet' : STATUS_LABEL[item.status]}</small>
+                          <small>
+                            {item.locked
+                              ? 'Not ready yet'
+                              : item.status === 'INDEPENDENTLY_CONFIRMED'
+                                ? (qualifiedIndependentCheckLabel(item.skillCode) ??
+                                  STATUS_LABEL[item.status])
+                                : STATUS_LABEL[item.status]}
+                          </small>
                         </button>
                       </li>
                     );

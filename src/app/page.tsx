@@ -42,6 +42,7 @@ import {
   type StructuredErrorState,
   type StructuredValues,
 } from './learner-data';
+import { recentStrengthText } from '../curriculum/evidence-labels';
 import { buildChapters, chapterForSkill, nextChapterDomain } from './learner-chapters';
 import { useProgramResource } from './use-program-resource';
 import { CourseProgressPanel } from './components/course-progress-panel';
@@ -902,8 +903,11 @@ export default function Home() {
               <ul>
                 {progress.recentStrengths.map((strength) => (
                   <li key={strength.attemptId}>
-                    {strength.skillTitle} — confirmed independently on{' '}
-                    {new Date(strength.achievedAt).toLocaleDateString()}
+                    {recentStrengthText(
+                      strength.skillCode,
+                      strength.skillTitle,
+                      new Date(strength.achievedAt).toLocaleDateString(),
+                    )}
                   </li>
                 ))}
               </ul>

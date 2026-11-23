@@ -1,5 +1,6 @@
 import { CurriculumDomainSchema } from '../contracts/curriculum';
 import { arePrerequisitesMet } from '../curriculum/catalog';
+import { qualifiedIndependentCheckLabel } from '../curriculum/evidence-labels';
 
 export type SkillProgress = {
   skillCode: string;
@@ -280,7 +281,9 @@ export function describeTopicStatus(item: ChapterItem): TopicStatusText {
       item.status === 'NOT_STARTED'
         ? 'No practice evidence recorded yet'
         : 'Practice evidence recorded',
-    mastery: confirmed ? 'Independently confirmed' : 'Not yet independently confirmed',
+    mastery: confirmed
+      ? (qualifiedIndependentCheckLabel(item.skillCode) ?? 'Independently confirmed')
+      : 'Not yet independently confirmed',
     attempts: 'Number of attempts is not reported in this view',
     availability:
       item.availability === 'blocked'

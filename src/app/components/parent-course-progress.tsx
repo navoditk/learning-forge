@@ -1,4 +1,9 @@
 import type { CourseProgress } from '../course-progress-view';
+import {
+  needsSpellingL2Note,
+  qualifiedCompletionLabel,
+  SPELLING_L2_PARENT_NOTE,
+} from '../../curriculum/evidence-labels';
 import { historicalLessonLabel, historyHeadingId, progressKey } from '../course-progress-view';
 import { NeedsHelpOverride } from './needs-help-override';
 
@@ -19,15 +24,35 @@ function ParentUnit({
   onApplied: (message: string) => void;
   overrideTitle: (lessonTitle: string) => string;
 }) {
+  const unitCompletionLabel = qualifiedCompletionLabel(
+    'Unit',
+    unit.lessons.flatMap((lesson) => lesson.skillRefs.map((ref) => ref.code)),
+    unit.status,
+  );
   return (
     <article aria-labelledby={headingId}>
       <h3 id={headingId}>{heading}</h3>
       <p>Unit status: {humanize(unit.status)}</p>
+      {unitCompletionLabel && <p>{unitCompletionLabel}</p>}
       <ul>
         {unit.lessons.map((lesson) => (
           <li key={progressKey(lesson.code, lesson.version)}>
             <strong>{lesson.title}</strong>: {humanize(lesson.completionStatus)}; remediation{' '}
             {humanize(lesson.remediationStatus)}.
+            {qualifiedCompletionLabel(
+              'Lesson',
+              lesson.skillRefs.map((ref) => ref.code),
+              lesson.completionStatus,
+            ) && (
+              <span>
+                {' '}
+                {qualifiedCompletionLabel(
+                  'Lesson',
+                  lesson.skillRefs.map((ref) => ref.code),
+                  lesson.completionStatus,
+                )}
+              </span>
+            )}
             {lesson.latestAssessment && (
               <span>
                 {' '}
@@ -69,6 +94,11 @@ export function ParentCourseProgress({
     <section aria-labelledby="course-progress-heading">
       <h2 id="course-progress-heading">Course progression</h2>
       <p>Completion history and current remediation are shown separately from mastery evidence.</p>
+      {needsSpellingL2Note(
+        courseProgress.units.flatMap((unit) =>
+          unit.lessons.flatMap((lesson) => lesson.skillRefs.map((ref) => ref.code)),
+        ),
+      ) && <p>{SPELLING_L2_PARENT_NOTE}</p>}
       {courseProgress.units.map((unit) => (
         <ParentUnit
           key={progressKey(unit.code, unit.version)}
