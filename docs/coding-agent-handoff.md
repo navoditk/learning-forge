@@ -7,6 +7,15 @@ not an approval register or an automatic task scheduler.
 
 ## Current continuation — 2026-11-22 (read this before the older paragraphs)
 
+**Budget update:** D-364 raises the existing window's total ceiling to 200 invocations, with the deadline and
+scope unchanged. The owner authorized one conservative accounting reservation: 86 recorded invocations plus
+one reservation count as 87 against the ceiling; the underlying discrepancy is unresolved. The budget increase
+does not authorize additional parallel lanes.
+
+**Next eligible role:** Claude Code `forge-implementer` for the first D-360 packet, Spelling evidence labels
+and parent wording under D-361. Verify actual model metadata, claim a bounded packet and use an isolated
+worktree before implementation; then route the frozen patch to the required independent reviewer.
+
 The authoritative resume state is the **`CURRENT — 2026-11-22`** block under `## Resume here` in
 `docs/PROGRESS.md`: what is registered but not active (Grade 6 Math Statistics, Geometry and the Spelling
 word-structure unit), the owner-only gates still waiting (real private-bank merges need the owner's current
@@ -15,8 +24,9 @@ authorized packets (D-360, in order), where non-repository state lives (private 
 `~/learning-forge-private-drafts/`, the window ledger under `.git/agent-handoffs/DELIVERY-COORDINATOR/`), the
 author, cross-family review and integrate method, the validation commands and the pitfalls. The exact merge and
 activation steps are in `docs/private-bank-activation-runbook.md`. The decisions D-343 to D-363 in
-`docs/course-progression-decisions.md` record each acceptance and its carried risks. The window ledger shows 87 of
-90 invocations used (deadline 2026-11-29; no raise without an owner-stated figure). Any CLI (Claude Code, Codex,
+`docs/course-progression-decisions.md` record each acceptance and its carried risks. The prior checkpoint recorded
+87 used, while 86 invocations are individually recorded; the owner-approved reserve brings accounting to 87
+against the D-364 ceiling of 200 (deadline 2026-11-29). Any CLI (Claude Code, Codex,
 Copilot) may take the next packet only with an actual-model check from client metadata and must not cross an
 owner-only gate.
 

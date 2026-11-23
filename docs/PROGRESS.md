@@ -7789,6 +7789,17 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
 
 **CURRENT — 2026-11-22 (supersedes the older blocks below for routing; written so any CLI can continue):**
 
+- **Budget update, D-364:** the owner set the existing window's total invocation ceiling to 200; its deadline,
+  concurrency, scope and human gates remain unchanged. The owner authorized reserving one invocation for the
+  unresolved discrepancy: 86 recorded invocations plus one accounting reservation count as 87. No additional
+  parallel lanes are authorized by the budget increase.
+- **2026-11-23 update:** the D-361 Spelling evidence labels are done and pushed (`df3b93e`, D-365). The Statistics
+  activation patch is prepared and held, not applied (D-366: `.git/agent-handoffs/ACTIVATE-STAT/rev3/patch.diff`, apply only
+  after the owner's merge, install and accessibility pass). **New rule:** registered content is immutable per
+  `id@version` because `db:deploy` runs `content:archive`; review flips are new `content-2` records. **Next packets:**
+  prepared activation patches for Geometry (16 registered drafts become new `content-2` records) and Spelling (22
+  unregistered drafts register directly as reviewed, gated by the owner's G-SOURCE check), then the route-level test
+  with distinct policy profiles. Cross-family review and the owner-only gates remain open.
 - **State at `940b072` on `origin/main` (decisions D-350..D-363; no migration, nothing deployed by this work).**
   Grade 6 Math Statistics (D-349), Geometry (D-357) and Scripps Spelling unit U-B (D-356) are **registered but
   not active**: the committed selection still names `grade-6-math@1.1.0` and Spelling `1.0.0`, and each unit's
@@ -7825,8 +7836,8 @@ open`) was already correct. Docs-only; `npx prettier --check docs/` passes.
   `spell6-rev5-reviewed`, `geo6-rev3-reviewed` (each with `package-reviewed.json`, `banks-reviewed/`,
   `bank-metadata-reviewed.json`, a `.sha256` manifest and a README of carried risks), earlier frozen revisions,
   and `merged/` (empty; real merge outputs go here); patches, reports and the window ledger under
-  `.git/agent-handoffs/` (`DELIVERY-COORDINATOR/claude-window-20261115b/{ledger,authorization}.json`: 87 of 90
-  invocations used, deadline 2026-11-29, `maxInvocations` not raised because the owner named no number; other
+  `.git/agent-handoffs/` (`DELIVERY-COORDINATOR/claude-window-20261115b/{ledger,authorization}.json`: ledger
+  86 recorded plus one reserved, accounting total 87; ceiling 200 under D-364, deadline 2026-11-29; other
   handoff dirs `MATH-GEO6`, `DIGEST-REPLACE`, `MATH-GEO2`, `SPELL-SP5`...); stale worktrees under
   `.claude/worktrees/` and branch `copilot/parallel-1`, plus the leftover synthetic Postgres container
   `agent-aa6738aa122ba6395-db-1` (safe to remove when nobody uses it). Local-only files never committed:

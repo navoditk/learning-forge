@@ -4387,7 +4387,76 @@ chained commands (Statistics, then Spelling, then Geometry), the activation orde
 chained merges are untested, which the runbook says. **Not done:** the real merges, any installation, unit and
 lesson stamps, lesson re-pinning, the Spelling evidence-label work required by D-361, the selection flips.
 
-There are 363 decisions: D-01 through D-75, D-139, D-142, D-145–D-363 approved;
+### D-364 — Owner increases the existing invocation ceiling
+
+On 2026-11-22 the owner requested an increased budget and specified **200 total invocations**, including
+those already used. The existing `claude-window-20261115b` ceiling increases from 90 to 200; the deadline
+(2026-11-29T21:00:00Z), concurrency, approved scope, ordered packets and human gates are unchanged. This
+does not authorize additional parallel lanes, provider calls, commits, pushes or deployment.
+
+The ledger recorded 86 invocations, while the 2026-11-22 resume checkpoint recorded 87. The owner authorized
+one conservative accounting reservation pending reconciliation. The budget counter is 87 (86 recorded
+invocations and one reservation); the reservation is not a claim that a particular invocation occurred.
+
+### D-365 — Delegated acceptance and local application: SPELL-LABELS, qualified Spelling evidence wording (D-212, D-360, D-361)
+
+Delegate: Codex `gpt-6.1-sol` (model confirmed from the client header of the run), 2026-11-22, two rounds: rev1
+NOT_READY (Recent strengths dropped the D-361 qualification; mixed Spelling and Math aggregates restored an
+unqualified "2 of 2 independently confirmed"; e2e and a clean full suite missing), rev2 ACCEPT_ENGINEERING with
+no unresolved Major finding. Author model from client metadata: `claude-sonnet-5-5`. Patch SHA-256
+`4690b4b6...476a` (13 files, commit `df3b93e`). New policy source `src/curriculum/evidence-labels.ts`
+(Spelling prefix derived from the program registry; exact D-361 strings and the L2 parent note; helpers return
+null for non-Spelling input so other programs keep their strings byte for byte) applied to the parent mastery row,
+topic status, sidebar, chapter view, course overview, course progression panels, Recent strengths, the activity
+panel and the service summary. Mixed chapters count Spelling skills separately and never show "N of N
+independently confirmed" for them; the L2 parent note shows only when an active unit has Spelling skill refs, so
+nobody sees it before activation; the practice-only note is unchanged. Text only: no scoring, mastery, schema or
+migration change. The reviewer re-rendered 84 component fixtures and 450 count cases against the base
+(non-Spelling byte-identical) and caught five in-memory mutations. Validation on the integrated main tree:
+typecheck, `npm run build`, `test:integration` 413 (1 skipped), `test:e2e` 131 (1 skipped), full `npm test` 154
+files / 4,344 tests, eslint and Prettier clean. **Carried:** the three explanation-selection labels
+("Selected the correct explanation from supplied options." and the two partial/deferred labels) are implemented
+as helpers but **not wired**, because attempt data carries no item-kind flag; wiring them needs a data or query
+change and a separate decision, and is required only if activation displays explanation-specific evidence; the
+visual `ProgressBadge` fraction (for example `2/2`) is unchanged and its accessible name carries the
+qualification; "1 of 1 topics" wording is awkward; Recent strengths is tested at helper and source level, not
+mounted. **Before the Spelling flip (still true):** the owner merge and install, G-SOURCE, stamps, lesson
+re-pinning, D-352's block on ordinary L2 completion claims, mounted e2e and the accessibility pass. **Not
+authorized:** activation, release.
+
+### D-366 — Prepared, not applied: Statistics activation candidate (D-360, D-334, D-349, D-362)
+
+Delegate: Codex `gpt-6.1-sol` (model confirmed from the client header), 2026-11-22, on rev2: READY_WITH_RISKS with no
+Major or Minor defect; rev3 adds one e2e spec fix verified by the integrator. Author model from client metadata:
+`claude-sonnet-5-5`. **Held patch, NOT applied to `main`:** `.git/agent-handoffs/ACTIVATE-STAT/rev3/patch.diff`,
+SHA-256 `96db072c...f762`, 41 files, base `df3b93e`. It stamps `statistics@2.0.0` and its three lessons reviewed;
+adds 12 new reviewed records `content/statistics/<id>-content-2.json` (statistical-questions-3..6,
+distributions-3..6, center-and-variability-3..6) and registers them with `distributions-2@content-2`; pins them in the
+lessons (the first ref of each lesson, the D-235 placement source, is unchanged, so the probe snapshot is
+byte-identical); recomputes four manifest digests; flips the selection to `grade-6-math@1.2.0`; updates the tests
+that pin the old selection and the post-activation gates; and adds `tests/content/archive-immutability.test.ts`
+with a fixture of the SHA-256 of all 193 base-registered records. **New rule (content immutability):** `npm run
+db:deploy` runs `prisma migrate deploy && npm run content:archive`, and the archive throws "Content archive drift
+detected" if any registered `id@version` changes bytes. A first draft of the patch flipped the 12 registered
+`pending_review` drafts in place; that would have failed the deploy, so reviewed versions are **new `content-2`
+files** and the `content-1` drafts stay byte-identical and registered. The same rule applies to the 16 Geometry
+drafts already registered (D-357): flip them as new `content-2` records at activation; the Spelling drafts are not
+registered, so they may be registered directly as reviewed. Validation: rev2 in the worktree: typecheck, eslint,
+Prettier, `content:validate` 694, `test:integration` 413 (database not hand-cleaned, with the 12 pending rows
+archived first), build, full `npm test` 155 files / 4,355; rev3: full e2e 131 passed, 1 skipped (a first run found
+the only activation-induced failure, the pilot progression spec that expected one active unit and now expects
+Ratios 2.0.0 and Statistics 2.0.0). **Figure items for the owner's accessibility pass:** `distributions-3`,
+`distributions-4`, `distributions-5` and `distributions-6` at `content-2` (dot plot, histogram, box plot, dot plot;
+each with alt text, caption and a text alternative). **Do not apply before:** the owner's real private-bank merge and
+install (the 10 Statistics banks, 4 of them mandatory, become required by the package store, so a Ratios-only
+package is refused and Ratios held-out assessments go down with it), the Statistics merge having run before the flip
+(after it `statistics-bank-metadata.json` is no longer loadable by the merge tool), the manual accessibility pass
+and mounted e2e. Carried: the distributions-5 shallow-evidence and B.5b limits (D-341), existing attempts on the
+defective `distributions-2@content-1` remain historical evidence (the patch does not recompute mastery), and the
+archive check was run from the patch tree, not against production archive rows. **Not authorized:** applying the
+patch, activation, release.
+
+There are 366 decisions: D-01 through D-75, D-139, D-142, D-145–D-366 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
