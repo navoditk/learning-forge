@@ -4456,7 +4456,41 @@ defective `distributions-2@content-1` remain historical evidence (the patch does
 archive check was run from the patch tree, not against production archive rows. **Not authorized:** applying the
 patch, activation, release.
 
-There are 366 decisions: D-01 through D-75, D-139, D-142, D-145–D-366 approved;
+### D-367 — Prepared, not applied: Geometry activation candidate, stacked on the Statistics patch (D-360, D-366)
+
+Delegate: Codex `gpt-6.1-sol` (native reviewer selection; the run header identified GPT-6), 2026-11-23, one round,
+READY_WITH_RISKS with **no verified Major or Minor finding**. Author model from client metadata:
+`claude-sonnet-5-5`. **Held patch, NOT applied to `main`:**
+`.git/agent-handoffs/ACTIVATE-GEO/rev1/patch.diff`, SHA-256 `0084d133...0625`, 45 files, `git diff cab2d64 HEAD` where
+`cab2d64` is `main` (`c99e655`) plus the held Statistics patch (`ACTIVATE-STAT/rev3`, SHA-256 `96db072c...f762`); it
+**must be applied after the Statistics patch**. It stamps `geometry@2.0.0`, its four lessons and the 13 banks
+reviewed (bank stamps and the 2026-11-18 date follow D-358; structure and content stamps carry 2026-11-23 as
+activation-candidate verification, not as the original content-review date, 2026-11-17); adds 16 new reviewed
+`content/geometry/<skill>-{3..6}-content-2.json` records and registers them, leaving the 16 `content-1` drafts
+byte-identical and registered (the D-366 immutability rule); appends the `content-2` versions to the lesson
+practice refs (first refs unchanged, `surface-area-and-volume-1` never pinned, O-7); recomputes 18 manifest
+digests; flips the selection from `1.2.0` to `grade-6-math@1.3.0`; adds a 206-pin archive-immutability fixture (193
+base plus the 13 Statistics `content-2` records) with tests; updates about 22 tests, including the e2e pilot
+progression spec (three active units). The reviewer derived all 206 pins from Git, recomputed all 18 manifest
+digests, diffed all 16 content-2 files against their drafts (only `version` and `review` differ) and confirmed the
+package store counts 19 mandatory / 24 optional / 56 total and refuses a package missing the Geometry banks.
+**Behavior consequences that are legitimate:** with Geometry active, `prism-volume` is claimed by a unit, so
+PLACEMENT for it requires an assignment (D-62; the version-transition test was adjusted); the planner picks per
+skill and the `prism-volume-2` item is no longer guaranteed to appear (assertion relaxed to "at most once"). **Merge
+order is binding:** Statistics, then Spelling, then Geometry, all before any selection flip; after the Geometry flip
+`geometry-bank-metadata.json` is no longer loadable by the merge tool, and Spelling metadata sees a 56-bank
+baseline. **Figure items for the owner's accessibility pass:** `area-of-composite-shapes-4` and `-5`,
+`coordinate-geometry-5` and `surface-area-and-volume-3` at `content-2` (each with alt text, caption and a text
+alternative; the inline SVG has `role=img` but no `<title>`/`<desc>`, acceptable on this rendering path). Validation
+reported by the author in the worktree: tsc, eslint (0 errors, 2 warnings), Prettier, `content:validate` 699,
+`test:integration` 413, `test:e2e` 131 (1 skipped), build (one undiagnosed webpack failure, a rerun passed; recurrence
+needs diagnosis), full `npm test` 4,358 of 4,361 with 3 relay failures from the worktree's missing `tsx` loader
+(not yet confirmed by a control run; **do not report full `verify` as passing**). **Required before applying:**
+the real private-bank merges and install, the accepted Statistics patch applied first, the manual accessibility pass,
+validation of the assembled patches on one tree (to be run by the integrator), and the owner's explicit trigger.
+**Not authorized:** applying the patch, activation, release.
+
+There are 367 decisions: D-01 through D-75, D-139, D-142, D-145–D-367 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
