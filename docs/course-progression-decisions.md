@@ -4531,7 +4531,19 @@ Carried: no e2e covers a Spelling placement or lesson flow; the real merged pack
 explanation-selection labels remain unwired (D-365); a code comment above the note still says "small counts per skill".
 **Not authorized:** applying any held patch, activation, release.
 
-There are 368 decisions: D-01 through D-75, D-139, D-142, D-145–D-368 approved;
+### D-369 — Route-level test with distinct policy profiles (D-356/D-357 carried item)
+
+`tests/progression-integration/route-program-profiles.test.ts` (new, test only, no production change) pins two
+active programs with distinct profiles (Math's real profile; a synthetic profile with 2 items per attempt, a 2-of-2
+pass bar and a 1-minute step-up lifetime). It asserts that the assignment route and the override route govern a
+program B target by B's profile and a Math target by Math's, including the stored profile code, version and hash,
+selected item counts and the step-up expiry. A mutation check (forcing both routes to Math's program) made it fail.
+Author: Sonnet forge-implementer; patch SHA-256 `46844641…493b`; reviewer Codex `gpt-6.1-sol` (static): P3
+(gate env var not restored) fixed; P2 (assessment-store mock lacks item hash) left, matching the existing
+`assignment-route-versions` mock. Validation: typecheck, lint, Prettier, new test 3/3, progression-integration
+237 passed, full `npm test` 154 files / 4,344 tests. Carried: the step-up and pilot routes are not covered.
+
+There are 369 decisions: D-01 through D-75, D-139, D-142, D-145–D-369 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;
