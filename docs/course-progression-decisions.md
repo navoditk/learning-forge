@@ -4570,7 +4570,20 @@ tsc, eslint, Prettier, tests/app and vertical-slice 206 passed (main tree); auth
 `npm test` 155 files / 4,348 tests, `npm run build` (first run a font-loader flake, rerun passed). Carried: the
 allowlist is hand-maintained, so each new explanation-selection item or version needs a reviewed entry.
 
-There are 371 decisions: D-01 through D-75, D-139, D-142, D-145–D-371 approved;
+### D-372 — Pilot progress-row isolation test (D-370 carried P2)
+
+One new test in `tests/progression-integration/route-program-profiles.test.ts` (test only, no production change; owner
+approved the scope, charged to the D-364 window) seeds lesson and unit progress for Math and the synthetic program B
+for the same learner and asserts through the pilot route that each response shows its own statuses and none of the
+other program's lessons, unit or codes (B, Math, B order). Mutation check: projecting with the default program makes it
+and the earlier pilot test fail. It does not prove that the database code filters alone isolate rows (removing them
+left all tests passing, because the catalog-driven projection already drops foreign rows, so they are defence in
+depth), other learners or households, or assessment-result projection. Author: Sonnet forge-implementer (identity
+self-reported, not metadata-verified); patch SHA-256 `67f71965…d606`; Codex `gpt-6.1-sol` review (static): no defects.
+Validation: test file 7/7 on the main tree with tsc, eslint, Prettier; author: `test:integration` 421, `npm run verify`
+exit 0 (155 files / 4,348 tests, build, down-migration check; one existing lint warning outside the file).
+
+There are 372 decisions: D-01 through D-75, D-139, D-142, D-145–D-372 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

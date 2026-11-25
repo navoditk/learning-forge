@@ -396,4 +396,141 @@ describe('routes apply the target program own pinned policy profile', () => {
 
     expect((await pilotCall('?program=no-such-program')).status).toBe(404);
   });
+
+  /**
+   * PILOT-PROGRESS-ISOLATION (D-370 carried P2). The same learner has progress
+   * rows in BOTH active programs with deliberately different statuses. Each
+   * pilot response must show its own program's rows and none of the other's.
+   *
+   * Proves: through the real route and database, a response's lesson/unit
+   * statuses come from that program's rows (a projection that used the other
+   * program's scope or rows would show a wrong code set or wrong statuses).
+   * Does NOT prove: that the DB `in:` code filter alone isolates rows (the
+   * catalog-driven projection already drops foreign rows, so that filter is
+   * defence in depth), nor anything about other learners/households, nor
+   * assessment-result projection (no results are seeded).
+   */
+  it('pilot: each program shows its own seeded progress and none of the other program', async () => {
+    const mathUnit = COURSE_CATALOG.unitsOfProgram('grade-6-math')[0]!;
+    const bUnit = COURSE_CATALOG.unitsOfProgram(SV_PROGRAM_CODE)[0]!;
+    const mathLesson = { code: 'ratio-language-lesson', version: '2.0.0' };
+    const bLessonA = SV_LESSONS_V2[1]!;
+    const bLessonB = SV_LESSONS_V2[2]!;
+    const cleanup = async () => {
+      await prisma.learnerLessonState.deleteMany({ where: { householdId } });
+      await prisma.learnerUnitState.deleteMany({ where: { householdId } });
+    };
+    await cleanup();
+    try {
+      const base = { householdId, learnerProfileId, policyProfileVersion: '0.0.0' };
+      await prisma.learnerLessonState.createMany({
+        data: [
+          {
+            ...base,
+            lessonCode: mathLesson.code,
+            lessonVersion: mathLesson.version,
+            completionStatus: 'COMPLETE',
+            remediationStatus: 'NEEDS_HELP',
+          },
+          {
+            ...base,
+            lessonCode: bLessonA.code,
+            lessonVersion: bLessonA.version,
+            completionStatus: 'IN_PROGRESS',
+            remediationStatus: 'ACTIVE',
+          },
+          {
+            ...base,
+            lessonCode: bLessonB.code,
+            lessonVersion: bLessonB.version,
+            completionStatus: 'AVAILABLE',
+            remediationStatus: 'NONE',
+          },
+        ],
+      });
+      await prisma.learnerUnitState.createMany({
+        data: [
+          {
+            ...base,
+            unitCode: mathUnit.code,
+            unitVersion: mathUnit.version,
+            completionStatus: 'COMPLETE',
+            overrideStatus: 'NONE',
+          },
+          {
+            ...base,
+            unitCode: bUnit.code,
+            unitVersion: bUnit.version,
+            completionStatus: 'IN_PROGRESS',
+            overrideStatus: 'NONE',
+          },
+        ],
+      });
+
+      type Lesson = { code: string; completionStatus: string; remediationStatus: string };
+      type Body = {
+        program: { code: string };
+        units: { code: string; status: string; lessons: Lesson[] }[];
+        history: unknown[];
+      };
+      const get = async (query: string) => {
+        const response = await pilot(
+          new Request(`http://localhost/api/progression/pilot${query}`) as never,
+        );
+        expect(response.status).toBe(200);
+        return (await response.json()) as Body;
+      };
+      const lessonsOf = (body: Body) => body.units.flatMap((unit) => unit.lessons);
+      const byCode = (body: Body, code: string) =>
+        lessonsOf(body).find((lesson) => lesson.code === code);
+
+      const checkB = async () => {
+        const b = await get(`?program=${SV_PROGRAM_CODE}`);
+        expect(b.program.code).toBe(SV_PROGRAM_CODE);
+        expect(b.units.map((unit) => [unit.code, unit.status])).toEqual([
+          [bUnit.code, 'IN_PROGRESS'],
+        ]);
+        expect(byCode(b, bLessonA.code)).toMatchObject({
+          completionStatus: 'IN_PROGRESS',
+          remediationStatus: 'ACTIVE',
+        });
+        expect(byCode(b, bLessonB.code)).toMatchObject({
+          completionStatus: 'AVAILABLE',
+          remediationStatus: 'NONE',
+        });
+        // Unseeded B lessons stay NOT_STARTED; Math's COMPLETE never leaks.
+        expect(byCode(b, SV_LESSONS_V2[0]!.code)).toMatchObject({
+          completionStatus: 'NOT_STARTED',
+        });
+        expect(byCode(b, mathLesson.code)).toBeUndefined();
+        expect(b.units.some((unit) => unit.code === mathUnit.code)).toBe(false);
+        expect(lessonsOf(b).every((lesson) => lesson.code.startsWith('synthetic-versioned-'))).toBe(
+          true,
+        );
+        expect(JSON.stringify(b.history)).not.toContain(mathLesson.code);
+      };
+      const checkMath = async () => {
+        const math = await get('');
+        expect(math.program.code).toBe('grade-6-math');
+        expect(math.units.find((unit) => unit.code === mathUnit.code)?.status).toBe('COMPLETE');
+        expect(byCode(math, mathLesson.code)).toMatchObject({
+          completionStatus: 'COMPLETE',
+          remediationStatus: 'NEEDS_HELP',
+        });
+        expect(byCode(math, bLessonA.code)).toBeUndefined();
+        expect(byCode(math, bLessonB.code)).toBeUndefined();
+        expect(math.units.some((unit) => unit.code === bUnit.code)).toBe(false);
+        expect(
+          lessonsOf(math).some((lesson) => lesson.code.startsWith('synthetic-versioned-')),
+        ).toBe(false);
+        expect(JSON.stringify(math.history)).not.toContain('synthetic-versioned-');
+      };
+      // Order-independent: either program first, repeated.
+      await checkB();
+      await checkMath();
+      await checkB();
+    } finally {
+      await cleanup();
+    }
+  });
 });
