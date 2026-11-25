@@ -4543,7 +4543,19 @@ Author: Sonnet forge-implementer; patch SHA-256 `46844641…493b`; reviewer Code
 `assignment-route-versions` mock. Validation: typecheck, lint, Prettier, new test 3/3, progression-integration
 237 passed, full `npm test` 154 files / 4,344 tests. Carried: the step-up and pilot routes are not covered.
 
-There are 369 decisions: D-01 through D-75, D-139, D-142, D-145–D-369 approved;
+### D-370 — Step-up and pilot route coverage for distinct policy profiles (extends D-369)
+
+The same test file now covers the step-up route (advertised lifetime is the minimum pinned lifetime across active
+unit-bearing programs, 1 minute against Math's 10; a route-issued token is accepted or refused per the target
+program's profile) and the pilot route (`?program` projects program B, the default projects Math, an unknown program
+returns 404). Mutation checks (lifetime lookup forced to Math, `activeProgramForTarget` forced to the default
+program, pilot ignoring `?program`) each failed the new tests. Author: Sonnet forge-implementer, patch SHA-256
+`fb81fd6c…7ebf`; reviewer Codex `gpt-6.1-sol` (static): P2 ordering dependence fixed (the step-up test seeds its own
+lesson states). P2 left carried: the pilot test asserts the catalog projection only, not isolation of progress rows
+between programs. Validation: tsc, eslint, Prettier, test file 6/6, progression-integration 240 passed, full `npm test`
+154 files / 4,344 tests (author, before the seeding fix; the file was rerun after it).
+
+There are 370 decisions: D-01 through D-75, D-139, D-142, D-145–D-370 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

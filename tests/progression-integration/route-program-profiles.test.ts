@@ -123,6 +123,9 @@ vi.mock('../../src/assessment/store', async (importOriginal) => {
 import { requireHouseholdContext } from '../../src/server/household-context';
 import { POST as assignment } from '../../src/app/api/progression/assessment/assignment/route';
 import { POST as override } from '../../src/app/api/progression/override/route';
+import { GET as pilot } from '../../src/app/api/progression/pilot/route';
+import { POST as stepUp } from '../../src/app/api/progression/step-up/route';
+import { COURSE_CATALOG } from '../../src/curriculum/course-catalog';
 import { resolvePinnedPolicyProfile } from '../../src/progression/artifacts';
 import {
   activeProgramForTarget,
@@ -304,5 +307,93 @@ describe('routes apply the target program own pinned policy profile', () => {
       policyProfileCode: SYNTHETIC_PROFILE_REF.code,
       policyProfileVersion: SYNTHETIC_PROFILE_REF.version,
     });
+  });
+
+  it('step-up: advertises the minimum lifetime across active unit-bearing programs', async () => {
+    const lifetimes = COURSE_CATALOG.programs
+      .filter((program) => program.unitRefs.length > 0)
+      .map(
+        (program) =>
+          resolvePinnedPolicyProfile(program.defaultPolicyProfileRef).stepUpReauthLifetimeMinutes,
+      );
+    // Both distinct profiles are in play; the shortest one wins.
+    expect(lifetimes).toContain(mathProfile().stepUpReauthLifetimeMinutes);
+    expect(lifetimes).toContain(profileB().stepUpReauthLifetimeMinutes);
+    const result = await call(stepUp, { password: 'correct horse battery staple' });
+    expect(result.status).toBe(200);
+    expect(result.body.expiresInMinutes).toBe(Math.min(...lifetimes));
+    expect(result.body.expiresInMinutes).toBe(profileB().stepUpReauthLifetimeMinutes);
+    expect(result.body.expiresInMinutes).not.toBe(mathProfile().stepUpReauthLifetimeMinutes);
+    expect(typeof result.body.stepUpToken).toBe('string');
+  });
+
+  it('step-up: a route-issued token is accepted per the target program profile', async () => {
+    const issued = await call(stepUp, { password: 'correct horse battery staple' });
+    const stepUpToken = issued.body.stepUpToken as string;
+    await prisma.overrideRecord.deleteMany({ where: { householdId } });
+    await prisma.learnerLessonState.deleteMany({ where: { householdId } });
+    await prisma.learnerLessonState.createMany({
+      data: [
+        { code: SV_LESSONS_V2[1]!.code, version: SV_LESSONS_V2[1]!.version },
+        { code: 'ratio-language-lesson', version: '2.0.0' },
+      ].map((lesson) => ({
+        householdId,
+        learnerProfileId,
+        lessonCode: lesson.code,
+        lessonVersion: lesson.version,
+        completionStatus: 'COMPLETE' as const,
+        remediationStatus: 'NEEDS_HELP' as const,
+        policyProfileCode: 'seed',
+        policyProfileVersion: '0.0.0',
+      })),
+    });
+    const body = (skillCode: string) => ({
+      skillCode,
+      skillVersion: '1.0.0',
+      reason: 'Practised the skill together offline.',
+      stepUpToken,
+    });
+    vi.useFakeTimers({ toFake: ['Date'], now: Date.now() + 5 * 60_000 });
+    try {
+      // Five minutes after issue: past the advertised minute and B's lifetime,
+      // inside Math's ten, so only the target program's profile decides.
+      expect(await call(override, body(svSkill(2).code))).toMatchObject({
+        status: 403,
+        body: { reasonCode: 'REAUTH_EXPIRED' },
+      });
+      expect((await call(override, body('ratio-language'))).status).toBe(201);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('pilot: a program B request projects program B, not Math', async () => {
+    const pilotCall = async (query: string) => {
+      const response = await pilot(
+        new Request(`http://localhost/api/progression/pilot${query}`) as never,
+      );
+      return {
+        status: response.status,
+        body: (await response.json()) as never as {
+          program: { code: string };
+          units: { code: string; lessons: { code: string }[] }[];
+        },
+      };
+    };
+    const b = await pilotCall(`?program=${SV_PROGRAM_CODE}`);
+    expect(b.status).toBe(200);
+    expect(b.body.program.code).toBe(SV_PROGRAM_CODE);
+    const lessonCodesB = b.body.units.flatMap((unit) => unit.lessons.map((l) => l.code));
+    expect(lessonCodesB).toContain(SV_LESSONS_V2[1]!.code);
+    expect(lessonCodesB).not.toContain('ratio-language-lesson');
+
+    const math = await pilotCall('');
+    expect(math.status).toBe(200);
+    expect(math.body.program.code).toBe('grade-6-math');
+    const lessonCodesA = math.body.units.flatMap((unit) => unit.lessons.map((l) => l.code));
+    expect(lessonCodesA).toContain('ratio-language-lesson');
+    expect(lessonCodesA).not.toContain(SV_LESSONS_V2[1]!.code);
+
+    expect((await pilotCall('?program=no-such-program')).status).toBe(404);
   });
 });
