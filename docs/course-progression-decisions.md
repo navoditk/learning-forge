@@ -4583,6 +4583,11 @@ self-reported, not metadata-verified); patch SHA-256 `67f71965…d606`; Codex `g
 Validation: test file 7/7 on the main tree with tsc, eslint, Prettier; author: `test:integration` 421, `npm run verify`
 exit 0 (155 files / 4,348 tests, build, down-migration check; one existing lint warning outside the file).
 
+**Migrations check (2026-11-24):** `npm run test:migrations` was run for the first time in this series against the synthetic local
+Postgres (`DATABASE_URL` set to the disposable local URL; the script creates and removes its own scratch database): all 20
+migrations applied, the teaching catalog test passed 7/7, and the forward/down/forward schema-equivalence check passed.
+No migration was added by D-366 to D-372.
+
 There are 372 decisions: D-01 through D-75, D-139, D-142, D-145–D-372 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
