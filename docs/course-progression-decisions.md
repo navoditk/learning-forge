@@ -4555,7 +4555,22 @@ lesson states). P2 left carried: the pilot test asserts the catalog projection o
 between programs. Validation: tsc, eslint, Prettier, test file 6/6, progression-integration 240 passed, full `npm test`
 154 files / 4,344 tests (author, before the seeding fix; the file was rerun after it).
 
-There are 370 decisions: D-01 through D-75, D-139, D-142, D-145–D-370 approved;
+### D-371 — Explanation-selection labels wired by exact-version allowlist, no migration (D-361, D-365)
+
+Codex `gpt-6.1-sol` (judgement record `JUDGE-1`) ruled that attempts already carry `contentKey`, `contentVersion` and
+correctness, so no schema change is needed, and deferred the `qu`, `itt` and `dge` leakage-pattern fix to the SP-4
+packet (it must resolve all three as new reviewed `content-2` records; hints stay unserved). `getParentEvidence` now
+attaches, per attempt, the three qualified labels only when the attempt is CORRECT and its exact `id@version` is in
+`EXPLANATION_SELECTION_ITEMS` (`src/curriculum/evidence-labels.ts`); the parent evidence list renders them inside that
+attempt's row, never as a skill-level claim. The allowlist holds one entry, `snsb6-orthographic-patterns-core-1@content-2`
+(four supplied explanation options); `content-1` is excluded (free-text validator, no supplied options). Private-bank
+items get no label and no held-out data is touched. Item is `pending_review`, so the labels are inert until it is
+served. Author: Sonnet forge-implementer, patch SHA-256 `775d7789…13f9`; Codex review: no defects (static). Validation:
+tsc, eslint, Prettier, tests/app and vertical-slice 206 passed (main tree); author: `test:integration` 420, full
+`npm test` 155 files / 4,348 tests, `npm run build` (first run a font-loader flake, rerun passed). Carried: the
+allowlist is hand-maintained, so each new explanation-selection item or version needs a reviewed entry.
+
+There are 371 decisions: D-01 through D-75, D-139, D-142, D-145–D-371 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
 historical map of which implementation gates each decision originally blocked;

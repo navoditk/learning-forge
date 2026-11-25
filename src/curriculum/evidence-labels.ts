@@ -61,6 +61,39 @@ export function selectionExplanationLabels(
 }
 
 /**
+ * Reviewed, EXACT id@version allowlist of public practice records whose prompt
+ * asks the learner to choose a supplied explanation (D-361/D-365). Matching is
+ * never by id alone or latest version, and unknown items get no label.
+ * Reviewed: orthographic-patterns-core-1@content-2 is a structured
+ * single-choice field over four supplied explanations. @content-1 is excluded:
+ * it is a free-text answer with no supplied options. Registered content is
+ * immutable, so add new exact versions here only after the same review.
+ */
+export const EXPLANATION_SELECTION_ITEMS: ReadonlyMap<string, string> = new Map([
+  ['snsb6-orthographic-patterns-core-1@content-2', 'snsb6-orthographic-patterns'],
+]);
+
+/**
+ * Labels to attach to one stored attempt, or null. Requires the exact
+ * contentKey@contentVersion to be allowlisted and the attempt to be CORRECT.
+ */
+export function selectionLabelsForAttempt(attempt: {
+  contentKey: string;
+  contentVersion: string | null | undefined;
+  correctness: string;
+}): readonly string[] | null {
+  if (!attempt.contentVersion) return null;
+  const skillCode = EXPLANATION_SELECTION_ITEMS.get(
+    `${attempt.contentKey}@${attempt.contentVersion}`,
+  );
+  if (!skillCode) return null;
+  return selectionExplanationLabels(skillCode, {
+    correct: attempt.correctness === 'CORRECT',
+    selectedSuppliedExplanation: true,
+  });
+}
+
+/**
  * Qualified completion text for a lesson or unit, or null (unchanged: no
  * Spelling skill, or not COMPLETE). All-Spelling gets the exact D-361 label;
  * a mixed lesson or unit qualifies only its Spelling portion.

@@ -18,7 +18,10 @@ import {
   WeeklyDigestSkillInput,
 } from '../contracts';
 import { skillCatalog, skillsByCode, topologicalSkillOrder } from '../curriculum';
-import { qualifiedIndependentCheckLabel } from '../curriculum/evidence-labels';
+import {
+  qualifiedIndependentCheckLabel,
+  selectionLabelsForAttempt,
+} from '../curriculum/evidence-labels';
 import { isSkillClaimedByAuthoredUnit } from '../curriculum/unit-claims';
 import { programsByCode } from '../curriculum/program-registry';
 import { ConsoleNotifier, buildWeeklyDigest, createNotifier } from '../notification';
@@ -1186,6 +1189,7 @@ export async function getParentEvidence(identity: HouseholdIdentity) {
           (await resolveHistoricalContent(attempt.contentKey, attempt.contentVersion))?.title ??
           'Retired item',
         highestAssistance: deriveHighestAssistance(assistanceEvents),
+        explanationLabels: selectionLabelsForAttempt(attempt) ?? [],
       })),
     ),
     mastery,

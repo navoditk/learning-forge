@@ -15,6 +15,8 @@ export type ParentEvidenceData = {
     contentKey: string;
     correctness: string;
     highestAssistance: string;
+    /** Exact-version explanation-selection labels for this attempt only. */
+    explanationLabels?: readonly string[];
   }>;
   mastery: Array<{
     skillCode: string;
@@ -57,6 +59,13 @@ export function ParentEvidence({ evidence }: { evidence: ParentEvidenceData }) {
             <li key={attempt.id}>
               {attempt.contentKey}: {attempt.correctness.toLocaleLowerCase()} with{' '}
               {attempt.highestAssistance.toLocaleLowerCase().replaceAll('_', ' ')} assistance
+              {attempt.explanationLabels && attempt.explanationLabels.length > 0 && (
+                <ul aria-label="Explanation evidence for this attempt">
+                  {attempt.explanationLabels.map((label) => (
+                    <li key={label}>{label}</li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>

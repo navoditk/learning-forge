@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { selectionLabelsForAttempt } from '../../src/curriculum/evidence-labels';
 import { programsByCode } from '../../src/curriculum/program-registry';
 import { prisma } from '../../src/server/prisma';
 import {
@@ -983,6 +984,69 @@ describe('Phase 1 synthetic ratios vertical slice', () => {
 
       const otherEvidence = await getParentEvidence(otherHousehold);
       expect(otherEvidence.attempts.some((item) => item.id === attempt.attemptId)).toBe(false);
+    });
+  });
+
+  describe('explanation-selection labels in parent evidence (D-361/D-365)', () => {
+    let identity: HouseholdIdentity;
+    const make = (
+      contentKey: string,
+      contentVersion: string,
+      correctness: 'CORRECT' | 'INCORRECT',
+    ) =>
+      prisma.attempt.create({
+        data: {
+          householdId: identity.householdId,
+          learnerProfileId: identity.learnerProfileId,
+          contentKey,
+          contentVersion,
+          learnerResponse: 'synthetic',
+          correctness,
+          scoringMethod: 'DETERMINISTIC',
+          attemptNumber: 1,
+          elapsedSeconds: 5,
+          highestAssistance: 'INDEPENDENT',
+          context: 'PRACTICE',
+          policyVersion: PHASE_1_POLICY_VERSION,
+        },
+      });
+
+    beforeAll(async () => {
+      const household = await prisma.household.create({ data: {} });
+      const user = await prisma.user.create({
+        data: { householdId: household.id, role: 'LEARNER' },
+      });
+      const profile = await prisma.learnerProfile.create({
+        data: { userId: user.id, householdId: household.id, gradeLevel: 6 },
+      });
+      identity = { householdId: household.id, learnerProfileId: profile.id };
+    });
+
+    afterAll(async () => {
+      await deleteHouseholdEvidence(prisma, identity.householdId);
+    });
+
+    it('labels only the exact allowlisted correct attempt', async () => {
+      const key = 'snsb6-orthographic-patterns-core-1';
+      const good = await make(key, 'content-2', 'CORRECT');
+      const wrong = await make(key, 'content-2', 'INCORRECT');
+      const oldVersion = await make(key, 'content-1', 'CORRECT');
+      const other = await make('ratio-language-1', 'content-1', 'CORRECT');
+      const evidence = await getParentEvidence(identity);
+      const byId = new Map(evidence.attempts.map((a) => [a.id, a.explanationLabels]));
+      expect(byId.get(good.id)).toEqual(
+        Array.from(
+          selectionLabelsForAttempt({
+            contentKey: key,
+            contentVersion: 'content-2',
+            correctness: 'CORRECT',
+          }) ?? [],
+        ),
+      );
+      expect(byId.get(good.id)).toHaveLength(3);
+      expect(byId.get(wrong.id)).toEqual([]);
+      expect(byId.get(oldVersion.id)).toEqual([]);
+      expect(byId.get(other.id)).toEqual([]);
     });
   });
 });
