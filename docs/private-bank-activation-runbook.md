@@ -20,7 +20,26 @@ records including 597 historical blobs). The only failing check was the last one
 contain the four Ratios `1.0.0` banks that the current selection requires. That is expected: the merge needs
 **your real current package** as its base.
 
-## 1. Merge, in activation order (OWNER)
+## 1a. Correction, 2026-11-24: merge all three units in ONE pass
+
+A chained merge (steps 2 and 3 below on a package that already carries another unit's banks) **fails**
+`MERGED_INTEGRITY`: the required-bank rules come only from the metadata file given to that step, so the earlier
+unit's banks are rejected as "unknown". Found by running the chain on a local approximation of the base (the
+Ratios 1.0.0 banks from `~/private-learning-forge/grade-6-math-assessments-draft-v2.json` plus the reviewed
+Ratios package). Use the owner script instead, which combines the three metadata files, draft folders and manifests
+and merges once:
+
+```sh
+BASE=<path to your real current package> ~/learning-forge-private-drafts/run-merges.sh
+```
+
+On the local approximation that single pass passed all 121 checks (D-216a/b non-reuse included) and produced a
+56-bank package; with all three held activation patches applied in a throwaway worktree and that package mounted,
+`npm test` (4,379), `test:integration` (421) and `test:e2e` (131) passed. This is **verification only on an
+approximate base, not your production package**; the real merge and install remain yours. Do not set the
+package env var for `npm test` (two tests assert the store is not installed).
+
+## 1. Merge, in activation order (OWNER) — superseded by 1a for the chained steps
 
 Each merge reads the existing package and writes a **new** file (mode 0600); it never modifies the package in
 place and never prints item text. Run each as a dry-run first (`--dry-run`), then without it. Chain the outputs:

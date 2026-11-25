@@ -4588,6 +4588,14 @@ Postgres (`DATABASE_URL` set to the disposable local URL; the script creates and
 migrations applied, the teaching catalog test passed 7/7, and the forward/down/forward schema-equivalence check passed.
 No migration was added by D-366 to D-372.
 
+**Merge-chain finding and local verification (2026-11-24):** the chained merge in the runbook fails `MERGED_INTEGRITY`
+at the Spelling step because required-bank rules come only from the step's own metadata (the Statistics banks are
+"unknown"); a single pass with combined metadata, drafts and manifest works (`~/learning-forge-private-drafts/run-merges.sh`,
+runbook 1a). On a local approximate base (20 banks; not the production package) the single pass passed 121 checks and
+produced 56 banks; with the three held patches applied in a throwaway worktree and that package mounted: `npm test`
+4,379, `test:integration` 421 (1 skipped), `test:e2e` 131 passed. The real merge, install, G-SOURCE, accessibility pass
+and the apply trigger remain owner-only; nothing was applied to `main` or pushed beyond this record.
+
 There are 372 decisions: D-01 through D-75, D-139, D-142, D-145–D-372 approved;
 D-76 through D-138, D-140, D-141, D-143 and D-144 open.
 The grouping below is a
